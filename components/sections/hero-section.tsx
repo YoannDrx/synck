@@ -50,24 +50,27 @@ export function HeroSection({ metrics }: HeroSectionProps) {
           </div>
           <div className="space-y-4">
             <p className="text-sm uppercase tracking-[0.6em] text-white/50">
-              Neo-brutalist direction studio
+              Copyright Manager
             </p>
             <h1 className="text-5xl font-black tracking-tight sm:text-6xl lg:text-7xl">
               SYNCK
             </h1>
             <p className="max-w-2xl text-lg text-white/80">
-              Caroline Senyk crafts militant yet sensual experiences for spaces
-              that refuse to stay still—marrying brutal grids, cinematic light,
-              and tactile code for brands, artists, and clubs orbiting the
-              future.
+              Expert en gestion de droits musicaux—Caroline Senyk accompagne
+              labels, éditeurs et artistes dans la gestion administrative et
+              éditoriale de leurs catalogues. Déclarations SACEM/SCPP/SPPF, contrats,
+              budgets de production et dossiers de subventions.
             </p>
           </div>
           <div className="flex flex-wrap gap-4 text-[0.75rem] font-semibold uppercase tracking-[0.35em]">
             <Button asChild size="lg" className="rounded-full">
-              <a href="#projects">Dive into work</a>
+              <a href="#projects">Voir le portfolio</a>
             </Button>
             <Button asChild variant="outline" size="lg" className="rounded-full">
-              <a href="#contact">Book Caroline</a>
+              <a href="#contact">Me contacter</a>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="rounded-full">
+              <a href="/cv-caroline-senyk.pdf" download>Télécharger CV</a>
             </Button>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
@@ -83,28 +86,28 @@ export function HeroSection({ metrics }: HeroSectionProps) {
             <span>2025</span>
           </div>
           <p className="text-3xl font-semibold text-white">
-            Designing sensory internet rituals and anti-slick live systems.
+            Gestion professionnelle de vos droits musicaux et optimisation de vos revenus.
           </p>
           <div className="grid gap-4 text-xs uppercase tracking-[0.4em] text-white/60">
             <div className="flex justify-between border-b border-dashed border-white/15 pb-3">
-              <span>Focus</span>
-              <span className="text-white">spatial branding / live labs</span>
+              <span>Expertise</span>
+              <span className="text-white">Copyright / Édition / Production</span>
             </div>
             <div className="flex justify-between border-b border-dashed border-white/15 pb-3">
-              <span>Toolchain</span>
+              <span>Organismes</span>
               <span className="text-white">
-                touchdesigner × unreal × custom controllers
+                SACEM × SCPP × SPPF × CNM
               </span>
             </div>
             <div className="flex justify-between">
-              <span>Energy</span>
-              <span className="text-lime-200">electric calm</span>
+              <span>Statut</span>
+              <span className="text-lime-200">Freelance disponible</span>
             </div>
           </div>
           <div className="rounded-2xl border border-white/15 bg-black/40 p-4 text-xs uppercase tracking-[0.5em] text-white/70">
-            Currently developing{" "}
-            <span className="font-bold text-white">SYNCK.OS</span>, Caroline&apos;s
-            operating system for choreographing live and digital crowds in sync.
+            Services :{" "}
+            <span className="font-bold text-white">Déclarations</span>, contrats d'édition,
+            codes ISRC, budgets de production, dossiers de subventions.
           </div>
         </div>
       </div>

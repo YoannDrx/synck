@@ -8,65 +8,74 @@ import type {
 } from "./types";
 
 export const navSections: readonly NavSection[] = [
-  { id: "hero", label: "Manifesto" },
+  { id: "hero", label: "Accueil" },
   { id: "studio", label: "Studio" },
-  { id: "projects", label: "Work" },
-  { id: "experiments", label: "Playground" },
+  { id: "expertises", label: "Expertises" },
+  { id: "projects", label: "Portfolio" },
+  { id: "experiments", label: "Blog" },
   { id: "contact", label: "Contact" },
 ] as const;
 
 export const metrics: Metric[] = [
-  { label: "Installations", value: "38", detail: "cities + virtual venues" },
-  { label: "Latency", value: "< 50ms", detail: "live co-presence" },
+  { label: "Catalogue géré", value: "500+", detail: "œuvres déclarées" },
+  { label: "Expérience", value: "10+ ans", detail: "gestion de droits" },
   {
     label: "Collaborations",
-    value: "17",
-    detail: "artists / labs / brands",
+    value: "100+",
+    detail: "artistes accompagnés",
   },
 ];
 
 export const studioRituals: StudioRitual[] = [
   {
-    focus: "Creative Direction",
-    headline: "SYNTHESIZE CHAOS",
-    copy: "Brutalist grid systems meet couture motion to build rituals for the phygital stage.",
+    focus: "Droits d'auteur & Édition",
+    headline: "SÉCURISER VOS ŒUVRES",
+    copy: "Déclaration SACEM, gestion des contrats de cession et d'édition musicale, suivi des répartitions et identification des œuvres non identifiées (ONI).",
   },
   {
-    focus: "Spatial Systems",
-    headline: "ORCHESTRATE CO-PRESENCE",
-    copy: "Adaptive rooms respond to pulse data, breathing light and sonic cues into every surface.",
+    focus: "Droits voisins & Production",
+    headline: "VALORISER VOS ENREGISTREMENTS",
+    copy: "Gestion SCPP/SPPF, création de codes ISRC, contrats d'artiste-interprète, supervision des budgets de production et déclarations de rémunération équitable.",
   },
   {
-    focus: "Immersive Tech",
-    headline: "PROTOTYPE WITH FEEDBACK",
-    copy: "Every build ships with touchable prototypes, tactile controllers, and cinematic docs.",
+    focus: "Subventions & Financement",
+    headline: "FINANCER VOS PROJETS",
+    copy: "Constitution de dossiers CNM, SACEM, ADAMI, SPPF, SCPP - budgets prévisionnels, conformité aux conventions collectives et suivi administratif complet.",
   },
 ];
 
 export const timelineEntries: TimelineEntry[] = [
   {
-    year: "2025",
-    role: "Frequency Haus — Metaverse scenographer",
+    year: "2021-Présent",
+    role: "Directrice Copyright & Administrative — PARIGO",
     summary:
-      "Directed a multi-sensory opera with volumetric performers stitched to live motion capture.",
-    locale: "Berlin",
-    tags: ["Spatial web", "Motion capture"],
+      "Gestion complète des catalogues d'édition et de production phonographique. Supervision des budgets, déclarations SACEM/SCPP/SPPF, dossiers de subventions CNM.",
+    locale: "Paris",
+    tags: ["Édition", "Production", "Gestion administrative"],
   },
   {
-    year: "2024",
-    role: "Echo Swim — Experiential retail residency",
+    year: "2019-2021",
+    role: "Copyright Manager — PARIGO",
     summary:
-      "Designed brutalist pods translating biometrics into responsive couture fittings.",
-    locale: "Tokyo",
-    tags: ["Retail", "Biometrics"],
+      "Administration du catalogue éditorial et phonographique. Déclarations d'œuvres, gestion des contrats, suivi des répartitions SACEM et droits voisins.",
+    locale: "Paris",
+    tags: ["SACEM", "SCPP", "Contrats"],
   },
   {
-    year: "2023",
-    role: "Solar Bloom — Touring installation",
+    year: "2018-2019",
+    role: "Copyright Manager — GIN AGENCY",
     summary:
-      "Brought a traveling light organ to 9 cities with choreography driven by crowd resonance.",
-    locale: "Global",
-    tags: ["Light art", "Kinetic"],
+      "Gestion des droits d'auteur et voisins pour un catalogue de musique à l'image. Déclarations, ISRC, contrats de synchronisation.",
+    locale: "Paris",
+    tags: ["Sync", "Publishing", "Droits voisins"],
+  },
+  {
+    year: "2016-2018",
+    role: "Copyright Assistant — DISTRICT 6 FRANCE PUBLISHING",
+    summary:
+      "Assistance à la gestion éditoriale et administrative. Déclarations SACEM, création de contrats, suivi des budgets de production.",
+    locale: "Paris",
+    tags: ["Édition", "SACEM", "Administration"],
   },
 ];
 
@@ -137,11 +146,14 @@ export const experimentTracks: Experiment[] = [
 ];
 
 export const pulses: string[] = [
-  "Immersive Opera",
-  "Phygital Couture",
-  "Spatial Branding",
-  "Live Broadcast",
-  "Speculative Strategy",
-  "AI Companions",
-  "Light Organs",
+  "Droits d'auteur SACEM",
+  "Droits voisins SCPP/SPPF",
+  "Contrats d'édition musicale",
+  "Codes ISRC",
+  "Dossiers CNM",
+  "Budgets de production",
+  "Rémunération équitable",
+  "Conventions collectives",
+  "iCatalog / iLicensing",
+  "Œuvres non identifiées (ONI)",
 ];

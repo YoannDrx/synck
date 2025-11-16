@@ -1,0 +1,7 @@
+Il y a vingt ans, on avait tout de suite aimé les accords jazz de sa trompette au sein de la formation hip-hop dub à soudures électro, Le Peuple de l'Herbe.
+
+Mais la routine d'un groupe a fini par lasser l'aventureux Sébastien Blanchon (N'Zeng), qu'on a repéré par la suite chez les producteurs de techno Agoria ou Rone, ou bien, soufflant dans une veine plus énervée et funky, chez les Anglais Gorillaz ou les beatmakers stéphanois l'Entourloop. Du jazz et du funk, mais aussi de la bagarre, des poursuites en voiture, des promenades rêveuses et, bien sûr, une scène de sexe moite, on retrouve tout cela dans ce disque instrumental piloté par ses soins et s'inspirant avec gourmandise des BO des films policiers des années 1970.
+
+Entre le générique de la série Les Rues de San Francisco, les musiques de 'Inspecteur Harry ou de Shaft, on est en terrain connu, et même archi balisé. On aurait pu craindre le cliché, on est maintenu en haleine. Blanchon, qui joue aussi du Clavinet et du Fender Rhodes, s'est bien entouré avec Emmanuel Marée (batterie, basse, guitare...), qui cosigne les morceaux, de Dominique Mandin (saxophone ténor) et de Thomas Henning (trombone). Les musiciens déploient une telle précision, prennent tant d'amusement à composer avec toute la sellerie du genre qu'il est impossible de ne pas se laisser embarquer à bord de leur Ford Mustang, dont les chromes brillent de mille feux.
+
+Le disque qui fera plaisir à tous les diggers qui squattent les boutiques de vinyles à la recherche de raretés groove.

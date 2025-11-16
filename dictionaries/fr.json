@@ -1,0 +1,26 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "expertises": "Expertises",
+    "portfolio": "Portfolio",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "cta": {
+    "viewMore": "Voir plus",
+    "readMore": "Lire la suite",
+    "contact": "Me contacter",
+    "viewProject": "Voir le projet",
+    "viewAll": "Tout voir"
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Nom",
+    "email": "Email",
+    "subject": "Sujet",
+    "message": "Message",
+    "send": "Envoyer",
+    "success": "Message envoyé avec succès !",
+    "error": "Erreur lors de l'envoi"
+  }
+}
