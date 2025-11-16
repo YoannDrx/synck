@@ -106,7 +106,7 @@ export function HeroSection({ metrics }: HeroSectionProps) {
           </div>
           <div className="rounded-2xl border border-white/15 bg-black/40 p-4 text-xs uppercase tracking-[0.5em] text-white/70">
             Services :{" "}
-            <span className="font-bold text-white">Déclarations</span>, contrats d'édition,
+            <span className="font-bold text-white">Déclarations</span>, contrats d&apos;édition,
             codes ISRC, budgets de production, dossiers de subventions.
           </div>
         </div>

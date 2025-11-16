@@ -1,13 +1,17 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionaries";
 import { getAllExpertises } from "@/lib/expertiseUtils";
 import type { Locale } from "@/lib/i18n-config";
+import { Breadcrumb } from "@/components/breadcrumb";
 
-export default async function ExpertisesPage({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}) {
+type ExpertisesPageParams = {
+  params: Promise<{
+    locale: Locale;
+  }>;
+};
+
+export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
   const { locale } = await params;
   const dictionary = await getDictionary(locale);
   const expertises = getAllExpertises(locale);
@@ -22,6 +26,14 @@ export default async function ExpertisesPage({
       </div>
 
       <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
+        {/* Breadcrumb */}
+        <Breadcrumb
+          items={[
+            { label: "Accueil", href: `/${locale}` },
+            { label: "Expertises" },
+          ]}
+        />
+
         {/* Page Header */}
         <div className="mb-12">
           <h1 className="mb-2 text-7xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
@@ -31,7 +43,7 @@ export default async function ExpertisesPage({
             <span>xpertises</span>
           </h1>
           <p className="text-lg text-white/70 max-w-2xl">
-            Découvrez mes domaines d'expertise en gestion de droits d'auteur et droits musicaux
+            Découvrez mes domaines d&apos;expertise en gestion de droits d&apos;auteur et droits musicaux
           </p>
         </div>
 
@@ -43,11 +55,13 @@ export default async function ExpertisesPage({
               href={`/${locale}/expertises/${expertise.slug}`}
               className="group relative overflow-hidden border-4 border-white bg-[#050505] transition-transform hover:scale-105"
             >
-              <div className="aspect-[4/3] overflow-hidden">
-                <img
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image
                   src={expertise.imgHome}
                   alt={expertise.title}
-                  className="h-full w-full object-cover transition-transform group-hover:scale-110"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  className="object-cover transition-transform group-hover:scale-110"
                 />
               </div>
               <div className="p-6">
@@ -69,7 +83,7 @@ export default async function ExpertisesPage({
         <div className="mt-16 text-center">
           <div className="border-4 border-white bg-gradient-to-r from-lime-400 to-fuchsia-600 p-12">
             <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
-              Besoin d'accompagnement ?
+              Besoin d&apos;accompagnement ?
             </h2>
             <p className="mb-6 text-[#050505]/80">
               Contactez-moi pour discuter de vos besoins en gestion de droits

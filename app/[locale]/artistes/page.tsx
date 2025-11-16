@@ -1,13 +1,17 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n-config";
 import { getComposersFromPrisma } from "@/lib/prismaPortfolioUtils";
 import { getDictionary } from "@/lib/dictionaries";
+import { Breadcrumb } from "@/components/breadcrumb";
 
-export default async function ArtistesPage({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}) {
+type ArtistsPageParams = {
+  params: Promise<{
+    locale: Locale;
+  }>;
+};
+
+export default async function ArtistesPage({ params }: ArtistsPageParams) {
   const { locale } = await params;
   const composers = await getComposersFromPrisma(locale);
   const dictionary = await getDictionary(locale);
@@ -22,6 +26,14 @@ export default async function ArtistesPage({
       </div>
 
       <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
+        {/* Breadcrumb */}
+        <Breadcrumb
+          items={[
+            { label: "Accueil", href: `/${locale}` },
+            { label: "Artistes" },
+          ]}
+        />
+
         {/* Page Header */}
         <div className="mb-12">
           <h1 className="mb-2 text-7xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
@@ -47,10 +59,12 @@ export default async function ArtistesPage({
                 {/* Artist Image */}
                 {composer.image ? (
                   <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-white/20 bg-black/20">
-                    <img
+                    <Image
                       src={composer.image}
-                      alt={composer.imageAlt}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      alt={composer.imageAlt || composer.name}
+                      fill
+                      sizes="128px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
                 ) : (

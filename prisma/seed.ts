@@ -34,6 +34,38 @@ interface PortfolioItem {
   }
 }
 
+const descriptionCache = new Map<string, string>()
+const normalizeKey = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+
+function getDescriptionFromMarkdown(locale: 'fr' | 'en', slug: string) {
+  const cacheKey = `${locale}:${slug}`
+  if (descriptionCache.has(cacheKey)) {
+    return descriptionCache.get(cacheKey)!
+  }
+
+  const descriptionsDir = path.join(process.cwd(), 'content', 'portfolio', locale, 'descriptions')
+  if (!fs.existsSync(descriptionsDir)) {
+    return null
+  }
+
+  const normalizedSlug = normalizeKey(slug)
+  const files = fs.readdirSync(descriptionsDir)
+  const match = files.find((file) => normalizeKey(path.parse(file).name) === normalizedSlug)
+
+  if (!match) {
+    return null
+  }
+
+  const content = fs.readFileSync(path.join(descriptionsDir, match), 'utf8').trim()
+  descriptionCache.set(cacheKey, content)
+  return content
+}
+
 // Helper: slugify text
 function slugify(text: string): string {
   return text
@@ -98,7 +130,7 @@ async function seedCategories(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) 
   console.log(`✅ Created ${categoriesMapFr.size} categories`)
 }
 
-async function seedComposers(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
+async function seedComposers(dataFr: PortfolioItem[]) {
   console.log('🎵 Seeding composers...')
 
   // Extract all unique composers (deduplicate by name)
@@ -227,6 +259,9 @@ async function seedWorks(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
       }
     }
 
+    const descriptionFr = getDescriptionFromMarkdown('fr', itemFr.slug) || itemFr.subtitle || undefined
+    const descriptionEn = getDescriptionFromMarkdown('en', itemEn.slug) || itemEn.subtitle || undefined
+
     // Create work
     const work = await prisma.work.upsert({
       where: { slug: itemFr.slug },
@@ -247,12 +282,12 @@ async function seedWorks(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
             {
               locale: 'fr',
               title: itemFr.title,
-              description: itemFr.subtitle || undefined, // Use subtitle as description
+              description: descriptionFr,
             },
             {
               locale: 'en',
               title: itemEn.title,
-              description: itemEn.subtitle || undefined, // Use subtitle as description
+              description: descriptionEn,
             },
           ],
         },
@@ -315,7 +350,7 @@ async function main() {
 
   // Seed in order
   await seedCategories(dataFr, dataEn)
-  await seedComposers(dataFr, dataEn)
+  await seedComposers(dataFr)
   await seedWorks(dataFr, dataEn)
 
   console.log('\n🎉 Database seeding completed!')

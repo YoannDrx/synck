@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import type { Locale } from "@/lib/i18n-config";
+import { Breadcrumb } from "@/components/breadcrumb";
 
 interface GalleryWork {
   id: string;
@@ -22,11 +24,7 @@ interface Category {
   color: string | null;
 }
 
-export default function PortfolioPage({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}) {
+export default function PortfolioPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const [locale, setLocale] = useState<Locale>("fr");
   const [works, setWorks] = useState<GalleryWork[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -35,10 +33,10 @@ export default function PortfolioPage({
 
   useEffect(() => {
     async function init() {
-      const resolvedParams = await params;
-      setLocale(resolvedParams.locale);
-
+      setLoading(true);
       try {
+        const resolvedParams = await params;
+        setLocale(resolvedParams.locale);
         // Fetch works and categories in parallel
         const [worksRes, categoriesRes] = await Promise.all([
           fetch(`/api/portfolio?locale=${resolvedParams.locale}`),
@@ -97,6 +95,14 @@ export default function PortfolioPage({
       </div>
 
       <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
+        {/* Breadcrumb */}
+        <Breadcrumb
+          items={[
+            { label: "Accueil", href: `/${locale}` },
+            { label: "Portfolio" },
+          ]}
+        />
+
         {/* Page Header */}
         <div className="mb-12">
           <h1 className="mb-2 text-7xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
@@ -106,7 +112,7 @@ export default function PortfolioPage({
             <span>ortfolio</span>
           </h1>
           <p className="text-lg text-white/70 max-w-2xl mb-6">
-            Découvrez les projets musicaux pour lesquels Caroline gère les droits d'auteur
+            Découvrez les projets musicaux pour lesquels Caroline gère les droits d&apos;auteur
           </p>
 
           {/* Category Filters */}
@@ -147,9 +153,11 @@ export default function PortfolioPage({
             >
               {/* Image */}
               <div className="relative flex items-center justify-center overflow-hidden bg-black/20 min-h-[300px]">
-                <img
+                <Image
                   src={work.coverImage}
                   alt={work.coverImageAlt}
+                  width={600}
+                  height={600}
                   className="h-auto w-full object-contain transition-transform group-hover:scale-110"
                 />
               </div>
@@ -205,7 +213,7 @@ export default function PortfolioPage({
               Intéressé par une collaboration ?
             </h2>
             <p className="mb-6 text-[#050505]/80">
-              N'hésitez pas à me contacter pour discuter de votre projet
+              N&apos;hésitez pas à me contacter pour discuter de votre projet
             </p>
             <Link
               href={`/${locale}/contact`}

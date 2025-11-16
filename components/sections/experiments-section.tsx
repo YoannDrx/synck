@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface BlogPost {
@@ -124,10 +125,12 @@ export function ExperimentsSection() {
             >
               <div className="relative mb-4 overflow-hidden rounded-lg aspect-[16/9]">
                 {post.thumb && (
-                  <img
+                  <Image
                     src={post.thumb}
                     alt={post.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 )}
                 <div

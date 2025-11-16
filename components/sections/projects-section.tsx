@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -122,10 +123,12 @@ export function ProjectsSection() {
               </div>
 
               <div className="relative aspect-square overflow-hidden rounded-lg">
-                <img
+                <Image
                   src={work.coverImage}
                   alt={work.coverImageAlt}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 25vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
 

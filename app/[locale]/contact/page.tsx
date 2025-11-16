@@ -1,14 +1,18 @@
 import { getDictionary } from "@/lib/dictionaries";
 import type { Locale } from "@/lib/i18n-config";
 import { ContactForm } from "@/components/contact-form";
+import { Breadcrumb } from "@/components/breadcrumb";
 
-export default async function ContactPage({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}) {
+type ContactPageParams = {
+  params: Promise<{
+    locale: Locale;
+  }>;
+};
+
+export default async function ContactPage({ params }: ContactPageParams) {
   const { locale } = await params;
   const dictionary = await getDictionary(locale);
+  const contactLabel = dictionary.nav.contact;
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -20,16 +24,24 @@ export default async function ContactPage({
       </div>
 
       <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
+        {/* Breadcrumb */}
+        <Breadcrumb
+          items={[
+            { label: "Accueil", href: `/${locale}` },
+            { label: contactLabel },
+          ]}
+        />
+
         {/* Page Header */}
         <div className="mb-12">
           <h1 className="mb-2 text-7xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
             <span className="bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
-              C
+              {contactLabel.charAt(0)}
             </span>
-            <span>ontact</span>
+            <span>{contactLabel.slice(1)}</span>
           </h1>
           <p className="text-lg text-white/70 max-w-2xl">
-            Une question, un projet ou simplement envie d'échanger ? N'hésitez pas à me contacter
+            Une question, un projet ou simplement envie d&apos;échanger ? N&apos;hésitez pas à me contacter
           </p>
         </div>
 
@@ -107,7 +119,7 @@ export default async function ContactPage({
                 <li className="flex items-start gap-3">
                   <span className="text-lime-300 font-bold text-base">→</span>
                   <div>
-                    <div className="font-bold text-white mb-1">Gestion de droits d'auteur</div>
+                    <div className="font-bold text-white mb-1">Gestion de droits d&apos;auteur</div>
                     <div className="text-xs text-white/50">Suivi et protection de vos œuvres</div>
                   </div>
                 </li>

@@ -1,11 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
-import {
-  getComposerBySlug,
-  getAllComposerSlugs,
-} from "@/lib/prismaPortfolioUtils";
+import { getComposerBySlug, getAllComposerSlugs } from "@/lib/prismaPortfolioUtils";
+import { getLegacyComposerBySlug } from "@/lib/legacyPortfolioUtils";
 import { getDictionary } from "@/lib/dictionaries";
+import { Breadcrumb } from "@/components/breadcrumb";
 
 // Generate static params for all composer slugs
 export async function generateStaticParams() {
@@ -23,14 +23,18 @@ export async function generateStaticParams() {
   return params;
 }
 
-export default async function ArtisteDetailPage({
-  params,
-}: {
-  params: Promise<{ locale: Locale; slug: string }>;
-}) {
+type ArtistDetailParams = {
+  params: Promise<{
+    locale: Locale;
+    slug: string;
+  }>;
+};
+
+export default async function ArtisteDetailPage({ params }: ArtistDetailParams) {
   const { locale, slug } = await params;
   const composer = await getComposerBySlug(slug, locale);
   const dictionary = await getDictionary(locale);
+  const legacyComposer = getLegacyComposerBySlug(slug);
 
   if (!composer) {
     notFound();
@@ -50,6 +54,22 @@ export default async function ArtisteDetailPage({
     category: contribution.work.category?.translations[0]?.name || "Autres",
   }));
 
+  const composerImage = composer.image?.path || legacyComposer?.image;
+
+  const legacyLinks = legacyComposer?.links ?? [];
+  const hasExternalUrl = composer.externalUrl && !legacyLinks.some((link) => link.url === composer.externalUrl);
+  const socialLinks = [
+    ...legacyLinks,
+    ...(hasExternalUrl
+      ? [
+          {
+            label: getPlatformName(composer.externalUrl!),
+            url: composer.externalUrl!,
+          },
+        ]
+      : []),
+  ];
+
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
       {/* Background layers */}
@@ -60,25 +80,28 @@ export default async function ArtisteDetailPage({
       </div>
 
       <main className="relative z-10 w-full max-w-[1400px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
-        {/* Back to Artists */}
-        <Link
-          href={`/${locale}/artistes`}
-          className="inline-flex items-center gap-2 mb-8 text-sm font-bold uppercase text-lime-300 hover:text-lime-400 transition-colors"
-        >
-          ← Retour aux artistes
-        </Link>
+        {/* Breadcrumb */}
+        <Breadcrumb
+          items={[
+            { label: "Accueil", href: `/${locale}` },
+            { label: "Artistes", href: `/${locale}/artistes` },
+            { label: translation?.name || composer.slug },
+          ]}
+        />
 
         {/* Artist Header */}
         <div className="mb-12 space-y-8">
           {/* Artist Name & Image */}
           <div className="flex items-center gap-6">
             {/* Artist Image */}
-            {composer.image ? (
+            {composerImage ? (
               <div className="relative overflow-hidden border-4 border-white/10 bg-black/20 rounded-full w-32 h-32 flex-shrink-0">
-                <img
-                  src={composer.image.path}
-                  alt={composer.image.alt || translation?.name || composer.slug}
-                  className="h-full w-full object-cover"
+                <Image
+                  src={composerImage}
+                  alt={composer.image?.alt || translation?.name || composer.slug}
+                  fill
+                  sizes="128px"
+                  className="object-cover"
                 />
               </div>
             ) : (
@@ -111,18 +134,21 @@ export default async function ArtisteDetailPage({
               </div>
             )}
 
-            {/* External Link */}
-            {composer.externalUrl && (
-              <div>
-                <a
-                  href={composer.externalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 border-4 border-lime-300 bg-lime-300/10 px-6 py-3 font-bold uppercase text-lime-300 transition-all hover:bg-lime-300 hover:text-[#050505]"
-                >
-                  <span>Écouter sur {getPlatformName(composer.externalUrl)}</span>
-                  <span>↗</span>
-                </a>
+            {/* External/Social Links */}
+            {socialLinks.length > 0 && (
+              <div className="flex flex-wrap gap-3">
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.url}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border-2 border-lime-300 px-4 py-2 text-xs font-bold uppercase tracking-wider text-lime-300 transition-all hover:bg-lime-300 hover:text-[#050505]"
+                  >
+                    <span>{link.label}</span>
+                    <span aria-hidden>↗</span>
+                  </a>
+                ))}
               </div>
             )}
           </div>
@@ -147,9 +173,11 @@ export default async function ArtisteDetailPage({
                   <div className="relative z-10">
                     {/* Work Cover Image */}
                     <div className="relative aspect-square overflow-hidden">
-                      <img
+                      <Image
                         src={work.coverImage}
                         alt={work.coverImageAlt}
+                        width={800}
+                        height={800}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                     </div>

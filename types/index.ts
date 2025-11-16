@@ -27,6 +27,7 @@ export interface ExpertiseFrontmatter {
 // Blog types
 export interface BlogPost {
   id: string;
+  slug: string;
   title: string;
   date: string;
   category: string;
@@ -34,6 +35,7 @@ export interface BlogPost {
   subtitle: string | null;
   description: string | null;
   tags: string[];
+  lang: string;
   contentHtml?: string;
 }
 
@@ -45,10 +47,9 @@ export interface BlogFrontmatter {
   subtitle?: string;
   description?: string;
   tags?: string[];
+  slug?: string;
+  lang?: string;
 }
-
-// Portfolio types (réexportés depuis portfolioDataUtils)
-export type { PortfolioItem, PortfolioItemMetadata } from '../lib/portfolioDataUtils'
 
 // Component props types
 export interface SEOProps {

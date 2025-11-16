@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface GalleryComposer {
@@ -110,10 +111,12 @@ export function ArtistsSection() {
               {/* Artist Image */}
               {composer.image ? (
                 <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-white/20 bg-black/20">
-                  <img
+                  <Image
                     src={composer.image}
                     alt={composer.imageAlt || composer.name}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    fill
+                    sizes="96px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>
               ) : (
