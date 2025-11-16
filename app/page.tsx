@@ -69,13 +69,13 @@ export default function Home() {
       <ProgressBar progress={progress} />
 
       {/* Main container with max-width and centering */}
-      <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
+      <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16 overflow-visible">
         <MobileNav sections={navSections} activeSection={activeSection} />
 
-        <div className="grid gap-10 lg:grid-cols-[minmax(220px,auto),minmax(0,1fr)] xl:grid-cols-[260px,minmax(0,1fr)]">
+        <div className="grid gap-10 lg:grid-cols-[220px_1fr] xl:grid-cols-[260px_1fr]">
           <NavigationBar sections={navSections} activeSection={activeSection} />
 
-          <div className="space-y-24">
+          <div className="space-y-24 min-w-0">
             <HeroSection metrics={metrics} />
 
             <MarqueeText items={pulses} />

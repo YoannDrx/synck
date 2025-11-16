@@ -68,6 +68,7 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   min-height: 100vh;
   position: relative;
+  /* overflow-x: hidden; */
 }
 
 ::selection {
@@ -80,16 +81,8 @@ body::after {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: radial-gradient(
-      circle at center,
-      rgba(255, 255, 255, 0.06),
-      transparent 55%
-    ),
-    linear-gradient(
-      120deg,
-      rgba(255, 255, 255, 0.03) 1px,
-      transparent 1px
-    ),
+  background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.06), transparent 55%),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(300deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
   background-size: 320px 320px, 160px 160px, 200px 200px;
   opacity: 0.4;

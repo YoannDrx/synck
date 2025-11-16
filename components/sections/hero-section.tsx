@@ -42,7 +42,7 @@ export function HeroSection({ metrics }: HeroSectionProps) {
       <div className="absolute bottom-0 right-10 h-40 w-40 rounded-full bg-lime-300/30 blur-[120px]" />
 
       <div className="relative z-10 grid gap-12 lg:grid-cols-[1.2fr,0.8fr]">
-        <div className="space-y-8">
+        <div className="space-y-8 min-w-0">
           <div className="flex items-center gap-3 text-xs uppercase tracking-[0.5em] text-white/70">
             <span className="h-2 w-2 rounded-full bg-lime-300 shadow-[0_0_12px_rgba(213,255,10,0.9)]" />
             <span>Caroline Senyk</span>
@@ -77,7 +77,7 @@ export function HeroSection({ metrics }: HeroSectionProps) {
           </div>
         </div>
 
-        <div className="relative flex flex-col gap-6 rounded-[28px] border-2 border-white/20 bg-white/5 p-6 text-sm backdrop-blur">
+        <div className="relative flex flex-col gap-6 rounded-[28px] border-2 border-white/20 bg-white/5 p-6 text-sm backdrop-blur min-w-0">
           <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-white/50">
             <span>Studio Status</span>
             <span>2025</span>
