@@ -1,7 +1,17 @@
 import { prisma } from './prisma'
 import { cache } from 'react'
 import type { Locale } from './i18n-config'
-import type { GalleryWork } from '@/components/ResponsiveGallery'
+
+export interface GalleryWork {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle?: string;
+  category: string;
+  coverImage: string;
+  coverImageAlt: string;
+  composers: string[];
+}
 
 // Cache the portfolio data fetch for deduplication
 export const getPortfolioWorksFromPrisma = cache(async (locale: Locale): Promise<GalleryWork[]> => {
@@ -61,8 +71,6 @@ export const getPortfolioWorksFromPrisma = cache(async (locale: Locale): Promise
         category: categoryTranslation?.name || 'Autres',
         coverImage: work.coverImage?.path || '/images/placeholder.jpg',
         coverImageAlt: work.coverImage?.alt || translation?.title || work.slug,
-        width: work.coverImage?.width || 600,
-        height: work.coverImage?.height || 400,
         composers: work.contributions.map((contrib) => {
           const composerTranslation = contrib.composer.translations[0]
           return composerTranslation?.name || ''

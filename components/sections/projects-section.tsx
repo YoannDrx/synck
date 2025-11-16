@@ -13,8 +13,6 @@ interface GalleryWork {
   category: string;
   coverImage: string;
   coverImageAlt: string;
-  width: number;
-  height: number;
   composers: string[];
 }
 
@@ -122,7 +120,7 @@ export function ProjectsSection() {
                 <span>WORK {String(index + 1).padStart(2, '0')}</span>
               </div>
 
-              <div className="relative aspect-[16/9] overflow-hidden rounded-lg">
+              <div className="relative aspect-square overflow-hidden rounded-lg">
                 <img
                   src={work.coverImage}
                   alt={work.coverImageAlt}
