@@ -23,13 +23,14 @@ export default async function ExpertisesPage({
 
       <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
         {/* Page Header */}
-        <div className="mb-16 text-center">
-          <h1 className="mb-4 text-5xl font-bold uppercase tracking-tight sm:text-6xl lg:text-7xl">
-            <span className="bg-gradient-to-r from-lime-400 to-fuchsia-600 bg-clip-text text-transparent">
-              {dictionary.nav.expertises}
+        <div className="mb-12">
+          <h1 className="mb-2 text-7xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
+            <span className="bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
+              E
             </span>
+            <span>xpertises</span>
           </h1>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto">
+          <p className="text-lg text-white/70 max-w-2xl">
             Découvrez mes domaines d'expertise en gestion de droits d'auteur et droits musicaux
           </p>
         </div>

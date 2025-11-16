@@ -1,16 +1,91 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getDictionary } from "@/lib/dictionaries";
-import { getPortfolioWorksFromPrisma } from "@/lib/prismaPortfolioUtils";
 import type { Locale } from "@/lib/i18n-config";
 
-export default async function PortfolioPage({
+interface GalleryWork {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle?: string;
+  category: string;
+  coverImage: string;
+  coverImageAlt: string;
+  composers: string[];
+}
+
+interface Category {
+  id: string;
+  slug: string;
+  name: string;
+  color: string | null;
+}
+
+export default function PortfolioPage({
   params,
 }: {
   params: Promise<{ locale: Locale }>;
 }) {
-  const { locale } = await params;
-  const dictionary = await getDictionary(locale);
-  const works = await getPortfolioWorksFromPrisma(locale);
+  const [locale, setLocale] = useState<Locale>("fr");
+  const [works, setWorks] = useState<GalleryWork[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function init() {
+      const resolvedParams = await params;
+      setLocale(resolvedParams.locale);
+
+      try {
+        // Fetch works and categories in parallel
+        const [worksRes, categoriesRes] = await Promise.all([
+          fetch(`/api/portfolio?locale=${resolvedParams.locale}`),
+          fetch(`/api/categories?locale=${resolvedParams.locale}`),
+        ]);
+
+        if (worksRes.ok) {
+          const worksData = await worksRes.json();
+          setWorks(worksData);
+        }
+
+        if (categoriesRes.ok) {
+          const categoriesData = await categoriesRes.json();
+          setCategories(categoriesData);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    init();
+  }, [params]);
+
+  // Filter works by category
+  const filteredWorks =
+    selectedCategory === "all"
+      ? works
+      : works.filter((work) => work.category === selectedCategory);
+
+  if (loading) {
+    return (
+      <div className="relative min-h-screen bg-[#050505] text-white">
+        <div className="pointer-events-none fixed inset-0 -z-10 opacity-80">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(213,255,10,0.15),transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(255,75,162,0.1),transparent_50%)]" />
+          <div className="absolute inset-0 noise-layer" />
+        </div>
+        <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="text-xl text-white/50">Chargement...</div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -23,24 +98,52 @@ export default async function PortfolioPage({
 
       <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
         {/* Page Header */}
-        <div className="mb-16 text-center">
-          <h1 className="mb-4 text-5xl font-bold uppercase tracking-tight sm:text-6xl lg:text-7xl">
-            <span className="bg-gradient-to-r from-lime-400 to-fuchsia-600 bg-clip-text text-transparent">
-              {dictionary.nav.portfolio}
+        <div className="mb-12">
+          <h1 className="mb-2 text-7xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
+            <span className="bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
+              P
             </span>
+            <span>ortfolio</span>
           </h1>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto">
-            Découvrez mes projets et réalisations en gestion de droits musicaux
+          <p className="text-lg text-white/70 max-w-2xl mb-6">
+            Découvrez les projets musicaux pour lesquels Caroline gère les droits d'auteur
           </p>
+
+          {/* Category Filters */}
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={() => setSelectedCategory("all")}
+              className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
+                selectedCategory === "all"
+                  ? "border-lime-300 bg-lime-300 text-[#050505]"
+                  : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
+              }`}
+            >
+              Tout
+            </button>
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.name)}
+                className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
+                  selectedCategory === category.name
+                    ? "border-lime-300 bg-lime-300 text-[#050505]"
+                    : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
+                }`}
+              >
+                {category.name}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Works Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {works.map((work) => (
+          {filteredWorks.map((work) => (
             <Link
               key={work.id}
               href={`/${locale}/portfolio/${work.slug}`}
-              className="group relative overflow-hidden border-4 border-white bg-[#050505] transition-transform hover:scale-105"
+              className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] transition-all duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
             >
               {/* Image */}
               <div className="relative flex items-center justify-center overflow-hidden bg-black/20 min-h-[300px]">
@@ -78,7 +181,7 @@ export default async function PortfolioPage({
                 )}
 
                 {/* Hover indicator */}
-                <div className="mt-3 inline-block text-xs font-bold uppercase text-fuchsia-600 opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="mt-3 inline-block text-xs font-bold uppercase text-lime-300 opacity-0 transition-opacity group-hover:opacity-100">
                   Voir le projet →
                 </div>
               </div>
@@ -87,17 +190,17 @@ export default async function PortfolioPage({
         </div>
 
         {/* Empty state */}
-        {works.length === 0 && (
+        {filteredWorks.length === 0 && (
           <div className="text-center py-20">
             <p className="text-xl text-white/50">
-              Aucun projet disponible pour le moment
+              Aucun projet trouvé pour cette catégorie
             </p>
           </div>
         )}
 
         {/* CTA Section */}
-        <div className="mt-16 text-center">
-          <div className="border-4 border-white bg-gradient-to-r from-lime-400 to-fuchsia-600 p-12">
+        <div className="mt-16">
+          <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-12">
             <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
               Intéressé par une collaboration ?
             </h2>
@@ -108,7 +211,7 @@ export default async function PortfolioPage({
               href={`/${locale}/contact`}
               className="inline-block border-4 border-[#050505] bg-[#050505] px-8 py-3 font-bold uppercase text-white transition-transform hover:scale-105"
             >
-              {dictionary.cta.contact}
+              Me contacter
             </Link>
           </div>
         </div>

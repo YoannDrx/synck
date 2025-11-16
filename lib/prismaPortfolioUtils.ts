@@ -192,3 +192,136 @@ export async function getAllWorkSlugs(): Promise<string[]> {
     return []
   }
 }
+
+// ============================================
+// COMPOSERS / ARTISTS
+// ============================================
+
+export interface GalleryComposer {
+  id: string;
+  slug: string;
+  name: string;
+  bio?: string;
+  image?: string;
+  imageAlt?: string;
+  externalUrl?: string;
+  worksCount: number;
+}
+
+// Get all composers with translations
+export const getComposersFromPrisma = cache(async (locale: Locale): Promise<GalleryComposer[]> => {
+  try {
+    const composers = await prisma.composer.findMany({
+      where: {
+        isActive: true,
+      },
+      include: {
+        translations: {
+          where: {
+            locale,
+          },
+        },
+        image: true,
+        contributions: {
+          where: {
+            work: {
+              isActive: true,
+            },
+          },
+        },
+      },
+      orderBy: {
+        order: 'asc',
+      },
+    })
+
+    return composers.map((composer) => {
+      const translation = composer.translations[0]
+      return {
+        id: composer.id,
+        slug: composer.slug,
+        name: translation?.name || composer.slug,
+        bio: translation?.bio || undefined,
+        image: composer.image?.path || undefined,
+        imageAlt: composer.image?.alt || translation?.name || composer.slug,
+        externalUrl: composer.externalUrl || undefined,
+        worksCount: composer.contributions.length,
+      }
+    })
+  } catch (error) {
+    console.error('Error fetching composers from Prisma:', error)
+    return []
+  }
+})
+
+// Get a single composer by slug with full details
+export const getComposerBySlug = cache(async (slug: string, locale: Locale) => {
+  try {
+    const composer = await prisma.composer.findUnique({
+      where: { slug },
+      include: {
+        translations: {
+          where: {
+            locale,
+          },
+        },
+        image: true,
+        contributions: {
+          where: {
+            work: {
+              isActive: true,
+            },
+          },
+          include: {
+            work: {
+              include: {
+                coverImage: true,
+                translations: {
+                  where: {
+                    locale,
+                  },
+                },
+                category: {
+                  include: {
+                    translations: {
+                      where: {
+                        locale,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          orderBy: {
+            order: 'asc',
+          },
+        },
+      },
+    })
+
+    return composer
+  } catch (error) {
+    console.error(`Error fetching composer ${slug} from Prisma:`, error)
+    return null
+  }
+})
+
+// Get all composer slugs for generateStaticParams
+export async function getAllComposerSlugs(): Promise<string[]> {
+  try {
+    const composers = await prisma.composer.findMany({
+      where: {
+        isActive: true,
+      },
+      select: {
+        slug: true,
+      },
+    })
+
+    return composers.map((composer) => composer.slug)
+  } catch (error) {
+    console.error('Error fetching composer slugs:', error)
+    return []
+  }
+}

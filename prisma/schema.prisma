@@ -87,6 +87,7 @@ model Composer {
   slug         String   @unique
   imageId      String?
   image        Asset?   @relation("ComposerImages", fields: [imageId], references: [id])
+  externalUrl  String?  // External link (YouTube, SoundCloud, etc.)
   order        Int      @default(0)
   isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
@@ -165,6 +166,10 @@ model Work {
   year           Int?
   duration       Int?     // In minutes
   status         String?  // Ex: "completed", "in-production"
+  spotifyUrl     String?  // Spotify embed URL
+  releaseDate    String?  // Release date (format: "YYYY-MM-DD" or "YYYY")
+  genre          String?  // Musical genre (ex: "Trap / Hip Hop", "EDM")
+  isrcCode       String?  // International Standard Recording Code
   order          Int      @default(0)
   isActive       Boolean  @default(true)
   isFeatured     Boolean  @default(false)

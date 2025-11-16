@@ -1,5 +1,6 @@
 import { getDictionary } from "@/lib/dictionaries";
 import type { Locale } from "@/lib/i18n-config";
+import { ContactForm } from "@/components/contact-form";
 
 export default async function ContactPage({
   params,
@@ -20,97 +21,129 @@ export default async function ContactPage({
 
       <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
         {/* Page Header */}
-        <div className="mb-16 text-center">
-          <h1 className="mb-4 text-5xl font-bold uppercase tracking-tight sm:text-6xl lg:text-7xl">
-            <span className="bg-gradient-to-r from-lime-400 to-fuchsia-600 bg-clip-text text-transparent">
-              {dictionary.contact.title}
+        <div className="mb-12">
+          <h1 className="mb-2 text-7xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
+            <span className="bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
+              C
             </span>
+            <span>ontact</span>
           </h1>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto">
+          <p className="text-lg text-white/70 max-w-2xl">
             Une question, un projet ou simplement envie d'échanger ? N'hésitez pas à me contacter
           </p>
         </div>
 
-        {/* Contact Content */}
-        <div className="max-w-4xl mx-auto">
-          {/* Main Contact Card */}
-          <div className="border-4 border-white bg-[#050505] p-8 sm:p-12 mb-12">
-            <div className="space-y-8">
-              {/* Introduction */}
-              <div>
-                <h2 className="mb-4 text-2xl font-bold uppercase">
-                  Travaillons ensemble
-                </h2>
-                <p className="text-white/70 leading-relaxed">
-                  Que vous ayez besoin d'accompagnement en gestion de droits d'auteur,
-                  de conseil en droits musicaux ou d'expertise dans le secteur musical,
-                  je serai ravie d'échanger avec vous sur votre projet.
-                </p>
-              </div>
+        {/* Main Content Grid */}
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* Left Column - Contact Form */}
+          <div className="space-y-8">
+            <div className="border-4 border-white/10 bg-[#0a0a0e] p-8 shadow-[0_25px_60px_rgba(0,0,0,0.65)]">
+              <h2 className="mb-2 text-2xl font-bold uppercase tracking-tight">
+                Envoyez-moi un message
+              </h2>
+              <p className="text-white/60 mb-8 text-sm">
+                Remplissez le formulaire ci-dessous et je vous répondrai dans les plus brefs délais
+              </p>
 
-              {/* Email Section */}
-              <div className="border-t-2 border-white/20 pt-8">
-                <h3 className="mb-3 text-sm font-bold uppercase text-lime-400">
-                  Email
-                </h3>
-                <a
-                  href="mailto:caroline.senyk@example.com"
-                  className="text-2xl font-bold uppercase hover:text-lime-400 transition-colors"
-                >
-                  caroline.senyk@example.com
-                </a>
-              </div>
-
-              {/* LinkedIn Section */}
-              <div className="border-t-2 border-white/20 pt-8">
-                <h3 className="mb-3 text-sm font-bold uppercase text-fuchsia-600">
-                  LinkedIn
-                </h3>
-                <a
-                  href="https://linkedin.com/in/caroline-senyk"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xl font-bold uppercase hover:text-fuchsia-600 transition-colors"
-                >
-                  linkedin.com/in/caroline-senyk →
-                </a>
-              </div>
+              <ContactForm />
             </div>
           </div>
 
-          {/* Availability Info */}
-          <div className="grid gap-6 sm:grid-cols-2">
-            {/* Availability Card */}
-            <div className="border-4 border-white bg-gradient-to-br from-lime-400/10 to-transparent p-6">
-              <h3 className="mb-3 text-lg font-bold uppercase text-lime-400">
-                Disponibilité
+          {/* Right Column - Info Cards */}
+          <div className="space-y-6">
+            {/* Contact Info Card */}
+            <div className="border-4 border-white/10 bg-[#0a0a0e] p-8 shadow-[0_25px_60px_rgba(0,0,0,0.65)]">
+              <h3 className="mb-6 text-xl font-bold uppercase tracking-tight">
+                Coordonnées
               </h3>
-              <p className="text-sm text-white/70">
-                Je réponds généralement sous 24-48h. Pour les demandes urgentes,
-                précisez-le dans l'objet de votre message.
-              </p>
+
+              {/* Email */}
+              <div className="mb-6 pb-6 border-b border-white/10">
+                <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-lime-300">
+                  Email
+                </h4>
+                <a
+                  href="mailto:caroline.senyk@gmail.com"
+                  className="text-base font-bold hover:text-lime-300 transition-colors break-all"
+                >
+                  caroline.senyk@gmail.com
+                </a>
+              </div>
+
+              {/* LinkedIn */}
+              <div className="mb-6 pb-6 border-b border-white/10">
+                <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-lime-300">
+                  LinkedIn
+                </h4>
+                <a
+                  href="https://www.linkedin.com/in/caroline-senyk-0307752a7/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-base font-bold hover:text-lime-300 transition-colors"
+                >
+                  <span>Voir le profil</span>
+                  <span>↗</span>
+                </a>
+              </div>
+
+              {/* Availability */}
+              <div>
+                <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-lime-300">
+                  Disponibilité
+                </h4>
+                <p className="text-sm text-white/70 leading-relaxed">
+                  Je réponds généralement sous 24-48h. Pour les demandes urgentes,
+                  précisez-le dans le sujet de votre message.
+                </p>
+              </div>
             </div>
 
             {/* Services Card */}
-            <div className="border-4 border-white bg-gradient-to-br from-fuchsia-600/10 to-transparent p-6">
-              <h3 className="mb-3 text-lg font-bold uppercase text-fuchsia-600">
+            <div className="border-4 border-white/10 bg-[#0a0a0e] p-8 shadow-[0_25px_60px_rgba(0,0,0,0.65)]">
+              <h3 className="mb-6 text-xl font-bold uppercase tracking-tight">
                 Services
               </h3>
-              <p className="text-sm text-white/70">
-                Gestion de droits d'auteur, conseil en droits musicaux,
-                accompagnement de projets artistiques et expertise SACEM.
+              <ul className="space-y-4 text-sm text-white/70">
+                <li className="flex items-start gap-3">
+                  <span className="text-lime-300 font-bold text-base">→</span>
+                  <div>
+                    <div className="font-bold text-white mb-1">Gestion de droits d'auteur</div>
+                    <div className="text-xs text-white/50">Suivi et protection de vos œuvres</div>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-lime-300 font-bold text-base">→</span>
+                  <div>
+                    <div className="font-bold text-white mb-1">Conseil en droits musicaux</div>
+                    <div className="text-xs text-white/50">Expertise juridique et conseil</div>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-lime-300 font-bold text-base">→</span>
+                  <div>
+                    <div className="font-bold text-white mb-1">Accompagnement artistique</div>
+                    <div className="text-xs text-white/50">Support de vos projets musicaux</div>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-lime-300 font-bold text-base">→</span>
+                  <div>
+                    <div className="font-bold text-white mb-1">Expertise SACEM</div>
+                    <div className="text-xs text-white/50">Gestion et optimisation SACEM</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            {/* CTA Banner */}
+            <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-8 text-center">
+              <h3 className="mb-2 text-2xl font-bold uppercase text-[#050505]">
+                Première consultation gratuite
+              </h3>
+              <p className="text-sm text-[#050505]/80">
+                Pour tout nouveau projet, je vous offre un premier échange de 30 minutes
               </p>
             </div>
-          </div>
-
-          {/* CTA Banner */}
-          <div className="mt-12 border-4 border-white bg-gradient-to-r from-lime-400 to-fuchsia-600 p-8 text-center">
-            <h2 className="mb-2 text-2xl font-bold uppercase text-[#050505]">
-              Première consultation gratuite
-            </h2>
-            <p className="text-sm text-[#050505]/80">
-              Pour tout nouveau projet, je vous offre un premier échange de 30 minutes
-            </p>
           </div>
         </div>
       </main>

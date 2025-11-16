@@ -24,7 +24,8 @@ export function ProjectsSection() {
   useEffect(() => {
     async function fetchWorks() {
       try {
-        const response = await fetch('/api/portfolio?locale=fr');
+        // Récupérer seulement 4 projets pour la section "Travaux sélectionnés"
+        const response = await fetch('/api/portfolio?locale=fr&limit=4');
         if (!response.ok) {
           throw new Error('Failed to fetch portfolio');
         }

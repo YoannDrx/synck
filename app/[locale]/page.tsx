@@ -9,6 +9,7 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { StudioSection } from "@/components/sections/studio-section";
 import { ExpertisesSection } from "@/components/sections/expertises-section";
 import { ProjectsSection } from "@/components/sections/projects-section";
+import { ArtistsSection } from "@/components/sections/artists-section";
 import { ExperimentsSection } from "@/components/sections/experiments-section";
 import { ContactSection } from "@/components/sections/contact-section";
 import { MarqueeText } from "@/components/marquee-text";
@@ -86,6 +87,8 @@ export default function Home() {
             <ExpertisesSection />
 
             <ProjectsSection />
+
+            <ArtistsSection />
 
             <ExperimentsSection />
 

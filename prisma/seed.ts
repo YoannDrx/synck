@@ -142,12 +142,25 @@ async function seedComposers(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
       imageId = asset.id
     }
 
+    // Extract external URL (handle both string and object formats)
+    let externalUrl: string | null = null
+    if (data.links) {
+      if (typeof data.links === 'string') {
+        externalUrl = data.links
+      } else if (typeof data.links === 'object' && data.links !== null) {
+        // If it's an object, try to get the first URL value
+        const urlValues = Object.values(data.links).filter((v): v is string => typeof v === 'string')
+        externalUrl = urlValues.length > 0 ? urlValues[0] : null
+      }
+    }
+
     await prisma.composer.upsert({
       where: { slug },
       update: {},
       create: {
         slug,
         imageId,
+        externalUrl, // Add external URL (YouTube, SoundCloud, etc.)
         order: order++,
         isActive: true,
         translations: {
@@ -223,6 +236,9 @@ async function seedWorks(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
         categoryId: category.id,
         coverImageId,
         year,
+        spotifyUrl: itemFr.linkSpotify || null, // Add Spotify URL
+        releaseDate: itemFr.releaseDate || null, // Add release date
+        genre: itemFr.genre || null, // Add genre
         order: itemFr.id,
         isActive: true,
         isFeatured: false,
@@ -231,12 +247,12 @@ async function seedWorks(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
             {
               locale: 'fr',
               title: itemFr.title,
-              description: itemFr.genre || undefined,
+              description: itemFr.subtitle || undefined, // Use subtitle as description
             },
             {
               locale: 'en',
               title: itemEn.title,
-              description: itemEn.genre || undefined,
+              description: itemEn.subtitle || undefined, // Use subtitle as description
             },
           ],
         },
