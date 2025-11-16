@@ -92,11 +92,11 @@ export function PortfolioPageClient({ locale, nav, copy, viewProjectLabel }: Por
         <div className="absolute inset-0 noise-layer" />
       </div>
 
-      <main className="relative z-10 mx-auto w-full max-w-[1600px] px-4 pb-20 pt-16 sm:px-8 lg:px-16">
+      <main className="relative z-10 mx-auto w-full max-w-[1600px] px-4 pb-16 pt-6 sm:px-8 sm:pt-16 lg:px-16">
         <Breadcrumb items={[{ label: nav.home, href: `/${locale}` }, { label: nav.portfolio }]} />
 
         <div className="mb-12">
-          <h1 className="mb-2 text-7xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
+          <h1 className="mb-2 text-4xl font-black uppercase tracking-tighter sm:text-7xl lg:text-9xl">
             <span className="bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
               {nav.portfolio.charAt(0)}
             </span>

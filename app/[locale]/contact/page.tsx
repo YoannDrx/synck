@@ -24,7 +24,7 @@ export default async function ContactPage({ params }: ContactPageParams) {
         <div className="absolute inset-0 noise-layer" />
       </div>
 
-      <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
+      <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-8 sm:pt-16 sm:px-8 lg:px-16">
         <Breadcrumb
           items={[
             { label: dictionary.nav.home, href: `/${safeLocale}` },
@@ -32,8 +32,8 @@ export default async function ContactPage({ params }: ContactPageParams) {
           ]}
         />
 
-        <div className="mb-12">
-          <h1 className="mb-2 text-7xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
+        <div className="mb-8 sm:mb-12">
+          <h1 className="mb-2 text-4xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
             <span className="bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
               {contactLabel.charAt(0)}
             </span>

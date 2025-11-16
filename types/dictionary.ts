@@ -243,10 +243,16 @@ export interface ContactFormDictionary {
   error: string;
 }
 
+export interface LayoutMenuDictionary {
+  open: string;
+  close: string;
+}
+
 export interface LayoutDictionary {
   navigationTitle: string;
   language: LanguageSwitchDictionary;
   footer: string;
+  menu: LayoutMenuDictionary;
 }
 
 export interface Dictionary {

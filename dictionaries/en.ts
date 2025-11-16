@@ -24,6 +24,10 @@ const dictionary: Dictionary = {
       en: "EN",
     },
     footer: "Caroline Senyk keeps the brutal glow alive.",
+    menu: {
+      open: "Menu",
+      close: "Close",
+    },
   },
   contactForm: {
     fields: {
@@ -57,7 +61,6 @@ const dictionary: Dictionary = {
       { id: "studio", label: "Studio" },
       { id: "expertises", label: "Expertises" },
       { id: "projects", label: "Portfolio" },
-      { id: "experiments", label: "Blog" },
       { id: "contact", label: "Contact" },
     ],
     hero: {

@@ -90,23 +90,23 @@ export function HeroSection({ metrics, hero }: HeroSectionProps) {
           <p className="text-3xl font-semibold text-white">
             {hero.status.headline}
           </p>
-          <div className="grid gap-4 text-xs uppercase tracking-[0.4em] text-white/60">
-            <div className="flex justify-between border-b border-dashed border-white/15 pb-3">
-              <span>{hero.status.expertiseLabel}</span>
-              <span className="text-white">{hero.status.expertiseValue}</span>
+          <div className="space-y-3 text-xs uppercase tracking-[0.35em] text-white/60">
+            <div>
+              <span className="block text-white/50">{hero.status.expertiseLabel}</span>
+              <span className="block text-white pt-1">{hero.status.expertiseValue}</span>
             </div>
-            <div className="flex justify-between border-b border-dashed border-white/15 pb-3">
-              <span>{hero.status.organizationsLabel}</span>
-              <span className="text-white">{hero.status.organizationsValue}</span>
+            <div className="border-t border-white/10 pt-3">
+              <span className="block text-white/50">{hero.status.organizationsLabel}</span>
+              <span className="block text-white pt-1">{hero.status.organizationsValue}</span>
             </div>
-            <div className="flex justify-between">
-              <span>{hero.status.availabilityLabel}</span>
-              <span className="text-lime-200">{hero.status.availabilityValue}</span>
+            <div className="border-t border-white/10 pt-3">
+              <span className="block text-white/50">{hero.status.availabilityLabel}</span>
+              <span className="block text-lime-200 pt-1">{hero.status.availabilityValue}</span>
             </div>
           </div>
-          <div className="rounded-2xl border border-white/15 bg-black/40 p-4 text-xs uppercase tracking-[0.5em] text-white/70">
-            {hero.status.servicesLabel}:{" "}
-            <span className="font-bold text-white">{hero.status.servicesValue}</span>
+          <div className="rounded-2xl border border-white/15 bg-black/40 p-4 text-xs uppercase tracking-[0.35em] text-white/70 leading-relaxed">
+            <span className="block text-white/50">{hero.status.servicesLabel}</span>
+            <span className="block font-bold text-white pt-2">{hero.status.servicesValue}</span>
           </div>
         </div>
       </div>

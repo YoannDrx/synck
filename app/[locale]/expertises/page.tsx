@@ -26,7 +26,7 @@ export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
         <div className="absolute inset-0 noise-layer" />
       </div>
 
-      <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
+      <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-8 sm:pt-16 sm:px-8 lg:px-16">
         {/* Breadcrumb */}
         <Breadcrumb
           items={[
@@ -36,8 +36,8 @@ export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
         />
 
         {/* Page Header */}
-        <div className="mb-12">
-          <h1 className="mb-2 text-7xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
+        <div className="mb-8 sm:mb-12">
+          <h1 className="mb-2 text-4xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
             <span className="bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
               {dictionary.nav.expertises.charAt(0)}
             </span>
@@ -50,7 +50,7 @@ export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {expertises.map((expertise) => (
             <Link
-              key={expertise.id}
+              key={expertise.slug}
               href={`/${safeLocale}/expertises/${expertise.slug}`}
               className="group relative overflow-hidden border-4 border-white bg-[#050505] transition-transform hover:scale-105"
             >

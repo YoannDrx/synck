@@ -43,14 +43,12 @@ export function LightboxImage({
         <span className="pointer-events-none absolute inset-0 rounded-xl bg-black/20 opacity-0 transition-opacity group-hover:opacity-100" />
       </button>
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6">
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="absolute top-4 right-4 rounded-full border border-white/40 px-4 py-2 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-white/10"
-          >
-            Fermer
-          </button>
+        <button
+          type="button"
+          onClick={() => setOpen(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6 focus:outline-none"
+          aria-label={`Fermer ${alt}`}
+        >
           <div className="relative max-h-[90vh] max-w-[90vw]">
             <Image
               src={fullSrc || src}
@@ -60,9 +58,8 @@ export function LightboxImage({
               className="h-auto w-full rounded-3xl object-contain"
             />
           </div>
-        </div>
+        </button>
       )}
     </>
   );
 }
-

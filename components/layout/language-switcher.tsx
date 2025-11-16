@@ -26,7 +26,7 @@ export function LanguageSwitcher({ locale, dictionary }: LanguageSwitcherProps) 
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50 flex items-center gap-2 rounded-full border border-white/20 bg-black/60 px-3 py-1 text-[0.65rem] uppercase tracking-[0.4em] text-white/70 backdrop-blur">
+    <div className="flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-3 py-1 text-[0.65rem] uppercase tracking-[0.4em] text-white/70">
       <span>{dictionary.label}</span>
       {i18n.locales.map((targetLocale) => (
         <Link

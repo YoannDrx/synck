@@ -81,7 +81,7 @@ export default async function ArtisteDetailPage({ params }: ArtistDetailParams) 
         <div className="absolute inset-0 noise-layer" />
       </div>
 
-      <main className="relative z-10 w-full max-w-[1400px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
+      <main className="relative z-10 w-full max-w-[1400px] mx-auto px-4 pb-20 pt-8 sm:pt-16 sm:px-8 lg:px-16">
         {/* Breadcrumb */}
         <Breadcrumb
           items={[
