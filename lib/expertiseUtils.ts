@@ -63,7 +63,7 @@ export function getAllExpertises(locale: Locale) {
       return {
         id: data.id || String(index + 1),
         slug: data.slug || path.parse(filename).name,
-        href: `/fr/expertises/${data.slug || path.parse(filename).name}`,
+        href: `/${locale}/expertises/${data.slug || path.parse(filename).name}`,
         title: data.title || 'Titre par défaut',
         subtitle: data.description || 'Sous-titre par défaut',
         imgHome: data.imgHome || data.imgUrl || '/images/service_7.jpeg',

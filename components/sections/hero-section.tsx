@@ -4,18 +4,18 @@ import type { PointerEvent } from "react";
 import { useState } from "react";
 import { MetricCard } from "@/components/cards/metric-card";
 import { Button } from "@/components/ui/button";
-
-interface Metric {
-  label: string;
-  value: string;
-  detail: string;
-}
+import type { HomeHeroDictionary } from "@/types/dictionary";
 
 interface HeroSectionProps {
-  metrics: Metric[];
+  metrics: {
+    label: string;
+    value: string;
+    detail: string;
+  }[];
+  hero: HomeHeroDictionary;
 }
 
-export function HeroSection({ metrics }: HeroSectionProps) {
+export function HeroSection({ metrics, hero }: HeroSectionProps) {
   const [glow, setGlow] = useState({ x: 45, y: 50 });
 
   const handleGlow = (event: PointerEvent<HTMLElement>) => {
@@ -43,34 +43,36 @@ export function HeroSection({ metrics }: HeroSectionProps) {
 
       <div className="relative z-10 grid gap-12 lg:grid-cols-[1.2fr,0.8fr]">
         <div className="space-y-8 min-w-0">
-          <div className="flex items-center gap-3 text-xs uppercase tracking-[0.5em] text-white/70">
-            <span className="h-2 w-2 rounded-full bg-lime-300 shadow-[0_0_12px_rgba(213,255,10,0.9)]" />
-            <span>Caroline Senyk</span>
-            <span>Portfolio</span>
-          </div>
+          {hero.eyebrow.length > 0 && (
+            <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.5em] text-white/70">
+              <span className="h-2 w-2 rounded-full bg-lime-300 shadow-[0_0_12px_rgba(213,255,10,0.9)]" />
+              {hero.eyebrow.map((label) => (
+                <span key={label}>{label}</span>
+              ))}
+            </div>
+          )}
           <div className="space-y-4">
             <p className="text-sm uppercase tracking-[0.6em] text-white/50">
-              Copyright Manager
+              {hero.role}
             </p>
             <h1 className="text-5xl font-black tracking-tight sm:text-6xl lg:text-7xl">
               SYNCK
             </h1>
             <p className="max-w-2xl text-lg text-white/80">
-              Expert en gestion de droits musicaux—Caroline Senyk accompagne
-              labels, éditeurs et artistes dans la gestion administrative et
-              éditoriale de leurs catalogues. Déclarations SACEM/SCPP/SPPF, contrats,
-              budgets de production et dossiers de subventions.
+              {hero.description}
             </p>
           </div>
           <div className="flex flex-wrap gap-4 text-[0.75rem] font-semibold uppercase tracking-[0.35em]">
             <Button asChild size="lg" className="rounded-full">
-              <a href="#projects">Voir le portfolio</a>
+              <a href="#projects">{hero.ctas.portfolio}</a>
             </Button>
             <Button asChild variant="outline" size="lg" className="rounded-full">
-              <a href="#contact">Me contacter</a>
+              <a href="#contact">{hero.ctas.contact}</a>
             </Button>
             <Button asChild variant="outline" size="lg" className="rounded-full">
-              <a href="/cv-caroline-senyk.pdf" download>Télécharger CV</a>
+              <a href="/cv-caroline-senyk.pdf" download>
+                {hero.ctas.downloadCv}
+              </a>
             </Button>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
@@ -82,32 +84,29 @@ export function HeroSection({ metrics }: HeroSectionProps) {
 
         <div className="relative flex flex-col gap-6 rounded-[28px] border-2 border-white/20 bg-white/5 p-6 text-sm backdrop-blur min-w-0">
           <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-white/50">
-            <span>Studio Status</span>
-            <span>2025</span>
+            <span>{hero.status.title}</span>
+            <span>{hero.status.year}</span>
           </div>
           <p className="text-3xl font-semibold text-white">
-            Gestion professionnelle de vos droits musicaux et optimisation de vos revenus.
+            {hero.status.headline}
           </p>
           <div className="grid gap-4 text-xs uppercase tracking-[0.4em] text-white/60">
             <div className="flex justify-between border-b border-dashed border-white/15 pb-3">
-              <span>Expertise</span>
-              <span className="text-white">Copyright / Édition / Production</span>
+              <span>{hero.status.expertiseLabel}</span>
+              <span className="text-white">{hero.status.expertiseValue}</span>
             </div>
             <div className="flex justify-between border-b border-dashed border-white/15 pb-3">
-              <span>Organismes</span>
-              <span className="text-white">
-                SACEM × SCPP × SPPF × CNM
-              </span>
+              <span>{hero.status.organizationsLabel}</span>
+              <span className="text-white">{hero.status.organizationsValue}</span>
             </div>
             <div className="flex justify-between">
-              <span>Statut</span>
-              <span className="text-lime-200">Freelance disponible</span>
+              <span>{hero.status.availabilityLabel}</span>
+              <span className="text-lime-200">{hero.status.availabilityValue}</span>
             </div>
           </div>
           <div className="rounded-2xl border border-white/15 bg-black/40 p-4 text-xs uppercase tracking-[0.5em] text-white/70">
-            Services :{" "}
-            <span className="font-bold text-white">Déclarations</span>, contrats d&apos;édition,
-            codes ISRC, budgets de production, dossiers de subventions.
+            {hero.status.servicesLabel}:{" "}
+            <span className="font-bold text-white">{hero.status.servicesValue}</span>
           </div>
         </div>
       </div>

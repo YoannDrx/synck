@@ -16,9 +16,14 @@ interface Documentaire {
 
 interface DocumentairesGalleryProps {
   documentaires: Documentaire[];
+  copy: {
+    title: string;
+    filterAll: string;
+    empty: string;
+  };
 }
 
-export function DocumentairesGallery({ documentaires }: DocumentairesGalleryProps) {
+export function DocumentairesGallery({ documentaires, copy }: DocumentairesGalleryProps) {
   const categories = Array.from(
     new Set(documentaires.map((doc) => doc.category))
   ).filter(Boolean);
@@ -43,7 +48,7 @@ export function DocumentairesGallery({ documentaires }: DocumentairesGalleryProp
     <div className="mt-16">
       <div className="border-4 border-white/10 bg-[#0a0a0e] p-8 shadow-[0_25px_60px_rgba(0,0,0,0.65)]">
         <h3 className="mb-8 text-2xl font-bold uppercase tracking-tight text-lime-300">
-          Documentaires
+          {copy.title}
         </h3>
 
         {/* Filter Buttons */}
@@ -56,7 +61,7 @@ export function DocumentairesGallery({ documentaires }: DocumentairesGalleryProp
                 : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
             }`}
           >
-            Tout ({documentaires.length})
+            {copy.filterAll} ({documentaires.length})
           </button>
           {categories.map((category) => {
             const count = documentaires.filter((d) => d.category === category).length;
@@ -93,13 +98,13 @@ export function DocumentairesGallery({ documentaires }: DocumentairesGalleryProp
                 >
                   {doc.srcLg && (
                     <div className="relative aspect-[3/4] overflow-hidden bg-black/40">
-                      <Image
-                        src={doc.srcLg}
-                        alt={doc.title}
-                        fill
-                        sizes="(max-width: 1024px) 50vw, 20vw"
-                        className="object-cover transition-transform group-hover:scale-110"
-                      />
+                    <Image
+                      src={doc.srcLg}
+                      alt={doc.title}
+                      fill
+                      sizes="(max-width: 1024px) 50vw, 20vw"
+                      className="object-contain transition-transform duration-500 group-hover:scale-105"
+                    />
                     </div>
                   )}
                   <div className="p-3">
@@ -116,9 +121,7 @@ export function DocumentairesGallery({ documentaires }: DocumentairesGalleryProp
         {/* Empty State */}
         {filteredDocs.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-xl text-white/50">
-              Aucun documentaire trouvé pour cette catégorie
-            </p>
+            <p className="text-xl text-white/50">{copy.empty}</p>
           </div>
         )}
       </div>

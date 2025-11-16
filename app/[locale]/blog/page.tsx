@@ -14,7 +14,7 @@ interface BlogPageProps {
   };
 }
 
-const formatDate = (value: string) => {
+const formatDate = (value: string, locale: Locale) => {
   const parts = value.split(/[/-]/);
   if (parts.length !== 3) {
     return value;
@@ -22,7 +22,7 @@ const formatDate = (value: string) => {
   const [part1, part2, part3] = parts;
   const iso = part3.length === 4 ? `${part3}-${part2}-${part1}` : `${part1}-${part2}-${part3}`;
   try {
-    return new Intl.DateTimeFormat("fr-FR", {
+    return new Intl.DateTimeFormat(locale === "en" ? "en-US" : "fr-FR", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -52,8 +52,10 @@ const buildQuery = (base: Record<string, string | undefined>, overrides: Record<
 
 export default async function BlogPage({ params, searchParams = {} }: BlogPageProps) {
   const { locale } = await params;
-  const dictionary = await getDictionary(locale);
-  const posts = await getSortedPostsData(locale);
+  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const dictionary = await getDictionary(safeLocale);
+  const posts = await getSortedPostsData(safeLocale);
+  const blogCopy = dictionary.blog;
 
   const category = typeof searchParams.category === "string" ? searchParams.category : undefined;
   const tag = typeof searchParams.tag === "string" ? searchParams.tag : undefined;
@@ -95,7 +97,7 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
       <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
         <Breadcrumb
           items={[
-            { label: "Accueil", href: `/${locale}` },
+            { label: dictionary.nav.home, href: `/${safeLocale}` },
             { label: dictionary.nav.blog },
           ]}
         />
@@ -107,15 +109,13 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
             </span>
             <span>log</span>
           </h1>
-          <p className="text-lg text-white/70 max-w-2xl">
-            Articles, actualités et réflexions sur les droits d&apos;auteur et la musique
-          </p>
+          <p className="text-lg text-white/70 max-w-2xl">{blogCopy.description}</p>
         </div>
 
-        <form className="mb-12 grid gap-4 rounded-3xl border-4 border-white/10 bg-[#0a0a0e] p-6 lg:grid-cols-4" action={`/${locale}/blog`}>
+        <form className="mb-12 grid gap-4 rounded-3xl border-4 border-white/10 bg-[#0a0a0e] p-6 lg:grid-cols-4" action={`/${safeLocale}/blog`}>
           <div className="flex flex-col">
             <label htmlFor="category" className="mb-2 text-xs font-bold uppercase tracking-wider text-white/50">
-              Catégorie
+              {blogCopy.filters.categoryLabel}
             </label>
             <select
               id="category"
@@ -123,7 +123,7 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
               defaultValue={category ?? ""}
               className="rounded-xl border border-white/20 bg-[#050505] px-4 py-2 text-sm text-white"
             >
-              <option value="">Toutes</option>
+              <option value="">{blogCopy.filters.allCategories}</option>
               {availableCategories.map((item) => (
                 <option key={item} value={item}>
                   {item}
@@ -134,7 +134,7 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
 
           <div className="flex flex-col">
             <label htmlFor="tag" className="mb-2 text-xs font-bold uppercase tracking-wider text-white/50">
-              Tag
+              {blogCopy.filters.tagLabel}
             </label>
             <select
               id="tag"
@@ -142,7 +142,7 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
               defaultValue={tag ?? ""}
               className="rounded-xl border border-white/20 bg-[#050505] px-4 py-2 text-sm text-white"
             >
-              <option value="">Tous</option>
+              <option value="">{blogCopy.filters.allTags}</option>
               {availableTags.map((item) => (
                 <option key={item} value={item}>
                   {item}
@@ -153,7 +153,7 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
 
           <div className="flex flex-col">
             <label htmlFor="year" className="mb-2 text-xs font-bold uppercase tracking-wider text-white/50">
-              Année
+              {blogCopy.filters.yearLabel}
             </label>
             <select
               id="year"
@@ -161,7 +161,7 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
               defaultValue={year ?? ""}
               className="rounded-xl border border-white/20 bg-[#050505] px-4 py-2 text-sm text-white"
             >
-              <option value="">Toutes</option>
+              <option value="">{blogCopy.filters.allYears}</option>
               {availableYears.map((value) => (
                 <option key={value} value={value}>
                   {value}
@@ -172,13 +172,13 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
 
           <div className="flex flex-col">
             <label htmlFor="search" className="mb-2 text-xs font-bold uppercase tracking-wider text-white/50">
-              Recherche
+              {blogCopy.filters.searchLabel}
             </label>
             <input
               id="search"
               name="search"
               defaultValue={search ?? ""}
-              placeholder="Mot-clé..."
+              placeholder={blogCopy.filters.searchPlaceholder}
               className="rounded-xl border border-white/20 bg-[#050505] px-4 py-2 text-sm text-white placeholder:text-white/40"
             />
           </div>
@@ -188,14 +188,14 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
               type="submit"
               className="rounded-full border-2 border-lime-300 px-6 py-2 text-xs font-bold uppercase tracking-wider text-lime-300 transition-all hover:bg-lime-300 hover:text-[#050505]"
             >
-              Appliquer les filtres
+              {blogCopy.filters.apply}
             </button>
             {(category || tag || year || search) && (
               <Link
-                href={`/${locale}/blog`}
+                href={`/${safeLocale}/blog`}
                 className="text-xs font-bold uppercase tracking-wider text-white/60 hover:text-lime-300"
               >
-                Réinitialiser
+                {blogCopy.filters.reset}
               </Link>
             )}
           </div>
@@ -205,7 +205,7 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
           {currentPosts.map((post) => (
             <Link
               key={post.id}
-              href={`/${locale}/blog/${post.slug}`}
+              href={`/${safeLocale}/blog/${post.slug}`}
               className="group border-4 border-white bg-[#050505] transition-transform hover:scale-105"
             >
               {post.thumb && (
@@ -222,7 +222,7 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
               <div className="p-6">
                 <div className="mb-3 flex items-center justify-between gap-4">
                   <span className="text-xs font-bold uppercase text-fuchsia-600">{post.category}</span>
-                  <time className="text-xs text-white/50">{formatDate(post.date)}</time>
+                  <time className="text-xs text-white/50">{formatDate(post.date, safeLocale)}</time>
                 </div>
 
                 <h2 className="mb-3 text-2xl font-bold uppercase leading-tight">{post.title}</h2>
@@ -253,36 +253,34 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
         </div>
 
         {currentPosts.length === 0 && (
-          <div className="py-20 text-center text-xl text-white/50">
-            Aucun article disponible pour le moment
-          </div>
+          <div className="py-20 text-center text-xl text-white/50">{blogCopy.empty}</div>
         )}
 
         {totalPages > 1 && (
           <div className="mt-12 flex items-center justify-center gap-4">
             {safePage > 1 && (
               <Link
-                href={`/${locale}/blog${buildQuery(
+                href={`/${safeLocale}/blog${buildQuery(
                   { category, tag, search, year },
                   { page: String(safePage - 1) },
                 )}`}
                 className="text-xs font-bold uppercase tracking-wider text-white/70 hover:text-lime-300"
               >
-                ← Page précédente
+                {blogCopy.pagination.previous}
               </Link>
             )}
             <span className="text-xs font-bold uppercase tracking-wider text-white/40">
-              Page {safePage} / {totalPages}
+              {blogCopy.pagination.pageLabel} {safePage} / {totalPages}
             </span>
             {safePage < totalPages && (
               <Link
-                href={`/${locale}/blog${buildQuery(
+                href={`/${safeLocale}/blog${buildQuery(
                   { category, tag, search, year },
                   { page: String(safePage + 1) },
                 )}`}
                 className="text-xs font-bold uppercase tracking-wider text-white/70 hover:text-lime-300"
               >
-                Page suivante →
+                {blogCopy.pagination.next}
               </Link>
             )}
           </div>
@@ -290,13 +288,13 @@ export default async function BlogPage({ params, searchParams = {} }: BlogPagePr
 
         <div className="mt-16 text-center">
           <div className="border-4 border-white bg-gradient-to-r from-lime-400 to-fuchsia-600 p-12">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">Restons connectés</h2>
-            <p className="mb-6 text-[#050505]/80">Une question ou un projet ? Contactez-moi directement</p>
+            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">{blogCopy.cta.title}</h2>
+            <p className="mb-6 text-[#050505]/80">{blogCopy.cta.description}</p>
             <Link
-              href={`/${locale}/contact`}
+              href={`/${safeLocale}/contact`}
               className="inline-block border-4 border-[#050505] bg-[#050505] px-8 py-3 font-bold uppercase text-white transition-transform hover:scale-105"
             >
-              {dictionary.cta.contact}
+              {blogCopy.cta.button}
             </Link>
           </div>
         </div>

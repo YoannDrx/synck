@@ -1,7 +1,12 @@
 import { InfoCard } from "@/components/cards/info-card";
 import { Button } from "@/components/ui/button";
+import type { HomeDictionary } from "@/types/dictionary";
 
-export function ContactSection() {
+interface ContactSectionProps {
+  copy: HomeDictionary["contactSection"];
+}
+
+export function ContactSection({ copy }: ContactSectionProps) {
   return (
     <section
       id="contact"
@@ -20,37 +25,23 @@ export function ContactSection() {
 
       <div className="relative z-10 grid gap-10 md:grid-cols-[2fr,1fr]">
         <div className="space-y-6">
-          <p className="text-xs uppercase tracking-[0.5em] text-white/55">
-            Contact
-          </p>
-          <h2 className="text-4xl font-black">Let&apos;s sync the impossible.</h2>
-          <p className="max-w-2xl text-sm text-white/75">
-            Caroline is currently accepting commissions for residencies, touring
-            installations, speculative launches, and cinematic live streams.
-            Remote and on-site collaborations available.
-          </p>
+          <p className="text-xs uppercase tracking-[0.5em] text-white/55">{copy.eyebrow}</p>
+          <h2 className="text-4xl font-black">{copy.title}</h2>
+          <p className="max-w-2xl text-sm text-white/75">{copy.description}</p>
           <div className="flex flex-wrap gap-4 text-xs font-semibold uppercase tracking-[0.4em]">
             <Button asChild size="lg" className="rounded-full">
-              <a href="mailto:hello@synck.studio">Write to Caroline</a>
+              <a href={copy.primaryCta.href}>{copy.primaryCta.label}</a>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="rounded-full hover:border-fuchsia-400 hover:text-fuchsia-200"
-            >
-              <a href="#projects">View dossier</a>
+            <Button asChild variant="outline" size="lg" className="rounded-full hover:border-fuchsia-400 hover:text-fuchsia-200">
+              <a href={copy.secondaryCta.href}>{copy.secondaryCta.label}</a>
             </Button>
           </div>
         </div>
 
         <div className="grid gap-4 text-sm">
-          <InfoCard label="Studio Nodes" content="Paris / Montréal / Remote" />
-          <InfoCard
-            label="Upcoming Windows"
-            content="Q2 residencies & festival commissions"
-          />
-          <InfoCard label="Signals" content="IG: @synck.studio — Signal: synck" />
+          {copy.infoCards.map((card) => (
+            <InfoCard key={card.label} label={card.label} content={card.content} href={card.href} />
+          ))}
         </div>
       </div>
     </section>

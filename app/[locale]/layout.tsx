@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { getDictionary } from "@/lib/dictionaries";
 import { i18n, type Locale } from "@/lib/i18n-config";
 
 export async function generateStaticParams() {
@@ -29,6 +31,14 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  await params;
-  return <>{children}</>;
+  const { locale } = await params;
+  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const dictionary = await getDictionary(safeLocale);
+
+  return (
+    <>
+      <LanguageSwitcher locale={safeLocale} dictionary={dictionary.layout.language} />
+      {children}
+    </>
+  );
 }

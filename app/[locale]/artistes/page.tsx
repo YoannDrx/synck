@@ -13,8 +13,10 @@ type ArtistsPageParams = {
 
 export default async function ArtistesPage({ params }: ArtistsPageParams) {
   const { locale } = await params;
-  const composers = await getComposersFromPrisma(locale);
-  const dictionary = await getDictionary(locale);
+  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const composers = await getComposersFromPrisma(safeLocale);
+  const dictionary = await getDictionary(safeLocale);
+  const copy = dictionary.artistsPage;
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -29,8 +31,8 @@ export default async function ArtistesPage({ params }: ArtistsPageParams) {
         {/* Breadcrumb */}
         <Breadcrumb
           items={[
-            { label: "Accueil", href: `/${locale}` },
-            { label: "Artistes" },
+            { label: dictionary.nav.home, href: `/${safeLocale}` },
+            { label: dictionary.nav.artists },
           ]}
         />
 
@@ -38,13 +40,11 @@ export default async function ArtistesPage({ params }: ArtistsPageParams) {
         <div className="mb-12">
           <h1 className="mb-2 text-7xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
             <span className="bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
-              A
+              {dictionary.nav.artists.charAt(0)}
             </span>
-            <span>rtistes</span>
+            <span>{dictionary.nav.artists.slice(1)}</span>
           </h1>
-          <p className="text-lg text-white/70 max-w-2xl">
-            Découvrez les artistes avec lesquels Caroline collabore pour gérer leurs droits musicaux
-          </p>
+          <p className="text-lg text-white/70 max-w-2xl">{copy.description}</p>
         </div>
 
         {/* Artists Grid */}
@@ -52,7 +52,7 @@ export default async function ArtistesPage({ params }: ArtistsPageParams) {
           {composers.map((composer) => (
             <Link
               key={composer.id}
-              href={`/${locale}/artistes/${composer.slug}`}
+              href={`/${safeLocale}/artistes/${composer.slug}`}
               className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.65)] transition duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
             >
               <div className="flex flex-col items-center gap-4 text-center">
@@ -82,7 +82,7 @@ export default async function ArtistesPage({ params }: ArtistsPageParams) {
 
                 {/* Works Count */}
                 <div className="text-sm text-white/60">
-                  {composer.worksCount} {composer.worksCount > 1 ? 'projets' : 'projet'}
+                  {composer.worksCount} {composer.worksCount > 1 ? copy.worksPlural : copy.worksSingular}
                 </div>
 
                 {/* Bio Preview */}
@@ -99,17 +99,13 @@ export default async function ArtistesPage({ params }: ArtistsPageParams) {
         {/* CTA */}
         <div className="mt-16">
           <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
-              Vous êtes artiste ?
-            </h2>
-            <p className="mb-6 text-[#050505]/80">
-              Discutons de la gestion de vos droits musicaux
-            </p>
+            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">{copy.ctaTitle}</h2>
+            <p className="mb-6 text-[#050505]/80">{copy.ctaDescription}</p>
             <Link
-              href={`/${locale}/contact`}
+              href={`/${safeLocale}/contact`}
               className="inline-block border-4 border-[#050505] bg-[#050505] px-8 py-3 font-bold uppercase text-white transition-transform hover:scale-105"
             >
-              {dictionary.cta.contact}
+              {copy.ctaButton}
             </Link>
           </div>
         </div>

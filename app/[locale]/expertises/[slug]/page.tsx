@@ -33,8 +33,10 @@ type ExpertiseDetailParams = {
 
 export default async function ExpertiseDetailPage({ params }: ExpertiseDetailParams) {
   const { locale, slug } = await params;
-  const expertise = getExpertise(slug, locale);
-  const dictionary = await getDictionary(locale);
+  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const expertise = getExpertise(slug, safeLocale);
+  const dictionary = await getDictionary(safeLocale);
+  const detailCopy = dictionary.expertiseDetail;
 
   if (!expertise) {
     notFound();
@@ -53,8 +55,8 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
         {/* Breadcrumb */}
         <Breadcrumb
           items={[
-            { label: "Accueil", href: `/${locale}` },
-            { label: "Expertises", href: `/${locale}/expertises` },
+            { label: dictionary.nav.home, href: `/${safeLocale}` },
+            { label: dictionary.nav.expertises, href: `/${safeLocale}/expertises` },
             { label: expertise.title },
           ]}
         />
@@ -173,7 +175,7 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
           <div className="mt-16">
             <div className="border-4 border-white/10 bg-[#0a0a0e] p-8 shadow-[0_25px_60px_rgba(0,0,0,0.65)]">
               <h3 className="mb-8 text-2xl font-bold uppercase tracking-tight text-lime-300">
-                Gestion de la sous-édition des labels ci-dessous
+                {detailCopy.labelsTitle}
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {expertise.labels.map((label, index) => (
@@ -199,7 +201,7 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
 
         {/* Documentaires Gallery - Full Width with Filter */}
         {expertise.documentaires && expertise.documentaires.length > 0 && (
-          <DocumentairesGallery documentaires={expertise.documentaires} />
+          <DocumentairesGallery documentaires={expertise.documentaires} copy={detailCopy.documentaries} />
         )}
 
         {/* Footer Image */}
@@ -218,17 +220,13 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
         {/* CTA */}
         <div className="mt-16">
           <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
-              Besoin d&apos;accompagnement ?
-            </h2>
-            <p className="mb-6 text-[#050505]/80">
-              Contactez-moi pour discuter de vos besoins en gestion de droits
-            </p>
+            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">{detailCopy.ctaTitle}</h2>
+            <p className="mb-6 text-[#050505]/80">{detailCopy.ctaDescription}</p>
             <Link
-              href={`/${locale}/contact`}
+              href={`/${safeLocale}/contact`}
               className="inline-block border-4 border-[#050505] bg-[#050505] px-8 py-3 font-bold uppercase text-white transition-transform hover:scale-105"
             >
-              {dictionary.cta.contact}
+              {detailCopy.ctaButton}
             </Link>
           </div>
         </div>

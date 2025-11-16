@@ -13,9 +13,10 @@ type ExpertisesPageParams = {
 
 export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
   const { locale } = await params;
-  const dictionary = await getDictionary(locale);
-  const expertises = getAllExpertises(locale);
-
+  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const dictionary = await getDictionary(safeLocale);
+  const expertises = getAllExpertises(safeLocale);
+  const copy = dictionary.expertisesPage;
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
       {/* Background layers */}
@@ -29,8 +30,8 @@ export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
         {/* Breadcrumb */}
         <Breadcrumb
           items={[
-            { label: "Accueil", href: `/${locale}` },
-            { label: "Expertises" },
+            { label: dictionary.nav.home, href: `/${safeLocale}` },
+            { label: dictionary.nav.expertises },
           ]}
         />
 
@@ -38,13 +39,11 @@ export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
         <div className="mb-12">
           <h1 className="mb-2 text-7xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
             <span className="bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
-              E
+              {dictionary.nav.expertises.charAt(0)}
             </span>
-            <span>xpertises</span>
+            <span>{dictionary.nav.expertises.slice(1)}</span>
           </h1>
-          <p className="text-lg text-white/70 max-w-2xl">
-            Découvrez mes domaines d&apos;expertise en gestion de droits d&apos;auteur et droits musicaux
-          </p>
+          <p className="text-lg text-white/70 max-w-2xl">{copy.description}</p>
         </div>
 
         {/* Expertises Grid */}
@@ -52,7 +51,7 @@ export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
           {expertises.map((expertise) => (
             <Link
               key={expertise.id}
-              href={`/${locale}/expertises/${expertise.slug}`}
+              href={`/${safeLocale}/expertises/${expertise.slug}`}
               className="group relative overflow-hidden border-4 border-white bg-[#050505] transition-transform hover:scale-105"
             >
               <div className="relative aspect-[4/3] overflow-hidden">
@@ -72,7 +71,7 @@ export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
                   {expertise.description}
                 </p>
                 <div className="mt-4 inline-block text-sm font-bold uppercase text-lime-400">
-                  En savoir plus →
+                  {copy.cardCta} →
                 </div>
               </div>
             </Link>
@@ -82,17 +81,13 @@ export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
         {/* CTA Section */}
         <div className="mt-16 text-center">
           <div className="border-4 border-white bg-gradient-to-r from-lime-400 to-fuchsia-600 p-12">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
-              Besoin d&apos;accompagnement ?
-            </h2>
-            <p className="mb-6 text-[#050505]/80">
-              Contactez-moi pour discuter de vos besoins en gestion de droits
-            </p>
+            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">{copy.ctaTitle}</h2>
+            <p className="mb-6 text-[#050505]/80">{copy.ctaDescription}</p>
             <Link
-              href={`/${locale}/contact`}
+              href={`/${safeLocale}/contact`}
               className="inline-block border-4 border-[#050505] bg-[#050505] px-8 py-3 font-bold uppercase text-white transition-transform hover:scale-105"
             >
-              {dictionary.cta.contact}
+              {copy.ctaButton}
             </Link>
           </div>
         </div>

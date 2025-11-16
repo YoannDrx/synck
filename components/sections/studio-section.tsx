@@ -18,9 +18,12 @@ interface TimelineEntry {
 interface StudioSectionProps {
   rituals: StudioRitual[];
   timeline: TimelineEntry[];
+  eyebrow: string;
+  timelineTitle: string;
+  timelineStatus: string;
 }
 
-export function StudioSection({ rituals, timeline }: StudioSectionProps) {
+export function StudioSection({ rituals, timeline, eyebrow, timelineTitle, timelineStatus }: StudioSectionProps) {
   return (
     <section
       id="studio"
@@ -28,9 +31,7 @@ export function StudioSection({ rituals, timeline }: StudioSectionProps) {
     >
       <div className="flex flex-col gap-10 lg:grid lg:grid-cols-[1.1fr,0.9fr]">
         <div className="space-y-6">
-          <div className="text-xs uppercase tracking-[0.5em] text-white/55">
-            Studio Rituals
-          </div>
+          <div className="text-xs uppercase tracking-[0.5em] text-white/55">{eyebrow}</div>
           <div className="space-y-5">
             {rituals.map((ritual) => (
               <RitualCard key={ritual.headline} {...ritual} />
@@ -40,8 +41,8 @@ export function StudioSection({ rituals, timeline }: StudioSectionProps) {
 
         <div className="rounded-[28px] border-2 border-white/15 bg-white/5 p-6">
           <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-white/60">
-            <span>Timeline</span>
-            <span>Selected</span>
+            <span>{timelineTitle}</span>
+            <span>{timelineStatus}</span>
           </div>
           <div className="mt-6 divide-y divide-white/15">
             {timeline.map((entry) => (

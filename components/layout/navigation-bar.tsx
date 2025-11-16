@@ -8,14 +8,13 @@ interface NavSection {
 interface NavigationBarProps {
   sections: readonly NavSection[];
   activeSection: string;
+  title: string;
 }
 
-export function NavigationBar({ sections, activeSection }: NavigationBarProps) {
+export function NavigationBar({ sections, activeSection, title }: NavigationBarProps) {
   return (
     <nav className="sticky top-28 hidden flex-col gap-4 lg:flex">
-      <div className="text-xs uppercase tracking-[0.4em] text-white/45">
-        Navigate SYNCK
-      </div>
+      <div className="text-xs uppercase tracking-[0.4em] text-white/45">{title}</div>
       {sections.map((link, index) => (
         <a
           key={link.id}

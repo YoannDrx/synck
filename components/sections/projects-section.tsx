@@ -3,6 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
+import type { Locale } from "@/lib/i18n-config";
+import type { HomeDictionary } from "@/types/dictionary";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -17,7 +20,14 @@ interface GalleryWork {
   composers: string[];
 }
 
-export function ProjectsSection() {
+type ProjectsCopy = HomeDictionary["projects"];
+
+interface ProjectsSectionProps {
+  locale: Locale;
+  copy: ProjectsCopy;
+}
+
+export function ProjectsSection({ locale, copy }: ProjectsSectionProps) {
   const [works, setWorks] = useState<GalleryWork[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -25,24 +35,22 @@ export function ProjectsSection() {
   useEffect(() => {
     async function fetchWorks() {
       try {
-        // Récupérer seulement 4 projets pour la section "Travaux sélectionnés"
-        const response = await fetch('/api/portfolio?locale=fr&limit=4');
+        const response = await fetch(`/api/portfolio?locale=${locale}&limit=4`);
         if (!response.ok) {
-          throw new Error('Failed to fetch portfolio');
+          throw new Error("Failed to fetch portfolio");
         }
         const data = await response.json();
         setWorks(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
+        setError(err instanceof Error ? err.message : "Unknown error");
       } finally {
         setLoading(false);
       }
     }
 
     fetchWorks();
-  }, []);
+  }, [locale]);
 
-  // Gradients pour les cartes (cycle entre plusieurs couleurs)
   const gradients = [
     "from-emerald-400 via-lime-300 to-yellow-300",
     "from-purple-500 via-fuchsia-500 to-red-400",
@@ -55,19 +63,17 @@ export function ProjectsSection() {
       <section id="projects" className="space-y-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.5em] text-white/55">
-              Portfolio
-            </p>
-            <h2 className="text-4xl font-black">Travaux sélectionnés</h2>
+            <p className="text-xs uppercase tracking-[0.5em] text-white/55">{copy.eyebrow}</p>
+            <h2 className="text-4xl font-black">{copy.title}</h2>
           </div>
         </div>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 auto-rows-fr">
-          {[1, 2, 3, 4].map((i) => (
+        <div className="grid auto-rows-fr gap-6 md:grid-cols-2 lg:grid-cols-2">
+          {[1, 2, 3, 4].map((id) => (
             <div
-              key={i}
+              key={id}
               className="relative overflow-hidden rounded-[28px] border-4 border-white/10 bg-[#0a0a0e] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.65)] animate-pulse"
             >
-              <div className="h-64 bg-white/5 rounded-lg" />
+              <div className="h-64 rounded-lg bg-white/5" />
             </div>
           ))}
         </div>
@@ -78,9 +84,7 @@ export function ProjectsSection() {
   if (error) {
     return (
       <section id="projects" className="space-y-8">
-        <div className="text-center text-red-400 py-12">
-          Erreur lors du chargement du portfolio
-        </div>
+        <div className="py-12 text-center text-red-400">{copy.error}</div>
       </section>
     );
   }
@@ -89,28 +93,22 @@ export function ProjectsSection() {
     <section id="projects" className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.5em] text-white/55">
-            Portfolio
-          </p>
-          <h2 className="text-4xl font-black">Travaux sélectionnés</h2>
+          <p className="text-xs uppercase tracking-[0.5em] text-white/55">{copy.eyebrow}</p>
+          <h2 className="text-4xl font-black">{copy.title}</h2>
         </div>
-        <Button
-          asChild
-          variant="outline"
-          className="inline-flex items-center gap-2 rounded-full"
-        >
-          <Link href="/fr/portfolio">
-            Voir tout le portfolio
+        <Button asChild variant="outline" className="inline-flex items-center gap-2 rounded-full">
+          <Link href={`/${locale}/portfolio`}>
+            {copy.viewAll}
             <span aria-hidden>↗</span>
           </Link>
         </Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 auto-rows-fr">
+      <div className="grid auto-rows-fr gap-6 md:grid-cols-2 lg:grid-cols-2">
         {works.map((work, index) => (
           <Link
             key={work.id}
-            href={`/fr/portfolio/${work.slug}`}
+            href={`/${locale}/portfolio/${work.slug}`}
             className="group relative overflow-hidden rounded-[28px] border-4 border-white/10 bg-[#0a0a0e] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.65)] transition duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
           >
             <div
@@ -119,7 +117,9 @@ export function ProjectsSection() {
             <div className="relative z-10 flex h-full flex-col gap-6">
               <div className="flex items-center justify-between text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-white/60">
                 <span>{work.category}</span>
-                <span>WORK {String(index + 1).padStart(2, '0')}</span>
+                <span>
+                  {copy.cardWorkLabel} {String(index + 1).padStart(2, "0")}
+                </span>
               </div>
 
               <div className="relative aspect-square overflow-hidden rounded-lg">
@@ -134,18 +134,12 @@ export function ProjectsSection() {
 
               <h3 className="text-3xl font-bold">{work.title}</h3>
 
-              {work.subtitle && (
-                <p className="text-sm text-white/75">{work.subtitle}</p>
-              )}
+              {work.subtitle && <p className="text-sm text-white/75">{work.subtitle}</p>}
 
               {work.composers.length > 0 && (
                 <div className="mt-auto flex flex-wrap gap-2">
                   {work.composers.map((composer) => (
-                    <Badge
-                      key={composer}
-                      variant="outline"
-                      className="text-[0.6rem] uppercase tracking-[0.3em]"
-                    >
+                    <Badge key={composer} variant="outline" className="text-[0.6rem] uppercase tracking-[0.3em]">
                       {composer}
                     </Badge>
                   ))}

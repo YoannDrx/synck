@@ -34,16 +34,18 @@ type WorkDetailPageParams = {
 
 export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
   const { locale, slug } = await params;
-  const work = await getWorkBySlug(slug, locale);
-  const dictionary = await getDictionary(locale);
-  const legacyWork = getLegacyPortfolioItem(slug, locale);
+  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const work = await getWorkBySlug(slug, safeLocale);
+  const dictionary = await getDictionary(safeLocale);
+  const legacyWork = getLegacyPortfolioItem(slug, safeLocale);
+  const detailCopy = dictionary.portfolioDetail;
 
   if (!work) {
     notFound();
   }
 
   // Get all works for prev/next navigation
-  const allWorks = await getPortfolioWorksFromPrisma(locale);
+  const allWorks = await getPortfolioWorksFromPrisma(safeLocale);
   const currentIndex = allWorks.findIndex((w) => w.slug === slug);
   const prevWork = currentIndex > 0 ? allWorks[currentIndex - 1] : null;
   const nextWork = currentIndex < allWorks.length - 1 ? allWorks[currentIndex + 1] : null;
@@ -95,8 +97,8 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
         {/* Breadcrumb */}
         <Breadcrumb
           items={[
-            { label: "Accueil", href: `/${locale}` },
-            { label: "Portfolio", href: `/${locale}/portfolio` },
+            { label: dictionary.nav.home, href: `/${safeLocale}` },
+            { label: dictionary.nav.portfolio, href: `/${safeLocale}/portfolio` },
             { label: translation?.title || work.slug },
           ]}
         />
@@ -135,14 +137,14 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
           <div className="grid gap-6 sm:grid-cols-2">
             {work.contributions && work.contributions.length > 0 && (
               <div className="border-4 border-white/10 bg-[#0a0a0e] p-6">
-                <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">Artistes</h2>
+                <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">{detailCopy.artistsTitle}</h2>
                 <div className={work.contributions.length > 3 ? "grid gap-4 sm:grid-cols-2" : "space-y-4"}>
                   {work.contributions.map((contribution) => {
                     const composerTranslation = contribution.composer.translations[0];
                     return (
-                      <Link
-                        key={contribution.id}
-                        href={`/${locale}/artistes/${contribution.composer.slug}`}
+                        <Link
+                          key={contribution.id}
+                          href={`/${safeLocale}/artistes/${contribution.composer.slug}`}
                         className="flex items-center gap-3 p-2 rounded-lg transition-colors hover:bg-white/5"
                       >
                         {contribution.composer.image ? (
@@ -178,35 +180,35 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
             )}
 
             <div className="border-4 border-white/10 bg-[#0a0a0e] p-6">
-              <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">Informations</h2>
+              <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">{detailCopy.infoTitle}</h2>
               <div className="space-y-3 text-sm">
                 {releaseDate && (
                   <div className="flex justify-between border-b border-dashed border-white/15 pb-2">
-                    <span className="text-white/60">Date de sortie</span>
+                    <span className="text-white/60">{detailCopy.releaseDate}</span>
                     <span className="font-bold text-white">{releaseDate}</span>
                   </div>
                 )}
                 {categoryTranslation && (
                   <div className="flex justify-between border-b border-dashed border-white/15 pb-2">
-                    <span className="text-white/60">Catégorie</span>
+                    <span className="text-white/60">{detailCopy.category}</span>
                     <span className="font-bold text-white">{categoryTranslation.name}</span>
                   </div>
                 )}
                 {genre && (
                   <div className="flex justify-between border-b border-dashed border-white/15 pb-2">
-                    <span className="text-white/60">Genre</span>
+                    <span className="text-white/60">{detailCopy.genre}</span>
                     <span className="font-bold text-white">{genre}</span>
                   </div>
                 )}
                 {labelTranslation && (
                   <div className="flex justify-between border-b border-dashed border-white/15 pb-2">
-                    <span className="text-white/60">Label</span>
+                    <span className="text-white/60">{detailCopy.label}</span>
                     <span className="font-bold text-white">{labelTranslation.name}</span>
                   </div>
                 )}
                 {work.isrcCode && (
                   <div className="flex justify-between">
-                    <span className="text-white/60">Code ISRC</span>
+                    <span className="text-white/60">{detailCopy.isrc}</span>
                     <span className="font-mono text-xs text-white">{work.isrcCode}</span>
                   </div>
                 )}
@@ -216,17 +218,17 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
 
           {externalLink && (
             <div className="border-4 border-white/10 bg-[#0a0a0e] p-6">
-              <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">Ressources externes</h2>
-              <p className="mb-4 text-sm text-white/70">
-                Découvrez les informations officielles, extraits et compléments autour de ce projet.
-              </p>
+              <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">
+                {detailCopy.externalResourcesTitle}
+              </h2>
+              <p className="mb-4 text-sm text-white/70">{detailCopy.externalResourcesDescription}</p>
               <a
                 href={externalLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border-2 border-lime-300 px-6 py-2 text-xs font-bold uppercase tracking-wider text-lime-300 transition-all hover:bg-lime-300 hover:text-[#050505]"
               >
-                Consulter la fiche complète
+                {detailCopy.externalResourcesButton}
                 <span aria-hidden>↗</span>
               </a>
             </div>
@@ -234,7 +236,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
 
           {work.images && work.images.length > 0 && (
             <div>
-              <h2 className="mb-4 text-xl font-bold uppercase tracking-wider text-lime-300">Galerie</h2>
+              <h2 className="mb-4 text-xl font-bold uppercase tracking-wider text-lime-300">{detailCopy.galleryTitle}</h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {work.images.map((image) => (
                   <div
@@ -259,7 +261,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
         {/* Spotify Embed */}
         {spotifyEmbedUrl && (
           <div className="mt-16 border-4 border-white/10 bg-[#0a0a0e] p-6">
-            <h3 className="mb-3 text-lg font-bold uppercase tracking-wider text-lime-300">Écouter</h3>
+            <h3 className="mb-3 text-lg font-bold uppercase tracking-wider text-lime-300">{detailCopy.spotifyTitle}</h3>
             <div className="aspect-[4/3] overflow-hidden rounded">
               <iframe
                 src={spotifyEmbedUrl}
@@ -278,10 +280,10 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
         <div className="mt-16 grid gap-4 sm:grid-cols-2">
           {prevWork ? (
             <Link
-              href={`/${locale}/portfolio/${prevWork.slug}`}
+              href={`/${safeLocale}/portfolio/${prevWork.slug}`}
               className="group border-4 border-white/10 bg-[#0a0a0e] p-6 transition-all hover:border-lime-300/70 hover:shadow-[0_20px_60px_rgba(213,255,10,0.15)]"
             >
-              <div className="mb-2 text-xs font-bold uppercase text-lime-400">← Projet précédent</div>
+              <div className="mb-2 text-xs font-bold uppercase text-lime-400">{detailCopy.previousLabel}</div>
               <div className="text-xl font-bold uppercase group-hover:text-lime-300 transition-colors">{prevWork.title}</div>
             </Link>
           ) : (
@@ -290,10 +292,10 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
 
           {nextWork ? (
             <Link
-              href={`/${locale}/portfolio/${nextWork.slug}`}
+              href={`/${safeLocale}/portfolio/${nextWork.slug}`}
               className="group border-4 border-white/10 bg-[#0a0a0e] p-6 text-right transition-all hover:border-lime-300/70 hover:shadow-[0_20px_60px_rgba(213,255,10,0.15)]"
             >
-              <div className="mb-2 text-xs font-bold uppercase text-lime-400">Projet suivant →</div>
+              <div className="mb-2 text-xs font-bold uppercase text-lime-400">{detailCopy.nextLabel}</div>
               <div className="text-xl font-bold uppercase group-hover:text-lime-300 transition-colors">{nextWork.title}</div>
             </Link>
           ) : (
@@ -304,13 +306,13 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
         {/* CTA */}
         <div className="mt-16">
           <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">Vous avez un projet similaire ?</h2>
-            <p className="mb-6 text-[#050505]/80">Discutons de votre projet de gestion de droits musicaux</p>
+            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">{detailCopy.ctaTitle}</h2>
+            <p className="mb-6 text-[#050505]/80">{detailCopy.ctaDescription}</p>
             <Link
-              href={`/${locale}/contact`}
+              href={`/${safeLocale}/contact`}
               className="inline-block border-4 border-[#050505] bg-[#050505] px-8 py-3 font-bold uppercase text-white transition-transform hover:scale-105"
             >
-              {dictionary.cta.contact}
+              {detailCopy.ctaButton}
             </Link>
           </div>
         </div>

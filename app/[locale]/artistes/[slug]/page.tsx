@@ -32,8 +32,10 @@ type ArtistDetailParams = {
 
 export default async function ArtisteDetailPage({ params }: ArtistDetailParams) {
   const { locale, slug } = await params;
-  const composer = await getComposerBySlug(slug, locale);
-  const dictionary = await getDictionary(locale);
+  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const composer = await getComposerBySlug(slug, safeLocale);
+  const dictionary = await getDictionary(safeLocale);
+  const copy = dictionary.artistDetail;
   const legacyComposer = getLegacyComposerBySlug(slug);
 
   if (!composer) {
@@ -63,7 +65,7 @@ export default async function ArtisteDetailPage({ params }: ArtistDetailParams) 
     ...(hasExternalUrl
       ? [
           {
-            label: getPlatformName(composer.externalUrl!),
+            label: getPlatformName(composer.externalUrl!, safeLocale),
             url: composer.externalUrl!,
           },
         ]
@@ -83,8 +85,8 @@ export default async function ArtisteDetailPage({ params }: ArtistDetailParams) 
         {/* Breadcrumb */}
         <Breadcrumb
           items={[
-            { label: "Accueil", href: `/${locale}` },
-            { label: "Artistes", href: `/${locale}/artistes` },
+            { label: dictionary.nav.home, href: `/${safeLocale}` },
+            { label: dictionary.nav.artists, href: `/${safeLocale}/artistes` },
             { label: translation?.name || composer.slug },
           ]}
         />
@@ -118,7 +120,7 @@ export default async function ArtisteDetailPage({ params }: ArtistDetailParams) 
                 {translation?.name || composer.slug}
               </h1>
               <span className="inline-block rounded-full border-2 border-lime-300 bg-lime-300/10 px-4 py-1 text-xs font-bold uppercase tracking-wider text-lime-300">
-                {works.length} {works.length > 1 ? 'projets' : 'projet'}
+                {works.length} {works.length > 1 ? copy.worksPlural : copy.worksSingular}
               </span>
             </div>
           </div>
@@ -157,15 +159,13 @@ export default async function ArtisteDetailPage({ params }: ArtistDetailParams) 
         {/* Projects Section */}
         {works.length > 0 && (
           <div>
-            <h2 className="mb-6 text-3xl font-black uppercase tracking-tight">
-              Projets collaboratifs
-            </h2>
+            <h2 className="mb-6 text-3xl font-black uppercase tracking-tight">{copy.worksTitle}</h2>
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {works.map((work) => (
                 <Link
                   key={work.id}
-                  href={`/${locale}/portfolio/${work.slug}`}
+              href={`/${safeLocale}/portfolio/${work.slug}`}
                   className="group relative overflow-hidden rounded-[28px] border-4 border-white/10 bg-[#0a0a0e] shadow-[0_25px_60px_rgba(0,0,0,0.65)] transition duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
                 >
                   <div className="absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-70 bg-gradient-to-br from-emerald-400 via-lime-300 to-yellow-300" />
@@ -201,17 +201,13 @@ export default async function ArtisteDetailPage({ params }: ArtistDetailParams) 
         {/* CTA */}
         <div className="mt-16">
           <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
-              Vous êtes artiste ?
-            </h2>
-            <p className="mb-6 text-[#050505]/80">
-              Discutons de la gestion de vos droits musicaux
-            </p>
+            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">{copy.ctaTitle}</h2>
+            <p className="mb-6 text-[#050505]/80">{copy.ctaDescription}</p>
             <Link
-              href={`/${locale}/contact`}
+              href={`/${safeLocale}/contact`}
               className="inline-block border-4 border-[#050505] bg-[#050505] px-8 py-3 font-bold uppercase text-white transition-transform hover:scale-105"
             >
-              {dictionary.cta.contact}
+              {copy.ctaButton}
             </Link>
           </div>
         </div>
@@ -221,7 +217,7 @@ export default async function ArtisteDetailPage({ params }: ArtistDetailParams) 
 }
 
 // Helper function to extract platform name from URL
-function getPlatformName(url: string): string {
+function getPlatformName(url: string, locale: Locale): string {
   if (url.includes("youtube.com") || url.includes("youtu.be")) {
     return "YouTube";
   }
@@ -237,5 +233,5 @@ function getPlatformName(url: string): string {
   if (url.includes("apple.com")) {
     return "Apple Music";
   }
-  return "le web";
+  return locale === "fr" ? "le web" : "Web";
 }

@@ -28,32 +28,36 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: BlogDetailParams): Promise<Metadata> {
   const { locale, slug } = await params;
+  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
   try {
-    const post = await getPostData(slug, locale);
+    const post = await getPostData(slug, safeLocale);
+    const description = post.subtitle || post.description || post.title;
     return {
       title: post.title,
-      description: post.subtitle || post.description || post.title,
+      description,
       openGraph: {
         title: post.title,
-        description: post.subtitle || post.description || post.title,
+        description,
         images: post.thumb ? [{ url: post.thumb }] : undefined,
       },
     };
   } catch {
+    const dictionary = await getDictionary(safeLocale);
     return {
-      title: "Article introuvable",
-      description: "Le contenu demandé n'existe pas ou a été déplacé.",
+      title: dictionary.blogDetail.notFoundTitle,
+      description: dictionary.blogDetail.notFoundDescription,
     };
   }
 }
 
 export default async function BlogDetailPage({ params }: BlogDetailParams) {
   const { locale, slug } = await params;
-  const dictionary = await getDictionary(locale);
+  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const dictionary = await getDictionary(safeLocale);
 
   let post;
   try {
-    post = await getPostData(slug, locale);
+    post = await getPostData(slug, safeLocale);
   } catch {
     notFound();
   }
@@ -73,8 +77,8 @@ export default async function BlogDetailPage({ params }: BlogDetailParams) {
       <main className="relative z-10 w-full max-w-[1200px] mx-auto px-4 pb-20 pt-16 sm:px-8 lg:px-16">
         <Breadcrumb
           items={[
-            { label: "Accueil", href: `/${locale}` },
-            { label: dictionary.nav.blog, href: `/${locale}/blog` },
+            { label: dictionary.nav.home, href: `/${safeLocale}` },
+            { label: dictionary.nav.blog, href: `/${safeLocale}/blog` },
             { label: post.title },
           ]}
         />
@@ -108,13 +112,13 @@ export default async function BlogDetailPage({ params }: BlogDetailParams) {
 
         <div className="mt-16 flex flex-wrap items-center justify-between gap-4">
           <Link
-            href={`/${locale}/blog`}
+            href={`/${safeLocale}/blog`}
             className="text-xs font-bold uppercase tracking-wider text-white/60 hover:text-lime-300"
           >
-            ← Retour au blog
+            {dictionary.blogDetail.back}
           </Link>
           <Link
-            href={`/${locale}/contact`}
+            href={`/${safeLocale}/contact`}
             className="rounded-full border-2 border-lime-300 px-6 py-2 text-xs font-bold uppercase tracking-wider text-lime-300 transition-all hover:bg-lime-300 hover:text-[#050505]"
           >
             {dictionary.cta.contact}
