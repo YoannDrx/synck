@@ -43,11 +43,11 @@ export default async function PortfolioPage({
               className="group relative overflow-hidden border-4 border-white bg-[#050505] transition-transform hover:scale-105"
             >
               {/* Image */}
-              <div className="aspect-square overflow-hidden">
+              <div className="relative flex items-center justify-center overflow-hidden bg-black/20 min-h-[300px]">
                 <img
                   src={work.coverImage}
                   alt={work.coverImageAlt}
-                  className="h-full w-full object-cover transition-transform group-hover:scale-110"
+                  className="h-auto w-full object-contain transition-transform group-hover:scale-110"
                 />
               </div>
 
