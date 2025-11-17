@@ -117,6 +117,21 @@ export const getPortfolioCategoriesFromPrisma = cache(async (locale: Locale) => 
   }
 })
 
+export type WorkContribution = Prisma.ContributionGetPayload<{
+  include: {
+    composer: {
+      include: {
+        translations: {
+          where: {
+            locale: Locale;
+          };
+        };
+        image: true;
+      };
+    };
+  };
+}>;
+
 export type WorkWithDetails = Prisma.WorkGetPayload<{
   include: {
     category: {

@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
 import { getLegacyPortfolioItem } from "@/lib/legacyPortfolioUtils";
-import { getWorkBySlug, getAllWorkSlugs, getPortfolioWorksFromPrisma } from "@/lib/prismaPortfolioUtils";
+import { getWorkBySlug, getAllWorkSlugs, getPortfolioWorksFromPrisma, type WorkContribution } from "@/lib/prismaPortfolioUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { LightboxImage } from "@/components/lightbox-image";
@@ -139,7 +139,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
               <div className="border-4 border-white/10 bg-[#0a0a0e] p-6">
                 <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">{detailCopy.artistsTitle}</h2>
                 <div className={work.contributions.length > 3 ? "grid gap-4 sm:grid-cols-2" : "space-y-4"}>
-                  {work.contributions.map((contribution) => {
+                  {work.contributions.map((contribution: WorkContribution) => {
                     const composerTranslation = contribution.composer.translations[0];
                     return (
                         <Link
