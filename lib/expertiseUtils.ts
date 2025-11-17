@@ -20,6 +20,11 @@ export interface Documentaire {
   height?: string
 }
 
+export interface SectionLayout {
+  image?: string | null
+  position?: 'left' | 'right' | 'auto'
+}
+
 export interface ExpertiseFrontmatter {
   id: string
   title: string
@@ -39,6 +44,7 @@ export interface ExpertiseFrontmatter {
   imgFooter?: string
   labels?: Label[]
   documentaires?: Documentaire[]
+  sectionsLayout?: SectionLayout[]
 }
 
 export interface Expertise extends ExpertiseFrontmatter {
@@ -126,4 +132,46 @@ export function getAllExpertiseSlugs(): string[] {
   return filenames
     .filter((filename) => filename.endsWith('.md'))
     .map((filename) => path.parse(filename).name)
+}
+
+/**
+ * Get section layout configuration for a specific section
+ * Falls back to imgN if sectionsLayout is not defined
+ */
+export function getSectionLayout(
+  expertise: Expertise,
+  sectionIndex: number
+): SectionLayout {
+  // If sectionsLayout is defined, use it
+  if (expertise.sectionsLayout && expertise.sectionsLayout[sectionIndex]) {
+    const layout = expertise.sectionsLayout[sectionIndex]
+
+    // Resolve image path: if it's a key (like "img1"), get the actual path
+    let resolvedImage: string | null = null
+
+    if (layout.image) {
+      // Check if it's a path (starts with /) or a key (like "img1")
+      if (layout.image.startsWith('/')) {
+        resolvedImage = layout.image
+      } else {
+        // It's a key, resolve it from the expertise object
+        const imageKey = layout.image as keyof ExpertiseFrontmatter
+        resolvedImage = (expertise[imageKey] as string) || null
+      }
+    }
+
+    return {
+      image: resolvedImage,
+      position: layout.position || 'auto',
+    }
+  }
+
+  // Fallback: use img1-6 with auto alternation
+  const imageKey = `img${sectionIndex + 1}` as keyof ExpertiseFrontmatter
+  const image = expertise[imageKey] as string | undefined
+
+  return {
+    image: image || null,
+    position: 'auto',
+  }
 }

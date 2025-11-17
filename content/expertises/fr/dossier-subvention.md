@@ -11,6 +11,21 @@ img3: "/images/subvention/photo3-subvention.png"
 img4: "/images/subvention/photo4-subvention.JPG"
 img5: "/images/subvention/photo5-subvention.JPG"
 imgFooter: "/images/subvention/photohome6.JPG"
+# Configuration du layout créatif avec alternance images/texte
+# Pour chaque section, vous pouvez définir:
+#   - image: le chemin de l'image (ou null pour pas d'image)
+#   - position: 'left' (gauche), 'right' (droite), ou 'auto' (alternance automatique)
+sectionsLayout:
+  - image: img1
+    position: right
+  - image: img2
+    position: left
+  - image: img3
+    position: right
+  - image: img4
+    position: left
+  - image: img5
+    position: right
 ---
 
 <!-- section:start -->
