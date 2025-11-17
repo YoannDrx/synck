@@ -1,0 +1,3 @@
+Album purement cinématographique dont les rythmes, les boucles et les sonorités intemporelles revêtent une grande variété d'ambiances et de styles. Les titres sont spécialement dédiés aux images.
+
+Un hommage aux musiques de films emblématiques des années 60 et 70 avec une touche psychédélique, funk et imaginative : 17 titres originaux pour des flics cool, des espions de la guerre froide, des cow-boys en duel et des femmes fatales par Yann Kornowicz & Dan Amozig. Mixé et masterisé par Blanka de La Fine Équipe.

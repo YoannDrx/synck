@@ -1,0 +1,1 @@
+On AFRO POP, the members of 9 O'Clock took advantage of their technique to create tailor-made melodies with a certain penchant for prestigious featurings such as Syra, DaXoVii, LovLion or even the artist Schérazade, an emerging talent from the 

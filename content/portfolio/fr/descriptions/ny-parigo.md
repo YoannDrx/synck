@@ -1,0 +1,7 @@
+Ny Parigo est une nouvelle collaboration entre le Chicagoien F.Stokes et le Parisien Ugly Mac Beer.
+
+Grâce à des images vivantes et à des jeux de mots habiles, F.Stokes réinterprète les traditions thématiques des mouvements soul et blues pour une nouvelle génération de fans de musique. Au-delà de son indéniable talent de parolier, F.Stokes est animé d'un profond sens des responsabilités qui lui permet de promouvoir le progrès et la compassion par le biais de sa musique. Se produisant aux États-Unis et dans le monde entier, F.Stokes a partagé la scène avec des artistes tels que Ghostface Killah, The Cool Kids, Fashawn, Camp Lo, P.O.S., Doomtree, Toki Wright, Nice and Smooth, Twista, ainsi qu'avec une multitude d'autres artistes nationaux et internationaux.
+
+F.Stokes a également occupé des postes dans le domaine du marketing et de la promotion chez G-Unit Records - où il a travaillé en étroite collaboration avec l'icône du rap 50 Cent sur l'image de marque et la promotion créative de l'album Before I Self Destruct - ainsi que chez Def Jam Records, où il a contribué au format marketing international du Black Album de Jay-Z.
+
+Une rencontre parfaite entre les textes de F.Stokes et la production d'Ugly Mac Beer. Les lyrics de F.Stokes font référence à Paris et New York City alors que le track de Mac Beer avec des scratchs se souvient d'un duo célèbre comme Gang Starr ou Eric B et Rakim.

@@ -1,0 +1,3 @@
+Amour fatal pour l’easy-listening et ses arrangements ciselés, contre entichement dangereux pour une tradition pop sombre et triste, le tout saupoudré d’une inconditionnelle passion pour la soul initiale, Minimatic conçoit cet album.
+
+ Riviera Bizarre est un hymne à l’atmosphère ensoleillée de la French Rivera dans les années pop 70. Prenez un cocktail et côtoyez la jet set : Cette collection de pop française rétro-moderne, kitsch, easy listening, exotica et lounge vous emmène directement à la plage avec la haute société de la Riviera.

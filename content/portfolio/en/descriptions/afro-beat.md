@@ -1,0 +1,1 @@
+Arat Kilo maintains and renews the Ethio-jazz fever of Swinging' Addis in the 70s, the golden age of Ethiopian music where musicians like Mulatu Astatke, Alémyahu Esthete, Girma Bèyènè and Hailu Mergia defied the censorship established by Haïlé Selassie 
