@@ -1,5 +1,6 @@
 import { prisma } from './prisma'
 import { cache } from 'react'
+import type { Prisma } from '@prisma/client'
 import type { Locale } from './i18n-config'
 
 export interface GalleryWork {
@@ -208,6 +209,48 @@ export interface GalleryComposer {
   worksCount: number;
 }
 
+export type ComposerWithContributions = Prisma.ComposerGetPayload<{
+  include: {
+    translations: {
+      where: {
+        locale: Locale;
+      };
+    };
+    image: true;
+    contributions: {
+      where: {
+        work: {
+          isActive: true;
+        };
+      };
+      include: {
+        work: {
+          include: {
+            coverImage: true;
+            translations: {
+              where: {
+                locale: Locale;
+              };
+            };
+            category: {
+              include: {
+                translations: {
+                  where: {
+                    locale: Locale;
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
+      orderBy: {
+        order: 'asc';
+      };
+    };
+  };
+}>;
+
 // Get all composers with translations
 export const getComposersFromPrisma = cache(async (locale: Locale): Promise<GalleryComposer[]> => {
   try {
@@ -255,7 +298,7 @@ export const getComposersFromPrisma = cache(async (locale: Locale): Promise<Gall
 })
 
 // Get a single composer by slug with full details
-export const getComposerBySlug = cache(async (slug: string, locale: Locale) => {
+export const getComposerBySlug = cache(async (slug: string, locale: Locale): Promise<ComposerWithContributions | null> => {
   try {
     const composer = await prisma.composer.findUnique({
       where: { slug },
