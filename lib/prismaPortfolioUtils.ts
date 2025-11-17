@@ -117,8 +117,55 @@ export const getPortfolioCategoriesFromPrisma = cache(async (locale: Locale) => 
   }
 })
 
+export type WorkWithDetails = Prisma.WorkGetPayload<{
+  include: {
+    category: {
+      include: {
+        translations: {
+          where: {
+            locale: Locale;
+          };
+        };
+      };
+    };
+    label: {
+      include: {
+        translations: {
+          where: {
+            locale: Locale;
+          };
+        };
+      };
+    };
+    coverImage: true;
+    images: true;
+    translations: {
+      where: {
+        locale: Locale;
+      };
+    };
+    contributions: {
+      include: {
+        composer: {
+          include: {
+            translations: {
+              where: {
+                locale: Locale;
+              };
+            };
+            image: true;
+          };
+        };
+      };
+      orderBy: {
+        order: 'asc';
+      };
+    };
+  };
+}>;
+
 // Get a single work by slug with full details
-export const getWorkBySlug = cache(async (slug: string, locale: Locale) => {
+export const getWorkBySlug = cache(async (slug: string, locale: Locale): Promise<WorkWithDetails | null> => {
   try {
     const work = await prisma.work.findUnique({
       where: { slug },
