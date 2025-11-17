@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
 import { getLegacyPortfolioItem } from "@/lib/legacyPortfolioUtils";
-import { getWorkBySlug, getAllWorkSlugs, getPortfolioWorksFromPrisma, type WorkContribution } from "@/lib/prismaPortfolioUtils";
+import { getWorkBySlug, getAllWorkSlugs, getPortfolioWorksFromPrisma, type WorkContribution, type WorkImage } from "@/lib/prismaPortfolioUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { LightboxImage } from "@/components/lightbox-image";
@@ -238,7 +238,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
             <div>
               <h2 className="mb-4 text-xl font-bold uppercase tracking-wider text-lime-300">{detailCopy.galleryTitle}</h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {work.images.map((image) => (
+                {work.images.map((image: WorkImage) => (
                   <div
                     key={image.id}
                     className="relative overflow-hidden border-4 border-white/10 bg-black/20 hover:border-lime-300/50 transition-all"

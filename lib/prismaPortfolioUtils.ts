@@ -117,6 +117,18 @@ export const getPortfolioCategoriesFromPrisma = cache(async (locale: Locale) => 
   }
 })
 
+export type WorkImage = Prisma.AssetGetPayload<{
+  select: {
+    id: true;
+    path: true;
+    alt: true;
+    blurDataUrl: true;
+    width: true;
+    height: true;
+    aspectRatio: true;
+  };
+}>;
+
 export type WorkContribution = Prisma.ContributionGetPayload<{
   include: {
     composer: {
