@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-  type PointerEvent,
-} from "react";
-import { motion } from "framer-motion";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent } from "react";
+import { motion, type TargetAndTransition } from "framer-motion";
 import { MetricCard } from "@/components/cards/metric-card";
 import { Button } from "@/components/ui/button";
 import type { HomeHeroDictionary } from "@/types/dictionary";
@@ -24,15 +17,18 @@ const MORPH_LETTERS = [
   { char: "C", index: 0 },
   { char: "K", index: 13 },
 ] as const;
-
+const FINAL_LETTERS = MORPH_LETTERS.map(({ char }) => char);
 const exitVector = (index: number) => {
   const horizontal = (index % 2 === 0 ? -1 : 1) * (24 + index * 3);
   const vertical = (index % 3 === 0 ? -1 : 1) * (18 + index * 2.5);
   return { x: horizontal, y: vertical };
 };
 
+let hasNameMorphLinePlayed = false;
+
 const NameMorphLine = () => {
-  const [phase, setPhase] = useState<MorphPhase>("intro");
+  const [shouldAnimate] = useState(() => !hasNameMorphLinePlayed);
+  const [phase, setPhase] = useState<MorphPhase>(() => (shouldAnimate ? "intro" : "locked"));
   const [offsets, setOffsets] = useState<Record<number, number>>({});
   const initialRefs = useRef<Record<number, HTMLSpanElement | null>>({});
   const finalRefs = useRef<Record<string, HTMLSpanElement | null>>({});
@@ -44,7 +40,7 @@ const NameMorphLine = () => {
         index,
         isSpace: char === " ",
       })),
-    [],
+    []
   );
 
   const morphLookup = useMemo(() => {
@@ -56,24 +52,36 @@ const NameMorphLine = () => {
   }, []);
 
   useEffect(() => {
+    if (!shouldAnimate) {
+      return;
+    }
+
     const morphTimer = setTimeout(() => setPhase("morph"), 1400);
     const lockTimer = setTimeout(() => setPhase("locked"), 3200);
     return () => {
       clearTimeout(morphTimer);
       clearTimeout(lockTimer);
     };
-  }, []);
+  }, [shouldAnimate]);
+
+  useEffect(() => {
+    if (phase === "locked" && shouldAnimate) {
+      hasNameMorphLinePlayed = true;
+    }
+  }, [phase, shouldAnimate]);
 
   useLayoutEffect(() => {
+    if (!shouldAnimate) {
+      return;
+    }
+
     const updateOffsets = () => {
       const next: Record<number, number> = {};
       MORPH_LETTERS.forEach(({ index, char }, order) => {
         const origin = initialRefs.current[index];
         const target = finalRefs.current[char];
         if (origin && target) {
-          const diff =
-            target.getBoundingClientRect().left -
-            origin.getBoundingClientRect().left;
+          const diff = target.getBoundingClientRect().left - origin.getBoundingClientRect().left;
           next[index] = diff;
         } else {
           next[index] = order * 60 - index * 6;
@@ -88,108 +96,96 @@ const NameMorphLine = () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", updateOffsets);
     };
-  }, []);
+  }, [shouldAnimate]);
+
+  if (!shouldAnimate && phase === "locked") {
+    return (
+      <div className="relative inline-flex min-h-[1.1em] w-full flex-col text-left text-2xl uppercase tracking-[0.08em] leading-[1.05] sm:text-5xl sm:tracking-[0.22em] lg:text-6xl lg:tracking-[0.26em]">
+        <span className="sr-only">{FINAL_WORD}</span>
+        <div className="flex gap-[0.04em] whitespace-nowrap sm:gap-[0.08em]">
+          {FINAL_LETTERS.map((char, order) => (
+            <span key={`final-static-${char}-${order}`} className="text-white">
+              {char}
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  const isMorphing = phase === "morph";
 
   return (
-    <div className="relative inline-flex min-h-[1.2em] w-full flex-col text-left uppercase tracking-[0.3em] leading-none">
+    <div className="relative inline-flex min-h-[1.1em] w-full flex-col text-left text-2xl uppercase tracking-[0.08em] leading-[1.05] sm:text-5xl sm:tracking-[0.22em] lg:text-6xl lg:tracking-[0.26em]">
       <span className="sr-only">{FINAL_WORD}</span>
 
-      {phase !== "locked" && (
-        <div className="flex flex-nowrap gap-[0.12em] whitespace-nowrap text-left tracking-[0.35em]">
-          {initialLetters.map((letter) => {
-            const mapping = morphLookup.get(letter.index);
-            const exit = exitVector(letter.index);
-            const animateProps =
-              phase === "intro"
-                ? {
-                    opacity: 1,
-                    y: 0,
-                    x: 0,
-                    transition: {
-                      delay: letter.index * 0.035,
-                      type: "spring",
-                      stiffness: 480,
-                      damping: 32,
-                    },
-                  }
-                : mapping
-                  ? {
-                      x: offsets[letter.index] ?? 0,
-                      opacity: 1,
-                      y: 0,
-                      color: "#E9FFE0",
-                      transition: {
+      <div className="flex flex-nowrap gap-[0.04em] whitespace-nowrap text-left tracking-[0.12em] sm:gap-[0.08em] sm:tracking-[0.25em]">
+        {initialLetters.map((letter) => {
+          const mapping = morphLookup.get(letter.index);
+          const exit = exitVector(letter.index);
+          const animateProps: TargetAndTransition =
+            phase === "intro"
+              ? {
+                  opacity: 1,
+                  y: 0,
+                  x: 0,
+                  transition: {
+                    delay: letter.index * 0.035,
+                    type: "spring",
+                    stiffness: 480,
+                    damping: 32,
+                  },
+                }
+              : mapping
+              ? {
+                  x: offsets[letter.index] ?? 0,
+                  opacity: 1,
+                  y: 0,
+                  transition: isMorphing
+                    ? {
                         delay: 0.12 + mapping.order * 0.08,
-                        type: "spring",
-                        stiffness: 240,
-                        damping: 18,
-                      },
-                    }
-                  : {
-                      opacity: 0,
-                      x: exit.x,
-                      y: exit.y,
-                      rotate: exit.x > 0 ? 10 : -12,
-                      scale: 0.82,
-                      transition: {
+                        duration: 0.6,
+                        ease: [0.4, 0, 0.2, 1] as [number, number, number, number],
+                      }
+                    : undefined,
+                }
+              : {
+                  opacity: 0,
+                  x: exit.x,
+                  y: exit.y,
+                  rotate: exit.x > 0 ? 10 : -12,
+                  scale: 0.82,
+                  transition: isMorphing
+                    ? {
                         duration: 0.65,
                         delay: 0.15 + letter.index * 0.03,
-                        ease: [0.22, 0.61, 0.36, 1],
-                      },
-                    };
+                        ease: [0.22, 0.61, 0.36, 1] as [number, number, number, number],
+                      }
+                    : undefined,
+                };
 
-            return (
-              <motion.span
-                key={`origin-${letter.index}-${letter.char}`}
-                ref={(node) => {
-                  initialRefs.current[letter.index] = node;
-                }}
-                className={`relative inline-flex ${
-                  letter.isSpace ? "w-3 sm:w-4" : ""
-                }`}
-                initial={{ opacity: 0, y: 26 }}
-                animate={animateProps}
-                style={{
-                  textShadow: mapping
-                    ? "0 0 18px rgba(104,255,194,0.45), 0 0 38px rgba(104,255,194,0.25)"
-                    : "0 0 14px rgba(255,255,255,0.45), 0 0 30px rgba(125,255,203,0.45)",
-                }}
-              >
-                {letter.isSpace ? "\u00A0" : letter.char}
-                {!mapping && phase === "morph" && (
-                  <motion.span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute left-0 top-1/2 block h-1 w-8 -translate-y-1/2 rounded-full bg-emerald-200/60 blur-[2px]"
-                    initial={{ opacity: 0.5, scaleX: 0.4 }}
-                    animate={{
-                      opacity: 0,
-                      scaleX: 1.2,
-                      x: exit.x * 0.8,
-                      transition: {
-                        duration: 0.5,
-                        delay: 0.15 + letter.index * 0.03,
-                        ease: "easeOut",
-                      },
-                    }}
-                  />
-                )}
-              </motion.span>
-            );
-          })}
-        </div>
-      )}
+          const initialState = shouldAnimate
+            ? { opacity: 0, y: 26 }
+            : {
+                opacity: mapping ? 1 : 0,
+                y: 0,
+              };
 
-      {phase === "locked" && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="absolute inset-0 flex items-center gap-[0.18em] text-left tracking-[0.4em]"
-        >
-          <span className="text-transparent bg-gradient-to-r from-[#7CFFBA] via-[#E0FF72] to-[#FFC769] bg-clip-text drop-shadow-[0_8px_25px_rgba(120,255,199,0.35)]">
-            {FINAL_WORD}
-          </span>
-        </motion.div>
-      )}
+          return (
+            <motion.span
+              key={`origin-${letter.index}-${letter.char}`}
+              ref={(node) => {
+                initialRefs.current[letter.index] = node;
+              }}
+              className={`relative inline-flex ${letter.isSpace ? "w-1.5 sm:w-3" : "text-white"}`}
+              initial={initialState}
+              animate={animateProps}
+            >
+              {letter.isSpace ? "\u00A0" : letter.char}
+            </motion.span>
+          );
+        })}
+      </div>
 
       <div
         aria-hidden="true"
@@ -257,15 +253,11 @@ export function HeroSection({ metrics, hero }: HeroSectionProps) {
             </div>
           )}
           <div className="space-y-4">
-            <p className="text-sm uppercase tracking-[0.6em] text-white/50">
-              {hero.role}
-            </p>
+            <p className="text-sm uppercase tracking-[0.6em] text-white/50">{hero.role}</p>
             <h1 className="text-5xl font-black text-white sm:text-6xl lg:text-7xl">
               <NameMorphLine />
             </h1>
-            <p className="max-w-2xl text-lg text-white/80">
-              {hero.description}
-            </p>
+            <p className="max-w-2xl text-lg text-white/80">{hero.description}</p>
           </div>
           <div className="flex flex-wrap gap-4 text-[0.75rem] font-semibold uppercase tracking-[0.35em]">
             <Button asChild size="lg" className="rounded-full">
@@ -292,9 +284,7 @@ export function HeroSection({ metrics, hero }: HeroSectionProps) {
             <span>{hero.status.title}</span>
             <span>{hero.status.year}</span>
           </div>
-          <p className="text-3xl font-semibold text-white">
-            {hero.status.headline}
-          </p>
+          <p className="text-3xl font-semibold text-white">{hero.status.headline}</p>
           <div className="space-y-3 text-xs uppercase tracking-[0.35em] text-white/60">
             <div>
               <span className="block text-white/50">{hero.status.expertiseLabel}</span>
