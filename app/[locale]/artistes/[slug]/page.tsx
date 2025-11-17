@@ -31,6 +31,15 @@ type ArtistDetailParams = {
   }>;
 };
 
+type ComposerWorkSummary = {
+  id: string;
+  slug: string;
+  title: string;
+  coverImage: string;
+  coverImageAlt: string;
+  category: string;
+};
+
 export default async function ArtisteDetailPage({ params }: ArtistDetailParams) {
   const { locale, slug } = await params;
   const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
@@ -45,7 +54,7 @@ export default async function ArtisteDetailPage({ params }: ArtistDetailParams) 
 
   // Extract data
   const translation = composer.translations[0];
-  const works = composer.contributions.map(
+  const works: ComposerWorkSummary[] = composer.contributions.map(
     (contribution: ComposerWithContributions["contributions"][number]) => ({
       id: contribution.work.id,
       slug: contribution.work.slug,

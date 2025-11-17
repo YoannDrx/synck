@@ -1,7 +1,21 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let resendClient: Resend | null = null;
+
+function getResendClient() {
+  if (resendClient) {
+    return resendClient;
+  }
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return null;
+  }
+
+  resendClient = new Resend(apiKey);
+  return resendClient;
+}
 
 export async function POST(request: Request) {
   try {
@@ -22,6 +36,15 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: 'Email invalide' },
         { status: 400 }
+      );
+    }
+
+    const resend = getResendClient();
+    if (!resend) {
+      console.warn('RESEND_API_KEY is not configured. Contact form submission cannot be sent.');
+      return NextResponse.json(
+        { error: 'Service de messagerie non configuré' },
+        { status: 503 }
       );
     }
 
