@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
 import { getComposerBySlug, getAllComposerSlugs } from "@/lib/prismaPortfolioUtils";
+import type { ComposerWithContributions } from "@/lib/prismaPortfolioUtils";
 import { getLegacyComposerBySlug } from "@/lib/legacyPortfolioUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
@@ -44,17 +45,19 @@ export default async function ArtisteDetailPage({ params }: ArtistDetailParams) 
 
   // Extract data
   const translation = composer.translations[0];
-  const works = composer.contributions.map((contribution) => ({
-    id: contribution.work.id,
-    slug: contribution.work.slug,
-    title: contribution.work.translations[0]?.title || contribution.work.slug,
-    coverImage: contribution.work.coverImage?.path || "/images/placeholder.jpg",
-    coverImageAlt:
-      contribution.work.coverImage?.alt ||
-      contribution.work.translations[0]?.title ||
-      contribution.work.slug,
-    category: contribution.work.category?.translations[0]?.name || "Autres",
-  }));
+  const works = composer.contributions.map(
+    (contribution: ComposerWithContributions["contributions"][number]) => ({
+      id: contribution.work.id,
+      slug: contribution.work.slug,
+      title: contribution.work.translations[0]?.title || contribution.work.slug,
+      coverImage: contribution.work.coverImage?.path || "/images/placeholder.jpg",
+      coverImageAlt:
+        contribution.work.coverImage?.alt ||
+        contribution.work.translations[0]?.title ||
+        contribution.work.slug,
+      category: contribution.work.category?.translations[0]?.name || "Autres",
+    })
+  );
 
   const composerImage = composer.image?.path || legacyComposer?.image;
 
