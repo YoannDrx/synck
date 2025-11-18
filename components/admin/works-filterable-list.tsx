@@ -4,6 +4,7 @@ import { useState, useMemo } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { DeleteWorkButton } from "./delete-work-button"
+import type { AdminDictionary } from "@/types/dictionary"
 import type {
   Work,
   WorkTranslation,
@@ -38,7 +39,7 @@ type CategoryWithTranslations = Category & {
 type WorksFilterableListProps = {
   works: WorkWithRelations[]
   categories: CategoryWithTranslations[]
-  dictionary: { edit: string; inactive: string }
+  dictionary: AdminDictionary["common"]
 }
 
 export function WorksFilterableList({
