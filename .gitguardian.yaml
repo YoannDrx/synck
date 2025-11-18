@@ -1,0 +1,21 @@
+# GitGuardian configuration
+# https://docs.gitguardian.com/internal-repositories-monitoring/integrations/git_hooks/pre_commit
+
+version: 2
+
+# Exclude patterns for files that should not be scanned
+paths-ignore:
+  - "**/*.md"  # Ignore all markdown files (documentation with examples)
+  - "**/*.example"
+  - "**/*.sample"
+  - "**/node_modules/**"
+  - "**/.next/**"
+  - "**/dist/**"
+  - "**/build/**"
+
+# Ignore specific secrets (false positives)
+matches-ignore:
+  - name: PostgreSQL example in documentation
+    match: "postgresql://myuser:XXXXXXXXXX@ep-cool-forest-123456"
+  - name: PostgreSQL placeholder
+    match: "postgresql://user:pass123@ep-cool-forest-123456"

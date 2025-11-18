@@ -30,8 +30,6 @@ async function analyzeOrphanRelations() {
       categoryImages: true,
       labelImages: true,
       composerImages: true,
-      blogPostImages: true,
-      blogPostCover: true,
       expertiseImages: true,
       expertiseCover: true
     }
@@ -52,8 +50,6 @@ async function analyzeOrphanRelations() {
     categoryImages: 0,
     labelImages: 0,
     composerImages: 0,
-    blogPostImages: 0,
-    blogPostCover: 0,
     expertiseImages: 0,
     expertiseCover: 0
   }
@@ -93,14 +89,6 @@ async function analyzeOrphanRelations() {
     if (orphan.composerImages.length > 0) {
       byRelation.composerImages += orphan.composerImages.length
       relations.push(`composerImages (${orphan.composerImages.length})`)
-    }
-    if (orphan.blogPostImages.length > 0) {
-      byRelation.blogPostImages += orphan.blogPostImages.length
-      relations.push(`blogPostImages (${orphan.blogPostImages.length})`)
-    }
-    if (orphan.blogPostCover.length > 0) {
-      byRelation.blogPostCover += orphan.blogPostCover.length
-      relations.push(`blogPostCover (${orphan.blogPostCover.length})`)
     }
     if (orphan.expertiseImages.length > 0) {
       byRelation.expertiseImages += orphan.expertiseImages.length
