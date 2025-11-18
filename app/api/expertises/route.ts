@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getAllExpertises } from "@/lib/expertiseUtils";
+import { getAllExpertises } from "@/lib/prismaExpertiseUtils";
 import type { Locale } from "@/lib/i18n-config";
 
 export async function GET(request: NextRequest) {
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const limitParam = searchParams.get("limit");
     const limit = limitParam ? Number.parseInt(limitParam, 10) : 3;
 
-    const expertises = getAllExpertises(locale);
+    const expertises = await getAllExpertises(locale);
     return NextResponse.json(limit > 0 ? expertises.slice(0, limit) : expertises);
   } catch (error) {
     console.error("Error fetching expertises:", error);

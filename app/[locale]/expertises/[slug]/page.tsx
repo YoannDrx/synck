@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
-import { getExpertise, getAllExpertiseSlugs, getAllExpertises, getSectionLayout } from "@/lib/expertiseUtils";
+import { getExpertise, getAllExpertiseSlugs, getAllExpertises, getSectionLayout } from "@/lib/prismaExpertiseUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { DocumentairesGallery } from "@/components/documentaires-gallery";
@@ -12,7 +12,7 @@ import { PrismaClient } from "@prisma/client";
 
 // Generate static params for all expertise slugs
 export async function generateStaticParams() {
-  const slugs = getAllExpertiseSlugs();
+  const slugs = await getAllExpertiseSlugs();
   const locales: Locale[] = ["fr", "en"];
 
   const params: { locale: Locale; slug: string }[] = [];
@@ -36,8 +36,8 @@ type ExpertiseDetailParams = {
 export default async function ExpertiseDetailPage({ params }: ExpertiseDetailParams) {
   const { locale, slug } = await params;
   const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
-  const expertise = getExpertise(slug, safeLocale);
-  const allExpertises = getAllExpertises(safeLocale);
+  const expertise = await getExpertise(slug, safeLocale);
+  const allExpertises = await getAllExpertises(safeLocale);
   const dictionary = await getDictionary(safeLocale);
   const detailCopy = dictionary.expertiseDetail;
 
@@ -45,11 +45,10 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
     notFound();
   }
 
-  // Use documentaires from MD if available, otherwise fetch from Prisma
-  let documentaires = expertise.documentaires || [];
+  // Always load documentaires from Prisma for "gestion-administrative-et-editoriale"
+  let documentaires: any[] = [];
 
-  // Only fetch from Prisma if MD doesn't have documentaires
-  if (slug === "gestion-administrative-et-editoriale" && (!expertise.documentaires || expertise.documentaires.length === 0)) {
+  if (slug === "gestion-administrative-et-editoriale") {
     const prisma = new PrismaClient();
 
     try {
