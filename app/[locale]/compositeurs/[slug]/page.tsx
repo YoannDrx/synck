@@ -24,7 +24,7 @@ export async function generateStaticParams() {
   return params;
 }
 
-type ArtistDetailParams = {
+type ComposerDetailParams = {
   params: Promise<{
     locale: Locale;
     slug: string;
@@ -40,12 +40,12 @@ type ComposerWorkSummary = {
   category: string;
 };
 
-export default async function ArtisteDetailPage({ params }: ArtistDetailParams) {
+export default async function CompositeurDetailPage({ params }: ComposerDetailParams) {
   const { locale, slug } = await params;
   const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
   const composer = await getComposerBySlug(slug, safeLocale);
   const dictionary = await getDictionary(safeLocale);
-  const copy = dictionary.artistDetail;
+  const copy = dictionary.composerDetail;
   const legacyComposer = getLegacyComposerBySlug(slug);
 
   if (!composer) {
@@ -98,16 +98,16 @@ export default async function ArtisteDetailPage({ params }: ArtistDetailParams) 
         <Breadcrumb
           items={[
             { label: dictionary.nav.home, href: `/${safeLocale}` },
-            { label: dictionary.nav.artists, href: `/${safeLocale}/artistes` },
+            { label: dictionary.nav.composers, href: `/${safeLocale}/compositeurs` },
             { label: translation?.name || composer.slug },
           ]}
         />
 
-        {/* Artist Header */}
+        {/* Composer Header */}
         <div className="mb-12 space-y-8">
-          {/* Artist Name & Image */}
+          {/* Composer Name & Image */}
           <div className="flex items-center gap-6">
-            {/* Artist Image */}
+            {/* Composer Image */}
             {composerImage ? (
               <div className="relative overflow-hidden border-4 border-white/10 bg-black/20 rounded-full w-32 h-32 flex-shrink-0">
                 <Image
@@ -126,7 +126,7 @@ export default async function ArtisteDetailPage({ params }: ArtistDetailParams) 
               </div>
             )}
 
-            {/* Artist Name */}
+            {/* Composer Name */}
             <div className="flex-1 min-w-0">
               <h1 className="mb-2 text-4xl font-black uppercase tracking-tight sm:text-5xl lg:text-6xl">
                 {translation?.name || composer.slug}
@@ -137,7 +137,7 @@ export default async function ArtisteDetailPage({ params }: ArtistDetailParams) 
             </div>
           </div>
 
-          {/* Artist Info */}
+          {/* Composer Info */}
           <div className="space-y-6">
             {/* Bio */}
             {translation?.bio && (

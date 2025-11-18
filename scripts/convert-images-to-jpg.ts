@@ -150,8 +150,11 @@ async function convertImagesToJpg(dryRun: boolean = true) {
     console.log(`   ✅ Converties avec succès: ${results.filter(r => r.success).length}`);
     console.log(`   ❌ Erreurs: ${results.filter(r => !r.success).length}`);
 
+    const totalReduction = totalOriginalSize > 0
+      ? ((totalOriginalSize - totalNewSize) / totalOriginalSize * 100).toFixed(1)
+      : '0';
+
     if (totalOriginalSize > 0) {
-      const totalReduction = ((totalOriginalSize - totalNewSize) / totalOriginalSize * 100).toFixed(1);
       console.log(`\n💾 ESPACE DISQUE:`);
       console.log(`   Taille originale: ${(totalOriginalSize / 1024 / 1024).toFixed(2)} MB`);
       console.log(`   Nouvelle taille: ${(totalNewSize / 1024 / 1024).toFixed(2)} MB`);

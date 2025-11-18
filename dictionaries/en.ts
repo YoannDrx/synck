@@ -7,7 +7,7 @@ const dictionary: Dictionary = {
     projets: "Projects",
     blog: "Blog",
     contact: "Contact",
-    artists: "Artists",
+    composers: "Composers",
   },
   cta: {
     viewMore: "View more",
@@ -174,13 +174,13 @@ const dictionary: Dictionary = {
       cardWorkLabel: "WORK",
       error: "Failed to load projects",
     },
-    artists: {
-      eyebrow: "Artists",
-      title: "Featured artists",
-      viewAll: "View all artists",
+    composers: {
+      eyebrow: "Composers",
+      title: "Featured composers",
+      viewAll: "View all composers",
       worksSingular: "project",
       worksPlural: "projects",
-      error: "Failed to load artists",
+      error: "Failed to load composers",
     },
     experiments: {
       eyebrow: "Blog",
@@ -289,7 +289,7 @@ const dictionary: Dictionary = {
     ctaButton: "Get in touch",
   },
   projetDetail: {
-    artistsTitle: "Artists",
+    composersTitle: "Composers",
     infoTitle: "Information",
     releaseDate: "Release date",
     category: "Category",
@@ -307,20 +307,20 @@ const dictionary: Dictionary = {
     ctaDescription: "Let's talk about your music rights strategy.",
     ctaButton: "Contact me",
   },
-  artistsPage: {
-    description: "Meet the composers and artists supported with music-rights administration.",
+  composersPage: {
+    description: "Meet the composers supported with music-rights administration.",
     worksSingular: "project",
     worksPlural: "projects",
-    ctaTitle: "Are you an artist?",
-    ctaDescription: "Let’s secure and optimize your royalties.",
+    ctaTitle: "Are you a composer?",
+    ctaDescription: "Let's secure and optimize your royalties.",
     ctaButton: "Contact me",
   },
-  artistDetail: {
+  composerDetail: {
     worksTitle: "Collaborative projects",
     worksSingular: "project",
     worksPlural: "projects",
-    ctaTitle: "Are you an artist?",
-    ctaDescription: "Let’s secure and optimize your royalties.",
+    ctaTitle: "Are you a composer?",
+    ctaDescription: "Let's secure and optimize your royalties.",
     ctaButton: "Contact me",
   },
   contactPage: {

@@ -137,14 +137,14 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
           <div className="grid gap-6 sm:grid-cols-2">
             {work.contributions && work.contributions.length > 0 && (
               <div className="border-4 border-white/10 bg-[#0a0a0e] p-6">
-                <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">{detailCopy.artistsTitle}</h2>
+                <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">{detailCopy.composersTitle}</h2>
                 <div className={work.contributions.length > 3 ? "grid gap-4 sm:grid-cols-2" : "space-y-4"}>
                   {work.contributions.map((contribution: WorkContribution) => {
                     const composerTranslation = contribution.composer.translations[0];
                     return (
                         <Link
                           key={contribution.id}
-                          href={`/${safeLocale}/artistes/${contribution.composer.slug}`}
+                          href={`/${safeLocale}/compositeurs/${contribution.composer.slug}`}
                         className="flex items-center gap-3 p-2 rounded-lg transition-colors hover:bg-white/5"
                       >
                         {contribution.composer.image ? (

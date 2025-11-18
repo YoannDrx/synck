@@ -141,7 +141,7 @@ async function main() {
   });
 
   const labelMap = new Map(labels.map(l => [l.slug, l.id]));
-  console.log(`✓ ${labels.size} labels chargés\n`);
+  console.log(`✓ ${labels.length} labels chargés\n`);
 
   console.log('='.repeat(70) + '\n');
 

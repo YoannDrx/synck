@@ -56,7 +56,7 @@ export interface HomeDictionary {
     cardWorkLabel: string;
     error: string;
   };
-  artists: {
+  composers: {
     eyebrow: string;
     title: string;
     viewAll: string;
@@ -160,7 +160,7 @@ export interface ProjetsPageDictionary {
 }
 
 export interface ProjetDetailDictionary {
-  artistsTitle: string;
+  composersTitle: string;
   infoTitle: string;
   releaseDate: string;
   category: string;
@@ -179,7 +179,7 @@ export interface ProjetDetailDictionary {
   ctaButton: string;
 }
 
-export interface ArtistsPageDictionary {
+export interface ComposersPageDictionary {
   description: string;
   worksSingular: string;
   worksPlural: string;
@@ -188,7 +188,7 @@ export interface ArtistsPageDictionary {
   ctaButton: string;
 }
 
-export interface ArtistDetailDictionary {
+export interface ComposerDetailDictionary {
   worksTitle: string;
   worksSingular: string;
   worksPlural: string;
@@ -420,7 +420,7 @@ export interface Dictionary {
     projets: string;
     blog: string;
     contact: string;
-    artists: string;
+    composers: string;
   };
   cta: {
     viewMore: string;
@@ -438,8 +438,8 @@ export interface Dictionary {
   expertiseDetail: ExpertiseDetailDictionary;
   projetsPage: ProjetsPageDictionary;
   projetDetail: ProjetDetailDictionary;
-  artistsPage: ArtistsPageDictionary;
-  artistDetail: ArtistDetailDictionary;
+  composersPage: ComposersPageDictionary;
+  composerDetail: ComposerDetailDictionary;
   contactPage: ContactPageDictionary;
   auth: AuthDictionary;
   admin: AdminDictionary;

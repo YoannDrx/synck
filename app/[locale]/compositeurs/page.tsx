@@ -5,18 +5,18 @@ import { getComposersFromPrisma } from "@/lib/prismaProjetsUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
 
-type ArtistsPageParams = {
+type ComposersPageParams = {
   params: Promise<{
     locale: Locale;
   }>;
 };
 
-export default async function ArtistesPage({ params }: ArtistsPageParams) {
+export default async function ComposeursPage({ params }: ComposersPageParams) {
   const { locale } = await params;
   const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
   const composers = await getComposersFromPrisma(safeLocale);
   const dictionary = await getDictionary(safeLocale);
-  const copy = dictionary.artistsPage;
+  const copy = dictionary.composersPage;
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -32,7 +32,7 @@ export default async function ArtistesPage({ params }: ArtistsPageParams) {
         <Breadcrumb
           items={[
             { label: dictionary.nav.home, href: `/${safeLocale}` },
-            { label: dictionary.nav.artists },
+            { label: dictionary.nav.composers },
           ]}
         />
 
@@ -40,23 +40,23 @@ export default async function ArtistesPage({ params }: ArtistsPageParams) {
         <div className="mb-8 sm:mb-12">
           <h1 className="mb-2 text-4xl font-black uppercase tracking-tighter sm:text-8xl lg:text-9xl">
             <span className="bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
-              {dictionary.nav.artists.charAt(0)}
+              {dictionary.nav.composers.charAt(0)}
             </span>
-            <span>{dictionary.nav.artists.slice(1)}</span>
+            <span>{dictionary.nav.composers.slice(1)}</span>
           </h1>
           <p className="text-lg text-white/70 max-w-2xl">{copy.description}</p>
         </div>
 
-        {/* Artists Grid */}
+        {/* Composers Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {composers.map((composer) => (
             <Link
               key={composer.id}
-              href={`/${safeLocale}/artistes/${composer.slug}`}
+              href={`/${safeLocale}/compositeurs/${composer.slug}`}
               className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.65)] transition duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
             >
               <div className="flex flex-col items-center gap-4 text-center">
-                {/* Artist Image */}
+                {/* Composer Image */}
                 {composer.image ? (
                   <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-white/20 bg-black/20">
                     <Image
@@ -75,7 +75,7 @@ export default async function ArtistesPage({ params }: ArtistsPageParams) {
                   </div>
                 )}
 
-                {/* Artist Name */}
+                {/* Composer Name */}
                 <h3 className="text-xl font-bold uppercase tracking-tight">
                   {composer.name}
                 </h3>

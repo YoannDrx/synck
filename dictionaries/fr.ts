@@ -7,7 +7,7 @@ const dictionary: Dictionary = {
     projets: "Projets",
     blog: "Blog",
     contact: "Contact",
-    artists: "Artistes",
+    composers: "Compositeurs",
   },
   cta: {
     viewMore: "Voir plus",
@@ -174,13 +174,13 @@ const dictionary: Dictionary = {
       cardWorkLabel: "PROJET",
       error: "Erreur lors du chargement des projets",
     },
-    artists: {
-      eyebrow: "Artistes",
-      title: "Artistes du moment",
-      viewAll: "Voir tous les artistes",
+    composers: {
+      eyebrow: "Compositeurs",
+      title: "Compositeurs du moment",
+      viewAll: "Voir tous les compositeurs",
       worksSingular: "projet",
       worksPlural: "projets",
-      error: "Erreur lors du chargement des artistes",
+      error: "Erreur lors du chargement des compositeurs",
     },
     experiments: {
       eyebrow: "Blog",
@@ -289,7 +289,7 @@ const dictionary: Dictionary = {
     ctaButton: "Me contacter",
   },
   projetDetail: {
-    artistsTitle: "Artistes",
+    composersTitle: "Compositeurs",
     infoTitle: "Informations",
     releaseDate: "Date de sortie",
     category: "Catégorie",
@@ -307,19 +307,19 @@ const dictionary: Dictionary = {
     ctaDescription: "Discutons de votre projet de gestion de droits musicaux.",
     ctaButton: "Me contacter",
   },
-  artistsPage: {
-    description: "Découvrez les artistes avec lesquels Caroline collabore pour gérer leurs droits musicaux.",
+  composersPage: {
+    description: "Découvrez les compositeurs avec lesquels Caroline collabore pour gérer leurs droits musicaux.",
     worksSingular: "projet",
     worksPlural: "projets",
-    ctaTitle: "Vous êtes artiste ?",
+    ctaTitle: "Vous êtes compositeur ?",
     ctaDescription: "Discutons de la gestion de vos droits musicaux.",
     ctaButton: "Me contacter",
   },
-  artistDetail: {
+  composerDetail: {
     worksTitle: "Projets collaboratifs",
     worksSingular: "projet",
     worksPlural: "projets",
-    ctaTitle: "Vous êtes artiste ?",
+    ctaTitle: "Vous êtes compositeur ?",
     ctaDescription: "Discutons de la gestion de vos droits musicaux.",
     ctaButton: "Me contacter",
   },

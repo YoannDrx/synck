@@ -23,7 +23,7 @@ const buildLinks = (locale: Locale) =>
     { key: "home", href: `/${locale}` },
     { key: "expertises", href: `/${locale}/expertises` },
     { key: "projets", href: `/${locale}/projets` },
-    { key: "artists", href: `/${locale}/artistes` },
+    { key: "composers", href: `/${locale}/compositeurs` },
     { key: "blog", href: `/${locale}/blog` },
     { key: "contact", href: `/${locale}/contact` },
   ].filter((link) => link.key !== "blog");

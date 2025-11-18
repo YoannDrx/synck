@@ -19,14 +19,14 @@ interface GalleryComposer {
   worksCount: number;
 }
 
-type ArtistsCopy = HomeDictionary["artists"];
+type ComposersCopy = HomeDictionary["composers"];
 
-interface ArtistsSectionProps {
+interface ComposersSectionProps {
   locale: Locale;
-  copy: ArtistsCopy;
+  copy: ComposersCopy;
 }
 
-export function ArtistsSection({ locale, copy }: ArtistsSectionProps) {
+export function ComposersSection({ locale, copy }: ComposersSectionProps) {
   const [composers, setComposers] = useState<GalleryComposer[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,7 +54,7 @@ export function ArtistsSection({ locale, copy }: ArtistsSectionProps) {
 
   if (loading) {
     return (
-      <section id="artists" className="space-y-8">
+      <section id="composers" className="space-y-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.5em] text-white/55">{copy.eyebrow}</p>
@@ -77,21 +77,21 @@ export function ArtistsSection({ locale, copy }: ArtistsSectionProps) {
 
   if (error) {
     return (
-      <section id="artists" className="space-y-8">
+      <section id="composers" className="space-y-8">
         <div className="py-12 text-center text-red-400">{copy.error}</div>
       </section>
     );
   }
 
   return (
-    <section id="artists" className="space-y-8">
+    <section id="composers" className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.5em] text-white/55">{copy.eyebrow}</p>
           <h2 className="text-4xl font-black">{copy.title}</h2>
         </div>
         <Button asChild variant="outline" className="inline-flex items-center gap-2 rounded-full">
-          <Link href={`/${locale}/artistes`}>
+          <Link href={`/${locale}/compositeurs`}>
             {copy.viewAll}
             <span aria-hidden>↗</span>
           </Link>
@@ -102,7 +102,7 @@ export function ArtistsSection({ locale, copy }: ArtistsSectionProps) {
         {composers.map((composer) => (
           <Link
             key={composer.id}
-            href={`/${locale}/artistes/${composer.slug}`}
+            href={`/${locale}/compositeurs/${composer.slug}`}
             className="group relative overflow-hidden rounded-[28px] border-4 border-white/10 bg-[#0a0a0e] p-6 text-center shadow-[0_25px_60px_rgba(0,0,0,0.65)] transition duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
           >
             <div className="relative z-10 flex flex-col items-center gap-4">
