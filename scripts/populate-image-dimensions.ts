@@ -44,7 +44,8 @@ async function populateImageDimensions() {
       }
 
       // Lire les dimensions de l'image
-      const dimensions = sizeOf(fullPath)
+      const buffer = fs.readFileSync(fullPath)
+      const dimensions = sizeOf(buffer)
 
       if (!dimensions.width || !dimensions.height) {
         errors.push({

@@ -5,7 +5,7 @@ import sharp from 'sharp'
 
 const prisma = new PrismaClient()
 
-async function findMatchingImage(workSlug: string, workTitle: string, availableImages: string[]): string | null {
+async function findMatchingImage(workSlug: string, workTitle: string, availableImages: string[]): Promise<string | null> {
   const slug = workSlug.toLowerCase()
   const slugNormalized = slug.replace(/[-_\s]/g, '')
   const titleNormalized = workTitle.toLowerCase().replace(/[^a-z0-9]/g, '')
