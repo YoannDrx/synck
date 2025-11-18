@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { Breadcrumb } from "@/components/breadcrumb";
+import { YouTubeModal } from "@/components/youtube-modal";
 import type { ProjetsPageDictionary } from "@/types/dictionary";
 import type { Locale } from "@/lib/i18n-config";
 
@@ -14,9 +15,11 @@ interface GalleryWork {
   title: string;
   subtitle?: string;
   category: string;
+  categorySlug: string;
   coverImage: string;
   coverImageAlt: string;
   composers: string[];
+  externalUrl?: string;
 }
 
 interface Category {
@@ -42,6 +45,11 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [youtubeModal, setYoutubeModal] = useState<{ isOpen: boolean; url: string; title: string }>({
+    isOpen: false,
+    url: "",
+    title: "",
+  });
 
   useEffect(() => {
     async function init() {
@@ -157,42 +165,84 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredWorks.map((work) => (
-            <Link
-              key={work.id}
-              href={`/${locale}/projets/${work.slug}`}
-              className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] transition-all duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
-            >
-              <div className="relative flex min-h-[300px] items-center justify-center overflow-hidden bg-black/20">
-                {work.coverImage && work.coverImage !== '/images/placeholder.jpg' ? (
-                  <Image
-                    src={work.coverImage}
-                    alt={work.coverImageAlt}
-                    width={600}
-                    height={600}
-                    className="h-auto w-full object-contain transition-transform group-hover:scale-110"
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-lime-300/10 to-emerald-400/10 py-20">
-                    <span className="text-6xl font-black uppercase text-white/20 leading-none">
-                      {work.title.charAt(0)}
-                    </span>
-                  </div>
-                )}
-              </div>
+          {filteredWorks.map((work) => {
+            const isClip = work.categorySlug === "clips" && work.externalUrl;
+            const handleClick = (e: React.MouseEvent) => {
+              if (isClip) {
+                e.preventDefault();
+                setYoutubeModal({
+                  isOpen: true,
+                  url: work.externalUrl!,
+                  title: work.title,
+                });
+              }
+            };
 
-              <div className="p-4">
-                <div className="mb-2 text-xs font-bold uppercase text-lime-400">{work.category}</div>
-                <h2 className="mb-2 text-lg font-bold uppercase leading-tight">{work.title}</h2>
-                {work.subtitle && <p className="mb-3 text-sm text-white/70 line-clamp-2">{work.subtitle}</p>}
-                {work.composers.length > 0 && <div className="text-xs text-white/50">{work.composers.join(", ")}</div>}
-                <div className="mt-3 inline-block text-xs font-bold uppercase text-lime-300 opacity-0 transition-opacity group-hover:opacity-100">
-                  {viewProjectLabel} →
+            const CardContent = (
+              <>
+                <div className="relative flex min-h-[300px] items-center justify-center overflow-hidden bg-black/20">
+                  {work.coverImage && work.coverImage !== '/images/placeholder.jpg' ? (
+                    <Image
+                      src={work.coverImage}
+                      alt={work.coverImageAlt}
+                      width={600}
+                      height={600}
+                      className="h-auto w-full object-contain transition-transform group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-lime-300/10 to-emerald-400/10 py-20">
+                      <span className="text-6xl font-black uppercase text-white/20 leading-none">
+                        {work.title.charAt(0)}
+                      </span>
+                    </div>
+                  )}
+                  {isClip && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                      <svg className="h-20 w-20 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </Link>
-          ))}
+
+                <div className="p-4">
+                  <div className="mb-2 text-xs font-bold uppercase text-lime-400">{work.category}</div>
+                  <h2 className="mb-2 text-lg font-bold uppercase leading-tight">{work.title}</h2>
+                  {work.subtitle && <p className="mb-3 text-sm text-white/70 line-clamp-2">{work.subtitle}</p>}
+                  {work.composers.length > 0 && <div className="text-xs text-white/50">{work.composers.join(", ")}</div>}
+                  <div className="mt-3 inline-block text-xs font-bold uppercase text-lime-300 opacity-0 transition-opacity group-hover:opacity-100">
+                    {isClip ? "Voir le clip →" : `${viewProjectLabel} →`}
+                  </div>
+                </div>
+              </>
+            );
+
+            return isClip ? (
+              <button
+                key={work.id}
+                onClick={handleClick}
+                className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] text-left transition-all duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)] w-full"
+              >
+                {CardContent}
+              </button>
+            ) : (
+              <Link
+                key={work.id}
+                href={`/${locale}/projets/${work.slug}`}
+                className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] transition-all duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
+              >
+                {CardContent}
+              </Link>
+            );
+          })}
         </div>
+
+        <YouTubeModal
+          youtubeUrl={youtubeModal.url}
+          title={youtubeModal.title}
+          isOpen={youtubeModal.isOpen}
+          onClose={() => setYoutubeModal({ isOpen: false, url: "", title: "" })}
+        />
 
         {filteredWorks.length === 0 && (
           <div className="py-20 text-center text-xl text-white/50">

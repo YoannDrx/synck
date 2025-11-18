@@ -9,9 +9,11 @@ export interface GalleryWork {
   title: string;
   subtitle?: string;
   category: string;
+  categorySlug: string;
   coverImage: string;
   coverImageAlt: string;
   composers: string[];
+  externalUrl?: string;
 }
 
 // Cache the projets data fetch for deduplication
@@ -70,12 +72,14 @@ export const getProjetsFromPrisma = cache(async (locale: Locale): Promise<Galler
         title: translation?.title || work.slug,
         subtitle: translation?.description || undefined,
         category: categoryTranslation?.name || 'Autres',
+        categorySlug: work.category.slug,
         coverImage: work.coverImage?.path || '/images/placeholder.jpg',
         coverImageAlt: work.coverImage?.alt || translation?.title || work.slug,
         composers: work.contributions.map((contrib) => {
           const composerTranslation = contrib.composer.translations[0]
           return composerTranslation?.name || ''
         }),
+        externalUrl: work.externalUrl || undefined,
       }
     })
 
