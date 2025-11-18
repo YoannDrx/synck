@@ -24,33 +24,6 @@ export interface ExpertiseFrontmatter {
   imgUrl?: string;
 }
 
-// Blog types
-export interface BlogPost {
-  id: string;
-  slug: string;
-  title: string;
-  date: string;
-  category: string;
-  thumb: string;
-  subtitle: string | null;
-  description: string | null;
-  tags: string[];
-  lang: string;
-  contentHtml?: string;
-}
-
-export interface BlogFrontmatter {
-  title: string;
-  date: string;
-  category: string;
-  thumb: string;
-  subtitle?: string;
-  description?: string;
-  tags?: string[];
-  slug?: string;
-  lang?: string;
-}
-
 // Component props types
 export interface SEOProps {
   title?: string;
@@ -102,8 +75,4 @@ export interface SectionHeadingProps {
 
 export interface ServiceListProps {
   expertises: Expertise[];
-}
-
-export interface SidebarProps {
-  allPostsData: BlogPost[];
 }

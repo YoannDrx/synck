@@ -33,8 +33,6 @@ model Asset {
   categoryImages     Category[]     @relation("CategoryImages")
   labelImages        Label[]        @relation("LabelImages")
   composerImages     Composer[]     @relation("ComposerImages")
-  blogPostImages     BlogPost[]     @relation("BlogPostImages")
-  blogPostCover      BlogPost[]     @relation("BlogPostCover")
   expertiseImages    Expertise[]    @relation("ExpertiseImages")
   expertiseCover     Expertise[]    @relation("ExpertiseCover")
 
@@ -233,55 +231,6 @@ model Contribution {
   @@unique([workId, composerId])
   @@index([workId])
   @@index([composerId])
-}
-
-// ============================================
-// BLOG POSTS
-// ============================================
-
-model BlogPost {
-  id           String   @id @default(cuid())
-  slug         String   @unique
-  coverImageId String?
-  coverImage   Asset?   @relation("BlogPostCover", fields: [coverImageId], references: [id])
-  publishedAt  DateTime @default(now())
-  isPublished  Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  // Relations
-  translations BlogPostTranslation[]
-  tags         BlogPostTag[]
-  images       Asset[]               @relation("BlogPostImages")
-
-  @@index([slug])
-  @@index([isPublished, publishedAt])
-}
-
-model BlogPostTranslation {
-  id         String  @id @default(cuid())
-  blogPostId String
-  locale     String  // 'fr' or 'en'
-  title      String
-  excerpt    String? @db.Text
-  content    String  @db.Text
-
-  blogPost BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
-
-  @@unique([blogPostId, locale])
-  @@index([locale])
-}
-
-model BlogPostTag {
-  id         String   @id @default(cuid())
-  blogPostId String
-  tag        String
-  locale     String   // 'fr' or 'en'
-
-  blogPost BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
-
-  @@unique([blogPostId, tag, locale])
-  @@index([tag, locale])
 }
 
 // ============================================

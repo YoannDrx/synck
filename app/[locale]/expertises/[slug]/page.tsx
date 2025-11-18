@@ -45,10 +45,11 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
     notFound();
   }
 
-  // Fetch documentaires from Prisma if this is the gestion-administrative expertise
+  // Use documentaires from MD if available, otherwise fetch from Prisma
   let documentaires = expertise.documentaires || [];
 
-  if (slug === "gestion-administrative-et-editoriale") {
+  // Only fetch from Prisma if MD doesn't have documentaires
+  if (slug === "gestion-administrative-et-editoriale" && (!expertise.documentaires || expertise.documentaires.length === 0)) {
     const prisma = new PrismaClient();
 
     try {
@@ -56,7 +57,7 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
         where: {
           isActive: true,
           category: {
-            slug: 'documentaire'
+            slug: 'documentaires'
           }
         },
         include: {
@@ -88,7 +89,7 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
           href: work.coverImage?.path || '',
           src: work.coverImage?.path || '',
           srcLg: work.coverImage?.path || '',
-          link: translation?.description || '',
+          link: work.externalUrl || '#',
           category: work.label?.slug || 'autre',
           height: ''
         };
