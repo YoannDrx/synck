@@ -35,7 +35,7 @@ type ExpertiseDetailParams = {
 
 export default async function ExpertiseDetailPage({ params }: ExpertiseDetailParams) {
   const { locale, slug } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const safeLocale = (locale === "en" ? "en" : "fr");
   const expertise = await getExpertise(slug, safeLocale);
   const allExpertises = await getAllExpertises(safeLocale);
   const dictionary = await getDictionary(safeLocale);
@@ -46,7 +46,17 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
   }
 
   // Always load documentaires from Prisma for "gestion-administrative-et-editoriale"
-  let documentaires: any[] = [];
+  type DocumentaireItem = {
+    title: string;
+    subtitle: string;
+    href: string;
+    src: string;
+    srcLg: string;
+    link: string;
+    category: string;
+    height: string;
+  }
+  let documentaires: DocumentaireItem[] = [];
 
   if (slug === "gestion-administrative-et-editoriale") {
     const prisma = new PrismaClient();
@@ -83,13 +93,13 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
         const labelTranslation = work.label?.translations[0];
 
         return {
-          title: translation?.title || work.slug,
-          subtitle: labelTranslation?.name || work.label?.slug || '',
-          href: work.coverImage?.path || '',
-          src: work.coverImage?.path || '',
-          srcLg: work.coverImage?.path || '',
-          link: work.externalUrl || '#',
-          category: work.label?.slug || 'autre',
+          title: translation?.title ?? work.slug,
+          subtitle: labelTranslation?.name ?? work.label?.slug ?? '',
+          href: work.coverImage?.path ?? '',
+          src: work.coverImage?.path ?? '',
+          srcLg: work.coverImage?.path ?? '',
+          link: work.externalUrl ?? '#',
+          category: work.label?.slug ?? 'autre',
           height: ''
         };
       });

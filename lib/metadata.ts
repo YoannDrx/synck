@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 
 const siteName = 'Caroline Senyk - Copyright Manager'
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://carolinesenyk.fr'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://carolinesenyk.fr'
 
-interface GenerateMetadataParams {
+type GenerateMetadataParams = {
   title?: string
   description: string
   image?: string
@@ -46,7 +46,7 @@ export function generatePageMetadata({
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: title || siteName,
+          alt: title ?? siteName,
         },
       ],
       locale: localeCode,

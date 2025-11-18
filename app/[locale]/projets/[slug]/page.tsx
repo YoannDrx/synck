@@ -33,7 +33,7 @@ type WorkDetailPageParams = {
 
 export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
   const { locale, slug } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const safeLocale = (locale === "en" ? "en" : "fr");
   const work = await getWorkBySlug(slug, safeLocale);
   const dictionary = await getDictionary(safeLocale);
   const detailCopy = dictionary.projetDetail;
@@ -59,10 +59,10 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
     translationDescription !== "See Details"
       ? translationDescription
       : undefined;
-  const externalLink = work.externalUrl?.trim() || null;
-  const releaseDate = work.releaseDate || null;
-  const genre = work.genre || null;
-  const rawSpotifyUrl = work.spotifyUrl || null;
+  const externalLink = work.externalUrl?.trim() ?? null;
+  const releaseDate = work.releaseDate ?? null;
+  const genre = work.genre ?? null;
+  const rawSpotifyUrl = work.spotifyUrl ?? null;
   const spotifyEmbedUrl = rawSpotifyUrl
     ? (() => {
         try {
@@ -105,7 +105,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
             {work.coverImage?.path && (
               <LightboxImage
                 src={work.coverImage.path}
-                alt={work.coverImage.alt || translation?.title || work.slug}
+                alt={work.coverImage.alt ?? translation?.title ?? work.slug}
                 fullSrc={work.coverImage.path}
                 className="w-fit border-4 border-white/10 bg-black/20 p-2"
                 width={200}
@@ -147,7 +147,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
                           <div className="h-12 w-12 flex-shrink-0 overflow-hidden border-2 border-white/20 rounded-full">
                             <Image
                               src={contribution.composer.image.path}
-                              alt={contribution.composer.image.alt || composerTranslation?.name || "Composer"}
+                              alt={contribution.composer.image.alt ?? composerTranslation?.name ?? "Composer"}
                               width={48}
                               height={48}
                               className="h-full w-full object-cover"
@@ -241,7 +241,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
                   >
                     <Image
                       src={image.path}
-                      alt={image.alt || "Gallery image"}
+                      alt={image.alt ?? "Gallery image"}
                       width={800}
                       height={600}
                       className="w-full h-auto object-contain"
@@ -263,7 +263,6 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
                 src={spotifyEmbedUrl}
                 width="100%"
                 height="100%"
-                frameBorder="0"
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                 loading="lazy"
                 className="rounded"

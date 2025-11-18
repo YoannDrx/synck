@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  async redirects() {
-    return [
+  redirects() {
+    return Promise.resolve([
       // Redirections Portfolio → Projets (301 permanent pour SEO)
       {
         source: '/fr/portfolio',
@@ -45,7 +45,7 @@ const nextConfig: NextConfig = {
         destination: '/en/compositeurs/:slug',
         permanent: true,
       },
-    ];
+    ]);
   },
 };
 

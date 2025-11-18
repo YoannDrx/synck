@@ -1,4 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+ 
+
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -6,7 +9,7 @@ const prisma = new PrismaClient();
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const locale = searchParams.get('locale') || 'fr';
+    const locale = searchParams.get('locale') ?? 'fr';
     const labelSlug = searchParams.get('label'); // Filter by label (optional)
 
     // Récupérer tous les documentaires
@@ -46,20 +49,19 @@ export async function GET(request: NextRequest) {
       const labelTranslation = work.label?.translations[0];
 
       return {
-        title: translation?.title || work.slug,
-        subtitle: labelTranslation?.name || work.label?.slug || '',
-        href: work.coverImage?.path || '',
-        src: work.coverImage?.path || '',
-        srcLg: work.coverImage?.path || '',
-        link: translation?.description || '', // Le lien externe est stocké dans description
-        category: work.label?.slug || 'autre',
+        title: translation?.title ?? work.slug,
+        subtitle: labelTranslation?.name ?? work.label?.slug ?? '',
+        href: work.coverImage?.path ?? '',
+        src: work.coverImage?.path ?? '',
+        srcLg: work.coverImage?.path ?? '',
+        link: translation?.description ?? '', // Le lien externe est stocké dans description
+        category: work.label?.slug ?? 'autre',
         height: ''
       };
     });
 
     return NextResponse.json(documentaires);
-  } catch (error) {
-    console.error('Error fetching documentaires:', error);
+  } catch {
     return NextResponse.json(
       { error: 'Failed to fetch documentaires' },
       { status: 500 }

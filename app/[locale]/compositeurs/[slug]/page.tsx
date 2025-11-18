@@ -41,7 +41,7 @@ type ComposerWorkSummary = {
 
 export default async function CompositeurDetailPage({ params }: ComposerDetailParams) {
   const { locale, slug } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const safeLocale = (locale === "en" ? "en" : "fr");
   const composer = await getComposerBySlug(slug, safeLocale);
   const dictionary = await getDictionary(safeLocale);
   const copy = dictionary.composerDetail;
@@ -56,13 +56,13 @@ export default async function CompositeurDetailPage({ params }: ComposerDetailPa
     (contribution: ComposerWithContributions["contributions"][number]) => ({
       id: contribution.work.id,
       slug: contribution.work.slug,
-      title: contribution.work.translations[0]?.title || contribution.work.slug,
-      coverImage: contribution.work.coverImage?.path || "/images/placeholder.jpg",
+      title: contribution.work.translations[0]?.title ?? contribution.work.slug,
+      coverImage: contribution.work.coverImage?.path ?? "/images/placeholder.jpg",
       coverImageAlt:
-        contribution.work.coverImage?.alt ||
-        contribution.work.translations[0]?.title ||
+        contribution.work.coverImage?.alt ??
+        contribution.work.translations[0]?.title ??
         contribution.work.slug,
-      category: contribution.work.category?.translations[0]?.name || "Autres",
+      category: contribution.work.category?.translations[0]?.name ?? "Autres",
     })
   );
 
@@ -70,9 +70,9 @@ export default async function CompositeurDetailPage({ params }: ComposerDetailPa
 
   // Build social links from ComposerLink table
   const socialLinks = composer.links?.map((link) => ({
-    label: link.label || getPlatformName(link.url, safeLocale),
+    label: link.label ?? getPlatformName(link.url, safeLocale),
     url: link.url,
-  })) || [];
+  })) ?? [];
 
   // Add externalUrl if it exists and is not already in links
   if (composer.externalUrl && !socialLinks.some((link) => link.url === composer.externalUrl)) {
@@ -110,7 +110,7 @@ export default async function CompositeurDetailPage({ params }: ComposerDetailPa
               <div className="relative overflow-hidden border-4 border-white/10 bg-black/20 rounded-full w-32 h-32 flex-shrink-0">
                 <Image
                   src={composerImage}
-                  alt={composer.image?.alt || translation?.name || composer.slug}
+                  alt={composer.image?.alt ?? translation?.name ?? composer.slug}
                   fill
                   sizes="128px"
                   className="object-cover"

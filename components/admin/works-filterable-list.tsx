@@ -35,10 +35,10 @@ type CategoryWithTranslations = Category & {
   translations: CategoryTranslation[]
 }
 
-interface WorksFilterableListProps {
+type WorksFilterableListProps = {
   works: WorkWithRelations[]
   categories: CategoryWithTranslations[]
-  dictionary: any
+  dictionary: { edit: string; inactive: string }
 }
 
 export function WorksFilterableList({
@@ -63,7 +63,7 @@ export function WorksFilterableList({
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-sm text-white/60 mr-2">Filtrer par type :</span>
           <button
-            onClick={() => setSelectedCategoryId(null)}
+            onClick={() => { setSelectedCategoryId(null); }}
             className={`px-4 py-2 text-sm border-2 transition-colors ${
               selectedCategoryId === null
                 ? "border-[#d5ff0a] bg-[#d5ff0a] text-black font-bold"
@@ -74,14 +74,14 @@ export function WorksFilterableList({
           </button>
           {categories.map((category) => {
             const categoryName =
-              category.translations.find((t) => t.locale === "fr")?.name ||
+              category.translations.find((t) => t.locale === "fr")?.name ??
               "Sans nom"
             const count = works.filter((w) => w.categoryId === category.id).length
 
             return (
               <button
                 key={category.id}
-                onClick={() => setSelectedCategoryId(category.id)}
+                onClick={() => { setSelectedCategoryId(category.id); }}
                 className={`px-4 py-2 text-sm border-2 transition-colors ${
                   selectedCategoryId === category.id
                     ? "border-[#d5ff0a] bg-[#d5ff0a] text-black font-bold"
@@ -122,7 +122,7 @@ export function WorksFilterableList({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredWorks.map((work) => {
             const frTitle =
-              work.translations.find((t) => t.locale === "fr")?.title ||
+              work.translations.find((t) => t.locale === "fr")?.title ??
               "Sans titre"
             const category = work.category?.translations.find(
               (t) => t.locale === "fr"
@@ -145,13 +145,13 @@ export function WorksFilterableList({
                   <div className="relative aspect-square w-full bg-white/5">
                     <Image
                       src={work.coverImage.path}
-                      alt={work.coverImage.alt || frTitle}
+                      alt={work.coverImage.alt ?? frTitle}
                       fill
                       className="object-cover"
                       placeholder={
                         work.coverImage.blurDataUrl ? "blur" : "empty"
                       }
-                      blurDataURL={work.coverImage.blurDataUrl || undefined}
+                      blurDataURL={work.coverImage.blurDataUrl ?? undefined}
                     />
                   </div>
                 )}

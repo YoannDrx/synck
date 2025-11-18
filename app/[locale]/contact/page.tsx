@@ -3,7 +3,7 @@ import type { Locale } from "@/lib/i18n-config";
 import { ContactForm } from "@/components/contact-form";
 import { Breadcrumb } from "@/components/breadcrumb";
 
-interface ContactPageParams {
+type ContactPageParams = {
   params: Promise<{
     locale: Locale;
   }>;
@@ -11,7 +11,7 @@ interface ContactPageParams {
 
 export default async function ContactPage({ params }: ContactPageParams) {
   const { locale } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const safeLocale = (locale === "en" ? "en" : "fr");
   const dictionary = await getDictionary(safeLocale);
   const contactLabel = dictionary.nav.contact;
   const copy = dictionary.contactPage;

@@ -13,7 +13,7 @@ type ComposersPageParams = {
 
 export default async function ComposeursPage({ params }: ComposersPageParams) {
   const { locale } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const safeLocale = (locale === "en" ? "en" : "fr");
   const composers = await getComposersFromPrisma(safeLocale);
   const dictionary = await getDictionary(safeLocale);
   const copy = dictionary.composersPage;
@@ -56,7 +56,7 @@ export default async function ComposeursPage({ params }: ComposersPageParams) {
                   <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-white/20 bg-black/20">
                     <Image
                       src={composer.image}
-                      alt={composer.imageAlt || composer.name}
+                      alt={composer.imageAlt ?? composer.name}
                       fill
                       sizes="128px"
                       className="object-cover transition-transform duration-500 group-hover:scale-110"

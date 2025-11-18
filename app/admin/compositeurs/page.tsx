@@ -66,7 +66,7 @@ export default async function ComposersPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {composers.map((composer) => {
               const frName =
-                composer.translations.find((t) => t.locale === "fr")?.name ||
+                composer.translations.find((t) => t.locale === "fr")?.name ??
                 "Sans nom"
               const enName = composer.translations.find((t) => t.locale === "en")?.name
 
@@ -80,11 +80,11 @@ export default async function ComposersPage() {
                     <div className="relative aspect-square w-full bg-white/5">
                       <Image
                         src={composer.image.path}
-                        alt={composer.image.alt || frName}
+                        alt={composer.image.alt ?? frName}
                         fill
                         className="object-cover"
                         placeholder={composer.image.blurDataUrl ? "blur" : "empty"}
-                        blurDataURL={composer.image.blurDataUrl || undefined}
+                        blurDataURL={composer.image.blurDataUrl ?? undefined}
                       />
                     </div>
                   )}

@@ -1,5 +1,8 @@
+/* eslint-disable no-console */
+
 import { put } from "@vercel/blob"
-import { NextRequest, NextResponse } from "next/server"
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server"
 import sharp from "sharp"
 
 export async function POST(request: NextRequest) {

@@ -41,7 +41,7 @@ export default async function EditComposerPage({
                 {dictionary.admin.composers.editTitle}
               </h1>
               <p className="text-white/60">
-                {composer.translations.find((t) => t.locale === "fr")?.name || "Sans nom"}
+                {composer.translations.find((t) => t.locale === "fr")?.name ?? "Sans nom"}
               </p>
             </div>
             <Link

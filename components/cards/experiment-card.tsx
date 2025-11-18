@@ -1,4 +1,4 @@
-interface ExperimentCardProps {
+type ExperimentCardProps = {
   title: string;
   descriptor: string;
   status: string;

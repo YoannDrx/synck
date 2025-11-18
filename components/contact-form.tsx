@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import type { ContactFormDictionary } from "@/types/dictionary";
 
-interface ContactFormProps {
+type ContactFormProps = {
   dictionary: ContactFormDictionary;
 }
 
@@ -32,10 +32,10 @@ export function ContactForm({ dictionary }: ContactFormProps) {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      const data = await response.json() as { error?: string };
 
       if (!response.ok) {
-        throw new Error(data.error || dictionary.error);
+        throw new Error(data.error ?? dictionary.error);
       }
 
       setStatus("success");
@@ -54,7 +54,7 @@ export function ContactForm({ dictionary }: ContactFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={(e) => { void handleSubmit(e) }} className="space-y-6">
       <div>
         <label
           htmlFor="name"

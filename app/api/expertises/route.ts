@@ -1,12 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+/* eslint-disable no-console */
+
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server";
 
 import { getAllExpertises } from "@/lib/prismaExpertiseUtils";
-import type { Locale } from "@/lib/i18n-config";
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;
-    const locale = (searchParams.get("locale") === "en" ? "en" : "fr") as Locale;
+    const locale = (searchParams.get("locale") === "en" ? "en" : "fr");
     const limitParam = searchParams.get("limit");
     const limit = limitParam ? Number.parseInt(limitParam, 10) : 3;
 

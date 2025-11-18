@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 
-interface MetricCardProps {
+type MetricCardProps = {
   label: string;
   value: string;
   detail: string;

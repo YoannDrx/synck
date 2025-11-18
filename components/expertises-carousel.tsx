@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
-interface ExpertiseCard {
+type ExpertiseCard = {
   id: string
   slug: string
   href: string
@@ -14,7 +14,7 @@ interface ExpertiseCard {
   imgHome: string
 }
 
-interface ExpertisesCarouselProps {
+type ExpertisesCarouselProps = {
   expertises: ExpertiseCard[]
   currentSlug: string
   locale: string
@@ -25,7 +25,6 @@ interface ExpertisesCarouselProps {
 export function ExpertisesCarousel({
   expertises,
   currentSlug,
-  locale,
   title = "Découvrez nos autres expertises",
   description = "Explorez l'ensemble de nos domaines d'intervention",
 }: ExpertisesCarouselProps) {
@@ -121,7 +120,7 @@ export function ExpertisesCarousel({
         {/* Cards Container */}
         <div className="overflow-hidden">
           <motion.div
-            animate={{ x: `-${currentIndex * (100 / itemsPerPage.desktop)}%` }}
+            animate={{ x: `-${String(currentIndex * (100 / itemsPerPage.desktop))}%` }}
             transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
             className="flex"
           >
@@ -170,7 +169,7 @@ export function ExpertisesCarousel({
           {Array.from({ length: maxIndex + 1 }).map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentIndex(index)}
+              onClick={() => { setCurrentIndex(index); }}
               className={`
                 h-2 rounded-full transition-all duration-300
                 ${index === currentIndex
@@ -178,7 +177,7 @@ export function ExpertisesCarousel({
                   : 'w-2 bg-white/20 hover:bg-white/40'
                 }
               `}
-              aria-label={`Aller à la page ${index + 1}`}
+              aria-label={`Aller à la page ${String(index + 1)}`}
             />
           ))}
         </div>

@@ -4,7 +4,7 @@ import { WorkForm } from "@/components/admin/work-form"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-interface EditWorkPageProps {
+type EditWorkPageProps = {
   params: Promise<{ id: string }>
 }
 
@@ -47,7 +47,7 @@ export default async function EditWorkPage({ params }: EditWorkPageProps) {
   }
 
   const frTitle =
-    work.translations.find((t) => t.locale === "fr")?.title || "Sans titre"
+    work.translations.find((t) => t.locale === "fr")?.title ?? "Sans titre"
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -63,7 +63,7 @@ export default async function EditWorkPage({ params }: EditWorkPageProps) {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold tracking-[0.3em] text-[#d5ff0a] mb-2">
-                {dictionary.admin.projects?.editTitle || "Modifier le projet"}
+                {dictionary.admin.projects?.editTitle ?? "Modifier le projet"}
               </h1>
               <p className="text-white/60">{frTitle}</p>
             </div>

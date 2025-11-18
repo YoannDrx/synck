@@ -13,7 +13,7 @@ type ExpertisesPageParams = {
 
 export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
   const { locale } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const safeLocale = (locale === "en" ? "en" : "fr");
   const dictionary = await getDictionary(safeLocale);
   const expertises = await getAllExpertises(safeLocale);
   const copy = dictionary.expertisesPage;

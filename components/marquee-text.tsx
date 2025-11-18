@@ -1,4 +1,4 @@
-interface MarqueeTextProps {
+type MarqueeTextProps = {
   items: string[];
 }
 
@@ -11,7 +11,7 @@ export function MarqueeText({ items }: MarqueeTextProps) {
       >
         {[0, 1].map((loop) =>
           items.map((item) => (
-            <span key={`${loop}-${item}`} className="flex items-center gap-4">
+            <span key={`${String(loop)}-${item}`} className="flex items-center gap-4">
               <span className="h-2 w-2 rounded-full bg-lime-300" />
               <span>{item}</span>
             </span>

@@ -3,7 +3,7 @@ import { cache } from 'react'
 import type { Prisma } from '@prisma/client'
 import type { Locale } from './i18n-config'
 
-export interface GalleryWork {
+export type GalleryWork = {
   id: string;
   slug: string;
   title: string;
@@ -69,23 +69,22 @@ export const getProjetsFromPrisma = cache(async (locale: Locale): Promise<Galler
       return {
         id: work.id,
         slug: work.slug,
-        title: translation?.title || work.slug,
-        subtitle: translation?.description || undefined,
-        category: categoryTranslation?.name || 'Autres',
+        title: translation?.title ?? work.slug,
+        subtitle: translation?.description ?? undefined,
+        category: categoryTranslation?.name ?? 'Autres',
         categorySlug: work.category.slug,
-        coverImage: work.coverImage?.path || '/images/placeholder.jpg',
-        coverImageAlt: work.coverImage?.alt || translation?.title || work.slug,
+        coverImage: work.coverImage?.path ?? '/images/placeholder.jpg',
+        coverImageAlt: work.coverImage?.alt ?? translation?.title ?? work.slug,
         composers: work.contributions.map((contrib) => {
           const composerTranslation = contrib.composer.translations[0]
-          return composerTranslation?.name || ''
+          return composerTranslation?.name ?? ''
         }),
-        externalUrl: work.externalUrl || undefined,
+        externalUrl: work.externalUrl ?? undefined,
       }
     })
 
     return galleryWorks
-  } catch (error) {
-    console.error('Error fetching projets from Prisma:', error)
+  } catch {
     return []
   }
 })
@@ -115,8 +114,7 @@ export const getProjetsCategoriesFromPrisma = cache(async (locale: Locale) => {
       name: cat.translations[0]?.name || cat.slug,
       color: cat.color,
     }))
-  } catch (error) {
-    console.error('Error fetching categories from Prisma:', error)
+  } catch {
     return []
   }
 })
@@ -247,8 +245,7 @@ export const getWorkBySlug = cache(async (slug: string, locale: Locale): Promise
     })
 
     return work
-  } catch (error) {
-    console.error(`Error fetching work ${slug} from Prisma:`, error)
+  } catch {
     return null
   }
 })
@@ -266,8 +263,7 @@ export async function getAllWorkSlugs(): Promise<string[]> {
     })
 
     return works.map((work) => work.slug)
-  } catch (error) {
-    console.error('Error fetching work slugs:', error)
+  } catch {
     return []
   }
 }
@@ -276,7 +272,7 @@ export async function getAllWorkSlugs(): Promise<string[]> {
 // COMPOSERS / ARTISTS
 // ============================================
 
-export interface GalleryComposer {
+export type GalleryComposer = {
   id: string;
   slug: string;
   name: string;
@@ -368,16 +364,15 @@ export const getComposersFromPrisma = cache(async (locale: Locale): Promise<Gall
       return {
         id: composer.id,
         slug: composer.slug,
-        name: translation?.name || composer.slug,
-        bio: translation?.bio || undefined,
-        image: composer.image?.path || undefined,
-        imageAlt: composer.image?.alt || translation?.name || composer.slug,
-        externalUrl: composer.externalUrl || undefined,
+        name: translation?.name ?? composer.slug,
+        bio: translation?.bio ?? undefined,
+        image: composer.image?.path ?? undefined,
+        imageAlt: composer.image?.alt ?? translation?.name ?? composer.slug,
+        externalUrl: composer.externalUrl ?? undefined,
         worksCount: composer.contributions.length,
       }
     })
-  } catch (error) {
-    console.error('Error fetching composers from Prisma:', error)
+  } catch {
     return []
   }
 })
@@ -434,8 +429,7 @@ export const getComposerBySlug = cache(async (slug: string, locale: Locale): Pro
     })
 
     return composer
-  } catch (error) {
-    console.error(`Error fetching composer ${slug} from Prisma:`, error)
+  } catch {
     return null
   }
 })
@@ -453,8 +447,7 @@ export async function getAllComposerSlugs(): Promise<string[]> {
     })
 
     return composers.map((composer) => composer.slug)
-  } catch (error) {
-    console.error('Error fetching composer slugs:', error)
+  } catch {
     return []
   }
 }

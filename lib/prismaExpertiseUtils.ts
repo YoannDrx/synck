@@ -3,13 +3,13 @@ import { cache } from 'react'
 import type { Prisma } from '@prisma/client'
 import type { Locale } from './i18n-config'
 
-export interface Label {
+export type Label = {
   name: string
   src: string
   href: string
 }
 
-export interface Documentaire {
+export type Documentaire = {
   title: string
   subtitle: string
   href: string
@@ -20,12 +20,12 @@ export interface Documentaire {
   height?: string
 }
 
-export interface SectionLayout {
+export type SectionLayout = {
   image?: string | null
   position?: 'left' | 'right' | 'auto'
 }
 
-export interface ExpertiseListItem {
+export type ExpertiseListItem = {
   id: string
   slug: string
   href: string
@@ -35,7 +35,7 @@ export interface ExpertiseListItem {
   description: string
 }
 
-export interface Expertise {
+export type Expertise = {
   id: string
   slug: string
   title: string
@@ -99,14 +99,13 @@ export const getAllExpertises = cache(async (locale: Locale): Promise<ExpertiseL
         id: expertise.id,
         slug: expertise.slug,
         href: `/${locale}/expertises/${expertise.slug}`,
-        title: translation?.title || expertise.slug,
-        subtitle: translation?.description || '',
-        imgHome: expertise.coverImage?.path || '/images/placeholder.jpg',
-        description: translation?.description || '',
+        title: translation?.title ?? expertise.slug,
+        subtitle: translation?.description ?? '',
+        imgHome: expertise.coverImage?.path ?? '/images/placeholder.jpg',
+        description: translation?.description ?? '',
       }
     })
-  } catch (error) {
-    console.error('Error fetching expertises from Prisma:', error)
+  } catch {
     return []
   }
 })
@@ -148,13 +147,13 @@ export const getExpertise = cache(async (slug: string, locale: Locale): Promise<
     // Build image mapping from the images array
     // Les images sont stockées dans l'ordre: img1, img2, img3, img4, img5, imgFooter
     const allImages = expertise.images.map(img => img.path)
-    const imgHome = expertise.coverImage?.path || '/images/placeholder.jpg'
+    const imgHome = expertise.coverImage?.path ?? '/images/placeholder.jpg'
 
     return {
       id: expertise.id,
       slug: expertise.slug,
       title: translation.title,
-      description: translation.description || '',
+      description: translation.description ?? '',
       content: translation.content,
       sections,
       imgHome,
@@ -170,8 +169,7 @@ export const getExpertise = cache(async (slug: string, locale: Locale): Promise<
       documentaires: undefined,
       sectionsLayout: undefined,
     }
-  } catch (error) {
-    console.error(`Error fetching expertise ${slug} from Prisma:`, error)
+  } catch {
     return null
   }
 })
@@ -207,8 +205,7 @@ export async function getAllExpertiseSlugs(): Promise<string[]> {
     })
 
     return expertises.map((expertise) => expertise.slug)
-  } catch (error) {
-    console.error('Error fetching expertise slugs:', error)
+  } catch {
     return []
   }
 }
@@ -222,7 +219,7 @@ export function getSectionLayout(
   sectionIndex: number
 ): SectionLayout {
   // If sectionsLayout is defined, use it
-  if (expertise.sectionsLayout && expertise.sectionsLayout[sectionIndex]) {
+  if (expertise.sectionsLayout?.[sectionIndex]) {
     const layout = expertise.sectionsLayout[sectionIndex]
 
     // Resolve image path: if it's a key (like "img1"), get the actual path
@@ -235,22 +232,22 @@ export function getSectionLayout(
       } else {
         // It's a key, resolve it from the expertise object
         const imageKey = layout.image as keyof Expertise
-        resolvedImage = (expertise[imageKey] as string) || null
+        resolvedImage = (expertise[imageKey] as string) ?? null
       }
     }
 
     return {
       image: resolvedImage,
-      position: layout.position || 'auto',
+      position: layout.position ?? 'auto',
     }
   }
 
   // Fallback: use img1-5 with auto alternation
-  const imageKey = `img${sectionIndex + 1}` as keyof Expertise
+  const imageKey = `img${String(sectionIndex + 1)}` as keyof Expertise
   const image = expertise[imageKey] as string | undefined
 
   return {
-    image: image || null,
+    image: image ?? null,
     position: 'auto',
   }
 }

@@ -1,4 +1,7 @@
-import { NextRequest, NextResponse } from "next/server"
+/* eslint-disable no-console */
+
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 
@@ -11,7 +14,7 @@ const workSchema = z.object({
   year: z.number().int().optional().nullable(),
   duration: z.string().optional().nullable(),
   status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).default("PUBLISHED"),
-  spotifyUrl: z.string().url().optional().nullable().or(z.literal("")),
+  spotifyUrl: z.string().optional().nullable().or(z.literal("")),
   releaseDate: z.string().optional().nullable(),
   genre: z.string().optional().nullable(),
   isrcCode: z.string().optional().nullable(),
@@ -38,7 +41,7 @@ const workSchema = z.object({
   imageIds: z.array(z.string()).optional(),
 })
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const works = await prisma.work.findMany({
       include: {
@@ -70,8 +73,7 @@ export async function GET(request: NextRequest) {
     })
 
     return NextResponse.json(works)
-  } catch (error) {
-    console.error("Get projects error:", error)
+  } catch {
     return NextResponse.json(
       { error: "Erreur lors de la récupération des projets" },
       { status: 500 }
@@ -81,7 +83,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    const body: unknown = await request.json()
     const data = workSchema.parse(body)
 
     // Create work with translations and contributions
@@ -91,10 +93,10 @@ export async function POST(request: NextRequest) {
         categoryId: data.categoryId,
         labelId: data.labelId,
         coverImageId: data.coverImageId,
-        year: data.year ? parseInt(String(data.year)) : null,
-        duration: data.duration ? parseInt(String(data.duration)) : null,
+        year: data.year ?? null,
+        duration: data.duration ? parseInt(data.duration) : null,
         status: data.status,
-        spotifyUrl: data.spotifyUrl || null,
+        spotifyUrl: data.spotifyUrl ?? null,
         releaseDate: data.releaseDate,
         genre: data.genre,
         isrcCode: data.isrcCode,

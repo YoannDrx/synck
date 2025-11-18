@@ -1,4 +1,7 @@
-import { NextRequest, NextResponse } from "next/server"
+/* eslint-disable no-console */
+
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 
@@ -10,7 +13,19 @@ const workSchema = z.object({
   year: z.number().int().optional().nullable(),
   duration: z.string().optional().nullable(),
   status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).default("PUBLISHED"),
-  spotifyUrl: z.string().url().optional().nullable().or(z.literal("")),
+  spotifyUrl: z.union([
+    z.string().refine((val) => {
+      if (!val) return true;
+      try {
+        new URL(val);
+        return true;
+      } catch {
+        return false;
+      }
+    }, { message: "URL invalide" }),
+    z.literal(""),
+    z.null()
+  ]).optional(),
   releaseDate: z.string().optional().nullable(),
   genre: z.string().optional().nullable(),
   isrcCode: z.string().optional().nullable(),
@@ -96,7 +111,7 @@ export async function PUT(
 ) {
   try {
     const { id } = await params
-    const body = await request.json()
+    const body: unknown = await request.json()
     const data = workSchema.parse(body)
 
     // Delete existing contributions, then recreate
@@ -112,10 +127,10 @@ export async function PUT(
         categoryId: data.categoryId,
         labelId: data.labelId,
         coverImageId: data.coverImageId,
-        year: data.year ? parseInt(String(data.year)) : null,
-        duration: data.duration ? parseInt(String(data.duration)) : null,
+        year: data.year ?? null,
+        duration: data.duration ? parseInt(data.duration) : null,
         status: data.status,
-        spotifyUrl: data.spotifyUrl || null,
+        spotifyUrl: data.spotifyUrl ?? null,
         releaseDate: data.releaseDate,
         genre: data.genre,
         isrcCode: data.isrcCode,

@@ -14,7 +14,7 @@ import { ComposersSection } from "@/components/sections/composers-section";
 import { ContactSection } from "@/components/sections/contact-section";
 import { MarqueeText } from "@/components/marquee-text";
 
-interface HomePageProps {
+type HomePageProps = {
   locale: Locale;
   layout: LayoutDictionary;
   home: HomeDictionary;
@@ -33,7 +33,7 @@ export function HomePage({ locale, layout, home }: HomePageProps) {
 
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => { window.removeEventListener("scroll", handleScroll); };
   }, []);
 
   return (

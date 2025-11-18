@@ -2,7 +2,7 @@ import { ProjetsPageClient } from "@/components/sections/projets-page-client";
 import { getDictionary } from "@/lib/dictionaries";
 import type { Locale } from "@/lib/i18n-config";
 
-interface ProjetsPageParams {
+type ProjetsPageParams = {
   params: Promise<{
     locale: Locale;
   }>;
@@ -10,7 +10,7 @@ interface ProjetsPageParams {
 
 export default async function ProjetsPage({ params }: ProjetsPageParams) {
   const { locale } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const safeLocale = (locale === "en" ? "en" : "fr");
   const dictionary = await getDictionary(safeLocale);
 
   return (

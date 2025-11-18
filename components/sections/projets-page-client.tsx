@@ -9,7 +9,7 @@ import { YouTubeModal } from "@/components/youtube-modal";
 import type { ProjetsPageDictionary } from "@/types/dictionary";
 import type { Locale } from "@/lib/i18n-config";
 
-interface GalleryWork {
+type GalleryWork = {
   id: string;
   slug: string;
   title: string;
@@ -22,14 +22,14 @@ interface GalleryWork {
   externalUrl?: string;
 }
 
-interface Category {
+type Category = {
   id: string;
   slug: string;
   name: string;
   color: string | null;
 }
 
-interface ProjetsPageClientProps {
+type ProjetsPageClientProps = {
   locale: Locale;
   nav: {
     home: string;
@@ -61,17 +61,17 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
         ]);
 
         if (worksRes.ok) {
-          setWorks(await worksRes.json());
+          setWorks(await worksRes.json() as GalleryWork[]);
         }
         if (categoriesRes.ok) {
-          setCategories(await categoriesRes.json());
+          setCategories(await categoriesRes.json() as Category[]);
         }
       } finally {
         setLoading(false);
       }
     }
 
-    init();
+    void init();
   }, [locale]);
 
   const filteredWorks = works
@@ -121,13 +121,13 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => { setSearchQuery(e.target.value); }}
                 placeholder={copy.searchPlaceholder}
                 className="w-full rounded-full border-2 border-white/30 bg-black/20 px-6 py-3 text-white placeholder:text-white/50 focus:border-lime-300 focus:outline-none focus:ring-2 focus:ring-lime-300/50"
               />
               {searchQuery && (
                 <button
-                  onClick={() => setSearchQuery("")}
+                  onClick={() => { setSearchQuery(""); }}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
                   aria-label="Clear search"
                 >
@@ -139,7 +139,7 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
 
           <div className="flex flex-wrap gap-3">
             <button
-              onClick={() => setSelectedCategory("all")}
+              onClick={() => { setSelectedCategory("all"); }}
               className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
                 selectedCategory === "all"
                   ? "border-lime-300 bg-lime-300 text-[#050505]"
@@ -151,7 +151,7 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
             {categories.map((category) => (
               <button
                 key={category.id}
-                onClick={() => setSelectedCategory(category.name)}
+                onClick={() => { setSelectedCategory(category.name); }}
                 className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
                   selectedCategory === category.name
                     ? "border-lime-300 bg-lime-300 text-[#050505]"
@@ -172,7 +172,7 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
                 e.preventDefault();
                 setYoutubeModal({
                   isOpen: true,
-                  url: work.externalUrl!,
+                  url: work.externalUrl ?? '',
                   title: work.title,
                 });
               }
@@ -241,7 +241,7 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
           youtubeUrl={youtubeModal.url}
           title={youtubeModal.title}
           isOpen={youtubeModal.isOpen}
-          onClose={() => setYoutubeModal({ isOpen: false, url: "", title: "" })}
+          onClose={() => { setYoutubeModal({ isOpen: false, url: "", title: "" }); }}
         />
 
         {filteredWorks.length === 0 && (

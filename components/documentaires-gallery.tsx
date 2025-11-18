@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-interface Documentaire {
+type Documentaire = {
   title: string;
   subtitle: string;
   href: string;
@@ -14,7 +14,7 @@ interface Documentaire {
   height?: string;
 }
 
-interface DocumentairesGalleryProps {
+type DocumentairesGalleryProps = {
   documentaires: Documentaire[];
   copy: {
     title: string;
@@ -38,13 +38,13 @@ export function DocumentairesGallery({ documentaires, copy }: DocumentairesGalle
     .filter((doc) => doc.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
   // Group filtered docs by category for display
-  const groupedDocs = filteredDocs.reduce((acc, doc) => {
+  const groupedDocs = filteredDocs.reduce<Record<string, Documentaire[]>>((acc, doc) => {
     if (!acc[doc.category]) {
       acc[doc.category] = [];
     }
     acc[doc.category].push(doc);
     return acc;
-  }, {} as Record<string, Documentaire[]>);
+  }, {});
 
   return (
     <div className="mt-16">
@@ -59,13 +59,13 @@ export function DocumentairesGallery({ documentaires, copy }: DocumentairesGalle
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => { setSearchQuery(e.target.value); }}
               placeholder={copy.searchPlaceholder}
               className="w-full rounded-full border-2 border-white/30 bg-black/20 px-6 py-3 text-white placeholder:text-white/50 focus:border-lime-300 focus:outline-none focus:ring-2 focus:ring-lime-300/50"
             />
             {searchQuery && (
               <button
-                onClick={() => setSearchQuery("")}
+                onClick={() => { setSearchQuery(""); }}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
                 aria-label="Clear search"
               >
@@ -78,7 +78,7 @@ export function DocumentairesGallery({ documentaires, copy }: DocumentairesGalle
         {/* Filter Buttons */}
         <div className="mb-8 flex flex-wrap gap-3">
           <button
-            onClick={() => setSelectedCategory("all")}
+            onClick={() => { setSelectedCategory("all"); }}
             className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
               selectedCategory === "all"
                 ? "border-lime-300 bg-lime-300 text-[#050505]"
@@ -92,7 +92,7 @@ export function DocumentairesGallery({ documentaires, copy }: DocumentairesGalle
             return (
               <button
                 key={category}
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => { setSelectedCategory(category); }}
                 className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
                   selectedCategory === category
                     ? "border-lime-300 bg-lime-300 text-[#050505]"

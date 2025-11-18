@@ -1,11 +1,26 @@
-import { NextRequest, NextResponse } from "next/server"
+/* eslint-disable no-console */
+
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 
 const composerUpdateSchema = z.object({
   slug: z.string().min(1).optional(),
   imageId: z.string().optional().nullable(),
-  externalUrl: z.string().url().optional().nullable().or(z.literal("")),
+  externalUrl: z.union([
+    z.string().refine((val) => {
+      if (!val) return true;
+      try {
+        new URL(val);
+        return true;
+      } catch {
+        return false;
+      }
+    }, { message: "URL invalide" }),
+    z.literal(""),
+    z.null()
+  ]).optional(),
   order: z.number().int().optional(),
   isActive: z.boolean().optional(),
   translations: z
@@ -74,7 +89,7 @@ export async function PUT(
 ) {
   try {
     const { id } = await params
-    const body = await request.json()
+    const body: unknown = await request.json()
     const data = composerUpdateSchema.parse(body)
 
     // Check if composer exists
@@ -87,12 +102,12 @@ export async function PUT(
     }
 
     // Update composer
-    const composer = await prisma.composer.update({
+    await prisma.composer.update({
       where: { id },
       data: {
         slug: data.slug,
         imageId: data.imageId,
-        externalUrl: data.externalUrl || null,
+        externalUrl: data.externalUrl ?? null,
         order: data.order,
         isActive: data.isActive,
       },
@@ -116,11 +131,11 @@ export async function PUT(
             composerId: id,
             locale: "fr",
             name: data.translations.fr.name,
-            bio: data.translations.fr.bio || null,
+            bio: data.translations.fr.bio ?? null,
           },
           update: {
             name: data.translations.fr.name,
-            bio: data.translations.fr.bio || null,
+            bio: data.translations.fr.bio ?? null,
           },
         }),
         prisma.composerTranslation.upsert({
@@ -134,11 +149,11 @@ export async function PUT(
             composerId: id,
             locale: "en",
             name: data.translations.en.name,
-            bio: data.translations.en.bio || null,
+            bio: data.translations.en.bio ?? null,
           },
           update: {
             name: data.translations.en.name,
-            bio: data.translations.en.bio || null,
+            bio: data.translations.en.bio ?? null,
           },
         }),
       ])
@@ -200,7 +215,7 @@ export async function DELETE(
     if (existing._count.contributions > 0) {
       return NextResponse.json(
         {
-          error: `Ce compositeur est lié à ${existing._count.contributions} œuvre(s). Supprimez d'abord les contributions.`,
+          error: `Ce compositeur est lié à ${String(existing._count.contributions)} œuvre(s). Supprimez d'abord les contributions.`,
         },
         { status: 400 }
       )

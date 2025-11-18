@@ -9,7 +9,7 @@ import type { HomeDictionary } from "@/types/dictionary";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-interface GalleryWork {
+type GalleryWork = {
   id: string;
   slug: string;
   title: string;
@@ -22,7 +22,7 @@ interface GalleryWork {
 
 type ProjectsCopy = HomeDictionary["projects"];
 
-interface ProjectsSectionProps {
+type ProjectsSectionProps = {
   locale: Locale;
   copy: ProjectsCopy;
 }
@@ -39,7 +39,7 @@ export function ProjectsSection({ locale, copy }: ProjectsSectionProps) {
         if (!response.ok) {
           throw new Error("Failed to fetch projets");
         }
-        const data = await response.json();
+        const data = await response.json() as GalleryWork[];
         setWorks(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
@@ -48,7 +48,7 @@ export function ProjectsSection({ locale, copy }: ProjectsSectionProps) {
       }
     }
 
-    fetchWorks();
+    void fetchWorks();
   }, [locale]);
 
   const gradients = [

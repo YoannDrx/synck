@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 
-interface InfoCardProps {
+type InfoCardProps = {
   label: string;
   content: string;
   href?: string;

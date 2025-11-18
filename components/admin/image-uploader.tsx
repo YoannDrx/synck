@@ -4,7 +4,7 @@ import { useState, useRef } from "react"
 import Image from "next/image"
 import type { AdminDictionary } from "@/types/dictionary"
 
-interface UploadedImage {
+type UploadedImage = {
   url: string
   pathname: string
   width: number
@@ -13,7 +13,7 @@ interface UploadedImage {
   blurDataUrl: string
 }
 
-interface ImageUploaderProps {
+type ImageUploaderProps = {
   dictionary: AdminDictionary["common"]
   currentImage?: string | null
   onImageUploaded: (image: UploadedImage) => void
@@ -28,7 +28,7 @@ export function ImageUploader({
 }: ImageUploaderProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [preview, setPreview] = useState<string | null>(currentImage || null)
+  const [preview, setPreview] = useState<string | null>(currentImage ?? null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,16 +66,15 @@ export function ImageUploader({
       })
 
       if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error || "Erreur lors de l'upload")
+        const data = await response.json() as { error?: string }
+        throw new Error(data.error ?? "Erreur lors de l'upload")
       }
 
-      const uploadedImage = await response.json()
+      const uploadedImage = await response.json() as UploadedImage
       onImageUploaded(uploadedImage)
     } catch (err) {
-      console.error("Upload error:", err)
       setError(err instanceof Error ? err.message : "Erreur lors de l'upload")
-      setPreview(currentImage || null)
+      setPreview(currentImage ?? null)
     } finally {
       setIsUploading(false)
     }
@@ -118,7 +117,7 @@ export function ImageUploader({
           ref={fileInputRef}
           type="file"
           accept="image/*"
-          onChange={handleFileChange}
+          onChange={(e) => { void handleFileChange(e) }}
           disabled={isUploading}
           className="hidden"
           id="image-upload"

@@ -1,4 +1,4 @@
-interface RitualCardProps {
+type RitualCardProps = {
   focus: string;
   headline: string;
   copy: string;

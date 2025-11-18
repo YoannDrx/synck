@@ -5,7 +5,7 @@ import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import { motion, useInView } from 'framer-motion'
 
-export interface AlternatingSectionProps {
+export type AlternatingSectionProps = {
   content: string
   image?: string | null
   imagePosition?: 'left' | 'right' | 'auto'
@@ -66,7 +66,7 @@ export function AlternatingSection({
       ref={ref}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
-      className={`${isLast ? '' : 'mb-16 md:mb-20 lg:mb-24'}`}
+      className={isLast ? '' : 'mb-16 md:mb-20 lg:mb-24'}
     >
       <div>
         {/* Image with float */}

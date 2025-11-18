@@ -1,11 +1,14 @@
-import { NextRequest, NextResponse } from "next/server"
+ 
+
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 
 const composerSchema = z.object({
   slug: z.string().min(1),
   imageId: z.string().optional().nullable(),
-  externalUrl: z.string().url().optional().nullable().or(z.literal("")),
+  externalUrl: z.string().optional().nullable().or(z.literal("")),
   order: z.number().int().default(0),
   isActive: z.boolean().default(true),
   translations: z.object({
@@ -35,8 +38,7 @@ export async function GET() {
     })
 
     return NextResponse.json(composers)
-  } catch (error) {
-    console.error("GET composers error:", error)
+  } catch {
     return NextResponse.json(
       { error: "Erreur lors de la récupération des compositeurs" },
       { status: 500 }
@@ -47,14 +49,14 @@ export async function GET() {
 // POST create new composer
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    const body: unknown = await request.json()
     const data = composerSchema.parse(body)
 
     const composer = await prisma.composer.create({
       data: {
         slug: data.slug,
         imageId: data.imageId,
-        externalUrl: data.externalUrl || null,
+        externalUrl: data.externalUrl ?? null,
         order: data.order,
         isActive: data.isActive,
         translations: {
@@ -62,12 +64,12 @@ export async function POST(request: NextRequest) {
             {
               locale: "fr",
               name: data.translations.fr.name,
-              bio: data.translations.fr.bio || null,
+              bio: data.translations.fr.bio ?? null,
             },
             {
               locale: "en",
               name: data.translations.en.name,
-              bio: data.translations.en.bio || null,
+              bio: data.translations.en.bio ?? null,
             },
           ],
         },
@@ -79,9 +81,7 @@ export async function POST(request: NextRequest) {
     })
 
     return NextResponse.json(composer, { status: 201 })
-  } catch (error) {
-    console.error("POST composer error:", error)
-
+  } catch (error: unknown) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: "Données invalides", details: error.issues },

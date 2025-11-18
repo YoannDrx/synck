@@ -1,11 +1,14 @@
+/* eslint-disable no-console */
+
 import { NextResponse } from 'next/server'
 import { getProjetsFromPrisma } from '@/lib/prismaProjetsUtils'
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
-    const locale = searchParams.get('locale') || 'fr'
-    const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : null
+    const locale = searchParams.get('locale') ?? 'fr'
+    const limitParam = searchParams.get('limit')
+    const limit = limitParam ? parseInt(limitParam) : null
 
     const works = await getProjetsFromPrisma(locale as 'fr' | 'en')
 

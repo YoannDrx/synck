@@ -1,13 +1,13 @@
 import { RitualCard } from "@/components/cards/ritual-card";
 import { TimelineEntry as TimelineEntryComponent } from "@/components/cards/timeline-entry";
 
-interface StudioRitual {
+type StudioRitual = {
   focus: string;
   headline: string;
   copy: string;
 }
 
-interface TimelineEntry {
+type TimelineEntry = {
   year: string;
   role: string;
   summary: string;
@@ -15,7 +15,7 @@ interface TimelineEntry {
   tags: string[];
 }
 
-interface StudioSectionProps {
+type StudioSectionProps = {
   rituals: StudioRitual[];
   timeline: TimelineEntry[];
   eyebrow: string;

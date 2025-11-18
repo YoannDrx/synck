@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 import { ImageUploader } from "./image-uploader"
 import type { AdminDictionary } from "@/types/dictionary"
 import type {
@@ -14,34 +15,34 @@ import type {
   Composer,
 } from "@prisma/client"
 
-interface WorkWithRelations extends Work {
+type WorkWithRelations = {
   translations: WorkTranslation[]
   coverImage: Asset | null
-  category: Category & { translations: any[] }
-  label: (Label & { translations: any[] }) | null
+  category: Category & { translations: { locale: string; name: string }[] }
+  label: (Label & { translations: { locale: string; name: string }[] }) | null
   contributions: (Contribution & {
-    composer: Composer & { translations: any[] }
+    composer: Composer & { translations: { locale: string; name: string }[] }
   })[]
   images: Asset[]
-}
+} & Work
 
-interface WorkFormProps {
+type WorkFormProps = {
   dictionary: AdminDictionary
   work?: WorkWithRelations
   mode: "create" | "edit"
 }
 
-interface ComposerOption {
+type ComposerOption = {
   id: string
   name: string
 }
 
-interface CategoryOption {
+type CategoryOption = {
   id: string
   name: string
 }
 
-interface LabelOption {
+type LabelOption = {
   id: string
   name: string
 }
@@ -62,41 +63,41 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
 
   // Form state
   const [formData, setFormData] = useState({
-    slug: work?.slug || "",
-    categoryId: work?.categoryId || "",
-    labelId: work?.labelId || null,
-    coverImageId: work?.coverImageId || null,
-    coverImageUrl: work?.coverImage?.path || null,
-    year: work?.year || null,
-    duration: work?.duration || "",
-    status: work?.status || "PUBLISHED",
-    spotifyUrl: work?.spotifyUrl || "",
-    releaseDate: work?.releaseDate || "",
-    genre: work?.genre || "",
-    isrcCode: work?.isrcCode || "",
-    order: work?.order || 0,
+    slug: work?.slug ?? "",
+    categoryId: work?.categoryId ?? "",
+    labelId: work?.labelId ?? null,
+    coverImageId: work?.coverImageId ?? null,
+    coverImageUrl: work?.coverImage?.path ?? null,
+    year: work?.year ?? null,
+    duration: work?.duration ?? "",
+    status: work?.status ?? "PUBLISHED",
+    spotifyUrl: work?.spotifyUrl ?? "",
+    releaseDate: work?.releaseDate ?? "",
+    genre: work?.genre ?? "",
+    isrcCode: work?.isrcCode ?? "",
+    order: work?.order ?? 0,
     isActive: work?.isActive ?? true,
     isFeatured: work?.isFeatured ?? false,
     translations: {
       fr: {
-        title: frTranslation?.title || "",
-        description: frTranslation?.description || "",
-        role: frTranslation?.role || "",
+        title: frTranslation?.title ?? "",
+        description: frTranslation?.description ?? "",
+        role: frTranslation?.role ?? "",
       },
       en: {
-        title: enTranslation?.title || "",
-        description: enTranslation?.description || "",
-        role: enTranslation?.role || "",
+        title: enTranslation?.title ?? "",
+        description: enTranslation?.description ?? "",
+        role: enTranslation?.role ?? "",
       },
     },
     composers:
       work?.contributions.map((c) => ({
         composerId: c.composerId,
-        role: c.role || "",
+        role: c.role ?? "",
         order: c.order,
-      })) || [],
-    imageIds: work?.images.map((wi) => wi.id) || [],
-    imageUrls: work?.images.map((wi) => wi.path) || [],
+      })) ?? [],
+    imageIds: work?.images.map((wi) => wi.id) ?? [],
+    imageUrls: work?.images.map((wi) => wi.path) ?? [],
   })
 
   // Load categories, labels, and composers
@@ -106,12 +107,12 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
         // Load categories
         const categoriesRes = await fetch("/api/admin/categories")
         if (categoriesRes.ok) {
-          const categoriesData = await categoriesRes.json()
+          const categoriesData = await categoriesRes.json() as { id: string; translations: { locale: string; name: string }[] }[]
           setCategories(
-            categoriesData.map((cat: any) => ({
+            categoriesData.map((cat) => ({
               id: cat.id,
               name:
-                cat.translations.find((t: any) => t.locale === "fr")?.name ||
+                cat.translations.find((t) => t.locale === "fr")?.name ??
                 "Sans nom",
             }))
           )
@@ -120,12 +121,12 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
         // Load labels
         const labelsRes = await fetch("/api/admin/labels")
         if (labelsRes.ok) {
-          const labelsData = await labelsRes.json()
+          const labelsData = await labelsRes.json() as { id: string; translations: { locale: string; name: string }[] }[]
           setLabels(
-            labelsData.map((label: any) => ({
+            labelsData.map((label) => ({
               id: label.id,
               name:
-                label.translations.find((t: any) => t.locale === "fr")?.name ||
+                label.translations.find((t) => t.locale === "fr")?.name ??
                 "Sans nom",
             }))
           )
@@ -134,25 +135,25 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
         // Load composers
         const composersRes = await fetch("/api/admin/composers")
         if (composersRes.ok) {
-          const composersData = await composersRes.json()
+          const composersData = await composersRes.json() as { id: string; translations: { locale: string; name: string }[] }[]
           setComposers(
-            composersData.map((comp: any) => ({
+            composersData.map((comp) => ({
               id: comp.id,
               name:
-                comp.translations.find((t: any) => t.locale === "fr")?.name ||
+                comp.translations.find((t) => t.locale === "fr")?.name ??
                 "Sans nom",
             }))
           )
         }
-      } catch (err) {
-        console.error("Error loading options:", err)
+      } catch {
+        // Error loading options - silently fail
       }
     }
 
-    loadOptions()
+    void loadOptions()
   }, [])
 
-  const handleCoverImageUploaded = async (image: any) => {
+  const handleCoverImageUploaded = async (image: { url: string; width: number; height: number; aspectRatio: number; blurDataUrl: string }) => {
     // Create Asset in database
     const response = await fetch("/api/admin/assets", {
       method: "POST",
@@ -167,7 +168,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
     })
 
     if (response.ok) {
-      const asset = await response.json()
+      const asset = await response.json() as { id: string; path: string }
       setFormData((prev) => ({
         ...prev,
         coverImageId: asset.id,
@@ -214,7 +215,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
     }))
   }
 
-  const handleWorkImageUploaded = async (image: any) => {
+  const handleWorkImageUploaded = async (image: { url: string; width: number; height: number; aspectRatio: number; blurDataUrl: string }) => {
     // Create Asset in database
     const response = await fetch("/api/admin/assets", {
       method: "POST",
@@ -229,7 +230,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
     })
 
     if (response.ok) {
-      const asset = await response.json()
+      const asset = await response.json() as { id: string; path: string }
       setFormData((prev) => ({
         ...prev,
         imageIds: [...prev.imageIds, asset.id],
@@ -253,7 +254,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
 
     try {
       const url =
-        mode === "create" ? "/api/admin/projects" : `/api/admin/projects/${work?.id}`
+        mode === "create" ? "/api/admin/projects" : `/api/admin/projects/${work?.id ?? ''}`
 
       const method = mode === "create" ? "POST" : "PUT"
 
@@ -266,12 +267,12 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
           labelId: formData.labelId,
           coverImageId: formData.coverImageId,
           year: formData.year,
-          duration: formData.duration || null,
+          duration: formData.duration ?? null,
           status: formData.status,
-          spotifyUrl: formData.spotifyUrl || null,
-          releaseDate: formData.releaseDate || null,
-          genre: formData.genre || null,
-          isrcCode: formData.isrcCode || null,
+          spotifyUrl: formData.spotifyUrl ?? null,
+          releaseDate: formData.releaseDate ?? null,
+          genre: formData.genre ?? null,
+          isrcCode: formData.isrcCode ?? null,
           order: formData.order,
           isActive: formData.isActive,
           isFeatured: formData.isFeatured,
@@ -282,15 +283,14 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
       })
 
       if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error || "Erreur lors de l'enregistrement")
+        const data = await response.json() as { error?: string }
+        throw new Error(data.error ?? "Erreur lors de l'enregistrement")
       }
 
       // Success - redirect to list
       router.push("/admin/projets")
       router.refresh()
-    } catch (err) {
-      console.error("Submit error:", err)
+    } catch (err: unknown) {
       setError(
         err instanceof Error ? err.message : "Erreur lors de l'enregistrement"
       )
@@ -299,7 +299,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <form onSubmit={(e) => { void handleSubmit(e) }} className="space-y-8">
       {error && (
         <div className="border-2 border-red-500/50 bg-red-500/10 p-4 text-red-400">
           {error}
@@ -315,10 +315,10 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
           type="text"
           value={formData.slug}
           onChange={(e) =>
-            setFormData((prev) => ({
+            { setFormData((prev) => ({
               ...prev,
               slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"),
-            }))
+            })); }
           }
           required
           placeholder="mon-album-2024"
@@ -337,13 +337,13 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
               type="text"
               value={formData.translations.fr.title}
               onChange={(e) =>
-                setFormData((prev) => ({
+                { setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
                     fr: { ...prev.translations.fr, title: e.target.value },
                   },
-                }))
+                })); }
               }
               required
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
@@ -355,7 +355,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
             <textarea
               value={formData.translations.fr.description}
               onChange={(e) =>
-                setFormData((prev) => ({
+                { setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
@@ -364,7 +364,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
                       description: e.target.value,
                     },
                   },
-                }))
+                })); }
               }
               rows={4}
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
@@ -379,13 +379,13 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
               type="text"
               value={formData.translations.fr.role}
               onChange={(e) =>
-                setFormData((prev) => ({
+                { setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
                     fr: { ...prev.translations.fr, role: e.target.value },
                   },
-                }))
+                })); }
               }
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
             />
@@ -404,13 +404,13 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
               type="text"
               value={formData.translations.en.title}
               onChange={(e) =>
-                setFormData((prev) => ({
+                { setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
                     en: { ...prev.translations.en, title: e.target.value },
                   },
-                }))
+                })); }
               }
               required
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
@@ -422,7 +422,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
             <textarea
               value={formData.translations.en.description}
               onChange={(e) =>
-                setFormData((prev) => ({
+                { setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
@@ -431,7 +431,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
                       description: e.target.value,
                     },
                   },
-                }))
+                })); }
               }
               rows={4}
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
@@ -446,13 +446,13 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
               type="text"
               value={formData.translations.en.role}
               onChange={(e) =>
-                setFormData((prev) => ({
+                { setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
                     en: { ...prev.translations.en, role: e.target.value },
                   },
-                }))
+                })); }
               }
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
             />
@@ -467,7 +467,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
           <select
             value={formData.categoryId}
             onChange={(e) =>
-              setFormData((prev) => ({ ...prev, categoryId: e.target.value }))
+              { setFormData((prev) => ({ ...prev, categoryId: e.target.value })); }
             }
             required
             className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
@@ -484,12 +484,12 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
         <div>
           <label className="block text-sm font-medium mb-2">Label</label>
           <select
-            value={formData.labelId || ""}
+            value={formData.labelId ?? ""}
             onChange={(e) =>
-              setFormData((prev) => ({
+              { setFormData((prev) => ({
                 ...prev,
                 labelId: e.target.value || null,
-              }))
+              })); }
             }
             className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
           >
@@ -509,7 +509,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
         <ImageUploader
           dictionary={dictionary.common}
           currentImage={formData.coverImageUrl}
-          onImageUploaded={handleCoverImageUploaded}
+          onImageUploaded={(img) => { void handleCoverImageUploaded(img) }}
           onImageRemoved={handleCoverImageRemoved}
         />
       </div>
@@ -520,12 +520,12 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
           <label className="block text-sm font-medium mb-2">Année</label>
           <input
             type="number"
-            value={formData.year || ""}
+            value={formData.year ?? ""}
             onChange={(e) =>
-              setFormData((prev) => ({
+              { setFormData((prev) => ({
                 ...prev,
                 year: e.target.value ? parseInt(e.target.value) : null,
-              }))
+              })); }
             }
             placeholder="2024"
             className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
@@ -540,7 +540,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
             type="text"
             value={formData.duration}
             onChange={(e) =>
-              setFormData((prev) => ({ ...prev, duration: e.target.value }))
+              { setFormData((prev) => ({ ...prev, duration: e.target.value })); }
             }
             placeholder="42:30"
             className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
@@ -553,7 +553,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
             type="text"
             value={formData.genre}
             onChange={(e) =>
-              setFormData((prev) => ({ ...prev, genre: e.target.value }))
+              { setFormData((prev) => ({ ...prev, genre: e.target.value })); }
             }
             placeholder="Classique"
             className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
@@ -569,7 +569,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
             type="url"
             value={formData.spotifyUrl}
             onChange={(e) =>
-              setFormData((prev) => ({ ...prev, spotifyUrl: e.target.value }))
+              { setFormData((prev) => ({ ...prev, spotifyUrl: e.target.value })); }
             }
             placeholder="https://open.spotify.com/..."
             className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
@@ -582,7 +582,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
             type="date"
             value={formData.releaseDate}
             onChange={(e) =>
-              setFormData((prev) => ({ ...prev, releaseDate: e.target.value }))
+              { setFormData((prev) => ({ ...prev, releaseDate: e.target.value })); }
             }
             className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
           />
@@ -597,7 +597,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
             type="text"
             value={formData.isrcCode}
             onChange={(e) =>
-              setFormData((prev) => ({ ...prev, isrcCode: e.target.value }))
+              { setFormData((prev) => ({ ...prev, isrcCode: e.target.value })); }
             }
             placeholder="FR-XXX-XX-XXXXX"
             className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
@@ -609,7 +609,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
           <select
             value={formData.status}
             onChange={(e) =>
-              setFormData((prev) => ({ ...prev, status: e.target.value }))
+              { setFormData((prev) => ({ ...prev, status: e.target.value })); }
             }
             className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
           >
@@ -646,7 +646,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
                 <select
                   value={composer.composerId}
                   onChange={(e) =>
-                    handleComposerChange(index, "composerId", e.target.value)
+                    { handleComposerChange(index, "composerId", e.target.value); }
                   }
                   required
                   className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
@@ -663,7 +663,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
               <div className="flex items-end">
                 <button
                   type="button"
-                  onClick={() => handleRemoveComposer(index)}
+                  onClick={() => { handleRemoveComposer(index); }}
                   className="w-full border-2 border-red-500/50 text-red-400 px-4 py-3 text-sm hover:bg-red-500/10 transition-colors"
                 >
                   Retirer
@@ -678,7 +678,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
                   type="text"
                   value={composer.role}
                   onChange={(e) =>
-                    handleComposerChange(index, "role", e.target.value)
+                    { handleComposerChange(index, "role", e.target.value); }
                   }
                   placeholder="Compositeur principal"
                   className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
@@ -691,11 +691,11 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
                   type="number"
                   value={composer.order}
                   onChange={(e) =>
-                    handleComposerChange(
+                    { handleComposerChange(
                       index,
                       "order",
                       parseInt(e.target.value) || 0
-                    )
+                    ); }
                   }
                   className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
                 />
@@ -723,8 +723,10 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
           <ImageUploader
             dictionary={dictionary.common}
             currentImage={null}
-            onImageUploaded={handleWorkImageUploaded}
-            onImageRemoved={() => {}}
+            onImageUploaded={(img) => { void handleWorkImageUploaded(img) }}
+            onImageRemoved={() => {
+              // No action needed for additional images
+            }}
           />
 
           {formData.imageUrls.length > 0 && (
@@ -734,14 +736,16 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
                   key={index}
                   className="relative border-2 border-white/20 p-2"
                 >
-                  <img
+                  <Image
                     src={url}
-                    alt={`Image ${index + 1}`}
+                    alt={`Image ${String(index + 1)}`}
+                    width={300}
+                    height={300}
                     className="w-full aspect-square object-cover"
                   />
                   <button
                     type="button"
-                    onClick={() => handleRemoveWorkImage(index)}
+                    onClick={() => { handleRemoveWorkImage(index); }}
                     className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 text-xs hover:bg-red-600"
                   >
                     ✕
@@ -761,16 +765,16 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label className="block text-sm font-medium mb-2">
-            Ordre d'affichage
+            Ordre d&apos;affichage
           </label>
           <input
             type="number"
             value={formData.order}
             onChange={(e) =>
-              setFormData((prev) => ({
+              { setFormData((prev) => ({
                 ...prev,
                 order: parseInt(e.target.value) || 0,
-              }))
+              })); }
             }
             className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
           />
@@ -783,7 +787,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
               type="checkbox"
               checked={formData.isActive}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, isActive: e.target.checked }))
+                { setFormData((prev) => ({ ...prev, isActive: e.target.checked })); }
               }
               className="w-5 h-5"
             />
@@ -798,10 +802,10 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
               type="checkbox"
               checked={formData.isFeatured}
               onChange={(e) =>
-                setFormData((prev) => ({
+                { setFormData((prev) => ({
                   ...prev,
                   isFeatured: e.target.checked,
-                }))
+                })); }
               }
               className="w-5 h-5"
             />
@@ -826,7 +830,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
 
         <button
           type="button"
-          onClick={() => router.push("/admin/projets")}
+          onClick={() => { router.push("/admin/projets"); }}
           disabled={isSubmitting}
           className="border-2 border-white/20 px-6 py-3 hover:border-[#d5ff0a] transition-colors disabled:opacity-50"
         >

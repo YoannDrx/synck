@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-interface LightboxImageProps {
+type LightboxImageProps = {
   src: string;
   alt: string;
   className?: string;
@@ -29,7 +29,7 @@ export function LightboxImage({
     <>
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={() => { setOpen(true); }}
         className={cn("group relative block focus:outline-none", className)}
         aria-label={`Agrandir ${alt}`}
       >
@@ -45,13 +45,13 @@ export function LightboxImage({
       {open && (
         <button
           type="button"
-          onClick={() => setOpen(false)}
+          onClick={() => { setOpen(false); }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6 focus:outline-none"
           aria-label={`Fermer ${alt}`}
         >
           <div className="relative max-h-[90vh] max-w-[90vw]">
             <Image
-              src={fullSrc || src}
+              src={fullSrc ?? src}
               alt={alt}
               width={1200}
               height={1200}

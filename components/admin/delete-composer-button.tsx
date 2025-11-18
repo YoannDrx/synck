@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import type { AdminDictionary } from "@/types/dictionary"
 
-interface DeleteComposerButtonProps {
+type DeleteComposerButtonProps = {
   composerId: string
   composerName: string
   hasContributions: boolean
@@ -13,7 +13,6 @@ interface DeleteComposerButtonProps {
 
 export function DeleteComposerButton({
   composerId,
-  composerName,
   hasContributions,
   dictionary,
 }: DeleteComposerButtonProps) {
@@ -30,15 +29,14 @@ export function DeleteComposerButton({
       })
 
       if (!response.ok) {
-        const data = await response.json()
-        alert(data.error || "Erreur lors de la suppression")
+        const data = await response.json() as { error?: string }
+        alert(data.error ?? "Erreur lors de la suppression")
         setIsDeleting(false)
         return
       }
 
       router.refresh()
-    } catch (error) {
-      console.error("Delete error:", error)
+    } catch {
       alert("Erreur lors de la suppression")
       setIsDeleting(false)
     }
@@ -62,7 +60,7 @@ export function DeleteComposerButton({
       <div className="flex items-center space-x-2">
         <button
           type="button"
-          onClick={handleDelete}
+          onClick={() => { void handleDelete() }}
           disabled={isDeleting}
           className="border-2 border-red-500/50 text-red-400 hover:bg-red-500/10 px-3 py-2 text-sm transition-colors disabled:opacity-50"
         >
@@ -70,7 +68,7 @@ export function DeleteComposerButton({
         </button>
         <button
           type="button"
-          onClick={() => setShowConfirm(false)}
+          onClick={() => { setShowConfirm(false); }}
           disabled={isDeleting}
           className="border-2 border-white/20 px-3 py-2 text-sm hover:border-white/40 transition-colors"
         >
@@ -83,7 +81,7 @@ export function DeleteComposerButton({
   return (
     <button
       type="button"
-      onClick={() => setShowConfirm(true)}
+      onClick={() => { setShowConfirm(true); }}
       className="border-2 border-red-500/50 text-red-400 hover:bg-red-500/10 px-3 py-2 text-sm transition-colors"
     >
       {dictionary.delete}

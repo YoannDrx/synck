@@ -1,12 +1,12 @@
 import type { NavSection, Metric, StudioRitual, TimelineEntry } from "@/lib/types";
 
-export interface LanguageSwitchDictionary {
+export type LanguageSwitchDictionary = {
   label: string;
   fr: string;
   en: string;
 }
 
-export interface HomeHeroDictionary {
+export type HomeHeroDictionary = {
   eyebrow: string[];
   role: string;
   description: string;
@@ -30,7 +30,7 @@ export interface HomeHeroDictionary {
   };
 }
 
-export interface HomeDictionary {
+export type HomeDictionary = {
   navSections: NavSection[];
   hero: HomeHeroDictionary;
   metrics: Metric[];
@@ -90,7 +90,7 @@ export interface HomeDictionary {
   };
 }
 
-export interface BlogDictionary {
+export type BlogDictionary = {
   description: string;
   filters: {
     categoryLabel: string;
@@ -118,13 +118,13 @@ export interface BlogDictionary {
   error: string;
 }
 
-export interface BlogDetailDictionary {
+export type BlogDetailDictionary = {
   back: string;
   notFoundTitle: string;
   notFoundDescription: string;
 }
 
-export interface ExpertisesPageDictionary {
+export type ExpertisesPageDictionary = {
   description: string;
   cardCta: string;
   ctaTitle: string;
@@ -133,7 +133,7 @@ export interface ExpertisesPageDictionary {
   error: string;
 }
 
-export interface ExpertiseDetailDictionary {
+export type ExpertiseDetailDictionary = {
   labelsTitle: string;
   documentaries: {
     title: string;
@@ -147,7 +147,7 @@ export interface ExpertiseDetailDictionary {
   ctaButton: string;
 }
 
-export interface ProjetsPageDictionary {
+export type ProjetsPageDictionary = {
   description: string;
   filterAll: string;
   searchPlaceholder: string;
@@ -159,7 +159,7 @@ export interface ProjetsPageDictionary {
   ctaButton: string;
 }
 
-export interface ProjetDetailDictionary {
+export type ProjetDetailDictionary = {
   composersTitle: string;
   infoTitle: string;
   releaseDate: string;
@@ -179,7 +179,7 @@ export interface ProjetDetailDictionary {
   ctaButton: string;
 }
 
-export interface ComposersPageDictionary {
+export type ComposersPageDictionary = {
   description: string;
   worksSingular: string;
   worksPlural: string;
@@ -188,7 +188,7 @@ export interface ComposersPageDictionary {
   ctaButton: string;
 }
 
-export interface ComposerDetailDictionary {
+export type ComposerDetailDictionary = {
   worksTitle: string;
   worksSingular: string;
   worksPlural: string;
@@ -197,7 +197,7 @@ export interface ComposerDetailDictionary {
   ctaButton: string;
 }
 
-export interface ContactPageDictionary {
+export type ContactPageDictionary = {
   heroDescription: string;
   introTitle: string;
   introDescription: string;
@@ -220,7 +220,7 @@ export interface ContactPageDictionary {
   consultationDescription: string;
 }
 
-export interface ContactFormDictionary {
+export type ContactFormDictionary = {
   fields: {
     name: {
       label: string;
@@ -247,19 +247,19 @@ export interface ContactFormDictionary {
   error: string;
 }
 
-export interface LayoutMenuDictionary {
+export type LayoutMenuDictionary = {
   open: string;
   close: string;
 }
 
-export interface LayoutDictionary {
+export type LayoutDictionary = {
   navigationTitle: string;
   language: LanguageSwitchDictionary;
   footer: string;
   menu: LayoutMenuDictionary;
 }
 
-export interface AuthDictionary {
+export type AuthDictionary = {
   login: {
     title: string;
     description: string;
@@ -292,7 +292,7 @@ export interface AuthDictionary {
   };
 }
 
-export interface AdminDictionary {
+export type AdminDictionary = {
   nav: {
     dashboard: string;
     albums: string;
@@ -413,7 +413,7 @@ export interface AdminDictionary {
   };
 }
 
-export interface Dictionary {
+export type Dictionary = {
   nav: {
     home: string;
     expertises: string;

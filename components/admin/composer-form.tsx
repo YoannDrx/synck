@@ -6,12 +6,12 @@ import { ImageUploader } from "./image-uploader"
 import type { AdminDictionary } from "@/types/dictionary"
 import type { Composer, ComposerTranslation, Asset } from "@prisma/client"
 
-interface ComposerWithRelations extends Composer {
+type ComposerWithRelations = {
   translations: ComposerTranslation[]
   image: Asset | null
-}
+} & Composer
 
-interface ComposerFormProps {
+type ComposerFormProps = {
   dictionary: AdminDictionary
   composer?: ComposerWithRelations
   mode: "create" | "edit"
@@ -28,25 +28,25 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
 
   // Form state
   const [formData, setFormData] = useState({
-    slug: composer?.slug || "",
-    imageId: composer?.imageId || null,
-    imageUrl: composer?.image?.path || null,
-    externalUrl: composer?.externalUrl || "",
-    order: composer?.order || 0,
+    slug: composer?.slug ?? "",
+    imageId: composer?.imageId ?? null,
+    imageUrl: composer?.image?.path ?? null,
+    externalUrl: composer?.externalUrl ?? "",
+    order: composer?.order ?? 0,
     isActive: composer?.isActive ?? true,
     translations: {
       fr: {
-        name: frTranslation?.name || "",
-        bio: frTranslation?.bio || "",
+        name: frTranslation?.name ?? "",
+        bio: frTranslation?.bio ?? "",
       },
       en: {
-        name: enTranslation?.name || "",
-        bio: enTranslation?.bio || "",
+        name: enTranslation?.name ?? "",
+        bio: enTranslation?.bio ?? "",
       },
     },
   })
 
-  const handleImageUploaded = async (image: any) => {
+  const handleImageUploaded = async (image: { url: string; width: number; height: number; aspectRatio: number; blurDataUrl: string }) => {
     // First, create Asset in database
     const response = await fetch("/api/admin/assets", {
       method: "POST",
@@ -61,7 +61,7 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
     })
 
     if (response.ok) {
-      const asset = await response.json()
+      const asset = await response.json() as { id: string; path: string }
       setFormData((prev) => ({
         ...prev,
         imageId: asset.id,
@@ -87,7 +87,7 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
       const url =
         mode === "create"
           ? "/api/admin/composers"
-          : `/api/admin/composers/${composer?.id}`
+          : `/api/admin/composers/${composer?.id ?? ''}`
 
       const method = mode === "create" ? "POST" : "PUT"
 
@@ -105,22 +105,21 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
       })
 
       if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error || "Erreur lors de l'enregistrement")
+        const data = await response.json() as { error?: string }
+        throw new Error(data.error ?? "Erreur lors de l'enregistrement")
       }
 
       // Success - redirect to list
       router.push("/admin/compositeurs")
       router.refresh()
     } catch (err) {
-      console.error("Submit error:", err)
       setError(err instanceof Error ? err.message : "Erreur lors de l'enregistrement")
       setIsSubmitting(false)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <form onSubmit={(e) => { void handleSubmit(e) }} className="space-y-8">
       {error && (
         <div className="border-2 border-red-500/50 bg-red-500/10 p-4 text-red-400">
           {error}
@@ -136,10 +135,10 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
           type="text"
           value={formData.slug}
           onChange={(e) =>
-            setFormData((prev) => ({
+            { setFormData((prev) => ({
               ...prev,
               slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"),
-            }))
+            })); }
           }
           required
           placeholder="maurice-ravel"
@@ -160,13 +159,13 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
               type="text"
               value={formData.translations.fr.name}
               onChange={(e) =>
-                setFormData((prev) => ({
+                { setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
                     fr: { ...prev.translations.fr, name: e.target.value },
                   },
-                }))
+                })); }
               }
               required
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
@@ -180,13 +179,13 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
             <textarea
               value={formData.translations.fr.bio}
               onChange={(e) =>
-                setFormData((prev) => ({
+                { setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
                     fr: { ...prev.translations.fr, bio: e.target.value },
                   },
-                }))
+                })); }
               }
               rows={4}
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
@@ -208,13 +207,13 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
               type="text"
               value={formData.translations.en.name}
               onChange={(e) =>
-                setFormData((prev) => ({
+                { setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
                     en: { ...prev.translations.en, name: e.target.value },
                   },
-                }))
+                })); }
               }
               required
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
@@ -228,13 +227,13 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
             <textarea
               value={formData.translations.en.bio}
               onChange={(e) =>
-                setFormData((prev) => ({
+                { setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
                     en: { ...prev.translations.en, bio: e.target.value },
                   },
-                }))
+                })); }
               }
               rows={4}
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
@@ -251,7 +250,7 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
         <ImageUploader
           dictionary={dictionary.common}
           currentImage={formData.imageUrl}
-          onImageUploaded={handleImageUploaded}
+          onImageUploaded={(img) => { void handleImageUploaded(img) }}
           onImageRemoved={handleImageRemoved}
         />
       </div>
@@ -265,7 +264,7 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
           type="url"
           value={formData.externalUrl}
           onChange={(e) =>
-            setFormData((prev) => ({ ...prev, externalUrl: e.target.value }))
+            { setFormData((prev) => ({ ...prev, externalUrl: e.target.value })); }
           }
           placeholder="https://www.youtube.com/..."
           className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
@@ -275,12 +274,12 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
       {/* Order & Active */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-2">Ordre d'affichage</label>
+          <label className="block text-sm font-medium mb-2">Ordre d&apos;affichage</label>
           <input
             type="number"
             value={formData.order}
             onChange={(e) =>
-              setFormData((prev) => ({ ...prev, order: parseInt(e.target.value) || 0 }))
+              { setFormData((prev) => ({ ...prev, order: parseInt(e.target.value) || 0 })); }
             }
             className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
           />
@@ -293,7 +292,7 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
               type="checkbox"
               checked={formData.isActive}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, isActive: e.target.checked }))
+                { setFormData((prev) => ({ ...prev, isActive: e.target.checked })); }
               }
               className="w-5 h-5"
             />
@@ -318,7 +317,7 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
 
         <button
           type="button"
-          onClick={() => router.push("/admin/compositeurs")}
+          onClick={() => { router.push("/admin/compositeurs"); }}
           disabled={isSubmitting}
           className="border-2 border-white/20 px-6 py-3 hover:border-[#d5ff0a] transition-colors disabled:opacity-50"
         >

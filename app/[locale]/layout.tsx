@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getDictionary } from "@/lib/dictionaries";
-import { i18n, type Locale } from "@/lib/i18n-config";
+import { i18n } from "@/lib/i18n-config";
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return i18n.locales.map((locale) => ({ locale }));
 }
 
@@ -13,7 +13,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const safeLocale = (locale === "en" ? "en" : "fr");
 
   return {
     title: safeLocale === "fr" ? "SYNCK - Caroline Senyk Projets" : "SYNCK - Caroline Senyk Projects",
@@ -32,7 +32,7 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const safeLocale = (locale === "en" ? "en" : "fr");
   const dictionary = await getDictionary(safeLocale);
 
   return (

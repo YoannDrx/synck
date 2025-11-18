@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-interface YouTubeModalProps {
+type YouTubeModalProps = {
   youtubeUrl: string;
   title: string;
   isOpen: boolean;
@@ -12,8 +12,8 @@ interface YouTubeModalProps {
 // Extrait l'ID YouTube de différents formats d'URL
 function extractYouTubeId(url: string): string | null {
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-  const match = url.match(regExp);
-  return (match && match[7].length === 11) ? match[7] : null;
+  const match = regExp.exec(url);
+  return (match?.[7].length === 11) ? match[7] : null;
 }
 
 export function YouTubeModal({ youtubeUrl, title, isOpen, onClose }: YouTubeModalProps) {

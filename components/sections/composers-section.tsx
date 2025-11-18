@@ -8,7 +8,7 @@ import type { Locale } from "@/lib/i18n-config";
 import type { HomeDictionary } from "@/types/dictionary";
 import { Button } from "@/components/ui/button";
 
-interface GalleryComposer {
+type GalleryComposer = {
   id: string;
   slug: string;
   name: string;
@@ -21,7 +21,7 @@ interface GalleryComposer {
 
 type ComposersCopy = HomeDictionary["composers"];
 
-interface ComposersSectionProps {
+type ComposersSectionProps = {
   locale: Locale;
   copy: ComposersCopy;
 }
@@ -38,7 +38,7 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
         if (!response.ok) {
           throw new Error("Failed to fetch composers");
         }
-        const data = await response.json();
+        const data = await response.json() as GalleryComposer[];
         setComposers(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
@@ -47,10 +47,10 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
       }
     }
 
-    fetchComposers();
+    void fetchComposers();
   }, [locale]);
 
-  const renderWorksCount = (count: number) => `${count} ${count > 1 ? copy.worksPlural : copy.worksSingular}`;
+  const renderWorksCount = (count: number) => `${String(count)} ${count > 1 ? copy.worksPlural : copy.worksSingular}`;
 
   if (loading) {
     return (
@@ -110,7 +110,7 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
                 <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-white/20 bg-black/20">
                   <Image
                     src={composer.image}
-                    alt={composer.imageAlt || composer.name}
+                    alt={composer.imageAlt ?? composer.name}
                     fill
                     sizes="96px"
                     className="object-cover transition-transform duration-500 group-hover:scale-110"

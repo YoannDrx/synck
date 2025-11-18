@@ -1,11 +1,11 @@
 import Link from "next/link";
 
-export interface BreadcrumbItem {
+export type BreadcrumbItem = {
   label: string;
   href?: string;
 }
 
-interface BreadcrumbProps {
+type BreadcrumbProps = {
   items: BreadcrumbItem[];
 }
 
