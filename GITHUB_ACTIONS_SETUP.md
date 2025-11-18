@@ -30,7 +30,7 @@ URL de connexion à votre base de données PostgreSQL Neon.
 
 **Format:**
 ```
-postgresql://username:password@host/database?sslmode=require
+postgresql://[USERNAME]:[PASSWORD]@[HOST]/[DATABASE]?sslmode=require
 ```
 
 **Exemple:**
