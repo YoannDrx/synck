@@ -1,0 +1,754 @@
+{
+  "timestamp": "2025-11-18T11:56:19.453Z",
+  "totalImages": 93,
+  "successful": 93,
+  "failed": 0,
+  "totalOriginalSize": 184497906,
+  "totalNewSize": 18645524,
+  "results": [
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/albums/pgo0051.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 687832,
+      "newSize": 333140,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/acid-body-music.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 5006957,
+      "newSize": 405321,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/acid.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 5006957,
+      "newSize": 405321,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/ailleurs.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 3406048,
+      "newSize": 239939,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/alien-suites-remixes.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 4542311,
+      "newSize": 338303,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/dark-ambient-vol2.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 3210910,
+      "newSize": 270481,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/dark-ambient2-making-of.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 2649280,
+      "newSize": 267156,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/dub-experience.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 6150833,
+      "newSize": 519748,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/egocentric-visuo-spatial-perspective.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 6853346,
+      "newSize": 685761,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/garden-of-eden.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 5438126,
+      "newSize": 396304,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/gardenofeden2.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 4516587,
+      "newSize": 218573,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/hold-me-closer.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 4758747,
+      "newSize": 379154,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/lofi-hip-hop.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 5026339,
+      "newSize": 271090,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/modulhater-klang-brutt.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 3449538,
+      "newSize": 247111,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/ny-parigo.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 3091181,
+      "newSize": 294764,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/pixel-fiction.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 4491535,
+      "newSize": 325008,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/riviera-bizarre.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 3895701,
+      "newSize": 399811,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/une-derniere-fois.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 3889081,
+      "newSize": 210843,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/clips/videoclub.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 2203516,
+      "newSize": 199549,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/ainsi-soit-il.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 288598,
+      "newSize": 45817,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/andre-mailfert-lepopee-dun-faussaire-industriel.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1805957,
+      "newSize": 177544,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/bastelica-fesch.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1606733,
+      "newSize": 235817,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/cahier-d-un-retour.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 3560821,
+      "newSize": 345250,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/chanter-ensemble-13prods.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 458614,
+      "newSize": 77111,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/cogolin.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1226231,
+      "newSize": 185535,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/comment-te-dire-adieu.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 915940,
+      "newSize": 95771,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/des-joujoux-par-milliers.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 2976622,
+      "newSize": 480630,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/des-joujoux.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 464733,
+      "newSize": 104090,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/eric-piolle.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 680897,
+      "newSize": 100524,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/filles-de-harkis.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 451531,
+      "newSize": 49401,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/freres-verges.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 4525932,
+      "newSize": 690017,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/la-double-vie-du-cognac.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 564086,
+      "newSize": 99150,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/la-pride-des-champs.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1105053,
+      "newSize": 191754,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/la-pride.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1433338,
+      "newSize": 238721,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/la-rumeur-dorleans2.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 550537,
+      "newSize": 79703,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/lache-ton-smartphone.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 2572733,
+      "newSize": 398275,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/les-loups-noirs.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1500214,
+      "newSize": 116757,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/les-resistantes-alllemandes.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 578127,
+      "newSize": 69076,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/les-vivants-expertise.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 199002,
+      "newSize": 46735,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/lesdoleances.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 930980,
+      "newSize": 127547,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/micmac-a-millau-les-paysans-face-a-la-mondialisation.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1264597,
+      "newSize": 167283,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/nous-soignants2.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 962536,
+      "newSize": 122291,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/operation-biodiversite.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 359281,
+      "newSize": 42948,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/pas-folle-la-liberte.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 637773,
+      "newSize": 103787,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/petit-pays-je-taime-beaucoup.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 2346543,
+      "newSize": 270534,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/petit-pays.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1827821,
+      "newSize": 161957,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/se-mettre-au-vert-expertise.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 3825838,
+      "newSize": 247263,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/13prods/tgros.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 2252764,
+      "newSize": 237682,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/avant-que-la-grande-nacre-meure2.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 568699,
+      "newSize": 76113,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/cabrera-un-secret-revele.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 3327684,
+      "newSize": 266585,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/cogolin-ville-a-prendre.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 870276,
+      "newSize": 118280,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/comment-te-dire-adieu.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 505765,
+      "newSize": 61286,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/comment-te-dire-adieu3.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 218992,
+      "newSize": 27015,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/comment-te-dire-adieu4.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 218992,
+      "newSize": 27015,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/deconfines-en-re.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 624440,
+      "newSize": 81389,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/filles-de-harkis.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 784128,
+      "newSize": 85266,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/gaudin2.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 587240,
+      "newSize": 74931,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/guyane-underground.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 452771,
+      "newSize": 47032,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/la-double-vie-du-cognac2.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 969211,
+      "newSize": 181503,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/la-double-vie-du-cognac3.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1516157,
+      "newSize": 250248,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/lache-ton-smartphone.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1991810,
+      "newSize": 238005,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/les-resistants-de-mauthausen.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 2989820,
+      "newSize": 379856,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/makatea2.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 686265,
+      "newSize": 95196,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/mayotte-lenfance-danger.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 779837,
+      "newSize": 94632,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/miquelon-entre-deux-eaux.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 736662,
+      "newSize": 89827,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/operation-biodiversite3.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 738336,
+      "newSize": 82453,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/pas-folle-la-liberte.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1737182,
+      "newSize": 267086,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/se-mettre-au-vert-portfolio.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 5243090,
+      "newSize": 397361,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/souvenirs-en-cuisine3.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 451722,
+      "newSize": 54238,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/souvenirs-en-cuisine4.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 497286,
+      "newSize": 57966,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/unique-en-mon-genre.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 743292,
+      "newSize": 76733,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/autres/unique-en-mon-genre2.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 120623,
+      "newSize": 43888,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/ligne-de-mire/unpasteur.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1340723,
+      "newSize": 206450,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/little-big-story/la-femme-sans-nom.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 985398,
+      "newSize": 141596,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/documentaires/pop-films/chants-gregoriens.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 763001,
+      "newSize": 74225,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/evenements/best-use-of-production-music-in-a-television-drama-2022-x-modulhater.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1111279,
+      "newSize": 186319,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/evenements/mark-awards-miniature1.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 999961,
+      "newSize": 121094,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/evenements/unedernierefois.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 605812,
+      "newSize": 178678,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosCompo/mutantninja.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 4710,
+      "newSize": 8843,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosCompo/viromajorrecords.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 30198,
+      "newSize": 11492,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosCompo/wellquartet.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 130523,
+      "newSize": 34878,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosynchro/bad-boys-hey-boy.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 4964496,
+      "newSize": 315134,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosynchro/captain-fall-cover.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1243408,
+      "newSize": 173590,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosynchro/jazz-funk-sabor-zdf-history.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1412675,
+      "newSize": 106005,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosynchro/lemondededemain.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 2312680,
+      "newSize": 368952,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosynchro/omv-petrom-pointillism.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 2651171,
+      "newSize": 194282,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosynchro/pinterest-una-vez-mas.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 3210280,
+      "newSize": 241972,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosynchro/pub-youngman-pizza-new-sheriff-in-town.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1446670,
+      "newSize": 87588,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosynchro/tapie-photo.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 2239640,
+      "newSize": 299216,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosynchro/the-river-flows-yves-rocher.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 1470914,
+      "newSize": 125119,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosynchro/tokyo-vice.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 2189458,
+      "newSize": 174432,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosynchro/true-lies-una-vez-mas.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 4983632,
+      "newSize": 524867,
+      "success": true
+    },
+    {
+      "filePath": "/Users/yoannandrieux/Projets/synck/public/images/portfolio/photosynchro/zdf-history.jpg",
+      "actualFormat": "png",
+      "fileExtension": ".jpg",
+      "originalSize": 2892340,
+      "newSize": 180541,
+      "success": true
+    }
+  ]
+}

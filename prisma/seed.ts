@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import fs from 'fs'
 import path from 'path'
+import * as bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
@@ -353,7 +354,56 @@ async function main() {
   await seedComposers(dataFr)
   await seedWorks(dataFr, dataEn)
 
+  // Seed admin user
+  await seedAdminUser()
+
   console.log('\n🎉 Database seeding completed!')
+}
+
+async function seedAdminUser() {
+  console.log('\n👤 Seeding admin user...')
+
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@synck.fr'
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123456'
+
+  // Check if admin already exists
+  const existingAdmin = await prisma.user.findUnique({
+    where: { email: adminEmail },
+  })
+
+  if (existingAdmin) {
+    console.log(`✅ Admin user already exists: ${adminEmail}`)
+    return
+  }
+
+  // Hash password using bcrypt (Better Auth uses bcrypt with 10 rounds)
+  const passwordHash = await bcrypt.hash(adminPassword, 10)
+
+  // Create admin user
+  const admin = await prisma.user.create({
+    data: {
+      email: adminEmail,
+      name: 'Caroline Senyk',
+      role: 'ADMIN',
+      isActive: true,
+      emailVerified: true,
+    },
+  })
+
+  // Create Account entry with password
+  await prisma.account.create({
+    data: {
+      userId: admin.id,
+      type: 'email',
+      provider: 'credential',
+      providerAccountId: admin.id,
+      password: passwordHash,
+    },
+  })
+
+  console.log(`✅ Admin user created: ${adminEmail}`)
+  console.log(`   Password: ${adminPassword}`)
+  console.log(`   ⚠️  IMPORTANT: Change this password after first login!`)
 }
 
 main()

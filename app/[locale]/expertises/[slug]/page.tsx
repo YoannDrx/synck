@@ -8,6 +8,7 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { DocumentairesGallery } from "@/components/documentaires-gallery";
 import { AlternatingSection } from "@/components/alternating-section";
 import { ExpertisesCarousel } from "@/components/expertises-carousel";
+import { PrismaClient } from "@prisma/client";
 
 // Generate static params for all expertise slugs
 export async function generateStaticParams() {
@@ -42,6 +43,59 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
 
   if (!expertise) {
     notFound();
+  }
+
+  // Fetch documentaires from Prisma if this is the gestion-administrative expertise
+  let documentaires = expertise.documentaires || [];
+
+  if (slug === "gestion-administrative-et-editoriale") {
+    const prisma = new PrismaClient();
+
+    try {
+      const works = await prisma.work.findMany({
+        where: {
+          isActive: true,
+          category: {
+            slug: 'documentaire'
+          }
+        },
+        include: {
+          label: {
+            include: {
+              translations: {
+                where: { locale: safeLocale }
+              }
+            }
+          },
+          coverImage: true,
+          translations: {
+            where: { locale: safeLocale }
+          }
+        },
+        orderBy: {
+          order: 'asc'
+        }
+      });
+
+      // Transform to the format expected by DocumentairesGallery
+      documentaires = works.map(work => {
+        const translation = work.translations[0];
+        const labelTranslation = work.label?.translations[0];
+
+        return {
+          title: translation?.title || work.slug,
+          subtitle: labelTranslation?.name || work.label?.slug || '',
+          href: work.coverImage?.path || '',
+          src: work.coverImage?.path || '',
+          srcLg: work.coverImage?.path || '',
+          link: translation?.description || '',
+          category: work.label?.slug || 'autre',
+          height: ''
+        };
+      });
+    } finally {
+      await prisma.$disconnect();
+    }
   }
 
   return (
@@ -127,8 +181,8 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
         )}
 
         {/* Documentaires Gallery - Full Width with Filter */}
-        {expertise.documentaires && expertise.documentaires.length > 0 && (
-          <DocumentairesGallery documentaires={expertise.documentaires} copy={detailCopy.documentaries} />
+        {documentaires && documentaires.length > 0 && (
+          <DocumentairesGallery documentaires={documentaires} copy={detailCopy.documentaries} />
         )}
 
         {/* Footer Image */}

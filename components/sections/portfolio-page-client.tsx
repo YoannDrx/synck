@@ -40,6 +40,7 @@ export function PortfolioPageClient({ locale, nav, copy, viewProjectLabel }: Por
   const [works, setWorks] = useState<GalleryWork[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -65,7 +66,9 @@ export function PortfolioPageClient({ locale, nav, copy, viewProjectLabel }: Por
     init();
   }, [locale]);
 
-  const filteredWorks = selectedCategory === "all" ? works : works.filter((work) => work.category === selectedCategory);
+  const filteredWorks = works
+    .filter((work) => selectedCategory === "all" || work.category === selectedCategory)
+    .filter((work) => work.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
   if (loading) {
     return (
@@ -103,6 +106,28 @@ export function PortfolioPageClient({ locale, nav, copy, viewProjectLabel }: Por
             <span>{nav.portfolio.slice(1)}</span>
           </h1>
           <p className="mb-6 max-w-2xl text-lg text-white/70">{copy.description}</p>
+
+          {/* Search bar */}
+          <div className="mb-6">
+            <div className="relative max-w-md">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={copy.searchPlaceholder}
+                className="w-full rounded-full border-2 border-white/30 bg-black/20 px-6 py-3 text-white placeholder:text-white/50 focus:border-lime-300 focus:outline-none focus:ring-2 focus:ring-lime-300/50"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          </div>
 
           <div className="flex flex-wrap gap-3">
             <button
@@ -162,7 +187,9 @@ export function PortfolioPageClient({ locale, nav, copy, viewProjectLabel }: Por
         </div>
 
         {filteredWorks.length === 0 && (
-          <div className="py-20 text-center text-xl text-white/50">{copy.empty}</div>
+          <div className="py-20 text-center text-xl text-white/50">
+            {searchQuery ? copy.noResults : copy.empty}
+          </div>
         )}
 
         <div className="mt-16">
