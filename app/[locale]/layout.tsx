@@ -16,7 +16,7 @@ export async function generateMetadata({
   const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
 
   return {
-    title: safeLocale === "fr" ? "SYNCK - Caroline Senyk Portfolio" : "SYNCK - Caroline Senyk Portfolio",
+    title: safeLocale === "fr" ? "SYNCK - Caroline Senyk Projets" : "SYNCK - Caroline Senyk Projects",
     description:
       safeLocale === "fr"
         ? "Gestionnaire de droits d'auteur et experte en droits musicaux"

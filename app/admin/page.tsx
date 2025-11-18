@@ -69,7 +69,7 @@ export default async function AdminDashboard() {
         <div className="border-2 border-white/20 bg-white/5 p-6 mb-8">
           <h2 className="text-xl font-bold mb-4 tracking-wider">Gestion</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <QuickActionButton label="📚 Gestion des œuvres" href="/admin/oeuvres" />
+            <QuickActionButton label="📚 Gestion des projets" href="/admin/projets" />
             <QuickActionButton label="🎵 Gestion des compositeurs" href="/admin/compositeurs" />
             <QuickActionButton label="💼 Gestion des expertises" href="/admin/expertises" />
           </div>
@@ -81,7 +81,7 @@ export default async function AdminDashboard() {
             Actions rapides
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <QuickActionButton label="+ Ajouter une œuvre" href="/admin/oeuvres/new" />
+            <QuickActionButton label="+ Ajouter un projet" href="/admin/projets/new" />
             <QuickActionButton label="+ Ajouter un compositeur" href="/admin/compositeurs/new" />
             <QuickActionButton label="+ Ajouter une expertise" href="/admin/expertises/new" />
             <QuickActionButton label="📨 Inviter un admin" href="/admin/invitations" />

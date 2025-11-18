@@ -23,7 +23,7 @@ export function DeleteWorkButton({
     setIsDeleting(true)
 
     try {
-      const response = await fetch(`/api/admin/works/${workId}`, {
+      const response = await fetch(`/api/admin/projects/${workId}`, {
         method: "DELETE",
       })
 

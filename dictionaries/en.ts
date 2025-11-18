@@ -4,7 +4,7 @@ const dictionary: Dictionary = {
   nav: {
     home: "Home",
     expertises: "Expertises",
-    portfolio: "Portfolio",
+    projets: "Projects",
     blog: "Blog",
     contact: "Contact",
     artists: "Artists",
@@ -60,16 +60,16 @@ const dictionary: Dictionary = {
       { id: "hero", label: "Home" },
       { id: "studio", label: "Studio" },
       { id: "expertises", label: "Expertises" },
-      { id: "projects", label: "Portfolio" },
+      { id: "projects", label: "Projects" },
       { id: "contact", label: "Contact" },
     ],
     hero: {
-      eyebrow: ["Caroline Senyk", "Portfolio"],
+      eyebrow: ["Caroline Senyk", "Projects"],
       role: "Copyright Manager",
       description:
         "Music rights specialist — Caroline Senyk supports labels, publishers, and artists with catalog administration: SACEM/SCPP/SPPF filings, contracts, production budgets, and funding applications.",
       ctas: {
-        portfolio: "View the portfolio",
+        projets: "View the projects",
         contact: "Get in touch",
         downloadCv: "Download résumé",
       },
@@ -168,11 +168,11 @@ const dictionary: Dictionary = {
       error: "Failed to load expertises",
     },
     projects: {
-      eyebrow: "Portfolio",
+      eyebrow: "Projects",
       title: "Selected works",
-      viewAll: "Browse entire portfolio",
+      viewAll: "Browse all projects",
       cardWorkLabel: "WORK",
-      error: "Failed to load portfolio",
+      error: "Failed to load projects",
     },
     artists: {
       eyebrow: "Artists",
@@ -198,8 +198,8 @@ const dictionary: Dictionary = {
         href: "mailto:caroline.senyk@parigomusic.com",
       },
       secondaryCta: {
-        label: "View full portfolio",
-        href: "/en/portfolio",
+        label: "View all projects",
+        href: "/en/projets",
       },
       infoCards: [
         {
@@ -277,7 +277,7 @@ const dictionary: Dictionary = {
     ctaDescription: "Contact me to discuss your copyright and administrative needs.",
     ctaButton: "Contact me",
   },
-  portfolioPage: {
+  projetsPage: {
     description: "Discover the music projects whose copyright Caroline manages.",
     filterAll: "All",
     searchPlaceholder: "Search by title...",
@@ -288,7 +288,7 @@ const dictionary: Dictionary = {
     ctaDescription: "Feel free to reach out and tell me about your project.",
     ctaButton: "Get in touch",
   },
-  portfolioDetail: {
+  projetDetail: {
     artistsTitle: "Artists",
     infoTitle: "Information",
     releaseDate: "Release date",
@@ -304,7 +304,7 @@ const dictionary: Dictionary = {
     previousLabel: "← Previous project",
     nextLabel: "Next project →",
     ctaTitle: "Working on something similar?",
-    ctaDescription: "Let’s talk about your music rights strategy.",
+    ctaDescription: "Let's talk about your music rights strategy.",
     ctaButton: "Contact me",
   },
   artistsPage: {
@@ -433,7 +433,7 @@ const dictionary: Dictionary = {
       changeImage: "Change image",
       removeImage: "Remove image",
     },
-    works: {
+    projects: {
       title: "Album management",
       createNew: "New album",
       editTitle: "Edit album",

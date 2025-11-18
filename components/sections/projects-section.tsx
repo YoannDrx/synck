@@ -35,9 +35,9 @@ export function ProjectsSection({ locale, copy }: ProjectsSectionProps) {
   useEffect(() => {
     async function fetchWorks() {
       try {
-        const response = await fetch(`/api/portfolio?locale=${locale}&limit=4`);
+        const response = await fetch(`/api/projets?locale=${locale}&limit=4`);
         if (!response.ok) {
-          throw new Error("Failed to fetch portfolio");
+          throw new Error("Failed to fetch projets");
         }
         const data = await response.json();
         setWorks(data);
@@ -97,7 +97,7 @@ export function ProjectsSection({ locale, copy }: ProjectsSectionProps) {
           <h2 className="text-4xl font-black">{copy.title}</h2>
         </div>
         <Button asChild variant="outline" className="inline-flex items-center gap-2 rounded-full">
-          <Link href={`/${locale}/portfolio`}>
+          <Link href={`/${locale}/projets`}>
             {copy.viewAll}
             <span aria-hidden>↗</span>
           </Link>
@@ -108,7 +108,7 @@ export function ProjectsSection({ locale, copy }: ProjectsSectionProps) {
         {works.map((work, index) => (
           <Link
             key={work.id}
-            href={`/${locale}/portfolio/${work.slug}`}
+            href={`/${locale}/projets/${work.slug}`}
             className="group relative overflow-hidden rounded-[28px] border-4 border-white/10 bg-[#0a0a0e] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.65)] transition duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
           >
             <div

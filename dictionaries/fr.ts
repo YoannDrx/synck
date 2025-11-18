@@ -4,7 +4,7 @@ const dictionary: Dictionary = {
   nav: {
     home: "Accueil",
     expertises: "Expertises",
-    portfolio: "Portfolio",
+    projets: "Projets",
     blog: "Blog",
     contact: "Contact",
     artists: "Artistes",
@@ -60,16 +60,16 @@ const dictionary: Dictionary = {
       { id: "hero", label: "Accueil" },
       { id: "studio", label: "Studio" },
       { id: "expertises", label: "Expertises" },
-      { id: "projects", label: "Portfolio" },
+      { id: "projects", label: "Projets" },
       { id: "contact", label: "Contact" },
     ],
     hero: {
-      eyebrow: ["Caroline Senyk", "Portfolio"],
+      eyebrow: ["Caroline Senyk", "Projets"],
       role: "Gestionnaire de droits",
       description:
         "Experte en gestion de droits musicaux — Caroline Senyk accompagne labels, éditeurs et artistes dans la gestion administrative et éditoriale de leurs catalogues. Déclarations SACEM/SCPP/SPPF, contrats, budgets de production et dossiers de subventions.",
       ctas: {
-        portfolio: "Voir le portfolio",
+        projets: "Voir les projets",
         contact: "Me contacter",
         downloadCv: "Télécharger le CV",
       },
@@ -168,11 +168,11 @@ const dictionary: Dictionary = {
       error: "Erreur lors du chargement des expertises",
     },
     projects: {
-      eyebrow: "Portfolio",
+      eyebrow: "Projets",
       title: "Travaux sélectionnés",
-      viewAll: "Voir tout le portfolio",
+      viewAll: "Voir tous les projets",
       cardWorkLabel: "PROJET",
-      error: "Erreur lors du chargement du portfolio",
+      error: "Erreur lors du chargement des projets",
     },
     artists: {
       eyebrow: "Artistes",
@@ -198,8 +198,8 @@ const dictionary: Dictionary = {
         href: "mailto:caroline.senyk@parigomusic.com",
       },
       secondaryCta: {
-        label: "Voir le portfolio complet",
-        href: "/fr/portfolio",
+        label: "Voir tous les projets",
+        href: "/fr/projets",
       },
       infoCards: [
         {
@@ -277,7 +277,7 @@ const dictionary: Dictionary = {
     ctaDescription: "Contactez-moi pour discuter de vos besoins en gestion de droits.",
     ctaButton: "Me contacter",
   },
-  portfolioPage: {
+  projetsPage: {
     description: "Découvrez les projets musicaux pour lesquels Caroline gère les droits d'auteur.",
     filterAll: "Tous",
     searchPlaceholder: "Rechercher par titre...",
@@ -288,7 +288,7 @@ const dictionary: Dictionary = {
     ctaDescription: "N'hésitez pas à me contacter pour discuter de votre projet.",
     ctaButton: "Me contacter",
   },
-  portfolioDetail: {
+  projetDetail: {
     artistsTitle: "Artistes",
     infoTitle: "Informations",
     releaseDate: "Date de sortie",
@@ -433,7 +433,7 @@ const dictionary: Dictionary = {
       changeImage: "Changer l'image",
       removeImage: "Supprimer l'image",
     },
-    works: {
+    projects: {
       title: "Gestion des albums",
       createNew: "Nouvel album",
       editTitle: "Modifier l'album",

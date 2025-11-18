@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getPortfolioCategoriesFromPrisma } from '@/lib/prismaPortfolioUtils'
+import { getProjetsCategoriesFromPrisma } from '@/lib/prismaProjetsUtils'
 import type { Locale } from '@/lib/i18n-config'
 
 export async function GET(request: NextRequest) {
@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const locale = (searchParams.get('locale') || 'fr') as Locale
 
-    const categories = await getPortfolioCategoriesFromPrisma(locale)
+    const categories = await getProjetsCategoriesFromPrisma(locale)
 
     return NextResponse.json(categories)
   } catch (error) {

@@ -11,7 +11,7 @@ export interface HomeHeroDictionary {
   role: string;
   description: string;
   ctas: {
-    portfolio: string;
+    projets: string;
     contact: string;
     downloadCv: string;
   };
@@ -147,7 +147,7 @@ export interface ExpertiseDetailDictionary {
   ctaButton: string;
 }
 
-export interface PortfolioPageDictionary {
+export interface ProjetsPageDictionary {
   description: string;
   filterAll: string;
   searchPlaceholder: string;
@@ -159,7 +159,7 @@ export interface PortfolioPageDictionary {
   ctaButton: string;
 }
 
-export interface PortfolioDetailDictionary {
+export interface ProjetDetailDictionary {
   artistsTitle: string;
   infoTitle: string;
   releaseDate: string;
@@ -346,7 +346,7 @@ export interface AdminDictionary {
     changeImage: string;
     removeImage: string;
   };
-  works: {
+  projects: {
     title: string;
     createNew: string;
     editTitle: string;
@@ -417,7 +417,7 @@ export interface Dictionary {
   nav: {
     home: string;
     expertises: string;
-    portfolio: string;
+    projets: string;
     blog: string;
     contact: string;
     artists: string;
@@ -436,8 +436,8 @@ export interface Dictionary {
   blogDetail: BlogDetailDictionary;
   expertisesPage: ExpertisesPageDictionary;
   expertiseDetail: ExpertiseDetailDictionary;
-  portfolioPage: PortfolioPageDictionary;
-  portfolioDetail: PortfolioDetailDictionary;
+  projetsPage: ProjetsPageDictionary;
+  projetDetail: ProjetDetailDictionary;
   artistsPage: ArtistsPageDictionary;
   artistDetail: ArtistDetailDictionary;
   contactPage: ContactPageDictionary;

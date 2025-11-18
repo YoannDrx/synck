@@ -1,4 +1,4 @@
-// Prisma Schema for Caroline Senyk Portfolio
+// Prisma Schema for Caroline Senyk Projets
 // Database: Neon PostgreSQL
 // Region: aws-eu-central-1
 
@@ -18,7 +18,7 @@ datasource db {
 
 model Asset {
   id           String   @id @default(cuid())
-  path         String   @unique // Ex: /images/portfolio/work-slug/image.jpg
+  path         String   @unique // Ex: /images/projets/work-slug/image.jpg
   alt          String?
   blurDataUrl  String?  @db.Text
   width        Int?
@@ -151,7 +151,7 @@ model LabelTranslation {
 }
 
 // ============================================
-// WORKS (Portfolio items)
+// WORKS (Projets)
 // ============================================
 
 model Work {

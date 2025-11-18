@@ -98,7 +98,7 @@ export function WorksFilterableList({
       {/* Works Count */}
       <div className="mb-6">
         <p className="text-white/60">
-          {filteredWorks.length} œuvre(s)
+          {filteredWorks.length} projet(s)
           {selectedCategoryId && " dans cette catégorie"}
         </p>
       </div>
@@ -108,14 +108,14 @@ export function WorksFilterableList({
         <div className="border-2 border-white/20 bg-white/5 p-12 text-center">
           <p className="text-white/60 mb-4">
             {selectedCategoryId
-              ? "Aucune œuvre dans cette catégorie"
-              : "Aucune œuvre pour le moment"}
+              ? "Aucun projet dans cette catégorie"
+              : "Aucun projet pour le moment"}
           </p>
           <Link
-            href="/admin/oeuvres/new"
+            href="/admin/projets/new"
             className="inline-block bg-[#d5ff0a] text-black font-bold px-6 py-3 hover:bg-[#c5ef00] transition-colors"
           >
-            + Ajouter une œuvre
+            + Ajouter un projet
           </Link>
         </div>
       ) : (
@@ -190,7 +190,7 @@ export function WorksFilterableList({
                   {/* Actions */}
                   <div className="flex items-center space-x-2">
                     <Link
-                      href={`/admin/oeuvres/${work.id}`}
+                      href={`/admin/projets/${work.id}`}
                       className="flex-1 text-center border-2 border-white/20 hover:border-[#d5ff0a] px-3 py-2 text-sm transition-colors"
                     >
                       {dictionary.edit}

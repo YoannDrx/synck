@@ -12,7 +12,6 @@ import type {
   Label,
   Contribution,
   Composer,
-  WorkImage,
 } from "@prisma/client"
 
 interface WorkWithRelations extends Work {
@@ -23,7 +22,7 @@ interface WorkWithRelations extends Work {
   contributions: (Contribution & {
     composer: Composer & { translations: any[] }
   })[]
-  images: (WorkImage & { image: Asset })[]
+  images: Asset[]
 }
 
 interface WorkFormProps {
@@ -96,8 +95,8 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
         role: c.role || "",
         order: c.order,
       })) || [],
-    imageIds: work?.images.map((wi) => wi.imageId) || [],
-    imageUrls: work?.images.map((wi) => wi.image.path) || [],
+    imageIds: work?.images.map((wi) => wi.id) || [],
+    imageUrls: work?.images.map((wi) => wi.path) || [],
   })
 
   // Load categories, labels, and composers
@@ -254,7 +253,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
 
     try {
       const url =
-        mode === "create" ? "/api/admin/works" : `/api/admin/works/${work?.id}`
+        mode === "create" ? "/api/admin/projects" : `/api/admin/projects/${work?.id}`
 
       const method = mode === "create" ? "POST" : "PUT"
 
@@ -288,7 +287,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
       }
 
       // Success - redirect to list
-      router.push("/admin/oeuvres")
+      router.push("/admin/projets")
       router.refresh()
     } catch (err) {
       console.error("Submit error:", err)
@@ -827,7 +826,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
 
         <button
           type="button"
-          onClick={() => router.push("/admin/oeuvres")}
+          onClick={() => router.push("/admin/projets")}
           disabled={isSubmitting}
           className="border-2 border-white/20 px-6 py-3 hover:border-[#d5ff0a] transition-colors disabled:opacity-50"
         >

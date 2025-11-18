@@ -22,7 +22,7 @@ const buildLinks = (locale: Locale) =>
   [
     { key: "home", href: `/${locale}` },
     { key: "expertises", href: `/${locale}/expertises` },
-    { key: "portfolio", href: `/${locale}/portfolio` },
+    { key: "projets", href: `/${locale}/projets` },
     { key: "artists", href: `/${locale}/artistes` },
     { key: "blog", href: `/${locale}/blog` },
     { key: "contact", href: `/${locale}/contact` },

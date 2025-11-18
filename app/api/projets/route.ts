@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getComposersFromPrisma } from '@/lib/prismaProjetsUtils'
+import { getProjetsFromPrisma } from '@/lib/prismaProjetsUtils'
 
 export async function GET(request: Request) {
   try {
@@ -7,17 +7,17 @@ export async function GET(request: Request) {
     const locale = searchParams.get('locale') || 'fr'
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : null
 
-    const composers = await getComposersFromPrisma(locale as 'fr' | 'en')
+    const works = await getProjetsFromPrisma(locale as 'fr' | 'en')
 
     // Si un limit est spécifié, retourner seulement les N premiers
     if (limit && limit > 0) {
-      return NextResponse.json(composers.slice(0, limit))
+      return NextResponse.json(works.slice(0, limit))
     }
 
-    // Sinon retourner tous les compositeurs
-    return NextResponse.json(composers)
+    // Sinon retourner tous les projets
+    return NextResponse.json(works)
   } catch (error) {
-    console.error('Error fetching composers:', error)
-    return NextResponse.json({ error: 'Failed to fetch composers' }, { status: 500 })
+    console.error('Error fetching projets:', error)
+    return NextResponse.json({ error: 'Failed to fetch projets' }, { status: 500 })
   }
 }

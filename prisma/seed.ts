@@ -394,9 +394,8 @@ async function seedAdminUser() {
   await prisma.account.create({
     data: {
       userId: admin.id,
-      type: 'email',
-      provider: 'credential',
-      providerAccountId: admin.id,
+      accountId: admin.id,
+      providerId: 'credential',
       password: passwordHash,
     },
   })

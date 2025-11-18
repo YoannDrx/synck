@@ -261,7 +261,7 @@ export function HeroSection({ metrics, hero }: HeroSectionProps) {
           </div>
           <div className="flex flex-wrap gap-4 text-[0.75rem] font-semibold uppercase tracking-[0.35em]">
             <Button asChild size="lg" className="rounded-full">
-              <a href="#projects">{hero.ctas.portfolio}</a>
+              <a href="#projects">{hero.ctas.projets}</a>
             </Button>
             <Button asChild variant="outline" size="lg" className="rounded-full">
               <a href="#contact">{hero.ctas.contact}</a>
