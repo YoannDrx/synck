@@ -3,7 +3,6 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
-import { getLegacyProjetItem } from "@/lib/legacyProjetsUtils";
 import { getWorkBySlug, getAllWorkSlugs, getProjetsFromPrisma, type WorkContribution, type WorkImage } from "@/lib/prismaProjetsUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
@@ -37,7 +36,6 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
   const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
   const work = await getWorkBySlug(slug, safeLocale);
   const dictionary = await getDictionary(safeLocale);
-  const legacyWork = getLegacyProjetItem(slug, safeLocale);
   const detailCopy = dictionary.projetDetail;
 
   if (!work) {
@@ -55,18 +53,16 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
   const categoryTranslation = work.category?.translations[0];
   const labelTranslation = work.label?.translations[0];
   const translationDescription = translation?.description?.trim();
-  const legacyDescription = legacyWork?.description?.trim();
   const description =
-    legacyDescription ||
-    (translationDescription &&
+    translationDescription &&
     translationDescription.length > 10 &&
     translationDescription !== "See Details"
       ? translationDescription
-      : undefined);
-  const externalLink = legacyWork?.externalLink?.trim() ? legacyWork.externalLink : null;
-  const releaseDate = work.releaseDate || legacyWork?.releaseDate || null;
-  const genre = work.genre || legacyWork?.genre || null;
-  const rawSpotifyUrl = work.spotifyUrl || legacyWork?.linkSpotify || null;
+      : undefined;
+  const externalLink = work.externalUrl?.trim() || null;
+  const releaseDate = work.releaseDate || null;
+  const genre = work.genre || null;
+  const rawSpotifyUrl = work.spotifyUrl || null;
   const spotifyEmbedUrl = rawSpotifyUrl
     ? (() => {
         try {

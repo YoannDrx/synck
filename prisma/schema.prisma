@@ -87,7 +87,7 @@ model Composer {
   slug         String   @unique
   imageId      String?
   image        Asset?   @relation("ComposerImages", fields: [imageId], references: [id])
-  externalUrl  String?  // External link (YouTube, SoundCloud, etc.)
+  externalUrl  String?  // Primary external link (kept for backward compatibility)
   order        Int      @default(0)
   isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
@@ -96,6 +96,7 @@ model Composer {
   // Relations
   translations  ComposerTranslation[]
   contributions Contribution[]
+  links         ComposerLink[]         // Multiple social/external links
 
   @@index([slug])
   @@index([isActive, order])
@@ -112,6 +113,21 @@ model ComposerTranslation {
 
   @@unique([composerId, locale])
   @@index([locale])
+}
+
+model ComposerLink {
+  id         String   @id @default(cuid())
+  composerId String
+  composer   Composer @relation(fields: [composerId], references: [id], onDelete: Cascade)
+  platform   String   // Ex: "youtube", "soundcloud", "spotify", "facebook", "instagram", "website"
+  url        String
+  label      String?  // Display label (optional, ex: "Official YouTube Channel")
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  @@unique([composerId, url]) // Prevent duplicate URLs for same composer
+  @@index([composerId])
+  @@index([platform])
 }
 
 // ============================================
@@ -167,6 +183,7 @@ model Work {
   duration       Int?     // In minutes
   status         String?  // Ex: "completed", "in-production"
   spotifyUrl     String?  // Spotify embed URL
+  externalUrl    String?  // External link (website, IMDb, etc.)
   releaseDate    String?  // Release date (format: "YYYY-MM-DD" or "YYYY")
   genre          String?  // Musical genre (ex: "Trap / Hip Hop", "EDM")
   isrcCode       String?  // International Standard Recording Code

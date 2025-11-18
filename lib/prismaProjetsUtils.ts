@@ -291,6 +291,11 @@ export type ComposerWithContributions = Prisma.ComposerGetPayload<{
       };
     };
     image: true;
+    links: {
+      orderBy: {
+        order: 'asc';
+      };
+    };
     contributions: {
       where: {
         work: {
@@ -326,6 +331,8 @@ export type ComposerWithContributions = Prisma.ComposerGetPayload<{
 }>;
 
 // Get all composers with translations
+// NOTE: cache() is used for performance. If image paths appear incorrect after DB changes,
+// restart the dev server to clear React's in-memory cache.
 export const getComposersFromPrisma = cache(async (locale: Locale): Promise<GalleryComposer[]> => {
   try {
     const composers = await prisma.composer.findMany({
@@ -383,6 +390,11 @@ export const getComposerBySlug = cache(async (slug: string, locale: Locale): Pro
           },
         },
         image: true,
+        links: {
+          orderBy: {
+            order: 'asc',
+          },
+        },
         contributions: {
           where: {
             work: {

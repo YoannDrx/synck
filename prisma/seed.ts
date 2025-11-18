@@ -49,7 +49,7 @@ function getDescriptionFromMarkdown(locale: 'fr' | 'en', slug: string) {
     return descriptionCache.get(cacheKey)!
   }
 
-  const descriptionsDir = path.join(process.cwd(), 'content', 'portfolio', locale, 'descriptions')
+  const descriptionsDir = path.join(process.cwd(), 'content', 'projets', locale, 'descriptions')
   if (!fs.existsSync(descriptionsDir)) {
     return null
   }
@@ -336,11 +336,11 @@ async function main() {
   // Load JSON data
   const dataFrPath = path.join(
     process.cwd(),
-    'content/portfolio/fr/metadata.json'
+    'content/projets/fr/metadata.json'
   )
   const dataEnPath = path.join(
     process.cwd(),
-    'content/portfolio/en/metadata.json'
+    'content/projets/en/metadata.json'
   )
 
   const dataFr: PortfolioItem[] = JSON.parse(fs.readFileSync(dataFrPath, 'utf-8'))

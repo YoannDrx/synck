@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
 import { getComposerBySlug, getAllComposerSlugs } from "@/lib/prismaProjetsUtils";
 import type { ComposerWithContributions } from "@/lib/prismaProjetsUtils";
-import { getLegacyComposerBySlug } from "@/lib/legacyProjetsUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
 
@@ -46,7 +45,6 @@ export default async function CompositeurDetailPage({ params }: ComposerDetailPa
   const composer = await getComposerBySlug(slug, safeLocale);
   const dictionary = await getDictionary(safeLocale);
   const copy = dictionary.composerDetail;
-  const legacyComposer = getLegacyComposerBySlug(slug);
 
   if (!composer) {
     notFound();
@@ -68,21 +66,21 @@ export default async function CompositeurDetailPage({ params }: ComposerDetailPa
     })
   );
 
-  const composerImage = composer.image?.path || legacyComposer?.image;
+  const composerImage = composer.image?.path;
 
-  const legacyLinks = legacyComposer?.links ?? [];
-  const hasExternalUrl = composer.externalUrl && !legacyLinks.some((link) => link.url === composer.externalUrl);
-  const socialLinks = [
-    ...legacyLinks,
-    ...(hasExternalUrl
-      ? [
-          {
-            label: getPlatformName(composer.externalUrl!, safeLocale),
-            url: composer.externalUrl!,
-          },
-        ]
-      : []),
-  ];
+  // Build social links from ComposerLink table
+  const socialLinks = composer.links?.map((link) => ({
+    label: link.label || getPlatformName(link.url, safeLocale),
+    url: link.url,
+  })) || [];
+
+  // Add externalUrl if it exists and is not already in links
+  if (composer.externalUrl && !socialLinks.some((link) => link.url === composer.externalUrl)) {
+    socialLinks.push({
+      label: getPlatformName(composer.externalUrl, safeLocale),
+      url: composer.externalUrl,
+    });
+  }
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">

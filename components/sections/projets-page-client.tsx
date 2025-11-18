@@ -164,13 +164,21 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
               className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] transition-all duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
             >
               <div className="relative flex min-h-[300px] items-center justify-center overflow-hidden bg-black/20">
-                <Image
-                  src={work.coverImage}
-                  alt={work.coverImageAlt}
-                  width={600}
-                  height={600}
-                  className="h-auto w-full object-contain transition-transform group-hover:scale-110"
-                />
+                {work.coverImage && work.coverImage !== '/images/placeholder.jpg' ? (
+                  <Image
+                    src={work.coverImage}
+                    alt={work.coverImageAlt}
+                    width={600}
+                    height={600}
+                    className="h-auto w-full object-contain transition-transform group-hover:scale-110"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-lime-300/10 to-emerald-400/10 py-20">
+                    <span className="text-6xl font-black uppercase text-white/20 leading-none">
+                      {work.title.charAt(0)}
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="p-4">

@@ -29,12 +29,7 @@ export default async function ComposeursPage({ params }: ComposersPageParams) {
 
       <main className="relative z-10 w-full max-w-[1600px] mx-auto px-4 pb-20 pt-8 sm:pt-16 sm:px-8 lg:px-16">
         {/* Breadcrumb */}
-        <Breadcrumb
-          items={[
-            { label: dictionary.nav.home, href: `/${safeLocale}` },
-            { label: dictionary.nav.composers },
-          ]}
-        />
+        <Breadcrumb items={[{ label: dictionary.nav.home, href: `/${safeLocale}` }, { label: dictionary.nav.composers }]} />
 
         {/* Page Header */}
         <div className="mb-8 sm:mb-12">
@@ -69,16 +64,16 @@ export default async function ComposeursPage({ params }: ComposersPageParams) {
                   </div>
                 ) : (
                   <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-white/20 bg-gradient-to-br from-lime-300/20 to-emerald-400/20 flex items-center justify-center">
-                    <span className="text-5xl font-black text-white/40">
-                      {composer.name.charAt(0).toUpperCase()}
-                    </span>
+                    <div className="flex items-center justify-center w-full h-full">
+                      <span className="text-5xl font-black text-white/40 leading-none" style={{ lineHeight: "1" }}>
+                        {composer.name.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
                   </div>
                 )}
 
                 {/* Composer Name */}
-                <h3 className="text-xl font-bold uppercase tracking-tight">
-                  {composer.name}
-                </h3>
+                <h3 className="text-xl font-bold uppercase tracking-tight">{composer.name}</h3>
 
                 {/* Works Count */}
                 <div className="text-sm text-white/60">
@@ -86,11 +81,7 @@ export default async function ComposeursPage({ params }: ComposersPageParams) {
                 </div>
 
                 {/* Bio Preview */}
-                {composer.bio && (
-                  <p className="text-xs text-white/50 line-clamp-2">
-                    {composer.bio}
-                  </p>
-                )}
+                {composer.bio && <p className="text-xs text-white/50 line-clamp-2">{composer.bio}</p>}
               </div>
             </Link>
           ))}
