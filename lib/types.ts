@@ -1,21 +1,21 @@
-export interface NavSection {
+export type NavSection = {
   id: string;
   label: string;
 }
 
-export interface Metric {
+export type Metric = {
   label: string;
   value: string;
   detail: string;
 }
 
-export interface StudioRitual {
+export type StudioRitual = {
   focus: string;
   headline: string;
   copy: string;
 }
 
-export interface TimelineEntry {
+export type TimelineEntry = {
   year: string;
   role: string;
   summary: string;
@@ -23,7 +23,7 @@ export interface TimelineEntry {
   tags: string[];
 }
 
-export interface Project {
+export type Project = {
   name: string;
   subtitle: string;
   description: string;
@@ -32,7 +32,7 @@ export interface Project {
   tags: string[];
 }
 
-export interface Experiment {
+export type Experiment = {
   title: string;
   descriptor: string;
   status: string;

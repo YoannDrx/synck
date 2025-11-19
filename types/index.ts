@@ -1,11 +1,11 @@
 // Common types
-export interface SocialLink {
+export type SocialLink = {
   name: string;
   links: string;
 }
 
 // Expertise types
-export interface Expertise {
+export type Expertise = {
   id: string;
   slug: string;
   href: string;
@@ -15,7 +15,7 @@ export interface Expertise {
   description: string;
 }
 
-export interface ExpertiseFrontmatter {
+export type ExpertiseFrontmatter = {
   id?: string;
   slug?: string;
   title: string;
@@ -24,35 +24,8 @@ export interface ExpertiseFrontmatter {
   imgUrl?: string;
 }
 
-// Blog types
-export interface BlogPost {
-  id: string;
-  slug: string;
-  title: string;
-  date: string;
-  category: string;
-  thumb: string;
-  subtitle: string | null;
-  description: string | null;
-  tags: string[];
-  lang: string;
-  contentHtml?: string;
-}
-
-export interface BlogFrontmatter {
-  title: string;
-  date: string;
-  category: string;
-  thumb: string;
-  subtitle?: string;
-  description?: string;
-  tags?: string[];
-  slug?: string;
-  lang?: string;
-}
-
 // Component props types
-export interface SEOProps {
+export type SEOProps = {
   title?: string;
   description: string;
   image?: string;
@@ -60,7 +33,7 @@ export interface SEOProps {
   type?: 'website' | 'article';
 }
 
-export interface CtaProps {
+export type CtaProps = {
   title: string;
   btnText?: string;
   btnLink?: string;
@@ -68,7 +41,7 @@ export interface CtaProps {
   variant?: string;
 }
 
-export interface ButtonProps {
+export type ButtonProps = {
   btnLink: string;
   btnText: string;
   variant?: string;
@@ -76,7 +49,7 @@ export interface ButtonProps {
   isExternal?: boolean;
 }
 
-export interface HeroProps {
+export type HeroProps = {
   title: string;
   subtitle: string;
   socialLinksHeading?: string;
@@ -84,13 +57,13 @@ export interface HeroProps {
   bgImageUrl: string;
 }
 
-export interface PageHeadingProps {
+export type PageHeadingProps = {
   title: string;
   bgSrc: string;
   pageLinkText: string;
 }
 
-export interface SectionHeadingProps {
+export type SectionHeadingProps = {
   title: string;
   subtitle?: string;
   btnLink?: string;
@@ -100,10 +73,6 @@ export interface SectionHeadingProps {
   intro?: string;
 }
 
-export interface ServiceListProps {
+export type ServiceListProps = {
   expertises: Expertise[];
-}
-
-export interface SidebarProps {
-  allPostsData: BlogPost[];
 }

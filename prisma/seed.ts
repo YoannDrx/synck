@@ -1,10 +1,12 @@
+/* eslint-disable no-console */
 import { PrismaClient } from '@prisma/client'
 import fs from 'fs'
 import path from 'path'
+import * as bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
-interface PortfolioItem {
+type PortfolioItem = {
   id: number
   slug: string
   title: string
@@ -45,10 +47,10 @@ const normalizeKey = (value: string) =>
 function getDescriptionFromMarkdown(locale: 'fr' | 'en', slug: string) {
   const cacheKey = `${locale}:${slug}`
   if (descriptionCache.has(cacheKey)) {
-    return descriptionCache.get(cacheKey)!
+    return descriptionCache.get(cacheKey) ?? null
   }
 
-  const descriptionsDir = path.join(process.cwd(), 'content', 'portfolio', locale, 'descriptions')
+  const descriptionsDir = path.join(process.cwd(), 'content', 'projets', locale, 'descriptions')
   if (!fs.existsSync(descriptionsDir)) {
     return null
   }
@@ -69,7 +71,6 @@ function getDescriptionFromMarkdown(locale: 'fr' | 'en', slug: string) {
 // Helper: slugify text
 function slugify(text: string): string {
   return text
-    .toString()
     .toLowerCase()
     .trim()
     .replace(/\s+/g, '-')
@@ -108,7 +109,7 @@ async function seedCategories(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) 
   // Create categories with translations
   let order = 0
   for (const [nameFr, slug] of categoriesMapFr) {
-    const nameEn = categoryTranslationMap.get(nameFr) || nameFr
+    const nameEn = categoryTranslationMap.get(nameFr) ?? nameFr
 
     await prisma.category.upsert({
       where: { slug },
@@ -127,7 +128,7 @@ async function seedCategories(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) 
     })
   }
 
-  console.log(`✅ Created ${categoriesMapFr.size} categories`)
+  console.log(`✅ Created ${String(categoriesMapFr.size)} categories`)
 }
 
 async function seedComposers(dataFr: PortfolioItem[]) {
@@ -153,7 +154,7 @@ async function seedComposers(dataFr: PortfolioItem[]) {
     }
   })
 
-  console.log(`Found ${composersMap.size} unique composers`)
+  console.log(`Found ${String(composersMap.size)} unique composers`)
 
   // Create composers
   let order = 0
@@ -205,7 +206,7 @@ async function seedComposers(dataFr: PortfolioItem[]) {
     })
   }
 
-  console.log(`✅ Created ${composersMap.size} composers`)
+  console.log(`✅ Created ${String(composersMap.size)} composers`)
 }
 
 async function seedWorks(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
@@ -218,7 +219,7 @@ async function seedWorks(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
     if (!itemFr || !itemEn) continue
 
     // Find category
-    const categorySlug = slugify(itemFr.category || 'other')
+    const categorySlug = slugify(itemFr.category ?? 'other')
     const category = await prisma.category.findUnique({
       where: { slug: categorySlug },
     })
@@ -238,13 +239,13 @@ async function seedWorks(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
           path: itemFr.src,
           alt: itemFr.title,
           // Use first available width/height from images object
-          width: itemFr.images?.w1080 || itemFr.images?.w768 || undefined,
-          height: itemFr.height ? parseInt(itemFr.height) : undefined,
+          width: itemFr.images?.w1080 ?? itemFr.images?.w768 ?? undefined,
+          height: itemFr.height ? parseInt(itemFr.height, 10) : undefined,
           aspectRatio:
             calculateAspectRatio(
-              itemFr.images?.w1080 || itemFr.images?.w768,
-              itemFr.height ? parseInt(itemFr.height) : undefined
-            ) || undefined,
+              itemFr.images?.w1080 ?? itemFr.images?.w768,
+              itemFr.height ? parseInt(itemFr.height, 10) : undefined
+            ) ?? undefined,
         },
       })
       coverImageId = asset.id
@@ -255,12 +256,12 @@ async function seedWorks(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
     if (itemFr.releaseDate) {
       const parts = itemFr.releaseDate.split('/')
       if (parts.length === 3) {
-        year = parseInt(parts[2])
+        year = parseInt(parts[2], 10)
       }
     }
 
-    const descriptionFr = getDescriptionFromMarkdown('fr', itemFr.slug) || itemFr.subtitle || undefined
-    const descriptionEn = getDescriptionFromMarkdown('en', itemEn.slug) || itemEn.subtitle || undefined
+    const descriptionFr = getDescriptionFromMarkdown('fr', itemFr.slug) ?? itemFr.subtitle ?? undefined
+    const descriptionEn = getDescriptionFromMarkdown('en', itemEn.slug) ?? itemEn.subtitle ?? undefined
 
     // Create work
     const work = await prisma.work.upsert({
@@ -271,9 +272,9 @@ async function seedWorks(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
         categoryId: category.id,
         coverImageId,
         year,
-        spotifyUrl: itemFr.linkSpotify || null, // Add Spotify URL
-        releaseDate: itemFr.releaseDate || null, // Add release date
-        genre: itemFr.genre || null, // Add genre
+        spotifyUrl: itemFr.linkSpotify ?? null, // Add Spotify URL
+        releaseDate: itemFr.releaseDate ?? null, // Add release date
+        genre: itemFr.genre ?? null, // Add genre
         order: itemFr.id,
         isActive: true,
         isFeatured: false,
@@ -326,7 +327,7 @@ async function seedWorks(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
     console.log(`✅ Created work: ${itemFr.title}`)
   }
 
-  console.log(`✅ Created ${dataFr.length} works`)
+  console.log(`✅ Created ${String(dataFr.length)} works`)
 }
 
 async function main() {
@@ -335,29 +336,77 @@ async function main() {
   // Load JSON data
   const dataFrPath = path.join(
     process.cwd(),
-    'content/portfolio/fr/metadata.json'
+    'content/projets/fr/metadata.json'
   )
   const dataEnPath = path.join(
     process.cwd(),
-    'content/portfolio/en/metadata.json'
+    'content/projets/en/metadata.json'
   )
 
-  const dataFr: PortfolioItem[] = JSON.parse(fs.readFileSync(dataFrPath, 'utf-8'))
-  const dataEn: PortfolioItem[] = JSON.parse(fs.readFileSync(dataEnPath, 'utf-8'))
+  const dataFr = JSON.parse(fs.readFileSync(dataFrPath, 'utf-8')) as PortfolioItem[]
+  const dataEn = JSON.parse(fs.readFileSync(dataEnPath, 'utf-8')) as PortfolioItem[]
 
-  console.log(`📦 Loaded ${dataFr.length} portfolio items (FR)`)
-  console.log(`📦 Loaded ${dataEn.length} portfolio items (EN)\n`)
+  console.log(`📦 Loaded ${String(dataFr.length)} portfolio items (FR)`)
+  console.log(`📦 Loaded ${String(dataEn.length)} portfolio items (EN)\n`)
 
   // Seed in order
   await seedCategories(dataFr, dataEn)
   await seedComposers(dataFr)
   await seedWorks(dataFr, dataEn)
 
+  // Seed admin user
+  await seedAdminUser()
+
   console.log('\n🎉 Database seeding completed!')
 }
 
+async function seedAdminUser() {
+  console.log('\n👤 Seeding admin user...')
+
+  const adminEmail = process.env.ADMIN_EMAIL ?? 'admin@synck.fr'
+  const adminPassword = process.env.ADMIN_PASSWORD ?? 'admin123456'
+
+  // Check if admin already exists
+  const existingAdmin = await prisma.user.findUnique({
+    where: { email: adminEmail },
+  })
+
+  if (existingAdmin) {
+    console.log(`✅ Admin user already exists: ${adminEmail}`)
+    return
+  }
+
+  // Hash password using bcrypt (Better Auth uses bcrypt with 10 rounds)
+  const passwordHash = await bcrypt.hash(adminPassword, 10)
+
+  // Create admin user
+  const admin = await prisma.user.create({
+    data: {
+      email: adminEmail,
+      name: 'Caroline Senyk',
+      role: 'ADMIN',
+      isActive: true,
+      emailVerified: true,
+    },
+  })
+
+  // Create Account entry with password
+  await prisma.account.create({
+    data: {
+      userId: admin.id,
+      accountId: admin.id,
+      providerId: 'credential',
+      password: passwordHash,
+    },
+  })
+
+  console.log(`✅ Admin user created: ${adminEmail}`)
+  console.log(`   Password: ${adminPassword}`)
+  console.log(`   ⚠️  IMPORTANT: Change this password after first login!`)
+}
+
 main()
-  .catch((e) => {
+  .catch((e: unknown) => {
     console.error('❌ Error during seeding:', e)
     process.exit(1)
   })

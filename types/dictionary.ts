@@ -1,17 +1,17 @@
 import type { NavSection, Metric, StudioRitual, TimelineEntry } from "@/lib/types";
 
-export interface LanguageSwitchDictionary {
+export type LanguageSwitchDictionary = {
   label: string;
   fr: string;
   en: string;
 }
 
-export interface HomeHeroDictionary {
+export type HomeHeroDictionary = {
   eyebrow: string[];
   role: string;
   description: string;
   ctas: {
-    portfolio: string;
+    projets: string;
     contact: string;
     downloadCv: string;
   };
@@ -30,7 +30,7 @@ export interface HomeHeroDictionary {
   };
 }
 
-export interface HomeDictionary {
+export type HomeDictionary = {
   navSections: NavSection[];
   hero: HomeHeroDictionary;
   metrics: Metric[];
@@ -56,7 +56,7 @@ export interface HomeDictionary {
     cardWorkLabel: string;
     error: string;
   };
-  artists: {
+  composers: {
     eyebrow: string;
     title: string;
     viewAll: string;
@@ -90,7 +90,7 @@ export interface HomeDictionary {
   };
 }
 
-export interface BlogDictionary {
+export type BlogDictionary = {
   description: string;
   filters: {
     categoryLabel: string;
@@ -118,13 +118,13 @@ export interface BlogDictionary {
   error: string;
 }
 
-export interface BlogDetailDictionary {
+export type BlogDetailDictionary = {
   back: string;
   notFoundTitle: string;
   notFoundDescription: string;
 }
 
-export interface ExpertisesPageDictionary {
+export type ExpertisesPageDictionary = {
   description: string;
   cardCta: string;
   ctaTitle: string;
@@ -133,30 +133,34 @@ export interface ExpertisesPageDictionary {
   error: string;
 }
 
-export interface ExpertiseDetailDictionary {
+export type ExpertiseDetailDictionary = {
   labelsTitle: string;
   documentaries: {
     title: string;
     filterAll: string;
+    searchPlaceholder: string;
     empty: string;
+    noResults: string;
   };
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
 }
 
-export interface PortfolioPageDictionary {
+export type ProjetsPageDictionary = {
   description: string;
   filterAll: string;
+  searchPlaceholder: string;
   loading: string;
   empty: string;
+  noResults: string;
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
 }
 
-export interface PortfolioDetailDictionary {
-  artistsTitle: string;
+export type ProjetDetailDictionary = {
+  composersTitle: string;
   infoTitle: string;
   releaseDate: string;
   category: string;
@@ -175,7 +179,7 @@ export interface PortfolioDetailDictionary {
   ctaButton: string;
 }
 
-export interface ArtistsPageDictionary {
+export type ComposersPageDictionary = {
   description: string;
   worksSingular: string;
   worksPlural: string;
@@ -184,7 +188,7 @@ export interface ArtistsPageDictionary {
   ctaButton: string;
 }
 
-export interface ArtistDetailDictionary {
+export type ComposerDetailDictionary = {
   worksTitle: string;
   worksSingular: string;
   worksPlural: string;
@@ -193,7 +197,7 @@ export interface ArtistDetailDictionary {
   ctaButton: string;
 }
 
-export interface ContactPageDictionary {
+export type ContactPageDictionary = {
   heroDescription: string;
   introTitle: string;
   introDescription: string;
@@ -216,7 +220,7 @@ export interface ContactPageDictionary {
   consultationDescription: string;
 }
 
-export interface ContactFormDictionary {
+export type ContactFormDictionary = {
   fields: {
     name: {
       label: string;
@@ -243,26 +247,180 @@ export interface ContactFormDictionary {
   error: string;
 }
 
-export interface LayoutMenuDictionary {
+export type LayoutMenuDictionary = {
   open: string;
   close: string;
 }
 
-export interface LayoutDictionary {
+export type LayoutDictionary = {
   navigationTitle: string;
   language: LanguageSwitchDictionary;
   footer: string;
   menu: LayoutMenuDictionary;
 }
 
-export interface Dictionary {
+export type AuthDictionary = {
+  login: {
+    title: string;
+    description: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    passwordLabel: string;
+    passwordPlaceholder: string;
+    submitButton: string;
+    submitting: string;
+    error: string;
+    invalidCredentials: string;
+    accountDisabled: string;
+  };
+  invitation: {
+    title: string;
+    description: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    emailLabel: string;
+    passwordLabel: string;
+    passwordPlaceholder: string;
+    confirmPasswordLabel: string;
+    confirmPasswordPlaceholder: string;
+    submitButton: string;
+    submitting: string;
+    success: string;
+    errorInvalid: string;
+    errorExpired: string;
+    errorPasswordMismatch: string;
+  };
+}
+
+export type AdminDictionary = {
+  nav: {
+    dashboard: string;
+    albums: string;
+    composers: string;
+    expertises: string;
+    categories: string;
+    labels: string;
+    invitations: string;
+    logout: string;
+  };
+  dashboard: {
+    title: string;
+    welcome: string;
+    stats: {
+      totalWorks: string;
+      totalComposers: string;
+      totalExpertises: string;
+      activeCategories: string;
+    };
+    recentChanges: string;
+    quickActions: {
+      title: string;
+      newWork: string;
+      newComposer: string;
+      newExpertise: string;
+      inviteAdmin: string;
+    };
+  };
+  common: {
+    save: string;
+    saving: string;
+    cancel: string;
+    delete: string;
+    deleting: string;
+    edit: string;
+    create: string;
+    creating: string;
+    search: string;
+    filter: string;
+    reset: string;
+    active: string;
+    inactive: string;
+    actions: string;
+    confirmDelete: string;
+    deleteSuccess: string;
+    saveSuccess: string;
+    error: string;
+    required: string;
+    uploadImage: string;
+    uploadingImage: string;
+    changeImage: string;
+    removeImage: string;
+  };
+  projects: {
+    title: string;
+    createNew: string;
+    editTitle: string;
+    fields: {
+      titleLabel: string;
+      descriptionLabel: string;
+      categoryLabel: string;
+      labelLabel: string;
+      year: string;
+      duration: string;
+      genre: string;
+      isrc: string;
+      spotifyUrl: string;
+      coverImage: string;
+      gallery: string;
+      contributors: string;
+      addContributor: string;
+      contributorRole: string;
+    };
+    filters: {
+      category: string;
+      label: string;
+      year: string;
+      status: string;
+    };
+  };
+  composers: {
+    title: string;
+    createNew: string;
+    editTitle: string;
+    fields: {
+      nameLabel: string;
+      bioLabel: string;
+      imageLabel: string;
+      externalUrl: string;
+    };
+  };
+  expertises: {
+    title: string;
+    createNew: string;
+    editTitle: string;
+    fields: {
+      titleLabel: string;
+      subtitleLabel: string;
+      descriptionLabel: string;
+      contentLabel: string;
+      coverImage: string;
+    };
+  };
+  invitations: {
+    title: string;
+    sendNew: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    roleLabel: string;
+    sendButton: string;
+    sending: string;
+    sent: string;
+    pending: string;
+    accepted: string;
+    expired: string;
+    expiresAt: string;
+    status: string;
+  };
+}
+
+export type Dictionary = {
   nav: {
     home: string;
     expertises: string;
-    portfolio: string;
+    projets: string;
     blog: string;
     contact: string;
-    artists: string;
+    composers: string;
   };
   cta: {
     viewMore: string;
@@ -278,9 +436,11 @@ export interface Dictionary {
   blogDetail: BlogDetailDictionary;
   expertisesPage: ExpertisesPageDictionary;
   expertiseDetail: ExpertiseDetailDictionary;
-  portfolioPage: PortfolioPageDictionary;
-  portfolioDetail: PortfolioDetailDictionary;
-  artistsPage: ArtistsPageDictionary;
-  artistDetail: ArtistDetailDictionary;
+  projetsPage: ProjetsPageDictionary;
+  projetDetail: ProjetDetailDictionary;
+  composersPage: ComposersPageDictionary;
+  composerDetail: ComposerDetailDictionary;
   contactPage: ContactPageDictionary;
+  auth: AuthDictionary;
+  admin: AdminDictionary;
 }

@@ -1,4 +1,4 @@
-// Prisma Schema for Caroline Senyk Portfolio
+// Prisma Schema for Caroline Senyk Projets
 // Database: Neon PostgreSQL
 // Region: aws-eu-central-1
 
@@ -18,7 +18,7 @@ datasource db {
 
 model Asset {
   id           String   @id @default(cuid())
-  path         String   @unique // Ex: /images/portfolio/work-slug/image.jpg
+  path         String   @unique // Ex: /images/projets/work-slug/image.jpg
   alt          String?
   blurDataUrl  String?  @db.Text
   width        Int?
@@ -33,8 +33,6 @@ model Asset {
   categoryImages     Category[]     @relation("CategoryImages")
   labelImages        Label[]        @relation("LabelImages")
   composerImages     Composer[]     @relation("ComposerImages")
-  blogPostImages     BlogPost[]     @relation("BlogPostImages")
-  blogPostCover      BlogPost[]     @relation("BlogPostCover")
   expertiseImages    Expertise[]    @relation("ExpertiseImages")
   expertiseCover     Expertise[]    @relation("ExpertiseCover")
 
@@ -87,7 +85,7 @@ model Composer {
   slug         String   @unique
   imageId      String?
   image        Asset?   @relation("ComposerImages", fields: [imageId], references: [id])
-  externalUrl  String?  // External link (YouTube, SoundCloud, etc.)
+  externalUrl  String?  // Primary external link (kept for backward compatibility)
   order        Int      @default(0)
   isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
@@ -96,6 +94,7 @@ model Composer {
   // Relations
   translations  ComposerTranslation[]
   contributions Contribution[]
+  links         ComposerLink[]         // Multiple social/external links
 
   @@index([slug])
   @@index([isActive, order])
@@ -112,6 +111,21 @@ model ComposerTranslation {
 
   @@unique([composerId, locale])
   @@index([locale])
+}
+
+model ComposerLink {
+  id         String   @id @default(cuid())
+  composerId String
+  composer   Composer @relation(fields: [composerId], references: [id], onDelete: Cascade)
+  platform   String   // Ex: "youtube", "soundcloud", "spotify", "facebook", "instagram", "website"
+  url        String
+  label      String?  // Display label (optional, ex: "Official YouTube Channel")
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  @@unique([composerId, url]) // Prevent duplicate URLs for same composer
+  @@index([composerId])
+  @@index([platform])
 }
 
 // ============================================
@@ -151,7 +165,7 @@ model LabelTranslation {
 }
 
 // ============================================
-// WORKS (Portfolio items)
+// WORKS (Projets)
 // ============================================
 
 model Work {
@@ -167,6 +181,7 @@ model Work {
   duration       Int?     // In minutes
   status         String?  // Ex: "completed", "in-production"
   spotifyUrl     String?  // Spotify embed URL
+  externalUrl    String?  // External link (website, IMDb, etc.)
   releaseDate    String?  // Release date (format: "YYYY-MM-DD" or "YYYY")
   genre          String?  // Musical genre (ex: "Trap / Hip Hop", "EDM")
   isrcCode       String?  // International Standard Recording Code
@@ -219,55 +234,6 @@ model Contribution {
 }
 
 // ============================================
-// BLOG POSTS
-// ============================================
-
-model BlogPost {
-  id           String   @id @default(cuid())
-  slug         String   @unique
-  coverImageId String?
-  coverImage   Asset?   @relation("BlogPostCover", fields: [coverImageId], references: [id])
-  publishedAt  DateTime @default(now())
-  isPublished  Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  // Relations
-  translations BlogPostTranslation[]
-  tags         BlogPostTag[]
-  images       Asset[]               @relation("BlogPostImages")
-
-  @@index([slug])
-  @@index([isPublished, publishedAt])
-}
-
-model BlogPostTranslation {
-  id         String  @id @default(cuid())
-  blogPostId String
-  locale     String  // 'fr' or 'en'
-  title      String
-  excerpt    String? @db.Text
-  content    String  @db.Text
-
-  blogPost BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
-
-  @@unique([blogPostId, locale])
-  @@index([locale])
-}
-
-model BlogPostTag {
-  id         String   @id @default(cuid())
-  blogPostId String
-  tag        String
-  locale     String   // 'fr' or 'en'
-
-  blogPost BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
-
-  @@unique([blogPostId, tag, locale])
-  @@index([tag, locale])
-}
-
-// ============================================
 // EXPERTISES
 // ============================================
 
@@ -302,4 +268,95 @@ model ExpertiseTranslation {
 
   @@unique([expertiseId, locale])
   @@index([locale])
+}
+
+// ============================================
+// AUTHENTICATION & USER MANAGEMENT
+// ============================================
+
+enum UserRole {
+  ADMIN   // Full access to admin panel
+  VIEWER  // Read-only access (optional for future)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  name          String?
+  image         String?   // Avatar URL
+  role          UserRole  @default(ADMIN)
+  isActive      Boolean   @default(true)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  sessions        Session[]
+  accounts        Account[]
+  invitationsSent Invitation[] @relation("InvitationSender")
+
+  @@index([email])
+  @@index([role, isActive])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+model Account {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accountId    String    // Better Auth: account identifier
+  providerId   String    // Better Auth: "credential", "google", etc.
+  accessToken  String?   @db.Text
+  refreshToken String?   @db.Text
+  idToken      String?   @db.Text
+  expiresAt    DateTime?
+  password     String?   // Password hash for email/password auth
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+}
+
+model Invitation {
+  id         String    @id @default(cuid())
+  email      String
+  token      String    @unique
+  role       UserRole  @default(ADMIN)
+  expiresAt  DateTime  // 7 days from creation
+  acceptedAt DateTime?
+  sentById   String
+  sentBy     User      @relation("InvitationSender", fields: [sentById], references: [id])
+  createdAt  DateTime  @default(now())
+
+  @@index([email])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, value])
+  @@index([identifier])
 }

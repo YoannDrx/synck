@@ -1,11 +1,11 @@
 "use client";
 
-interface NavSection {
+type NavSection = {
   id: string;
   label: string;
 }
 
-interface NavigationBarProps {
+type NavigationBarProps = {
   sections: readonly NavSection[];
   activeSection: string;
   title: string;
@@ -25,7 +25,7 @@ export function NavigationBar({ sections, activeSection, title }: NavigationBarP
               : "text-white/45"
           }`}
         >
-          <span className="text-white/35">{`0${index + 1}`}</span>
+          <span className="text-white/35">{`0${String(index + 1)}`}</span>
           <span>{link.label}</span>
           <span
             className={`ml-auto h-[2px] w-8 origin-left bg-lime-300 transition ${

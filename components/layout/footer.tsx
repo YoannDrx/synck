@@ -1,4 +1,4 @@
-interface FooterProps {
+type FooterProps = {
   text: string;
 }
 

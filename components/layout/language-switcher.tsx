@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { i18n, type Locale } from "@/lib/i18n-config";
 import type { LanguageSwitchDictionary } from "@/types/dictionary";
 
-interface LanguageSwitcherProps {
+type LanguageSwitcherProps = {
   locale: Locale;
   dictionary: LanguageSwitchDictionary;
 }

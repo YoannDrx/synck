@@ -7,7 +7,7 @@ import type { Locale } from "@/lib/i18n-config";
 import type { HomeDictionary } from "@/types/dictionary";
 import { Button } from "@/components/ui/button";
 
-interface ExpertiseCard {
+type ExpertiseCard = {
   id: string;
   slug: string;
   href: string;
@@ -19,7 +19,7 @@ interface ExpertiseCard {
 
 type ExpertisesSectionCopy = HomeDictionary["expertises"];
 
-interface ExpertisesSectionProps {
+type ExpertisesSectionProps = {
   locale: Locale;
   copy: ExpertisesSectionCopy;
 }
@@ -36,7 +36,7 @@ export function ExpertisesSection({ locale, copy }: ExpertisesSectionProps) {
         if (!response.ok) {
           throw new Error("Failed to fetch expertises");
         }
-        const data = await response.json();
+        const data = await response.json() as ExpertiseCard[];
         setExpertises(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
@@ -45,7 +45,7 @@ export function ExpertisesSection({ locale, copy }: ExpertisesSectionProps) {
       }
     }
 
-    fetchExpertises();
+    void fetchExpertises();
   }, [locale]);
 
   if (loading) {

@@ -56,8 +56,8 @@ const NameMorphLine = () => {
       return;
     }
 
-    const morphTimer = setTimeout(() => setPhase("morph"), 1400);
-    const lockTimer = setTimeout(() => setPhase("locked"), 3200);
+    const morphTimer = setTimeout(() => { setPhase("morph"); }, 1400);
+    const lockTimer = setTimeout(() => { setPhase("locked"); }, 3200);
     return () => {
       clearTimeout(morphTimer);
       clearTimeout(lockTimer);
@@ -104,7 +104,7 @@ const NameMorphLine = () => {
         <span className="sr-only">{FINAL_WORD}</span>
         <div className="flex gap-[0.04em] whitespace-nowrap sm:gap-[0.08em]">
           {FINAL_LETTERS.map((char, order) => (
-            <span key={`final-static-${char}-${order}`} className="text-white">
+            <span key={`final-static-${char}-${String(order)}`} className="text-white">
               {char}
             </span>
           ))}
@@ -173,7 +173,7 @@ const NameMorphLine = () => {
 
           return (
             <motion.span
-              key={`origin-${letter.index}-${letter.char}`}
+              key={`origin-${String(letter.index)}-${letter.char}`}
               ref={(node) => {
                 initialRefs.current[letter.index] = node;
               }}
@@ -207,7 +207,7 @@ const NameMorphLine = () => {
   );
 };
 
-interface HeroSectionProps {
+type HeroSectionProps = {
   metrics: {
     label: string;
     value: string;
@@ -235,7 +235,7 @@ export function HeroSection({ metrics, hero }: HeroSectionProps) {
       <div
         className="absolute inset-0 opacity-80 transition-all duration-300"
         style={{
-          background: `radial-gradient(circle at ${glow.x}% ${glow.y}%, rgba(213,255,10,0.3), transparent 45%), radial-gradient(circle at 90% 10%, rgba(255,75,162,0.25), transparent 45%)`,
+          background: `radial-gradient(circle at ${String(glow.x)}% ${String(glow.y)}%, rgba(213,255,10,0.3), transparent 45%), radial-gradient(circle at 90% 10%, rgba(255,75,162,0.25), transparent 45%)`,
         }}
       />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05),transparent_65%)]" />
@@ -261,7 +261,7 @@ export function HeroSection({ metrics, hero }: HeroSectionProps) {
           </div>
           <div className="flex flex-wrap gap-4 text-[0.75rem] font-semibold uppercase tracking-[0.35em]">
             <Button asChild size="lg" className="rounded-full">
-              <a href="#projects">{hero.ctas.portfolio}</a>
+              <a href="#projects">{hero.ctas.projets}</a>
             </Button>
             <Button asChild variant="outline" size="lg" className="rounded-full">
               <a href="#contact">{hero.ctas.contact}</a>

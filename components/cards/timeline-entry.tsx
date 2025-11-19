@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 
-interface TimelineEntryProps {
+type TimelineEntryProps = {
   year: string;
   role: string;
   summary: string;

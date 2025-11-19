@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getDictionary } from "@/lib/dictionaries";
-import { getAllExpertises } from "@/lib/expertiseUtils";
+import { getAllExpertises } from "@/lib/prismaExpertiseUtils";
 import type { Locale } from "@/lib/i18n-config";
 import { Breadcrumb } from "@/components/breadcrumb";
 
@@ -13,9 +13,9 @@ type ExpertisesPageParams = {
 
 export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
   const { locale } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
+  const safeLocale = (locale === "en" ? "en" : "fr");
   const dictionary = await getDictionary(safeLocale);
-  const expertises = getAllExpertises(safeLocale);
+  const expertises = await getAllExpertises(safeLocale);
   const copy = dictionary.expertisesPage;
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">

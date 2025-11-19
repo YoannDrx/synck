@@ -8,7 +8,7 @@ import type { Locale } from "@/lib/i18n-config";
 import type { Dictionary, LanguageSwitchDictionary } from "@/types/dictionary";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 
-interface SiteHeaderProps {
+type SiteHeaderProps = {
   locale: Locale;
   navigation: Dictionary["nav"];
   language: LanguageSwitchDictionary;
@@ -22,8 +22,8 @@ const buildLinks = (locale: Locale) =>
   [
     { key: "home", href: `/${locale}` },
     { key: "expertises", href: `/${locale}/expertises` },
-    { key: "portfolio", href: `/${locale}/portfolio` },
-    { key: "artists", href: `/${locale}/artistes` },
+    { key: "projets", href: `/${locale}/projets` },
+    { key: "composers", href: `/${locale}/compositeurs` },
     { key: "blog", href: `/${locale}/blog` },
     { key: "contact", href: `/${locale}/contact` },
   ].filter((link) => link.key !== "blog");
@@ -33,7 +33,7 @@ export function SiteHeader({ locale, navigation, language, menu }: SiteHeaderPro
   const links = buildLinks(locale);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const closeMobile = () => setMobileOpen(false);
+  const closeMobile = () => { setMobileOpen(false); };
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-black/60 backdrop-blur">
@@ -65,7 +65,7 @@ export function SiteHeader({ locale, navigation, language, menu }: SiteHeaderPro
           </div>
           <button
             type="button"
-            onClick={() => setMobileOpen((prev) => !prev)}
+            onClick={() => { setMobileOpen((prev) => !prev); }}
             className="rounded-full border border-white/25 px-3 py-2 text-xs font-bold uppercase tracking-[0.4em] text-white/70 transition hover:text-lime-300 lg:hidden"
             aria-label="Toggle navigation"
             aria-expanded={mobileOpen}

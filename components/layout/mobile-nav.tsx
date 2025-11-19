@@ -1,11 +1,11 @@
 "use client";
 
-interface NavSection {
+type NavSection = {
   id: string;
   label: string;
 }
 
-interface MobileNavProps {
+type MobileNavProps = {
   sections: readonly NavSection[];
   activeSection: string;
 }

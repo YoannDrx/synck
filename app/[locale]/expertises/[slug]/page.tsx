@@ -1,16 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
 import type { Locale } from "@/lib/i18n-config";
-import { getExpertise, getAllExpertiseSlugs } from "@/lib/expertiseUtils";
+import { getExpertise, getAllExpertiseSlugs, getAllExpertises, getSectionLayout } from "@/lib/prismaExpertiseUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { DocumentairesGallery } from "@/components/documentaires-gallery";
+import { AlternatingSection } from "@/components/alternating-section";
+import { ExpertisesCarousel } from "@/components/expertises-carousel";
+import { PrismaClient } from "@prisma/client";
 
 // Generate static params for all expertise slugs
 export async function generateStaticParams() {
-  const slugs = getAllExpertiseSlugs();
+  const slugs = await getAllExpertiseSlugs();
   const locales: Locale[] = ["fr", "en"];
 
   const params: { locale: Locale; slug: string }[] = [];
@@ -33,13 +35,77 @@ type ExpertiseDetailParams = {
 
 export default async function ExpertiseDetailPage({ params }: ExpertiseDetailParams) {
   const { locale, slug } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr") as Locale;
-  const expertise = getExpertise(slug, safeLocale);
+  const safeLocale = (locale === "en" ? "en" : "fr");
+  const expertise = await getExpertise(slug, safeLocale);
+  const allExpertises = await getAllExpertises(safeLocale);
   const dictionary = await getDictionary(safeLocale);
   const detailCopy = dictionary.expertiseDetail;
 
   if (!expertise) {
     notFound();
+  }
+
+  // Always load documentaires from Prisma for "gestion-administrative-et-editoriale"
+  type DocumentaireItem = {
+    title: string;
+    subtitle: string;
+    href: string;
+    src: string;
+    srcLg: string;
+    link: string;
+    category: string;
+    height: string;
+  }
+  let documentaires: DocumentaireItem[] = [];
+
+  if (slug === "gestion-administrative-et-editoriale") {
+    const prisma = new PrismaClient();
+
+    try {
+      const works = await prisma.work.findMany({
+        where: {
+          isActive: true,
+          category: {
+            slug: 'documentaires'
+          }
+        },
+        include: {
+          label: {
+            include: {
+              translations: {
+                where: { locale: safeLocale }
+              }
+            }
+          },
+          coverImage: true,
+          translations: {
+            where: { locale: safeLocale }
+          }
+        },
+        orderBy: {
+          order: 'asc'
+        }
+      });
+
+      // Transform to the format expected by DocumentairesGallery
+      documentaires = works.map(work => {
+        const translation = work.translations[0];
+        const labelTranslation = work.label?.translations[0];
+
+        return {
+          title: translation?.title ?? work.slug,
+          subtitle: labelTranslation?.name ?? work.label?.slug ?? '',
+          href: work.coverImage?.path ?? '',
+          src: work.coverImage?.path ?? '',
+          srcLg: work.coverImage?.path ?? '',
+          link: work.externalUrl ?? '#',
+          category: work.label?.slug ?? 'autre',
+          height: ''
+        };
+      });
+    } finally {
+      await prisma.$disconnect();
+    }
   }
 
   return (
@@ -76,98 +142,23 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
           )}
         </div>
 
-        {/* Main Image */}
-        {expertise.img1 && (
-          <div className="mb-12 border-4 border-white/10 overflow-hidden max-w-2xl">
-            <Image
-              src={expertise.img1}
-              alt={expertise.title}
-              width={1200}
-              height={800}
-              className="h-auto w-full object-cover"
-            />
-          </div>
-        )}
+        {/* Alternating Sections with Images */}
+        <div className="mb-16 md:mb-20 lg:mb-24">
+          {expertise.sections.map((section, index) => {
+            const layout = getSectionLayout(expertise, index)
+            const isLast = index === expertise.sections.length - 1
 
-        {/* Content Grid */}
-        <div className="grid gap-12 lg:grid-cols-[2fr,1fr]">
-          {/* Main Content */}
-          <div className="space-y-12">
-            {expertise.sections.map((section, index) => (
-              <div
+            return (
+              <AlternatingSection
                 key={index}
-                className="border-4 border-white/10 bg-[#0a0a0e] p-8 shadow-[0_25px_60px_rgba(0,0,0,0.65)]"
-              >
-                <div className="prose prose-invert prose-lg max-w-none">
-                  <ReactMarkdown
-                    components={{
-                      h3: ({ children }) => (
-                        <h3 className="text-2xl font-bold uppercase tracking-tight mb-4 text-lime-300">
-                          {children}
-                        </h3>
-                      ),
-                      h4: ({ children }) => (
-                        <h4 className="text-xl font-bold uppercase tracking-tight mb-3 text-white">
-                          {children}
-                        </h4>
-                      ),
-                      p: ({ children }) => (
-                        <p className="mb-4 text-white/80 leading-relaxed">
-                          {children}
-                        </p>
-                      ),
-                      blockquote: ({ children }) => (
-                        <blockquote className="border-l-4 border-lime-300 pl-6 my-6 italic text-white/90">
-                          {children}
-                        </blockquote>
-                      ),
-                      ul: ({ children }) => (
-                        <ul className="space-y-2 my-4 list-none">
-                          {children}
-                        </ul>
-                      ),
-                      li: ({ children }) => (
-                        <li className="flex items-start gap-2">
-                          <span className="text-lime-300 font-bold mt-1">→</span>
-                          <span className="text-white/80">{children}</span>
-                        </li>
-                      ),
-                      strong: ({ children }) => (
-                        <strong className="text-lime-300 font-bold">
-                          {children}
-                        </strong>
-                      ),
-                    }}
-                  >
-                    {section}
-                  </ReactMarkdown>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Additional Images */}
-            {[expertise.img2, expertise.img3, expertise.img4, expertise.img5].map(
-              (img, index) =>
-                img && (
-                  <div
-                    key={index}
-                    className="border-4 border-white/10 overflow-hidden hover:border-lime-300/50 transition-colors"
-                  >
-                    <Image
-                      src={img}
-                      alt={`${expertise.title} - Image ${index + 2}`}
-                      width={600}
-                      height={400}
-                      className="h-auto w-full object-contain"
-                    />
-                  </div>
-                )
-            )}
-
-          </div>
+                content={section}
+                image={layout.image}
+                imagePosition={layout.position}
+                index={index}
+                isLast={isLast}
+              />
+            )
+          })}
         </div>
 
         {/* Labels Gallery - Full Width (Non-clickable for now) */}
@@ -200,8 +191,8 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
         )}
 
         {/* Documentaires Gallery - Full Width with Filter */}
-        {expertise.documentaires && expertise.documentaires.length > 0 && (
-          <DocumentairesGallery documentaires={expertise.documentaires} copy={detailCopy.documentaries} />
+        {documentaires && documentaires.length > 0 && (
+          <DocumentairesGallery documentaires={documentaires} copy={detailCopy.documentaries} />
         )}
 
         {/* Footer Image */}
@@ -216,6 +207,15 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
             />
           </div>
         )}
+
+        {/* Expertises Carousel */}
+        <ExpertisesCarousel
+          expertises={allExpertises}
+          currentSlug={slug}
+          locale={safeLocale}
+          title={safeLocale === 'fr' ? "Découvrez nos autres expertises" : "Discover our other expertises"}
+          description={safeLocale === 'fr' ? "Explorez l'ensemble de nos domaines d'intervention" : "Explore our full range of services"}
+        />
 
         {/* CTA */}
         <div className="mt-16">

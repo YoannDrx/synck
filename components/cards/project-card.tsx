@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 
-interface ProjectCardProps {
+type ProjectCardProps = {
   name: string;
   subtitle: string;
   description: string;

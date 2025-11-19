@@ -10,11 +10,11 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { StudioSection } from "@/components/sections/studio-section";
 import { ExpertisesSection } from "@/components/sections/expertises-section";
 import { ProjectsSection } from "@/components/sections/projects-section";
-import { ArtistsSection } from "@/components/sections/artists-section";
+import { ComposersSection } from "@/components/sections/composers-section";
 import { ContactSection } from "@/components/sections/contact-section";
 import { MarqueeText } from "@/components/marquee-text";
 
-interface HomePageProps {
+type HomePageProps = {
   locale: Locale;
   layout: LayoutDictionary;
   home: HomeDictionary;
@@ -33,7 +33,7 @@ export function HomePage({ locale, layout, home }: HomePageProps) {
 
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => { window.removeEventListener("scroll", handleScroll); };
   }, []);
 
   return (
@@ -65,7 +65,7 @@ export function HomePage({ locale, layout, home }: HomePageProps) {
 
           <ProjectsSection locale={locale} copy={home.projects} />
 
-          <ArtistsSection locale={locale} copy={home.artists} />
+          <ComposersSection locale={locale} copy={home.composers} />
 
           <ContactSection copy={home.contactSection} />
 

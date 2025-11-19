@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
@@ -19,7 +21,7 @@ function getResendClient() {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body = await request.json() as { name: string; email: string; subject: string; message: string };
     const { name, email, subject, message } = body;
 
     // Validation

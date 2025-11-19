@@ -2,7 +2,7 @@ import { InfoCard } from "@/components/cards/info-card";
 import { Button } from "@/components/ui/button";
 import type { HomeDictionary } from "@/types/dictionary";
 
-interface ContactSectionProps {
+type ContactSectionProps = {
   copy: HomeDictionary["contactSection"];
 }
 
