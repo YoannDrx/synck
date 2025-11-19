@@ -1,76 +1,95 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma.js";
+import fs from "fs";
 
-const prisma = new PrismaClient();
+console.log("🔍 Vérification des images manquantes\n");
+
+// Liste des works mentionnés comme ayant des images manquantes
+const worksToCheck = [
+  "les-oublies-de-latome",
+  "mes-parents-ces-heros-ordinaires",
+  "martine-aubry-la-dame-de-lille",
+  "cahier-dun-retour-en-langue-natale",
+  "la-clinique-de-lamour",
+  "lofi-hip-hop",
+  "souvenirs-en-cuisine",
+  "de-gerard-a-monsieur-collomb",
+  "leveil-du-desir",
+  "ny-parigo",
+  "videoclub",
+  "une-derniere-fois",
+];
 
 async function main() {
-  console.log("🔍 Vérification des images manquantes...\n");
+  console.log(`📋 Vérification de ${worksToCheck.length} works...\n`);
 
-  // Check Lofi Hip Hop album
-  const lofiAlbum = await prisma.work.findFirst({
-    where: { slug: "lofi-hip-hop" },
-    include: {
-      coverImage: true,
-      translations: { where: { locale: "fr" } },
-    },
-  });
+  let foundCount = 0;
+  let missingCount = 0;
+  let imageOkCount = 0;
+  let imageNotFoundCount = 0;
 
-  console.log("📀 Album: Lofi Hip-Hop");
-  if (lofiAlbum?.coverImage) {
-    console.log(`   ✅ Image: ${lofiAlbum.coverImage.path}`);
-  } else {
-    console.log(`   ❌ Pas d'image de couverture`);
-  }
-
-  // Check documentaries
-  const documentaries = [
-    "les-oublies-de-l-atome",
-    "mes-parents-ces-heros",
-    "matrine-aubry-la-dame-de-lille",
-    "cahier-d-un-retour-en-langue-natale",
-    "la-clinique-de-l-amour",
-    "souvenirs-en-cuisine-2",
-    "de-gerard-a-monsieur-collomb-itineraire-d-un-baron",
-    "l-eveil-du-desir",
-  ];
-
-  console.log("\n📽️  Documentaires:");
-  for (const slug of documentaries) {
-    const doc = await prisma.work.findFirst({
+  for (const slug of worksToCheck) {
+    const work = await prisma.work.findUnique({
       where: { slug },
-      include: {
-        coverImage: true,
-        translations: { where: { locale: "fr" } },
+      select: {
+        slug: true,
+        coverImage: {
+          select: {
+            path: true,
+          },
+        },
+        translations: {
+          where: { locale: "fr" },
+          select: { title: true },
+        },
       },
     });
 
-    if (doc) {
-      const title = doc.translations[0]?.title || slug;
-      if (doc.coverImage) {
-        console.log(`   ✅ ${title}: ${doc.coverImage.path}`);
-      } else {
-        console.log(`   ❌ ${title}: pas d'image`);
-      }
+    if (!work) {
+      console.log(`❌ "${slug}" - Work non trouvé en DB`);
+      missingCount++;
+      continue;
+    }
+
+    foundCount++;
+    const title = work.translations[0]?.title || slug;
+
+    if (!work.coverImage) {
+      console.log(`⚠️  "${title}" (${slug}) - Pas de coverImage associée`);
+      imageNotFoundCount++;
+      continue;
+    }
+
+    const imagePath = work.coverImage.path;
+    const fileExists = fs.existsSync(imagePath);
+
+    if (fileExists) {
+      console.log(`✅ "${title}" - Image OK: ${imagePath}`);
+      imageOkCount++;
     } else {
-      console.log(`   ⚠️  ${slug}: non trouvé`);
+      console.log(`❌ "${title}" - Fichier introuvable: ${imagePath}`);
+      imageNotFoundCount++;
     }
   }
 
-  // Check Mutant Ninja Records composer
-  console.log("\n🎵 Compositeur: Mutant Ninja Records");
-  const mutantNinja = await prisma.composer.findFirst({
-    where: { slug: "mutant-ninja-records" },
-    include: {
-      image: true,
-    },
-  });
+  console.log("\n" + "=".repeat(60));
+  console.log("📊 Résumé:");
+  console.log("=".repeat(60));
+  console.log(`✅ Works trouvés en DB: ${foundCount}/${worksToCheck.length}`);
+  console.log(`❌ Works manquants en DB: ${missingCount}`);
+  console.log(`✅ Images OK (fichier existe): ${imageOkCount}`);
+  console.log(`❌ Images manquantes: ${imageNotFoundCount}\n`);
 
-  if (mutantNinja?.image) {
-    console.log(`   ✅ Image: ${mutantNinja.image.path}`);
-  } else {
-    console.log(`   ❌ Pas d'image`);
+  if (imageNotFoundCount === 0 && foundCount === worksToCheck.length) {
+    console.log("🎉 Toutes les images sont maintenant disponibles !");
+  } else if (imageNotFoundCount > 0) {
+    console.log(
+      `⚠️  ${imageNotFoundCount} images restent à corriger (fichiers physiques manquants)`,
+    );
   }
 }
 
 main()
   .catch(console.error)
-  .finally(() => prisma.$disconnect());
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

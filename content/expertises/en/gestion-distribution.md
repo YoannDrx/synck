@@ -1,21 +1,19 @@
 ---
-id: '4'
-title: Gestion de la distribution physique et digitale
-description: description de la gestion de la distribution physique et digitale
+id: "4"
+title: "Physical and Digital Distribution Management"
+description: "Physical and digital distribution management description"
 intro: >-
-  Le terme "distribution" fait référence à la troisième phase de production d'un
-  enregistrement, qu'il s'agisse d'un album, d'un Ep ou d'un maxi. Cette phase
-  englobe la commercialisation du produit à l'intention des consommateurs
-  potentiels.
-slug: gestion-distribution
-imgHome: /images/projets/expertises/gestion-distribution/Home-PhotoGestionDistrib.JPG
-img1: /images/projets/expertises/gestion-distribution/photo1-gestiondistrib.JPG
-img2: /images/projets/expertises/gestion-distribution/photo2-gestiondistrib.JPG
-img3: /images/projets/expertises/gestion-distribution/photo3-gestiondistrib.JPG
-img4: /images/projets/expertises/gestion-distribution/photo4-gestiondistrib.JPG
-img5: /images/projets/expertises/gestion-distribution/photo5-gestiondistrib.GIF
-img6: /images/projets/expertises/gestion-distribution/photo6-gestiondistrib.JPG
-imgFooter: /images/projets/expertises/gestion-distribution/photohome4.JPG
+  The term "distribution" refers to the third phase of recording production,
+  whether it's an album, EP, or maxi. This phase encompasses the
+  commercialization of the product to potential consumers.
+slug: "gestion-distribution"
+imgHome: "/images/projets/expertises/gestion-distribution/Home-PhotoGestionDistrib.JPG"
+img1: "/images/projets/expertises/gestion-distribution/photo1-gestiondistrib.JPG"
+img2: "/images/projets/expertises/gestion-distribution/photo2-gestiondistrib.JPG"
+img3: "/images/projets/expertises/gestion-distribution/photo3-gestiondistrib.JPG"
+img4: "/images/projets/expertises/gestion-distribution/photo4-gestiondistrib.JPG"
+img5: "/images/projets/expertises/gestion-distribution/photo5-gestiondistrib.GIF"
+imgFooter: "/images/projets/expertises/gestion-distribution/photohome4.JPG"
 sectionsLayout:
   - image: img1
     position: right
@@ -33,96 +31,105 @@ sectionsLayout:
 
 <!-- section:start -->
 
-### GESTION DE LA DISTRIBUTION PHYSIQUE ET DIGITALE
+### **PHYSICAL DISTRIBUTION**
+
+Physical distribution concerns the sale of musical works in stores such as supermarkets, cultural retailers, and record shops. However, the number of physical distributors has considerably decreased in recent years due to the emergence of digital.
+
+CD and vinyl formats nevertheless remain objects that prove strategically useful:
+
+\- They can be a nice business card to leave with a professional
+\- They allow the audience to keep a memory of the concert
+\- Vinyl appeals to collectors and is integrated into DJs' cases
+\- Vinyl can also serve as promotional material to send to sub-publishing structures abroad and to journalists who could relay the project's release
 
 <!-- section:end -->
 <!-- section:start -->
 
-=> **LA DISTRIBUTION PHYSIQUE :**
+### **DIGITAL DISTRIBUTION**
 
-La distribution physique concerne la mise en vente d'œuvres musicales dans des magasins tels que les grandes surfaces, enseignes culturelles et disquaires. Toutefois, le nombre de distributeurs physiques a considérablement diminué ces dernières années en raison de l'émergence du numérique.
+Digital distribution is the adaptation of the physical version, with the uses and constraints of the Internet. The "stores" of digital distribution are sales and/or streaming platforms (Spotify, Deezer, Tidal, Apple Music, etc.). With the arrival of digital distribution, everything changed, since in 2015 digital sales surpassed physical sales. The digital distribution offering has exploded, to the point that we distinguish 2 types:
 
-> Le terme "distribution" fait référence à la troisième phase de production d'un enregistrement, qu'il s'agisse d'un album, d'un Ep ou d'un maxi. Cette phase englobe la commercialisation du produit à l'intention des consommateurs potentiels.
+_Digital distributors_, who like physical distributors, defend their catalog of artists to online platforms, and have real added value in marketing. In recent years they mainly work directly with labels.
 
-Les supports CD et vinyles restent néanmoins des objets qui s’avèreront stratégiquement utiles :
+_Aggregators_, who distribute all music without selection, but who limit themselves to the technical phase, without betting on the potential success of certain recordings. They stem from an ever-growing demand for online posting that digital distributors could no longer support. They therefore work as much with labels as with self-produced artists.
 
-- Ils peuvent être une belle carte de visite à laisser à un professionnel
-- Ils permettent au spectateur de garder un souvenir du concert
-- Le vinyle séduit les collectionneurs et intègre les mallettes des DJ
-- Le vinyle peut également faire office de support promotionnel à envoyer à des structures sous-éditant les œuvres à l’étranger et à des journalistes qui pourraient relayer la sortie du projet
+For the distribution of a first recording, you will need to choose the best aggregator offer, taking into account various criteria:
 
-=> **LA DISTRIBUTION NUMERIQUE :**
+- _The numerous rates:_ the price, which can vary depending on the number of tracks, albums; ancillary fees (online posting, annual subscription, etc.).
+- _The validity period_ of the online posting.
+- _A possible commission_ taken from sales and streaming revenues.
+- _The payment threshold_, i.e., the amount of revenue that must be reached for revenues to be paid to the artist.
+- _Copyright and neighboring rights management_ from the aggregator's website.
+- _A specificity according to a musical style:_ it is for example recommended when making electronic music, to verify that your music will be available on Beatport.com.
 
-La distribution numérique, qui est l’adaptation de la version physique, avec les usages et contraintes d’Internet. Les « magasins » de la distribution numérique sont les plateformes de vente et/ou de streaming (Spotify, Deezer, Tidal, Apple music, etc.). Avec l'arrivée de la distribution numérique, tout a changé, puisqu'en 2015 les ventes numériques ont dépassé les ventes physiques. L’offre de distribution numérique a explosé, à tel point qu’on en distingue 2 types :
+<!-- section:end -->
+<!-- section:start -->
 
-Les distributeurs numériques, qui comme les distributeurs physiques, défendent leur catalogue d’artistes auprès des plateformes en ligne, et ont une vraie valeur ajoutée en marketing. Ces dernières années ils travaillent principalement en direct avec des labels.
+### **THE DISTRIBUTION CONTRACT**
 
-Les agrégateurs, qui distribuent toutes les musiques sans sélection, mais qui se contentent de la phase technique, sans miser sur le potentiel succès de certains enregistrements. Ils émanent d’une demande de mise en ligne toujours plus grande, que les distributeurs numériques ne pouvaient plus supporter. Ils travaillent donc autant avec les labels qu’avec les artistes autoproduits.
+A distribution agreement authorizes the distributor to sell recordings (CD, vinyl, cassettes).
+It may be exclusive or reserved for certain territories (countries). It may also stipulate specific channels or distribution networks (specialized, supermarkets, physical or digital, certain formats only (CD but not vinyl), etc.).
+The contract is signed for a defined period, and renewable, with a termination notice at the end of the period giving the distributor time to clear their stocks (or stipulating that unpaid stocks return to the producer).
 
-POUR LA DISTRIBUTION D’UN PREMIER ENREGISTREMENT, IL FAUDRA CHOISIR LA MEILLEUR OFFRE D’AGRÉGATEUR, EN PRENANT EN COMPTE DIVERS CRITÈRES :
+> **_Fees and commission_**: The distributor is paid on a percentage negotiated in the contract: between 15% and 30% of the wholesale price excluding tax. Promotional costs and other ancillary services can be included in this percentage (which will then be higher) or be billed separately, per service.
 
-- Les nombreux tarifs : le prix, qui peut varier en fonction du nombre de titres, d’albums ; les frais annexes (mise en ligne, abonnement annuel, etc.).
-- Le temps de validité de la mise en ligne.
-- Une éventuelle commission prélevée sur les revenus des ventes et des streams.
-- Le seuil de versement, c’est à dire le montant de revenu qu’il faut atteindre pour que les revenus soient reversés à l’artiste.
-- La gestion des droits d’auteur et droits voisins depuis le site de l’agrégateur.
-- Une spécificité en fonction d’un style musical : il est par exemple conseillé lorsqu’on fait de l’électro, de vérifier que sa musique sera bien disponible sur Beatport.com.
+> The distributor does not purchase the producer's (or phonographic publisher's) stocks: they will pay regularly according to sales.
 
-=> **LE CONTRAT DE DISTRIBUTION :**
+<!-- section:end -->
+<!-- section:start -->
 
-Un accord de distribution autorise le distributeur le à vendre les enregistrements (CD, vinyle, cassettes).
+### **SELLING PRICE: PVD / PGHT / PPC**
 
-Il pourra être exclusif ou réservé à certains territoires (pays). Il pourra aussi stipuler des canaux ou des réseaux de distribution spécifiques (spécialisés, grandes surfaces, physique ou numérique, certains formats uniquement (le CD mais pas le vinyle), etc).
+To understand your margin or your royalty income on a record production, you must take into account the different price denominations and meanings used:
 
-Le contrat est signé pour une durée définie, et reconductible, avec un préavis de dénonciation en fin de période laissant au distributeur le temps d'écouler ses stocks (ou stipulant que les stocks impayés reviennent au producteur).
+- _Cost price or CR_:
+  The cost price is the producer's or phonographic publisher's investment prorated per disc produced. It's important to know how much one copy cost in manufacturing, or even in overall production (recording costs, artist payments, etc.) in order to determine the selling price.
 
-> **_Frais et commission_** : Le distributeur se paye sur un pourcentage négocié au contrat : entre 15% et 30% du PGHT. Des frais de promotions et autres services annexes peuvent être inclut dans ce pourcentage (qui sera alors plus élevé) ou être facturé à part, à la prestation.\_
+- _Selling price to distributor PVD_:
+  Generally negotiated excluding tax, this is the purchase price of a record by the distributor from the producer or licensed phonographic publisher. PVD-CR = producer/publisher's margin on a record. This price will directly impact the retail price including tax in stores.
 
-Le distributeur n'achète pas les stocks du producteur (ou de l'éditeur phono) : il règlera régulièrement selon les ventes.
+- _Wholesale price excluding tax or PGHT_:
+  Particularly important concept: the PGHT is the basis for calculating and negotiating royalties in artist contracts, license agreements, etc. This wholesale resale "distributor" price is expressed excluding tax and intended for record stores that stock from the distributor.
 
-=> **LE PRIX DE VENTE : PVD / PGHT / PPC**
+- _Recommended retail price or selling price including tax_:
+  The selling price to fans at the record store is expressed including tax. You must therefore add to the PGHT approximately 30% margin for the record store and 20% VAT paid by the final customer.
 
-Pour comprendre sa marge ou ses revenus en royauté sur une production disque, il faut prendre en compte les différentes dénominations et significations de prix utilisés :
+> Thus, a record that cost €3 excluding tax to produce and which is sold for €6 excluding tax to the distributor (50% margin for the producer-publisher) will be resold for €10 in PGHT to record stores who will sell it in store for approximately €16 including tax.
 
-- **Coût de revient ou CR** :
-  Le coût de revient est l'investissement du producteur ou de l'éditeur phono au prorata d'un disque produit. Il est important de savoir combien a coûté un exemplaire en fabrication, voir en production globale (frais d'enregistrement paye des artistes, etc) afin d'en déterminer le prix de vente.
+<!-- section:end -->
+<!-- section:start -->
 
-- **Prix de vente au distributeur PVD** :
-  A priori négocié en hors-taxe c'est le prix d'achat d'un disque par le distributeur au producteur ou à l'éditeur phono licencié. PVD-CR = marge du producteur/éditeur sur un disque. Ce prix va impacter directement le Prix Public de Vente en TTC en magasin.
+### **SDRM AUTHORIZATION REQUEST**
 
-- **Prix de Gros Hors-taxe ou PGHT** :
-  Notion particulièrement importante : le PGHT est la base de calcul et de négociation des royautés dans les contrats d'artiste, de licence, etc. Ce prix "distributeur" de revente en gros est exprimé hors-taxe et destiné aux disquaires qui s'approvisionnent chez le distributeur.
+> When you press records yourself or through a manufacturer, you must pay the SDRM royalty.
 
-- **Prix Public Conseillé ou Prix de Vente TTC** :
-  Le prix de vente aux fans chez le disquaire est exprimé en TTC. Il faut donc rajouter au PGHT environ 30% de marge pour le disquaire et 20% de TVA payée par le client final.
+SDRM is the Society for the Administration of Mechanical Reproduction Rights of authors, composers, publishers, and producers. Basically, all musical works reproduced on a medium (CD, vinyl...) are subject to payment of the SDRM royalty, if the works are registered with SACEM. If you are the author, you will recover these rights afterward, minus SACEM's management fees.
+Note that the collection of reproduction rights also exists for online sales, but it is operated directly with the platforms. You therefore do not have to manage an authorization request for this form of exploitation.
 
-_Ainsi un disque qui a couté 3€ HT à produire et qui est vendu 6€ HT au distributeur (50% de marge pour le producteur-éditeur) sera revendu 10€ en PGHT aux disquaires qui le vendront en magasin environ 16€ TTC._
+Let's return to physical media. SDRM makes the distinction between the objective of your pressing, promo or sale. All this is very well explained on the website [https://sdrm.sacem.fr](https://sdrm.sacem.fr/).
 
-=> **LA DEMANDE D’AUTORISATION SDRM :**
+_As an example:_
 
-Quand on presse des disques soi-même ou via un fabricant on doit régler la redevance SDRM.
+- for each LP CD sold, you will need to pay 7.40% of the retail price of each copy, or at minimum €0.4955 in SDRM.
+- for each LP CD given away (promo), you will need to pay the minimum, i.e., €0.4955 in SDRM.
+- for 1000 LP CDs pressed, of which 500 sold for €10 each, and 500 given away free, you will have to pay 500 x 0.074 x 10+ 500 x 0.4995 = 370+249.75= €619.75 in SDRM.
+- for 1000 LP CDs pressed, of which 500 sold for €5 each, and 500 given away free, everything will be at the minimum rate, i.e., 500 x 0.4995 + 500 x 0.4995 = €499.5 in SDRM.
 
-La SDRM est la Société pour l’administration du Droit de Reproduction Mécanique des auteurs, compositeurs, éditeurs, et réalisateurs. En gros, toutes les œuvres musicales reproduites sur un support (CD, vinyle…) donnent lieu à règlement de la redevance SDRM, si les œuvres sont déclarées à la SACEM. Si vous en êtes l’auteur, vous récupérerez ces droits ensuite, moins les frais de gestion de la SACEM.
+> **Warning:** if the songs you wish to press on CD or vinyl are not (yet) registered with SACEM, which is often the case for self-productions, no copyright amount will be charged to you: you will need to request an SDRM number, but will have no royalty to pay. Interesting in the case of a first CD! SDRM then notifies this non-collection of royalty by indicating next to each work the mention "Currently Unknown Owner". And you can register your works with SACEM later.
 
-À noter que la perception du droit de reproduction existe également pour les ventes en ligne, mais elle est opérée directement auprès des plateformes. Vous n’avez donc pas à gérer de demande d’autorisation pour cette forme d’exploitation.
+In the case where the reproduced musical works are registered with SACEM, and the SDRM royalty applies, several legal mentions are mandatory on the record, which you will find here: [clients sacem](https://clients.sacem.fr/autorisations/production-de-disque-opo)
 
-Revenons donc aux supports physiques. La SDRM fait la distinction de l’objectif de votre pressage, promo ou vente. Tout cela est très bien expliqué sur le site [https://sdrm.sacem.fr](https://sdrm.sacem.fr/) .
+To conclude, know that while most pressing service providers respect the legal obligation to ask you for an SDRM number, some do not. And no one will ask you for it if you press the records at home. In case of non-respect of the author's rights (articles L. 335-2 and L. 335-3 of the Intellectual Property Code), the law provides for penalties of up to three years' imprisonment and €300,000 fine for individuals.
 
-A titre d’exemple :
+<!-- section:end -->
+<!-- section:start -->
 
-- pour chaque CD LP vendu, il faudra régler 7,40 % du prix de vente au détail de chaque exemplaire, ou a minima 0,4955 € de SDRM.
-- pour chaque CD LP offert (promo), il faudra régler le minimum, soit 0,4955 € de SDRM.
-- pour 1000 CD LP pressés, dont 500 vendus 10 € pièce, et 500 offerts gratuitement, vous devrez régler 500*0,074*10+ 500\*0,4995 = 370+249,75= 619,75 € de SDRM.
-- pour 1000 CD LP pressés, dont 500 vendus 5 € pièce, et 500 offerts gratuitement, tout sera au tarif minimum, soit 500*0,4995+ 500*0,4995 = 499,5 € de SDRM.
+### **SELF-DISTRIBUTION**
 
-Attention : si les chansons que vous souhaitez presser sur support CD ou vinyle ne sont pas (encore) déposées à la SACEM, ce qui est souvent le cas des autoproductions, aucun montant de droit d’auteur ne vous sera réclamé : vous devrez demander un numéro de SDRM, mais n’aurez pas de redevance à régler. Intéressant dans le cas d’un 1er CD ! La SDRM notifie alors cette non-perception de redevance en indiquant en face de chaque œuvre la mention « Propriétaire Actuellement Inconnu ». Et vous pourrez déposer vos œuvres à la SACEM par la suite.
+Failing to find a distribution contract, a self-produced artist or independent label can consider taking their own distribution in hand.
 
-Dans le cas où les œuvres musicales reproduites sont déclarées à la SACEM, et que la redevance SDRM s’applique, plusieurs mentions légales sont obligatoires sur le disque, que vous trouverez ici : [clients sacem](https://clients.sacem.fr/autorisations/production-de-disque-opo)
+> This is heavy logistical and canvassing work, to which you must add the price of possible deliveries of your stocks. Nevertheless, weaving your own micro-distribution network, whether local or targeted on an aesthetic, is always a plus for the visibility and sale of your physical album.
 
-Pour conclure, sachez que si la plupart des prestataires de pressage respectent l’obligation légale de vous demander un numéro de SDRM. Il arrive que certains ne le demandent pas. Et que personne ne vous le demandera si vous pressez les disques chez vous. En cas de non-respect des droits de l’auteur (articles L. 335-2 et L. 335-3 du Code de la Propriété Intellectuelle), la loi prévoit des peines allant jusqu’à trois ans d’emprisonnement et 300000 € d’amende pour les particuliers.
+It is recommended to target your efforts on points of sale consistent with the project: open and interested record stores, local businesses whose customers will also naturally be interested in your productions, shops that may be far from your region but with a well-marked musical genre that corresponds to you.
 
-=> **L'AUTO-DISTRIBUTION :**
-
-A défaut de trouver un contrat de distribution, un artiste autoproduit ou un label indépendant peut envisager de prendre en main sa propre distribution.
-
-C'est un lourd travail de logistique et de démarchage, auquel il faut ajouter le prix des livraisons éventuelles de vos stocks. Néanmoins, tisser son propre micro réseau de distribution, qu'il soit local ou ciblé sur une esthétique, est toujours un plus pour la visibilité et la vente de votre album physique. Il est recommandé de cibler ses efforts sur des points de vente cohérents avec le projet : des disquaires ouverts et intéresses, des commerces locaux dont les clients seront aussi naturellement preneurs de vos productions, des boutiques qui peuvent être éloignées de votre région mais avec genre musical bien marqué qui vous correspond.
+<!-- section:end -->

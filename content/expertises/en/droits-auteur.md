@@ -1,15 +1,15 @@
 ---
-id: '1'
-title: Managing copyrights
-description: The term 'author' refers to the individual who writes the lyrics of a song
-slug: droits-auteur
-imgHome: /images/projets/expertises/droits-auteur/Home-PHOTODROITSDAUTEUR.JPG
-img1: /images/projets/expertises/droits-auteur/photo1-droitsdauteur.jpeg
-img2: /images/projets/expertises/droits-auteur/photo2-droitsdauteur.JPG
-img3: /images/projets/expertises/droits-auteur/photo3-droitsdauteur.JPG
-img4: /images/projets/expertises/droits-auteur/photo4-droitsdauteur.JPG
-img5: /images/projets/expertises/droits-auteur/photo5-droitsdauteur.JPG
-imgFooter: /images/projets/expertises/droits-auteur/photohome1.JPG
+id: "1"
+title: "Copyright Management"
+description: "The term 'author' refers to the individual who writes the lyrics of a song"
+slug: "droits-auteur"
+imgHome: "/images/projets/expertises/droits-auteur/Home-PHOTODROITSDAUTEUR.JPG"
+img1: "/images/projets/expertises/droits-auteur/photo1-droitsdauteur.jpeg"
+img2: "/images/projets/expertises/droits-auteur/photo2-droitsdauteur.JPG"
+img3: "/images/projets/expertises/droits-auteur/photo3-droitsdauteur.JPG"
+img4: "/images/projets/expertises/droits-auteur/photo4-droitsdauteur.JPG"
+img5: "/images/projets/expertises/droits-auteur/photo5-droitsdauteur.JPG"
+imgFooter: "/images/projets/expertises/droits-auteur/photohome1.JPG"
 sectionsLayout:
   - image: img1
     position: right
@@ -25,75 +25,75 @@ sectionsLayout:
 
 <!-- section:start -->
 
-Understanding copyright
+In music, the term "author" refers to the individual who writes the lyrics of a song, while "composer" refers to the person who composes the music.
+Both of these actors enjoy equivalent property rights over their creations, hence the term "songwriter" (author-composer). In reality, this can refer to two different people.
+However, it's possible for a single person to fulfill both roles, thus simultaneously assuming the role of author and composer. Additionally, we distinguish instrumental musical compositions, in which only composers are involved.
 
-  <!-- section:end -->
-  <!-- section:start -->
+> Whether it's an author, a composer, or a songwriter, the work produced is protected by **copyright.**
 
-=> **Managing copyright**
+This means that the author owns the text they have written and the composer owns the music they have composed. They have the right to authorize or prohibit the exploitation of their work, in exchange for financial compensation. Concretely, this means that any use of the work (either the text or the music) requires prior authorization from the songwriter, accompanied by the payment of royalties. It's important to emphasize that the songwriter has the right to legal protection from the moment their work is created. Registration formalities with SACEM are only necessary to obtain legal proof of creation priority.
 
-In music, the term 'author' refers to the individual who writes the lyrics to a song, while 'composer' refers to the individual who composes the music.
+The music publisher represents an essential partner for the songwriter. Their role is to help them exploit their works to develop their career. Thus, the publisher will seek all possible opportunities to promote and distribute the musical work in question (lyrics and music, together or separately).
 
-These two actors enjoy equivalent property rights over their creations, hence the term "author-composer". In reality, this may refer to two different people.
+<!-- section:end -->
+<!-- section:start -->
 
-However, it may be that one and the same person fulfils both roles, thus simultaneously assuming the role of author and composer. In addition, we distinguish between musical compositions without words, in which only the composers are involved.
+### **Drafting assignment and publishing contracts**
 
-> Whether an author, composer or songwriter is involved, the work produced is protected by "copyright".
+In the field of music contracts, the assignment and music publishing contract stands out as the only contract that benefits from strict regulation, as well as a model approved by professional unions.
 
-This means that the author owns the text he or she has written, and the composer owns the music he or she has composed. They have the right to authorize or prohibit the use of their work, in exchange for financial compensation. In concrete terms, this means that any use of the work (either the text or the music) requires prior authorization from the author-composer, accompanied by payment of royalties. It is important to stress that the author-composer is entitled to legal protection from the moment of creation of his or her work. Declarations to SACEM are only necessary to obtain legal proof of priority of creation.
+> The assignment and music publishing contract can only be established for a pre-existing work.
 
-Music publishers are essential partners for songwriters. Their role is to help them exploit their works to develop their careers. As such, the publisher will seek every possible opportunity to promote and distribute the musical work in question (lyrics and music, together or separately).
+The songwriter cannot indeed assign to their publisher their rights to future works that have not yet been created. If the songwriter aspires to profit from their creative work, they must seek to maximize the distribution of their work. It's in this perspective that the assistance of a music publisher becomes crucial.
 
-=> **Drafting assignment and publishing contracts:**
+The music publisher's role is to generate the greatest number of opportunities for the songwriter's work, whether it's their lyrics or music. The fields of exploitation are varied, ranging from film music, television series, video games, corporate films, documentaries, web reports, to covers by popular foreign groups, or even distribution in department stores.
 
-When it comes to music contracts, the transfer and publishing contract stands out as the only one that benefits from strict regulations, as well as a model approved by professional associations.
+It's important to specify that even if the songwriter is also a performer, this doesn't affect their main objective, which is to expand the reach of their compositions and lyrics as much as possible. As for the question of why a music publisher invests their time, money, and energy to develop the songwriter's work, the answer lies in the fact that the artist assigns them a percentage of their copyright.
 
-> The assignment and music publishing contract can only be drawn up for a pre-existing work.
+The assignment and publishing contract will be registered with SACEM to document all works subject to this contract.
 
-The songwriter cannot assign his or her rights to future works not yet created to his or her publisher. If the author-composer wishes to profit from his creative work, he must seek to maximize its distribution. This is where the assistance of a music publisher becomes crucial.
+<!-- section:end -->
 
-The music publisher's role is to generate the greatest possible number of possibilities for the songwriter's work, whether it be lyrics or music. The fields of exploitation are varied, ranging from film music, TV series, video games, corporate films, documentaries, web reports, to cover versions by popular foreign groups, or even distribution in department stores.
+<!-- section:start -->
 
-It's important to point out that even if the songwriter is also a performer, this doesn't affect his or her main objective, which is to broaden the scope of his or her compositions and texts as much as possible. As for the question of why a music publisher invests time, money and energy in developing a songwriter's work, the answer lies in the fact that the artist assigns him a percentage of his royalties.
+### **Drafting publishing preference agreements**
 
-The assignment and publishing contract will be registered with SACEM to document all works covered by the contract.
+When the songwriter enters into an assignment and publishing agreement with a publisher, they assign their copyright to already created works.
+According to a law in force in France, an author or composer cannot assign their rights to a work that has not yet been created.
+Within the framework of a publishing preference contract, the songwriter commits, for the duration of the contract, to present their future works first to their publisher. A preference contract is limited to a maximum of 5 years.
+The songwriter cannot assign rights to their future works in advance, however, they can commit to presenting their future works first to this publisher. Signing an assignment and music publishing contract doesn't necessarily imply signing a preference agreement.
+It's crucial to understand in the option system or the publishing preference right, that the decision to continue or not the collaboration is a unilateral decision. It's the music publisher who has the choice.
 
-=> **Drafting editorial preference agreements:**
+> In practice, the songwriter is required to present ALL their written and composed works to the music publisher, but only for the duration of the contract.
 
-When an author-composer enters into an assignment and publishing agreement with a publisher, he or she is assigning his or her copyright to works that have already been created.
+Thus, if the publisher decides to exercise their preference right, the songwriter must assign them the rights to their work or works. A new assignment and music publishing contract will then be signed for each new work.
+And if the publisher refuses the presented work, then the songwriter is FREE to exploit it themselves or to offer it to another publisher.
 
-Under French law, an author or composer cannot assign his or her rights to a work that has not yet been created.
+<!-- section:end -->
+<!-- section:start -->
 
-Under an editorial preference contract, the author-composer undertakes, for the duration of the contract, to give priority to presenting his future works to his publisher. Preference contracts are limited to a maximum of 5 years.
+### **Supervising the distribution of economic rights**
 
-The songwriter may not assign the rights to his or her future works in advance, but may agree to present his or her future works to the publisher on a priority basis. Signing an assignment and music publishing contract does not necessarily imply signing a preference pact.
+As suggested by their name, economic rights represent the assets of authors and composers, these are economic rights.
+Indeed, these rights allow the songwriter to be compensated in exchange for the authorization granted to exploit their work.
+From a legal standpoint, we distinguish 2 main categories of music exploitation that require the creators' agreement. This essentially corresponds to the 2 main modes of exploiting a musical work:
 
-It is crucial to understand that the decision to continue or not to continue the collaboration is a unilateral decision. It is the music publisher who has the choice.
+_Broadcasting the musical work to an audience:_ if someone wishes to perform a musical work in front of an audience or broadcast it to an audience, the songwriters must be compensated and their authorization is required. This is what we call the **performance right.**
 
-> In practice, the songwriter is obliged to present ALL his or her written and composed works to the music publisher, but only for the duration of the contract.
+_Fixing a work on a medium:_ printing the work on a musical score (which is a physical medium), recording and burning on a CD or vinyl, recording in a digital format also require the authorization and compensation of the songwriters. This is the **reproduction right.**
 
-Thus, if the publisher decides to exercise his preferential right, the songwriter must assign the rights to his work(s). A new assignment and music publishing contract will then be signed for each new work.
+> Nowadays, economic rights over a musical work remain in force for a period of 70 years after the death of the last right holder: the work continues to generate rights throughout the songwriter's life **up to 70 years after their death.**
 
-And if the publisher refuses the work presented, then the songwriter is FREE to exploit it himself or to propose it to another publisher.
+<!-- section:end -->
 
-=> **Supervising the distribution of economic rights:**
+<!-- section:start -->
 
-As evoked by their name, economic rights represent the patrimony of authors and composers.
+### **Searching for and identifying unidentified works at SACEM**
 
-In effect, these rights enable the author-composer to be remunerated in exchange for the authorization granted for the exploitation of their work.
+SACEM has taken measures regarding "undistributable works", namely copyright generated by unidentified works that end up being transferred to the society's management account, for lack of being able to attribute them.
 
-In legal terms, there are 2 main categories of music exploitation requiring the agreement of the creators. These correspond essentially to the 2 main modes of exploitation of a musical work:
+> It's possible as a publisher or author to access the application that SACEM makes available to us to allow us to consult works awaiting identification: this application is called ONI (Unidentified Works).
 
-> Broadcasting the musical work to an audience: if someone wishes to perform a musical work in front of an audience or broadcast it to an audience, the songwriters must be remunerated and their authorization is required. This is known as the "performance right".
+This service was developed with the aim of allowing us to provide any information in our possession that could help identify the rights holders, namely the authors, composers and publishers, of works awaiting identification at SACEM. Upon claim of rights and verification of transmitted information _(rights holders, COCV code of the work, spelling correction of the work's name...)_ the amounts of rights put on hold will be paid during the next corresponding distribution.
 
-> Fixing a work on a medium: printing the work on a musical score (which is a physical medium), recording and burning it onto a CD or vinyl, and recording it in digital format also require the authorization and remuneration of the songwriters. This is known as the "**right of reproduction**".
-
-> Today, the economic rights to a musical work remain in force for a period of 70 years after the death of the last rightful owner: the work continues to generate rights throughout the life of the songwriter **until 70 years after his death**.
-
-=> **Search and identify unidentified works at SACEM:**
-
-SACEM has taken steps to deal with "irreparables", i.e. royalties generated by unidentified works that end up being paid back to the society's management account, as it is unable to allocate them.
-
-> As a publisher or author, you can access the application provided by Sacem to enable you to consult works awaiting identification: this application is called ONI (Œuvres Non Identifiées).
-
-This service has been developed to enable us to provide any information in our possession that could help identify the rights holders - i.e. the authors, composers and publishers - of works awaiting identification by Sacem. As soon as the rights have been claimed and the information transmitted has been verified _(rightful owners, COCV code of the work, spelling correction of the name of the work...)_ the outstanding rights will be paid out in the next corresponding distribution.
+<!-- section:end -->

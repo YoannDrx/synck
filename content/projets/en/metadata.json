@@ -2356,5 +2356,685 @@
         "links": "https://www.youtube.com/@CharlotteSavaryMusic/featured"
       }
     ]
+  },
+  {
+    "id": 189,
+    "slug": "inde-les-paysans",
+    "title": "India - The Farmers",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/ligne-de-mire/inde-les-paysans.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 190,
+    "slug": "portrait-dun-pere",
+    "title": "Portrait of a Father",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/ligne-de-mire/portrait.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 191,
+    "slug": "soeurs-de-la-terre",
+    "title": "Sisters of the Earth",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/ligne-de-mire/soeurs.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 192,
+    "slug": "un-pasteur",
+    "title": "A Pastor",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/ligne-de-mire/unpasteur.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 193,
+    "slug": "vikings-la-saga-des-femmes",
+    "title": "Vikings - The Women's Saga",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/ligne-de-mire/vikings-la-saga-des-femmes.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 194,
+    "slug": "ainsi-soit-il",
+    "title": "So Be It",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/ainsi-soit-il.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 195,
+    "slug": "anny-duperey-artiste",
+    "title": "Anny Duperey - Artist",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/anny-duperey.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 196,
+    "slug": "bastelica-fesch",
+    "title": "Bastelica - Fesch",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/bastelica-fesch.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 197,
+    "slug": "chanter-ensemble",
+    "title": "Singing Together",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/chanter-ensemble-13prods.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 198,
+    "slug": "des-joujoux-par-milliers",
+    "title": "Thousands of Toys",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/des-joujoux-par-milliers.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 199,
+    "slug": "les-freres-verges",
+    "title": "The Vergès Brothers",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/freres-verges.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 200,
+    "slug": "gal-au-nom-de-la-raison-detat",
+    "title": "GAL - In the Name of Reason of State",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/gal.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 201,
+    "slug": "guyane-vivre-avec-le-jaguar",
+    "title": "French Guiana - Living with the Jaguar",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/guyane-vivre-avec.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 202,
+    "slug": "jimmy-somerville",
+    "title": "Jimmy Somerville - Smalltown Boy",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/jimmy-somerville.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 203,
+    "slug": "joseph-kessel",
+    "title": "Joseph Kessel - Army of Shadows",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/joseph-kessel.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 204,
+    "slug": "khaled-kelkal",
+    "title": "Khaled Kelkal - Journey of a Terrorist",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/khaled-kelkal.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 205,
+    "slug": "la-pride-des-champs",
+    "title": "The Fields Pride",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/la-pride-des-champs.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 206,
+    "slug": "la-tragique-histoire-de-fritz-haber",
+    "title": "The Tragic Story of Fritz Haber",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/la-tragique-histoire.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 207,
+    "slug": "les-antilles-empoisonnees",
+    "title": "The Poisoned Antilles",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/les-antilles-empoisonnees.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 208,
+    "slug": "les-doleances",
+    "title": "The Grievances",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/lesdoleances.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 209,
+    "slug": "les-enfants-de-huahine",
+    "title": "The Children of Huahine in Occitania",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/les-enfants-de-huahine.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 210,
+    "slug": "les-enfants-de-madame-massu",
+    "title": "Madame Massu's Children",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/les-enfants-de-madame-massu.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 211,
+    "slug": "les-loups-noirs-dalsace",
+    "title": "The Black Wolves of Alsace",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/les-loups-noirs-d-alsace.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 212,
+    "slug": "les-raisins-du-desespoir",
+    "title": "The Grapes of Despair",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/les-raisins-du-desespoir.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 213,
+    "slug": "les-yeux-dans-les-vieux",
+    "title": "Looking at the Elderly",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/les-yeux-dans-les-vieux.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 214,
+    "slug": "martinique-les-yeux-ouverts",
+    "title": "Martinique - Eyes Wide Open",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/martinique-les-yeux-ouverts.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 215,
+    "slug": "montmartre-est-une-fete",
+    "title": "Montmartre is a Celebration",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/montmartre-est-une-fete.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 216,
+    "slug": "mort-dun-berger",
+    "title": "Death of a Shepherd",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/mort-d-un-berger.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 217,
+    "slug": "nous-soignants",
+    "title": "We the Caregivers",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/nous-soignants2.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 218,
+    "slug": "terrorisme-armenien",
+    "title": "Armenian Terrorism",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/terrorisme-armenien.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 219,
+    "slug": "ymca-une-flamme",
+    "title": "YMCA - A Flame That Never Dies",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/ymca.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 220,
+    "slug": "dans-les-eaux-troubles-de-la-plus-grande-banque-europeenne",
+    "title": "Dans les eaux troubles de la plus grande banque européenne",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/little-big-story/bnp-paribas.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 221,
+    "slug": "lempire-de-lor-rouge",
+    "title": "L'empire de l'or rouge",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/little-big-story/lempire-de-lor-rouge.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 222,
+    "slug": "taiwan-une-democratie-a-lombre-de-la-chine",
+    "title": "Taiwan une démocratie à l’ombre de la Chine",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/little-big-story/taiwan.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 223,
+    "slug": "la-femme-sans-nom-lhistoire-de-jeanne-et-baudelaire",
+    "title": "La femme sans nom – L’histoire de Jeanne et Baudelaire",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/little-big-story/la-femme-sans-nom.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 224,
+    "slug": "le-proces-dauschwitz-la-fin-du-silence",
+    "title": "Le procès d'Auschwitz la fin du silence",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/le-proces-dauschwitz.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 225,
+    "slug": "makatea-la-terre-convoitee",
+    "title": "Makatea la terre convoitée",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/makatea.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 226,
+    "slug": "mayotte-lenfance-en-danger",
+    "title": "Mayotte l'enfance en danger",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/mayotte-lenfance-en-danger.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 227,
+    "slug": "de-gerard-a-mr-collomb-itineraire-dun-baron",
+    "title": "De Gérard à Mr Collomb itinéraire d'un baron",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/de-gerard-a-monsieur.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 228,
+    "slug": "les-femmes-du-troisieme-reich",
+    "title": "Les femmes du troisième Reich",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/les-femmes-du-troisieme-reich.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 229,
+    "slug": "le-troisieme-reich-naura-pas-la-bombe",
+    "title": "Le troisième Reich n'aura pas la bombe",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/le-iiieme-reich-naurapaslabombe.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 230,
+    "slug": "la-rumeur-dorleans",
+    "title": "La rumeur d'Orléans",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/la-rumeur-dorleans.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 231,
+    "slug": "petit-pays-je-taime-beaucoup",
+    "title": "Petit pays je t'aime beaucoup",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/petit-pays.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 232,
+    "slug": "solidarnosc-la-premiere-breche",
+    "title": "Solidarnosc la première brèche",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/solidarnosc.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 233,
+    "slug": "diam-a-jul-marseille-capitale-rap",
+    "title": "Diam a Jul Marseille capitale rap",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/marseille-capitale-du-rap.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 234,
+    "slug": "andre-mailfert-lepopee-dun-faussaire-industriel",
+    "title": "André Mailfert l'épopée d'un faussaire industriel",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/andre-mailfert.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 235,
+    "slug": "concordat-et-laicite-lexception",
+    "title": "Concordat et laïcité, l'exception",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/laicite-et-concordat.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 236,
+    "slug": "le-temps-daimer",
+    "title": "Le temps d'aimer",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/le-temps-daimer.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 237,
+    "slug": "leveil-du-desir",
+    "title": "L'éveil du désir",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/leveil-du-desir-2.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 238,
+    "slug": "masque-de-fer",
+    "title": "Masque de fer",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/le-masque-de-fer.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 239,
+    "slug": "mic-mac-a-millau-les-paysans-face-a-la-mondialisation",
+    "title": "Mic Mac à Millau, les paysans face à la mondialisation",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/micmac.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 240,
+    "slug": "jirai-crier-sur-vos-murs",
+    "title": "J'irai crier sur vos murs",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/j-irai-crier-sur-vos-murs.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 241,
+    "slug": "des-antilles-au-djebel-les-antillais-dans-la-guerre-dalgerie",
+    "title": "Des Antilles au Djebel, les Antillais dans la guerre d’Algérie",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/des-antilles-au-djebel.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 242,
+    "slug": "quand-lafrique-sauva-la-france",
+    "title": "Quand l'Afrique sauva la France",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/quand-lafrique-sauva.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 243,
+    "slug": "almodovar-linsolent-de-la-mancha",
+    "title": "Almodovar l'insolent de la Mancha",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/almodovar.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 244,
+    "slug": "naissance-dun-heros-noir-au-cinema-sweet-sweetback",
+    "title": "Naissance d’un héros noir au cinéma, Sweet Sweetback",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/pop-films/sweet-sweetback.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 245,
+    "slug": "chants-gregoriens-20",
+    "title": "Chants grégoriens 2.0",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/pop-films/chants-gregoriens.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 246,
+    "slug": "georges-perec-lhomme-qui-ne-voulait-pas-oublier",
+    "title": "Georges Perec, l’homme qui ne voulait pas oublier",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/pop-films/georges-perec.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 247,
+    "slug": "jules-verne-et-le-defi-du-tour-du-monde",
+    "title": "Jules Verne et le défi du tour du monde",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/pop-films/jules-verne.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 248,
+    "slug": "gaudin-lheure-de-linventaire",
+    "title": "Gaudin l'heure de l'inventaire",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/13prods/gaudin.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 249,
+    "slug": "gorongosa-le-parc-de-la-reconciliation",
+    "title": "Gorongosa, le parc de la réconciliation",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "/images/projets/documentaires/pop-films/gorongosa.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 250,
+    "slug": "les-oublies-de-latome",
+    "title": "Les oublies de l'atome",
+    "subtitle": "",
+    "category": "Documentary",
+    "src": "",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 251,
+    "slug": "gang-stories",
+    "title": "Gang Stories",
+    "subtitle": "",
+    "category": "documentaries",
+    "src": "/images/projets/documentaires/13prods/gang-stories.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 252,
+    "slug": "hors-radar",
+    "title": "Hors Radar",
+    "subtitle": "",
+    "category": "documentaries",
+    "src": "/images/projets/documentaires/13prods/hors-radar.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 253,
+    "slug": "ivg-en-polynesie",
+    "title": "IVG en Polynésie",
+    "subtitle": "",
+    "category": "documentaries",
+    "src": "/images/projets/documentaires/13prods/ivg-en-polynesie.jpeg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 254,
+    "slug": "la-dette",
+    "title": "La Dette",
+    "subtitle": "",
+    "category": "documentaries",
+    "src": "/images/projets/documentaires/13prods/la-dette.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 255,
+    "slug": "un-jou-je-serai",
+    "title": "Un Jour Je Serai",
+    "subtitle": "",
+    "category": "documentaries",
+    "src": "/images/projets/documentaires/13prods/un-jou-je-serai.jpg",
+    "height": "",
+    "compositeurs": []
+  },
+  {
+    "id": 256,
+    "slug": "veilleur-de-nuit",
+    "title": "Veilleur de Nuit",
+    "subtitle": "",
+    "category": "documentaries",
+    "src": "/images/projets/documentaires/13prods/veilleur-de-nuit.jpg",
+    "height": "",
+    "compositeurs": []
   }
 ]

@@ -9,8 +9,7 @@ img2: "/images/projets/expertises/droits-voisins/photo2-droitsvoisins.JPG"
 img3: "/images/projets/expertises/droits-voisins/photo7-droitsvoisins.JPG"
 img4: "/images/projets/expertises/droits-voisins/photo4-droitsvoisins.JPG"
 img5: "/images/projets/expertises/droits-voisins/photo5-droitsvoisins.JPG"
-img6: "/images/projets/expertises/droits-voisins/photo6-droitsvoisins.JPG"
-img7: "/images/projets/expertises/droits-voisins/photo3-droitsvoisins.JPG"
+img6: "/images/projets/expertises/droits-voisins/photo7-droitsvoisins.JPG"
 imgFooter: "/images/projets/expertises/droits-voisins/photohome2.JPG"
 sectionsLayout:
   - image: img1
