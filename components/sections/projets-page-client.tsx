@@ -20,14 +20,14 @@ type GalleryWork = {
   coverImageAlt: string;
   composers: string[];
   externalUrl?: string;
-}
+};
 
 type Category = {
   id: string;
   slug: string;
   name: string;
   color: string | null;
-}
+};
 
 type ProjetsPageClientProps = {
   locale: Locale;
@@ -37,15 +37,24 @@ type ProjetsPageClientProps = {
   };
   copy: ProjetsPageDictionary;
   viewProjectLabel: string;
-}
+};
 
-export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: ProjetsPageClientProps) {
+export function ProjetsPageClient({
+  locale,
+  nav,
+  copy,
+  viewProjectLabel,
+}: ProjetsPageClientProps) {
   const [works, setWorks] = useState<GalleryWork[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState(true);
-  const [youtubeModal, setYoutubeModal] = useState<{ isOpen: boolean; url: string; title: string }>({
+  const [youtubeModal, setYoutubeModal] = useState<{
+    isOpen: boolean;
+    url: string;
+    title: string;
+  }>({
     isOpen: false,
     url: "",
     title: "",
@@ -61,10 +70,10 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
         ]);
 
         if (worksRes.ok) {
-          setWorks(await worksRes.json() as GalleryWork[]);
+          setWorks((await worksRes.json()) as GalleryWork[]);
         }
         if (categoriesRes.ok) {
-          setCategories(await categoriesRes.json() as Category[]);
+          setCategories((await categoriesRes.json()) as Category[]);
         }
       } finally {
         setLoading(false);
@@ -75,8 +84,13 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
   }, [locale]);
 
   const filteredWorks = works
-    .filter((work) => selectedCategory === "all" || work.category === selectedCategory)
-    .filter((work) => work.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    .filter(
+      (work) =>
+        selectedCategory === "all" || work.category === selectedCategory,
+    )
+    .filter((work) =>
+      work.title.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
 
   if (loading) {
     return (
@@ -104,7 +118,12 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
       </div>
 
       <main className="relative z-10 mx-auto w-full max-w-[1600px] px-4 pb-16 pt-6 sm:px-8 sm:pt-16 lg:px-16">
-        <Breadcrumb items={[{ label: nav.home, href: `/${locale}` }, { label: nav.projets }]} />
+        <Breadcrumb
+          items={[
+            { label: nav.home, href: `/${locale}` },
+            { label: nav.projets },
+          ]}
+        />
 
         <div className="mb-12">
           <h1 className="mb-2 text-4xl font-black uppercase tracking-tighter sm:text-7xl lg:text-9xl">
@@ -113,7 +132,9 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
             </span>
             <span>{nav.projets.slice(1)}</span>
           </h1>
-          <p className="mb-6 max-w-2xl text-lg text-white/70">{copy.description}</p>
+          <p className="mb-6 max-w-2xl text-lg text-white/70">
+            {copy.description}
+          </p>
 
           {/* Search bar */}
           <div className="mb-6">
@@ -121,13 +142,17 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => { setSearchQuery(e.target.value); }}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                }}
                 placeholder={copy.searchPlaceholder}
                 className="w-full rounded-full border-2 border-white/30 bg-black/20 px-6 py-3 text-white placeholder:text-white/50 focus:border-lime-300 focus:outline-none focus:ring-2 focus:ring-lime-300/50"
               />
               {searchQuery && (
                 <button
-                  onClick={() => { setSearchQuery(""); }}
+                  onClick={() => {
+                    setSearchQuery("");
+                  }}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
                   aria-label="Clear search"
                 >
@@ -139,28 +164,53 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
 
           <div className="flex flex-wrap gap-3">
             <button
-              onClick={() => { setSelectedCategory("all"); }}
+              onClick={() => {
+                setSelectedCategory("all");
+              }}
               className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
                 selectedCategory === "all"
                   ? "border-lime-300 bg-lime-300 text-[#050505]"
                   : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
               }`}
             >
-              {copy.filterAll}
-            </button>
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => { setSelectedCategory(category.name); }}
-                className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
-                  selectedCategory === category.name
-                    ? "border-lime-300 bg-lime-300 text-[#050505]"
-                    : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
+              {copy.filterAll}{" "}
+              <span
+                className={`ml-1.5 text-xs font-normal ${
+                  selectedCategory === "all" ? "opacity-70" : "opacity-50"
                 }`}
               >
-                {category.name}
-              </button>
-            ))}
+                ({works.length})
+              </span>
+            </button>
+            {categories.map((category) => {
+              const count = works.filter(
+                (w) => w.category === category.name,
+              ).length;
+              return (
+                <button
+                  key={category.id}
+                  onClick={() => {
+                    setSelectedCategory(category.name);
+                  }}
+                  className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
+                    selectedCategory === category.name
+                      ? "border-lime-300 bg-lime-300 text-[#050505]"
+                      : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
+                  }`}
+                >
+                  {category.name}{" "}
+                  <span
+                    className={`ml-1.5 text-xs font-normal ${
+                      selectedCategory === category.name
+                        ? "opacity-70"
+                        : "opacity-50"
+                    }`}
+                  >
+                    ({count})
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -172,7 +222,7 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
                 e.preventDefault();
                 setYoutubeModal({
                   isOpen: true,
-                  url: work.externalUrl ?? '',
+                  url: work.externalUrl ?? "",
                   title: work.title,
                 });
               }
@@ -180,17 +230,20 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
 
             const CardContent = (
               <>
-                <div className="relative flex min-h-[300px] items-center justify-center overflow-hidden bg-black/20">
-                  {work.coverImage && work.coverImage !== '/images/placeholder.jpg' ? (
-                    <Image
-                      src={work.coverImage}
-                      alt={work.coverImageAlt}
-                      width={600}
-                      height={600}
-                      className="h-auto w-full object-contain transition-transform group-hover:scale-110"
-                    />
+                <div className="relative overflow-hidden bg-black/20">
+                  {work.coverImage &&
+                  work.coverImage !== "/images/placeholder.jpg" ? (
+                    <div className="relative aspect-[3/4] overflow-hidden">
+                      <Image
+                        src={work.coverImage}
+                        alt={work.coverImageAlt}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                        className="object-contain transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-lime-300/10 to-emerald-400/10 py-20">
+                    <div className="relative aspect-[3/4] flex items-center justify-center bg-gradient-to-br from-lime-300/10 to-emerald-400/10">
                       <span className="text-6xl font-black uppercase text-white/20 leading-none">
                         {work.title.charAt(0)}
                       </span>
@@ -198,18 +251,34 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
                   )}
                   {isClip && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
-                      <svg className="h-20 w-20 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
+                      <svg
+                        className="h-20 w-20 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8 5v14l11-7z" />
                       </svg>
                     </div>
                   )}
                 </div>
 
                 <div className="p-4">
-                  <div className="mb-2 text-xs font-bold uppercase text-lime-400">{work.category}</div>
-                  <h2 className="mb-2 text-lg font-bold uppercase leading-tight">{work.title}</h2>
-                  {work.subtitle && <p className="mb-3 text-sm text-white/70 line-clamp-2">{work.subtitle}</p>}
-                  {work.composers.length > 0 && <div className="text-xs text-white/50">{work.composers.join(", ")}</div>}
+                  <div className="mb-2 text-xs font-bold uppercase text-lime-400">
+                    {work.category}
+                  </div>
+                  <h2 className="mb-2 text-lg font-bold uppercase leading-tight">
+                    {work.title}
+                  </h2>
+                  {work.subtitle && (
+                    <p className="mb-3 text-sm text-white/70 line-clamp-2">
+                      {work.subtitle}
+                    </p>
+                  )}
+                  {work.composers.length > 0 && (
+                    <div className="text-xs text-white/50">
+                      {work.composers.join(", ")}
+                    </div>
+                  )}
                   <div className="mt-3 inline-block text-xs font-bold uppercase text-lime-300 opacity-0 transition-opacity group-hover:opacity-100">
                     {isClip ? "Voir le clip →" : `${viewProjectLabel} →`}
                   </div>
@@ -241,7 +310,9 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
           youtubeUrl={youtubeModal.url}
           title={youtubeModal.title}
           isOpen={youtubeModal.isOpen}
-          onClose={() => { setYoutubeModal({ isOpen: false, url: "", title: "" }); }}
+          onClose={() => {
+            setYoutubeModal({ isOpen: false, url: "", title: "" });
+          }}
         />
 
         {filteredWorks.length === 0 && (
@@ -252,7 +323,9 @@ export function ProjetsPageClient({ locale, nav, copy, viewProjectLabel }: Proje
 
         <div className="mt-16">
           <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-12">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">{copy.ctaTitle}</h2>
+            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
+              {copy.ctaTitle}
+            </h2>
             <p className="mb-6 text-[#050505]/80">{copy.ctaDescription}</p>
             <Link
               href={`/${locale}/contact`}

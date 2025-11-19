@@ -10,8 +10,20 @@ img2: "/images/projets/expertises/gestion-distribution/photo2-gestiondistrib.JPG
 img3: "/images/projets/expertises/gestion-distribution/photo3-gestiondistrib.JPG"
 img4: "/images/projets/expertises/gestion-distribution/photo4-gestiondistrib.JPG"
 img5: "/images/projets/expertises/gestion-distribution/photo5-gestiondistrib.GIF"
-img6: "/images/projets/expertises/gestion-distribution/photo6-gestiondistrib.JPG"
 imgFooter: "/images/projets/expertises/gestion-distribution/photohome4.JPG"
+sectionsLayout:
+  - image: img1
+    position: right
+  - image: img2
+    position: left
+  - image: img3
+    position: right
+  - image: img4
+    position: left
+  - image: img5
+    position: right
+  - image: null
+    position: auto
 ---
 
 <!-- section:start -->

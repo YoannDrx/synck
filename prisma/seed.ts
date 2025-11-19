@@ -19,10 +19,12 @@ function normalizeImagePath(
   if (!imagePath) return null;
 
   // Replace portfolio with projets
-  const normalized = imagePath.replace(
-    "/images/portfolio/",
-    "/images/projets/",
-  );
+  let normalized = imagePath.replace("/images/portfolio/", "/images/projets/");
+
+  // Add public/ prefix if not present
+  if (normalized.startsWith("/images/")) {
+    normalized = `public${  normalized}`;
+  }
 
   // Parse the path
   const lastSlash = normalized.lastIndexOf("/");
@@ -451,7 +453,11 @@ function normalizeExpertiseImagePath(imagePath: string): string {
   // Fix common path issues
   normalized = normalized
     .replace(/droit-auteur/g, "droits-auteur")
-    .replace(/droit-voisin/g, "droits-voisins");
+    .replace(/droit-voisin/g, "droits-voisins")
+    .replace(/\/subvention\//g, "/dossier-subvention/")
+    .replace(/\/gestion-admin\//g, "/gestion-administrative-et-editoriale/")
+    .replace(/\/gestion-distrib\//g, "/gestion-distribution/")
+    .replace(/\/soused\//g, "/sous-edition/");
 
   return normalized;
 }

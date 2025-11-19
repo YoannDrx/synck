@@ -14,6 +14,17 @@ img4Link: 'https://popfilms.fr'
 img5: /images/projets/expertises/gestion-administrative-et-editoriale/photo5-gestionadmin.jpeg
 img5Link: 'https://www.viadecouvertes.fr/'
 imgFooter: /images/projets/expertises/gestion-administrative-et-editoriale/photohome3.JPG
+sectionsLayout:
+  - image: img1
+    position: right
+  - image: img2
+    position: left
+  - image: img3
+    position: right
+  - image: img4
+    position: left
+  - image: img5
+    position: right
 documentaires:
   - title: Numero 387 disparu en méditerranée
     subtitle: little-big-story

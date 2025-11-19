@@ -26,6 +26,8 @@ sectionsLayout:
     position: left
   - image: img5
     position: right
+  - image: imgFooter
+    position: left
 ---
 
 <!-- section:start -->
@@ -134,4 +136,11 @@ Toutes les sociétés de gestion collective participent au budget du CNM, ainsi 
 - _[Aide à la production phonographique – Musiques actuelles](https://cnm.fr/aides/musique-enregistree/production-phonographique/musiques-actuelles/)_
 - _[Aide à la production phonographique – Classique et Contemporain”](https://cnm.fr/aides/musique-enregistree/production-phonographique/classique-et-contemporain/)_.
 
-- [Le Bureau Export](https://www.lebureauexport.fr/) : l’interlocuteur privilégié pour les projets qui veulent s’exporter et se développer à l’international
+<!-- section:end -->
+<!-- section:start -->
+
+### **Le Bureau Export**
+
+[Le Bureau Export](https://www.lebureauexport.fr/) : l'interlocuteur privilégié pour les projets qui veulent s'exporter et se développer à l'international
+
+<!-- section:end -->

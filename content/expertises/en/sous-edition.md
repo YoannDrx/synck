@@ -3,188 +3,195 @@ id: '5'
 title: Sub-publishing
 description: Sub-publishing description
 slug: sous-edition
-imgHome: /images/sous-edition/Home-PhotoGestionSoused.JPG
-img1: /images/sous-edition/photo1-soused.JPG
-img2: /images/sous-edition/photo2-soused.JPG
-img3: /images/sous-edition/photo3-soused.JPG
-imgFooter: /images/sous-edition/photohome5.JPG
+imgHome: /images/projets/expertises/sous-edition/Home-PhotoGestionSoused.JPG
+img1: /images/projets/expertises/sous-edition/photo1-soused.JPG
+img2: /images/projets/expertises/sous-edition/photo2-soused.JPG
+img3: /images/projets/expertises/sous-edition/photo3-soused.JPG
+imgFooter: /images/projets/expertises/sous-edition/photohome5.JPG
+sectionsLayout:
+  - image: img1
+    position: right
+  - image: img2
+    position: left
+  - image: img3
+    position: right
 labels:
   - name: image2
-    src: /images/sous-edition/logo-label-soused/2.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/2.png
     href: www.google.com
   - name: image3
-    src: /images/sous-edition/logo-label-soused/3.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/3.png
     href: www.google.com
   - name: image4
-    src: /images/sous-edition/logo-label-soused/4.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/4.png
     href: www.google.com
   - name: image5
-    src: /images/sous-edition/logo-label-soused/5.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/5.png
     href: www.google.com
   - name: image6
-    src: /images/sous-edition/logo-label-soused/6.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/6.png
     href: www.google.com
   - name: image7
-    src: /images/sous-edition/logo-label-soused/7.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/7.png
     href: www.google.com
   - name: image8
-    src: /images/sous-edition/logo-label-soused/8.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/8.png
     href: www.google.com
   - name: image9
-    src: /images/sous-edition/logo-label-soused/9.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/9.png
     href: www.google.com
   - name: image10
-    src: /images/sous-edition/logo-label-soused/10.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/10.png
     href: www.google.com
   - name: image11
-    src: /images/sous-edition/logo-label-soused/11.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/11.png
     href: www.google.com
   - name: image12
-    src: /images/sous-edition/logo-label-soused/12.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/12.png
     href: www.google.com
   - name: image13
-    src: /images/sous-edition/logo-label-soused/13.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/13.png
     href: www.google.com
   - name: image14
-    src: /images/sous-edition/logo-label-soused/14.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/14.png
     href: www.google.com
   - name: image15
-    src: /images/sous-edition/logo-label-soused/15.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/15.png
     href: www.google.com
   - name: image16
-    src: /images/sous-edition/logo-label-soused/16.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/16.png
     href: www.google.com
   - name: image18
-    src: /images/sous-edition/logo-label-soused/18.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/18.png
     href: www.google.com
   - name: image19
-    src: /images/sous-edition/logo-label-soused/19.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/19.png
     href: www.google.com
   - name: image20
-    src: /images/sous-edition/logo-label-soused/20.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/20.png
     href: www.google.com
   - name: image21
-    src: /images/sous-edition/logo-label-soused/21.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/21.png
     href: www.google.com
   - name: image22
-    src: /images/sous-edition/logo-label-soused/22.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/22.png
     href: www.google.com
   - name: image23
-    src: /images/sous-edition/logo-label-soused/23.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/23.png
     href: www.google.com
   - name: image24
-    src: /images/sous-edition/logo-label-soused/24.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/24.png
     href: www.google.com
   - name: image25
-    src: /images/sous-edition/logo-label-soused/25.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/25.png
     href: www.google.com
   - name: image26
-    src: /images/sous-edition/logo-label-soused/26.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/26.png
     href: www.google.com
   - name: image27
-    src: /images/sous-edition/logo-label-soused/27.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/27.png
     href: www.google.com
   - name: image28
-    src: /images/sous-edition/logo-label-soused/28.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/28.png
     href: www.google.com
   - name: image29
-    src: /images/sous-edition/logo-label-soused/29.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/29.png
     href: www.google.com
   - name: image30
-    src: /images/sous-edition/logo-label-soused/30.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/30.png
     href: www.google.com
   - name: image31
-    src: /images/sous-edition/logo-label-soused/31.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/31.png
     href: www.google.com
   - name: image32
-    src: /images/sous-edition/logo-label-soused/32.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/32.png
     href: www.google.com
   - name: image33
-    src: /images/sous-edition/logo-label-soused/33.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/33.png
     href: www.google.com
   - name: image34
-    src: /images/sous-edition/logo-label-soused/34.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/34.png
     href: www.google.com
   - name: image35
-    src: /images/sous-edition/logo-label-soused/35.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/35.png
     href: www.google.com
   - name: image36
-    src: /images/sous-edition/logo-label-soused/36.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/36.png
     href: www.google.com
   - name: image37
-    src: /images/sous-edition/logo-label-soused/37.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/37.png
     href: www.google.com
   - name: image38
-    src: /images/sous-edition/logo-label-soused/38.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/38.png
     href: www.google.com
   - name: image39
-    src: /images/sous-edition/logo-label-soused/39.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/39.png
     href: www.google.com
   - name: image40
-    src: /images/sous-edition/logo-label-soused/40.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/40.png
     href: www.google.com
   - name: image41
-    src: /images/sous-edition/logo-label-soused/41.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/41.png
     href: www.google.com
   - name: image42
-    src: /images/sous-edition/logo-label-soused/42.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/42.png
     href: www.google.com
   - name: image43
-    src: /images/sous-edition/logo-label-soused/43.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/43.png
     href: www.google.com
   - name: image44
-    src: /images/sous-edition/logo-label-soused/44.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/44.png
     href: www.google.com
   - name: image46
-    src: /images/sous-edition/logo-label-soused/46.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/46.png
     href: www.google.com
   - name: image47
-    src: /images/sous-edition/logo-label-soused/47.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/47.png
     href: www.google.com
   - name: image48
-    src: /images/sous-edition/logo-label-soused/48.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/48.png
     href: www.google.com
   - name: image49
-    src: /images/sous-edition/logo-label-soused/49.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/49.png
     href: www.google.com
   - name: image50
-    src: /images/sous-edition/logo-label-soused/50.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/50.png
     href: www.google.com
   - name: image51
-    src: /images/sous-edition/logo-label-soused/51.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/51.png
     href: www.google.com
   - name: image52
-    src: /images/sous-edition/logo-label-soused/52.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/52.png
     href: www.google.com
   - name: image53
-    src: /images/sous-edition/logo-label-soused/53.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/53.png
     href: www.google.com
   - name: image54
-    src: /images/sous-edition/logo-label-soused/54.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/54.png
     href: www.google.com
   - name: image55
-    src: /images/sous-edition/logo-label-soused/55.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/55.png
     href: www.google.com
   - name: image57
-    src: /images/sous-edition/logo-label-soused/57.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/57.png
     href: www.google.com
   - name: image58
-    src: /images/sous-edition/logo-label-soused/58.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/58.png
     href: www.google.com
   - name: image59
-    src: /images/sous-edition/logo-label-soused/59.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/59.png
     href: www.google.com
   - name: image60
-    src: /images/sous-edition/logo-label-soused/60.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/60.png
     href: www.google.com
   - name: image61
-    src: /images/sous-edition/logo-label-soused/61.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/61.png
     href: www.google.com
   - name: image62
-    src: /images/sous-edition/logo-label-soused/62.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/62.png
     href: www.google.com
   - name: image63
-    src: /images/sous-edition/logo-label-soused/63.png
+    src: /images/projets/expertises/sous-edition/logo-label-soused/63.png
     href: www.google.com
 ---
 

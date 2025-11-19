@@ -3,15 +3,28 @@ id: "2"
 title: "Gestion des droits voisins"
 description: "Descritpion droits voisins"
 slug: "droits-voisins"
-imgHome: "/images/droit-voisin/Home-Photodroitsvoisins.JPG"
-img1: "/images/droit-voisin/photo1-droitsvoisins.JPG"
-img2: "/images/droit-voisin/photo2-droitsvoisins.JPG"
-img3: "/images/droit-voisin/photo7-droitsvoisins.JPG"
-img4: "/images/droit-voisin/photo4-droitsvoisins.JPG"
-img5: "/images/droit-voisin/photo5-droitsvoisins.JPG"
-img6: "/images/droit-voisin/photo6-droitsvoisins.JPG"
-img7: "/images/droit-voisin/photo3-droitsvoisins.JPG"
-imgFooter: "/images/droit-voisin/photohome2.JPG"
+imgHome: "/images/projets/expertises/droits-voisins/Home-Photodroitsvoisins.JPG"
+img1: "/images/projets/expertises/droits-voisins/photo1-droitsvoisins.JPG"
+img2: "/images/projets/expertises/droits-voisins/photo2-droitsvoisins.JPG"
+img3: "/images/projets/expertises/droits-voisins/photo7-droitsvoisins.JPG"
+img4: "/images/projets/expertises/droits-voisins/photo4-droitsvoisins.JPG"
+img5: "/images/projets/expertises/droits-voisins/photo5-droitsvoisins.JPG"
+img6: "/images/projets/expertises/droits-voisins/photo6-droitsvoisins.JPG"
+img7: "/images/projets/expertises/droits-voisins/photo3-droitsvoisins.JPG"
+imgFooter: "/images/projets/expertises/droits-voisins/photohome2.JPG"
+sectionsLayout:
+  - image: img1
+    position: right
+  - image: img2
+    position: left
+  - image: img3
+    position: right
+  - image: img4
+    position: left
+  - image: img5
+    position: right
+  - image: img6
+    position: left
 ---
 
 <!-- section:start -->
