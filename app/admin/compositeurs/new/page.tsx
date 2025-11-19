@@ -1,9 +1,12 @@
-import { getDictionary } from "@/lib/dictionaries"
-import { ComposerForm } from "@/components/admin/composer-form"
-import Link from "next/link"
+import { getDictionary } from "@/lib/dictionaries";
+import { ComposerForm } from "@/components/admin/composer-form";
+import Link from "next/link";
+
+// Force dynamic rendering (no SSG) for admin pages
+export const dynamic = "force-dynamic";
 
 export default async function NewComposerPage() {
-  const dictionary = await getDictionary("fr")
+  const dictionary = await getDictionary("fr");
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -33,5 +36,5 @@ export default async function NewComposerPage() {
         <ComposerForm dictionary={dictionary.admin} mode="create" />
       </main>
     </div>
-  )
+  );
 }

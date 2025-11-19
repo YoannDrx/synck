@@ -1,9 +1,12 @@
-import { getDictionary } from "@/lib/dictionaries"
-import { WorkForm } from "@/components/admin/work-form"
-import Link from "next/link"
+import { getDictionary } from "@/lib/dictionaries";
+import { WorkForm } from "@/components/admin/work-form";
+import Link from "next/link";
+
+// Force dynamic rendering (no SSG) for admin pages
+export const dynamic = "force-dynamic";
 
 export default async function NewWorkPage() {
-  const dictionary = await getDictionary("fr")
+  const dictionary = await getDictionary("fr");
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -38,5 +41,5 @@ export default async function NewWorkPage() {
         <WorkForm dictionary={dictionary.admin} mode="create" />
       </main>
     </div>
-  )
+  );
 }

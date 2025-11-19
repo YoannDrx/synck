@@ -1,11 +1,14 @@
-import { getDictionary } from "@/lib/dictionaries"
-import { prisma } from "@/lib/prisma"
-import Link from "next/link"
-import Image from "next/image"
-import { DeleteComposerButton } from "@/components/admin/delete-composer-button"
+import { getDictionary } from "@/lib/dictionaries";
+import { prisma } from "@/lib/prisma";
+import Link from "next/link";
+import Image from "next/image";
+import { DeleteComposerButton } from "@/components/admin/delete-composer-button";
+
+// Force dynamic rendering (no SSG) for admin pages
+export const dynamic = "force-dynamic";
 
 export default async function ComposersPage() {
-  const dictionary = await getDictionary("fr")
+  const dictionary = await getDictionary("fr");
 
   const composers = await prisma.composer.findMany({
     include: {
@@ -16,7 +19,7 @@ export default async function ComposersPage() {
       },
     },
     orderBy: [{ order: "asc" }, { createdAt: "desc" }],
-  })
+  });
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -54,7 +57,9 @@ export default async function ComposersPage() {
         {/* Composers Grid */}
         {composers.length === 0 ? (
           <div className="border-2 border-white/20 bg-white/5 p-12 text-center">
-            <p className="text-white/60 mb-4">Aucun compositeur pour le moment</p>
+            <p className="text-white/60 mb-4">
+              Aucun compositeur pour le moment
+            </p>
             <Link
               href="/admin/compositeurs/new"
               className="inline-block bg-[#d5ff0a] text-black font-bold px-6 py-3 hover:bg-[#c5ef00] transition-colors"
@@ -67,8 +72,10 @@ export default async function ComposersPage() {
             {composers.map((composer) => {
               const frName =
                 composer.translations.find((t) => t.locale === "fr")?.name ??
-                "Sans nom"
-              const enName = composer.translations.find((t) => t.locale === "en")?.name
+                "Sans nom";
+              const enName = composer.translations.find(
+                (t) => t.locale === "en",
+              )?.name;
 
               return (
                 <div
@@ -83,7 +90,9 @@ export default async function ComposersPage() {
                         alt={composer.image.alt ?? frName}
                         fill
                         className="object-cover"
-                        placeholder={composer.image.blurDataUrl ? "blur" : "empty"}
+                        placeholder={
+                          composer.image.blurDataUrl ? "blur" : "empty"
+                        }
                         blurDataURL={composer.image.blurDataUrl ?? undefined}
                       />
                     </div>
@@ -126,11 +135,11 @@ export default async function ComposersPage() {
                     </div>
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
         )}
       </main>
     </div>
-  )
+  );
 }

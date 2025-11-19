@@ -1,10 +1,13 @@
-import { getDictionary } from "@/lib/dictionaries"
-import { prisma } from "@/lib/prisma"
-import Link from "next/link"
-import { WorksFilterableList } from "@/components/admin/works-filterable-list"
+import { getDictionary } from "@/lib/dictionaries";
+import { prisma } from "@/lib/prisma";
+import Link from "next/link";
+import { WorksFilterableList } from "@/components/admin/works-filterable-list";
+
+// Force dynamic rendering (no SSG) for admin pages
+export const dynamic = "force-dynamic";
 
 export default async function WorksPage() {
-  const dictionary = await getDictionary("fr")
+  const dictionary = await getDictionary("fr");
 
   // Fetch all categories
   const categories = await prisma.category.findMany({
@@ -12,7 +15,7 @@ export default async function WorksPage() {
       translations: true,
     },
     orderBy: { order: "asc" },
-  })
+  });
 
   // Fetch all works
   const works = await prisma.work.findMany({
@@ -41,7 +44,7 @@ export default async function WorksPage() {
       },
     },
     orderBy: [{ order: "asc" }, { createdAt: "desc" }],
-  })
+  });
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -83,5 +86,5 @@ export default async function WorksPage() {
         />
       </main>
     </div>
-  )
+  );
 }

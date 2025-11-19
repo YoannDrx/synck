@@ -1,16 +1,19 @@
-import { getDictionary } from "@/lib/dictionaries"
-import { prisma } from "@/lib/prisma"
-import { WorkForm } from "@/components/admin/work-form"
-import Link from "next/link"
-import { notFound } from "next/navigation"
+import { getDictionary } from "@/lib/dictionaries";
+import { prisma } from "@/lib/prisma";
+import { WorkForm } from "@/components/admin/work-form";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+// Force dynamic rendering (no SSG) for admin pages
+export const dynamic = "force-dynamic";
 
 type EditWorkPageProps = {
-  params: Promise<{ id: string }>
-}
+  params: Promise<{ id: string }>;
+};
 
 export default async function EditWorkPage({ params }: EditWorkPageProps) {
-  const { id } = await params
-  const dictionary = await getDictionary("fr")
+  const { id } = await params;
+  const dictionary = await getDictionary("fr");
 
   // Fetch work with all relations
   const work = await prisma.work.findUnique({
@@ -40,14 +43,14 @@ export default async function EditWorkPage({ params }: EditWorkPageProps) {
       },
       images: true,
     },
-  })
+  });
 
   if (!work) {
-    notFound()
+    notFound();
   }
 
   const frTitle =
-    work.translations.find((t) => t.locale === "fr")?.title ?? "Sans titre"
+    work.translations.find((t) => t.locale === "fr")?.title ?? "Sans titre";
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -80,5 +83,5 @@ export default async function EditWorkPage({ params }: EditWorkPageProps) {
         <WorkForm dictionary={dictionary.admin} work={work} mode="edit" />
       </main>
     </div>
-  )
+  );
 }

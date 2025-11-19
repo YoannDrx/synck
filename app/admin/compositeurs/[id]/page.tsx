@@ -1,16 +1,19 @@
-import { getDictionary } from "@/lib/dictionaries"
-import { ComposerForm } from "@/components/admin/composer-form"
-import { prisma } from "@/lib/prisma"
-import { notFound } from "next/navigation"
-import Link from "next/link"
+import { getDictionary } from "@/lib/dictionaries";
+import { ComposerForm } from "@/components/admin/composer-form";
+import { prisma } from "@/lib/prisma";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+
+// Force dynamic rendering (no SSG) for admin pages
+export const dynamic = "force-dynamic";
 
 export default async function EditComposerPage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = await params
-  const dictionary = await getDictionary("fr")
+  const { id } = await params;
+  const dictionary = await getDictionary("fr");
 
   const composer = await prisma.composer.findUnique({
     where: { id },
@@ -18,10 +21,10 @@ export default async function EditComposerPage({
       translations: true,
       image: true,
     },
-  })
+  });
 
   if (!composer) {
-    notFound()
+    notFound();
   }
 
   return (
@@ -41,7 +44,8 @@ export default async function EditComposerPage({
                 {dictionary.admin.composers.editTitle}
               </h1>
               <p className="text-white/60">
-                {composer.translations.find((t) => t.locale === "fr")?.name ?? "Sans nom"}
+                {composer.translations.find((t) => t.locale === "fr")?.name ??
+                  "Sans nom"}
               </p>
             </div>
             <Link
@@ -54,8 +58,12 @@ export default async function EditComposerPage({
         </div>
 
         {/* Form */}
-        <ComposerForm dictionary={dictionary.admin} composer={composer} mode="edit" />
+        <ComposerForm
+          dictionary={dictionary.admin}
+          composer={composer}
+          mode="edit"
+        />
       </main>
     </div>
-  )
+  );
 }

@@ -1,6 +1,9 @@
 import { getDictionary } from "@/lib/dictionaries";
 import { prisma } from "@/lib/prisma";
 
+// Force dynamic rendering (no SSG) for admin pages
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
   const dictionary = await getDictionary("fr"); // Default to French for admin
 
@@ -69,9 +72,18 @@ export default async function AdminDashboard() {
         <div className="border-2 border-white/20 bg-white/5 p-6 mb-8">
           <h2 className="text-xl font-bold mb-4 tracking-wider">Gestion</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <QuickActionButton label="📚 Gestion des projets" href="/admin/projets" />
-            <QuickActionButton label="🎵 Gestion des compositeurs" href="/admin/compositeurs" />
-            <QuickActionButton label="💼 Gestion des expertises" href="/admin/expertises" />
+            <QuickActionButton
+              label="📚 Gestion des projets"
+              href="/admin/projets"
+            />
+            <QuickActionButton
+              label="🎵 Gestion des compositeurs"
+              href="/admin/compositeurs"
+            />
+            <QuickActionButton
+              label="💼 Gestion des expertises"
+              href="/admin/expertises"
+            />
           </div>
         </div>
 
@@ -81,17 +93,30 @@ export default async function AdminDashboard() {
             Actions rapides
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <QuickActionButton label="+ Ajouter un projet" href="/admin/projets/new" />
-            <QuickActionButton label="+ Ajouter un compositeur" href="/admin/compositeurs/new" />
-            <QuickActionButton label="+ Ajouter une expertise" href="/admin/expertises/new" />
-            <QuickActionButton label="📨 Inviter un admin" href="/admin/invitations" />
+            <QuickActionButton
+              label="+ Ajouter un projet"
+              href="/admin/projets/new"
+            />
+            <QuickActionButton
+              label="+ Ajouter un compositeur"
+              href="/admin/compositeurs/new"
+            />
+            <QuickActionButton
+              label="+ Ajouter une expertise"
+              href="/admin/expertises/new"
+            />
+            <QuickActionButton
+              label="📨 Inviter un admin"
+              href="/admin/invitations"
+            />
           </div>
         </div>
 
         {/* Development notice */}
         <div className="mt-8 border-2 border-[#d5ff0a]/50 bg-[#d5ff0a]/10 p-4 text-sm">
           <p className="text-[#d5ff0a]">
-            <strong>🚧 En développement</strong> - Les fonctionnalités CRUD seront implémentées dans les prochaines étapes.
+            <strong>🚧 En développement</strong> - Les fonctionnalités CRUD
+            seront implémentées dans les prochaines étapes.
           </p>
         </div>
       </main>
@@ -102,9 +127,7 @@ export default async function AdminDashboard() {
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
     <div className="border-2 border-white/20 bg-white/5 p-6 backdrop-blur-sm">
-      <div className="text-4xl font-bold text-[#d5ff0a] mb-2">
-        {value}
-      </div>
+      <div className="text-4xl font-bold text-[#d5ff0a] mb-2">{value}</div>
       <div className="text-sm text-white/60 tracking-wide uppercase">
         {label}
       </div>
