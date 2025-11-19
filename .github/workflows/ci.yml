@@ -55,6 +55,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs: lint-and-typecheck
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
     steps:
       - name: Checkout code
@@ -93,8 +96,6 @@ jobs:
               echo "Please run 'pnpm run db:migrate' locally and commit the migration files."
               exit 1
             }
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
   # Job 3: Build Application
   build:
