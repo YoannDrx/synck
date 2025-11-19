@@ -1,10 +1,15 @@
-import type { NavSection, Metric, StudioRitual, TimelineEntry } from "@/lib/types";
+import type {
+  NavSection,
+  Metric,
+  StudioRitual,
+  TimelineEntry,
+} from "@/lib/types";
 
 export type LanguageSwitchDictionary = {
   label: string;
   fr: string;
   en: string;
-}
+};
 
 export type HomeHeroDictionary = {
   eyebrow: string[];
@@ -28,7 +33,7 @@ export type HomeHeroDictionary = {
     servicesLabel: string;
     servicesValue: string;
   };
-}
+};
 
 export type HomeDictionary = {
   navSections: NavSection[];
@@ -88,7 +93,7 @@ export type HomeDictionary = {
       href?: string;
     }[];
   };
-}
+};
 
 export type BlogDictionary = {
   description: string;
@@ -116,13 +121,13 @@ export type BlogDictionary = {
     button: string;
   };
   error: string;
-}
+};
 
 export type BlogDetailDictionary = {
   back: string;
   notFoundTitle: string;
   notFoundDescription: string;
-}
+};
 
 export type ExpertisesPageDictionary = {
   description: string;
@@ -131,7 +136,7 @@ export type ExpertisesPageDictionary = {
   ctaDescription: string;
   ctaButton: string;
   error: string;
-}
+};
 
 export type ExpertiseDetailDictionary = {
   labelsTitle: string;
@@ -145,7 +150,7 @@ export type ExpertiseDetailDictionary = {
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
-}
+};
 
 export type ProjetsPageDictionary = {
   description: string;
@@ -157,7 +162,7 @@ export type ProjetsPageDictionary = {
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
-}
+};
 
 export type ProjetDetailDictionary = {
   composersTitle: string;
@@ -172,12 +177,13 @@ export type ProjetDetailDictionary = {
   externalResourcesButton: string;
   galleryTitle: string;
   spotifyTitle: string;
+  videoTitle: string;
   previousLabel: string;
   nextLabel: string;
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
-}
+};
 
 export type ComposersPageDictionary = {
   description: string;
@@ -186,7 +192,7 @@ export type ComposersPageDictionary = {
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
-}
+};
 
 export type ComposerDetailDictionary = {
   worksTitle: string;
@@ -195,7 +201,7 @@ export type ComposerDetailDictionary = {
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
-}
+};
 
 export type ContactPageDictionary = {
   heroDescription: string;
@@ -218,7 +224,7 @@ export type ContactPageDictionary = {
   }[];
   consultationTitle: string;
   consultationDescription: string;
-}
+};
 
 export type ContactFormDictionary = {
   fields: {
@@ -245,19 +251,19 @@ export type ContactFormDictionary = {
   };
   success: string;
   error: string;
-}
+};
 
 export type LayoutMenuDictionary = {
   open: string;
   close: string;
-}
+};
 
 export type LayoutDictionary = {
   navigationTitle: string;
   language: LanguageSwitchDictionary;
   footer: string;
   menu: LayoutMenuDictionary;
-}
+};
 
 export type AuthDictionary = {
   login: {
@@ -290,7 +296,7 @@ export type AuthDictionary = {
     errorExpired: string;
     errorPasswordMismatch: string;
   };
-}
+};
 
 export type AdminDictionary = {
   nav: {
@@ -411,7 +417,7 @@ export type AdminDictionary = {
     expiresAt: string;
     status: string;
   };
-}
+};
 
 export type Dictionary = {
   nav: {
@@ -443,4 +449,4 @@ export type Dictionary = {
   contactPage: ContactPageDictionary;
   auth: AuthDictionary;
   admin: AdminDictionary;
-}
+};

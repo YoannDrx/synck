@@ -1,34 +1,37 @@
-'use client'
+"use client";
 
-import { useRef } from 'react'
-import Image from 'next/image'
-import ReactMarkdown from 'react-markdown'
-import { motion, useInView } from 'framer-motion'
+import { useRef } from "react";
+import Image from "next/image";
+import ReactMarkdown from "react-markdown";
+import { motion, useInView } from "framer-motion";
 
 export type AlternatingSectionProps = {
-  content: string
-  image?: string | null
-  imagePosition?: 'left' | 'right' | 'auto'
-  index: number
-  isLast?: boolean
-}
+  content: string;
+  image?: string | null;
+  imagePosition?: "left" | "right" | "auto";
+  index: number;
+  isLast?: boolean;
+};
 
 export function AlternatingSection({
   content,
   image,
-  imagePosition = 'auto',
+  imagePosition = "auto",
   index,
   isLast = false,
 }: AlternatingSectionProps) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   // Determine actual position
-  const position = imagePosition === 'auto'
-    ? index % 2 === 0 ? 'right' : 'left'
-    : imagePosition
+  const position =
+    imagePosition === "auto"
+      ? index % 2 === 0
+        ? "right"
+        : "left"
+      : imagePosition;
 
-  const isImageLeft = position === 'left'
+  const isImageLeft = position === "left";
 
   // Animation variants
   const imageVariants = {
@@ -43,7 +46,7 @@ export function AlternatingSection({
         duration: 0.6,
       },
     },
-  } as const
+  } as const;
 
   const contentVariants = {
     hidden: {
@@ -58,15 +61,15 @@ export function AlternatingSection({
         delay: 0.2,
       },
     },
-  } as const
+  } as const;
 
   // Render with float layout (text wraps around image)
   return (
     <motion.div
       ref={ref}
       initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      className={isLast ? '' : 'mb-16 md:mb-20 lg:mb-24'}
+      animate={isInView ? "visible" : "hidden"}
+      className={isLast ? "" : "mb-16 md:mb-20 lg:mb-24"}
     >
       <div>
         {/* Image with float */}
@@ -74,7 +77,7 @@ export function AlternatingSection({
           <motion.div
             variants={imageVariants}
             className={`
-              ${isImageLeft ? 'float-left mr-6 md:mr-10 lg:mr-12' : 'float-right ml-6 md:ml-10 lg:ml-12'}
+              ${isImageLeft ? "float-left mr-6 md:mr-10 lg:mr-12" : "float-right ml-6 md:ml-10 lg:ml-12"}
               mb-6
               w-full sm:w-[300px] md:w-[400px] lg:w-[500px]
             `}
@@ -115,23 +118,23 @@ export function AlternatingSection({
                 </p>
               ),
               ul: ({ children }) => (
-                <ul className="space-y-3 mb-6 list-none">
-                  {children}
-                </ul>
+                <ul className="space-y-3 mb-6 list-none">{children}</ul>
               ),
               li: ({ children }) => (
-                <li className="text-base md:text-lg text-gray-300 pl-6 relative before:content-['→'] before:absolute before:left-0 before:text-lime-300 before:font-bold">
-                  {children}
+                <li className="text-base md:text-lg text-gray-300 flex gap-3 items-start">
+                  <span className="text-lime-300 font-bold shrink-0">→</span>
+                  <span className="flex-1">{children}</span>
                 </li>
               ),
               strong: ({ children }) => (
-                <strong className="text-white font-bold">
-                  {children}
-                </strong>
+                <strong className="text-white font-bold">{children}</strong>
               ),
               blockquote: ({ children }) => (
-                <blockquote className="border-l-4 border-lime-300 pl-6 italic text-gray-400 my-6">
-                  {children}
+                <blockquote className="flex gap-4 items-start my-6">
+                  <span className="w-1 bg-lime-300 shrink-0 self-stretch" />
+                  <span className="flex-1 italic text-gray-400">
+                    {children}
+                  </span>
                 </blockquote>
               ),
             }}
@@ -144,5 +147,5 @@ export function AlternatingSection({
         <div className="clear-both" />
       </div>
     </motion.div>
-  )
+  );
 }

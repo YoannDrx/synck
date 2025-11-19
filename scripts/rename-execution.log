@@ -1,0 +1,1139 @@
+🔄 File Renaming and Moving
+
+============================================================
+Total files to process:    416
+Mode:                      EXECUTE
+============================================================
+
+⚠️  EXECUTE MODE - Files WILL be modified
+
+📋 Step 1: Processing conflicts and duplicates
+
+✅ conflict_1: Identical duplicate detected
+   DELETE: /images/projets/documentaires/votez-jeunesse.jpg
+   KEEP:   /images/projets/documentaires/13prods/votez-jeunesse.jpg
+   ✅ Deleted
+
+⚠️  conflict_2: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/unique-en-mon-genre.jpg → /images/projets/documentaires/13prods/unique-en-mon-genre-1.jpg
+   [2] /images/projets/documentaires/13prods/unique-en-mon-genre.jpg → /images/projets/documentaires/13prods/unique-en-mon-genre-2.jpg
+
+✅ conflict_3: Identical duplicate detected
+   DELETE: /images/projets/documentaires/une-deuxieme-chance.jpg
+   KEEP:   /images/projets/documentaires/13prods/une-deuxieme-chance.jpg
+   ✅ Deleted
+
+⚠️  conflict_4: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/tgros.JPG → /images/projets/documentaires/13prods/tgros-1.jpg
+   [2] /images/projets/documentaires/13prods/tgros.jpg → /images/projets/documentaires/13prods/tgros-2.jpg
+
+⚠️  conflict_5: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/petit-pays.jpg → /images/projets/documentaires/13prods/petit-pays-1.jpg
+   [2] /images/projets/documentaires/13prods/petit-pays.jpg → /images/projets/documentaires/13prods/petit-pays-2.jpg
+
+⚠️  conflict_6: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/pas-folle-la-liberte.jpg → /images/projets/documentaires/13prods/pas-folle-la-liberte-1.jpg
+   [2] /images/projets/documentaires/13prods/pas-folle-la-liberte.jpg → /images/projets/documentaires/13prods/pas-folle-la-liberte-2.jpg
+
+⚠️  conflict_7: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/par-nos-yeux.jpg → /images/projets/documentaires/13prods/par-nos-yeux-1.jpg
+   [2] /images/projets/documentaires/13prods/par-nos-yeux.jpg → /images/projets/documentaires/13prods/par-nos-yeux-2.jpg
+
+✅ conflict_8: Identical duplicate detected
+   DELETE: /images/projets/documentaires/nous-ne-sommes-rien.jpg
+   KEEP:   /images/projets/documentaires/13prods/nous-ne-sommes-rien.jpg
+   ✅ Deleted
+
+⚠️  conflict_9: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/miquelon-entre-deux-eaux.jpg → /images/projets/documentaires/13prods/miquelon-entre-deux-eaux-1.jpg
+   [2] /images/projets/documentaires/13prods/miquelon-entre-deux-eaux.jpg → /images/projets/documentaires/13prods/miquelon-entre-deux-eaux-2.jpg
+
+✅ conflict_10: Identical duplicate detected
+   DELETE: /images/projets/documentaires/mes-parents.jpg
+   KEEP:   /images/projets/documentaires/13prods/mes-parents.jpg
+   ✅ Deleted
+
+⚠️  conflict_11: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/mayotte-les-combattantes.jpg → /images/projets/documentaires/13prods/mayotte-les-combattantes-1.jpg
+   [2] /images/projets/documentaires/13prods/mayotte-les-combattantes.jpg → /images/projets/documentaires/13prods/mayotte-les-combattantes-2.jpg
+
+✅ conflict_12: Identical duplicate detected
+   DELETE: /images/projets/documentaires/martineaubry.jpg
+   KEEP:   /images/projets/documentaires/13prods/martineaubry.jpg
+   ✅ Deleted
+
+✅ conflict_13: Identical duplicate detected
+   DELETE: /images/projets/documentaires/ma-cite-mon-village.jpg
+   KEEP:   /images/projets/documentaires/13prods/ma-cite-mon-village.jpg
+   ✅ Deleted
+
+✅ conflict_14: Identical duplicate detected
+   DELETE: /images/projets/documentaires/leveil-du-désir.jpg
+   KEEP:   /images/projets/documentaires/13prods/leveil-du-désir.jpg
+   ✅ Deleted
+
+⚠️  conflict_15: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/les-resistants-de-mauthausen.jpg → /images/projets/documentaires/13prods/les-resistants-de-mauthausen-1.jpg
+   [2] /images/projets/documentaires/13prods/les-resistants-de-mauthausen.jpg → /images/projets/documentaires/13prods/les-resistants-de-mauthausen-2.jpg
+
+⚠️  conflict_16: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/les-ouvrieres-du-made-in-france.JPG → /images/projets/documentaires/13prods/les-ouvrieres-du-made-in-france-1.jpg
+   [2] /images/projets/documentaires/13prods/les-ouvrieres-du-made-in-france.jpg → /images/projets/documentaires/13prods/les-ouvrieres-du-made-in-france-2.jpg
+
+⚠️  conflict_17: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/les-oublies-de-latome.JPG → /images/projets/documentaires/little-big-story/les-oublies-de-latome-1.jpg
+   [2] /images/projets/documentaires/little-big-story/les-oublies-de-latome.jpg → /images/projets/documentaires/little-big-story/les-oublies-de-latome-2.jpg
+
+⚠️  conflict_18: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/les-oublies-de-la-justice.jpg → /images/projets/documentaires/13prods/les-oublies-de-la-justice-1.jpg
+   [2] /images/projets/documentaires/13prods/les-oublies-de-la-justice.jpg → /images/projets/documentaires/13prods/les-oublies-de-la-justice-2.jpg
+
+⚠️  conflict_19: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/les-murs-de-la-honte.JPG → /images/projets/documentaires/13prods/les-murs-de-la-honte-1.jpg
+   [2] /images/projets/documentaires/13prods/les-murs-de-la-honte.jpg → /images/projets/documentaires/13prods/les-murs-de-la-honte-2.jpg
+
+✅ conflict_20: Identical duplicate detected
+   DELETE: /images/projets/documentaires/le-ministere.jpg
+   KEEP:   /images/projets/documentaires/13prods/le-ministere.jpg
+   ✅ Deleted
+
+⚠️  conflict_21: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/laicité-et-concordat.jpg → /images/projets/documentaires/13prods/laicite-et-concordat-1.jpg
+   [2] /images/projets/documentaires/13prods/laicite-et-concordat.jpg → /images/projets/documentaires/13prods/laicite-et-concordat-2.jpg
+
+⚠️  conflict_22: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/lache-ton-smartphone.jpg → /images/projets/documentaires/13prods/lache-ton-smartphone-1.jpg
+   [2] /images/projets/documentaires/13prods/lache-ton-smartphone.jpg → /images/projets/documentaires/13prods/lache-ton-smartphone-2.jpg
+
+⚠️  conflict_23: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/la-greve-du-siecle.JPG → /images/projets/documentaires/13prods/la-greve-du-siecle-1.jpg
+   [2] /images/projets/documentaires/13prods/la-greve-du-siecle.jpg → /images/projets/documentaires/13prods/la-greve-du-siecle-2.jpg
+
+✅ conflict_24: Identical duplicate detected
+   DELETE: /images/projets/documentaires/la-clinique-de-lamour.jpg
+   KEEP:   /images/projets/documentaires/13prods/la-clinique-de-lamour.jpg
+   ✅ Deleted
+
+⚠️  conflict_25: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/karim-contre-mittal.jpg → /images/projets/documentaires/13prods/karim-contre-mittal-1.jpg
+   [2] /images/projets/documentaires/13prods/karim-contre-mittal.jpg → /images/projets/documentaires/13prods/karim-contre-mittal-2.jpg
+
+✅ conflict_26: Identical duplicate detected
+   DELETE: /images/projets/documentaires/juppe.jpg
+   KEEP:   /images/projets/documentaires/13prods/juppe.jpg
+   ✅ Deleted
+
+⚠️  conflict_27: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/guyane-underground.jpg → /images/projets/documentaires/13prods/guyane-underground-1.jpg
+   [2] /images/projets/documentaires/13prods/guyane-underground.jpg → /images/projets/documentaires/13prods/guyane-underground-2.jpg
+
+⚠️  conflict_28: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/filles-de-harkis.jpg → /images/projets/documentaires/13prods/filles-de-harkis-1.jpg
+   [2] /images/projets/documentaires/13prods/filles-de-harkis.jpg → /images/projets/documentaires/13prods/filles-de-harkis-2.jpg
+
+✅ conflict_29: Identical duplicate detected
+   DELETE: /images/projets/documentaires/deconnectes.jpg
+   KEEP:   /images/projets/documentaires/13prods/deconnectes.jpg
+   ✅ Deleted
+
+✅ conflict_30: Identical duplicate detected
+   DELETE: /images/projets/documentaires/de-gerard-a-monsieur.jpg
+   KEEP:   /images/projets/documentaires/13prods/de-gerard-a-monsieur.jpg
+   ✅ Deleted
+
+⚠️  conflict_31: Different files, keeping both with numbering
+   [1] /images/projets/documentaires/comment-te-dire-adieu.jpg → /images/projets/documentaires/13prods/comment-te-dire-adieu-1.jpg
+   [2] /images/projets/documentaires/13prods/comment-te-dire-adieu.jpg → /images/projets/documentaires/13prods/comment-te-dire-adieu-2.jpg
+
+✅ conflict_32: Identical duplicate detected
+   DELETE: /images/projets/documentaires/chanter-a-tout-prix.jpg
+   KEEP:   /images/projets/documentaires/13prods/chanter-a-tout-prix.jpg
+   ✅ Deleted
+
+✅ conflict_33: Identical duplicate detected
+   DELETE: /images/projets/documentaires/cahier-d-un-retour.jpg
+   KEEP:   /images/projets/documentaires/13prods/cahier-d-un-retour.jpg
+   ✅ Deleted
+
+✅ conflict_34: Identical duplicate detected
+   DELETE: /images/projets/documentaires/a-vous-de-juger.jpg
+   KEEP:   /images/projets/documentaires/13prods/a-vous-de-juger.jpg
+   ✅ Deleted
+
+📊 Duplicates summary: 15 identical duplicates deleted
+
+📋 Step 2: Renaming and moving files
+
+📝 RENAME: /images/projets/vinyles/VIDEOCLUB.jpg
+       → /images/projets/vinyles/videoclub.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/vinyles/VELODROME.jpeg
+       → /images/projets/vinyles/velodrome.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/vinyles/UNE-DERNIERE-FOIS.jpg
+       → /images/projets/vinyles/une-derniere-fois.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/vinyles/THE TRIP.jpg
+       → /images/projets/vinyles/the-trip.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/vinyles/NY-PARIGO.jpg
+       → /images/projets/vinyles/ny-parigo.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/vinyles/MUSTANG-FORCE.jpeg
+       → /images/projets/vinyles/mustang-force.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/vinyles/HEXAHEDRE.jpg
+       → /images/projets/vinyles/hexahedre.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/vinyles/HAND-FUNKTION.jpg
+       → /images/projets/vinyles/hand-funktion.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/vinyles/ACID-BODY-MUSIC.jpg
+       → /images/projets/vinyles/acid-body-music.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosynchro/tokyo-vice-portfolio.jpeg
+       → /images/projets/photosynchro/tokyo-vice-portfolio.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosynchro/le-monde-de-demain2.jpeg
+       → /images/projets/photosynchro/le-monde-de-demain2.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosynchro/emily.jpeg
+       → /images/projets/photosynchro/emily.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosynchro/Vengeances-visu.jpg
+       → /images/projets/photosynchro/vengeances-visu.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosynchro/SAXY-GIRL-PGO0023.jpeg
+       → /images/projets/photosynchro/saxy-girl-pgo0023.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosynchro/Primera-Vez.jpeg
+       → /images/projets/photosynchro/primera-vez.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosynchro/LeMondeDeDemain.png
+       → /images/projets/photosynchro/lemondededemain.png
+  ✅ Done
+
+📝 RENAME: /images/projets/photosynchro/KLEO-paysage.jpg
+       → /images/projets/photosynchro/kleo-paysage.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosynchro/Control-Z.jpg
+       → /images/projets/photosynchro/control-z.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosynchro/Captain-Fall-Cover.png
+       → /images/projets/photosynchro/captain-fall-cover.png
+  ✅ Done
+
+📝 RENAME: /images/projets/photosynchro/BloodSex_Royalty.jpg
+       → /images/projets/photosynchro/bloodsex-royalty.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/madben.jpeg
+       → /images/projets/photosCompo/madben.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/dDash.jpeg
+       → /images/projets/photosCompo/ddash.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/dDamage.jpeg
+       → /images/projets/photosCompo/ddamage.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/ZoeWolf.jpg
+       → /images/projets/photosCompo/zoewolf.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/YannKornowicz.jpeg
+       → /images/projets/photosCompo/yannkornowicz.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/XavierSibre.jpeg
+       → /images/projets/photosCompo/xaviersibre.jpg
+  ✅ Done
+
+⚠️  File not found, skipping: /images/projets/photosCompo/WellQuartet.png
+⚠️  File not found, skipping: /images/projets/photosCompo/ViroMajorRecords.png
+📝 RENAME: /images/projets/photosCompo/UglyMacBeer.jpeg
+       → /images/projets/photosCompo/uglymacbeer.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/TheRealFakeMC.jpeg
+       → /images/projets/photosCompo/therealfakemc.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/TheArchitect.jpeg
+       → /images/projets/photosCompo/thearchitect.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Tcheep.jpeg
+       → /images/projets/photosCompo/tcheep.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Syra.jpeg
+       → /images/projets/photosCompo/syra.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/StanGalouo.jpeg
+       → /images/projets/photosCompo/stangalouo.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/SrOrtegon.jpeg
+       → /images/projets/photosCompo/srortegon.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/SebastienBlanchon.jpeg
+       → /images/projets/photosCompo/sebastienblanchon.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Scherazade.jpeg
+       → /images/projets/photosCompo/scherazade.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/RomaLuca.jpeg
+       → /images/projets/photosCompo/romaluca.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/RebeccaMeyer.jpeg
+       → /images/projets/photosCompo/rebeccameyer.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/PanaBlack.jpeg
+       → /images/projets/photosCompo/panablack.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/NicolasPisani.jpeg
+       → /images/projets/photosCompo/nicolaspisani.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Nicodrum.jpeg
+       → /images/projets/photosCompo/nicodrum.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/NSDOS.jpeg
+       → /images/projets/photosCompo/nsdos.jpg
+  ✅ Done
+
+⚠️  File not found, skipping: /images/projets/photosCompo/MutantNinja.png
+📝 RENAME: /images/projets/photosCompo/MrViktor.jpeg
+       → /images/projets/photosCompo/mrviktor.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Modulhater.jpeg
+       → /images/projets/photosCompo/modulhater.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/MisterModo.jpeg
+       → /images/projets/photosCompo/mistermodo.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Minimatic.jpeg
+       → /images/projets/photosCompo/minimatic.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Marie-Sophie-Mallet.jpg
+       → /images/projets/photosCompo/marie-sophie-mallet.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/LovLion.jpg
+       → /images/projets/photosCompo/lovlion.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Liqid.jpeg
+       → /images/projets/photosCompo/liqid.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/LesCavaliers.jpeg
+       → /images/projets/photosCompo/lescavaliers.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/LesArondes.jpeg
+       → /images/projets/photosCompo/lesarondes.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/LaurentDury.jpeg
+       → /images/projets/photosCompo/laurentdury.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/JBHanak.jpeg
+       → /images/projets/photosCompo/jbhanak.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/HEXAHEDRE.jpg
+       → /images/projets/photosCompo/hexahedre.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Ghostmaker.jpeg
+       → /images/projets/photosCompo/ghostmaker.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Gerz.jpeg
+       → /images/projets/photosCompo/gerz.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/ForeverPavot.jpeg
+       → /images/projets/photosCompo/foreverpavot.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Flore.jpeg
+       → /images/projets/photosCompo/flore.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/FabienGirard.jpeg
+       → /images/projets/photosCompo/fabiengirard.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/FStokes.jpeg
+       → /images/projets/photosCompo/fstokes.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/EmmanuelMaree.jpeg
+       → /images/projets/photosCompo/emmanuelmaree.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Drixxxe.jpeg
+       → /images/projets/photosCompo/drixxxe.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Daxovii.jpeg
+       → /images/projets/photosCompo/daxovii.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/DanAmozig.jpeg
+       → /images/projets/photosCompo/danamozig.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/DUCER.jpeg
+       → /images/projets/photosCompo/ducer.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/DJTroubl.jpeg
+       → /images/projets/photosCompo/djtroubl.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/DJHertz.jpeg
+       → /images/projets/photosCompo/djhertz.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/CoryTate.jpeg
+       → /images/projets/photosCompo/corytate.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Coeur.jpeg
+       → /images/projets/photosCompo/coeur.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/ChrisKemp.jpg
+       → /images/projets/photosCompo/chriskemp.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/ChichoCortez.jpeg
+       → /images/projets/photosCompo/chichocortez.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/CharlotteSavary.jpeg
+       → /images/projets/photosCompo/charlottesavary.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/CedricHanak.jpeg
+       → /images/projets/photosCompo/cedrichanak.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/CallyReed.jpeg
+       → /images/projets/photosCompo/callyreed.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/BrunoHovart.jpeg
+       → /images/projets/photosCompo/brunohovart.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Bonetrips.jpeg
+       → /images/projets/photosCompo/bonetrips.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Blanka.jpeg
+       → /images/projets/photosCompo/blanka.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Arom.jpeg
+       → /images/projets/photosCompo/arom.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/AratKilo.jpeg
+       → /images/projets/photosCompo/aratkilo.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/Arandel.jpeg
+       → /images/projets/photosCompo/arandel.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/AnaKap.jpeg
+       → /images/projets/photosCompo/anakap.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/AfterInParis.jpeg
+       → /images/projets/photosCompo/afterinparis.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/AeonSeven.jpeg
+       → /images/projets/photosCompo/aeonseven.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/9oClock.jpeg
+       → /images/projets/photosCompo/9oclock.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/photosCompo/2080.jpeg
+       → /images/projets/photosCompo/2080.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/evenements/unedernièrefois.png
+       → /images/projets/evenements/unedernierefois.png
+  ✅ Done
+
+📝 RENAME: /images/projets/evenements/pma-PGO2021.jpg
+       → /images/projets/evenements/pma-pgo2021.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/evenements/dj-muggs.jpeg
+       → /images/projets/evenements/dj-muggs.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/evenements/Mark-Awards-miniature1.png
+       → /images/projets/evenements/mark-awards-miniature1.png
+  ✅ Done
+
+📝 RENAME: /images/projets/evenements/MUSTANG-FORCE.jpeg
+       → /images/projets/evenements/mustang-force.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/evenements/BEST-USE-OF-PRODUCTION-MUSIC-IN-A-TELEVISION DRAMA 2022 x Modulhater.png
+       → /images/projets/evenements/best-use-of-production-music-in-a-television-drama-2022-x-modulhater.png
+  ✅ Done
+
+📝 RENAME: /images/projets/evenements/71272551_1576044899196430_319947842049277952_n.jpeg
+       → /images/projets/evenements/71272551-1576044899196430-319947842049277952-n.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/evenements/244629252_10209358251669604_6110609676045722348_n.jpeg
+       → /images/projets/evenements/244629252-10209358251669604-6110609676045722348-n.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/evenements/119055170_10220307929101791_7425025811293274256_n.jpeg
+       → /images/projets/evenements/119055170-10220307929101791-7425025811293274256-n.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/unique-en-mon-genre2.jpg
+     → /images/projets/documentaires/13prods/unique-en-mon-genre2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/unique-en-mon-genre.jpg
+     → /images/projets/documentaires/13prods/unique-en-mon-genre-1.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/tgros.JPG
+              → /images/projets/documentaires/13prods/tgros-1.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/taiwan-une-democratie-a-lombre-de-la-chine.JPG
+              → /images/projets/documentaires/little-big-story/taiwan-une-democratie-a-lombre-de-la-chine.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/sweet-sweetback2.jpg
+     → /images/projets/documentaires/pop-films/sweet-sweetback2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/souvenirs-en-cuisine4.jpg
+     → /images/projets/documentaires/pop-films/souvenirs-en-cuisine4.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/souvenirs-en-cuisine3.jpg
+     → /images/projets/documentaires/pop-films/souvenirs-en-cuisine3.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/souvenirs-en-cuisine2.jpg
+     → /images/projets/documentaires/pop-films/souvenirs-en-cuisine2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/sous-la-loi-des-talibans2.jpg
+     → /images/projets/documentaires/little-big-story/sous-la-loi-des-talibans2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/solidarnosc2.jpg
+     → /images/projets/documentaires/13prods/solidarnosc2.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/si-loin-de-la-polynesie.JPG
+              → /images/projets/documentaires/13prods/si-loin-de-la-polynesie.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/se-mettre-au-vert-portfolio.jpg
+     → /images/projets/documentaires/via-decouvertes-films/se-mettre-au-vert-portfolio.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/reves-de-princesses2.JPG
+              → /images/projets/documentaires/pop-films/reves-de-princesses2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/resistantes-allemandes.jpg
+     → /images/projets/documentaires/13prods/resistantes-allemandes.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/quand-lafrique-sauva-la-france.JPG
+              → /images/projets/documentaires/13prods/quand-lafrique-sauva-la-france.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/plonger-pour-guerir.jpg
+     → /images/projets/documentaires/via-decouvertes-films/plonger-pour-guerir.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/petit-pays.jpg
+     → /images/projets/documentaires/13prods/petit-pays-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/petit-pays-je-taime-beaucoup.jpg
+     → /images/projets/documentaires/13prods/petit-pays-je-taime-beaucoup.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/pedroalmodovar.jpg
+     → /images/projets/documentaires/pop-films/pedroalmodovar.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/patrick-edlinger-la-liberte-au-bout-des-doigts.JPG
+              → /images/projets/documentaires/pop-films/patrick-edlinger-la-liberte-au-bout-des-doigts.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/pas-folle-la-liberte.jpg
+     → /images/projets/documentaires/13prods/pas-folle-la-liberte-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/par-nos-yeux.jpg
+     → /images/projets/documentaires/13prods/par-nos-yeux-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/outremer100.jpg
+     → /images/projets/documentaires/13prods/outremer100.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/operation-biodiversite3.jpg
+     → /images/projets/documentaires/via-decouvertes-films/operation-biodiversite3.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/operation-biodiv.jpg
+     → /images/projets/documentaires/13prods/operation-biodiv.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/naissance-dun-heros-noir-au-cinema-sweet-sweetback.JPG
+              → /images/projets/documentaires/pop-films/naissance-dun-heros-noir-au-cinema-sweet-sweetback.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/miquelon-entre-deux-eaux.jpg
+     → /images/projets/documentaires/13prods/miquelon-entre-deux-eaux-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/micmac-a-millau-les-paysans-face-a-la-mondialisation.jpg
+     → /images/projets/documentaires/13prods/micmac-a-millau-les-paysans-face-a-la-mondialisation.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/mayotte-les-combattantes.jpg
+     → /images/projets/documentaires/13prods/mayotte-les-combattantes-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/mayotte-lenfance-danger.jpg
+     → /images/projets/documentaires/13prods/mayotte-lenfance-danger.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/masque-de-fer.JPG
+              → /images/projets/documentaires/13prods/masque-de-fer.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/martinique-la-reconquete-de-la-terre.jpg
+     → /images/projets/documentaires/13prods/martinique-la-reconquete-de-la-terre.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/marseille-capitale2.jpg
+     → /images/projets/documentaires/13prods/marseille-capitale2.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/marcus-klingberg-un-pur-espion2.JPG
+              → /images/projets/documentaires/13prods/marcus-klingberg-un-pur-espion2.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/marcus-klingberg-un-pur-espion.JPG
+              → /images/projets/documentaires/13prods/marcus-klingberg-un-pur-espion.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/mangas2portfolio.jpg
+     → /images/projets/documentaires/pop-films/mangas2portfolio.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/makatea2.jpg
+     → /images/projets/documentaires/13prods/makatea2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/les-viants-portfolio.jpg
+     → /images/projets/documentaires/13prods/les-viants-portfolio.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/les-resistants-de-mauthausen.jpg
+     → /images/projets/documentaires/13prods/les-resistants-de-mauthausen-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/les-poisons-de-poutine.jpg
+     → /images/projets/documentaires/13prods/les-poisons-de-poutine.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/les-ouvrieres-du-made-in-france.JPG
+              → /images/projets/documentaires/13prods/les-ouvrieres-du-made-in-france-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/les-oublies-de-latome2.jpg
+     → /images/projets/documentaires/little-big-story/les-oublies-de-latome2.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/les-oublies-de-latome.JPG
+              → /images/projets/documentaires/little-big-story/les-oublies-de-latome-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/les-oublies-de-la-justice.jpg
+     → /images/projets/documentaires/13prods/les-oublies-de-la-justice-1.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/les-murs-de-la-honte.JPG
+              → /images/projets/documentaires/13prods/les-murs-de-la-honte-1.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/les-femmes-du-IIIeme-reich.JPG
+              → /images/projets/documentaires/13prods/les-femmes-du-iiieme-reich.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/les-enfants-de-huahine-portfolio.jpg
+     → /images/projets/documentaires/13prods/les-enfants-de-huahine-portfolio.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/les-amoureux-de-marianne.jpg
+     → /images/projets/documentaires/13prods/les-amoureux-de-marianne.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/leproces-daushwitz-la-fin-du-silence2.JPG
+              → /images/projets/documentaires/13prods/leproces-daushwitz-la-fin-du-silence2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/lempire-de-lor-rouge2.jpg
+     → /images/projets/documentaires/little-big-story/lempire-de-lor-rouge2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/leila-une-vie-a-miquelon2.jpg
+     → /images/projets/documentaires/13prods/leila-une-vie-a-miquelon2.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/leIIIeme-reich-naura-pas-la-bombe.JPG
+              → /images/projets/documentaires/13prods/leiiieme-reich-naura-pas-la-bombe.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/le-temps-daimer2.jpg
+     → /images/projets/documentaires/13prods/le-temps-daimer2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/le-proces.jpg
+     → /images/projets/documentaires/13prods/le-proces.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/laicité-et-concordat.jpg
+              → /images/projets/documentaires/13prods/laicite-et-concordat-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/lache-ton-smartphone.jpg
+     → /images/projets/documentaires/13prods/lache-ton-smartphone-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/la-rumeur-dorleans2.jpg
+     → /images/projets/documentaires/13prods/la-rumeur-dorleans2.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/la-greve-du-siecle.JPG
+              → /images/projets/documentaires/13prods/la-greve-du-siecle-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/la-femme-sans-nom2.jpg
+     → /images/projets/documentaires/little-big-story/la-femme-sans-nom2.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/la-femme-sans-nom-lhistoire-de-jeanne-et-baudelaire.JPG
+              → /images/projets/documentaires/little-big-story/la-femme-sans-nom-lhistoire-de-jeanne-et-baudelaire.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/la-double-vie-du-cognac3.jpg
+     → /images/projets/documentaires/13prods/la-double-vie-du-cognac3.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/la-double-vie-du-cognac2.jpg
+     → /images/projets/documentaires/13prods/la-double-vie-du-cognac2.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/la-democratie-du-doller.JPG
+              → /images/projets/documentaires/13prods/la-democratie-du-doller.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/la-brousse-une-terre-en-partage.JPG
+              → /images/projets/documentaires/13prods/la-brousse-une-terre-en-partage.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/karim-contre-mittal.jpg
+     → /images/projets/documentaires/13prods/karim-contre-mittal-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/jules-verne-et-le-defi-du-tour-du-tour-du-monde.jpg
+     → /images/projets/documentaires/pop-films/jules-verne-et-le-defi-du-tour-du-tour-du-monde.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/jirai-crier2.jpg
+     → /images/projets/documentaires/13prods/jirai-crier2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/jean-jouzel-dans-la-bataille-du-siecle.jpg
+     → /images/projets/documentaires/13prods/jean-jouzel-dans-la-bataille-du-siecle.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/jamie-lee-curtis2.jpg
+     → /images/projets/documentaires/pop-films/jamie-lee-curtis2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/guyane-underground.jpg
+     → /images/projets/documentaires/13prods/guyane-underground-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/gurs-un-silence-assourdissant.jpg
+     → /images/projets/documentaires/13prods/gurs-un-silence-assourdissant.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/guadeloupe-les-soldats-de-la-terre.JPG
+              → /images/projets/documentaires/13prods/guadeloupe-les-soldats-de-la-terre.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/gorongosa-le-parc-de-reconciliation.jpg
+     → /images/projets/documentaires/via-decouvertes-films/gorongosa-le-parc-de-reconciliation.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/goerges-perec2.jpg
+     → /images/projets/documentaires/13prods/goerges-perec2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/georges-perec-lhomme-qui-ne-voulait-pas-oublier2.jpg
+     → /images/projets/documentaires/13prods/georges-perec-lhomme-qui-ne-voulait-pas-oublier2.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/generation-grand-bleu2.JPG
+              → /images/projets/documentaires/pop-films/generation-grand-bleu2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/generation-grand-bleu-3.jpg
+     → /images/projets/documentaires/pop-films/generation-grand-bleu-3.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/gaudin2.jpg
+     → /images/projets/documentaires/13prods/gaudin2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/filles-de-harkis.jpg
+     → /images/projets/documentaires/13prods/filles-de-harkis-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/eric-piolle2.jpg
+     → /images/projets/documentaires/13prods/eric-piolle2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/entendez-nous-portfolio.jpg
+     → /images/projets/documentaires/13prods/entendez-nous-portfolio.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/en-jachere.JPG
+              → /images/projets/documentaires/13prods/en-jachere.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/disparu-387.jpg
+     → /images/projets/documentaires/little-big-story/disparu-387.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/diam-a-jul-marseille-capitale-rap2.jpg
+     → /images/projets/documentaires/13prods/diam-a-jul-marseille-capitale-rap2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/des-antilles-au-djebel2.jpg
+     → /images/projets/documentaires/13prods/des-antilles-au-djebel2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/deconfines-en-re.jpg
+     → /images/projets/documentaires/13prods/deconfines-en-re.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/comment-te-dire-adieu4.jpg
+     → /images/projets/documentaires/13prods/comment-te-dire-adieu4.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/comment-te-dire-adieu3.jpg
+     → /images/projets/documentaires/13prods/comment-te-dire-adieu3.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/comment-te-dire-adieu2.jpg
+     → /images/projets/documentaires/13prods/comment-te-dire-adieu2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/comment-te-dire-adieu.jpg
+     → /images/projets/documentaires/13prods/comment-te-dire-adieu-1.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/cogolin-ville-a-prendre.jpg
+     → /images/projets/documentaires/13prods/cogolin-ville-a-prendre.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/clearstream-et-moi.JPG
+              → /images/projets/documentaires/13prods/clearstream-et-moi.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/chants-gregoriens-2-0.jpg
+     → /images/projets/documentaires/pop-films/chants-gregoriens-2-0.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/cancre-2.jpg
+     → /images/projets/documentaires/13prods/cancre-2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/calanques.jpg
+     → /images/projets/documentaires/via-decouvertes-films/calanques.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/cabrera-un-secret-revele.jpg
+     → /images/projets/documentaires/13prods/cabrera-un-secret-revele.jpg
+  ✅ Done
+
+🔄 RENAME + MOVE: /images/projets/documentaires/bnp-paribas-dans-les-eaux-troubles-de-la-plus-grande-banque-européenne.JPG
+              → /images/projets/documentaires/little-big-story/bnp-paribas-dans-les-eaux-troubles-de-la-plus-grande-banque-europeenne.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/avant-que-la-grande-nacre-meure2.jpg
+     → /images/projets/documentaires/via-decouvertes-films/avant-que-la-grande-nacre-meure2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/au-nom-de-la-mer2.jpg
+     → /images/projets/documentaires/13prods/au-nom-de-la-mer2.jpg
+  ✅ Done
+
+📂 MOVE: /images/projets/documentaires/andre-mailfert-lepopee-dun-faussaire-industriel.jpg
+     → /images/projets/documentaires/13prods/andre-mailfert-lepopee-dun-faussaire-industriel.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/clips/egocentric visuo-spatial perspective.png
+       → /images/projets/clips/egocentric-visuo-spatial-perspective.png
+  ✅ Done
+
+📝 RENAME: /images/projets/clips/Modulhater-Klang-Brutt.png
+       → /images/projets/clips/modulhater-klang-brutt.png
+  ✅ Done
+
+📝 RENAME: /images/projets/clips/Garden-of-eden.png
+       → /images/projets/clips/garden-of-eden.png
+  ✅ Done
+
+📝 RENAME: /images/projets/clips/Ailleurs.png
+       → /images/projets/clips/ailleurs.png
+  ✅ Done
+
+📝 RENAME: /images/projets/clips/Acid.png
+       → /images/projets/clips/acid.png
+  ✅ Done
+
+⚠️  File not found, skipping: /images/projets/albums/PGO0051.png
+📝 RENAME: /images/projets/albums/PGO0050.jpg
+       → /images/projets/albums/pgo0050.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0049.jpg
+       → /images/projets/albums/pgo0049.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0046.jpg
+       → /images/projets/albums/pgo0046.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0045.jpg
+       → /images/projets/albums/pgo0045.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0044.jpg
+       → /images/projets/albums/pgo0044.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0043.jpg
+       → /images/projets/albums/pgo0043.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0042.jpg
+       → /images/projets/albums/pgo0042.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0041.jpg
+       → /images/projets/albums/pgo0041.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0040.jpg
+       → /images/projets/albums/pgo0040.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0039.jpg
+       → /images/projets/albums/pgo0039.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0038.jpg
+       → /images/projets/albums/pgo0038.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0036.jpg
+       → /images/projets/albums/pgo0036.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0035.jpg
+       → /images/projets/albums/pgo0035.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0034.jpg
+       → /images/projets/albums/pgo0034.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0033.jpg
+       → /images/projets/albums/pgo0033.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0032.jpg
+       → /images/projets/albums/pgo0032.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0031.jpg
+       → /images/projets/albums/pgo0031.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0030.jpg
+       → /images/projets/albums/pgo0030.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0029.jpg
+       → /images/projets/albums/pgo0029.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0028.jpg
+       → /images/projets/albums/pgo0028.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0027.jpg
+       → /images/projets/albums/pgo0027.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0026.jpg
+       → /images/projets/albums/pgo0026.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0025.jpg
+       → /images/projets/albums/pgo0025.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0024.jpg
+       → /images/projets/albums/pgo0024.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0023.jpg
+       → /images/projets/albums/pgo0023.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/albums/PGO0022.jpg
+       → /images/projets/albums/pgo0022.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/ligne-de-mire/portrait-d'un-pere.jpg
+       → /images/projets/documentaires/ligne-de-mire/portrait-dun-pere.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/ligne-de-mire/VIKINGS.jpg
+       → /images/projets/documentaires/ligne-de-mire/vikings.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/ligne-de-mire/VIKINGS-LA-SAGA-DES-FEMMES.jpg
+       → /images/projets/documentaires/ligne-de-mire/vikings-la-saga-des-femmes.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/ligne-de-mire/INDE.jpg
+       → /images/projets/documentaires/ligne-de-mire/inde.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/13prods/mangas-une-révolution-française-expertise.jpg
+       → /images/projets/documentaires/13prods/mangas-une-revolution-francaise-expertise.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/13prods/leveil-du-désir.jpg
+       → /images/projets/documentaires/13prods/leveil-du-desir-2.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/13prods/gal-au-nom-de-la-raison-d'etat.jpg
+       → /images/projets/documentaires/13prods/gal-au-nom-de-la-raison-detat.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/13prods/YMCA.jpg
+       → /images/projets/documentaires/13prods/ymca.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/13prods/YMCA-UNE-FLAMME.jpg
+       → /images/projets/documentaires/13prods/ymca-une-flamme.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/13prods/TERRORISME-ARMENIEN.jpg
+       → /images/projets/documentaires/13prods/terrorisme-armenien.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/13prods/MARTINIQUE-LES-YEUX.jpg
+       → /images/projets/documentaires/13prods/martinique-les-yeux.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/13prods/LES-ENFANTS-DE-HUAHINE.jpg
+       → /images/projets/documentaires/13prods/les-enfants-de-huahine.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/13prods/GAL.jpg
+       → /images/projets/documentaires/13prods/gal.jpg
+  ✅ Done
+
+📝 RENAME: /images/projets/documentaires/13prods/BASTELICA.jpg
+       → /images/projets/documentaires/13prods/bastelica.jpg
+  ✅ Done
+
+
+============================================================
+📊 FINAL SUMMARY
+
+Mode:                EXECUTE
+Files renamed:       164
+Files moved:         100
+Duplicates deleted:  15
+Conflicts processed: 38
+Errors:              0
+============================================================
+
+✅ File renaming and moving completed!
+
+💡 Next steps:
+  1. Verify files with: find public/images/projets -type f
+  2. Run update-db-asset-paths.ts to update database

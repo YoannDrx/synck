@@ -76,7 +76,8 @@ const dictionary: Dictionary = {
       status: {
         title: "Studio status",
         year: "2025",
-        headline: "Professional management of your music rights and royalty optimization.",
+        headline:
+          "Professional management of your music rights and royalty optimization.",
         expertiseLabel: "Expertise",
         expertiseValue: "Copyright / Publishing / Production",
         organizationsLabel: "Organizations",
@@ -84,7 +85,8 @@ const dictionary: Dictionary = {
         availabilityLabel: "Availability",
         availabilityValue: "Freelance — open to missions",
         servicesLabel: "Services",
-        servicesValue: "Registrations, publishing agreements, ISRC codes, budgets, and grants.",
+        servicesValue:
+          "Registrations, publishing agreements, ISRC codes, budgets, and grants.",
       },
     },
     metrics: [
@@ -225,7 +227,8 @@ const dictionary: Dictionary = {
     },
   },
   blog: {
-    description: "Articles, updates, and insights about copyright and the music industry.",
+    description:
+      "Articles, updates, and insights about copyright and the music industry.",
     filters: {
       categoryLabel: "Category",
       tagLabel: "Tag",
@@ -254,13 +257,16 @@ const dictionary: Dictionary = {
   blogDetail: {
     back: "← Back to blog",
     notFoundTitle: "Article not found",
-    notFoundDescription: "The requested content does not exist or has been moved.",
+    notFoundDescription:
+      "The requested content does not exist or has been moved.",
   },
   expertisesPage: {
-    description: "Explore the fields where I support music professionals with tailored rights management.",
+    description:
+      "Explore the fields where I support music professionals with tailored rights management.",
     cardCta: "Learn more",
     ctaTitle: "Need guidance?",
-    ctaDescription: "Contact me to discuss your copyright and administrative needs.",
+    ctaDescription:
+      "Contact me to discuss your copyright and administrative needs.",
     ctaButton: "Start a conversation",
     error: "Failed to load expertises",
   },
@@ -274,11 +280,13 @@ const dictionary: Dictionary = {
       noResults: "No documentaries match your search",
     },
     ctaTitle: "Need guidance?",
-    ctaDescription: "Contact me to discuss your copyright and administrative needs.",
+    ctaDescription:
+      "Contact me to discuss your copyright and administrative needs.",
     ctaButton: "Contact me",
   },
   projetsPage: {
-    description: "Discover the music projects whose copyright Caroline manages.",
+    description:
+      "Discover the music projects whose copyright Caroline manages.",
     filterAll: "All",
     searchPlaceholder: "Search by title...",
     loading: "Loading...",
@@ -297,10 +305,12 @@ const dictionary: Dictionary = {
     label: "Label",
     isrc: "ISRC code",
     externalResourcesTitle: "External resources",
-    externalResourcesDescription: "Official information, excerpts, and complementary materials about this project.",
+    externalResourcesDescription:
+      "Official information, excerpts, and complementary materials about this project.",
     externalResourcesButton: "Open full details",
     galleryTitle: "Gallery",
     spotifyTitle: "Listen",
+    videoTitle: "Video",
     previousLabel: "← Previous project",
     nextLabel: "Next project →",
     ctaTitle: "Working on something similar?",
@@ -308,7 +318,8 @@ const dictionary: Dictionary = {
     ctaButton: "Contact me",
   },
   composersPage: {
-    description: "Meet the composers supported with music-rights administration.",
+    description:
+      "Meet the composers supported with music-rights administration.",
     worksSingular: "project",
     worksPlural: "projects",
     ctaTitle: "Are you a composer?",
@@ -326,7 +337,8 @@ const dictionary: Dictionary = {
   contactPage: {
     heroDescription: "Have a question or project? I’d be happy to connect.",
     introTitle: "Send me a message",
-    introDescription: "Fill out the form below and I will reply as quickly as possible.",
+    introDescription:
+      "Fill out the form below and I will reply as quickly as possible.",
     contactInfoTitle: "Contact info",
     emailLabel: "Email",
     emailValue: "caroline.senyk@parigomusic.com",
@@ -336,16 +348,30 @@ const dictionary: Dictionary = {
     linkedinCta: "View profile",
     linkedinUrl: "https://www.linkedin.com/in/caroline-senyk-0307752a7/",
     availabilityLabel: "Availability",
-    availabilityValue: "I usually reply within 24-48h. Mention urgent requests in your subject line.",
+    availabilityValue:
+      "I usually reply within 24-48h. Mention urgent requests in your subject line.",
     servicesTitle: "Services",
     services: [
-      { title: "Copyright management", description: "Safeguard and track your works." },
-      { title: "Music rights advisory", description: "Legal and strategic expertise." },
-      { title: "Artist support", description: "Full guidance for creative projects." },
-      { title: "SACEM expertise", description: "Filing and optimization support." },
+      {
+        title: "Copyright management",
+        description: "Safeguard and track your works.",
+      },
+      {
+        title: "Music rights advisory",
+        description: "Legal and strategic expertise.",
+      },
+      {
+        title: "Artist support",
+        description: "Full guidance for creative projects.",
+      },
+      {
+        title: "SACEM expertise",
+        description: "Filing and optimization support.",
+      },
     ],
     consultationTitle: "First consultation offered",
-    consultationDescription: "New projects include a complimentary 30-minute call.",
+    consultationDescription:
+      "New projects include a complimentary 30-minute call.",
   },
   auth: {
     login: {
@@ -363,7 +389,8 @@ const dictionary: Dictionary = {
     },
     invitation: {
       title: "Accept Invitation",
-      description: "Create your admin account to access the administration panel.",
+      description:
+        "Create your admin account to access the administration panel.",
       nameLabel: "Full name",
       namePlaceholder: "Your name",
       emailLabel: "Email address",

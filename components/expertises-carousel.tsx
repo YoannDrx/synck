@@ -1,26 +1,26 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 type ExpertiseCard = {
-  id: string
-  slug: string
-  href: string
-  title: string
-  subtitle: string
-  imgHome: string
-}
+  id: string;
+  slug: string;
+  href: string;
+  title: string;
+  subtitle: string;
+  imgHome: string;
+};
 
 type ExpertisesCarouselProps = {
-  expertises: ExpertiseCard[]
-  currentSlug: string
-  locale: string
-  title?: string
-  description?: string
-}
+  expertises: ExpertiseCard[];
+  currentSlug: string;
+  locale: string;
+  title?: string;
+  description?: string;
+};
 
 export function ExpertisesCarousel({
   expertises,
@@ -28,13 +28,13 @@ export function ExpertisesCarousel({
   title = "Découvrez nos autres expertises",
   description = "Explorez l'ensemble de nos domaines d'intervention",
 }: ExpertisesCarouselProps) {
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   // Filter out current expertise
-  const otherExpertises = expertises.filter((exp) => exp.slug !== currentSlug)
+  const otherExpertises = expertises.filter((exp) => exp.slug !== currentSlug);
 
   if (otherExpertises.length === 0) {
-    return null
+    return null;
   }
 
   // Number of items to show at once (responsive)
@@ -42,20 +42,20 @@ export function ExpertisesCarousel({
     mobile: 1,
     tablet: 2,
     desktop: 3,
-  }
+  };
 
-  const maxIndex = Math.max(0, otherExpertises.length - itemsPerPage.desktop)
+  const maxIndex = Math.max(0, otherExpertises.length - itemsPerPage.desktop);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => Math.max(0, prev - 1))
-  }
+    setCurrentIndex((prev) => Math.max(0, prev - 1));
+  };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => Math.min(maxIndex, prev + 1))
-  }
+    setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
+  };
 
-  const canGoPrev = currentIndex > 0
-  const canGoNext = currentIndex < maxIndex
+  const canGoPrev = currentIndex > 0;
+  const canGoNext = currentIndex < maxIndex;
 
   return (
     <div className="mt-20 border-4 border-white/10 bg-[#0a0a0e] p-8 md:p-12 shadow-[0_25px_60px_rgba(0,0,0,0.65)]">
@@ -68,9 +68,7 @@ export function ExpertisesCarousel({
           <span>{title.slice(1)}</span>
         </h2>
         {description && (
-          <p className="text-lg text-white/70 max-w-2xl">
-            {description}
-          </p>
+          <p className="text-lg text-white/70 max-w-2xl">{description}</p>
         )}
       </div>
 
@@ -85,9 +83,10 @@ export function ExpertisesCarousel({
               group flex items-center gap-2 px-4 py-2
               border-2 font-bold uppercase text-sm
               transition-all duration-200
-              ${canGoPrev
-                ? 'border-lime-300 text-lime-300 hover:bg-lime-300 hover:text-black cursor-pointer'
-                : 'border-white/20 text-white/30 cursor-not-allowed'
+              ${
+                canGoPrev
+                  ? "border-lime-300 text-lime-300 hover:bg-lime-300 hover:text-black cursor-pointer"
+                  : "border-white/20 text-white/30 cursor-not-allowed"
               }
             `}
           >
@@ -106,9 +105,10 @@ export function ExpertisesCarousel({
               group flex items-center gap-2 px-4 py-2
               border-2 font-bold uppercase text-sm
               transition-all duration-200
-              ${canGoNext
-                ? 'border-lime-300 text-lime-300 hover:bg-lime-300 hover:text-black cursor-pointer'
-                : 'border-white/20 text-white/30 cursor-not-allowed'
+              ${
+                canGoNext
+                  ? "border-lime-300 text-lime-300 hover:bg-lime-300 hover:text-black cursor-pointer"
+                  : "border-white/20 text-white/30 cursor-not-allowed"
               }
             `}
           >
@@ -120,7 +120,9 @@ export function ExpertisesCarousel({
         {/* Cards Container */}
         <div className="overflow-hidden">
           <motion.div
-            animate={{ x: `-${String(currentIndex * (100 / itemsPerPage.desktop))}%` }}
+            animate={{
+              x: `-${String(currentIndex * (100 / itemsPerPage.desktop))}%`,
+            }}
             transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
             className="flex"
           >
@@ -131,10 +133,10 @@ export function ExpertisesCarousel({
               >
                 <Link
                   href={expertise.href}
-                  className="group block border-4 border-white/10 bg-black/40 overflow-hidden hover:border-lime-300 transition-all duration-300 hover:shadow-[0_0_30px_rgba(213,255,10,0.3)]"
+                  className="group flex flex-col h-full border-4 border-white/10 bg-black/40 overflow-hidden hover:border-lime-300 transition-all duration-300 hover:shadow-[0_0_30px_rgba(213,255,10,0.3)]"
                 >
                   {/* Image */}
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                  <div className="relative aspect-[4/3] overflow-hidden flex-shrink-0">
                     <Image
                       src={expertise.imgHome}
                       alt={expertise.title}
@@ -146,16 +148,18 @@ export function ExpertisesCarousel({
                   </div>
 
                   {/* Content */}
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-grow">
                     <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight text-white mb-2 group-hover:text-lime-300 transition-colors">
                       {expertise.title}
                     </h3>
-                    <p className="text-sm md:text-base text-white/70 line-clamp-2">
+                    <p className="text-sm md:text-base text-white/70 line-clamp-2 flex-grow">
                       {expertise.subtitle}
                     </p>
                     <div className="mt-4 flex items-center gap-2 text-lime-300 font-bold text-sm uppercase">
                       <span>En savoir plus</span>
-                      <span className="group-hover:translate-x-2 transition-transform">→</span>
+                      <span className="group-hover:translate-x-2 transition-transform">
+                        →
+                      </span>
                     </div>
                   </div>
                 </Link>
@@ -169,12 +173,15 @@ export function ExpertisesCarousel({
           {Array.from({ length: maxIndex + 1 }).map((_, index) => (
             <button
               key={index}
-              onClick={() => { setCurrentIndex(index); }}
+              onClick={() => {
+                setCurrentIndex(index);
+              }}
               className={`
                 h-2 rounded-full transition-all duration-300
-                ${index === currentIndex
-                  ? 'w-8 bg-lime-300'
-                  : 'w-2 bg-white/20 hover:bg-white/40'
+                ${
+                  index === currentIndex
+                    ? "w-8 bg-lime-300"
+                    : "w-2 bg-white/20 hover:bg-white/40"
                 }
               `}
               aria-label={`Aller à la page ${String(index + 1)}`}
@@ -183,5 +190,5 @@ export function ExpertisesCarousel({
         </div>
       </div>
     </div>
-  )
+  );
 }

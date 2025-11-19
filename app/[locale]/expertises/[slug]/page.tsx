@@ -2,13 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
-import { getExpertise, getAllExpertiseSlugs, getAllExpertises, getSectionLayout } from "@/lib/prismaExpertiseUtils";
+import {
+  getExpertise,
+  getAllExpertiseSlugs,
+  getAllExpertises,
+  getSectionLayout,
+} from "@/lib/prismaExpertiseUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { DocumentairesGallery } from "@/components/documentaires-gallery";
 import { AlternatingSection } from "@/components/alternating-section";
 import { ExpertisesCarousel } from "@/components/expertises-carousel";
-import { PrismaClient } from "@prisma/client";
 
 // Generate static params for all expertise slugs
 export async function generateStaticParams() {
@@ -33,9 +37,11 @@ type ExpertiseDetailParams = {
   }>;
 };
 
-export default async function ExpertiseDetailPage({ params }: ExpertiseDetailParams) {
+export default async function ExpertiseDetailPage({
+  params,
+}: ExpertiseDetailParams) {
   const { locale, slug } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr");
+  const safeLocale = locale === "en" ? "en" : "fr";
   const expertise = await getExpertise(slug, safeLocale);
   const allExpertises = await getAllExpertises(safeLocale);
   const dictionary = await getDictionary(safeLocale);
@@ -45,68 +51,8 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
     notFound();
   }
 
-  // Always load documentaires from Prisma for "gestion-administrative-et-editoriale"
-  type DocumentaireItem = {
-    title: string;
-    subtitle: string;
-    href: string;
-    src: string;
-    srcLg: string;
-    link: string;
-    category: string;
-    height: string;
-  }
-  let documentaires: DocumentaireItem[] = [];
-
-  if (slug === "gestion-administrative-et-editoriale") {
-    const prisma = new PrismaClient();
-
-    try {
-      const works = await prisma.work.findMany({
-        where: {
-          isActive: true,
-          category: {
-            slug: 'documentaires'
-          }
-        },
-        include: {
-          label: {
-            include: {
-              translations: {
-                where: { locale: safeLocale }
-              }
-            }
-          },
-          coverImage: true,
-          translations: {
-            where: { locale: safeLocale }
-          }
-        },
-        orderBy: {
-          order: 'asc'
-        }
-      });
-
-      // Transform to the format expected by DocumentairesGallery
-      documentaires = works.map(work => {
-        const translation = work.translations[0];
-        const labelTranslation = work.label?.translations[0];
-
-        return {
-          title: translation?.title ?? work.slug,
-          subtitle: labelTranslation?.name ?? work.label?.slug ?? '',
-          href: work.coverImage?.path ?? '',
-          src: work.coverImage?.path ?? '',
-          srcLg: work.coverImage?.path ?? '',
-          link: work.externalUrl ?? '#',
-          category: work.label?.slug ?? 'autre',
-          height: ''
-        };
-      });
-    } finally {
-      await prisma.$disconnect();
-    }
-  }
+  // Use documentaires from markdown if available
+  const documentaires = expertise.documentaires ?? [];
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -122,7 +68,10 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
         <Breadcrumb
           items={[
             { label: dictionary.nav.home, href: `/${safeLocale}` },
-            { label: dictionary.nav.expertises, href: `/${safeLocale}/expertises` },
+            {
+              label: dictionary.nav.expertises,
+              href: `/${safeLocale}/expertises`,
+            },
             { label: expertise.title },
           ]}
         />
@@ -145,8 +94,8 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
         {/* Alternating Sections with Images */}
         <div className="mb-16 md:mb-20 lg:mb-24">
           {expertise.sections.map((section, index) => {
-            const layout = getSectionLayout(expertise, index)
-            const isLast = index === expertise.sections.length - 1
+            const layout = getSectionLayout(expertise, index);
+            const isLast = index === expertise.sections.length - 1;
 
             return (
               <AlternatingSection
@@ -157,7 +106,7 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
                 index={index}
                 isLast={isLast}
               />
-            )
+            );
           })}
         </div>
 
@@ -172,7 +121,7 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
                 {expertise.labels.map((label, index) => (
                   <div
                     key={index}
-                    className="group border-2 border-white/10 bg-black/20 p-4 transition-all hover:border-lime-300"
+                    className="group border-2 border-white/10 bg-black/20 p-4 transition-all hover:border-lime-300 hover:shadow-[0_0_20px_rgba(213,255,10,0.4)]"
                   >
                     {label.src && (
                       <Image
@@ -180,7 +129,7 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
                         alt={label.name}
                         width={200}
                         height={120}
-                        className="h-auto w-full object-contain grayscale group-hover:grayscale-0 transition-all"
+                        className="h-auto w-full object-contain transition-all duration-300 group-hover:scale-110 group-hover:brightness-110"
                       />
                     )}
                   </div>
@@ -192,7 +141,10 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
 
         {/* Documentaires Gallery - Full Width with Filter */}
         {documentaires && documentaires.length > 0 && (
-          <DocumentairesGallery documentaires={documentaires} copy={detailCopy.documentaries} />
+          <DocumentairesGallery
+            documentaires={documentaires}
+            copy={detailCopy.documentaries}
+          />
         )}
 
         {/* Footer Image */}
@@ -213,15 +165,27 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
           expertises={allExpertises}
           currentSlug={slug}
           locale={safeLocale}
-          title={safeLocale === 'fr' ? "Découvrez nos autres expertises" : "Discover our other expertises"}
-          description={safeLocale === 'fr' ? "Explorez l'ensemble de nos domaines d'intervention" : "Explore our full range of services"}
+          title={
+            safeLocale === "fr"
+              ? "Découvrez nos autres expertises"
+              : "Discover our other expertises"
+          }
+          description={
+            safeLocale === "fr"
+              ? "Explorez l'ensemble de nos domaines d'intervention"
+              : "Explore our full range of services"
+          }
         />
 
         {/* CTA */}
         <div className="mt-16">
           <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">{detailCopy.ctaTitle}</h2>
-            <p className="mb-6 text-[#050505]/80">{detailCopy.ctaDescription}</p>
+            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
+              {detailCopy.ctaTitle}
+            </h2>
+            <p className="mb-6 text-[#050505]/80">
+              {detailCopy.ctaDescription}
+            </p>
             <Link
               href={`/${safeLocale}/contact`}
               className="inline-block border-4 border-[#050505] bg-[#050505] px-8 py-3 font-bold uppercase text-white transition-transform hover:scale-105"
