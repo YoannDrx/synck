@@ -86,17 +86,35 @@ jobs:
       - name: Validate Prisma schema
         run: pnpm exec prisma validate
 
-      # Temporarily disabled: too strict for dev database with frequent schema changes
-      # - name: Check for pending migrations
-      #   run: |
-      #     pnpm exec prisma migrate diff \
-      #       --from-schema-datamodel prisma/schema.prisma \
-      #       --to-schema-datasource prisma/schema.prisma \
-      #       --exit-code || {
-      #         echo "❌ Schema changes detected that are not in migrations!"
-      #         echo "Please run 'pnpm run db:migrate' locally and commit the migration files."
-      #         exit 1
-      #       }
+      - name: Check for pending migrations (STRICT MODE)
+        run: |
+          echo "🔍 Checking for schema drift..."
+          echo "   Comparing: schema.prisma ↔ database"
+
+          pnpm exec prisma migrate diff \
+            --from-schema-datamodel prisma/schema.prisma \
+            --to-schema-datasource prisma/schema.prisma \
+            --exit-code || {
+              echo ""
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+              echo "❌ SCHEMA DRIFT DETECTED"
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+              echo ""
+              echo "Your Prisma schema has changes not reflected in migrations."
+              echo ""
+              echo "📋 Required actions:"
+              echo "   1. Run: pnpm db:migrate"
+              echo "   2. Commit the generated migration file"
+              echo "   3. Push your changes"
+              echo ""
+              echo "💡 This ensures your database schema stays in sync"
+              echo "   with your code changes."
+              echo ""
+              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+              exit 1
+            }
+
+          echo "✅ Schema in sync with database"
 
   # Job 3: Build Application
   build:
@@ -158,14 +176,14 @@ jobs:
           path: .next
           retention-days: 1
 
-  # Job 4: E2E Tests (conditional - only on PR or [e2e] in commit message)
+  # Job 4: E2E Tests (runs on PRs and main/master pushes)
   e2e-tests:
     name: E2E Tests (Playwright)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: build
-    # Only run E2E on PRs or when explicitly requested with [e2e] in commit message
-    if: github.event_name == 'pull_request' || contains(github.event.head_commit.message, '[e2e]')
+    # Run E2E on PRs and on all pushes to main/master branches
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
 
     strategy:
       fail-fast: false

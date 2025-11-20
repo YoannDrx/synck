@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "vercel-build": "node scripts/vercel-build.js",
     "start": "next start",
     "lint": "eslint",
     "test": "playwright test",
@@ -20,7 +21,11 @@
     "db:reset:seed:prod": "node scripts/run-ts.cjs scripts/db/reset-seed-prod.ts",
     "db:studio": "prisma studio",
     "db:migrate": "prisma migrate dev",
+    "db:migrate:prod": "node scripts/run-ts.cjs scripts/db/migrate-prod.ts",
     "db:generate": "prisma generate",
+    "db:check": "prisma migrate diff --from-schema-datamodel prisma/schema.prisma --to-schema-datasource prisma/schema.prisma --exit-code || echo '\n⚠️  Schema drift detected. Run: pnpm db:migrate'",
+    "db:status": "prisma migrate status",
+    "db:status:prod": "dotenv -e .env -- prisma migrate status",
     "db:migrate:check": "prisma migrate diff --from-schema-datamodel prisma/schema.prisma --to-schema-datasource prisma/schema.prisma --exit-code"
   },
   "prisma": {
@@ -68,6 +73,7 @@
     "@types/pg": "^8.15.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.3",
     "glob": "^12.0.0",
