@@ -6105,5 +6105,90 @@
     "composers": [],
     "isActive": true,
     "order": 256
+  },
+  {
+    "slug": "minimal-stories-vol-3",
+    "titleFr": "Minimal Stories Vol. 3",
+    "titleEn": "Minimal Stories Vol. 3",
+    "subtitleFr": "See Details",
+    "subtitleEn": "See Details",
+    "descriptionFr": "",
+    "descriptionEn": "",
+    "category": "album-de-librairie-musicale",
+    "coverImage": "public/images/projets/albums/pgo0052.jpg",
+    "coverImageExists": true,
+    "releaseDate": "26/01/2024",
+    "genre": "Ambient, Minimaliste",
+    "duration": null,
+    "isrc": null,
+    "externalUrl": "https://open.spotify.com/intl-fr/album/4koWahQT1qJ6U6ZZbjupec",
+    "spotifyUrl": "https://open.spotify.com/intl-fr/album/4koWahQT1qJ6U6ZZbjupec",
+    "labelSlug": null,
+    "composers": [
+      {
+        "slug": "laurent-dury",
+        "role": "composer"
+      }
+    ],
+    "isActive": true,
+    "order": 257
+  },
+  {
+    "slug": "synthwave-retrowave",
+    "titleFr": "Synthwave Retrowave",
+    "titleEn": "Synthwave Retrowave",
+    "subtitleFr": "See Details",
+    "subtitleEn": "See Details",
+    "descriptionFr": "",
+    "descriptionEn": "",
+    "category": "album-de-librairie-musicale",
+    "coverImage": "public/images/projets/albums/pgo0053.jpg",
+    "coverImageExists": true,
+    "releaseDate": "27/06/2024",
+    "genre": "Electro, Synthwave, Retrowave",
+    "duration": null,
+    "isrc": null,
+    "externalUrl": "https://open.spotify.com/intl-fr/album/6zAhjSkUwrDh8ExeueZNX6",
+    "spotifyUrl": "https://open.spotify.com/intl-fr/album/6zAhjSkUwrDh8ExeueZNX6",
+    "labelSlug": null,
+    "composers": [
+      {
+        "slug": "dj-hertz",
+        "role": "composer"
+      }
+    ],
+    "isActive": true,
+    "order": 258
+  },
+  {
+    "slug": "dark-beats",
+    "titleFr": "Dark Beats",
+    "titleEn": "Dark Beats",
+    "subtitleFr": "See Details",
+    "subtitleEn": "See Details",
+    "descriptionFr": "",
+    "descriptionEn": "",
+    "category": "album-de-librairie-musicale",
+    "coverImage": "public/images/projets/albums/pgo0054.jpg",
+    "coverImageExists": true,
+    "releaseDate": "20/05/2025",
+    "genre": "Cinématique, Bande son, Ambient",
+    "duration": null,
+    "isrc": null,
+    "externalUrl": "https://open.spotify.com/intl-fr/album/6NrMyqzUbxmgh2mVAfG1ws",
+    "spotifyUrl": "https://open.spotify.com/intl-fr/album/6NrMyqzUbxmgh2mVAfG1ws",
+    "labelSlug": null,
+    "composers": [
+      {
+        "slug": "ugly-mac-beer",
+        "role": "composer"
+      },
+      {
+        "slug": "yann-kornowicz",
+        "role": "composer"
+      }
+    ],
+    "isActive": true,
+    "order": 259
   }
 ]
