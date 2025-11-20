@@ -37,6 +37,13 @@ export type Support = {
   links: SupportLink[];
 };
 
+export type ProductionCompany = {
+  name: string;
+  logo: string;
+  description: string;
+  website?: string;
+};
+
 export type ExpertiseListItem = {
   id: string;
   slug: string;
@@ -69,6 +76,7 @@ export type Expertise = {
   documentaires?: Documentaire[];
   sectionsLayout?: SectionLayout[];
   supports?: Support[];
+  productionCompanies?: ProductionCompany[];
 };
 
 export type ExpertiseWithDetails = Prisma.ExpertiseGetPayload<{
@@ -145,6 +153,7 @@ async function parseExpertiseMetadata(
   labels?: Label[];
   documentaires?: Documentaire[];
   supports?: Support[];
+  productionCompanies?: ProductionCompany[];
   img2Link?: string;
   img3Link?: string;
   img4Link?: string;
@@ -178,6 +187,7 @@ async function parseExpertiseMetadata(
       labels?: Label[];
       documentaires?: Documentaire[];
       supports?: Support[];
+      productionCompanies?: ProductionCompany[];
       img2Link?: string;
       img3Link?: string;
       img4Link?: string;
@@ -315,6 +325,41 @@ async function parseExpertiseMetadata(
       });
     }
 
+    // Parse productionCompanies array (for gestion-administrative-et-editoriale)
+    const productionCompaniesSection =
+      /productionCompanies:\s*\n([\s\S]+?)(?=\n\w+:|$)/.exec(frontmatterStr);
+    if (productionCompaniesSection) {
+      const companiesStr = productionCompaniesSection[1];
+      const companyEntries = companiesStr
+        .split(/\n\s*-\s*name:/)
+        .filter(Boolean);
+
+      result.productionCompanies = companyEntries.map((entry, index) => {
+        // For the first entry, strip the leading "- name:" prefix if present
+        let cleanEntry = entry;
+        if (index === 0) {
+          cleanEntry = entry.replace(/^\s*-\s*name:\s*/, "");
+        }
+
+        // Extract name - handle quoted strings properly
+        const nameMatch =
+          /^['"](.+?)['"]/.exec(cleanEntry) ?? /^([^\n:]+)/.exec(cleanEntry);
+        const logoMatch = /logo:\s*(.+)/.exec(cleanEntry);
+        const descriptionMatch =
+          /description:\s*['"]([\s\S]+?)['"](?=\s*website:|\s*$)/.exec(
+            cleanEntry,
+          );
+        const websiteMatch = /website:\s*['"](.+?)['"]/.exec(cleanEntry);
+
+        return {
+          name: nameMatch ? nameMatch[1].trim() : "",
+          logo: logoMatch ? logoMatch[1].trim() : "",
+          description: descriptionMatch ? descriptionMatch[1].trim() : "",
+          website: websiteMatch ? websiteMatch[1].trim() : undefined,
+        };
+      });
+    }
+
     return result;
   } catch {
     return {};
@@ -389,6 +434,7 @@ export const getExpertise = cache(
         labels: metadata.labels,
         documentaires: metadata.documentaires,
         supports: metadata.supports,
+        productionCompanies: metadata.productionCompanies,
         sectionsLayout: undefined,
       };
     } catch {
