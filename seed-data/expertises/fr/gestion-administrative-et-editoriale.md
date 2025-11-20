@@ -3,17 +3,17 @@ id: '3'
 title: Gestion administrative et éditoriale
 description: Description de la gestion des oeuvres
 slug: gestion-administrative-et-editoriale
-imgHome: /images/projets/expertises/gestion-administrative-et-editoriale/Home-PhotoGestionEditoriale.JPG
-img1: /images/projets/expertises/gestion-administrative-et-editoriale/photo1-gestionadmin.jpg
-img2: /images/projets/expertises/gestion-administrative-et-editoriale/photo2-gestionadmin.jpg
+imgHome: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-home.jpg
+img1: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-1.jpg
+img2: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-2.jpg
 img2Link: 'https://www.film-documentaire.fr/4DACTION/w_liste_generique/S_67401_G'
-img3: /images/projets/expertises/gestion-administrative-et-editoriale/photo3-gestionadmin.jpg
+img3: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-3.jpg
 img3Link: 'https://www.13prods.fr'
-img4: /images/projets/expertises/gestion-administrative-et-editoriale/photo4-gestionadmin.jpg
+img4: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-4.jpg
 img4Link: 'https://popfilms.fr'
-img5: /images/projets/expertises/gestion-administrative-et-editoriale/photo5-gestionadmin.jpg
+img5: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-5.jpg
 img5Link: 'https://www.viadecouvertes.fr/'
-imgFooter: /images/projets/expertises/gestion-administrative-et-editoriale/photohome3.JPG
+imgFooter: ""
 sectionsLayout:
   - image: img1
     position: right
@@ -37,11 +37,11 @@ documentaires:
   - title: Dans les eaux troubles de la plus grande banque européenne
     subtitle: little-big-story
     href: >-
-      /images/projets/documentaires/bnp-paribas-dans-les-eaux-troubles-de-la-plus-grande-banque-europeenne.jpg
+      /images/projets/documentaires/little-big-story/bnp-paribas.jpg
     src: >-
-      /images/projets/documentaires/bnp-paribas-dans-les-eaux-troubles-de-la-plus-grande-banque-europeenne.jpg
+      /images/projets/documentaires/little-big-story/bnp-paribas.jpg
     srcLg: >-
-      /images/projets/documentaires/bnp-paribas-dans-les-eaux-troubles-de-la-plus-grande-banque-europeenne.jpg
+      /images/projets/documentaires/little-big-story/bnp-paribas.jpg
     link: 'https://www.film-documentaire.fr/4DACTION/w_fiche_film/55535_0'
     category: little-big-story
     height: '150'
@@ -74,9 +74,9 @@ documentaires:
     height: '150'
   - title: Marcus Klingberg un pur espion
     subtitle: little-big-story
-    href: /images/projets/documentaires/13prods/marcus-klingberg-un-pur-espion.jpg
-    src: /images/projets/documentaires/13prods/marcus-klingberg-un-pur-espion.jpg
-    srcLg: /images/projets/documentaires/13prods/marcus-klingberg-un-pur-espion.jpg
+    href: /images/projets/documentaires/13prods/marcus-klingberg-un-pur-espion2.jpg
+    src: /images/projets/documentaires/13prods/marcus-klingberg-un-pur-espion2.jpg
+    srcLg: /images/projets/documentaires/13prods/marcus-klingberg-un-pur-espion2.jpg
     link: 'https://www.film-documentaire.fr/4DACTION/w_fiche_film/67198_0'
     category: little-big-story
     height: ''
@@ -99,11 +99,11 @@ documentaires:
   - title: La femme sans nom – L’histoire de Jeanne et Baudelaire
     subtitle: little-big-story
     href: >-
-      /images/projets/documentaires/little-big-story/la-femme-sans-nom-lhistoire-de-jeanne-et-baudelaire.jpg
+      /images/projets/documentaires/little-big-story/la-femme-sans-nom.jpg
     src: >-
-      /images/projets/documentaires/little-big-story/la-femme-sans-nom-lhistoire-de-jeanne-et-baudelaire.jpg
+      /images/projets/documentaires/little-big-story/la-femme-sans-nom.jpg
     srcLg: >-
-      /images/projets/documentaires/little-big-story/la-femme-sans-nom-lhistoire-de-jeanne-et-baudelaire.jpg
+      /images/projets/documentaires/little-big-story/la-femme-sans-nom.jpg
     link: >-
       https://www.unifrance.org/film/56020/la-femme-sans-nom-l-histoire-de-jeanne-et-baudelaire
     category: little-big-story
@@ -118,9 +118,9 @@ documentaires:
     height: '150'
   - title: Cancre ?
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/cancre-2.jpg
-    src: /images/projets/documentaires/13prods/cancre-2.jpg
-    srcLg: /images/projets/documentaires/13prods/cancre-2.jpg
+    href: /images/projets/documentaires/13prods/cancre.jpg
+    src: /images/projets/documentaires/13prods/cancre.jpg
+    srcLg: /images/projets/documentaires/13prods/cancre.jpg
     link: 'https://www.13prods.fr/cancre/'
     category: 13-prods
     height: '150'
@@ -159,9 +159,9 @@ documentaires:
     height: ''
   - title: La grève du siècle
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/la-greve-du-siecle.jpg
-    src: /images/projets/documentaires/13prods/la-greve-du-siecle.jpg
-    srcLg: /images/projets/documentaires/13prods/la-greve-du-siecle.jpg
+    href: /images/projets/documentaires/13prods/la-greve-du-siecle-1.jpg
+    src: /images/projets/documentaires/13prods/la-greve-du-siecle-1.jpg
+    srcLg: /images/projets/documentaires/13prods/la-greve-du-siecle-1.jpg
     link: 'https://www.13prods.fr/68lagrevedusiecle/'
     category: 13-prods
     height: '150'
@@ -191,9 +191,9 @@ documentaires:
     height: '150'
   - title: 39-45 Les résistantes allemandes
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/resistantes-allemandes.jpg
-    src: /images/projets/documentaires/13prods/resistantes-allemandes.jpg
-    srcLg: /images/projets/documentaires/13prods/resistantes-allemandes.jpg
+    href: /images/projets/documentaires/13prods/les-resistantes-alllemandes.jpg
+    src: /images/projets/documentaires/13prods/les-resistantes-alllemandes.jpg
+    srcLg: /images/projets/documentaires/13prods/les-resistantes-alllemandes.jpg
     link: 'https://www.13prods.fr/39-45-les-resistantes-allemandes/'
     category: 13-prods
     height: '150'
@@ -231,9 +231,9 @@ documentaires:
     height: '150'
   - title: Opération biodiversité
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/operation-biodiversite.jpg
-    src: /images/projets/documentaires/13prods/operation-biodiversite.jpg
-    srcLg: /images/projets/documentaires/13prods/operation-biodiversite.jpg
+    href: /images/projets/documentaires/13prods/operation-biodiv.jpg
+    src: /images/projets/documentaires/13prods/operation-biodiv.jpg
+    srcLg: /images/projets/documentaires/13prods/operation-biodiv.jpg
     link: 'https://www.13prods.fr/operation-biodiversite/'
     category: 13-prods
     height: '150'
@@ -255,9 +255,9 @@ documentaires:
     height: '200'
   - title: T gros
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/tgros.jpg
-    src: /images/projets/documentaires/13prods/tgros.jpg
-    srcLg: /images/projets/documentaires/13prods/tgros.jpg
+    href: /images/projets/documentaires/13prods/t-gros.jpg
+    src: /images/projets/documentaires/13prods/t-gros.jpg
+    srcLg: /images/projets/documentaires/13prods/t-gros.jpg
     link: 'https://www.13prods.fr/t-gros/'
     category: 13-prods
     height: ''
@@ -274,9 +274,9 @@ documentaires:
     height: '150'
   - title: Les femmes du troisième Reich
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/les-femmes-du-iiieme-reich.jpg
-    src: /images/projets/documentaires/13prods/les-femmes-du-iiieme-reich.jpg
-    srcLg: /images/projets/documentaires/13prods/les-femmes-du-iiieme-reich.jpg
+    href: /images/projets/documentaires/13prods/les-femmes-du-troisieme-reich.jpg
+    src: /images/projets/documentaires/13prods/les-femmes-du-troisieme-reich.jpg
+    srcLg: /images/projets/documentaires/13prods/les-femmes-du-troisieme-reich.jpg
     link: 'https://www.13prods.fr/les-femmes-du-iiie-reich/'
     category: 13-prods
     height: '150'
@@ -323,11 +323,11 @@ documentaires:
   - title: Martinique la reconquête de la terre
     subtitle: 13-prods
     href: >-
-      /images/projets/documentaires/13prods/martinique-la-reconquete-de-la-terre.jpg
+      /images/projets/documentaires/13prods/martinique-la-reconquete.jpg
     src: >-
-      /images/projets/documentaires/13prods/martinique-la-reconquete-de-la-terre.jpg
+      /images/projets/documentaires/13prods/martinique-la-reconquete.jpg
     srcLg: >-
-      /images/projets/documentaires/13prods/martinique-la-reconquete-de-la-terre.jpg
+      /images/projets/documentaires/13prods/martinique-la-reconquete.jpg
     link: 'https://www.13prods.fr/martinique-reconquete-terre/'
     category: 13-prods
     height: '150'
@@ -341,9 +341,9 @@ documentaires:
     height: '200'
   - title: Petit pays je t'aime beaucoup
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/petit-pays-je-taime-beaucoup.jpg
-    src: /images/projets/documentaires/13prods/petit-pays-je-taime-beaucoup.jpg
-    srcLg: /images/projets/documentaires/13prods/petit-pays-je-taime-beaucoup.jpg
+    href: /images/projets/documentaires/13prods/petit-pays.jpg
+    src: /images/projets/documentaires/13prods/petit-pays.jpg
+    srcLg: /images/projets/documentaires/13prods/petit-pays.jpg
     link: 'https://www.13prods.fr/petit-pays-je-t-aime-beaucoup/'
     category: 13-prods
     height: '150'
@@ -357,9 +357,9 @@ documentaires:
     height: '150'
   - title: Clearstream et moi
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/clearstream-et-moi.jpg
-    src: /images/projets/documentaires/13prods/clearstream-et-moi.jpg
-    srcLg: /images/projets/documentaires/13prods/clearstream-et-moi.jpg
+    href: /images/projets/documentaires/13prods/clearstream.jpg
+    src: /images/projets/documentaires/13prods/clearstream.jpg
+    srcLg: /images/projets/documentaires/13prods/clearstream.jpg
     link: 'https://www.13prods.fr/clearstream/'
     category: 13-prods
     height: '150'
@@ -381,9 +381,9 @@ documentaires:
     height: ''
   - title: Déconfinés en Ré
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/deconfines-en-re.jpg
-    src: /images/projets/documentaires/13prods/deconfines-en-re.jpg
-    srcLg: /images/projets/documentaires/13prods/deconfines-en-re.jpg
+    href: /images/projets/documentaires/13prods/deconfines.jpg
+    src: /images/projets/documentaires/13prods/deconfines.jpg
+    srcLg: /images/projets/documentaires/13prods/deconfines.jpg
     link: 'https://www.13prods.fr/deconfines-en-re/'
     category: 13-prods
     height: ''
@@ -405,9 +405,9 @@ documentaires:
     height: ''
   - title: Martine Aubry la dame de Lille
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/martineaubry.jpg
-    src: /images/projets/documentaires/13prods/martineaubry.jpg
-    srcLg: /images/projets/documentaires/13prods/martineaubry.jpg
+    href: /images/projets/documentaires/13prods/martine-aubry.jpg
+    src: /images/projets/documentaires/13prods/martine-aubry.jpg
+    srcLg: /images/projets/documentaires/13prods/martine-aubry.jpg
     link: 'https://www.13prods.fr/aubry-la-dame-de-lille/'
     category: 13-prods
     height: '200'
@@ -433,11 +433,11 @@ documentaires:
   - title: André Mailfert l'épopée d'un faussaire industriel
     subtitle: 13-prods
     href: >-
-      /images/projets/documentaires/13prods/andre-mailfert-lepopee-dun-faussaire-industriel.jpg
+      /images/projets/documentaires/13prods/andre-mailfert.jpg
     src: >-
-      /images/projets/documentaires/13prods/andre-mailfert-lepopee-dun-faussaire-industriel.jpg
+      /images/projets/documentaires/13prods/andre-mailfert.jpg
     srcLg: >-
-      /images/projets/documentaires/13prods/andre-mailfert-lepopee-dun-faussaire-industriel.jpg
+      /images/projets/documentaires/13prods/andre-mailfert.jpg
     link: 'https://www.13prods.fr/andre-mailfert/'
     category: 13-prods
     height: '150'
@@ -567,11 +567,11 @@ documentaires:
   - title: 'Mic Mac à Millau, les paysans face à la mondialisation'
     subtitle: 13-prods
     href: >-
-      /images/projets/documentaires/13prods/micmac-a-millau-les-paysans-face-a-la-mondialisation.jpg
+      /images/projets/documentaires/13prods/micmac.jpg
     src: >-
-      /images/projets/documentaires/13prods/micmac-a-millau-les-paysans-face-a-la-mondialisation.jpg
+      /images/projets/documentaires/13prods/micmac.jpg
     srcLg: >-
-      /images/projets/documentaires/13prods/micmac-a-millau-les-paysans-face-a-la-mondialisation.jpg
+      /images/projets/documentaires/13prods/micmac.jpg
     link: >-
       https://www.13prods.fr/mic-mac-a-millau-des-paysans-face-a-la-mondialisation/
     category: 13-prods
@@ -635,9 +635,9 @@ documentaires:
     height: '150'
   - title: Cabrera un secret révélé
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/cabrera-un-secret-revele.jpg
-    src: /images/projets/documentaires/13prods/cabrera-un-secret-revele.jpg
-    srcLg: /images/projets/documentaires/13prods/cabrera-un-secret-revele.jpg
+    href: /images/projets/documentaires/13prods/cabrera-un-secret.jpg
+    src: /images/projets/documentaires/13prods/cabrera-un-secret.jpg
+    srcLg: /images/projets/documentaires/13prods/cabrera-un-secret.jpg
     link: 'https://www.13prods.fr/cabrera-un-secret-revele/'
     category: 13-prods
     height: '300'
@@ -651,9 +651,9 @@ documentaires:
     height: '150'
   - title: Quand l'Afrique sauva la France
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/quand-lafrique-sauva-la-france.jpg
-    src: /images/projets/documentaires/13prods/quand-lafrique-sauva-la-france.jpg
-    srcLg: /images/projets/documentaires/13prods/quand-lafrique-sauva-la-france.jpg
+    href: /images/projets/documentaires/13prods/quand-lafrique-sauva.jpg
+    src: /images/projets/documentaires/13prods/quand-lafrique-sauva.jpg
+    srcLg: /images/projets/documentaires/13prods/quand-lafrique-sauva.jpg
     link: 'https://www.13prods.fr/quand-l-afrique-sauva-la-france/'
     category: 13-prods
     height: '400'
@@ -675,9 +675,9 @@ documentaires:
     height: '150'
   - title: En jachère
     subtitle: 13-prods
-    href: /images/projets/documentaires/13prods/en-jachere.jpg
-    src: /images/projets/documentaires/13prods/en-jachere.jpg
-    srcLg: /images/projets/documentaires/13prods/en-jachere.jpg
+    href: /images/projets/documentaires/13prods/enjachere.jpg
+    src: /images/projets/documentaires/13prods/enjachere.jpg
+    srcLg: /images/projets/documentaires/13prods/enjachere.jpg
     link: 'https://www.13prods.fr/en-jachere/'
     category: 13-prods
     height: ''
@@ -699,17 +699,17 @@ documentaires:
     height: '150'
   - title: 'Patrick Edlinger, la liberté au bout des doigts'
     subtitle: pop-films
-    href: /images/projets/documentaires/pop-films/edlinger.jpg
-    src: /images/projets/documentaires/pop-films/edlinger.jpg
-    srcLg: /images/projets/documentaires/pop-films/edlinger.jpg
+    href: /images/projets/documentaires/pop-films/patrick-edlinger.jpg
+    src: /images/projets/documentaires/pop-films/patrick-edlinger.jpg
+    srcLg: /images/projets/documentaires/pop-films/patrick-edlinger.jpg
     link: 'https://popfilms.fr/index.php/edlinger-la-liberte-au-bout-des-doigts/'
     category: pop-films
     height: ''
   - title: 'Naissance d’un héros noir au cinéma, Sweet Sweetback'
     subtitle: pop-films
-    href: /images/projets/documentaires/pop-films/sweet-sweetback.jpg
-    src: /images/projets/documentaires/pop-films/sweet-sweetback.jpg
-    srcLg: /images/projets/documentaires/pop-films/sweet-sweetback.jpg
+    href: /images/projets/documentaires/pop-films/sweet-sweet-back.jpg
+    src: /images/projets/documentaires/pop-films/sweet-sweet-back.jpg
+    srcLg: /images/projets/documentaires/pop-films/sweet-sweet-back.jpg
     link: 'https://www.13prods.fr/sweet-sweetback/'
     category: pop-films
     height: ''
@@ -732,11 +732,11 @@ documentaires:
   - title: 'Georges Perec, l’homme qui ne voulait pas oublier'
     subtitle: pop-films
     href: >-
-      /images/projets/documentaires/13prods/georges-perec-lhomme-qui-ne-voulait-pas-oublier2.jpg
+      /images/projets/documentaires/13prods/goerges-perec.jpg
     src: >-
-      /images/projets/documentaires/13prods/georges-perec-lhomme-qui-ne-voulait-pas-oublier2.jpg
+      /images/projets/documentaires/13prods/goerges-perec.jpg
     srcLg: >-
-      /images/projets/documentaires/13prods/georges-perec-lhomme-qui-ne-voulait-pas-oublier2.jpg
+      /images/projets/documentaires/13prods/goerges-perec.jpg
     link: 'https://www.13prods.fr/georges-perec-lhomme-qui-ne-voulait-pas-oublier/'
     category: pop-films
     height: '180'
@@ -750,9 +750,9 @@ documentaires:
     height: '150'
   - title: Jules Verne et le défi du tour du monde
     subtitle: pop-films
-    href: /images/projets/documentaires/pop-films/jules-verne.jpg
-    src: /images/projets/documentaires/pop-films/jules-verne.jpg
-    srcLg: /images/projets/documentaires/pop-films/jules-verne.jpg
+    href: /images/projets/documentaires/pop-films/jules-verne-80-jours.jpg
+    src: /images/projets/documentaires/pop-films/jules-verne-80-jours.jpg
+    srcLg: /images/projets/documentaires/pop-films/jules-verne-80-jours.jpg
     link: 'https://www.13prods.fr/jules-verne-et-le-defi-du-tour-du-monde/'
     category: pop-films
     height: '150'
@@ -782,9 +782,9 @@ documentaires:
     height: '150'
   - title: Au nom de la mer
     subtitle: via-decouvertes-films
-    href: /images/projets/documentaires/13prods/au-nom-de-la-mer2.jpg
-    src: /images/projets/documentaires/13prods/au-nom-de-la-mer2.jpg
-    srcLg: /images/projets/documentaires/13prods/au-nom-de-la-mer2.jpg
+    href: /images/projets/documentaires/13prods/au-nom-de-la-mer.jpg
+    src: /images/projets/documentaires/13prods/au-nom-de-la-mer.jpg
+    srcLg: /images/projets/documentaires/13prods/au-nom-de-la-mer.jpg
     link: 'https://www.13prods.fr/au-nom-de-la-mer/'
     category: via-decouvertes-films
     height: ''
@@ -798,9 +798,9 @@ documentaires:
     height: '150'
   - title: Leila une vie à Miquelon
     subtitle: via-decouvertes-films
-    href: /images/projets/documentaires/13prods/leila-une-vie-a-miquelon2.jpg
-    src: /images/projets/documentaires/13prods/leila-une-vie-a-miquelon2.jpg
-    srcLg: /images/projets/documentaires/13prods/leila-une-vie-a-miquelon2.jpg
+    href: /images/projets/documentaires/13prods/leila-une-vie-a-miquelon.jpg
+    src: /images/projets/documentaires/13prods/leila-une-vie-a-miquelon.jpg
+    srcLg: /images/projets/documentaires/13prods/leila-une-vie-a-miquelon.jpg
     link: 'https://www.13prods.fr/leila-une-vie-a-miquelon/'
     category: via-decouvertes-films
     height: '150'
@@ -815,11 +815,11 @@ documentaires:
   - title: Les enfants de Huahine en Occitanie
     subtitle: ''
     href: >-
-      /images/projets/documentaires/13prods/les-enfants-de-huahine-en-occitanie-expertise.jpg
+      /images/projets/documentaires/13prods/les-enfants-de-huahine.jpg
     src: >-
-      /images/projets/documentaires/13prods/les-enfants-de-huahine-en-occitanie-expertise.jpg
+      /images/projets/documentaires/13prods/les-enfants-de-huahine.jpg
     srcLg: >-
-      /images/projets/documentaires/13prods/les-enfants-de-huahine-en-occitanie-expertise.jpg
+      /images/projets/documentaires/13prods/les-enfants-de-huahine.jpg
     link: 'https://www.13prods.fr/les-enfants-de-huahine-en-occitanie/'
     category: 13-prods
     height: '250'
@@ -834,19 +834,19 @@ documentaires:
   - title: 'Mangas, une révolution française'
     subtitle: ''
     href: >-
-      /images/projets/documentaires/13prods/mangas-une-revolution-francaise-expertise.jpg
+      /images/projets/documentaires/13prods/mangas.jpg
     src: >-
-      /images/projets/documentaires/13prods/mangas-une-revolution-francaise-expertise.jpg
+      /images/projets/documentaires/13prods/mangas.jpg
     srcLg: >-
-      /images/projets/documentaires/13prods/mangas-une-revolution-francaise-expertise.jpg
+      /images/projets/documentaires/13prods/mangas.jpg
     link: 'https://www.13prods.fr/mangas-une-revolution-francaise-2/'
     category: 13-prods
     height: '180'
   - title: 'Entendez-nous, violences intrafamiliales en Polynésie'
     subtitle: ''
-    href: /images/projets/documentaires/13prods/entendez-nous-expertise.jpg
-    src: /images/projets/documentaires/13prods/entendez-nous-expertise.jpg
-    srcLg: /images/projets/documentaires/13prods/entendez-nous-expertise.jpg
+    href: /images/projets/documentaires/13prods/entendez-nous-violence-intrafamiliales-en-polynesie.jpg
+    src: /images/projets/documentaires/13prods/entendez-nous-violence-intrafamiliales-en-polynesie.jpg
+    srcLg: /images/projets/documentaires/13prods/entendez-nous-violence-intrafamiliales-en-polynesie.jpg
     link: 'https://www.francetvpro.fr/contenu-de-presse/65053800'
     category: 13-prods
     height: '450'

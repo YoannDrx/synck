@@ -3,13 +3,12 @@ id: "1"
 title: "Gestion des droits d’auteur"
 description: "Le terme auteur désigne l'individu qui rédige les paroles d'une chanson"
 slug: "droits-auteur"
-imgHome: "/images/projets/expertises/droits-auteur/Home-PHOTODROITSDAUTEUR.JPG"
-img1: "/images/projets/expertises/droits-auteur/photo1-droitsdauteur.jpeg"
-img2: "/images/projets/expertises/droits-auteur/photo2-droitsdauteur.JPG"
-img3: "/images/projets/expertises/droits-auteur/photo3-droitsdauteur.JPG"
-img4: "/images/projets/expertises/droits-auteur/photo4-droitsdauteur.JPG"
-img5: "/images/projets/expertises/droits-auteur/photo5-droitsdauteur.JPG"
-imgFooter: "/images/projets/expertises/droits-auteur/photohome1.JPG"
+imgHome: /images/projets/expertises/droits-auteur/droits-auteur-home.jpg
+img1: /images/projets/expertises/droits-auteur/droits-auteur-section-1.jpg
+img2: /images/projets/expertises/droits-auteur/droits-auteur-section-2.jpg
+img3: /images/projets/expertises/droits-auteur/droits-auteur-section-3.jpg
+img4: /images/projets/expertises/droits-auteur/droits-auteur-section-4.jpg
+img5: /images/projets/expertises/droits-auteur/droits-auteur-section-5.jpg
 sectionsLayout:
   - image: img1
     position: right

@@ -135,6 +135,7 @@ async function parseExpertiseMetadata(
   img3Link?: string;
   img4Link?: string;
   img5Link?: string;
+  imgFooter?: string;
 }> {
   try {
     const fs = await import("fs");
@@ -166,6 +167,7 @@ async function parseExpertiseMetadata(
       img3Link?: string;
       img4Link?: string;
       img5Link?: string;
+      imgFooter?: string;
     } = {};
 
     // Extract image links
@@ -179,13 +181,26 @@ async function parseExpertiseMetadata(
     if (img4LinkMatch) result.img4Link = img4LinkMatch[1];
     if (img5LinkMatch) result.img5Link = img5LinkMatch[1];
 
+    // Extract imgFooter (can be with or without quotes, and can be empty string)
+    const imgFooterMatch = /imgFooter:\s*(['"]?)([^'"\n]*)(['"]?)/.exec(
+      frontmatterStr,
+    );
+    if (imgFooterMatch) {
+      const footerValue = imgFooterMatch[2].trim();
+      // Only set imgFooter if it's not empty
+      if (footerValue && footerValue !== "") {
+        result.imgFooter = footerValue;
+      }
+    }
+
     // Parse labels array (for sous-edition)
     // Labels are formatted as: - { name: "...", src: "...", href: "..." }
     const labelsSection = /labels:\s*\n([\s\S]+)$/.exec(frontmatterStr);
     if (labelsSection) {
       const labelsStr = labelsSection[1];
+      // Match with optional dash and whitespace before the brace
       const labelMatches = labelsStr.matchAll(
-        /\{\s*name:\s*"([^"]+)",\s*src:\s*"([^"]+)",\s*href:\s*"([^"]+)"\s*\}/g,
+        /-?\s*\{\s*name:\s*"([^"]+)",\s*src:\s*"([^"]+)",\s*href:\s*"([^"]*)"\s*\}/g,
       );
       result.labels = Array.from(labelMatches).map((match) => ({
         name: match[1],
@@ -297,8 +312,7 @@ export const getExpertise = cache(
         img3: allImages[2] ?? undefined,
         img4: allImages[3] ?? undefined,
         img5: allImages[4] ?? undefined,
-        imgFooter:
-          allImages.length > 0 ? allImages[allImages.length - 1] : undefined,
+        imgFooter: metadata.imgFooter ?? undefined,
         img2Link: metadata.img2Link,
         img3Link: metadata.img3Link,
         img4Link: metadata.img4Link,

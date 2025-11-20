@@ -10,13 +10,13 @@ intro: >-
   alors servir à renforcer le budget et ainsi, enrichir la mise en œuvre du
   projet.
 slug: dossier-subvention
-imgHome: /images/projets/expertises/dossier-subvention/Home-GestionSubventions.JPG
-img1: /images/projets/expertises/dossier-subvention/photo1-subvention.JPG
-img2: /images/projets/expertises/dossier-subvention/photo2-subvention.JPG
-img3: /images/projets/expertises/dossier-subvention/photo3-subvention.png
-img4: /images/projets/expertises/dossier-subvention/photo4-subvention.JPG
-img5: /images/projets/expertises/dossier-subvention/photo5-subvention.JPG
-imgFooter: /images/projets/expertises/dossier-subvention/photohome6.JPG
+imgHome: /images/projets/expertises/dossier-subvention/dossier-subvention-home.jpg
+img1: /images/projets/expertises/dossier-subvention/dossier-subvention-section-1.jpg
+img2: /images/projets/expertises/dossier-subvention/dossier-subvention-section-2.jpg
+img3: /images/projets/expertises/dossier-subvention/dossier-subvention-section-3.jpg
+img4: /images/projets/expertises/dossier-subvention/dossier-subvention-section-4.jpg
+img5: /images/projets/expertises/dossier-subvention/dossier-subvention-section-5.jpg
+imgFooter: ""
 sectionsLayout:
   - image: img1
     position: right
@@ -101,18 +101,18 @@ Prepare a retro-planning for each request for assistance:
 
 ### **Support for publishers and singer-songwriters**
 
-![sacem](https://lh7-us.googleusercontent.com/R__L0TXssREfQ7SlUl4M2YaOjlTs5sBsiHCdGeH47iQXXxZwULhcrmb0ROzPDB3LPiSA88KGgSuIBrgHCZIkctcdQBamj3_WS2iv_QglSzx_I8tbxXusY-gSebr3lBflD0q1uQGeX80pXzm8ggq7iQ)
+![sacem](/images/partner/logo-sacem.png)
 
 For songwriters and publishers **_[more than 50 support programs offered by Sacem](https://aide-aux-projets.sacem.fr/nos-programmes-aide)_**
 
-![adami](https://lh7-us.googleusercontent.com/tCDj6Xka3kkSpLaJiiOEX0uPyCM5WemyAiAw9fFhifk2aN_nsZ7ihb-9zCBwhdXVNwCp7VtXoB2ScGJ4HcGG4StW3I2AkCxksv9TopidOv3Mns9x6xQhJjClmos_K2agE7-AEpe5ib7N7f6VcbLYjQ)
+![adami](/images/partner/logo-adami.png)
 
 ADAMI is the organization that collects and then distributes **the money owed to performers** (musicians, dancers, actors...) following the broadcast of their performances on television, radio, in public places, etc. ADAMI's mission is also to redistribute part of the money collected from broadcasters (radio, TV, public venues, etc.) to **finance performers' projects**.
 
 - **_[Adami's recording assistance programs](https://www.adami.fr/que-fait-ladami-pour-moi/cherche-financement-projet-artistique/projet-enregistrement-promotion/)_**
 - **_[Adami's album promotion assistance program](https://www.adami.fr/que-fait-ladami-pour-moi/cherche-financement-projet-artistique/cherche-financement-promouvoir-enregistrement/)_**
 
-![sppf](https://lh7-us.googleusercontent.com/gB-1rhCl66cvRnOm1zWLewnJ_8RMNlq4Qf-PCLkgcjhs8aB1moPTtBqmMI5oz6IQlHje0M9l4sBAHbWbOGhBw8Ch4jTWNwArQr4_ofp55QEpSZwdDXQrCNV6bNI_baN9Nyo4BOb-ea-paiwAQIKUgw)
+![sppf](/images/partner/logo-sppf.png)
 
 Insofar as these aids are aimed at working professionals, they are **less accessible to beginners**.
 
@@ -122,7 +122,7 @@ To benefit from this aid, you must already have a legal structure (even an assoc
 
 **_[Creative support](https://www.sppf.com/subventions/creation-production/)_**
 
-![scpp](https://lh7-us.googleusercontent.com/LsolrpP6_985q9ohnIGt4J-stGZBhFDKaJ-HzwvOz7FG3jMJbHLFeEMrXliQIvn4mHAInEJU_V9knl1lW1IQ6kdGowXkBLgQMp8_HihGuZ1cv_V0YUCWfd_nu86dLoRTmsHbr-Hdmfgzmaz9u7wQlA)
+![scpp](/images/partner/logo-scpp.png)
 
 **SCPP: Support for the creation of phonograms**
 
@@ -141,11 +141,6 @@ All collecting societies contribute to the CNM's budget, as does the French Mini
 - _[Support for phonographic production - Contemporary music](https://cnm.fr/aides/musique-enregistree/production-phonographique/musiques-actuelles/)_
 - _[Support for phonographic production - Classical and Contemporary music](https://cnm.fr/aides/musique-enregistree/production-phonographique/classique-et-contemporain/)_
 
-<!-- section:end -->
-<!-- section:start -->
-
-### **The Export Office**
-
-[The Export Office](https://www.lebureauexport.fr/): the ideal point of contact for projects wishing to export and develop internationally.
+- [The Export Office](https://www.lebureauexport.fr/): the ideal point of contact for projects wishing to export and develop internationally.
 
 <!-- section:end -->

@@ -2,12 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
-import {
-  getExpertise,
-  getAllExpertiseSlugs,
-  getAllExpertises,
-  getSectionLayout,
-} from "@/lib/prismaExpertiseUtils";
+import { getExpertise, getAllExpertiseSlugs, getAllExpertises, getSectionLayout } from "@/lib/prismaExpertiseUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { DocumentairesGallery } from "@/components/documentaires-gallery";
@@ -37,9 +32,7 @@ type ExpertiseDetailParams = {
   }>;
 };
 
-export default async function ExpertiseDetailPage({
-  params,
-}: ExpertiseDetailParams) {
+export default async function ExpertiseDetailPage({ params }: ExpertiseDetailParams) {
   const { locale, slug } = await params;
   const safeLocale = locale === "en" ? "en" : "fr";
   const expertise = await getExpertise(slug, safeLocale);
@@ -84,11 +77,7 @@ export default async function ExpertiseDetailPage({
             </span>
             <span>{expertise.title.slice(1)}</span>
           </h1>
-          {expertise.description && (
-            <p className="text-xl text-white/70 max-w-3xl">
-              {expertise.description}
-            </p>
-          )}
+          {expertise.description && <p className="text-xl text-white/70 max-w-3xl">{expertise.description}</p>}
         </div>
 
         {/* Alternating Sections with Images */}
@@ -114,9 +103,7 @@ export default async function ExpertiseDetailPage({
         {expertise.labels && expertise.labels.length > 0 && (
           <div className="mt-16">
             <div className="border-4 border-white/10 bg-[#0a0a0e] p-8 shadow-[0_25px_60px_rgba(0,0,0,0.65)]">
-              <h3 className="mb-8 text-2xl font-bold uppercase tracking-tight text-lime-300">
-                {detailCopy.labelsTitle}
-              </h3>
+              <h3 className="mb-8 text-2xl font-bold uppercase tracking-tight text-lime-300">{detailCopy.labelsTitle}</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {expertise.labels.map((label, index) => (
                   <div
@@ -141,10 +128,7 @@ export default async function ExpertiseDetailPage({
 
         {/* Documentaires Gallery - Full Width with Filter */}
         {documentaires && documentaires.length > 0 && (
-          <DocumentairesGallery
-            documentaires={documentaires}
-            copy={detailCopy.documentaries}
-          />
+          <DocumentairesGallery documentaires={documentaires} copy={detailCopy.documentaries} />
         )}
 
         {/* Footer Image */}
@@ -165,27 +149,17 @@ export default async function ExpertiseDetailPage({
           expertises={allExpertises}
           currentSlug={slug}
           locale={safeLocale}
-          title={
-            safeLocale === "fr"
-              ? "Découvrez nos autres expertises"
-              : "Discover our other expertises"
-          }
+          title={safeLocale === "fr" ? "Découvrez nos autres expertises" : "Discover our other expertises"}
           description={
-            safeLocale === "fr"
-              ? "Explorez l'ensemble de nos domaines d'intervention"
-              : "Explore our full range of services"
+            safeLocale === "fr" ? "Explorez l'ensemble de nos domaines d'intervention" : "Explore our full range of services"
           }
         />
 
         {/* CTA */}
         <div className="mt-16">
           <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
-              {detailCopy.ctaTitle}
-            </h2>
-            <p className="mb-6 text-[#050505]/80">
-              {detailCopy.ctaDescription}
-            </p>
+            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">{detailCopy.ctaTitle}</h2>
+            <p className="mb-6 text-[#050505]/80">{detailCopy.ctaDescription}</p>
             <Link
               href={`/${safeLocale}/contact`}
               className="inline-block border-4 border-[#050505] bg-[#050505] px-8 py-3 font-bold uppercase text-white transition-transform hover:scale-105"

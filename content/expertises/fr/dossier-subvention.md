@@ -4,13 +4,13 @@ title: "Gestion des dossiers de subvention"
 description: "description de la gestion des dossiers de subvention"
 intro: "L'objectif principal des organismes de subvention est de dynamiser l'économie musicale en faisant circuler les fonds. Plus fondamentalement, l'essence de ces aides financières est de stimuler la création artistique tout en renforçant la pérennité de l'emploi pour les artistes. L'aide demandée doit alors servir à renforcer le budget et ainsi, enrichir la mise en œuvre du projet."
 slug: "dossier-subvention"
-imgHome: "/images/projets/expertises/dossier-subvention/Home-GestionSubventions.JPG"
-img1: "/images/projets/expertises/dossier-subvention/photo1-subvention.JPG"
-img2: "/images/projets/expertises/dossier-subvention/photo2-subvention.JPG"
-img3: "/images/projets/expertises/dossier-subvention/photo3-subvention.png"
-img4: "/images/projets/expertises/dossier-subvention/photo4-subvention.JPG"
-img5: "/images/projets/expertises/dossier-subvention/photo5-subvention.JPG"
-imgFooter: "/images/projets/expertises/dossier-subvention/photohome6.JPG"
+imgHome: /images/projets/expertises/dossier-subvention/dossier-subvention-home.jpg
+img1: /images/projets/expertises/dossier-subvention/dossier-subvention-section-1.jpg
+img2: /images/projets/expertises/dossier-subvention/dossier-subvention-section-2.jpg
+img3: /images/projets/expertises/dossier-subvention/dossier-subvention-section-3.jpg
+img4: /images/projets/expertises/dossier-subvention/dossier-subvention-section-4.jpg
+img5: /images/projets/expertises/dossier-subvention/dossier-subvention-section-5.jpg
+imgFooter: ""
 # Configuration du layout créatif avec alternance images/texte
 # Pour chaque section, vous pouvez définir:
 #   - image: le chemin de l'image (ou null pour pas d'image)
@@ -97,18 +97,18 @@ Préparez un rétroplanning pour chaque demande d’aide :
 
 ### **Les aides pour les éditeurs et auteurs-compositeurs-interprètes**
 
-![sacem](https://lh7-us.googleusercontent.com/R__L0TXssREfQ7SlUl4M2YaOjlTs5sBsiHCdGeH47iQXXxZwULhcrmb0ROzPDB3LPiSA88KGgSuIBrgHCZIkctcdQBamj3_WS2iv_QglSzx_I8tbxXusY-gSebr3lBflD0q1uQGeX80pXzm8ggq7iQ)
+![sacem](/images/partner/logo-sacem.png)
 
 Pour les auteurs-compositeurs et éditeurs **_[plus de 50 programmes d’aides proposés par la Sacem](https://aide-aux-projets.sacem.fr/nos-programmes-aide)_**
 
-![adami](https://lh7-us.googleusercontent.com/tCDj6Xka3kkSpLaJiiOEX0uPyCM5WemyAiAw9fFhifk2aN_nsZ7ihb-9zCBwhdXVNwCp7VtXoB2ScGJ4HcGG4StW3I2AkCxksv9TopidOv3Mns9x6xQhJjClmos_K2agE7-AEpe5ib7N7f6VcbLYjQ)
+![adami](/images/partner/logo-adami.png)
 
 L’ADAMI est l’organisme qui va collecter puis répartir **l’argent dû aux artistes-interprètes** (musiciens, danseurs, comédiens…) suite à la diffusion de leurs interprétations à la télévision, à la radio, dans les lieux publics, etc. L’ADAMI a pour mission également de redistribuer une partie de cet argent collecté auprès des diffuseurs (radio, télé, lieux publics, etc.) pour **financer les projets des artistes-interprètes**.
 
 - **_[programmes d’aide à l’enregistrement de l’Adami](https://www.adami.fr/que-fait-ladami-pour-moi/cherche-financement-projet-artistique/projet-enregistrement-promotion/)_**
 - **_[le programme d’aide à la promotion d’album de l’Adami](https://www.adami.fr/que-fait-ladami-pour-moi/cherche-financement-projet-artistique/cherche-financement-promouvoir-enregistrement/)_**.
 
-![sppf](https://lh7-us.googleusercontent.com/gB-1rhCl66cvRnOm1zWLewnJ_8RMNlq4Qf-PCLkgcjhs8aB1moPTtBqmMI5oz6IQlHje0M9l4sBAHbWbOGhBw8Ch4jTWNwArQr4_ofp55QEpSZwdDXQrCNV6bNI_baN9Nyo4BOb-ea-paiwAQIKUgw)
+![sppf](/images/partner/logo-sppf.png)
 
 Dans la mesure où il s’agit d’aides qui s’adressent à des professionnels en activité, les aides sont **peu accessibles aux débutants**.
 
@@ -117,7 +117,7 @@ Pour bénéficier de cette aide, il faut bien entendu que vous ayez déjà une s
 
 **_[Rubrique “Aide à la création”](https://www.sppf.com/subventions/creation-production/)_**
 
-![scpp](https://lh7-us.googleusercontent.com/LsolrpP6_985q9ohnIGt4J-stGZBhFDKaJ-HzwvOz7FG3jMJbHLFeEMrXliQIvn4mHAInEJU_V9knl1lW1IQ6kdGowXkBLgQMp8_HihGuZ1cv_V0YUCWfd_nu86dLoRTmsHbr-Hdmfgzmaz9u7wQlA)
+![scpp](/images/partner/logo-scpp.png)
 
 SCPP : Aide à la création de phonogrammes
 
@@ -134,13 +134,8 @@ Le CNM représente le plus grand et le plus puissant rassemblement de tous les a
 Toutes les sociétés de gestion collective participent au budget du CNM, ainsi que le Ministère de la Culture. Les [Missions du CNM](https://cnm.fr/qui-sommes-nous/les-missions-du-cnm/)
 
 - _[Aide à la production phonographique – Musiques actuelles](https://cnm.fr/aides/musique-enregistree/production-phonographique/musiques-actuelles/)_
-- _[Aide à la production phonographique – Classique et Contemporain”](https://cnm.fr/aides/musique-enregistree/production-phonographique/classique-et-contemporain/)_.
+- _[Aide à la production phonographique – Classique et Contemporain"](https://cnm.fr/aides/musique-enregistree/production-phonographique/classique-et-contemporain/)_.
 
-<!-- section:end -->
-<!-- section:start -->
-
-### **Le Bureau Export**
-
-[Le Bureau Export](https://www.lebureauexport.fr/) : l'interlocuteur privilégié pour les projets qui veulent s'exporter et se développer à l'international
+- [Le Bureau Export](https://www.lebureauexport.fr/) : l'interlocuteur privilégié pour les projets qui veulent s'exporter et se développer à l'international
 
 <!-- section:end -->

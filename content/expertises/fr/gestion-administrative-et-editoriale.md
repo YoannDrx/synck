@@ -3,17 +3,17 @@ id: '3'
 title: Gestion administrative et éditoriale
 description: Description de la gestion des oeuvres
 slug: gestion-administrative-et-editoriale
-imgHome: /images/projets/expertises/gestion-administrative-et-editoriale/Home-PhotoGestionEditoriale.JPG
-img1: /images/projets/expertises/gestion-administrative-et-editoriale/photo1-gestionadmin.jpg
-img2: /images/projets/expertises/gestion-administrative-et-editoriale/photo2-gestionadmin.jpg
+imgHome: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-home.jpg
+img1: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-1.jpg
+img2: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-2.jpg
 img2Link: 'https://www.film-documentaire.fr/4DACTION/w_liste_generique/S_67401_G'
-img3: /images/projets/expertises/gestion-administrative-et-editoriale/photo3-gestionadmin.jpg
+img3: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-3.jpg
 img3Link: 'https://www.13prods.fr'
-img4: /images/projets/expertises/gestion-administrative-et-editoriale/photo4-gestionadmin.jpg
+img4: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-4.jpg
 img4Link: 'https://popfilms.fr'
-img5: /images/projets/expertises/gestion-administrative-et-editoriale/photo5-gestionadmin.jpg
+img5: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-5.jpg
 img5Link: 'https://www.viadecouvertes.fr/'
-imgFooter: /images/projets/expertises/gestion-administrative-et-editoriale/photohome3.JPG
+imgFooter: ""
 sectionsLayout:
   - image: img1
     position: right
