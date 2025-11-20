@@ -1,10 +1,74 @@
-import { PrismaClient } from "@prisma/client";
+/* eslint-disable no-console */
+
+import { PrismaClient, type Asset } from "@prisma/client";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import sharp from "sharp";
 
 const prisma = new PrismaClient();
+
+// ============================================
+// TYPES
+// ============================================
+
+type MarkdownResult = {
+  content: string;
+  frontmatter: Record<string, unknown>;
+};
+
+type CategoryData = {
+  slug: string;
+  nameFr: string;
+  nameEn: string;
+  color: string;
+  icon: string;
+  order: number;
+  isActive: boolean;
+};
+
+type LabelData = {
+  slug: string;
+  name?: string;
+  description: string;
+  website?: string;
+};
+
+type ComposerLinkData = {
+  platform: string;
+  url: string;
+  label?: string;
+  order?: number;
+};
+
+type ComposerData = {
+  slug: string;
+  name: string;
+  image?: string;
+  externalUrl?: string;
+  order: number;
+  isActive: boolean;
+  links?: ComposerLinkData[];
+};
+
+type WorkComposerData = {
+  slug: string;
+  role?: string;
+};
+
+type WorkData = {
+  slug: string;
+  titleFr: string;
+  titleEn?: string;
+  category: string;
+  labelSlug?: string;
+  coverImage: string;
+  coverImageExists: boolean;
+  externalUrl?: string;
+  isActive: boolean;
+  order: number;
+  composers?: WorkComposerData[];
+};
 
 // ============================================
 // HELPER FUNCTIONS
@@ -34,27 +98,38 @@ function imageExists(imagePath: string | null): boolean {
 /**
  * Charge un fichier markdown avec frontmatter
  */
-function loadMarkdown(filePath: string): {
-  content: string;
-  frontmatter: any;
-} | null {
+function loadMarkdown(filePath: string): MarkdownResult | null {
   try {
     const fullPath = path.join(process.cwd(), filePath);
     if (!fs.existsSync(fullPath)) return null;
 
     const fileContent = fs.readFileSync(fullPath, "utf-8");
     const { data, content } = matter(fileContent);
-    return { content, frontmatter: data };
-  } catch (error) {
+    return { content, frontmatter: data as Record<string, unknown> };
+  } catch (error: unknown) {
     console.error(`❌ Erreur lecture ${filePath}:`, error);
     return null;
   }
 }
 
 /**
- * Crée un Asset avec blur placeholder
+ * Récupère une valeur string du frontmatter de manière sûre
  */
-async function createAsset(imagePath: string): Promise<any> {
+function getFrontmatterString(
+  frontmatter: Record<string, unknown>,
+  key: string,
+  defaultValue = "",
+): string {
+  const value = frontmatter[key];
+  return typeof value === "string" ? value : defaultValue;
+}
+
+/**
+ * Crée un Asset avec blur placeholder
+ * @param imagePath - Chemin filesystem (ex: "public/images/foo.jpg")
+ * Stocke le chemin URL normalisé en base de données (ex: "/images/foo.jpg")
+ */
+async function createAsset(imagePath: string): Promise<Asset | null> {
   const fullPath = path.join(process.cwd(), imagePath);
 
   if (!fs.existsSync(fullPath)) {
@@ -74,14 +149,23 @@ async function createAsset(imagePath: string): Promise<any> {
     const base64 = blurBuffer.toString("base64");
     const blurDataUrl = `data:image/jpeg;base64,${base64}`;
 
-    const width = metadata.width || 0;
-    const height = metadata.height || 0;
+    const width = metadata.width ?? 0;
+    const height = metadata.height ?? 0;
     const aspectRatio = width && height ? width / height : null;
 
+    // Convertir le chemin filesystem en chemin URL pour Next.js
+    // "public/images/foo.jpg" → "/images/foo.jpg"
+    let urlPath = imagePath;
+    if (imagePath.startsWith("public/")) {
+      urlPath = `/${imagePath.substring("public/".length)}`;
+    } else if (!imagePath.startsWith("/")) {
+      urlPath = `/${imagePath}`;
+    }
+
     const asset = await prisma.asset.upsert({
-      where: { path: imagePath },
+      where: { path: urlPath },
       create: {
-        path: imagePath,
+        path: urlPath,
         width,
         height,
         aspectRatio,
@@ -96,7 +180,7 @@ async function createAsset(imagePath: string): Promise<any> {
     });
 
     return asset;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`   ❌ Erreur création asset ${imagePath}:`, error);
     return null;
   }
@@ -110,7 +194,9 @@ async function seedCategories() {
   console.log("\n🏷️  Seeding categories...");
 
   const categoriesPath = path.join(process.cwd(), "seed-data/categories.json");
-  const categoriesData = JSON.parse(fs.readFileSync(categoriesPath, "utf-8"));
+  const categoriesData = JSON.parse(
+    fs.readFileSync(categoriesPath, "utf-8"),
+  ) as CategoryData[];
 
   let created = 0;
   for (const cat of categoriesData) {
@@ -146,7 +232,7 @@ async function seedCategories() {
     created++;
   }
 
-  console.log(`✅ Created ${created} categories`);
+  console.log(`✅ Created ${String(created)} categories`);
 }
 
 // ============================================
@@ -157,7 +243,9 @@ async function seedLabels() {
   console.log("\n🏢 Seeding labels...");
 
   const labelsPath = path.join(process.cwd(), "seed-data/labels.json");
-  const labelsData = JSON.parse(fs.readFileSync(labelsPath, "utf-8"));
+  const labelsData = JSON.parse(
+    fs.readFileSync(labelsPath, "utf-8"),
+  ) as LabelData[];
 
   let created = 0;
   for (const label of labelsData) {
@@ -165,21 +253,37 @@ async function seedLabels() {
       where: { slug: label.slug },
       create: {
         slug: label.slug,
-        website: label.website || null,
+        website: label.website ?? null,
         translations: {
           create: [
-            { locale: "fr", name: label.name || label.slug, description: label.description },
-            { locale: "en", name: label.name || label.slug, description: label.description },
+            {
+              locale: "fr",
+              name: label.name ?? label.slug,
+              description: label.description,
+            },
+            {
+              locale: "en",
+              name: label.name ?? label.slug,
+              description: label.description,
+            },
           ],
         },
       },
       update: {
-        website: label.website || null,
+        website: label.website ?? null,
         translations: {
           deleteMany: {},
           create: [
-            { locale: "fr", name: label.name || label.slug, description: label.description },
-            { locale: "en", name: label.name || label.slug, description: label.description },
+            {
+              locale: "fr",
+              name: label.name ?? label.slug,
+              description: label.description,
+            },
+            {
+              locale: "en",
+              name: label.name ?? label.slug,
+              description: label.description,
+            },
           ],
         },
       },
@@ -187,7 +291,7 @@ async function seedLabels() {
     created++;
   }
 
-  console.log(`✅ Created ${created} labels`);
+  console.log(`✅ Created ${String(created)} labels`);
 }
 
 // ============================================
@@ -198,12 +302,14 @@ async function seedComposers() {
   console.log("\n🎵 Seeding composers...");
 
   const composersPath = path.join(process.cwd(), "seed-data/composers.json");
-  const composersData = JSON.parse(fs.readFileSync(composersPath, "utf-8"));
+  const composersData = JSON.parse(
+    fs.readFileSync(composersPath, "utf-8"),
+  ) as ComposerData[];
 
   let created = 0;
   for (const comp of composersData) {
     // Créer l'image si elle existe
-    let imageAsset = null;
+    let imageAsset: Asset | null = null;
     if (comp.image && imageExists(comp.image)) {
       imageAsset = await createAsset(comp.image);
     }
@@ -216,7 +322,7 @@ async function seedComposers() {
         externalUrl: comp.externalUrl,
         order: comp.order,
         isActive: comp.isActive,
-        imageId: imageAsset?.id || null,
+        imageId: imageAsset?.id ?? null,
         translations: {
           create: [
             { locale: "fr", name: comp.name },
@@ -228,7 +334,7 @@ async function seedComposers() {
         externalUrl: comp.externalUrl,
         order: comp.order,
         isActive: comp.isActive,
-        imageId: imageAsset?.id || null,
+        imageId: imageAsset?.id ?? null,
         translations: {
           deleteMany: {},
           create: [
@@ -251,10 +357,10 @@ async function seedComposers() {
         await prisma.composerLink.create({
           data: {
             composerId: composer.id,
-            platform: link.platform || "other",
+            platform: link.platform ?? "other",
             url: link.url,
-            label: link.label || null,
-            order: link.order || 0,
+            label: link.label ?? null,
+            order: link.order ?? 0,
           },
         });
       }
@@ -263,7 +369,7 @@ async function seedComposers() {
     created++;
   }
 
-  console.log(`✅ Created ${created} composers`);
+  console.log(`✅ Created ${String(created)} composers`);
 }
 
 // ============================================
@@ -274,13 +380,15 @@ async function seedWorks() {
   console.log("\n🎨 Seeding works...");
 
   const worksPath = path.join(process.cwd(), "seed-data/works.json");
-  const worksData = JSON.parse(fs.readFileSync(worksPath, "utf-8"));
+  const worksData = JSON.parse(
+    fs.readFileSync(worksPath, "utf-8"),
+  ) as WorkData[];
 
   // Filtrer uniquement les works avec des images valides
-  const validWorks = worksData.filter((work: any) => work.coverImageExists);
+  const validWorks = worksData.filter((work) => work.coverImageExists);
 
   console.log(
-    `   Filtering: ${validWorks.length}/${worksData.length} works with valid images`,
+    `   Filtering: ${String(validWorks.length)}/${String(worksData.length)} works with valid images`,
   );
 
   // Récupérer toutes les catégories et labels
@@ -307,7 +415,9 @@ async function seedWorks() {
 
       const category = categoriesMap.get(categorySlug);
       if (!category) {
-        console.warn(`   ⚠️  Category not found for ${work.slug}: ${categorySlug}`);
+        console.warn(
+          `   ⚠️  Category not found for ${work.slug}: ${categorySlug}`,
+        );
         skipped++;
         continue;
       }
@@ -335,7 +445,7 @@ async function seedWorks() {
         create: {
           slug: work.slug,
           categoryId: category.id,
-          labelId: label?.id || null,
+          labelId: label?.id ?? null,
           coverImageId: coverImageAsset.id,
           externalUrl: work.externalUrl,
           isActive: work.isActive,
@@ -345,21 +455,19 @@ async function seedWorks() {
               {
                 locale: "fr",
                 title: work.titleFr,
-                subtitle: work.subtitleFr || null,
-                description: descFr?.content || null,
+                description: descFr?.content ?? null,
               },
               {
                 locale: "en",
-                title: work.titleEn || work.titleFr,
-                subtitle: work.subtitleEn || work.subtitleFr || null,
-                description: descEn?.content || descFr?.content || null,
+                title: work.titleEn ?? work.titleFr,
+                description: descEn?.content ?? descFr?.content ?? null,
               },
             ],
           },
         },
         update: {
           categoryId: category.id,
-          labelId: label?.id || null,
+          labelId: label?.id ?? null,
           coverImageId: coverImageAsset.id,
           externalUrl: work.externalUrl,
           isActive: work.isActive,
@@ -370,14 +478,12 @@ async function seedWorks() {
               {
                 locale: "fr",
                 title: work.titleFr,
-                subtitle: work.subtitleFr || null,
-                description: descFr?.content || null,
+                description: descFr?.content ?? null,
               },
               {
                 locale: "en",
-                title: work.titleEn || work.titleFr,
-                subtitle: work.subtitleEn || work.subtitleFr || null,
-                description: descEn?.content || descFr?.content || null,
+                title: work.titleEn ?? work.titleFr,
+                description: descEn?.content ?? descFr?.content ?? null,
               },
             ],
           },
@@ -394,14 +500,14 @@ async function seedWorks() {
         // Créer les nouvelles
         for (let i = 0; i < work.composers.length; i++) {
           const comp = work.composers[i];
-          const composer = composersMap.get(comp.slug);
+          const composer = comp ? composersMap.get(comp.slug) : undefined;
 
           if (composer) {
             await prisma.contribution.create({
               data: {
                 workId: createdWork.id,
                 composerId: composer.id,
-                role: comp.role || "composer",
+                role: comp.role ?? "composer",
                 order: i,
               },
             });
@@ -411,15 +517,19 @@ async function seedWorks() {
 
       created++;
       if (created % 50 === 0) {
-        console.log(`   Progress: ${created}/${validWorks.length} works created...`);
+        console.log(
+          `   Progress: ${String(created)}/${String(validWorks.length)} works created...`,
+        );
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(`   ❌ Error creating work ${work.slug}:`, error);
       skipped++;
     }
   }
 
-  console.log(`✅ Created ${created} works (${skipped} skipped)`);
+  console.log(
+    `✅ Created ${String(created)} works (${String(skipped)} skipped)`,
+  );
 }
 
 // ============================================
@@ -429,8 +539,10 @@ async function seedWorks() {
 async function seedExpertises() {
   console.log("\n🎓 Seeding expertises...");
 
-  const expertisesDir = path.join(process.cwd(), "seed-data/expertises");
-  const expertisesFr = fs.readdirSync(path.join(expertisesDir, "fr"));
+  const expertisesDir = "seed-data/expertises";
+  const expertisesFr = fs.readdirSync(
+    path.join(process.cwd(), expertisesDir, "fr"),
+  );
 
   let created = 0;
 
@@ -440,12 +552,8 @@ async function seedExpertises() {
     const slug = filename.replace(".md", "");
 
     // Charger FR et EN
-    const expertiseFr = loadMarkdown(
-      path.join(expertisesDir, "fr", filename),
-    );
-    const expertiseEn = loadMarkdown(
-      path.join(expertisesDir, "en", filename),
-    );
+    const expertiseFr = loadMarkdown(`${expertisesDir}/fr/${filename}`);
+    const expertiseEn = loadMarkdown(`${expertisesDir}/en/${filename}`);
 
     if (!expertiseFr) {
       console.warn(`   ⚠️  Skipping ${slug} - FR file not found`);
@@ -459,71 +567,93 @@ async function seedExpertises() {
       : contentFr;
 
     // Créer les assets pour les images
-    const images: any[] = [];
+    const imageAssets: string[] = [];
     const frontmatter = expertiseFr.frontmatter;
+
+    let coverImageId: string | undefined;
 
     for (const key of Object.keys(frontmatter)) {
       if (key.startsWith("img")) {
-        const imgPath = normalizeImagePath(frontmatter[key]);
+        const imgValue = frontmatter[key];
+        const imgPath = normalizeImagePath(
+          typeof imgValue === "string" ? imgValue : null,
+        );
         if (imgPath && imageExists(imgPath)) {
           const asset = await createAsset(imgPath);
           if (asset) {
-            images.push({
-              key,
-              assetId: asset.id,
-              order: parseInt(key.replace(/\D/g, "")) || 0,
-            });
+            // imgHome devient le coverImage
+            if (key === "imgHome") {
+              coverImageId = asset.id;
+            } else {
+              imageAssets.push(asset.id);
+            }
           }
         }
       }
     }
 
-    // Créer l'expertise
-    const expertise = await prisma.expertise.upsert({
+    // Créer l'expertise avec les images connectées
+    const titleFr = getFrontmatterString(frontmatter, "title", slug);
+    const descriptionFr = getFrontmatterString(frontmatter, "description");
+    const titleEn = expertiseEn
+      ? getFrontmatterString(expertiseEn.frontmatter, "title", titleFr)
+      : titleFr;
+    const descriptionEn = expertiseEn
+      ? getFrontmatterString(
+          expertiseEn.frontmatter,
+          "description",
+          descriptionFr,
+        )
+      : descriptionFr;
+    const orderId = parseInt(getFrontmatterString(frontmatter, "id", "0")) || 0;
+
+    await prisma.expertise.upsert({
       where: { slug },
       create: {
         slug,
-        order: parseInt(frontmatter.id) || 0,
+        order: orderId,
         isActive: true,
+        coverImageId,
+        images: {
+          connect: imageAssets.map((id) => ({ id })),
+        },
         translations: {
           create: [
             {
               locale: "fr",
-              title: frontmatter.title || slug,
-              description: frontmatter.description || "",
+              title: titleFr,
+              description: descriptionFr,
               content: contentFr.join("\n<!-- section:end -->\n"),
             },
             {
               locale: "en",
-              title: expertiseEn?.frontmatter?.title || frontmatter.title || slug,
-              description:
-                expertiseEn?.frontmatter?.description ||
-                frontmatter.description ||
-                "",
+              title: titleEn,
+              description: descriptionEn,
               content: contentEn.join("\n<!-- section:end -->\n"),
             },
           ],
         },
       },
       update: {
-        order: parseInt(frontmatter.id) || 0,
+        order: orderId,
         isActive: true,
+        coverImageId,
+        images: {
+          set: imageAssets.map((id) => ({ id })),
+        },
         translations: {
           deleteMany: {},
           create: [
             {
               locale: "fr",
-              title: frontmatter.title || slug,
-              description: frontmatter.description || "",
+              title: titleFr,
+              description: descriptionFr,
               content: contentFr.join("\n<!-- section:end -->\n"),
             },
             {
               locale: "en",
-              title: expertiseEn?.frontmatter?.title || frontmatter.title || slug,
-              description:
-                expertiseEn?.frontmatter?.description ||
-                frontmatter.description ||
-                "",
+              title: titleEn,
+              description: descriptionEn,
               content: contentEn.join("\n<!-- section:end -->\n"),
             },
           ],
@@ -531,32 +661,10 @@ async function seedExpertises() {
       },
     });
 
-    // Associer les images
-    for (const img of images) {
-      await prisma.expertiseImage.upsert({
-        where: {
-          expertiseId_key: {
-            expertiseId: expertise.id,
-            key: img.key,
-          },
-        },
-        create: {
-          expertiseId: expertise.id,
-          assetId: img.assetId,
-          key: img.key,
-          order: img.order,
-        },
-        update: {
-          assetId: img.assetId,
-          order: img.order,
-        },
-      });
-    }
-
     created++;
   }
 
-  console.log(`✅ Created ${created} expertises`);
+  console.log(`✅ Created ${String(created)} expertises`);
 }
 
 // ============================================
@@ -566,24 +674,47 @@ async function seedExpertises() {
 async function seedAdminUser() {
   console.log("\n👤 Seeding admin user...");
 
+  const adminEmail = process.env.ADMIN_EMAIL ?? "admin@synck.fr";
+  const adminPassword = process.env.ADMIN_PASSWORD ?? "admin123456";
   const bcrypt = await import("bcryptjs");
-  const hashedPassword = await bcrypt.hash("admin123456", 10);
+  const hashedPassword = await bcrypt.hash(adminPassword, 10);
 
-  await prisma.user.upsert({
-    where: { email: "admin@synck.fr" },
+  const adminUser = await prisma.user.upsert({
+    where: { email: adminEmail },
     create: {
-      email: "admin@synck.fr",
+      email: adminEmail,
       name: "Admin",
-      password: hashedPassword,
-      emailVerified: new Date(),
+      emailVerified: true,
+      isActive: true,
     },
     update: {
+      name: "Admin",
+      isActive: true,
+      emailVerified: true,
+    },
+  });
+
+  await prisma.account.upsert({
+    where: {
+      providerId_accountId: {
+        providerId: "credential",
+        accountId: adminUser.id,
+      },
+    },
+    create: {
+      userId: adminUser.id,
+      providerId: "credential",
+      accountId: adminUser.id,
+      password: hashedPassword,
+    },
+    update: {
+      userId: adminUser.id,
       password: hashedPassword,
     },
   });
 
-  console.log("✅ Admin user created: admin@synck.fr");
-  console.log("   Password: admin123456");
+  console.log(`✅ Admin user created: ${adminEmail}`);
+  console.log(`   Password: ${adminPassword}`);
   console.log("   ⚠️  IMPORTANT: Change this password after first login!");
 }
 
@@ -603,14 +734,14 @@ async function main() {
     await seedAdminUser();
 
     console.log("\n🎉 Database seeding completed!");
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("\n❌ Error during seeding:", error);
     throw error;
   }
 }
 
 main()
-  .catch((error) => {
+  .catch((error: unknown) => {
     console.error(error);
     process.exit(1);
   })

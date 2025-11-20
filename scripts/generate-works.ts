@@ -19,6 +19,40 @@ const metadataEn = JSON.parse(fs.readFileSync(metadataEnPath, "utf-8"));
 // Créer un Map pour associer slug → work FR+EN
 const worksMap = new Map<string, any>();
 
+// Fonction pour normaliser les catégories vers les slugs canon iques
+function normalizeCategoryToSlug(category: string | null): string | null {
+  if (!category) return null;
+
+  const normalized = category.toLowerCase().trim();
+
+  // Mapping de normalisation
+  const mapping: Record<string, string> = {
+    // Documentaire (toutes variantes)
+    "documentaire": "documentaire",
+    "documentaires": "documentaire",
+    "documentary": "documentaire",
+    "documentaries": "documentaire",
+    // Synchro
+    "synchros": "synchro",
+    "synchro": "synchro",
+    "synchronisation": "synchro",
+    "sync": "synchro",
+    // Clip
+    "clips": "clip",
+    "clip": "clip",
+    "clip musical": "clip",
+    "music video": "clip",
+    // Vinyle
+    "vinyle": "vinyle",
+    "vinyl": "vinyle",
+    // Album
+    "album de librairie musicale": "album-de-librairie-musicale",
+    "music library album": "album-de-librairie-musicale",
+  };
+
+  return mapping[normalized] || null;
+}
+
 // Fonction pour normaliser les chemins d'images
 function normalizeImagePath(imagePath: string | null): string | null {
   if (!imagePath) return null;
@@ -53,8 +87,6 @@ function detectLabelFromPath(imagePath: string | null): string | null {
   if (imagePath.includes("/documentaires/pop-films/")) return "pop-films";
   if (imagePath.includes("/documentaires/via-decouvertes-films/"))
     return "via-decouvertes-films";
-  if (imagePath.includes("/documentaires/ligne-de-mire/"))
-    return "ligne-de-mire";
 
   return null;
 }
@@ -95,7 +127,7 @@ metadataFr.forEach((workFr: any) => {
     subtitleEn: "",
     descriptionFr: "", // Sera chargé depuis les fichiers .md
     descriptionEn: "",
-    category: workFr.category || "",
+    category: normalizeCategoryToSlug(workFr.category) || "",
     coverImage,
     coverImageExists: imageExists(coverImage),
     releaseDate: workFr.releaseDate || null,
@@ -141,7 +173,7 @@ metadataEn.forEach((workEn: any) => {
       subtitleEn: workEn.subtitle || "",
       descriptionFr: "",
       descriptionEn: "",
-      category: workEn.category || "",
+      category: normalizeCategoryToSlug(workEn.category) || "",
       coverImage,
       coverImageExists: imageExists(coverImage),
       releaseDate: workEn.releaseDate || null,

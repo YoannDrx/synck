@@ -756,9 +756,9 @@
         "nameEn": "Documentary"
       },
       "label": {
-        "slug": "ligne-de-mire",
-        "nameFr": "Ligne de Mire",
-        "nameEn": "Ligne de Mire"
+        "slug": "little-big-story",
+        "nameFr": "Little Big Story",
+        "nameEn": "Little Big Story"
       },
       "year": 2020,
       "duration": null,
@@ -768,7 +768,7 @@
       "spotifyUrl": null,
       "externalUrl": null,
       "coverImage": {
-        "path": "/images/projets/documentaires/ligne-de-mire/inde-les-paysans.jpg",
+        "path": "/images/projets/documentaires/little-big-story/inde-les-paysans.jpg",
         "alt": "Inde - Les Paysans",
         "width": null,
         "height": null
@@ -2120,9 +2120,9 @@
         "nameEn": "Documentary"
       },
       "label": {
-        "slug": "ligne-de-mire",
-        "nameFr": "Ligne de Mire",
-        "nameEn": "Ligne de Mire"
+        "slug": "little-big-story",
+        "nameFr": "Little Big Story",
+        "nameEn": "Little Big Story"
       },
       "year": 2021,
       "duration": null,
@@ -2132,7 +2132,7 @@
       "spotifyUrl": null,
       "externalUrl": null,
       "coverImage": {
-        "path": "/images/projets/documentaires/ligne-de-mire/portrait.jpg",
+        "path": "/images/projets/documentaires/little-big-story/portrait.jpg",
         "alt": "Portrait d'un Père",
         "width": null,
         "height": null
@@ -2194,9 +2194,9 @@
         "nameEn": "Documentary"
       },
       "label": {
-        "slug": "ligne-de-mire",
-        "nameFr": "Ligne de Mire",
-        "nameEn": "Ligne de Mire"
+        "slug": "little-big-story",
+        "nameFr": "Little Big Story",
+        "nameEn": "Little Big Story"
       },
       "year": 2021,
       "duration": null,
@@ -2206,7 +2206,7 @@
       "spotifyUrl": null,
       "externalUrl": null,
       "coverImage": {
-        "path": "/images/projets/documentaires/ligne-de-mire/soeurs.jpg",
+        "path": "/images/projets/documentaires/little-big-story/soeurs-de-la-terre.jpg",
         "alt": "Sœurs de la Terre",
         "width": null,
         "height": null
@@ -2379,9 +2379,9 @@
         "nameEn": "Documentary"
       },
       "label": {
-        "slug": "ligne-de-mire",
-        "nameFr": "Ligne de Mire",
-        "nameEn": "Ligne de Mire"
+        "slug": "little-big-story",
+        "nameFr": "Little Big Story",
+        "nameEn": "Little Big Story"
       },
       "year": 2022,
       "duration": null,
@@ -2391,7 +2391,7 @@
       "spotifyUrl": null,
       "externalUrl": null,
       "coverImage": {
-        "path": "/images/projets/documentaires/ligne-de-mire/unpasteur.jpg",
+        "path": "/images/projets/documentaires/little-big-story/un-pasteur.jpg",
         "alt": "Un Pasteur",
         "width": null,
         "height": null
@@ -2453,9 +2453,9 @@
         "nameEn": "Documentary"
       },
       "label": {
-        "slug": "ligne-de-mire",
-        "nameFr": "Ligne de Mire",
-        "nameEn": "Ligne de Mire"
+        "slug": "little-big-story",
+        "nameFr": "Little Big Story",
+        "nameEn": "Little Big Story"
       },
       "year": 2023,
       "duration": null,
@@ -2465,7 +2465,7 @@
       "spotifyUrl": null,
       "externalUrl": null,
       "coverImage": {
-        "path": "/images/projets/documentaires/ligne-de-mire/vikings-la-saga-des-femmes.jpg",
+        "path": "/images/projets/documentaires/little-big-story/vikings.jpg",
         "alt": "Vikings - La Saga des Femmes",
         "width": null,
         "height": null

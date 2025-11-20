@@ -183,13 +183,6 @@ async function determineDocumentairesFolder(
       "calanques",
       "avant-que-la-grande-nacre",
     ],
-    "ligne-de-mire": [
-      "vikings",
-      "portrait-d-un-pere",
-      "inde",
-      "soeurs",
-      "pasteur",
-    ],
   };
 
   // Chercher correspondance par mots-clés

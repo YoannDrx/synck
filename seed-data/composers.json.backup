@@ -238,6 +238,23 @@
     "isActive": true
   },
   {
+    "id": 15,
+    "slug": "cdric-hanak",
+    "name": "cdric-hanak",
+    "image": "public/images/projets/photoscompo/cdric-hanak.jpg",
+    "externalUrl": "https://open.spotify.com/intl-fr/artist/12M2hO0FUtnsXYMp5jjGuN",
+    "links": [
+      {
+        "platform": "spotify",
+        "url": "https://open.spotify.com/intl-fr/artist/12M2hO0FUtnsXYMp5jjGuN",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 14,
+    "isActive": true
+  },
+  {
     "id": 16,
     "slug": "cedric-hanak",
     "name": "Cédric Hanak",
@@ -448,6 +465,29 @@
     "isActive": true
   },
   {
+    "id": 27,
+    "slug": "drixxx",
+    "name": "drixxx",
+    "image": "public/images/projets/photoscompo/drixxx.jpg",
+    "externalUrl": "https://www.youtube.com/user/DRIXXXEBEATS",
+    "links": [
+      {
+        "platform": "youtube",
+        "url": "https://www.youtube.com/user/DRIXXXEBEATS",
+        "label": null,
+        "order": 0
+      },
+      {
+        "platform": "soundcloud",
+        "url": "https://soundcloud.com/drixxxe-2",
+        "label": "SoundCloud",
+        "order": 1
+      }
+    ],
+    "order": 26,
+    "isActive": true
+  },
+  {
     "id": 28,
     "slug": "drixxxe",
     "name": "Drixxxé",
@@ -508,6 +548,23 @@
     "isActive": true
   },
   {
+    "id": 32,
+    "slug": "emmanuel-mare",
+    "name": "emmanuel-mare",
+    "image": "public/images/projets/photoscompo/emmanuel-mare.jpg",
+    "externalUrl": "https://open.spotify.com/intl-fr/artist/6WPBlXYBmOPAoZAxSeBORf",
+    "links": [
+      {
+        "platform": "spotify",
+        "url": "https://open.spotify.com/intl-fr/artist/6WPBlXYBmOPAoZAxSeBORf",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 31,
+    "isActive": true
+  },
+  {
     "id": 33,
     "slug": "f-stokes",
     "name": "F.Stokes",
@@ -538,6 +595,23 @@
       }
     ],
     "order": 33,
+    "isActive": true
+  },
+  {
+    "id": 35,
+    "slug": "frdric-hanak",
+    "name": "frdric-hanak",
+    "image": "public/images/projets/photoscompo/frdric-hanak.jpg",
+    "externalUrl": "https://open.spotify.com/intl-fr/artist/2HXjjAcmNeyqM1InDkqFbu",
+    "links": [
+      {
+        "platform": "spotify",
+        "url": "https://open.spotify.com/intl-fr/artist/2HXjjAcmNeyqM1InDkqFbu",
+        "label": "dDash",
+        "order": 0
+      }
+    ],
+    "order": 34,
     "isActive": true
   },
   {
@@ -994,6 +1068,52 @@
     "isActive": true
   },
   {
+    "id": 62,
+    "slug": "sbastien-blanchon",
+    "name": "sbastien-blanchon",
+    "image": "public/images/projets/photoscompo/sbastien-blanchon.jpg",
+    "externalUrl": "https://soundcloud.com/s-bastien-blanchon",
+    "links": [
+      {
+        "platform": "soundcloud",
+        "url": "https://soundcloud.com/s-bastien-blanchon",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 61,
+    "isActive": true
+  },
+  {
+    "id": 63,
+    "slug": "sbastien-blanchon-nzeng",
+    "name": "sbastien-blanchon-nzeng",
+    "image": "public/images/projets/photoscompo/sbastien-blanchon-nzeng.jpg",
+    "externalUrl": "https://www.youtube.com/@nzeng5115",
+    "links": [
+      {
+        "platform": "youtube",
+        "url": "https://www.youtube.com/@nzeng5115",
+        "label": "N'ZENG",
+        "order": 0
+      },
+      {
+        "platform": "soundcloud",
+        "url": "https://soundcloud.com/nzeng",
+        "label": "N'ZENG",
+        "order": 1
+      },
+      {
+        "platform": "soundcloud",
+        "url": "https://soundcloud.com/s-bastien-blanchon",
+        "label": "Sébastien Blanchon",
+        "order": 2
+      }
+    ],
+    "order": 62,
+    "isActive": true
+  },
+  {
     "id": 64,
     "slug": "scherazade",
     "name": "Schérazade",
@@ -1001,6 +1121,29 @@
     "externalUrl": "https://www.youtube.com/channel/UCsG36srWE1YHxYJI6ASnKGQ",
     "links": [],
     "order": 63,
+    "isActive": true
+  },
+  {
+    "id": 65,
+    "slug": "schrazade",
+    "name": "schrazade",
+    "image": "public/images/projets/photoscompo/schrazade.jpg",
+    "externalUrl": "https://www.facebook.com/scherazadeofficiel",
+    "links": [
+      {
+        "platform": "facebook",
+        "url": "https://www.facebook.com/scherazadeofficiel",
+        "label": null,
+        "order": 0
+      },
+      {
+        "platform": "youtube",
+        "url": "https://www.youtube.com/channel/UCsG36srWE1YHxYJI6ASnKGQ",
+        "label": "YouTube",
+        "order": 1
+      }
+    ],
+    "order": 64,
     "isActive": true
   },
   {

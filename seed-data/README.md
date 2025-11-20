@@ -36,7 +36,7 @@ pnpm tsx scripts/generate-works.ts
 ## 📊 Statistiques actuelles
 
 - **8 catégories** (avec traductions)
-- **4 labels** (13prods, little-big-story, pop-films, via-decouvertes-films, ligne-de-mire)
+- **4 labels** (13prods, little-big-story, pop-films, via-decouvertes-films)
 - **76 compositeurs** (64 avec liens multiples)
 - **253 works** dans works.json
   - **113 works avec images valides** (seedés)

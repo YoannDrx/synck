@@ -12,19 +12,19 @@
     "test:headed": "playwright test --headed",
     "test:debug": "playwright test --debug",
     "postinstall": "prisma generate",
-    "db:seed": "tsx prisma/seed.ts",
-    "db:seed:dev": "tsx scripts/db/seed-env.ts dev",
-    "db:seed:prod": "tsx scripts/db/seed-env.ts prod",
-    "db:reset:dev": "tsx scripts/db/reset-env.ts dev",
-    "db:reset:prod": "tsx scripts/db/reset-env.ts prod",
-    "db:setup-env": "bash scripts/db/setup-env.sh",
+    "db:reset": "node scripts/run-ts.cjs scripts/db/reset-dev.ts",
+    "db:seed": "node scripts/run-ts.cjs scripts/db/seed-dev.ts",
+    "db:reset:seed": "node scripts/run-ts.cjs scripts/db/reset-seed-dev.ts",
+    "db:reset:prod": "node scripts/run-ts.cjs scripts/db/reset-only-prod.ts",
+    "db:seed:prod": "node scripts/run-ts.cjs scripts/db/seed-prod.ts",
+    "db:reset:seed:prod": "node scripts/run-ts.cjs scripts/db/reset-seed-prod.ts",
     "db:studio": "prisma studio",
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
     "db:migrate:check": "prisma migrate diff --from-schema-datamodel prisma/schema.prisma --to-schema-datasource prisma/schema.prisma --exit-code"
   },
   "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "seed": "node scripts/run-ts.cjs prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",

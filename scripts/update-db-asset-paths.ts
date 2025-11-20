@@ -45,7 +45,6 @@ function normalizePathSegment(segment: string): string {
     "little-big-story",
     "via-decouvertes-films",
     "pop-films",
-    "ligne-de-mire",
     "albums",
     "clips",
     "vinyles",
