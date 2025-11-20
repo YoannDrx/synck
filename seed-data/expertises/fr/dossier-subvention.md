@@ -28,6 +28,49 @@ sectionsLayout:
     position: right
   - image: imgFooter
     position: left
+supports:
+  - name: SACEM
+    logo: /images/partner/logo-sacem.png
+    description: "Pour les auteurs-compositeurs et éditeurs"
+    links:
+      - title: "plus de 50 programmes d'aides proposés par la Sacem"
+        url: "https://aide-aux-projets.sacem.fr/nos-programmes-aide"
+  - name: ADAMI
+    logo: /images/partner/logo-adami.png
+    description: "L'ADAMI est l'organisme qui va collecter puis répartir l'argent dû aux artistes-interprètes (musiciens, danseurs, comédiens…) suite à la diffusion de leurs interprétations à la télévision, à la radio, dans les lieux publics, etc. L'ADAMI a pour mission également de redistribuer une partie de cet argent collecté auprès des diffuseurs (radio, télé, lieux publics, etc.) pour financer les projets des artistes-interprètes."
+    links:
+      - title: "programmes d'aide à l'enregistrement de l'Adami"
+        url: "https://www.adami.fr/que-fait-ladami-pour-moi/cherche-financement-projet-artistique/projet-enregistrement-promotion/"
+      - title: "le programme d'aide à la promotion d'album de l'Adami"
+        url: "https://www.adami.fr/que-fait-ladami-pour-moi/cherche-financement-projet-artistique/cherche-financement-promouvoir-enregistrement/"
+  - name: SPPF
+    logo: /images/partner/logo-sppf.png
+    description: "Dans la mesure où il s'agit d'aides qui s'adressent à des professionnels en activité, les aides sont peu accessibles aux débutants. Pour bénéficier de cette aide, il faut bien entendu que vous ayez déjà une structure juridique (même une association) et être adhérent à la SPPF. Si vous n'êtes pas adhérent, vous pouvez néanmoins bénéficier d'une aide, si vous avez signé un contrat de licence avec un label qui, lui, est adhérent à la SPPF."
+    links:
+      - title: "Aide à la création"
+        url: "https://www.sppf.com/subventions/creation-production/"
+  - name: SCPP
+    logo: /images/partner/logo-scpp.png
+    description: "L'accès aux aides est exclusivement réservé aux producteurs membres. Cette procédure est logique puisque le fonds d'assistance financière est alimenté par les revenus produits par la diffusion des œuvres de ces mêmes producteurs. C'est un système de redistribution interne."
+    links:
+      - title: "Règles d'attribution"
+        url: "https://www.scpp.fr/SCPP/Home/AIDES/R%E8glesdattributiondesaides/tabid/144/Default.aspx#ancre2"
+  - name: CNM
+    logo: /images/partner/logo-cnm.jpg
+    description: "Le CNM représente le plus grand et le plus puissant rassemblement de tous les acteurs majeurs du secteur musical. À la différence de l'ancien modèle (CNV) qui s'occupait également des arts du théâtre, de la danse, de l'opéra, le CNM est désormais un soutien consacré aux professionnels de la musique. Toutes les sociétés de gestion collective participent au budget du CNM, ainsi que le Ministère de la Culture."
+    links:
+      - title: "Aides à la production phonographique du CNM"
+        url: "https://cnm.fr/aides/musique-enregistree/production-phonographique/"
+      - title: "Aide à la production phonographique – Musiques actuelles"
+        url: "https://cnm.fr/aides/musique-enregistree/production-phonographique/musiques-actuelles/"
+      - title: "Aide à la production phonographique – Classique et Contemporain"
+        url: "https://cnm.fr/aides/musique-enregistree/production-phonographique/classique-et-contemporain/"
+  - name: "Le Bureau Export"
+    logo: /images/partner/logo-bureau-export.jpg
+    description: "Depuis 1993, Le Bureau Export accompagne la filière musicale française dans le développement de ses artistes à l'international, dans le domaine des musiques actuelles et des musiques classiques. Depuis le 1er novembre 2020, Le Bureau Export a rejoint le Centre national de la musique (CNM), dont l'une des missions est de favoriser le développement international du secteur de la musique et des variétés. Le CNM représente et renforce les activités, programmes et services du Bureau Export."
+    links:
+      - title: "Le Bureau Export"
+        url: "https://cnm.fr/famille-aide/aides-a-la-production-phonographique/"
 ---
 
 <!-- section:start -->
@@ -91,51 +134,5 @@ Préparez un rétroplanning pour chaque demande d’aide :
 - _Préparer_ les documents complémentaires à envoyer (factures, justificatifs…)
 
 > Plus le projet sera développé sous un aspect économique et commercial, plus les chances d’obtenir des aides financières augmenteront.
-
-<!-- section:end -->
-<!-- section:start -->
-
-### **Les aides pour les éditeurs et auteurs-compositeurs-interprètes**
-
-![sacem](/images/partner/logo-sacem.png)
-
-Pour les auteurs-compositeurs et éditeurs **_[plus de 50 programmes d’aides proposés par la Sacem](https://aide-aux-projets.sacem.fr/nos-programmes-aide)_**
-
-![adami](/images/partner/logo-adami.png)
-
-L’ADAMI est l’organisme qui va collecter puis répartir **l’argent dû aux artistes-interprètes** (musiciens, danseurs, comédiens…) suite à la diffusion de leurs interprétations à la télévision, à la radio, dans les lieux publics, etc. L’ADAMI a pour mission également de redistribuer une partie de cet argent collecté auprès des diffuseurs (radio, télé, lieux publics, etc.) pour **financer les projets des artistes-interprètes**.
-
-- **_[programmes d’aide à l’enregistrement de l’Adami](https://www.adami.fr/que-fait-ladami-pour-moi/cherche-financement-projet-artistique/projet-enregistrement-promotion/)_**
-- **_[le programme d’aide à la promotion d’album de l’Adami](https://www.adami.fr/que-fait-ladami-pour-moi/cherche-financement-projet-artistique/cherche-financement-promouvoir-enregistrement/)_**.
-
-![sppf](/images/partner/logo-sppf.png)
-
-Dans la mesure où il s’agit d’aides qui s’adressent à des professionnels en activité, les aides sont **peu accessibles aux débutants**.
-
-SPPF : Aide à l’enregistrement d’un album
-Pour bénéficier de cette aide, il faut bien entendu que vous ayez déjà une structure juridique (même une association) et être adhérent à la SPPF. Si vous n’êtes pas adhérent, vous pouvez néanmoins bénéficier d’une aide, si vous avez signé **_[un contrat de licence](https://a-contretemps.com/contrats-musique-contrat-licence-exclusive/)_** avec un label qui, lui, est adhérent à la SPPF.
-
-**_[Rubrique “Aide à la création”](https://www.sppf.com/subventions/creation-production/)_**
-
-![scpp](/images/partner/logo-scpp.png)
-
-SCPP : Aide à la création de phonogrammes
-
-**_[Règles d’attribution](https://www.scpp.fr/SCPP/Home/AIDES/R%E8glesdattributiondesaides/tabid/144/Default.aspx#ancre2)_**.
-
-L'accès aux aides est exclusivement réservé aux producteurs membres. Cette procédure est logique puisque le fonds d'assistance financière est alimenté par les revenus produits par la diffusion des œuvres de ces mêmes producteurs. C'est un système de redistribution interne.
-
-- CNM :
-
-**_[Aides à la production phonographique du CNM](https://cnm.fr/aides/musique-enregistree/production-phonographique/)_**
-
-Le CNM représente le plus grand et le plus puissant rassemblement de tous les acteurs majeurs du secteur musical. À la différence de l’ancien modèle (CNV) qui s’occupait également des arts du théâtre, de la danse, de l’opéra, le CNM est désormais un soutien consacré aux professionnels de la musique (artistes (auteur, compositeur) et autres professionnels du secteur (éditeur phonographique, manager, producteur)). Tous **sont concernés par les missions du CNM** et sont conviés à participer aux différentes concertations.
-
-Toutes les sociétés de gestion collective participent au budget du CNM, ainsi que le Ministère de la Culture. Les [Missions du CNM](https://cnm.fr/qui-sommes-nous/les-missions-du-cnm/)
-
-- _[Aide à la production phonographique – Musiques actuelles](https://cnm.fr/aides/musique-enregistree/production-phonographique/musiques-actuelles/)_
-- _[Aide à la production phonographique – Classique et Contemporain"](https://cnm.fr/aides/musique-enregistree/production-phonographique/classique-et-contemporain/)_.
-
-- [Le Bureau Export](https://www.lebureauexport.fr/) : l'interlocuteur privilégié pour les projets qui veulent s'exporter et se développer à l'international
 
 <!-- section:end -->

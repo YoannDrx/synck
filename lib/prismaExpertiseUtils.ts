@@ -25,6 +25,18 @@ export type SectionLayout = {
   position?: "left" | "right" | "auto";
 };
 
+export type SupportLink = {
+  title: string;
+  url: string;
+};
+
+export type Support = {
+  name: string;
+  logo: string;
+  description: string;
+  links: SupportLink[];
+};
+
 export type ExpertiseListItem = {
   id: string;
   slug: string;
@@ -56,6 +68,7 @@ export type Expertise = {
   labels?: Label[];
   documentaires?: Documentaire[];
   sectionsLayout?: SectionLayout[];
+  supports?: Support[];
 };
 
 export type ExpertiseWithDetails = Prisma.ExpertiseGetPayload<{
@@ -131,6 +144,7 @@ async function parseExpertiseMetadata(
 ): Promise<{
   labels?: Label[];
   documentaires?: Documentaire[];
+  supports?: Support[];
   img2Link?: string;
   img3Link?: string;
   img4Link?: string;
@@ -163,6 +177,7 @@ async function parseExpertiseMetadata(
     const result: {
       labels?: Label[];
       documentaires?: Documentaire[];
+      supports?: Support[];
       img2Link?: string;
       img3Link?: string;
       img4Link?: string;
@@ -246,6 +261,60 @@ async function parseExpertiseMetadata(
       });
     }
 
+    // Parse supports array (for dossier-subvention)
+    const supportsSection = /supports:\s*\n([\s\S]+?)(?=\n\w+:|$)/.exec(
+      frontmatterStr,
+    );
+    if (supportsSection) {
+      const supportsStr = supportsSection[1];
+      const supportEntries = supportsStr
+        .split(/\n\s*-\s*name:/)
+        .filter(Boolean);
+
+      result.supports = supportEntries.map((entry, index) => {
+        // For the first entry, strip the leading "- name:" prefix if present
+        let cleanEntry = entry;
+        if (index === 0) {
+          cleanEntry = entry.replace(/^\s*-\s*name:\s*/, "");
+        }
+
+        // Extract name - handle quoted strings properly
+        const nameMatch =
+          /^['"](.+?)['"]/.exec(cleanEntry) ?? /^([^\n:]+)/.exec(cleanEntry);
+        const logoMatch = /logo:\s*(.+)/.exec(cleanEntry);
+        const descriptionMatch =
+          /description:\s*['"]([\s\S]+?)['"](?=\s*links:|\s*$)/.exec(
+            cleanEntry,
+          );
+
+        // Parse links array within this support entry
+        const linksSection = /links:\s*\n([\s\S]+?)(?=\n\s*-\s*name:|$)/.exec(
+          cleanEntry,
+        );
+        const links: SupportLink[] = [];
+
+        if (linksSection) {
+          const linksStr = linksSection[1];
+          const linkMatches = linksStr.matchAll(
+            /-\s*title:\s*['"](.+?)['"]\s*url:\s*['"](.+?)['"]/g,
+          );
+          links.push(
+            ...Array.from(linkMatches).map((match) => ({
+              title: match[1],
+              url: match[2],
+            })),
+          );
+        }
+
+        return {
+          name: nameMatch ? nameMatch[1].trim() : "",
+          logo: logoMatch ? logoMatch[1].trim() : "",
+          description: descriptionMatch ? descriptionMatch[1].trim() : "",
+          links,
+        };
+      });
+    }
+
     return result;
   } catch {
     return {};
@@ -319,6 +388,7 @@ export const getExpertise = cache(
         img5Link: metadata.img5Link,
         labels: metadata.labels,
         documentaires: metadata.documentaires,
+        supports: metadata.supports,
         sectionsLayout: undefined,
       };
     } catch {

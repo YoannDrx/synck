@@ -12,7 +12,7 @@ type Documentaire = {
   link: string;
   category: string;
   height?: string;
-}
+};
 
 type DocumentairesGalleryProps = {
   documentaires: Documentaire[];
@@ -23,28 +23,38 @@ type DocumentairesGalleryProps = {
     empty: string;
     noResults: string;
   };
-}
+};
 
-export function DocumentairesGallery({ documentaires, copy }: DocumentairesGalleryProps) {
+export function DocumentairesGallery({
+  documentaires,
+  copy,
+}: DocumentairesGalleryProps) {
   const categories = Array.from(
-    new Set(documentaires.map((doc) => doc.category))
+    new Set(documentaires.map((doc) => doc.category)),
   ).filter(Boolean);
 
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const filteredDocs = documentaires
-    .filter((doc) => selectedCategory === "all" || doc.category === selectedCategory)
-    .filter((doc) => doc.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    .filter(
+      (doc) => selectedCategory === "all" || doc.category === selectedCategory,
+    )
+    .filter((doc) =>
+      doc.title.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
 
   // Group filtered docs by category for display
-  const groupedDocs = filteredDocs.reduce<Record<string, Documentaire[]>>((acc, doc) => {
-    if (!acc[doc.category]) {
-      acc[doc.category] = [];
-    }
-    acc[doc.category].push(doc);
-    return acc;
-  }, {});
+  const groupedDocs = filteredDocs.reduce<Record<string, Documentaire[]>>(
+    (acc, doc) => {
+      if (!acc[doc.category]) {
+        acc[doc.category] = [];
+      }
+      acc[doc.category].push(doc);
+      return acc;
+    },
+    {},
+  );
 
   return (
     <div className="mt-16">
@@ -59,13 +69,17 @@ export function DocumentairesGallery({ documentaires, copy }: DocumentairesGalle
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => { setSearchQuery(e.target.value); }}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
               placeholder={copy.searchPlaceholder}
               className="w-full rounded-full border-2 border-white/30 bg-black/20 px-6 py-3 text-white placeholder:text-white/50 focus:border-lime-300 focus:outline-none focus:ring-2 focus:ring-lime-300/50"
             />
             {searchQuery && (
               <button
-                onClick={() => { setSearchQuery(""); }}
+                onClick={() => {
+                  setSearchQuery("");
+                }}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
                 aria-label="Clear search"
               >
@@ -78,7 +92,9 @@ export function DocumentairesGallery({ documentaires, copy }: DocumentairesGalle
         {/* Filter Buttons */}
         <div className="mb-8 flex flex-wrap gap-3">
           <button
-            onClick={() => { setSelectedCategory("all"); }}
+            onClick={() => {
+              setSelectedCategory("all");
+            }}
             className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
               selectedCategory === "all"
                 ? "border-lime-300 bg-lime-300 text-[#050505]"
@@ -88,11 +104,15 @@ export function DocumentairesGallery({ documentaires, copy }: DocumentairesGalle
             {copy.filterAll} ({documentaires.length})
           </button>
           {categories.map((category) => {
-            const count = documentaires.filter((d) => d.category === category).length;
+            const count = documentaires.filter(
+              (d) => d.category === category,
+            ).length;
             return (
               <button
                 key={category}
-                onClick={() => { setSelectedCategory(category); }}
+                onClick={() => {
+                  setSelectedCategory(category);
+                }}
                 className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
                   selectedCategory === category
                     ? "border-lime-300 bg-lime-300 text-[#050505]"
@@ -121,14 +141,14 @@ export function DocumentairesGallery({ documentaires, copy }: DocumentairesGalle
                   className="group relative overflow-hidden border-4 border-white/10 bg-black/20 transition-all hover:border-lime-300 hover:scale-105"
                 >
                   {doc.srcLg && (
-                    <div className="relative aspect-[3/4] overflow-hidden bg-black/40">
-                    <Image
-                      src={doc.srcLg}
-                      alt={doc.title}
-                      fill
-                      sizes="(max-width: 1024px) 50vw, 20vw"
-                      className="object-contain transition-transform duration-500 group-hover:scale-105"
-                    />
+                    <div className="relative aspect-[5/4] overflow-hidden bg-black/40 p-4">
+                      <Image
+                        src={doc.srcLg}
+                        alt={doc.title}
+                        fill
+                        sizes="(max-width: 1024px) 50vw, 20vw"
+                        className="object-contain transition-transform duration-500 group-hover:scale-105 p-2"
+                      />
                     </div>
                   )}
                   <div className="p-3">
