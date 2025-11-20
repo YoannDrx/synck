@@ -1,0 +1,1 @@
+Une démonstration de minimalisme moderne avec une touche d'originalité, MINIMAL STORIES est un éventail de titres pour le drame humain, l'art, le documentaire, le film et l'histoire, composés et interprétés par Laurent Dury, compositeur français plusieurs fois récompensé.

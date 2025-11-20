@@ -1,0 +1,1 @@
+Des jeux vidéo, jeux d'arcade, rétro gaming et e-sport à la science-fiction, la science, la technologie, la robotique et l'automatisation, Pixel Fiction est l'ultime album cinématique de synthwave 8-bit composé par 2080 compositeur électro atypique reconnu dans l’univers musical Chiptune. PIXEL FICTION est une invitation à l’art geek des années 80.

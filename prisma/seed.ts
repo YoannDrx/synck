@@ -1,720 +1,617 @@
-/* eslint-disable no-console */
 import { PrismaClient } from "@prisma/client";
 import fs from "fs";
 import path from "path";
-import * as bcrypt from "bcryptjs";
+import matter from "gray-matter";
+import sharp from "sharp";
 
 const prisma = new PrismaClient();
 
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
 /**
- * Normalize image paths to match actual file names:
- * - Only normalize the filename, keep folder structure intact
- * - Convert filename to lowercase
- * - Replace .jpeg with .jpg
- * - Handle both /images/portfolio/ and /images/projets/
+ * Normalise un chemin d'image filesystem vers un chemin URL
  */
-function normalizeImagePath(
-  imagePath: string | undefined | null,
-): string | null {
+function normalizeImagePath(imagePath: string | null): string | null {
   if (!imagePath) return null;
 
-  // Replace portfolio with projets
-  let normalized = imagePath.replace("/images/portfolio/", "/images/projets/");
-
-  // Add public/ prefix if not present
-  if (normalized.startsWith("/images/")) {
-    normalized = `public${  normalized}`;
-  }
-
-  // Parse the path
-  const lastSlash = normalized.lastIndexOf("/");
-  const directory = normalized.substring(0, lastSlash + 1);
-  const filename = normalized.substring(lastSlash + 1);
-
-  // Normalize only the filename
-  const normalizedFilename = filename
-    .replace(/\.jpeg$/i, ".jpg") // .jpeg → .jpg
-    .replace(/\.png$/i, ".jpg") // .png → .jpg
-    .toLowerCase(); // Filename to lowercase
-
-  return directory + normalizedFilename;
+  return imagePath
+    .replace(/^\/images\/portfolio\//, "/images/projets/")
+    .replace(/^\/images\//, "public/images/")
+    .toLowerCase();
 }
 
-type PortfolioItem = {
-  id: number;
-  slug: string;
-  title: string;
-  subtitle?: string;
-  category: string;
-  externalLink?: string;
-  linkSpotify?: string;
-  src: string;
-  height?: string;
-  releaseDate?: string;
-  genre?: string;
-  compositeurs?: {
-    name: string;
-    compoImg?: string;
-    links?: string;
-  }[];
-  images?: {
-    w320?: number;
-    w575?: number;
-    w768?: number;
-    w991?: number;
-    w1080?: number;
-    w1199?: number;
-    w1380?: number;
-    w1400?: number;
-    w1540?: number;
-  };
-};
+/**
+ * Vérifie si un fichier image existe
+ */
+function imageExists(imagePath: string | null): boolean {
+  if (!imagePath) return false;
+  const fullPath = path.join(process.cwd(), imagePath);
+  return fs.existsSync(fullPath);
+}
 
-const descriptionCache = new Map<string, string>();
-const normalizeKey = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "");
+/**
+ * Charge un fichier markdown avec frontmatter
+ */
+function loadMarkdown(filePath: string): {
+  content: string;
+  frontmatter: any;
+} | null {
+  try {
+    const fullPath = path.join(process.cwd(), filePath);
+    if (!fs.existsSync(fullPath)) return null;
 
-function getDescriptionFromMarkdown(locale: "fr" | "en", slug: string) {
-  const cacheKey = `${locale}:${slug}`;
-  if (descriptionCache.has(cacheKey)) {
-    return descriptionCache.get(cacheKey) ?? null;
+    const fileContent = fs.readFileSync(fullPath, "utf-8");
+    const { data, content } = matter(fileContent);
+    return { content, frontmatter: data };
+  } catch (error) {
+    console.error(`❌ Erreur lecture ${filePath}:`, error);
+    return null;
   }
+}
 
-  const descriptionsDir = path.join(
-    process.cwd(),
-    "content",
-    "projets",
-    locale,
-    "descriptions",
-  );
-  if (!fs.existsSync(descriptionsDir)) {
+/**
+ * Crée un Asset avec blur placeholder
+ */
+async function createAsset(imagePath: string): Promise<any> {
+  const fullPath = path.join(process.cwd(), imagePath);
+
+  if (!fs.existsSync(fullPath)) {
+    console.warn(`   ⚠️  Image non trouvée : ${imagePath}`);
     return null;
   }
 
-  const normalizedSlug = normalizeKey(slug);
-  const files = fs.readdirSync(descriptionsDir);
-  const match = files.find(
-    (file) => normalizeKey(path.parse(file).name) === normalizedSlug,
-  );
+  try {
+    const imageBuffer = fs.readFileSync(fullPath);
+    const metadata = await sharp(imageBuffer).metadata();
 
-  if (!match) {
-    return null;
-  }
+    // Générer blur placeholder
+    const blurBuffer = await sharp(imageBuffer)
+      .resize(20, 20, { fit: "inside" })
+      .blur(10)
+      .toBuffer();
+    const base64 = blurBuffer.toString("base64");
+    const blurDataUrl = `data:image/jpeg;base64,${base64}`;
 
-  const content = fs
-    .readFileSync(path.join(descriptionsDir, match), "utf8")
-    .trim();
-  descriptionCache.set(cacheKey, content);
-  return content;
-}
+    const width = metadata.width || 0;
+    const height = metadata.height || 0;
+    const aspectRatio = width && height ? width / height : null;
 
-// Helper: slugify text
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w\-]+/g, "")
-    .replace(/\-\-+/g, "-");
-}
-
-// Helper: calculate aspect ratio from image path (simplified)
-function calculateAspectRatio(width?: number, height?: number): number | null {
-  if (width && height && height > 0) {
-    return width / height;
-  }
-  return null;
-}
-
-async function seedCategories(
-  dataFr: PortfolioItem[],
-  dataEn: PortfolioItem[],
-) {
-  console.log("🏷️  Seeding categories...");
-
-  // Extract unique categories from FR data
-  const categoriesMapFr = new Map<string, string>();
-  dataFr.forEach((item) => {
-    if (item.category && !categoriesMapFr.has(item.category)) {
-      categoriesMapFr.set(item.category, slugify(item.category));
-    }
-  });
-
-  // Map FR category name to EN category name
-  const categoryTranslationMap = new Map<string, string>();
-  dataFr.forEach((itemFr, index) => {
-    const itemEn = dataEn[index];
-    if (itemFr.category && itemEn?.category) {
-      categoryTranslationMap.set(itemFr.category, itemEn.category);
-    }
-  });
-
-  // Create categories with translations
-  let order = 0;
-  for (const [nameFr, slug] of categoriesMapFr) {
-    const nameEn = categoryTranslationMap.get(nameFr) ?? nameFr;
-
-    await prisma.category.upsert({
-      where: { slug },
-      update: {},
+    const asset = await prisma.asset.upsert({
+      where: { path: imagePath },
       create: {
-        slug,
-        order: order++,
-        isActive: true,
-        translations: {
-          create: [
-            { locale: "fr", name: nameFr },
-            { locale: "en", name: nameEn },
-          ],
-        },
+        path: imagePath,
+        width,
+        height,
+        aspectRatio,
+        blurDataUrl,
       },
-    });
-  }
-
-  console.log(`✅ Created ${String(categoriesMapFr.size)} categories`);
-}
-
-async function seedComposers(dataFr: PortfolioItem[]) {
-  console.log("🎵 Seeding composers...");
-
-  // Extract all unique composers (deduplicate by name)
-  const composersMap = new Map<
-    string,
-    { name: string; image?: string; links?: string }
-  >();
-
-  dataFr.forEach((item) => {
-    if (item.compositeurs && Array.isArray(item.compositeurs)) {
-      item.compositeurs.forEach((comp) => {
-        if (comp.name && !composersMap.has(comp.name)) {
-          composersMap.set(comp.name, {
-            name: comp.name,
-            image: comp.compoImg,
-            links: comp.links,
-          });
-        }
-      });
-    }
-  });
-
-  console.log(`Found ${String(composersMap.size)} unique composers`);
-
-  // Create composers
-  let order = 0;
-  for (const [name, data] of composersMap) {
-    const slug = slugify(name);
-
-    // Create asset for composer image if exists
-    let imageId: string | undefined;
-    const normalizedImagePath = normalizeImagePath(data.image);
-    if (normalizedImagePath) {
-      const asset = await prisma.asset.upsert({
-        where: { path: normalizedImagePath },
-        update: {},
-        create: {
-          path: normalizedImagePath,
-          alt: `Photo de ${name}`,
-        },
-      });
-      imageId = asset.id;
-    }
-
-    // Extract external URL (handle both string and object formats)
-    let externalUrl: string | null = null;
-    if (data.links) {
-      if (typeof data.links === "string") {
-        externalUrl = data.links;
-      } else if (typeof data.links === "object" && data.links !== null) {
-        // If it's an object, try to get the first URL value
-        const urlValues = Object.values(data.links).filter(
-          (v): v is string => typeof v === "string",
-        );
-        externalUrl = urlValues.length > 0 ? urlValues[0] : null;
-      }
-    }
-
-    await prisma.composer.upsert({
-      where: { slug },
-      update: {},
-      create: {
-        slug,
-        imageId,
-        externalUrl, // Add external URL (YouTube, SoundCloud, etc.)
-        order: order++,
-        isActive: true,
-        translations: {
-          create: [
-            { locale: "fr", name },
-            { locale: "en", name }, // Same name for both locales (composers' names don't change)
-          ],
-        },
-      },
-    });
-  }
-
-  console.log(`✅ Created ${String(composersMap.size)} composers`);
-}
-
-async function seedWorks(dataFr: PortfolioItem[], dataEn: PortfolioItem[]) {
-  console.log("🎨 Seeding works...");
-
-  for (let i = 0; i < dataFr.length; i++) {
-    const itemFr = dataFr[i];
-    const itemEn = dataEn[i];
-
-    if (!itemFr || !itemEn) continue;
-
-    // Find category
-    const categorySlug = slugify(itemFr.category ?? "other");
-    const category = await prisma.category.findUnique({
-      where: { slug: categorySlug },
-    });
-
-    if (!category) {
-      console.warn(`⚠️  Category not found for slug: ${categorySlug}`);
-      continue;
-    }
-
-    // Create cover image asset
-    let coverImageId: string | undefined;
-    const normalizedCoverPath = normalizeImagePath(itemFr.src);
-    if (normalizedCoverPath) {
-      const asset = await prisma.asset.upsert({
-        where: { path: normalizedCoverPath },
-        update: {},
-        create: {
-          path: normalizedCoverPath,
-          alt: itemFr.title,
-          // Use first available width/height from images object
-          width: itemFr.images?.w1080 ?? itemFr.images?.w768 ?? undefined,
-          height: itemFr.height ? parseInt(itemFr.height, 10) : undefined,
-          aspectRatio:
-            calculateAspectRatio(
-              itemFr.images?.w1080 ?? itemFr.images?.w768,
-              itemFr.height ? parseInt(itemFr.height, 10) : undefined,
-            ) ?? undefined,
-        },
-      });
-      coverImageId = asset.id;
-    }
-
-    // Parse year from releaseDate (format: DD/MM/YYYY)
-    let year: number | undefined;
-    if (itemFr.releaseDate) {
-      const parts = itemFr.releaseDate.split("/");
-      if (parts.length === 3) {
-        year = parseInt(parts[2], 10);
-      }
-    }
-
-    const descriptionFr =
-      getDescriptionFromMarkdown("fr", itemFr.slug) ??
-      itemFr.subtitle ??
-      undefined;
-    const descriptionEn =
-      getDescriptionFromMarkdown("en", itemEn.slug) ??
-      itemEn.subtitle ??
-      undefined;
-
-    // Create work
-    const work = await prisma.work.upsert({
-      where: { slug: itemFr.slug },
       update: {
-        externalUrl: itemFr.externalLink ?? null, // Update external URL for existing works
+        width,
+        height,
+        aspectRatio,
+        blurDataUrl,
       },
+    });
+
+    return asset;
+  } catch (error) {
+    console.error(`   ❌ Erreur création asset ${imagePath}:`, error);
+    return null;
+  }
+}
+
+// ============================================
+// SEED CATEGORIES
+// ============================================
+
+async function seedCategories() {
+  console.log("\n🏷️  Seeding categories...");
+
+  const categoriesPath = path.join(process.cwd(), "seed-data/categories.json");
+  const categoriesData = JSON.parse(fs.readFileSync(categoriesPath, "utf-8"));
+
+  let created = 0;
+  for (const cat of categoriesData) {
+    await prisma.category.upsert({
+      where: { slug: cat.slug },
       create: {
-        slug: itemFr.slug,
-        categoryId: category.id,
-        coverImageId,
-        year,
-        spotifyUrl: itemFr.linkSpotify ?? null, // Add Spotify URL
-        externalUrl: itemFr.externalLink ?? null, // Add external URL (YouTube, etc.)
-        releaseDate: itemFr.releaseDate ?? null, // Add release date
-        genre: itemFr.genre ?? null, // Add genre
-        order: itemFr.id,
-        isActive: true,
-        isFeatured: false,
+        slug: cat.slug,
+        color: cat.color,
+        icon: cat.icon,
+        order: cat.order,
+        isActive: cat.isActive,
         translations: {
           create: [
-            {
-              locale: "fr",
-              title: itemFr.title,
-              description: descriptionFr,
-            },
-            {
-              locale: "en",
-              title: itemEn.title,
-              description: descriptionEn,
-            },
+            { locale: "fr", name: cat.nameFr },
+            { locale: "en", name: cat.nameEn },
+          ],
+        },
+      },
+      update: {
+        color: cat.color,
+        icon: cat.icon,
+        order: cat.order,
+        isActive: cat.isActive,
+        translations: {
+          deleteMany: {},
+          create: [
+            { locale: "fr", name: cat.nameFr },
+            { locale: "en", name: cat.nameEn },
+          ],
+        },
+      },
+    });
+    created++;
+  }
+
+  console.log(`✅ Created ${created} categories`);
+}
+
+// ============================================
+// SEED LABELS
+// ============================================
+
+async function seedLabels() {
+  console.log("\n🏢 Seeding labels...");
+
+  const labelsPath = path.join(process.cwd(), "seed-data/labels.json");
+  const labelsData = JSON.parse(fs.readFileSync(labelsPath, "utf-8"));
+
+  let created = 0;
+  for (const label of labelsData) {
+    await prisma.label.upsert({
+      where: { slug: label.slug },
+      create: {
+        slug: label.slug,
+        website: label.website || null,
+        translations: {
+          create: [
+            { locale: "fr", name: label.name || label.slug, description: label.description },
+            { locale: "en", name: label.name || label.slug, description: label.description },
+          ],
+        },
+      },
+      update: {
+        website: label.website || null,
+        translations: {
+          deleteMany: {},
+          create: [
+            { locale: "fr", name: label.name || label.slug, description: label.description },
+            { locale: "en", name: label.name || label.slug, description: label.description },
+          ],
+        },
+      },
+    });
+    created++;
+  }
+
+  console.log(`✅ Created ${created} labels`);
+}
+
+// ============================================
+// SEED COMPOSERS
+// ============================================
+
+async function seedComposers() {
+  console.log("\n🎵 Seeding composers...");
+
+  const composersPath = path.join(process.cwd(), "seed-data/composers.json");
+  const composersData = JSON.parse(fs.readFileSync(composersPath, "utf-8"));
+
+  let created = 0;
+  for (const comp of composersData) {
+    // Créer l'image si elle existe
+    let imageAsset = null;
+    if (comp.image && imageExists(comp.image)) {
+      imageAsset = await createAsset(comp.image);
+    }
+
+    // Créer le compositeur
+    const composer = await prisma.composer.upsert({
+      where: { slug: comp.slug },
+      create: {
+        slug: comp.slug,
+        externalUrl: comp.externalUrl,
+        order: comp.order,
+        isActive: comp.isActive,
+        imageId: imageAsset?.id || null,
+        translations: {
+          create: [
+            { locale: "fr", name: comp.name },
+            { locale: "en", name: comp.name },
+          ],
+        },
+      },
+      update: {
+        externalUrl: comp.externalUrl,
+        order: comp.order,
+        isActive: comp.isActive,
+        imageId: imageAsset?.id || null,
+        translations: {
+          deleteMany: {},
+          create: [
+            { locale: "fr", name: comp.name },
+            { locale: "en", name: comp.name },
           ],
         },
       },
     });
 
-    // Create contributions (Work ↔ Composers)
-    if (itemFr.compositeurs && Array.isArray(itemFr.compositeurs)) {
-      for (let j = 0; j < itemFr.compositeurs.length; j++) {
-        const comp = itemFr.compositeurs[j];
-        const composerSlug = slugify(comp.name);
-        const composer = await prisma.composer.findUnique({
-          where: { slug: composerSlug },
+    // Créer les liens multiples si présents
+    if (comp.links && Array.isArray(comp.links) && comp.links.length > 0) {
+      // Supprimer les anciens liens
+      await prisma.composerLink.deleteMany({
+        where: { composerId: composer.id },
+      });
+
+      // Créer les nouveaux liens
+      for (const link of comp.links) {
+        await prisma.composerLink.create({
+          data: {
+            composerId: composer.id,
+            platform: link.platform || "other",
+            url: link.url,
+            label: link.label || null,
+            order: link.order || 0,
+          },
+        });
+      }
+    }
+
+    created++;
+  }
+
+  console.log(`✅ Created ${created} composers`);
+}
+
+// ============================================
+// SEED WORKS
+// ============================================
+
+async function seedWorks() {
+  console.log("\n🎨 Seeding works...");
+
+  const worksPath = path.join(process.cwd(), "seed-data/works.json");
+  const worksData = JSON.parse(fs.readFileSync(worksPath, "utf-8"));
+
+  // Filtrer uniquement les works avec des images valides
+  const validWorks = worksData.filter((work: any) => work.coverImageExists);
+
+  console.log(
+    `   Filtering: ${validWorks.length}/${worksData.length} works with valid images`,
+  );
+
+  // Récupérer toutes les catégories et labels
+  const categories = await prisma.category.findMany();
+  const labels = await prisma.label.findMany();
+  const composers = await prisma.composer.findMany();
+
+  const categoriesMap = new Map(categories.map((c) => [c.slug, c]));
+  const labelsMap = new Map(labels.map((l) => [l.slug, l]));
+  const composersMap = new Map(composers.map((c) => [c.slug, c]));
+
+  let created = 0;
+  let skipped = 0;
+
+  for (const work of validWorks) {
+    try {
+      // Trouver la catégorie
+      const categorySlug = work.category
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+      const category = categoriesMap.get(categorySlug);
+      if (!category) {
+        console.warn(`   ⚠️  Category not found for ${work.slug}: ${categorySlug}`);
+        skipped++;
+        continue;
+      }
+
+      // Créer le cover image asset
+      const coverImageAsset = await createAsset(work.coverImage);
+      if (!coverImageAsset) {
+        console.warn(`   ⚠️  Failed to create cover image for ${work.slug}`);
+        skipped++;
+        continue;
+      }
+
+      // Trouver le label
+      const label = work.labelSlug ? labelsMap.get(work.labelSlug) : null;
+
+      // Charger les descriptions markdown
+      const descFrPath = `seed-data/descriptions/fr/${work.slug}.md`;
+      const descEnPath = `seed-data/descriptions/en/${work.slug}.md`;
+      const descFr = loadMarkdown(descFrPath);
+      const descEn = loadMarkdown(descEnPath);
+
+      // Créer le work
+      const createdWork = await prisma.work.upsert({
+        where: { slug: work.slug },
+        create: {
+          slug: work.slug,
+          categoryId: category.id,
+          labelId: label?.id || null,
+          coverImageId: coverImageAsset.id,
+          externalUrl: work.externalUrl,
+          isActive: work.isActive,
+          order: work.order,
+          translations: {
+            create: [
+              {
+                locale: "fr",
+                title: work.titleFr,
+                subtitle: work.subtitleFr || null,
+                description: descFr?.content || null,
+              },
+              {
+                locale: "en",
+                title: work.titleEn || work.titleFr,
+                subtitle: work.subtitleEn || work.subtitleFr || null,
+                description: descEn?.content || descFr?.content || null,
+              },
+            ],
+          },
+        },
+        update: {
+          categoryId: category.id,
+          labelId: label?.id || null,
+          coverImageId: coverImageAsset.id,
+          externalUrl: work.externalUrl,
+          isActive: work.isActive,
+          order: work.order,
+          translations: {
+            deleteMany: {},
+            create: [
+              {
+                locale: "fr",
+                title: work.titleFr,
+                subtitle: work.subtitleFr || null,
+                description: descFr?.content || null,
+              },
+              {
+                locale: "en",
+                title: work.titleEn || work.titleFr,
+                subtitle: work.subtitleEn || work.subtitleFr || null,
+                description: descEn?.content || descFr?.content || null,
+              },
+            ],
+          },
+        },
+      });
+
+      // Créer les contributions (relations Work ↔ Composer)
+      if (work.composers && Array.isArray(work.composers)) {
+        // Supprimer les anciennes contributions
+        await prisma.contribution.deleteMany({
+          where: { workId: createdWork.id },
         });
 
-        if (composer) {
-          await prisma.contribution.upsert({
-            where: {
-              workId_composerId: {
-                workId: work.id,
+        // Créer les nouvelles
+        for (let i = 0; i < work.composers.length; i++) {
+          const comp = work.composers[i];
+          const composer = composersMap.get(comp.slug);
+
+          if (composer) {
+            await prisma.contribution.create({
+              data: {
+                workId: createdWork.id,
                 composerId: composer.id,
+                role: comp.role || "composer",
+                order: i,
               },
-            },
-            update: {},
-            create: {
-              workId: work.id,
-              composerId: composer.id,
-              role: "composer",
-              order: j,
-            },
-          });
+            });
+          }
         }
       }
-    }
 
-    console.log(`✅ Created work: ${itemFr.title}`);
+      created++;
+      if (created % 50 === 0) {
+        console.log(`   Progress: ${created}/${validWorks.length} works created...`);
+      }
+    } catch (error) {
+      console.error(`   ❌ Error creating work ${work.slug}:`, error);
+      skipped++;
+    }
   }
 
-  console.log(`✅ Created ${String(dataFr.length)} works`);
+  console.log(`✅ Created ${created} works (${skipped} skipped)`);
 }
 
-type ExpertiseFrontmatter = {
-  id: string;
-  title: string;
-  description: string;
-  slug: string;
-  imgHome: string;
-  img1?: string;
-  img2?: string;
-  img3?: string;
-  img4?: string;
-  img5?: string;
-  imgFooter?: string;
-};
-
-// Parse frontmatter and content from markdown
-function parseExpertiseMarkdown(filePath: string): {
-  frontmatter: ExpertiseFrontmatter;
-  content: string;
-} {
-  const fileContent = fs.readFileSync(filePath, "utf-8");
-
-  // Extract frontmatter
-  const frontmatterMatch = /^---\n([\s\S]*?)\n---/.exec(fileContent);
-  if (!frontmatterMatch) {
-    throw new Error(`No frontmatter found in ${filePath}`);
-  }
-
-  const frontmatterStr = frontmatterMatch[1];
-  const frontmatter: Record<string, string> = {};
-
-  // Parse each line of frontmatter
-  frontmatterStr.split("\n").forEach((line) => {
-    const match = /^(\w+):\s*(.*)$/.exec(line);
-    if (match) {
-      const [, key, value] = match;
-      // Remove quotes if present
-      frontmatter[key] = value.replace(/^["']|["']$/g, "");
-    }
-  });
-
-  // Extract content (everything after frontmatter)
-  const content = fileContent.replace(/^---\n[\s\S]*?\n---\n/, "").trim();
-
-  return {
-    frontmatter: frontmatter as unknown as ExpertiseFrontmatter,
-    content,
-  };
-}
-
-// Normalize expertise image path
-function normalizeExpertiseImagePath(imagePath: string): string {
-  // Remove leading slash
-  let normalized = imagePath.replace(/^\//, "");
-
-  // Replace "images/" with "public/images/projets/expertises/"
-  normalized = normalized.replace(
-    /^images\//,
-    "public/images/projets/expertises/",
-  );
-
-  // Fix common path issues
-  normalized = normalized
-    .replace(/droit-auteur/g, "droits-auteur")
-    .replace(/droit-voisin/g, "droits-voisins")
-    .replace(/\/subvention\//g, "/dossier-subvention/")
-    .replace(/\/gestion-admin\//g, "/gestion-administrative-et-editoriale/")
-    .replace(/\/gestion-distrib\//g, "/gestion-distribution/")
-    .replace(/\/soused\//g, "/sous-edition/");
-
-  return normalized;
-}
+// ============================================
+// SEED EXPERTISES
+// ============================================
 
 async function seedExpertises() {
   console.log("\n🎓 Seeding expertises...");
 
-  const expertisesDir = path.join(process.cwd(), "content", "expertises");
+  const expertisesDir = path.join(process.cwd(), "seed-data/expertises");
+  const expertisesFr = fs.readdirSync(path.join(expertisesDir, "fr"));
 
-  // Check if directory exists
-  if (!fs.existsSync(expertisesDir)) {
-    console.log("⚠️  Expertises directory not found, skipping");
-    return;
-  }
+  let created = 0;
 
-  const slugs = [
-    "dossier-subvention",
-    "droits-auteur",
-    "droits-voisins",
-    "gestion-administrative-et-editoriale",
-    "gestion-distribution",
-    "mise-en-page",
-    "sous-edition",
-  ];
+  for (const filename of expertisesFr) {
+    if (!filename.endsWith(".md")) continue;
 
-  for (let i = 0; i < slugs.length; i++) {
-    const slug = slugs[i];
+    const slug = filename.replace(".md", "");
 
-    // Read French and English versions
-    const frPath = path.join(expertisesDir, "fr", `${slug}.md`);
-    const enPath = path.join(expertisesDir, "en", `${slug}.md`);
+    // Charger FR et EN
+    const expertiseFr = loadMarkdown(
+      path.join(expertisesDir, "fr", filename),
+    );
+    const expertiseEn = loadMarkdown(
+      path.join(expertisesDir, "en", filename),
+    );
 
-    if (!fs.existsSync(frPath) || !fs.existsSync(enPath)) {
-      console.warn(`   ⚠️  Missing files for ${slug}, skipping`);
+    if (!expertiseFr) {
+      console.warn(`   ⚠️  Skipping ${slug} - FR file not found`);
       continue;
     }
 
-    const frData = parseExpertiseMarkdown(frPath);
-    const enData = parseExpertiseMarkdown(enPath);
+    // Diviser le contenu en sections (séparées par <!-- section:end -->)
+    const contentFr = expertiseFr.content.split("<!-- section:end -->");
+    const contentEn = expertiseEn
+      ? expertiseEn.content.split("<!-- section:end -->")
+      : contentFr;
 
-    // Create cover image asset
-    let coverImageId: string | undefined;
-    if (frData.frontmatter.imgHome) {
-      const coverPath = normalizeExpertiseImagePath(frData.frontmatter.imgHome);
-      const coverImage = await prisma.asset.upsert({
-        where: { path: coverPath },
-        update: {},
-        create: {
-          path: coverPath,
-          alt: frData.frontmatter.title,
-        },
-      });
-      coverImageId = coverImage.id;
-    }
+    // Créer les assets pour les images
+    const images: any[] = [];
+    const frontmatter = expertiseFr.frontmatter;
 
-    // Create expertise
-    const expertise = await prisma.expertise.upsert({
-      where: { slug },
-      update: {
-        order: i,
-        isActive: true,
-        coverImageId,
-      },
-      create: {
-        slug,
-        order: i,
-        isActive: true,
-        coverImageId,
-      },
-    });
-
-    // Create translations
-    await prisma.expertiseTranslation.upsert({
-      where: {
-        expertiseId_locale: {
-          expertiseId: expertise.id,
-          locale: "fr",
-        },
-      },
-      update: {
-        title: frData.frontmatter.title,
-        subtitle: null,
-        description: frData.frontmatter.description,
-        content: frData.content,
-      },
-      create: {
-        expertiseId: expertise.id,
-        locale: "fr",
-        title: frData.frontmatter.title,
-        subtitle: null,
-        description: frData.frontmatter.description,
-        content: frData.content,
-      },
-    });
-
-    await prisma.expertiseTranslation.upsert({
-      where: {
-        expertiseId_locale: {
-          expertiseId: expertise.id,
-          locale: "en",
-        },
-      },
-      update: {
-        title: enData.frontmatter.title,
-        subtitle: null,
-        description: enData.frontmatter.description,
-        content: enData.content,
-      },
-      create: {
-        expertiseId: expertise.id,
-        locale: "en",
-        title: enData.frontmatter.title,
-        subtitle: null,
-        description: enData.frontmatter.description,
-        content: enData.content,
-      },
-    });
-
-    // Create gallery images and link to expertise
-    const imageKeys = [
-      "img1",
-      "img2",
-      "img3",
-      "img4",
-      "img5",
-      "imgFooter",
-    ] as const;
-    for (const key of imageKeys) {
-      const imagePath = frData.frontmatter[key];
-      if (imagePath) {
-        const normalizedPath = normalizeExpertiseImagePath(imagePath);
-
-        // Create/update asset
-        const asset = await prisma.asset.upsert({
-          where: { path: normalizedPath },
-          update: {},
-          create: {
-            path: normalizedPath,
-            alt: `${frData.frontmatter.title} - ${key}`,
-          },
-        });
-
-        // Check if already connected
-        const existing = await prisma.expertise.findFirst({
-          where: {
-            id: expertise.id,
-            images: {
-              some: { id: asset.id },
-            },
-          },
-        });
-
-        // Connect if not already connected
-        if (!existing) {
-          await prisma.expertise.update({
-            where: { id: expertise.id },
-            data: {
-              images: {
-                connect: { id: asset.id },
-              },
-            },
-          });
+    for (const key of Object.keys(frontmatter)) {
+      if (key.startsWith("img")) {
+        const imgPath = normalizeImagePath(frontmatter[key]);
+        if (imgPath && imageExists(imgPath)) {
+          const asset = await createAsset(imgPath);
+          if (asset) {
+            images.push({
+              key,
+              assetId: asset.id,
+              order: parseInt(key.replace(/\D/g, "")) || 0,
+            });
+          }
         }
       }
     }
 
-    console.log(`   ✅ ${frData.frontmatter.title}`);
+    // Créer l'expertise
+    const expertise = await prisma.expertise.upsert({
+      where: { slug },
+      create: {
+        slug,
+        order: parseInt(frontmatter.id) || 0,
+        isActive: true,
+        translations: {
+          create: [
+            {
+              locale: "fr",
+              title: frontmatter.title || slug,
+              description: frontmatter.description || "",
+              content: contentFr.join("\n<!-- section:end -->\n"),
+            },
+            {
+              locale: "en",
+              title: expertiseEn?.frontmatter?.title || frontmatter.title || slug,
+              description:
+                expertiseEn?.frontmatter?.description ||
+                frontmatter.description ||
+                "",
+              content: contentEn.join("\n<!-- section:end -->\n"),
+            },
+          ],
+        },
+      },
+      update: {
+        order: parseInt(frontmatter.id) || 0,
+        isActive: true,
+        translations: {
+          deleteMany: {},
+          create: [
+            {
+              locale: "fr",
+              title: frontmatter.title || slug,
+              description: frontmatter.description || "",
+              content: contentFr.join("\n<!-- section:end -->\n"),
+            },
+            {
+              locale: "en",
+              title: expertiseEn?.frontmatter?.title || frontmatter.title || slug,
+              description:
+                expertiseEn?.frontmatter?.description ||
+                frontmatter.description ||
+                "",
+              content: contentEn.join("\n<!-- section:end -->\n"),
+            },
+          ],
+        },
+      },
+    });
+
+    // Associer les images
+    for (const img of images) {
+      await prisma.expertiseImage.upsert({
+        where: {
+          expertiseId_key: {
+            expertiseId: expertise.id,
+            key: img.key,
+          },
+        },
+        create: {
+          expertiseId: expertise.id,
+          assetId: img.assetId,
+          key: img.key,
+          order: img.order,
+        },
+        update: {
+          assetId: img.assetId,
+          order: img.order,
+        },
+      });
+    }
+
+    created++;
   }
 
-  console.log(`✅ Created ${String(slugs.length)} expertises`);
+  console.log(`✅ Created ${created} expertises`);
 }
 
-async function main() {
-  console.log("🌱 Starting database seed...\n");
-
-  // Load JSON data
-  const dataFrPath = path.join(
-    process.cwd(),
-    "content/projets/fr/metadata.json",
-  );
-  const dataEnPath = path.join(
-    process.cwd(),
-    "content/projets/en/metadata.json",
-  );
-
-  const dataFr = JSON.parse(
-    fs.readFileSync(dataFrPath, "utf-8"),
-  ) as PortfolioItem[];
-  const dataEn = JSON.parse(
-    fs.readFileSync(dataEnPath, "utf-8"),
-  ) as PortfolioItem[];
-
-  console.log(`📦 Loaded ${String(dataFr.length)} portfolio items (FR)`);
-  console.log(`📦 Loaded ${String(dataEn.length)} portfolio items (EN)\n`);
-
-  // Seed in order
-  await seedCategories(dataFr, dataEn);
-  await seedComposers(dataFr);
-  await seedWorks(dataFr, dataEn);
-
-  // Seed expertises
-  await seedExpertises();
-
-  // Seed admin user
-  await seedAdminUser();
-
-  console.log("\n🎉 Database seeding completed!");
-}
+// ============================================
+// SEED ADMIN USER
+// ============================================
 
 async function seedAdminUser() {
   console.log("\n👤 Seeding admin user...");
 
-  const adminEmail = process.env.ADMIN_EMAIL ?? "admin@synck.fr";
-  const adminPassword = process.env.ADMIN_PASSWORD ?? "admin123456";
+  const bcrypt = await import("bcryptjs");
+  const hashedPassword = await bcrypt.hash("admin123456", 10);
 
-  // Check if admin already exists
-  const existingAdmin = await prisma.user.findUnique({
-    where: { email: adminEmail },
+  await prisma.user.upsert({
+    where: { email: "admin@synck.fr" },
+    create: {
+      email: "admin@synck.fr",
+      name: "Admin",
+      password: hashedPassword,
+      emailVerified: new Date(),
+    },
+    update: {
+      password: hashedPassword,
+    },
   });
 
-  if (existingAdmin) {
-    console.log(`✅ Admin user already exists: ${adminEmail}`);
-    return;
+  console.log("✅ Admin user created: admin@synck.fr");
+  console.log("   Password: admin123456");
+  console.log("   ⚠️  IMPORTANT: Change this password after first login!");
+}
+
+// ============================================
+// MAIN SEED FUNCTION
+// ============================================
+
+async function main() {
+  console.log("🌱 Starting database seed...\n");
+
+  try {
+    await seedCategories();
+    await seedLabels();
+    await seedComposers();
+    await seedWorks();
+    await seedExpertises();
+    await seedAdminUser();
+
+    console.log("\n🎉 Database seeding completed!");
+  } catch (error) {
+    console.error("\n❌ Error during seeding:", error);
+    throw error;
   }
-
-  // Hash password using bcrypt (Better Auth uses bcrypt with 10 rounds)
-  const passwordHash = await bcrypt.hash(adminPassword, 10);
-
-  // Create admin user
-  const admin = await prisma.user.create({
-    data: {
-      email: adminEmail,
-      name: "Caroline Senyk",
-      role: "ADMIN",
-      isActive: true,
-      emailVerified: true,
-    },
-  });
-
-  // Create Account entry with password
-  await prisma.account.create({
-    data: {
-      userId: admin.id,
-      accountId: admin.id,
-      providerId: "credential",
-      password: passwordHash,
-    },
-  });
-
-  console.log(`✅ Admin user created: ${adminEmail}`);
-  console.log(`   Password: ${adminPassword}`);
-  console.log(`   ⚠️  IMPORTANT: Change this password after first login!`);
 }
 
 main()
-  .catch((e: unknown) => {
-    console.error("❌ Error during seeding:", e);
+  .catch((error) => {
+    console.error(error);
     process.exit(1);
   })
   .finally(async () => {

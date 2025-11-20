@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "slug": "album-de-librairie-musicale",
+    "nameFr": "Album de librairie musicale",
+    "nameEn": "Album de librairie musicale",
+    "color": "#d5ff0a",
+    "icon": "disc",
+    "order": 0,
+    "isActive": true
+  },
+  {
+    "id": 2,
+    "slug": "documentaires",
+    "nameFr": "documentaires",
+    "nameEn": "documentaires",
+    "color": "#d5ff0a",
+    "icon": "music",
+    "order": 1,
+    "isActive": true
+  },
+  {
+    "id": 3,
+    "slug": "synchros",
+    "nameFr": "synchros",
+    "nameEn": "synchros",
+    "color": "#d5ff0a",
+    "icon": "music",
+    "order": 2,
+    "isActive": true
+  },
+  {
+    "id": 4,
+    "slug": "vinyle",
+    "nameFr": "Vinyle",
+    "nameEn": "Vinyle",
+    "color": "#9c4aff",
+    "icon": "disc-3",
+    "order": 3,
+    "isActive": true
+  },
+  {
+    "id": 5,
+    "slug": "clips",
+    "nameFr": "clips",
+    "nameEn": "clips",
+    "color": "#d5ff0a",
+    "icon": "music",
+    "order": 4,
+    "isActive": true
+  },
+  {
+    "id": 6,
+    "slug": "documentaire",
+    "nameFr": "Documentaire",
+    "nameEn": "",
+    "color": "#4a90ff",
+    "icon": "film",
+    "order": 5,
+    "isActive": true
+  },
+  {
+    "id": 7,
+    "slug": "documentary",
+    "nameFr": "",
+    "nameEn": "Documentary",
+    "color": "#d5ff0a",
+    "icon": "music",
+    "order": 6,
+    "isActive": true
+  },
+  {
+    "id": 8,
+    "slug": "documentaries",
+    "nameFr": "",
+    "nameEn": "documentaries",
+    "color": "#d5ff0a",
+    "icon": "music",
+    "order": 7,
+    "isActive": true
+  }
+]

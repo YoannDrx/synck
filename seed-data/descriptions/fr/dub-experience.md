@@ -1,0 +1,3 @@
+Passionnés par les musiques jamaïcaines et leurs rythmes qu’ils pratiquent depuis une vingtaine d’années, initiés et soutenus par les maitres des tambours rasta, Nicolas Belouet (Nicodrum), Thomas Cirade, Yann Jaffré (spécialiste de la Dub musique) et Jimmy Zaccardelli perpétuent un savoir-faire où le plaisir de composer et de jouer dégage de belles vibrations.
+
+DUB EXPERIENCE présente 10 titres pour les rockers, les rastas et les steppers. Des racines originales des années 70 au reggae contemporain expérimental, profitez de cet album de rythmes dub, de guitares skanking, de cuivres jazzy, de synthés soniques : une ode aux voyages exotiques, d’été sur la plage et de dub chillin'.

@@ -1,0 +1,1 @@
+EDM FROM PARIS est un album de dance énergique, épique et exubérant mêlant Future Garage, Future Beat et House, pour un son hypnotique, stratifié et innovant. Un mélange explosif et déroutant par Ducer & Ghostmaker.
