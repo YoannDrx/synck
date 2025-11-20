@@ -65,6 +65,11 @@ type WorkData = {
   coverImage: string;
   coverImageExists: boolean;
   externalUrl?: string;
+  spotifyUrl?: string;
+  releaseDate?: string;
+  genre?: string;
+  duration?: number;
+  isrc?: string;
   isActive: boolean;
   order: number;
   composers?: WorkComposerData[];
@@ -439,6 +444,15 @@ async function seedWorks() {
       const descFr = loadMarkdown(descFrPath);
       const descEn = loadMarkdown(descEnPath);
 
+      // Extraire l'année de la date de sortie (format DD/MM/YYYY)
+      let year: number | null = null;
+      if (work.releaseDate) {
+        const parts = work.releaseDate.split("/");
+        if (parts.length === 3) {
+          year = parseInt(parts[2], 10);
+        }
+      }
+
       // Créer le work
       const createdWork = await prisma.work.upsert({
         where: { slug: work.slug },
@@ -447,7 +461,13 @@ async function seedWorks() {
           categoryId: category.id,
           labelId: label?.id ?? null,
           coverImageId: coverImageAsset.id,
-          externalUrl: work.externalUrl,
+          externalUrl: work.externalUrl ?? null,
+          spotifyUrl: work.spotifyUrl ?? null,
+          releaseDate: work.releaseDate ?? null,
+          genre: work.genre ?? null,
+          year,
+          duration: work.duration ?? null,
+          isrcCode: work.isrc ?? null,
           isActive: work.isActive,
           order: work.order,
           translations: {
@@ -469,7 +489,13 @@ async function seedWorks() {
           categoryId: category.id,
           labelId: label?.id ?? null,
           coverImageId: coverImageAsset.id,
-          externalUrl: work.externalUrl,
+          externalUrl: work.externalUrl ?? null,
+          spotifyUrl: work.spotifyUrl ?? null,
+          releaseDate: work.releaseDate ?? null,
+          genre: work.genre ?? null,
+          year,
+          duration: work.duration ?? null,
+          isrcCode: work.isrc ?? null,
           isActive: work.isActive,
           order: work.order,
           translations: {
