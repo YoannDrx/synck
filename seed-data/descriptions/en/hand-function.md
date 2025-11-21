@@ -1,0 +1,1 @@
+Aeon Seven's first full-length album is finally here. 

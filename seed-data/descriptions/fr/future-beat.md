@@ -1,0 +1,5 @@
+Après trois titres consécutifs de champion du monde DMC par équipe, 9 O'Clock laisse le spectre technique s'évaporer pour mieux affirmer son identité profonde avec la sortie de cet album. Mr Viktor, Aociz et Dj Hertz ont condensé des années d'exploration musicale : ici, le son est protéiforme, glisse dans les sillons creusés par la French Touch des 90's autant qu'elle emprunte à la scène Future Beat, s'engouffre un temps dans des travées house avant de réapparaitre sous des atours pop.
+
+Pour cela, le groupe s'est affranchi des barrières stylistiques, trouvant l'équilibre entre les différents ingrédients qui le composent. Cette équation complexe, dans laquelle s'additionnent le goût d'une musique aux contours futuristes et la trace indélébile des classiques, fait entendre à chacun quelque chose de différent.
+
+Une esthétique percutante et raffinée, marque du perfectionnisme qui caractérise 9 O'Clock depuis ses débuts. Future Beat, Future Bass, Cloud Trap, Vaporwave, FUTURE BEAT est une démonstration de musique électronique : 17 titres par O'Clock, Ducer et Bonetrips.

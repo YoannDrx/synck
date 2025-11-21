@@ -1,0 +1,3 @@
+Ce projet est issu de la rencontre entre PARIGO et de brillants compositeurs de renom tous reconnus dans l’univers de la musique expérimentale, entre rock, punk et électro. Une collaboration pointue et passionnée entre un producteur de musique à l’image et des musiciens de talent issus de la scène rock underground.
+
+Du thrash punk au post hardcore en passant par l'indie rock des années 90 et la new wave glam, c'est un voyage anarchique à travers le rock fait pour la culture de la jeunesse anti-establishment et l'action extrême. 16 titres explosifs dont 12 chansons par les frères Jean-Baptiste et Frédéric Hanak des groupes français dDamage & dDash.

@@ -1,0 +1,3 @@
+Influencé par le courant musical Post Punk, Minimal Wave et Early Electronic Body Music, Modulhater a composé la totalité de cet album nommé ACID. Ce projet s'adresse au dancefloor et rend hommage aux grandes heures de l'Acid Techno, du New beat et de l'Electro Body Music avec des titres percutants, rappelant Nitzer Ebb, Front 242, Gesaffelstein ou Arnaud Rebotini. Basslines acides, kicks lourds et puissants pour une virée sans concessions dans un univers ou les machines ont pris le contrôle.
+
+Techno originale des années 80 et 90, Acid, Electronic Body Music (EBM), Industrial et Rave : Les claviers analogiques Korg et Roland et les boîtes à rythmes sont là pour vous faire voyager de Berlin à Detroit sur ces 11 titres.

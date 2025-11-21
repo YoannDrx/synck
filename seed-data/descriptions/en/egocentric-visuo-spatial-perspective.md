@@ -1,0 +1,1 @@
+Hexahedre is the musical and visual encounter of the two artists JB Hanak (dDamage) and Cyril Laurent (Lambwool). 

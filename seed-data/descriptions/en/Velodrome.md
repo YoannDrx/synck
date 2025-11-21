@@ -1,0 +1,1 @@
+Since the early 2000s, Thomas PAPAY (aka Le Diktat) has released several remarkable records on the Audiotrauma, Syrphe and OPN labels. 

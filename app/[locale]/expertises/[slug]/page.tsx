@@ -8,7 +8,8 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { DocumentairesGallery } from "@/components/documentaires-gallery";
 import { AlternatingSection } from "@/components/alternating-section";
 import { ExpertisesCarousel } from "@/components/expertises-carousel";
-import { PrismaClient } from "@prisma/client";
+import { SupportsGrid } from "@/components/supports-grid";
+import { ProductionCompaniesGrid } from "@/components/production-companies-grid";
 
 // Generate static params for all expertise slugs
 export async function generateStaticParams() {
@@ -35,7 +36,7 @@ type ExpertiseDetailParams = {
 
 export default async function ExpertiseDetailPage({ params }: ExpertiseDetailParams) {
   const { locale, slug } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr");
+  const safeLocale = locale === "en" ? "en" : "fr";
   const expertise = await getExpertise(slug, safeLocale);
   const allExpertises = await getAllExpertises(safeLocale);
   const dictionary = await getDictionary(safeLocale);
@@ -45,68 +46,8 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
     notFound();
   }
 
-  // Always load documentaires from Prisma for "gestion-administrative-et-editoriale"
-  type DocumentaireItem = {
-    title: string;
-    subtitle: string;
-    href: string;
-    src: string;
-    srcLg: string;
-    link: string;
-    category: string;
-    height: string;
-  }
-  let documentaires: DocumentaireItem[] = [];
-
-  if (slug === "gestion-administrative-et-editoriale") {
-    const prisma = new PrismaClient();
-
-    try {
-      const works = await prisma.work.findMany({
-        where: {
-          isActive: true,
-          category: {
-            slug: 'documentaires'
-          }
-        },
-        include: {
-          label: {
-            include: {
-              translations: {
-                where: { locale: safeLocale }
-              }
-            }
-          },
-          coverImage: true,
-          translations: {
-            where: { locale: safeLocale }
-          }
-        },
-        orderBy: {
-          order: 'asc'
-        }
-      });
-
-      // Transform to the format expected by DocumentairesGallery
-      documentaires = works.map(work => {
-        const translation = work.translations[0];
-        const labelTranslation = work.label?.translations[0];
-
-        return {
-          title: translation?.title ?? work.slug,
-          subtitle: labelTranslation?.name ?? work.label?.slug ?? '',
-          href: work.coverImage?.path ?? '',
-          src: work.coverImage?.path ?? '',
-          srcLg: work.coverImage?.path ?? '',
-          link: work.externalUrl ?? '#',
-          category: work.label?.slug ?? 'autre',
-          height: ''
-        };
-      });
-    } finally {
-      await prisma.$disconnect();
-    }
-  }
+  // Use documentaires from markdown if available
+  const documentaires = expertise.documentaires ?? [];
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -122,7 +63,10 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
         <Breadcrumb
           items={[
             { label: dictionary.nav.home, href: `/${safeLocale}` },
-            { label: dictionary.nav.expertises, href: `/${safeLocale}/expertises` },
+            {
+              label: dictionary.nav.expertises,
+              href: `/${safeLocale}/expertises`,
+            },
             { label: expertise.title },
           ]}
         />
@@ -135,18 +79,14 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
             </span>
             <span>{expertise.title.slice(1)}</span>
           </h1>
-          {expertise.description && (
-            <p className="text-xl text-white/70 max-w-3xl">
-              {expertise.description}
-            </p>
-          )}
+          {expertise.description && <p className="text-xl text-white/70 max-w-3xl">{expertise.description}</p>}
         </div>
 
         {/* Alternating Sections with Images */}
         <div className="mb-16 md:mb-20 lg:mb-24">
           {expertise.sections.map((section, index) => {
-            const layout = getSectionLayout(expertise, index)
-            const isLast = index === expertise.sections.length - 1
+            const layout = getSectionLayout(expertise, index);
+            const isLast = index === expertise.sections.length - 1;
 
             return (
               <AlternatingSection
@@ -157,22 +97,32 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
                 index={index}
                 isLast={isLast}
               />
-            )
+            );
           })}
         </div>
+
+        {/* Supports Grid - Financial Support Organizations */}
+        {expertise.supports && expertise.supports.length > 0 && (
+          <SupportsGrid
+            supports={expertise.supports}
+            title={
+              safeLocale === "fr"
+                ? "Les aides pour les éditeurs et auteurs-compositeurs-interprètes"
+                : "Support for publishers and singer-songwriters"
+            }
+          />
+        )}
 
         {/* Labels Gallery - Full Width (Non-clickable for now) */}
         {expertise.labels && expertise.labels.length > 0 && (
           <div className="mt-16">
             <div className="border-4 border-white/10 bg-[#0a0a0e] p-8 shadow-[0_25px_60px_rgba(0,0,0,0.65)]">
-              <h3 className="mb-8 text-2xl font-bold uppercase tracking-tight text-lime-300">
-                {detailCopy.labelsTitle}
-              </h3>
+              <h3 className="mb-8 text-2xl font-bold uppercase tracking-tight text-lime-300">{detailCopy.labelsTitle}</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {expertise.labels.map((label, index) => (
                   <div
                     key={index}
-                    className="group border-2 border-white/10 bg-black/20 p-4 transition-all hover:border-lime-300"
+                    className="group border-2 border-white/10 bg-black/20 p-4 transition-all hover:border-lime-300 hover:shadow-[0_0_20px_rgba(213,255,10,0.4)]"
                   >
                     {label.src && (
                       <Image
@@ -180,7 +130,7 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
                         alt={label.name}
                         width={200}
                         height={120}
-                        className="h-auto w-full object-contain grayscale group-hover:grayscale-0 transition-all"
+                        className="h-auto w-full object-contain transition-all duration-300 group-hover:scale-110 group-hover:brightness-110"
                       />
                     )}
                   </div>
@@ -188,6 +138,14 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
               </div>
             </div>
           </div>
+        )}
+
+        {/* Production Companies Grid */}
+        {Array.isArray(expertise.productionCompanies) && expertise.productionCompanies.length > 0 && (
+          <ProductionCompaniesGrid
+            companies={expertise.productionCompanies}
+            title={safeLocale === "fr" ? "Sociétés de production" : "Production Companies"}
+          />
         )}
 
         {/* Documentaires Gallery - Full Width with Filter */}
@@ -213,8 +171,10 @@ export default async function ExpertiseDetailPage({ params }: ExpertiseDetailPar
           expertises={allExpertises}
           currentSlug={slug}
           locale={safeLocale}
-          title={safeLocale === 'fr' ? "Découvrez nos autres expertises" : "Discover our other expertises"}
-          description={safeLocale === 'fr' ? "Explorez l'ensemble de nos domaines d'intervention" : "Explore our full range of services"}
+          title={safeLocale === "fr" ? "Découvrez nos autres expertises" : "Discover our other expertises"}
+          description={
+            safeLocale === "fr" ? "Explorez l'ensemble de nos domaines d'intervention" : "Explore our full range of services"
+          }
         />
 
         {/* CTA */}

@@ -52,7 +52,8 @@ const dictionary: Dictionary = {
       idle: "Envoyer le message",
       loading: "Envoi en cours...",
     },
-    success: "Message envoyé avec succès ! Je vous répondrai dans les plus brefs délais.",
+    success:
+      "Message envoyé avec succès ! Je vous répondrai dans les plus brefs délais.",
     error: "Une erreur est survenue, veuillez réessayer.",
   },
   home: {
@@ -76,7 +77,8 @@ const dictionary: Dictionary = {
       status: {
         title: "Statut du studio",
         year: "2025",
-        headline: "Gestion professionnelle de vos droits musicaux et optimisation de vos revenus.",
+        headline:
+          "Gestion professionnelle de vos droits musicaux et optimisation de vos revenus.",
         expertiseLabel: "Expertise",
         expertiseValue: "Copyright / Édition / Production",
         organizationsLabel: "Organismes",
@@ -84,13 +86,18 @@ const dictionary: Dictionary = {
         availabilityLabel: "Statut",
         availabilityValue: "Freelance disponible",
         servicesLabel: "Services",
-        servicesValue: "Déclarations, contrats d'édition, codes ISRC, budgets et subventions.",
+        servicesValue:
+          "Déclarations, contrats d'édition, codes ISRC, budgets et subventions.",
       },
     },
     metrics: [
       { label: "Catalogue géré", value: "500+", detail: "œuvres déclarées" },
       { label: "Expérience", value: "10+ ans", detail: "gestion de droits" },
-      { label: "Collaborations", value: "100+", detail: "artistes accompagnés" },
+      {
+        label: "Collaborations",
+        value: "100+",
+        detail: "artistes accompagnés",
+      },
     ],
     pulses: [
       "Droits d'auteur SACEM",
@@ -225,7 +232,8 @@ const dictionary: Dictionary = {
     },
   },
   blog: {
-    description: "Articles, actualités et réflexions sur les droits d'auteur et la musique.",
+    description:
+      "Articles, actualités et réflexions sur les droits d'auteur et la musique.",
     filters: {
       categoryLabel: "Catégorie",
       tagLabel: "Tag",
@@ -257,10 +265,12 @@ const dictionary: Dictionary = {
     notFoundDescription: "Le contenu demandé n'existe pas ou a été déplacé.",
   },
   expertisesPage: {
-    description: "Découvrez mes domaines d'expertise en gestion de droits d'auteur et droits musicaux.",
+    description:
+      "Découvrez mes domaines d'expertise en gestion de droits d'auteur et droits musicaux.",
     cardCta: "En savoir plus",
     ctaTitle: "Besoin d'accompagnement ?",
-    ctaDescription: "Contactez-moi pour discuter de vos besoins en gestion de droits.",
+    ctaDescription:
+      "Contactez-moi pour discuter de vos besoins en gestion de droits.",
     ctaButton: "Discuter ensemble",
     error: "Erreur lors du chargement des expertises",
   },
@@ -274,18 +284,21 @@ const dictionary: Dictionary = {
       noResults: "Aucun documentaire ne correspond à votre recherche",
     },
     ctaTitle: "Besoin d'accompagnement ?",
-    ctaDescription: "Contactez-moi pour discuter de vos besoins en gestion de droits.",
+    ctaDescription:
+      "Contactez-moi pour discuter de vos besoins en gestion de droits.",
     ctaButton: "Me contacter",
   },
   projetsPage: {
-    description: "Découvrez les projets musicaux pour lesquels Caroline gère les droits d'auteur.",
+    description:
+      "Découvrez les projets musicaux pour lesquels Caroline gère les droits d'auteur.",
     filterAll: "Tous",
     searchPlaceholder: "Rechercher par titre...",
     loading: "Chargement...",
     empty: "Aucun projet trouvé pour cette catégorie",
     noResults: "Aucun projet ne correspond à votre recherche",
     ctaTitle: "Intéressé par une collaboration ?",
-    ctaDescription: "N'hésitez pas à me contacter pour discuter de votre projet.",
+    ctaDescription:
+      "N'hésitez pas à me contacter pour discuter de votre projet.",
     ctaButton: "Me contacter",
   },
   projetDetail: {
@@ -297,10 +310,12 @@ const dictionary: Dictionary = {
     label: "Label",
     isrc: "Code ISRC",
     externalResourcesTitle: "Ressources externes",
-    externalResourcesDescription: "Découvrez les informations officielles, extraits et compléments autour de ce projet.",
+    externalResourcesDescription:
+      "Découvrez les informations officielles, extraits et compléments autour de ce projet.",
     externalResourcesButton: "Consulter la fiche complète",
     galleryTitle: "Galerie",
     spotifyTitle: "Écouter",
+    videoTitle: "Vidéo",
     previousLabel: "← Projet précédent",
     nextLabel: "Projet suivant →",
     ctaTitle: "Vous avez un projet similaire ?",
@@ -308,7 +323,8 @@ const dictionary: Dictionary = {
     ctaButton: "Me contacter",
   },
   composersPage: {
-    description: "Découvrez les compositeurs avec lesquels Caroline collabore pour gérer leurs droits musicaux.",
+    description:
+      "Découvrez les compositeurs avec lesquels Caroline collabore pour gérer leurs droits musicaux.",
     worksSingular: "projet",
     worksPlural: "projets",
     ctaTitle: "Vous êtes compositeur ?",
@@ -324,9 +340,11 @@ const dictionary: Dictionary = {
     ctaButton: "Me contacter",
   },
   contactPage: {
-    heroDescription: "Une question, un projet ou simplement envie d'échanger ? N'hésitez pas à me contacter.",
+    heroDescription:
+      "Une question, un projet ou simplement envie d'échanger ? N'hésitez pas à me contacter.",
     introTitle: "Envoyez-moi un message",
-    introDescription: "Remplissez le formulaire ci-dessous et je vous répondrai dans les plus brefs délais.",
+    introDescription:
+      "Remplissez le formulaire ci-dessous et je vous répondrai dans les plus brefs délais.",
     contactInfoTitle: "Coordonnées",
     emailLabel: "Email",
     emailValue: "caroline.senyk@parigomusic.com",
@@ -336,21 +354,36 @@ const dictionary: Dictionary = {
     linkedinCta: "Voir le profil",
     linkedinUrl: "https://www.linkedin.com/in/caroline-senyk-0307752a7/",
     availabilityLabel: "Disponibilité",
-    availabilityValue: "Je réponds généralement sous 24-48h. Pour les demandes urgentes, précisez-le dans le sujet.",
+    availabilityValue:
+      "Je réponds généralement sous 24-48h. Pour les demandes urgentes, précisez-le dans le sujet.",
     servicesTitle: "Services",
     services: [
-      { title: "Gestion de droits d'auteur", description: "Suivi et protection de vos œuvres." },
-      { title: "Conseil en droits musicaux", description: "Expertise juridique et stratégique." },
-      { title: "Accompagnement artistique", description: "Support complet de vos projets musicaux." },
-      { title: "Expertise SACEM", description: "Gestion et optimisation des déclarations." },
+      {
+        title: "Gestion de droits d'auteur",
+        description: "Suivi et protection de vos œuvres.",
+      },
+      {
+        title: "Conseil en droits musicaux",
+        description: "Expertise juridique et stratégique.",
+      },
+      {
+        title: "Accompagnement artistique",
+        description: "Support complet de vos projets musicaux.",
+      },
+      {
+        title: "Expertise SACEM",
+        description: "Gestion et optimisation des déclarations.",
+      },
     ],
     consultationTitle: "Première consultation gratuite",
-    consultationDescription: "Pour tout nouveau projet, je vous offre un premier échange de 30 minutes.",
+    consultationDescription:
+      "Pour tout nouveau projet, je vous offre un premier échange de 30 minutes.",
   },
   auth: {
     login: {
       title: "Connexion à l'administration",
-      description: "Connectez-vous pour accéder au panneau d'administration de SYNCK.",
+      description:
+        "Connectez-vous pour accéder au panneau d'administration de SYNCK.",
       emailLabel: "Adresse email",
       emailPlaceholder: "votre@email.com",
       passwordLabel: "Mot de passe",
@@ -363,7 +396,8 @@ const dictionary: Dictionary = {
     },
     invitation: {
       title: "Accepter l'invitation",
-      description: "Créez votre compte administrateur pour accéder au panneau d'administration.",
+      description:
+        "Créez votre compte administrateur pour accéder au panneau d'administration.",
       nameLabel: "Nom complet",
       namePlaceholder: "Votre nom",
       emailLabel: "Adresse email",

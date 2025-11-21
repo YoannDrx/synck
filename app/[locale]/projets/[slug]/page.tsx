@@ -3,7 +3,13 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
-import { getWorkBySlug, getAllWorkSlugs, getProjetsFromPrisma, type WorkContribution, type WorkImage } from "@/lib/prismaProjetsUtils";
+import {
+  getWorkBySlug,
+  getAllWorkSlugs,
+  getProjetsFromPrisma,
+  type WorkContribution,
+  type WorkImage,
+} from "@/lib/prismaProjetsUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { LightboxImage } from "@/components/lightbox-image";
@@ -33,7 +39,7 @@ type WorkDetailPageParams = {
 
 export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
   const { locale, slug } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr");
+  const safeLocale = locale === "en" ? "en" : "fr";
   const work = await getWorkBySlug(slug, safeLocale);
   const dictionary = await getDictionary(safeLocale);
   const detailCopy = dictionary.projetDetail;
@@ -46,7 +52,8 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
   const allWorks = await getProjetsFromPrisma(safeLocale);
   const currentIndex = allWorks.findIndex((w) => w.slug === slug);
   const prevWork = currentIndex > 0 ? allWorks[currentIndex - 1] : null;
-  const nextWork = currentIndex < allWorks.length - 1 ? allWorks[currentIndex + 1] : null;
+  const nextWork =
+    currentIndex < allWorks.length - 1 ? allWorks[currentIndex + 1] : null;
 
   // Extract data from Prisma work
   const translation = work.translations[0];
@@ -73,9 +80,38 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
             const albumId = pathParts[albumIndex + 1];
             return `https://open.spotify.com/embed/album/${albumId}`;
           }
-          return rawSpotifyUrl.replace("https://open.spotify.com/", "https://open.spotify.com/embed/");
+          return rawSpotifyUrl.replace(
+            "https://open.spotify.com/",
+            "https://open.spotify.com/embed/",
+          );
         } catch {
-          return rawSpotifyUrl.replace("https://open.spotify.com/", "https://open.spotify.com/embed/");
+          return rawSpotifyUrl.replace(
+            "https://open.spotify.com/",
+            "https://open.spotify.com/embed/",
+          );
+        }
+      })()
+    : null;
+
+  // Extract YouTube video ID from URL
+  const youtubeVideoId = externalLink
+    ? (() => {
+        try {
+          const url = new URL(externalLink);
+          // Handle youtube.com/watch?v=VIDEO_ID
+          if (
+            url.hostname.includes("youtube.com") &&
+            url.searchParams.has("v")
+          ) {
+            return url.searchParams.get("v");
+          }
+          // Handle youtu.be/VIDEO_ID
+          if (url.hostname === "youtu.be") {
+            return url.pathname.slice(1);
+          }
+          return null;
+        } catch {
+          return null;
         }
       })()
     : null;
@@ -133,21 +169,34 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
           <div className="grid gap-6 sm:grid-cols-2">
             {work.contributions && work.contributions.length > 0 && (
               <div className="border-4 border-white/10 bg-[#0a0a0e] p-6">
-                <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">{detailCopy.composersTitle}</h2>
-                <div className={work.contributions.length > 3 ? "grid gap-4 sm:grid-cols-2" : "space-y-4"}>
+                <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">
+                  {detailCopy.composersTitle}
+                </h2>
+                <div
+                  className={
+                    work.contributions.length > 3
+                      ? "grid gap-4 sm:grid-cols-2"
+                      : "space-y-4"
+                  }
+                >
                   {work.contributions.map((contribution: WorkContribution) => {
-                    const composerTranslation = contribution.composer.translations[0];
+                    const composerTranslation =
+                      contribution.composer.translations[0];
                     return (
-                        <Link
-                          key={contribution.id}
-                          href={`/${safeLocale}/compositeurs/${contribution.composer.slug}`}
+                      <Link
+                        key={contribution.id}
+                        href={`/${safeLocale}/compositeurs/${contribution.composer.slug}`}
                         className="flex items-center gap-3 p-2 rounded-lg transition-colors hover:bg-white/5"
                       >
                         {contribution.composer.image ? (
                           <div className="h-12 w-12 flex-shrink-0 overflow-hidden border-2 border-white/20 rounded-full">
                             <Image
                               src={contribution.composer.image.path}
-                              alt={contribution.composer.image.alt ?? composerTranslation?.name ?? "Composer"}
+                              alt={
+                                contribution.composer.image.alt ??
+                                composerTranslation?.name ??
+                                "Composer"
+                              }
                               width={48}
                               height={48}
                               className="h-full w-full object-cover"
@@ -156,7 +205,9 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
                         ) : (
                           <div className="h-12 w-12 flex-shrink-0 overflow-hidden border-2 border-white/20 rounded-full bg-gradient-to-br from-lime-300/20 to-emerald-400/20 flex items-center justify-center">
                             <span className="text-lg font-black text-white/40">
-                              {composerTranslation?.name?.charAt(0).toUpperCase() || "?"}
+                              {composerTranslation?.name
+                                ?.charAt(0)
+                                .toUpperCase() || "?"}
                             </span>
                           </div>
                         )}
@@ -165,7 +216,9 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
                             {composerTranslation?.name || "Unknown Artist"}
                           </div>
                           {composerTranslation?.bio && (
-                            <div className="text-xs text-white/60 line-clamp-1">{composerTranslation.bio}</div>
+                            <div className="text-xs text-white/60 line-clamp-1">
+                              {composerTranslation.bio}
+                            </div>
                           )}
                         </div>
                       </Link>
@@ -176,18 +229,24 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
             )}
 
             <div className="border-4 border-white/10 bg-[#0a0a0e] p-6">
-              <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">{detailCopy.infoTitle}</h2>
+              <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">
+                {detailCopy.infoTitle}
+              </h2>
               <div className="space-y-3 text-sm">
                 {releaseDate && (
                   <div className="flex justify-between border-b border-dashed border-white/15 pb-2">
-                    <span className="text-white/60">{detailCopy.releaseDate}</span>
+                    <span className="text-white/60">
+                      {detailCopy.releaseDate}
+                    </span>
                     <span className="font-bold text-white">{releaseDate}</span>
                   </div>
                 )}
                 {categoryTranslation && (
                   <div className="flex justify-between border-b border-dashed border-white/15 pb-2">
                     <span className="text-white/60">{detailCopy.category}</span>
-                    <span className="font-bold text-white">{categoryTranslation.name}</span>
+                    <span className="font-bold text-white">
+                      {categoryTranslation.name}
+                    </span>
                   </div>
                 )}
                 {genre && (
@@ -199,25 +258,31 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
                 {labelTranslation && (
                   <div className="flex justify-between border-b border-dashed border-white/15 pb-2">
                     <span className="text-white/60">{detailCopy.label}</span>
-                    <span className="font-bold text-white">{labelTranslation.name}</span>
+                    <span className="font-bold text-white">
+                      {labelTranslation.name}
+                    </span>
                   </div>
                 )}
                 {work.isrcCode && (
                   <div className="flex justify-between">
                     <span className="text-white/60">{detailCopy.isrc}</span>
-                    <span className="font-mono text-xs text-white">{work.isrcCode}</span>
+                    <span className="font-mono text-xs text-white">
+                      {work.isrcCode}
+                    </span>
                   </div>
                 )}
               </div>
             </div>
           </div>
 
-          {externalLink && (
+          {externalLink && !youtubeVideoId && (
             <div className="border-4 border-white/10 bg-[#0a0a0e] p-6">
               <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">
                 {detailCopy.externalResourcesTitle}
               </h2>
-              <p className="mb-4 text-sm text-white/70">{detailCopy.externalResourcesDescription}</p>
+              <p className="mb-4 text-sm text-white/70">
+                {detailCopy.externalResourcesDescription}
+              </p>
               <a
                 href={externalLink}
                 target="_blank"
@@ -232,7 +297,9 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
 
           {work.images && work.images.length > 0 && (
             <div>
-              <h2 className="mb-4 text-xl font-bold uppercase tracking-wider text-lime-300">{detailCopy.galleryTitle}</h2>
+              <h2 className="mb-4 text-xl font-bold uppercase tracking-wider text-lime-300">
+                {detailCopy.galleryTitle}
+              </h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {work.images.map((image: WorkImage) => (
                   <div
@@ -254,10 +321,32 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
           )}
         </div>
 
+        {/* YouTube Embed */}
+        {youtubeVideoId && (
+          <div className="mt-16 border-4 border-white/10 bg-[#0a0a0e] p-6">
+            <h3 className="mb-3 text-lg font-bold uppercase tracking-wider text-lime-300">
+              {detailCopy.videoTitle}
+            </h3>
+            <div className="aspect-video overflow-hidden rounded">
+              <iframe
+                src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+                width="100%"
+                height="100%"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                loading="lazy"
+                className="rounded"
+              />
+            </div>
+          </div>
+        )}
+
         {/* Spotify Embed */}
         {spotifyEmbedUrl && (
           <div className="mt-16 border-4 border-white/10 bg-[#0a0a0e] p-6">
-            <h3 className="mb-3 text-lg font-bold uppercase tracking-wider text-lime-300">{detailCopy.spotifyTitle}</h3>
+            <h3 className="mb-3 text-lg font-bold uppercase tracking-wider text-lime-300">
+              {detailCopy.spotifyTitle}
+            </h3>
             <div className="aspect-[4/3] overflow-hidden rounded">
               <iframe
                 src={spotifyEmbedUrl}
@@ -278,8 +367,12 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
               href={`/${safeLocale}/projets/${prevWork.slug}`}
               className="group border-4 border-white/10 bg-[#0a0a0e] p-6 transition-all hover:border-lime-300/70 hover:shadow-[0_20px_60px_rgba(213,255,10,0.15)]"
             >
-              <div className="mb-2 text-xs font-bold uppercase text-lime-400">{detailCopy.previousLabel}</div>
-              <div className="text-xl font-bold uppercase group-hover:text-lime-300 transition-colors">{prevWork.title}</div>
+              <div className="mb-2 text-xs font-bold uppercase text-lime-400">
+                {detailCopy.previousLabel}
+              </div>
+              <div className="text-xl font-bold uppercase group-hover:text-lime-300 transition-colors">
+                {prevWork.title}
+              </div>
             </Link>
           ) : (
             <div />
@@ -290,8 +383,12 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
               href={`/${safeLocale}/projets/${nextWork.slug}`}
               className="group border-4 border-white/10 bg-[#0a0a0e] p-6 text-right transition-all hover:border-lime-300/70 hover:shadow-[0_20px_60px_rgba(213,255,10,0.15)]"
             >
-              <div className="mb-2 text-xs font-bold uppercase text-lime-400">{detailCopy.nextLabel}</div>
-              <div className="text-xl font-bold uppercase group-hover:text-lime-300 transition-colors">{nextWork.title}</div>
+              <div className="mb-2 text-xs font-bold uppercase text-lime-400">
+                {detailCopy.nextLabel}
+              </div>
+              <div className="text-xl font-bold uppercase group-hover:text-lime-300 transition-colors">
+                {nextWork.title}
+              </div>
             </Link>
           ) : (
             <div />
@@ -301,8 +398,12 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
         {/* CTA */}
         <div className="mt-16">
           <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">{detailCopy.ctaTitle}</h2>
-            <p className="mb-6 text-[#050505]/80">{detailCopy.ctaDescription}</p>
+            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
+              {detailCopy.ctaTitle}
+            </h2>
+            <p className="mb-6 text-[#050505]/80">
+              {detailCopy.ctaDescription}
+            </p>
             <Link
               href={`/${safeLocale}/contact`}
               className="inline-block border-4 border-[#050505] bg-[#050505] px-8 py-3 font-bold uppercase text-white transition-transform hover:scale-105"

@@ -2,7 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
-import { getComposerBySlug, getAllComposerSlugs } from "@/lib/prismaProjetsUtils";
+import {
+  getComposerBySlug,
+  getAllComposerSlugs,
+} from "@/lib/prismaProjetsUtils";
 import type { ComposerWithContributions } from "@/lib/prismaProjetsUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
@@ -39,9 +42,11 @@ type ComposerWorkSummary = {
   category: string;
 };
 
-export default async function CompositeurDetailPage({ params }: ComposerDetailParams) {
+export default async function CompositeurDetailPage({
+  params,
+}: ComposerDetailParams) {
   const { locale, slug } = await params;
-  const safeLocale = (locale === "en" ? "en" : "fr");
+  const safeLocale = locale === "en" ? "en" : "fr";
   const composer = await getComposerBySlug(slug, safeLocale);
   const dictionary = await getDictionary(safeLocale);
   const copy = dictionary.composerDetail;
@@ -57,25 +62,31 @@ export default async function CompositeurDetailPage({ params }: ComposerDetailPa
       id: contribution.work.id,
       slug: contribution.work.slug,
       title: contribution.work.translations[0]?.title ?? contribution.work.slug,
-      coverImage: contribution.work.coverImage?.path ?? "/images/placeholder.jpg",
+      coverImage:
+        contribution.work.coverImage?.path ?? "/images/placeholder.jpg",
       coverImageAlt:
         contribution.work.coverImage?.alt ??
         contribution.work.translations[0]?.title ??
         contribution.work.slug,
       category: contribution.work.category?.translations[0]?.name ?? "Autres",
-    })
+    }),
   );
 
   const composerImage = composer.image?.path;
+  const hasValidImage = composerImage && composerImage.trim() !== "";
 
   // Build social links from ComposerLink table
-  const socialLinks = composer.links?.map((link) => ({
-    label: link.label ?? getPlatformName(link.url, safeLocale),
-    url: link.url,
-  })) ?? [];
+  const socialLinks =
+    composer.links?.map((link) => ({
+      label: link.label ?? getPlatformName(link.url, safeLocale),
+      url: link.url,
+    })) ?? [];
 
   // Add externalUrl if it exists and is not already in links
-  if (composer.externalUrl && !socialLinks.some((link) => link.url === composer.externalUrl)) {
+  if (
+    composer.externalUrl &&
+    !socialLinks.some((link) => link.url === composer.externalUrl)
+  ) {
     socialLinks.push({
       label: getPlatformName(composer.externalUrl, safeLocale),
       url: composer.externalUrl,
@@ -96,7 +107,10 @@ export default async function CompositeurDetailPage({ params }: ComposerDetailPa
         <Breadcrumb
           items={[
             { label: dictionary.nav.home, href: `/${safeLocale}` },
-            { label: dictionary.nav.composers, href: `/${safeLocale}/compositeurs` },
+            {
+              label: dictionary.nav.composers,
+              href: `/${safeLocale}/compositeurs`,
+            },
             { label: translation?.name || composer.slug },
           ]}
         />
@@ -106,11 +120,13 @@ export default async function CompositeurDetailPage({ params }: ComposerDetailPa
           {/* Composer Name & Image */}
           <div className="flex items-center gap-6">
             {/* Composer Image */}
-            {composerImage ? (
+            {hasValidImage ? (
               <div className="relative overflow-hidden border-4 border-white/10 bg-black/20 rounded-full w-32 h-32 flex-shrink-0">
                 <Image
                   src={composerImage}
-                  alt={composer.image?.alt ?? translation?.name ?? composer.slug}
+                  alt={
+                    composer.image?.alt ?? translation?.name ?? composer.slug
+                  }
                   fill
                   sizes="128px"
                   className="object-cover"
@@ -119,7 +135,8 @@ export default async function CompositeurDetailPage({ params }: ComposerDetailPa
             ) : (
               <div className="relative overflow-hidden border-4 border-white/10 bg-gradient-to-br from-lime-300/20 to-emerald-400/20 rounded-full w-32 h-32 flex-shrink-0 flex items-center justify-center">
                 <span className="text-5xl font-black text-white/40">
-                  {translation?.name.charAt(0).toUpperCase() || composer.slug.charAt(0).toUpperCase()}
+                  {translation?.name.charAt(0).toUpperCase() ||
+                    composer.slug.charAt(0).toUpperCase()}
                 </span>
               </div>
             )}
@@ -130,7 +147,8 @@ export default async function CompositeurDetailPage({ params }: ComposerDetailPa
                 {translation?.name || composer.slug}
               </h1>
               <span className="inline-block rounded-full border-2 border-lime-300 bg-lime-300/10 px-4 py-1 text-xs font-bold uppercase tracking-wider text-lime-300">
-                {works.length} {works.length > 1 ? copy.worksPlural : copy.worksSingular}
+                {works.length}{" "}
+                {works.length > 1 ? copy.worksPlural : copy.worksSingular}
               </span>
             </div>
           </div>
@@ -169,13 +187,15 @@ export default async function CompositeurDetailPage({ params }: ComposerDetailPa
         {/* Projects Section */}
         {works.length > 0 && (
           <div>
-            <h2 className="mb-6 text-3xl font-black uppercase tracking-tight">{copy.worksTitle}</h2>
+            <h2 className="mb-6 text-3xl font-black uppercase tracking-tight">
+              {copy.worksTitle}
+            </h2>
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {works.map((work) => (
                 <Link
                   key={work.id}
-              href={`/${safeLocale}/projets/${work.slug}`}
+                  href={`/${safeLocale}/projets/${work.slug}`}
                   className="group relative overflow-hidden rounded-[28px] border-4 border-white/10 bg-[#0a0a0e] shadow-[0_25px_60px_rgba(0,0,0,0.65)] transition duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
                 >
                   <div className="absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-70 bg-gradient-to-br from-emerald-400 via-lime-300 to-yellow-300" />
@@ -211,7 +231,9 @@ export default async function CompositeurDetailPage({ params }: ComposerDetailPa
         {/* CTA */}
         <div className="mt-16">
           <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">{copy.ctaTitle}</h2>
+            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
+              {copy.ctaTitle}
+            </h2>
             <p className="mb-6 text-[#050505]/80">{copy.ctaDescription}</p>
             <Link
               href={`/${safeLocale}/contact`}

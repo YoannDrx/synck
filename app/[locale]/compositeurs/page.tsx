@@ -47,6 +47,7 @@ export default async function ComposeursPage({ params }: ComposersPageParams) {
           {composers.map((composer) => (
             <Link
               key={composer.id}
+              data-testid="composer-card"
               href={`/${safeLocale}/compositeurs/${composer.slug}`}
               className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.65)] transition duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
             >

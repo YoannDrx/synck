@@ -1,0 +1,3 @@
+Arat Kilo entretient et renouvelle la fièvre éthio-jazz du Swinging' Addis des années 70, l'âge d'or de la musique éthiopienne où des musiciens comme Mulatu Astatke, Alémyahu Esthete, Girma Bèyènè ou Hailu Mergia bravèrent la censure établie par Haïlé Sélassié en métissant les traditions amhariques à la soul, au jazz ou à la pop occidentale.
+
+AFROBEAT est un joyau de la musique éthiopienne moderne : Un Ethio-groove orchestral étonnant, rempli de soul américaine, de jazz et des rythmes orientaux les plus profonds : Afrobeat, Ethiopian Jazz et Exotica avec de fortes racines seventies, parfait pour les films, les documentaires, les programmes TV et l'écoute à domicile. Un mix chaud, haut en couleur et audacieux.
