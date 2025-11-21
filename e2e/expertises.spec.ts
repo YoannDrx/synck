@@ -14,6 +14,9 @@ test.describe('Expertises Page', () => {
   test('should display expertises grid', async ({ page }) => {
     await page.goto('/fr/expertises');
 
+    // Wait for expertises to load
+    await page.waitForSelector('a[href*="/expertises/"]', { timeout: 10000 });
+
     // Should have expertise cards
     const expertiseCards = page.locator('a[href*="/expertises/"]');
     await expect(expertiseCards.first()).toBeVisible();

@@ -40,13 +40,10 @@ test.describe('Projets Page', () => {
 
     // Find search input
     const searchInput = page.locator('input[type="text"]');
-    await searchInput.fill('test');
+    await searchInput.fill('minimal');
 
-    // Should show results or "no results" message
-    const hasResults = await page.locator('a[href*="/projets/"]').count() > 0;
-    const hasNoResults = await page.locator('text=/aucun.*résultat/i').count() > 0;
-
-    expect(hasResults || hasNoResults).toBeTruthy();
+    // Should show results for seeded data
+    await expect(page.locator('a[href*="/projets/"]').first()).toBeVisible();
   });
 
   test('should navigate to project detail', async ({ page }) => {

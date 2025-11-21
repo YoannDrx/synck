@@ -24,13 +24,10 @@ test.describe('Compositeurs Page', () => {
 
     // Find search input
     const searchInput = page.locator('input[type="text"]');
-    await searchInput.fill('test');
+    await searchInput.fill('arandel');
 
-    // Should show results or "no results" message
-    const hasResults = await page.locator('a[href*="/compositeurs/"]').count() > 0;
-    const hasNoResults = await page.locator('text=/aucun.*résultat/i').count() > 0;
-
-    expect(hasResults || hasNoResults).toBeTruthy();
+    // Should show at least one result for seeded data
+    await expect(page.locator('a[href*="/compositeurs/"]').first()).toBeVisible();
   });
 
   test('should navigate to composer detail', async ({ page }) => {

@@ -230,6 +230,13 @@ jobs:
           DIRECT_URL: postgresql://user:password@localhost:5432/db?schema=public
           NEXT_PUBLIC_SITE_URL: https://caroline-senyk.fr
 
+      - name: Seed database for E2E (idempotent)
+        if: matrix.shard == 1
+        run: pnpm db:seed:prod
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
       - name: Start application in background
         run: |
           pnpm run start &
