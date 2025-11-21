@@ -77,13 +77,12 @@ async function main() {
     console.log("🔄 Running: prisma migrate deploy\n");
 
     // Force Prisma to use values from .env (ignore .env.local)
+    // Override DATABASE_URL and DIRECT_URL with values from .env
     execSync("prisma migrate deploy", {
       stdio: "inherit",
       env: {
-        // Start with minimal env (PATH needed for binaries)
-        PATH: process.env.PATH || "",
-        HOME: process.env.HOME || "",
-        // Use values from .env explicitly
+        ...process.env,
+        // Override with values from .env (not .env.local)
         DATABASE_URL: envVars.DATABASE_URL,
         DIRECT_URL: envVars.DIRECT_URL,
       },
