@@ -1217,5 +1217,125 @@
     ],
     "order": 75,
     "isActive": true
+  },
+  {
+    "id": 77,
+    "slug": "aiwa",
+    "name": "Aïwa",
+    "image": null,
+    "externalUrl": null,
+    "links": [],
+    "order": 76,
+    "isActive": true
+  },
+  {
+    "id": 78,
+    "slug": "amaury-messelier",
+    "name": "Amaury Messelier",
+    "image": null,
+    "externalUrl": null,
+    "links": [],
+    "order": 77,
+    "isActive": true
+  },
+  {
+    "id": 79,
+    "slug": "cyril-laurent",
+    "name": "Cyril Laurent",
+    "image": null,
+    "externalUrl": null,
+    "links": [],
+    "order": 78,
+    "isActive": true
+  },
+  {
+    "id": 80,
+    "slug": "fabien-girard",
+    "name": "Fabien Girard",
+    "image": null,
+    "externalUrl": null,
+    "links": [],
+    "order": 79,
+    "isActive": true
+  },
+  {
+    "id": 81,
+    "slug": "franck-sinnassamy",
+    "name": "Franck Sinnassamy",
+    "image": null,
+    "externalUrl": null,
+    "links": [],
+    "order": 80,
+    "isActive": true
+  },
+  {
+    "id": 82,
+    "slug": "grand-david",
+    "name": "Grand David",
+    "image": null,
+    "externalUrl": null,
+    "links": [],
+    "order": 81,
+    "isActive": true
+  },
+  {
+    "id": 83,
+    "slug": "jean-pierre-menager",
+    "name": "Jean-Pierre Ménager",
+    "image": null,
+    "externalUrl": null,
+    "links": [],
+    "order": 82,
+    "isActive": true
+  },
+  {
+    "id": 84,
+    "slug": "mister-modo",
+    "name": "Mister Modo",
+    "image": null,
+    "externalUrl": null,
+    "links": [],
+    "order": 83,
+    "isActive": true
+  },
+  {
+    "id": 85,
+    "slug": "of-ivory-horn",
+    "name": "Of Ivory & Horn",
+    "image": null,
+    "externalUrl": null,
+    "links": [],
+    "order": 84,
+    "isActive": true
+  },
+  {
+    "id": 86,
+    "slug": "pierre-millet",
+    "name": "Pierre Millet",
+    "image": null,
+    "externalUrl": null,
+    "links": [],
+    "order": 85,
+    "isActive": true
+  },
+  {
+    "id": 87,
+    "slug": "thierry-los",
+    "name": "Thierry Los",
+    "image": null,
+    "externalUrl": null,
+    "links": [],
+    "order": 86,
+    "isActive": true
+  },
+  {
+    "id": 88,
+    "slug": "yann-jankielewicz",
+    "name": "Yann Jankielewicz",
+    "image": null,
+    "externalUrl": null,
+    "links": [],
+    "order": 87,
+    "isActive": true
   }
 ]

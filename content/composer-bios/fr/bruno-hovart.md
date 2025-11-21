@@ -1,0 +1,3 @@
+Bruno Hovart :
+Bruno Hovart aka Patchworks est un producteur, remixeur et compositeur lyonnais. Autodidacte et multi-instrumentiste, on peut retrouver son travail derrière des projets tels que Voilaaa, Metropolitan Jazz Affair, Mr Day, Mr President, Taggy Matcher, the Dynamics, Uptown Funk Empire, The Bongo Hop, ou encore plus récemment Joao Selva.
+Même s'il est fréquent de le rencontrer sur scène, généralement à la basse, Bruno concentre ses efforts sur la composition en studio et la réalisation d'albums conjointement avec les interprètes. Ses registres vont de la deep house aux musiques afro latines, de l'électrique à l'acoustique, avec un caractère "soulful" toujours assumé.

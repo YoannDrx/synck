@@ -1,0 +1,6 @@
+Ugly Mac Beer:
+Ugly Mac Beer started in the late 90s as DJ for the group La Formule alongside Wax Tailor. In the 2000s, keen to develop his own projects, he launched a solo career.
+He quickly became an essential figure of turntablism/scratch music in France—both as an artist and as a prolific indie producer via his label Beatsqueeze Records.
+In the mid-2000s he began collaborating with digger/beatmaker Mister Modo. Their chemistry produced a run of projects and many international collaborations with culture heavyweights like MF Grimm, Kool Keith, Psycho Les (Beatnuts), Guilty Simpson, Mike Ladd, El Da Sensei and DJ D-Styles.
+The 2009 Modonut album earned strong media exposure and wider success. The soul-tinged track “Not Afraid” (ft. Jessica Fitoussi) received heavy radio play and international airplay. The duo’s second album, simply “Modonut 2”, arrived in 2012 and yielded the hip-hop banger “Diggin in the Crates” (ft. F. Stokes), embraced by DJs across Europe and North America.
+More and more in demand for ad and film sync, Ugly Mac Beer discovered a passion for audiovisual work. Lifelong inspired by television, pop culture, cinema and music at large, he has found his place today as a full-time composer for picture.

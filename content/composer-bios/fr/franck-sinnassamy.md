@@ -1,0 +1,11 @@
+Franck Sinnassamy :
+
+DJ Hertz, également connu sous son vrai nom Franck Sinnassamy, est un artiste français polyvalent dont la carrière s’étend sur plusieurs domaines de la musique.
+
+En tant que fondateur du label indépendant Scratch Science, DJ Hertz a créé des disques innovants destinés aux turntablists. Parmi ses créations, on retrouve la série des Grasshopper Break et Enter The Scratch Game. La réputation de Scratch Science s’étend à l’échelle mondiale, et ses disques ont profondément influencé le monde du scratch.
+
+DJ Hertz est également membre du groupe 9 O’Clock, une équipe de turntablists français. Ensemble, ils ont remporté le championnat du monde DMC (Disco Mix Club) trois fois consécutives en 2013, 2014 et 2015. Leur maîtrise des platines et leur créativité ont fait d’eux des références incontournables du turntablism. 9 O’clock a également participé à des festivals et a eu l’occasion de se produire au Stade de France en ouverture de la finale de la coupe de la ligue.
+
+En parallèle, Franck Sinnassamy est un compositeur prolifique. D’une part, il crée des compositions originales avec son groupe, et d’autre part, il collabore avec des artistes tels que Beat Assaillant, Quinze, et Haji. 9 O’clock a également composé plusieurs musiques de publicité, dont un spot TV pour la Ligue 1. Son travail a été salué par ses pairs, et il a reçu le prestigieux Mark Award.
+
+Ses compositions personnelles, en collaboration avec l’éditeur Parigo Music, ont été utilisées dans de nombreuses séries, notamment Blood, Sex and Royalty, Captain Fall, et Ctrl Z. DJ Hertz sait comment créer des ambiances sonores captivantes qui s’intègrent parfaitement aux productions visuelles.

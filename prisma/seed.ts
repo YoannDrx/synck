@@ -120,6 +120,39 @@ function loadMarkdown(filePath: string): MarkdownResult | null {
 }
 
 /**
+ * Charge les biographies des compositeurs depuis content/composer-bios
+ * Retourne une map par slug avec les versions FR/EN si disponibles
+ */
+function loadComposerBios(): Map<string, { fr?: string; en?: string }> {
+  const biosDir = path.join(process.cwd(), "content/composer-bios");
+  const locales: Array<"fr" | "en"> = ["fr", "en"];
+  const biosMap = new Map<string, { fr?: string; en?: string }>();
+
+  for (const locale of locales) {
+    const localeDir = path.join(biosDir, locale);
+    if (!fs.existsSync(localeDir)) continue;
+
+    const files = fs
+      .readdirSync(localeDir)
+      .filter((file) => file.toLowerCase().endsWith(".md"));
+
+    for (const file of files) {
+      const slug = file.replace(/\.md$/i, "");
+      const filePath = path.join(localeDir, file);
+      const content = fs.readFileSync(filePath, "utf-8").trim();
+
+      if (!content) continue;
+
+      const entry = biosMap.get(slug) ?? {};
+      entry[locale] = content.replace(/\r\n/g, "\n");
+      biosMap.set(slug, entry);
+    }
+  }
+
+  return biosMap;
+}
+
+/**
  * Récupère une valeur string du frontmatter de manière sûre
  */
 function getFrontmatterString(
@@ -313,8 +346,15 @@ async function seedComposers() {
     fs.readFileSync(composersPath, "utf-8"),
   ) as ComposerData[];
 
+  // Charger les biographies (optionnelles)
+  const composerBios = loadComposerBios();
+
   let created = 0;
   for (const comp of composersData) {
+    const bios = composerBios.get(comp.slug);
+    const bioFr = bios?.fr ?? bios?.en ?? null;
+    const bioEn = bios?.en ?? bios?.fr ?? null;
+
     // Créer l'image si elle existe
     let imageAsset: Asset | null = null;
     if (comp.image && imageExists(comp.image)) {
@@ -332,8 +372,8 @@ async function seedComposers() {
         imageId: imageAsset?.id ?? null,
         translations: {
           create: [
-            { locale: "fr", name: comp.name },
-            { locale: "en", name: comp.name },
+            { locale: "fr", name: comp.name, bio: bioFr },
+            { locale: "en", name: comp.name, bio: bioEn },
           ],
         },
       },
@@ -345,8 +385,8 @@ async function seedComposers() {
         translations: {
           deleteMany: {},
           create: [
-            { locale: "fr", name: comp.name },
-            { locale: "en", name: comp.name },
+            { locale: "fr", name: comp.name, bio: bioFr },
+            { locale: "en", name: comp.name, bio: bioEn },
           ],
         },
       },
