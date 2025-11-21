@@ -259,16 +259,31 @@ jobs:
     if: success()
 
     steps:
-      - name: All checks passed
+      - name: CI Pipeline Summary
         run: |
-          echo "✅ CI Pipeline Passed!"
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "✓ Lint & TypeScript: PASSED"
-          echo "✓ Prisma Validation: PASSED"
-          echo "✓ Build: PASSED"
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "✅ CI PIPELINE PASSED"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo ""
-          echo "🚀 Ready for deployment!"
+          echo "📋 Jobs completed successfully:"
+          echo "  ✓ Lint & TypeScript Check"
+          echo "  ✓ Prisma Schema Validation"
+          echo "  ✓ Migration Drift Check (STRICT)"
+          echo "  ✓ Application Build"
+          echo ""
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "🎯 Next steps:"
+            echo "  • E2E tests will run automatically"
+            echo "  • Review changes and merge when ready"
+            echo "  • Vercel will deploy preview automatically"
+          else
+            echo "🚀 Deployment:"
+            echo "  • All checks passed on ${{ github.ref_name }}"
+            echo "  • Vercel will deploy automatically"
+            echo "  • Migrations will be applied via vercel-build"
+          fi
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
   # Job 6: Deploy Notification (only on main/master)
   deploy-ready:
@@ -278,7 +293,22 @@ jobs:
     if: success() && github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
 
     steps:
-      - name: Deployment ready
+      - name: Production Deployment Notification
         run: |
-          echo "🎉 All checks passed on main branch!"
-          echo "Vercel will automatically deploy this commit."
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "🎉 PRODUCTION DEPLOYMENT READY"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "✅ All CI checks passed on ${{ github.ref_name }}"
+          echo ""
+          echo "🚀 Automatic deployment:"
+          echo "  • Vercel will deploy this commit"
+          echo "  • Migrations applied via vercel-build script"
+          echo "  • Site: https://carolinesenyk.fr"
+          echo ""
+          echo "📊 Commit info:"
+          echo "  • SHA: ${{ github.sha }}"
+          echo "  • Author: ${{ github.actor }}"
+          echo "  • Message: ${{ github.event.head_commit.message }}"
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
