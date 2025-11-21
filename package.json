@@ -27,7 +27,7 @@
     "db:status": "prisma migrate status",
     "db:status:prod": "dotenv -e .env -- prisma migrate status",
     "db:migrate:check": "prisma migrate diff --from-schema-datasource prisma/schema.prisma --to-schema-datamodel prisma/schema.prisma --exit-code",
-    "test:e2e:ci": "bash -c 'E2E_PORT=${E2E_PORT:-3100}; DB_URL=${DATABASE_URL:-postgresql://postgres:postgres@localhost:5432/synck}; export DATABASE_URL=$DB_URL DIRECT_URL=${DIRECT_URL:-$DB_URL}; command -v createdb >/dev/null 2>&1 && createdb synck 2>/dev/null || true; pnpm exec prisma migrate deploy && pnpm db:seed:prod && pnpm run build || exit $?; PORT=$E2E_PORT pnpm run start >/tmp/next-e2e.log 2>&1 & APP_PID=$!; pnpm exec wait-on http://localhost:$E2E_PORT -t 60000 || { kill $APP_PID 2>/dev/null || true; cat /tmp/next-e2e.log; exit 1; }; PLAYWRIGHT_TEST_BASE_URL=http://localhost:$E2E_PORT pnpm exec playwright test; CODE=$?; kill $APP_PID 2>/dev/null || true; exit $CODE'"
+    "test:e2e:ci": "bash -c 'E2E_PORT=${E2E_PORT:-3100}; DB_URL=${DATABASE_URL:-postgresql://localhost:5432/synck?user=postgres}; export DATABASE_URL=$DB_URL DIRECT_URL=${DIRECT_URL:-$DB_URL}; command -v createdb >/dev/null 2>&1 && createdb synck 2>/dev/null || true; pnpm exec prisma migrate deploy && pnpm db:seed:prod && pnpm run build || exit $?; PORT=$E2E_PORT pnpm run start >/tmp/next-e2e.log 2>&1 & APP_PID=$!; pnpm exec wait-on http://localhost:$E2E_PORT -t 60000 || { kill $APP_PID 2>/dev/null || true; cat /tmp/next-e2e.log; exit 1; }; PLAYWRIGHT_TEST_BASE_URL=http://localhost:$E2E_PORT pnpm exec playwright test; CODE=$?; kill $APP_PID 2>/dev/null || true; exit $CODE'"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",

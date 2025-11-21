@@ -7,6 +7,8 @@ import matter from "gray-matter";
 import sharp from "sharp";
 
 const prisma = new PrismaClient();
+const SKIP_SEED_IF_DATA_PRESENT =
+  process.env.SKIP_SEED_IF_DATA_PRESENT === "1";
 
 // ============================================
 // TYPES
@@ -752,6 +754,21 @@ async function main() {
   console.log("🌱 Starting database seed...\n");
 
   try {
+    if (SKIP_SEED_IF_DATA_PRESENT) {
+      const [categoriesCount, worksCount, expertisesCount] = await Promise.all([
+        prisma.category.count(),
+        prisma.work.count(),
+        prisma.expertise.count(),
+      ]);
+
+      if (categoriesCount > 0 && worksCount > 0 && expertisesCount > 0) {
+        console.log(
+          "⏭️  SKIP_SEED_IF_DATA_PRESENT=1 et données déjà présentes, seed ignoré.",
+        );
+        return;
+      }
+    }
+
     await seedCategories();
     await seedLabels();
     await seedComposers();
