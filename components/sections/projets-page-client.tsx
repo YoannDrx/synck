@@ -141,6 +141,7 @@ export function ProjetsPageClient({
             <div className="relative max-w-md">
               <input
                 type="text"
+                data-testid="projects-search"
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -164,6 +165,7 @@ export function ProjetsPageClient({
 
           <div className="flex flex-wrap gap-3">
             <button
+              data-testid="category-filter"
               onClick={() => {
                 setSelectedCategory("all");
               }}
@@ -189,6 +191,7 @@ export function ProjetsPageClient({
               return (
                 <button
                   key={category.id}
+                  data-testid="category-filter"
                   onClick={() => {
                     setSelectedCategory(category.name);
                   }}
@@ -297,6 +300,7 @@ export function ProjetsPageClient({
             ) : (
               <Link
                 key={work.id}
+                data-testid="project-card"
                 href={`/${locale}/projets/${work.slug}`}
                 className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] transition-all duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
               >

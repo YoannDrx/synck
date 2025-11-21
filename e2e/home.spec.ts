@@ -37,8 +37,8 @@ test.describe('Home Page', () => {
   test('should switch language to English', async ({ page }) => {
     await page.goto('/fr');
 
-    // Find and click language switcher (if exists)
-    const langSwitcher = page.getByRole('link', { name: /en/i });
+    // Find and click language switcher (if exists). Use exact label to avoid matching other links.
+    const langSwitcher = page.getByRole('link', { name: /^EN$/ });
     if (await langSwitcher.count() > 0) {
       await langSwitcher.click();
       await expect(page).toHaveURL(/\/en/);

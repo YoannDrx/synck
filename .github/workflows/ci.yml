@@ -55,9 +55,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs: lint-and-typecheck
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      DIRECT_URL: ${{ secrets.DIRECT_URL }}
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: synck
+        ports:
+          - 5432:5432
+        # Healthcheck to wait for Postgres to be ready
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code
@@ -77,8 +89,27 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Set database URLs (PR → local Postgres)
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "DATABASE_URL=postgresql://postgres@localhost:5432/synck" >> $GITHUB_ENV
+          echo "DIRECT_URL=postgresql://postgres@localhost:5432/synck" >> $GITHUB_ENV
+
+      - name: Set database URLs (main/master → Neon)
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+          echo "DIRECT_URL=${{ secrets.DIRECT_URL }}" >> $GITHUB_ENV
+
+      - name: Wait for Postgres (PR)
+        if: github.event_name == 'pull_request'
+        run: pnpm exec wait-on tcp:localhost:5432 -t 20000
+
       - name: Generate Prisma Client
         run: pnpm exec prisma generate
+
+      - name: Apply migrations
+        run: pnpm exec prisma migrate deploy
 
       - name: Check Prisma schema format
         run: pnpm exec prisma format --check
@@ -157,8 +188,8 @@ jobs:
       - name: Build application
         run: pnpm run build
         env:
-          DATABASE_URL: postgresql://user:password@localhost:5432/db?schema=public
-          DIRECT_URL: postgresql://user:password@localhost:5432/db?schema=public
+          DATABASE_URL: postgresql://postgres@localhost:5432/synck
+          DIRECT_URL: postgresql://postgres@localhost:5432/synck
           NEXT_PUBLIC_SITE_URL: https://example.com
 
       - name: Check build output
@@ -189,6 +220,21 @@ jobs:
       fail-fast: false
       matrix:
         shard: [1, 2]
+      max-parallel: 1
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: synck
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code
@@ -208,11 +254,33 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Set database URLs (PR → local Postgres)
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "DATABASE_URL=postgresql://postgres@localhost:5432/synck" >> $GITHUB_ENV
+          echo "DIRECT_URL=postgresql://postgres@localhost:5432/synck" >> $GITHUB_ENV
+
+      - name: Set database URLs (main/master → Neon)
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+          echo "DIRECT_URL=${{ secrets.DIRECT_URL }}" >> $GITHUB_ENV
+
+      - name: Wait for Postgres (PR)
+        if: github.event_name == 'pull_request'
+        run: pnpm exec wait-on tcp:localhost:5432 -t 20000
+
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Generate Prisma Client
         run: pnpm exec prisma generate
+
+      - name: Apply migrations
+        run: pnpm exec prisma migrate deploy
+
+      - name: Seed database for E2E (idempotent)
+        run: pnpm db:seed:prod
 
       - name: Download build artifacts
         id: download-build
@@ -226,12 +294,11 @@ jobs:
         if: steps.download-build.outcome == 'failure'
         run: pnpm run build
         env:
-          DATABASE_URL: postgresql://user:password@localhost:5432/db?schema=public
-          DIRECT_URL: postgresql://user:password@localhost:5432/db?schema=public
+          DATABASE_URL: postgresql://postgres@localhost:5432/synck
+          DIRECT_URL: postgresql://postgres@localhost:5432/synck
           NEXT_PUBLIC_SITE_URL: https://caroline-senyk.fr
 
       - name: Seed database for E2E (idempotent)
-        if: matrix.shard == 1
         run: pnpm db:seed:prod
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -242,15 +309,15 @@ jobs:
           pnpm run start &
           pnpm exec wait-on http://localhost:3000 -t 60000
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+          DIRECT_URL: ${{ env.DIRECT_URL }}
           PORT: 3000
 
       - name: Run Playwright tests (shard ${{ matrix.shard }}/2)
         run: pnpm exec playwright test --shard=${{ matrix.shard }}/2
         env:
           PLAYWRIGHT_TEST_BASE_URL: http://localhost:3000
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: ${{ env.DATABASE_URL }}
 
       - name: Upload test results
         if: always()

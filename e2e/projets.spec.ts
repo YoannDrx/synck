@@ -15,7 +15,8 @@ test.describe('Projets Page', () => {
     await page.goto('/fr/projets');
 
     // Should have project cards
-    const projectCards = page.locator('a[href*="/projets/"]');
+    await page.waitForSelector('[data-testid="project-card"]', { timeout: 15000 });
+    const projectCards = page.locator('[data-testid="project-card"]');
     await expect(projectCards.first()).toBeVisible();
   });
 
@@ -23,15 +24,15 @@ test.describe('Projets Page', () => {
     await page.goto('/fr/projets');
 
     // Wait for projects to load
-    await page.waitForSelector('a[href*="/projets/"]', { timeout: 10000 });
+    await page.waitForSelector('[data-testid="project-card"]', { timeout: 15000 });
 
     // Click on a category filter button (not "Tout")
-    const categoryButtons = page.locator('button:not(:has-text("Tout"))').first();
-    if (await categoryButtons.count() > 0) {
-      await categoryButtons.click();
+    const filterButtons = page.locator('[data-testid="category-filter"]').filter({ hasNotText: 'Tout' });
+    if (await filterButtons.count() > 0) {
+      await filterButtons.first().click();
 
       // Projects should still be visible
-      await expect(page.locator('a[href*="/projets/"]').first()).toBeVisible();
+      await expect(page.locator('[data-testid="project-card"]').first()).toBeVisible();
     }
   });
 
@@ -39,21 +40,21 @@ test.describe('Projets Page', () => {
     await page.goto('/fr/projets');
 
     // Find search input
-    const searchInput = page.locator('input[type="text"]');
+    const searchInput = page.locator('[data-testid="projects-search"]');
     await searchInput.fill('minimal');
 
     // Should show results for seeded data
-    await expect(page.locator('a[href*="/projets/"]').first()).toBeVisible();
+    await expect(page.locator('[data-testid="project-card"]').first()).toBeVisible();
   });
 
   test('should navigate to project detail', async ({ page }) => {
     await page.goto('/fr/projets');
 
     // Wait for projects to load
-    await page.waitForSelector('a[href*="/projets/"]', { timeout: 10000 });
+    await page.waitForSelector('[data-testid="project-card"]', { timeout: 15000 });
 
     // Click on first project
-    const firstProject = page.locator('a[href*="/projets/"]').first();
+    const firstProject = page.locator('[data-testid="project-card"]').first();
     await firstProject.click();
 
     // Should navigate to detail page

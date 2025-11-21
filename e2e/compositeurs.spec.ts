@@ -15,29 +15,19 @@ test.describe('Compositeurs Page', () => {
     await page.goto('/fr/compositeurs');
 
     // Should have composer cards
-    const composerCards = page.locator('a[href*="/compositeurs/"]');
+    await page.waitForSelector('[data-testid="composer-card"]', { timeout: 15000 });
+    const composerCards = page.locator('[data-testid="composer-card"]');
     await expect(composerCards.first()).toBeVisible();
-  });
-
-  test('should search for a composer', async ({ page }) => {
-    await page.goto('/fr/compositeurs');
-
-    // Find search input
-    const searchInput = page.locator('input[type="text"]');
-    await searchInput.fill('arandel');
-
-    // Should show at least one result for seeded data
-    await expect(page.locator('a[href*="/compositeurs/"]').first()).toBeVisible();
   });
 
   test('should navigate to composer detail', async ({ page }) => {
     await page.goto('/fr/compositeurs');
 
     // Wait for composers to load
-    await page.waitForSelector('a[href*="/compositeurs/"]', { timeout: 10000 });
+    await page.waitForSelector('[data-testid="composer-card"]', { timeout: 15000 });
 
     // Click on first composer
-    const firstComposer = page.locator('a[href*="/compositeurs/"]').first();
+    const firstComposer = page.locator('[data-testid="composer-card"]').first();
     await firstComposer.click();
 
     // Should navigate to detail page

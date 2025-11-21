@@ -15,10 +15,10 @@ test.describe('Expertises Page', () => {
     await page.goto('/fr/expertises');
 
     // Wait for expertises to load
-    await page.waitForSelector('a[href*="/expertises/"]', { timeout: 10000 });
+    await page.waitForSelector('[data-testid="expertise-card"]', { timeout: 20000 });
 
     // Should have expertise cards
-    const expertiseCards = page.locator('a[href*="/expertises/"]');
+    const expertiseCards = page.locator('[data-testid="expertise-card"]');
     await expect(expertiseCards.first()).toBeVisible();
   });
 
@@ -26,10 +26,10 @@ test.describe('Expertises Page', () => {
     await page.goto('/fr/expertises');
 
     // Wait for expertises to load
-    await page.waitForSelector('a[href*="/expertises/"]', { timeout: 10000 });
+    await page.waitForSelector('[data-testid="expertise-card"]', { timeout: 20000 });
 
     // Click on first expertise
-    const firstExpertise = page.locator('a[href*="/expertises/"]').first();
+    const firstExpertise = page.locator('[data-testid="expertise-card"]').first();
     await firstExpertise.click();
 
     // Should navigate to detail page

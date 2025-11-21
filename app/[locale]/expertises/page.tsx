@@ -51,6 +51,7 @@ export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
           {expertises.map((expertise) => (
             <Link
               key={expertise.slug}
+              data-testid="expertise-card"
               href={`/${safeLocale}/expertises/${expertise.slug}`}
               className="group relative overflow-hidden border-4 border-white bg-[#050505] transition-transform hover:scale-105"
             >
