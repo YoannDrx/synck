@@ -23,13 +23,10 @@
     "db:migrate": "prisma migrate dev",
     "db:migrate:prod": "node scripts/run-ts.cjs scripts/db/migrate-prod.ts",
     "db:generate": "prisma generate",
-    "db:check": "prisma migrate diff --from-schema-datamodel prisma/schema.prisma --to-schema-datasource prisma/schema.prisma --exit-code || echo '\n⚠️  Schema drift detected. Run: pnpm db:migrate'",
+    "db:check": "prisma migrate diff --from-schema-datasource prisma/schema.prisma --to-schema-datamodel prisma/schema.prisma --exit-code || echo '\n⚠️  Schema drift detected. Run: pnpm db:migrate'",
     "db:status": "prisma migrate status",
     "db:status:prod": "dotenv -e .env -- prisma migrate status",
-    "db:migrate:check": "prisma migrate diff --from-schema-datamodel prisma/schema.prisma --to-schema-datasource prisma/schema.prisma --exit-code"
-  },
-  "prisma": {
-    "seed": "node scripts/run-ts.cjs prisma/seed.ts"
+    "db:migrate:check": "prisma migrate diff --from-schema-datasource prisma/schema.prisma --to-schema-datamodel prisma/schema.prisma --exit-code"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",

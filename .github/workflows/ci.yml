@@ -12,8 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: '20'
-  PNPM_VERSION: '9'
+  NODE_VERSION: "20"
+  PNPM_VERSION: "9"
 
 jobs:
   # Job 1: Lint & TypeScript (fastest, runs first)
@@ -35,7 +35,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -72,7 +72,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -89,11 +89,11 @@ jobs:
       - name: Check for pending migrations (STRICT MODE)
         run: |
           echo "🔍 Checking for schema drift..."
-          echo "   Comparing: schema.prisma ↔ database"
+          echo "   Comparing: database ↔ schema.prisma"
 
           pnpm exec prisma migrate diff \
-            --from-schema-datamodel prisma/schema.prisma \
-            --to-schema-datasource prisma/schema.prisma \
+            --from-schema-datasource prisma/schema.prisma \
+            --to-schema-datamodel prisma/schema.prisma \
             --exit-code || {
               echo ""
               echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -136,7 +136,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Cache Next.js build
         uses: actions/cache@v4
@@ -203,7 +203,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -215,10 +215,20 @@ jobs:
         run: pnpm exec prisma generate
 
       - name: Download build artifacts
+        id: download-build
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           name: build-artifacts
           path: .next
+
+      - name: Build application (fallback if artifact missing)
+        if: steps.download-build.outcome == 'failure'
+        run: pnpm run build
+        env:
+          DATABASE_URL: postgresql://user:password@localhost:5432/db?schema=public
+          DIRECT_URL: postgresql://user:password@localhost:5432/db?schema=public
+          NEXT_PUBLIC_SITE_URL: https://caroline-senyk.fr
 
       - name: Start application in background
         run: |
@@ -304,7 +314,7 @@ jobs:
           echo "🚀 Automatic deployment:"
           echo "  • Vercel will deploy this commit"
           echo "  • Migrations applied via vercel-build script"
-          echo "  • Site: https://carolinesenyk.fr"
+          echo "  • Site: https://caroline-senyk.fr"
           echo ""
           echo "📊 Commit info:"
           echo "  • SHA: ${{ github.sha }}"
