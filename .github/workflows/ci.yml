@@ -209,14 +209,14 @@ jobs:
           path: .next
           retention-days: 1
 
-  # Job 4: E2E Tests (runs on PRs and main/master pushes)
+  # Job 4: E2E Tests (runs only on PRs)
   e2e-tests:
     name: E2E Tests (Playwright)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: build
-    # Run E2E on PRs and on all pushes to main/master branches
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    # Run E2E only on PRs (already validated before merge)
+    if: github.event_name == 'pull_request'
 
     services:
       postgres:
