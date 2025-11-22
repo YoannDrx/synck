@@ -64,7 +64,13 @@ run('pnpm exec prisma migrate deploy', 'Applying database migrations');
 // Step 2: Generate Prisma Client
 run('pnpm exec prisma generate', 'Generating Prisma Client');
 
-// Step 3: Build Next.js application
+// Step 3: Seed database (idempotent - uses upsert)
+console.log('\n📊 Seeding database...');
+console.log('   Mode: Idempotent (upsert - creates or updates)');
+console.log('   Source: seed-data/works.json, seed-data/composers.json');
+run('pnpm db:seed:prod', 'Seeding production database');
+
+// Step 4: Build Next.js application
 run('pnpm exec next build', 'Building Next.js application');
 
 console.log('\n' + '━'.repeat(60));
