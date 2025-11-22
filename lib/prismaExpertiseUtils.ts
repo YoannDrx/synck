@@ -17,6 +17,7 @@ export type Documentaire = {
   srcLg: string;
   link: string;
   category: string;
+  productionCompanies?: string[]; // Array pour gérer les co-productions
   height?: string;
 };
 
@@ -389,6 +390,7 @@ async function getDocumentairesFromPrisma(
             },
           },
         },
+        label: true,
         translations: {
           where: { locale },
         },
@@ -405,6 +407,13 @@ async function getDocumentairesFromPrisma(
         ? assetPathToImageSrc(work.coverImage.path)
         : "/images/placeholder.jpg";
 
+      // Récupérer les sociétés de production depuis le champ JSON
+      const productionCompanies =
+        work.productionCompanySlugs &&
+        Array.isArray(work.productionCompanySlugs)
+          ? (work.productionCompanySlugs as string[])
+          : undefined;
+
       return {
         title: translation?.title ?? work.slug,
         subtitle: translation?.subtitle ?? "",
@@ -413,6 +422,7 @@ async function getDocumentairesFromPrisma(
         srcLg: imagePath,
         link: work.youtubeUrl ?? work.externalUrl ?? "",
         category: categoryTranslation?.name ?? "Documentaire",
+        productionCompanies,
         height: undefined,
       };
     });

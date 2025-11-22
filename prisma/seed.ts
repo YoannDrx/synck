@@ -64,15 +64,13 @@ type WorkData = {
   subtitleFr?: string;
   subtitleEn?: string;
   category: string;
-  labelSlug?: string;
+  productionCompanySlug?: string | string[]; // Slug(s) de la société de production (pour les documentaires, peut être un tableau pour les co-productions)
   coverImage: string;
   externalUrl?: string;
   youtubeUrl?: string;
   spotifyUrl?: string;
   releaseDate?: string;
   genre?: string;
-  duration?: number;
-  isrc?: string;
   isActive: boolean;
   order: number;
   composers?: WorkComposerData[];
@@ -495,8 +493,21 @@ async function seedWorks() {
         }
       }
 
-      // Trouver le label
-      const label = work.labelSlug ? labelsMap.get(work.labelSlug) : null;
+      // Trouver le label (société de production pour les documentaires)
+      // Si c'est un tableau, prendre le premier élément
+      const firstProductionCompany = Array.isArray(work.productionCompanySlug)
+        ? work.productionCompanySlug[0]
+        : work.productionCompanySlug;
+      const label = firstProductionCompany
+        ? labelsMap.get(firstProductionCompany)
+        : null;
+
+      // Préparer le tableau des sociétés de production pour les documentaires
+      const productionCompanySlugs = work.productionCompanySlug
+        ? Array.isArray(work.productionCompanySlug)
+          ? work.productionCompanySlug
+          : [work.productionCompanySlug]
+        : null;
 
       // Charger les descriptions markdown
       const descFrPath = `seed-data/descriptions/fr/${work.slug}.md`;
@@ -527,8 +538,8 @@ async function seedWorks() {
           releaseDate: work.releaseDate ?? null,
           genre: work.genre ?? null,
           year,
-          duration: work.duration ?? null,
-          isrcCode: work.isrc ?? null,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+          productionCompanySlugs: productionCompanySlugs as any,
           isActive: work.isActive,
           order: work.order,
           translations: {
@@ -558,8 +569,8 @@ async function seedWorks() {
           releaseDate: work.releaseDate ?? null,
           genre: work.genre ?? null,
           year,
-          duration: work.duration ?? null,
-          isrcCode: work.isrc ?? null,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+          productionCompanySlugs: productionCompanySlugs as any,
           isActive: work.isActive,
           order: work.order,
           translations: {
