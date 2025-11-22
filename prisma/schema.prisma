@@ -181,6 +181,7 @@ model Work {
   duration     Int? // In minutes
   status       String? // Ex: "completed", "in-production"
   spotifyUrl   String? // Spotify embed URL
+  youtubeUrl   String? // YouTube video URL (especially for synchros)
   externalUrl  String? // External link (website, IMDb, etc.)
   releaseDate  String? // Release date (format: "YYYY-MM-DD" or "YYYY")
   genre        String? // Musical genre (ex: "Trap / Hip Hop", "EDM")
@@ -206,6 +207,7 @@ model WorkTranslation {
   workId      String
   locale      String // 'fr' or 'en'
   title       String
+  subtitle    String? // Subtitle (ex: for synchros, the musical work title)
   description String? @db.Text
   role        String? // Ex: "Gestionnaire des droits", "Rights Manager"
 

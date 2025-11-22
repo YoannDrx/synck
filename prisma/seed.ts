@@ -7,8 +7,7 @@ import matter from "gray-matter";
 import sharp from "sharp";
 
 const prisma = new PrismaClient();
-const SKIP_SEED_IF_DATA_PRESENT =
-  process.env.SKIP_SEED_IF_DATA_PRESENT === "1";
+const SKIP_SEED_IF_DATA_PRESENT = process.env.SKIP_SEED_IF_DATA_PRESENT === "1";
 
 // ============================================
 // TYPES
@@ -62,11 +61,13 @@ type WorkData = {
   slug: string;
   titleFr: string;
   titleEn?: string;
+  subtitleFr?: string;
+  subtitleEn?: string;
   category: string;
   labelSlug?: string;
   coverImage: string;
-  coverImageExists: boolean;
   externalUrl?: string;
+  youtubeUrl?: string;
   spotifyUrl?: string;
   releaseDate?: string;
   genre?: string;
@@ -125,7 +126,7 @@ function loadMarkdown(filePath: string): MarkdownResult | null {
  */
 function loadComposerBios(): Map<string, { fr?: string; en?: string }> {
   const biosDir = path.join(process.cwd(), "content/composer-bios");
-  const locales: Array<"fr" | "en"> = ["fr", "en"];
+  const locales: ("fr" | "en")[] = ["fr", "en"];
   const biosMap = new Map<string, { fr?: string; en?: string }>();
 
   for (const locale of locales) {
@@ -431,8 +432,15 @@ async function seedWorks() {
     fs.readFileSync(worksPath, "utf-8"),
   ) as WorkData[];
 
-  // Filtrer uniquement les works avec des images valides
-  const validWorks = worksData.filter((work) => work.coverImageExists);
+  // Filtrer les works avec images valides, mais garder les synchros même sans image
+  const validWorks = worksData.filter((work) => {
+    // Toujours inclure les synchros, même sans image
+    if (work.category?.toLowerCase() === "synchro") {
+      return true;
+    }
+    // Pour les autres catégories, vérifier que l'image existe vraiment
+    return work.coverImage && imageExists(work.coverImage);
+  });
 
   console.log(
     `   Filtering: ${String(validWorks.length)}/${String(worksData.length)} works with valid images`,
@@ -469,12 +477,16 @@ async function seedWorks() {
         continue;
       }
 
-      // Créer le cover image asset
-      const coverImageAsset = await createAsset(work.coverImage);
-      if (!coverImageAsset) {
-        console.warn(`   ⚠️  Failed to create cover image for ${work.slug}`);
-        skipped++;
-        continue;
+      // Créer le cover image asset si un chemin est fourni
+      let coverImageAsset: Asset | null = null;
+      if (work.coverImage) {
+        coverImageAsset = await createAsset(work.coverImage);
+        // Si la création a échoué et ce n'est pas une synchro, on skip
+        if (!coverImageAsset && work.category?.toLowerCase() !== "synchro") {
+          console.warn(`   ⚠️  Failed to create cover image for ${work.slug}`);
+          skipped++;
+          continue;
+        }
       }
 
       // Trouver le label
@@ -502,8 +514,9 @@ async function seedWorks() {
           slug: work.slug,
           categoryId: category.id,
           labelId: label?.id ?? null,
-          coverImageId: coverImageAsset.id,
+          coverImageId: coverImageAsset?.id ?? null,
           externalUrl: work.externalUrl ?? null,
+          youtubeUrl: work.youtubeUrl ?? null,
           spotifyUrl: work.spotifyUrl ?? null,
           releaseDate: work.releaseDate ?? null,
           genre: work.genre ?? null,
@@ -517,11 +530,13 @@ async function seedWorks() {
               {
                 locale: "fr",
                 title: work.titleFr,
+                subtitle: work.subtitleFr ?? null,
                 description: descFr?.content ?? null,
               },
               {
                 locale: "en",
                 title: work.titleEn ?? work.titleFr,
+                subtitle: work.subtitleEn ?? work.subtitleFr ?? null,
                 description: descEn?.content ?? descFr?.content ?? null,
               },
             ],
@@ -530,8 +545,9 @@ async function seedWorks() {
         update: {
           categoryId: category.id,
           labelId: label?.id ?? null,
-          coverImageId: coverImageAsset.id,
+          coverImageId: coverImageAsset?.id ?? null,
           externalUrl: work.externalUrl ?? null,
+          youtubeUrl: work.youtubeUrl ?? null,
           spotifyUrl: work.spotifyUrl ?? null,
           releaseDate: work.releaseDate ?? null,
           genre: work.genre ?? null,
@@ -546,11 +562,13 @@ async function seedWorks() {
               {
                 locale: "fr",
                 title: work.titleFr,
+                subtitle: work.subtitleFr ?? null,
                 description: descFr?.content ?? null,
               },
               {
                 locale: "en",
                 title: work.titleEn ?? work.titleFr,
+                subtitle: work.subtitleEn ?? work.subtitleFr ?? null,
                 description: descEn?.content ?? descFr?.content ?? null,
               },
             ],

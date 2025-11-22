@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Breadcrumb } from "@/components/breadcrumb";
 import { YouTubeModal } from "@/components/youtube-modal";
@@ -20,6 +21,7 @@ type GalleryWork = {
   coverImageAlt: string;
   composers: string[];
   externalUrl?: string;
+  youtubeUrl?: string;
 };
 
 type Category = {
@@ -45,9 +47,15 @@ export function ProjetsPageClient({
   copy,
   viewProjectLabel,
 }: ProjetsPageClientProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
+
   const [works, setWorks] = useState<GalleryWork[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    categoryParam ?? "all",
+  );
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [youtubeModal, setYoutubeModal] = useState<{
@@ -82,6 +90,28 @@ export function ProjetsPageClient({
 
     void init();
   }, [locale]);
+
+  // Sync selectedCategory with URL params
+  useEffect(() => {
+    if (categoryParam && categoryParam !== selectedCategory) {
+      setSelectedCategory(categoryParam);
+    }
+  }, [categoryParam, selectedCategory]);
+
+  // Update URL when category changes
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    const params = new URLSearchParams(searchParams.toString());
+    if (category === "all") {
+      params.delete("category");
+    } else {
+      params.set("category", category);
+    }
+    const newUrl = params.toString()
+      ? `/${locale}/projets?${params.toString()}`
+      : `/${locale}/projets`;
+    router.push(newUrl, { scroll: false });
+  };
 
   const filteredWorks = works
     .filter(
@@ -167,7 +197,7 @@ export function ProjetsPageClient({
             <button
               data-testid="category-filter"
               onClick={() => {
-                setSelectedCategory("all");
+                handleCategoryChange("all");
               }}
               className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
                 selectedCategory === "all"
@@ -193,7 +223,7 @@ export function ProjetsPageClient({
                   key={category.id}
                   data-testid="category-filter"
                   onClick={() => {
-                    setSelectedCategory(category.name);
+                    handleCategoryChange(category.name);
                   }}
                   className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
                     selectedCategory === category.name
@@ -219,13 +249,13 @@ export function ProjetsPageClient({
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredWorks.map((work) => {
-            const isClip = work.categorySlug === "clips" && work.externalUrl;
+            const isClip = work.categorySlug === "clips" && work.youtubeUrl;
             const handleClick = (e: React.MouseEvent) => {
               if (isClip) {
                 e.preventDefault();
                 setYoutubeModal({
                   isOpen: true,
-                  url: work.externalUrl ?? "",
+                  url: work.youtubeUrl ?? "",
                   title: work.title,
                 });
               }
@@ -289,6 +319,11 @@ export function ProjetsPageClient({
               </>
             );
 
+            const projectUrl =
+              selectedCategory !== "all"
+                ? `/${locale}/projets/${work.slug}?category=${selectedCategory}`
+                : `/${locale}/projets/${work.slug}`;
+
             return isClip ? (
               <button
                 key={work.id}
@@ -301,7 +336,7 @@ export function ProjetsPageClient({
               <Link
                 key={work.id}
                 data-testid="project-card"
-                href={`/${locale}/projets/${work.slug}`}
+                href={projectUrl}
                 className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] transition-all duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
               >
                 {CardContent}
