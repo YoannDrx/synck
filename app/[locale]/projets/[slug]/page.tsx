@@ -284,14 +284,6 @@ export default async function WorkDetailPage({
                     </span>
                   </div>
                 )}
-                {work.isrcCode && (
-                  <div className="flex justify-between">
-                    <span className="text-white/60">{detailCopy.isrc}</span>
-                    <span className="font-mono text-xs text-white">
-                      {work.isrcCode}
-                    </span>
-                  </div>
-                )}
               </div>
             </div>
           </div>

@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState, useMemo } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { DeleteWorkButton } from "./delete-work-button"
-import type { AdminDictionary } from "@/types/dictionary"
+import { useState, useMemo } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { DeleteWorkButton } from "./delete-work-button";
+import type { AdminDictionary } from "@/types/dictionary";
 import type {
   Work,
   WorkTranslation,
@@ -16,31 +16,31 @@ import type {
   Composer,
   ComposerTranslation,
   Asset,
-} from "@prisma/client"
+} from "@prisma/client";
 
 type WorkWithRelations = Work & {
-  translations: WorkTranslation[]
+  translations: WorkTranslation[];
   category: Category & {
-    translations: CategoryTranslation[]
-  }
-  label: (Label & { translations: LabelTranslation[] }) | null
-  coverImage: Asset | null
+    translations: CategoryTranslation[];
+  };
+  label: (Label & { translations: LabelTranslation[] }) | null;
+  coverImage: Asset | null;
   contributions: (Contribution & {
     composer: Composer & {
-      translations: ComposerTranslation[]
-    }
-  })[]
-}
+      translations: ComposerTranslation[];
+    };
+  })[];
+};
 
 type CategoryWithTranslations = Category & {
-  translations: CategoryTranslation[]
-}
+  translations: CategoryTranslation[];
+};
 
 type WorksFilterableListProps = {
-  works: WorkWithRelations[]
-  categories: CategoryWithTranslations[]
-  dictionary: AdminDictionary["common"]
-}
+  works: WorkWithRelations[];
+  categories: CategoryWithTranslations[];
+  dictionary: AdminDictionary["common"];
+};
 
 export function WorksFilterableList({
   works,
@@ -48,14 +48,14 @@ export function WorksFilterableList({
   dictionary,
 }: WorksFilterableListProps) {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null
-  )
+    null,
+  );
 
   // Filter works based on selected category
   const filteredWorks = useMemo(() => {
-    if (!selectedCategoryId) return works
-    return works.filter((work) => work.categoryId === selectedCategoryId)
-  }, [works, selectedCategoryId])
+    if (!selectedCategoryId) return works;
+    return works.filter((work) => work.categoryId === selectedCategoryId);
+  }, [works, selectedCategoryId]);
 
   return (
     <>
@@ -64,7 +64,9 @@ export function WorksFilterableList({
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-sm text-white/60 mr-2">Filtrer par type :</span>
           <button
-            onClick={() => { setSelectedCategoryId(null); }}
+            onClick={() => {
+              setSelectedCategoryId(null);
+            }}
             className={`px-4 py-2 text-sm border-2 transition-colors ${
               selectedCategoryId === null
                 ? "border-[#d5ff0a] bg-[#d5ff0a] text-black font-bold"
@@ -76,13 +78,17 @@ export function WorksFilterableList({
           {categories.map((category) => {
             const categoryName =
               category.translations.find((t) => t.locale === "fr")?.name ??
-              "Sans nom"
-            const count = works.filter((w) => w.categoryId === category.id).length
+              "Sans nom";
+            const count = works.filter(
+              (w) => w.categoryId === category.id,
+            ).length;
 
             return (
               <button
                 key={category.id}
-                onClick={() => { setSelectedCategoryId(category.id); }}
+                onClick={() => {
+                  setSelectedCategoryId(category.id);
+                }}
                 className={`px-4 py-2 text-sm border-2 transition-colors ${
                   selectedCategoryId === category.id
                     ? "border-[#d5ff0a] bg-[#d5ff0a] text-black font-bold"
@@ -91,7 +97,7 @@ export function WorksFilterableList({
               >
                 {categoryName} ({count})
               </button>
-            )
+            );
           })}
         </div>
       </div>
@@ -124,17 +130,17 @@ export function WorksFilterableList({
           {filteredWorks.map((work) => {
             const frTitle =
               work.translations.find((t) => t.locale === "fr")?.title ??
-              "Sans titre"
+              "Sans titre";
             const category = work.category?.translations.find(
-              (t) => t.locale === "fr"
-            )?.name
+              (t) => t.locale === "fr",
+            )?.name;
             const composers = work.contributions
               .map(
                 (c) =>
-                  c.composer.translations.find((t) => t.locale === "fr")?.name
+                  c.composer.translations.find((t) => t.locale === "fr")?.name,
               )
               .filter(Boolean)
-              .join(", ")
+              .join(", ");
 
             return (
               <div
@@ -184,8 +190,6 @@ export function WorksFilterableList({
 
                   <div className="text-sm text-white/50 mb-4">
                     {work.year && <span>{work.year}</span>}
-                    {work.year && work.duration && <span> • </span>}
-                    {work.duration && <span>{work.duration}</span>}
                   </div>
 
                   {/* Actions */}
@@ -204,10 +208,10 @@ export function WorksFilterableList({
                   </div>
                 </div>
               </div>
-            )
+            );
           })}
         </div>
       )}
     </>
-  )
+  );
 }
