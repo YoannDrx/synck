@@ -432,10 +432,11 @@ async function seedWorks() {
     fs.readFileSync(worksPath, "utf-8"),
   ) as WorkData[];
 
-  // Filtrer les works avec images valides, mais garder les synchros même sans image
+  // Filtrer les works avec images valides, mais garder les synchros et documentaires même sans image
   const validWorks = worksData.filter((work) => {
-    // Toujours inclure les synchros, même sans image
-    if (work.category?.toLowerCase() === "synchro") {
+    const category = work.category?.toLowerCase();
+    // Toujours inclure les synchros et documentaires, même sans image
+    if (category === "synchro" || category === "documentaire") {
       return true;
     }
     // Pour les autres catégories, vérifier que l'image existe vraiment
@@ -481,8 +482,13 @@ async function seedWorks() {
       let coverImageAsset: Asset | null = null;
       if (work.coverImage) {
         coverImageAsset = await createAsset(work.coverImage);
-        // Si la création a échoué et ce n'est pas une synchro, on skip
-        if (!coverImageAsset && work.category?.toLowerCase() !== "synchro") {
+        // Si la création a échoué et ce n'est ni une synchro ni un documentaire, on skip
+        const category = work.category?.toLowerCase();
+        if (
+          !coverImageAsset &&
+          category !== "synchro" &&
+          category !== "documentaire"
+        ) {
           console.warn(`   ⚠️  Failed to create cover image for ${work.slug}`);
           skipped++;
           continue;

@@ -367,6 +367,61 @@ async function parseExpertiseMetadata(
 }
 
 /**
+ * Get documentaires from Prisma database
+ */
+async function getDocumentairesFromPrisma(
+  locale: Locale,
+): Promise<Documentaire[]> {
+  try {
+    const works = await prisma.work.findMany({
+      where: {
+        isActive: true,
+        category: {
+          slug: "documentaire",
+        },
+      },
+      include: {
+        coverImage: true,
+        category: {
+          include: {
+            translations: {
+              where: { locale },
+            },
+          },
+        },
+        translations: {
+          where: { locale },
+        },
+      },
+      orderBy: {
+        order: "asc",
+      },
+    });
+
+    return works.map((work) => {
+      const translation = work.translations[0];
+      const categoryTranslation = work.category.translations[0];
+      const imagePath = work.coverImage
+        ? assetPathToImageSrc(work.coverImage.path)
+        : "/images/placeholder.jpg";
+
+      return {
+        title: translation?.title ?? work.slug,
+        subtitle: translation?.subtitle ?? "",
+        href: `/${locale}/projets/${work.slug}`,
+        src: imagePath,
+        srcLg: imagePath,
+        link: work.youtubeUrl ?? work.externalUrl ?? "",
+        category: categoryTranslation?.name ?? "Documentaire",
+        height: undefined,
+      };
+    });
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Get a single expertise by slug with full content
  */
 export const getExpertise = cache(
@@ -404,6 +459,9 @@ export const getExpertise = cache(
       // Parse additional metadata from markdown file
       const metadata = await parseExpertiseMetadata(slug, locale);
 
+      // Get documentaires from Prisma database
+      const documentairesFromPrisma = await getDocumentairesFromPrisma(locale);
+
       // Build image mapping from the images array
       // Les images sont stockées dans l'ordre: img1, img2, img3, img4, img5, imgFooter
       const allImages = expertise.images.map((img) =>
@@ -432,7 +490,7 @@ export const getExpertise = cache(
         img4Link: metadata.img4Link,
         img5Link: metadata.img5Link,
         labels: metadata.labels,
-        documentaires: metadata.documentaires,
+        documentaires: documentairesFromPrisma,
         supports: metadata.supports,
         productionCompanies: metadata.productionCompanies,
         sectionsLayout: undefined,
