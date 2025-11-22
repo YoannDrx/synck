@@ -7,8 +7,7 @@ import matter from "gray-matter";
 import sharp from "sharp";
 
 const prisma = new PrismaClient();
-const SKIP_SEED_IF_DATA_PRESENT =
-  process.env.SKIP_SEED_IF_DATA_PRESENT === "1";
+const SKIP_SEED_IF_DATA_PRESENT = process.env.SKIP_SEED_IF_DATA_PRESENT === "1";
 
 // ============================================
 // TYPES
@@ -62,16 +61,16 @@ type WorkData = {
   slug: string;
   titleFr: string;
   titleEn?: string;
+  subtitleFr?: string;
+  subtitleEn?: string;
   category: string;
-  labelSlug?: string;
+  productionCompanySlug?: string | string[]; // Slug(s) de la société de production (pour les documentaires, peut être un tableau pour les co-productions)
   coverImage: string;
-  coverImageExists: boolean;
   externalUrl?: string;
+  youtubeUrl?: string;
   spotifyUrl?: string;
   releaseDate?: string;
   genre?: string;
-  duration?: number;
-  isrc?: string;
   isActive: boolean;
   order: number;
   composers?: WorkComposerData[];
@@ -117,6 +116,39 @@ function loadMarkdown(filePath: string): MarkdownResult | null {
     console.error(`❌ Erreur lecture ${filePath}:`, error);
     return null;
   }
+}
+
+/**
+ * Charge les biographies des compositeurs depuis content/composer-bios
+ * Retourne une map par slug avec les versions FR/EN si disponibles
+ */
+function loadComposerBios(): Map<string, { fr?: string; en?: string }> {
+  const biosDir = path.join(process.cwd(), "content/composer-bios");
+  const locales: ("fr" | "en")[] = ["fr", "en"];
+  const biosMap = new Map<string, { fr?: string; en?: string }>();
+
+  for (const locale of locales) {
+    const localeDir = path.join(biosDir, locale);
+    if (!fs.existsSync(localeDir)) continue;
+
+    const files = fs
+      .readdirSync(localeDir)
+      .filter((file) => file.toLowerCase().endsWith(".md"));
+
+    for (const file of files) {
+      const slug = file.replace(/\.md$/i, "");
+      const filePath = path.join(localeDir, file);
+      const content = fs.readFileSync(filePath, "utf-8").trim();
+
+      if (!content) continue;
+
+      const entry = biosMap.get(slug) ?? {};
+      entry[locale] = content.replace(/\r\n/g, "\n");
+      biosMap.set(slug, entry);
+    }
+  }
+
+  return biosMap;
 }
 
 /**
@@ -313,8 +345,15 @@ async function seedComposers() {
     fs.readFileSync(composersPath, "utf-8"),
   ) as ComposerData[];
 
+  // Charger les biographies (optionnelles)
+  const composerBios = loadComposerBios();
+
   let created = 0;
   for (const comp of composersData) {
+    const bios = composerBios.get(comp.slug);
+    const bioFr = bios?.fr ?? bios?.en ?? null;
+    const bioEn = bios?.en ?? bios?.fr ?? null;
+
     // Créer l'image si elle existe
     let imageAsset: Asset | null = null;
     if (comp.image && imageExists(comp.image)) {
@@ -332,8 +371,8 @@ async function seedComposers() {
         imageId: imageAsset?.id ?? null,
         translations: {
           create: [
-            { locale: "fr", name: comp.name },
-            { locale: "en", name: comp.name },
+            { locale: "fr", name: comp.name, bio: bioFr },
+            { locale: "en", name: comp.name, bio: bioEn },
           ],
         },
       },
@@ -345,8 +384,8 @@ async function seedComposers() {
         translations: {
           deleteMany: {},
           create: [
-            { locale: "fr", name: comp.name },
-            { locale: "en", name: comp.name },
+            { locale: "fr", name: comp.name, bio: bioFr },
+            { locale: "en", name: comp.name, bio: bioEn },
           ],
         },
       },
@@ -391,8 +430,16 @@ async function seedWorks() {
     fs.readFileSync(worksPath, "utf-8"),
   ) as WorkData[];
 
-  // Filtrer uniquement les works avec des images valides
-  const validWorks = worksData.filter((work) => work.coverImageExists);
+  // Filtrer les works avec images valides, mais garder les synchros et documentaires même sans image
+  const validWorks = worksData.filter((work) => {
+    const category = work.category?.toLowerCase();
+    // Toujours inclure les synchros et documentaires, même sans image
+    if (category === "synchro" || category === "documentaire") {
+      return true;
+    }
+    // Pour les autres catégories, vérifier que l'image existe vraiment
+    return work.coverImage && imageExists(work.coverImage);
+  });
 
   console.log(
     `   Filtering: ${String(validWorks.length)}/${String(worksData.length)} works with valid images`,
@@ -429,16 +476,38 @@ async function seedWorks() {
         continue;
       }
 
-      // Créer le cover image asset
-      const coverImageAsset = await createAsset(work.coverImage);
-      if (!coverImageAsset) {
-        console.warn(`   ⚠️  Failed to create cover image for ${work.slug}`);
-        skipped++;
-        continue;
+      // Créer le cover image asset si un chemin est fourni
+      let coverImageAsset: Asset | null = null;
+      if (work.coverImage) {
+        coverImageAsset = await createAsset(work.coverImage);
+        // Si la création a échoué et ce n'est ni une synchro ni un documentaire, on skip
+        const category = work.category?.toLowerCase();
+        if (
+          !coverImageAsset &&
+          category !== "synchro" &&
+          category !== "documentaire"
+        ) {
+          console.warn(`   ⚠️  Failed to create cover image for ${work.slug}`);
+          skipped++;
+          continue;
+        }
       }
 
-      // Trouver le label
-      const label = work.labelSlug ? labelsMap.get(work.labelSlug) : null;
+      // Trouver le label (société de production pour les documentaires)
+      // Si c'est un tableau, prendre le premier élément
+      const firstProductionCompany = Array.isArray(work.productionCompanySlug)
+        ? work.productionCompanySlug[0]
+        : work.productionCompanySlug;
+      const label = firstProductionCompany
+        ? labelsMap.get(firstProductionCompany)
+        : null;
+
+      // Préparer le tableau des sociétés de production pour les documentaires
+      const productionCompanySlugs = work.productionCompanySlug
+        ? Array.isArray(work.productionCompanySlug)
+          ? work.productionCompanySlug
+          : [work.productionCompanySlug]
+        : null;
 
       // Charger les descriptions markdown
       const descFrPath = `seed-data/descriptions/fr/${work.slug}.md`;
@@ -462,14 +531,15 @@ async function seedWorks() {
           slug: work.slug,
           categoryId: category.id,
           labelId: label?.id ?? null,
-          coverImageId: coverImageAsset.id,
+          coverImageId: coverImageAsset?.id ?? null,
           externalUrl: work.externalUrl ?? null,
+          youtubeUrl: work.youtubeUrl ?? null,
           spotifyUrl: work.spotifyUrl ?? null,
           releaseDate: work.releaseDate ?? null,
           genre: work.genre ?? null,
           year,
-          duration: work.duration ?? null,
-          isrcCode: work.isrc ?? null,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+          productionCompanySlugs: productionCompanySlugs as any,
           isActive: work.isActive,
           order: work.order,
           translations: {
@@ -477,11 +547,13 @@ async function seedWorks() {
               {
                 locale: "fr",
                 title: work.titleFr,
+                subtitle: work.subtitleFr ?? null,
                 description: descFr?.content ?? null,
               },
               {
                 locale: "en",
                 title: work.titleEn ?? work.titleFr,
+                subtitle: work.subtitleEn ?? work.subtitleFr ?? null,
                 description: descEn?.content ?? descFr?.content ?? null,
               },
             ],
@@ -490,14 +562,15 @@ async function seedWorks() {
         update: {
           categoryId: category.id,
           labelId: label?.id ?? null,
-          coverImageId: coverImageAsset.id,
+          coverImageId: coverImageAsset?.id ?? null,
           externalUrl: work.externalUrl ?? null,
+          youtubeUrl: work.youtubeUrl ?? null,
           spotifyUrl: work.spotifyUrl ?? null,
           releaseDate: work.releaseDate ?? null,
           genre: work.genre ?? null,
           year,
-          duration: work.duration ?? null,
-          isrcCode: work.isrc ?? null,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+          productionCompanySlugs: productionCompanySlugs as any,
           isActive: work.isActive,
           order: work.order,
           translations: {
@@ -506,11 +579,13 @@ async function seedWorks() {
               {
                 locale: "fr",
                 title: work.titleFr,
+                subtitle: work.subtitleFr ?? null,
                 description: descFr?.content ?? null,
               },
               {
                 locale: "en",
                 title: work.titleEn ?? work.titleFr,
+                subtitle: work.subtitleEn ?? work.subtitleFr ?? null,
                 description: descEn?.content ?? descFr?.content ?? null,
               },
             ],

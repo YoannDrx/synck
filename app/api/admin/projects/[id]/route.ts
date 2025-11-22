@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 
-import type { NextRequest} from "next/server";
-import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
-import { z } from "zod"
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { z } from "zod";
 
 const workSchema = z.object({
   slug: z.string().min(1),
@@ -11,24 +11,27 @@ const workSchema = z.object({
   labelId: z.string().optional().nullable(),
   coverImageId: z.string().optional().nullable(),
   year: z.number().int().optional().nullable(),
-  duration: z.string().optional().nullable(),
   status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).default("PUBLISHED"),
-  spotifyUrl: z.union([
-    z.string().refine((val) => {
-      if (!val) return true;
-      try {
-        new URL(val);
-        return true;
-      } catch {
-        return false;
-      }
-    }, { message: "URL invalide" }),
-    z.literal(""),
-    z.null()
-  ]).optional(),
+  spotifyUrl: z
+    .union([
+      z.string().refine(
+        (val) => {
+          if (!val) return true;
+          try {
+            new URL(val);
+            return true;
+          } catch {
+            return false;
+          }
+        },
+        { message: "URL invalide" },
+      ),
+      z.literal(""),
+      z.null(),
+    ])
+    .optional(),
   releaseDate: z.string().optional().nullable(),
   genre: z.string().optional().nullable(),
-  isrcCode: z.string().optional().nullable(),
   order: z.number().int().default(0),
   isActive: z.boolean().default(true),
   isFeatured: z.boolean().default(false),
@@ -44,20 +47,24 @@ const workSchema = z.object({
       role: z.string().optional().nullable(),
     }),
   }),
-  composers: z.array(z.object({
-    composerId: z.string(),
-    role: z.string().optional().nullable(),
-    order: z.number().int().default(0),
-  })).optional(),
+  composers: z
+    .array(
+      z.object({
+        composerId: z.string(),
+        role: z.string().optional().nullable(),
+        order: z.number().int().default(0),
+      }),
+    )
+    .optional(),
   imageIds: z.array(z.string()).optional(),
-})
+});
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = await params
+    const { id } = await params;
 
     const work = await prisma.work.findUnique({
       where: { id },
@@ -86,38 +93,35 @@ export async function GET(
         },
         images: true,
       },
-    })
+    });
 
     if (!work) {
-      return NextResponse.json(
-        { error: "Projet non trouvé" },
-        { status: 404 }
-      )
+      return NextResponse.json({ error: "Projet non trouvé" }, { status: 404 });
     }
 
-    return NextResponse.json(work)
+    return NextResponse.json(work);
   } catch (error) {
-    console.error("Get project error:", error)
+    console.error("Get project error:", error);
     return NextResponse.json(
       { error: "Erreur lors de la récupération du projet" },
-      { status: 500 }
-    )
+      { status: 500 },
+    );
   }
 }
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = await params
-    const body: unknown = await request.json()
-    const data = workSchema.parse(body)
+    const { id } = await params;
+    const body: unknown = await request.json();
+    const data = workSchema.parse(body);
 
     // Delete existing contributions, then recreate
     await prisma.contribution.deleteMany({
       where: { workId: id },
-    })
+    });
 
     // Update work with new data
     const work = await prisma.work.update({
@@ -128,12 +132,10 @@ export async function PUT(
         labelId: data.labelId,
         coverImageId: data.coverImageId,
         year: data.year ?? null,
-        duration: data.duration ? parseInt(data.duration) : null,
         status: data.status,
         spotifyUrl: data.spotifyUrl ?? null,
         releaseDate: data.releaseDate,
         genre: data.genre,
-        isrcCode: data.isrcCode,
         order: data.order,
         isActive: data.isActive,
         isFeatured: data.isFeatured,
@@ -154,15 +156,16 @@ export async function PUT(
             },
           ],
         },
-        ...(data.composers && data.composers.length > 0 && {
-          contributions: {
-            create: data.composers.map((composer) => ({
-              composerId: composer.composerId,
-              role: composer.role,
-              order: composer.order,
-            })),
-          },
-        }),
+        ...(data.composers &&
+          data.composers.length > 0 && {
+            contributions: {
+              create: data.composers.map((composer) => ({
+                composerId: composer.composerId,
+                role: composer.role,
+                order: composer.order,
+              })),
+            },
+          }),
         // Note: images relationship needs to be handled differently
         // ...(data.imageIds && data.imageIds.length > 0 && {
         //   images: {
@@ -183,55 +186,52 @@ export async function PUT(
         },
         images: true,
       },
-    })
+    });
 
-    return NextResponse.json(work)
+    return NextResponse.json(work);
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: "Données invalides", details: error.issues },
-        { status: 400 }
-      )
+        { status: 400 },
+      );
     }
 
-    console.error("Update project error:", error)
+    console.error("Update project error:", error);
     return NextResponse.json(
       { error: "Erreur lors de la mise à jour du projet" },
-      { status: 500 }
-    )
+      { status: 500 },
+    );
   }
 }
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = await params
+    const { id } = await params;
 
     // Check if work exists
     const existing = await prisma.work.findUnique({
       where: { id },
-    })
+    });
 
     if (!existing) {
-      return NextResponse.json(
-        { error: "Projet non trouvé" },
-        { status: 404 }
-      )
+      return NextResponse.json({ error: "Projet non trouvé" }, { status: 404 });
     }
 
     // Delete work (cascades will handle related data)
     await prisma.work.delete({
       where: { id },
-    })
+    });
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Delete project error:", error)
+    console.error("Delete project error:", error);
     return NextResponse.json(
       { error: "Erreur lors de la suppression du projet" },
-      { status: 500 }
-    )
+      { status: 500 },
+    );
   }
 }

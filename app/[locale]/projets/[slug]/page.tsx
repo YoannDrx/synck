@@ -35,14 +35,24 @@ type WorkDetailPageParams = {
     locale: Locale;
     slug: string;
   }>;
+  searchParams?: Promise<{
+    category?: string;
+  }>;
 };
 
-export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
+export default async function WorkDetailPage({
+  params,
+  searchParams,
+}: WorkDetailPageParams) {
   const { locale, slug } = await params;
   const safeLocale = locale === "en" ? "en" : "fr";
   const work = await getWorkBySlug(slug, safeLocale);
   const dictionary = await getDictionary(safeLocale);
   const detailCopy = dictionary.projetDetail;
+
+  // Get category from search params for breadcrumb
+  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const categoryParam = resolvedSearchParams.category;
 
   if (!work) {
     notFound();
@@ -67,6 +77,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
       ? translationDescription
       : undefined;
   const externalLink = work.externalUrl?.trim() ?? null;
+  const youtubeLink = work.youtubeUrl?.trim() ?? null;
   const releaseDate = work.releaseDate ?? null;
   const genre = work.genre ?? null;
   const rawSpotifyUrl = work.spotifyUrl ?? null;
@@ -94,10 +105,10 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
     : null;
 
   // Extract YouTube video ID from URL
-  const youtubeVideoId = externalLink
+  const youtubeVideoId = youtubeLink
     ? (() => {
         try {
-          const url = new URL(externalLink);
+          const url = new URL(youtubeLink);
           // Handle youtube.com/watch?v=VIDEO_ID
           if (
             url.hostname.includes("youtube.com") &&
@@ -130,7 +141,12 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
         <Breadcrumb
           items={[
             { label: dictionary.nav.home, href: `/${safeLocale}` },
-            { label: dictionary.nav.projets, href: `/${safeLocale}/projets` },
+            {
+              label: dictionary.nav.projets,
+              href: categoryParam
+                ? `/${safeLocale}/projets?category=${categoryParam}`
+                : `/${safeLocale}/projets`,
+            },
             { label: translation?.title || work.slug },
           ]}
         />
@@ -157,6 +173,11 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
               <h1 className="text-4xl font-black uppercase tracking-tight sm:text-5xl lg:text-6xl">
                 {translation?.title || work.slug}
               </h1>
+              {translation?.subtitle && (
+                <p className="text-xl font-medium text-white/70 sm:text-2xl">
+                  {translation.subtitle}
+                </p>
+              )}
             </div>
           </div>
 
@@ -260,14 +281,6 @@ export default async function WorkDetailPage({ params }: WorkDetailPageParams) {
                     <span className="text-white/60">{detailCopy.label}</span>
                     <span className="font-bold text-white">
                       {labelTranslation.name}
-                    </span>
-                  </div>
-                )}
-                {work.isrcCode && (
-                  <div className="flex justify-between">
-                    <span className="text-white/60">{detailCopy.isrc}</span>
-                    <span className="font-mono text-xs text-white">
-                      {work.isrcCode}
                     </span>
                   </div>
                 )}

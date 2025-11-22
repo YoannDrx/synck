@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 
-import type { NextRequest} from "next/server";
-import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
-import { z } from "zod"
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { z } from "zod";
 
 // Schema validation for creating/updating works
 const workSchema = z.object({
@@ -12,12 +12,10 @@ const workSchema = z.object({
   labelId: z.string().optional().nullable(),
   coverImageId: z.string().optional().nullable(),
   year: z.number().int().optional().nullable(),
-  duration: z.string().optional().nullable(),
   status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).default("PUBLISHED"),
   spotifyUrl: z.string().optional().nullable().or(z.literal("")),
   releaseDate: z.string().optional().nullable(),
   genre: z.string().optional().nullable(),
-  isrcCode: z.string().optional().nullable(),
   order: z.number().int().default(0),
   isActive: z.boolean().default(true),
   isFeatured: z.boolean().default(false),
@@ -33,13 +31,17 @@ const workSchema = z.object({
       role: z.string().optional().nullable(),
     }),
   }),
-  composers: z.array(z.object({
-    composerId: z.string(),
-    role: z.string().optional().nullable(),
-    order: z.number().int().default(0),
-  })).optional(),
+  composers: z
+    .array(
+      z.object({
+        composerId: z.string(),
+        role: z.string().optional().nullable(),
+        order: z.number().int().default(0),
+      }),
+    )
+    .optional(),
   imageIds: z.array(z.string()).optional(),
-})
+});
 
 export async function GET() {
   try {
@@ -70,21 +72,21 @@ export async function GET() {
         images: true,
       },
       orderBy: [{ order: "asc" }, { createdAt: "desc" }],
-    })
+    });
 
-    return NextResponse.json(works)
+    return NextResponse.json(works);
   } catch {
     return NextResponse.json(
       { error: "Erreur lors de la récupération des projets" },
-      { status: 500 }
-    )
+      { status: 500 },
+    );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body: unknown = await request.json()
-    const data = workSchema.parse(body)
+    const body: unknown = await request.json();
+    const data = workSchema.parse(body);
 
     // Create work with translations and contributions
     const work = await prisma.work.create({
@@ -94,12 +96,10 @@ export async function POST(request: NextRequest) {
         labelId: data.labelId,
         coverImageId: data.coverImageId,
         year: data.year ?? null,
-        duration: data.duration ? parseInt(data.duration) : null,
         status: data.status,
         spotifyUrl: data.spotifyUrl ?? null,
         releaseDate: data.releaseDate,
         genre: data.genre,
-        isrcCode: data.isrcCode,
         order: data.order,
         isActive: data.isActive,
         isFeatured: data.isFeatured,
@@ -119,15 +119,16 @@ export async function POST(request: NextRequest) {
             },
           ],
         },
-        ...(data.composers && data.composers.length > 0 && {
-          contributions: {
-            create: data.composers.map((composer) => ({
-              composerId: composer.composerId,
-              role: composer.role,
-              order: composer.order,
-            })),
-          },
-        }),
+        ...(data.composers &&
+          data.composers.length > 0 && {
+            contributions: {
+              create: data.composers.map((composer) => ({
+                composerId: composer.composerId,
+                role: composer.role,
+                order: composer.order,
+              })),
+            },
+          }),
       },
       include: {
         translations: true,
@@ -142,21 +143,21 @@ export async function POST(request: NextRequest) {
         },
         images: true,
       },
-    })
+    });
 
-    return NextResponse.json(work, { status: 201 })
+    return NextResponse.json(work, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: "Données invalides", details: error.issues },
-        { status: 400 }
-      )
+        { status: 400 },
+      );
     }
 
-    console.error("Create project error:", error)
+    console.error("Create project error:", error);
     return NextResponse.json(
       { error: "Erreur lors de la création du projet" },
-      { status: 500 }
-    )
+      { status: 500 },
+    );
   }
 }

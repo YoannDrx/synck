@@ -11,6 +11,7 @@ type Documentaire = {
   srcLg: string;
   link: string;
   category: string;
+  productionCompanies?: string[]; // Array pour gérer les co-productions
   height?: string;
 };
 
@@ -29,16 +30,20 @@ export function DocumentairesGallery({
   documentaires,
   copy,
 }: DocumentairesGalleryProps) {
-  const categories = Array.from(
-    new Set(documentaires.map((doc) => doc.category)),
-  ).filter(Boolean);
+  // Extraire toutes les sociétés de production uniques (flatten les tableaux)
+  const productionCompanies = Array.from(
+    new Set(documentaires.flatMap((doc) => doc.productionCompanies ?? [])),
+  ).sort();
 
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedProductionCompany, setSelectedProductionCompany] =
+    useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const filteredDocs = documentaires
     .filter(
-      (doc) => selectedCategory === "all" || doc.category === selectedCategory,
+      (doc) =>
+        selectedProductionCompany === "all" ||
+        doc.productionCompanies?.includes(selectedProductionCompany),
     )
     .filter((doc) =>
       doc.title.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -89,41 +94,53 @@ export function DocumentairesGallery({
           </div>
         </div>
 
-        {/* Filter Buttons */}
-        <div className="mb-8 flex flex-wrap gap-3">
-          <button
-            onClick={() => {
-              setSelectedCategory("all");
-            }}
-            className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
-              selectedCategory === "all"
-                ? "border-lime-300 bg-lime-300 text-[#050505]"
-                : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
-            }`}
-          >
-            {copy.filterAll} ({documentaires.length})
-          </button>
-          {categories.map((category) => {
-            const count = documentaires.filter(
-              (d) => d.category === category,
-            ).length;
-            return (
+        {/* Filter Buttons - Production Companies */}
+        {productionCompanies.length > 0 && (
+          <div className="mb-8">
+            <h4 className="mb-3 text-sm font-bold uppercase tracking-wide text-white/70">
+              Sociétés de production
+            </h4>
+            <div className="flex flex-wrap gap-3">
               <button
-                key={category}
                 onClick={() => {
-                  setSelectedCategory(category);
+                  setSelectedProductionCompany("all");
                 }}
                 className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
-                  selectedCategory === category
+                  selectedProductionCompany === "all"
                     ? "border-lime-300 bg-lime-300 text-[#050505]"
                     : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
                 }`}
               >
-                {category} ({count})
+                Toutes ({documentaires.length})
               </button>
-            );
-          })}
-        </div>
+              {productionCompanies.map((company) => {
+                const count = documentaires.filter((d) =>
+                  d.productionCompanies?.includes(company),
+                ).length;
+                // Format display name
+                const displayName = company
+                  .split("-")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ");
+                return (
+                  <button
+                    key={company}
+                    onClick={() => {
+                      setSelectedProductionCompany(company);
+                    }}
+                    className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
+                      selectedProductionCompany === company
+                        ? "border-lime-300 bg-lime-300 text-[#050505]"
+                        : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
+                    }`}
+                  >
+                    {displayName} ({count})
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Documentaires Grid by Category */}
         {Object.entries(groupedDocs).map(([category, docs]) => (

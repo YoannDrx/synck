@@ -169,27 +169,27 @@ model LabelTranslation {
 // ============================================
 
 model Work {
-  id           String   @id @default(cuid())
-  slug         String   @unique
-  categoryId   String
-  category     Category @relation(fields: [categoryId], references: [id])
-  labelId      String?
-  label        Label?   @relation(fields: [labelId], references: [id])
-  coverImageId String?
-  coverImage   Asset?   @relation("WorkCover", fields: [coverImageId], references: [id])
-  year         Int?
-  duration     Int? // In minutes
-  status       String? // Ex: "completed", "in-production"
-  spotifyUrl   String? // Spotify embed URL
-  externalUrl  String? // External link (website, IMDb, etc.)
-  releaseDate  String? // Release date (format: "YYYY-MM-DD" or "YYYY")
-  genre        String? // Musical genre (ex: "Trap / Hip Hop", "EDM")
-  isrcCode     String? // International Standard Recording Code
-  order        Int      @default(0)
-  isActive     Boolean  @default(true)
-  isFeatured   Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id                     String   @id @default(cuid())
+  slug                   String   @unique
+  categoryId             String
+  category               Category @relation(fields: [categoryId], references: [id])
+  labelId                String?
+  label                  Label?   @relation(fields: [labelId], references: [id])
+  coverImageId           String?
+  coverImage             Asset?   @relation("WorkCover", fields: [coverImageId], references: [id])
+  year                   Int?
+  productionCompanySlugs Json? // Array of production company slugs for documentaries (co-productions)
+  status                 String? // Ex: "completed", "in-production"
+  spotifyUrl             String? // Spotify embed URL
+  youtubeUrl             String? // YouTube video URL (especially for synchros)
+  externalUrl            String? // External link (website, IMDb, etc.)
+  releaseDate            String? // Release date (format: "YYYY-MM-DD" or "YYYY")
+  genre                  String? // Musical genre (ex: "Trap / Hip Hop", "EDM")
+  order                  Int      @default(0)
+  isActive               Boolean  @default(true)
+  isFeatured             Boolean  @default(false)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 
   // Relations
   translations  WorkTranslation[]
@@ -206,6 +206,7 @@ model WorkTranslation {
   workId      String
   locale      String // 'fr' or 'en'
   title       String
+  subtitle    String? // Subtitle (ex: for synchros, the musical work title)
   description String? @db.Text
   role        String? // Ex: "Gestionnaire des droits", "Rights Manager"
 

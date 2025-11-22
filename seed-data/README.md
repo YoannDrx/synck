@@ -18,6 +18,8 @@ seed-data/
     └── en/                  # 36 descriptions EN
 ```
 
+Le seed Prisma lit aussi, si présent, `content/composer-bios/` (FR/EN, fichiers `.md` nommés par slug) pour remplir automatiquement le champ `bio` des compositeurs. Si seule la version française existe, elle est réutilisée pour l'anglais.
+
 ## 🔄 Génération des fichiers
 
 Les fichiers JSON sont générés automatiquement via les scripts :
