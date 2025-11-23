@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
 import { ApiError } from "@/lib/api/error-handler";
+import { createAuditLog } from "@/lib/audit-log";
 
 const labelSchema = z.object({
   website: z
@@ -61,7 +62,7 @@ export const GET = withAuth(async (_req, context) => {
 
 export const PUT = withAuthAndValidation(
   labelSchema,
-  async (_req, context, _user, data) => {
+  async (req, context, user, data) => {
     if (!context.params) {
       throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
     }
@@ -126,11 +127,34 @@ export const PUT = withAuthAndValidation(
       include: { translations: true },
     });
 
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "UPDATE",
+      entityType: "Label",
+      entityId: id,
+      metadata: {
+        slug: existing.slug,
+        before: {
+          nameFr: existing.translations.find((t) => t.locale === "fr")?.name,
+          nameEn: existing.translations.find((t) => t.locale === "en")?.name,
+          website: existing.website,
+        },
+        after: {
+          nameFr: data.translations.fr.name,
+          nameEn: data.translations.en.name,
+          website: data.website,
+        },
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
+    });
+
     return NextResponse.json(updatedLabel);
   },
 );
 
-export const DELETE = withAuth(async (_req, context) => {
+export const DELETE = withAuth(async (req, context, user) => {
   if (!context.params) {
     throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
   }
@@ -140,6 +164,7 @@ export const DELETE = withAuth(async (_req, context) => {
   const label = await prisma.label.findUnique({
     where: { id },
     include: {
+      translations: true,
       _count: {
         select: {
           works: true,
@@ -162,6 +187,22 @@ export const DELETE = withAuth(async (_req, context) => {
 
   await prisma.label.delete({
     where: { id },
+  });
+
+  // Audit log
+  await createAuditLog({
+    userId: user.id,
+    action: "DELETE",
+    entityType: "Label",
+    entityId: id,
+    metadata: {
+      slug: label.slug,
+      nameFr: label.translations.find((t) => t.locale === "fr")?.name,
+      nameEn: label.translations.find((t) => t.locale === "en")?.name,
+      website: label.website,
+    },
+    ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+    userAgent: req.headers.get("user-agent") ?? undefined,
   });
 
   return NextResponse.json({ success: true });

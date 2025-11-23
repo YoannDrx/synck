@@ -3,17 +3,15 @@
 import { ChevronRightIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import type { AuthenticatedUser } from "@/lib/api/with-auth";
+import { NotificationsBell } from "@/components/admin/notifications-bell";
+import { ThemeToggle } from "@/components/admin/theme-toggle";
 
 type AdminTopBarProps = {
   locale: string;
   onToggleSidebar?: () => void;
 };
 
-export function AdminTopBar({
-  locale,
-  onToggleSidebar,
-}: AdminTopBarProps) {
+export function AdminTopBar({ locale, onToggleSidebar }: AdminTopBarProps) {
   const pathname = usePathname();
 
   // Generate breadcrumbs from pathname
@@ -73,31 +71,36 @@ export function AdminTopBar({
           )}
           {/* Breadcrumbs */}
           <nav className="flex items-center gap-2 text-sm">
-          {breadcrumbs.map((crumb, index) => {
-            const isLast = index === breadcrumbs.length - 1;
+            {breadcrumbs.map((crumb, index) => {
+              const isLast = index === breadcrumbs.length - 1;
 
-            return (
-              <div key={crumb.href} className="flex items-center gap-2">
-                {index > 0 && (
-                  <ChevronRightIcon className="h-4 w-4 text-white/30" />
-                )}
-                {isLast ? (
-                  <span className="font-medium text-white">{crumb.label}</span>
-                ) : (
-                  <Link
-                    href={crumb.href}
-                    className="text-white/60 hover:text-white"
-                  >
-                    {crumb.label}
-                  </Link>
-                )}
-              </div>
-            );
-          })}
+              return (
+                <div key={crumb.href} className="flex items-center gap-2">
+                  {index > 0 && (
+                    <ChevronRightIcon className="h-4 w-4 text-white/30" />
+                  )}
+                  {isLast ? (
+                    <span className="font-medium text-white">
+                      {crumb.label}
+                    </span>
+                  ) : (
+                    <Link
+                      href={crumb.href}
+                      className="text-white/60 hover:text-white"
+                    >
+                      {crumb.label}
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
           </nav>
-      </div>
+        </div>
 
-        <div className="w-10" />
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <NotificationsBell />
+        </div>
       </div>
     </header>
   );

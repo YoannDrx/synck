@@ -31,6 +31,7 @@ type WorkFormProps = {
   dictionary: AdminDictionary;
   work?: WorkWithRelations;
   mode: "create" | "edit";
+  locale: string;
 };
 
 type ComposerOption = {
@@ -48,7 +49,7 @@ type LabelOption = {
   name: string;
 };
 
-export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
+export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -308,7 +309,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
       }
 
       // Success - redirect to list
-      router.push("/admin/projets");
+      router.push(`/${locale}/admin/projets`);
       router.refresh();
     } catch (err: unknown) {
       setError(
@@ -845,7 +846,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
         <button
           type="button"
           onClick={() => {
-            router.push("/admin/projets");
+            router.push(`/${locale}/admin/projets`);
           }}
           disabled={isSubmitting}
           className="border-2 border-white/20 px-6 py-3 hover:border-[#d5ff0a] transition-colors disabled:opacity-50"

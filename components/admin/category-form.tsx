@@ -9,6 +9,8 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import type { Category, CategoryTranslation } from "@prisma/client";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import { ColorPicker } from "@/components/admin/color-picker";
+import { IconPicker } from "@/components/admin/icon-picker";
 
 type CategoryWithTranslations = Category & {
   translations: CategoryTranslation[];
@@ -173,26 +175,12 @@ export function CategoryForm({ category, mode }: CategoryFormProps) {
             <Label htmlFor="color" className="text-white">
               Couleur *
             </Label>
-            <div className="flex gap-2">
-              <Input
-                id="color"
-                type="color"
-                value={formData.color}
-                onChange={(e) => {
-                  setFormData({ ...formData, color: e.target.value });
-                }}
-                className="h-10 w-20 cursor-pointer border-white/20 bg-black"
-              />
-              <Input
-                value={formData.color}
-                onChange={(e) => {
-                  setFormData({ ...formData, color: e.target.value });
-                }}
-                placeholder="#d5ff0a"
-                pattern="^#[0-9A-Fa-f]{6}$"
-                className="border-white/20 bg-black text-white"
-              />
-            </div>
+            <ColorPicker
+              value={formData.color}
+              onChange={(color) => {
+                setFormData({ ...formData, color });
+              }}
+            />
             <p className="text-xs text-white/50">
               Format hexadécimal (#RRGGBB)
             </p>
@@ -203,17 +191,14 @@ export function CategoryForm({ category, mode }: CategoryFormProps) {
             <Label htmlFor="icon" className="text-white">
               Icône (optionnel)
             </Label>
-            <Input
-              id="icon"
+            <IconPicker
               value={formData.icon}
-              onChange={(e) => {
-                setFormData({ ...formData, icon: e.target.value });
+              onChange={(icon) => {
+                setFormData({ ...formData, icon });
               }}
-              placeholder="music"
-              className="border-white/20 bg-black text-white"
             />
             <p className="text-xs text-white/50">
-              Nom de l'icône Lucide (ex: music, film, tv)
+              Sélectionnez une icône Lucide
             </p>
           </div>
         </div>

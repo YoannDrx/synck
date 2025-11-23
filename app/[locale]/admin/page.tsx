@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { StatCard } from "@/components/admin/dashboard/stat-card";
 import { DashboardCharts } from "@/components/admin/dashboard/dashboard-charts";
+import { DuplicatesWidget } from "@/components/admin/dashboard/duplicates-widget";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +27,7 @@ async function getStats() {
   const baseUrl =
     host && protocol
       ? `${protocol}://${host}`
-      : process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+      : (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000");
   const cookie = headersList.get("cookie");
 
   try {
@@ -127,7 +128,7 @@ export default async function AdminDashboardPage({
       <DashboardCharts />
 
       {/* Health & Quick Actions Grid */}
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-3">
         {/* Site Health */}
         <Card className="border-lime-300/20 bg-black">
           <CardHeader>
@@ -249,6 +250,9 @@ export default async function AdminDashboardPage({
             </Link>
           </CardContent>
         </Card>
+
+        {/* Duplicates Monitoring Widget */}
+        <DuplicatesWidget locale={locale} />
       </div>
     </div>
   );

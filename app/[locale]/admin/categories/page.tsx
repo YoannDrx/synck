@@ -29,6 +29,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import { ExportButton } from "@/components/admin/export-button";
 
 type Category = {
   id: string;
@@ -338,12 +339,15 @@ export default function CategoriesPage({
             {filteredCategories.length > 1 ? "catégories" : "catégorie"})
           </p>
         </div>
-        <Link href={`/${locale}/admin/categories/nouveau`}>
-          <Button className="gap-2 bg-lime-300 text-black hover:bg-lime-400">
-            <PlusIcon className="h-4 w-4" />
-            Nouvelle catégorie
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <ExportButton entity="categories" />
+          <Link href={`/${locale}/admin/categories/nouveau`}>
+            <Button className="gap-2 bg-lime-300 text-black hover:bg-lime-400">
+              <PlusIcon className="h-4 w-4" />
+              Nouvelle catégorie
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
 import { ApiError } from "@/lib/api/error-handler";
+import { createAuditLog } from "@/lib/audit-log";
 
 const workSchema = z.object({
   slug: z.string().min(1),
@@ -102,89 +103,119 @@ export const GET = withAuth(async (_req, context) => {
 
 export const PUT = withAuthAndValidation(
   workSchema,
-  async (_req, context, _user, data) => {
+  async (req, context, user, data) => {
     if (!context.params) {
       throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
     }
     const { id } = await context.params;
 
-    // Delete existing contributions, then recreate
-    await prisma.contribution.deleteMany({
-      where: { workId: id },
+    // Get old values for audit log
+    const oldWork = await prisma.work.findUnique({
+      where: { id },
+      include: { translations: true },
     });
 
-    // Update work with new data
-    const work = await prisma.work.update({
-      where: { id },
-      data: {
-        slug: data.slug,
-        categoryId: data.categoryId,
-        labelId: data.labelId,
-        coverImageId: data.coverImageId,
-        year: data.year ?? null,
-        status: data.status,
-        spotifyUrl: data.spotifyUrl ?? null,
-        releaseDate: data.releaseDate,
-        genre: data.genre,
-        order: data.order,
-        isActive: data.isActive,
-        isFeatured: data.isFeatured,
-        translations: {
-          deleteMany: {},
-          create: [
-            {
-              locale: "fr",
-              title: data.translations.fr.title,
-              description: data.translations.fr.description,
-              role: data.translations.fr.role,
-            },
-            {
-              locale: "en",
-              title: data.translations.en.title,
-              description: data.translations.en.description,
-              role: data.translations.en.role,
-            },
-          ],
+    const work = await prisma.$transaction(async (tx) => {
+      await tx.contribution.deleteMany({
+        where: { workId: id },
+      });
+
+      return tx.work.update({
+        where: { id },
+        data: {
+          slug: data.slug,
+          categoryId: data.categoryId,
+          labelId: data.labelId,
+          coverImageId: data.coverImageId,
+          year: data.year ?? null,
+          status: data.status,
+          spotifyUrl: data.spotifyUrl ?? null,
+          releaseDate: data.releaseDate,
+          genre: data.genre,
+          order: data.order,
+          isActive: data.isActive,
+          isFeatured: data.isFeatured,
+          translations: {
+            deleteMany: {},
+            create: [
+              {
+                locale: "fr",
+                title: data.translations.fr.title,
+                description: data.translations.fr.description,
+                role: data.translations.fr.role,
+              },
+              {
+                locale: "en",
+                title: data.translations.en.title,
+                description: data.translations.en.description,
+                role: data.translations.en.role,
+              },
+            ],
+          },
+          ...(data.composers &&
+            data.composers.length > 0 && {
+              contributions: {
+                create: data.composers.map((composer) => ({
+                  composerId: composer.composerId,
+                  role: composer.role,
+                  order: composer.order,
+                })),
+              },
+            }),
         },
-        ...(data.composers &&
-          data.composers.length > 0 && {
-            contributions: {
-              create: data.composers.map((composer) => ({
-                composerId: composer.composerId,
-                role: composer.role,
-                order: composer.order,
-              })),
-            },
-          }),
-      },
-      include: {
-        translations: true,
-        contributions: {
-          include: {
-            composer: {
-              include: {
-                translations: true,
+        include: {
+          translations: true,
+          contributions: {
+            include: {
+              composer: {
+                include: {
+                  translations: true,
+                },
               },
             },
           },
+          images: true,
         },
-        images: true,
+      });
+    });
+
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "UPDATE",
+      entityType: "Work",
+      entityId: work.id,
+      metadata: {
+        slug: work.slug,
+        before: {
+          titleFr: oldWork?.translations.find((t) => t.locale === "fr")?.title,
+          titleEn: oldWork?.translations.find((t) => t.locale === "en")?.title,
+          status: oldWork?.status,
+        },
+        after: {
+          titleFr: data.translations.fr.title,
+          titleEn: data.translations.en.title,
+          status: work.status,
+        },
       },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
     });
 
     return NextResponse.json(work);
   },
 );
 
-export const DELETE = withAuth(async (_req, context) => {
+export const DELETE = withAuth(async (req, context, user) => {
   if (!context.params) {
     throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
   }
   const { id } = await context.params;
 
-  // Check if work exists
+  // Check if work exists and get metadata for audit log
   const existing = await prisma.work.findUnique({
     where: { id },
+    include: { translations: true },
   });
 
   if (!existing) {
@@ -194,6 +225,21 @@ export const DELETE = withAuth(async (_req, context) => {
   // Delete work (cascades will handle related data)
   await prisma.work.delete({
     where: { id },
+  });
+
+  // Audit log
+  await createAuditLog({
+    userId: user.id,
+    action: "DELETE",
+    entityType: "Work",
+    entityId: id,
+    metadata: {
+      slug: existing.slug,
+      titleFr: existing.translations.find((t) => t.locale === "fr")?.title,
+      titleEn: existing.translations.find((t) => t.locale === "en")?.title,
+    },
+    ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+    userAgent: req.headers.get("user-agent") ?? undefined,
   });
 
   return NextResponse.json({ success: true });

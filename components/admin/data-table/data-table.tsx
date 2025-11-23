@@ -13,7 +13,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 export type Column<T> = {
   key: string;
-  label: string;
+  label: string | React.ReactNode;
   sortable?: boolean;
   render?: (item: T) => React.ReactNode;
 };
@@ -56,7 +56,9 @@ export function DataTable<T extends { id: string }>({
                   className="text-white/70"
                   onClick={
                     column.sortable && onSort
-                      ? () => { onSort(column.key); }
+                      ? () => {
+                          onSort(column.key);
+                        }
                       : undefined
                   }
                 >
@@ -129,7 +131,9 @@ export function DataTable<T extends { id: string }>({
             <Button
               variant="outline"
               size="sm"
-              onClick={() => { pagination.onPageChange(pagination.page - 1); }}
+              onClick={() => {
+                pagination.onPageChange(pagination.page - 1);
+              }}
               disabled={pagination.page === 0}
               className="border-white/20 text-white hover:bg-white/5"
             >
@@ -139,7 +143,9 @@ export function DataTable<T extends { id: string }>({
             <Button
               variant="outline"
               size="sm"
-              onClick={() => { pagination.onPageChange(pagination.page + 1); }}
+              onClick={() => {
+                pagination.onPageChange(pagination.page + 1);
+              }}
               disabled={pagination.page >= pagination.totalPages - 1}
               className="border-white/20 text-white hover:bg-white/5"
             >

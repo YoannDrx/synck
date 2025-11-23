@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
 import { ApiError } from "@/lib/api/error-handler";
+import { createAuditLog } from "@/lib/audit-log";
 
 const categorySchema = z.object({
   color: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
@@ -47,7 +48,7 @@ export const GET = withAuth(async (_req, context) => {
 
 export const PUT = withAuthAndValidation(
   categorySchema,
-  async (_req, context, _user, data) => {
+  async (req, context, user, data) => {
     if (!context.params) {
       throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
     }
@@ -117,11 +118,34 @@ export const PUT = withAuthAndValidation(
       include: { translations: true },
     });
 
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "UPDATE",
+      entityType: "Category",
+      entityId: id,
+      metadata: {
+        slug: existing.slug,
+        before: {
+          nameFr: existing.translations.find((t) => t.locale === "fr")?.name,
+          nameEn: existing.translations.find((t) => t.locale === "en")?.name,
+          color: existing.color,
+        },
+        after: {
+          nameFr: data.translations.fr.name,
+          nameEn: data.translations.en.name,
+          color: data.color,
+        },
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
+    });
+
     return NextResponse.json(updatedCategory);
   },
 );
 
-export const DELETE = withAuth(async (_req, context) => {
+export const DELETE = withAuth(async (req, context, user) => {
   if (!context.params) {
     throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
   }
@@ -132,6 +156,7 @@ export const DELETE = withAuth(async (_req, context) => {
   const category = await prisma.category.findUnique({
     where: { id },
     include: {
+      translations: true,
       _count: {
         select: {
           works: true,
@@ -156,6 +181,22 @@ export const DELETE = withAuth(async (_req, context) => {
   // Supprimer la catégorie (cascade sur translations)
   await prisma.category.delete({
     where: { id },
+  });
+
+  // Audit log
+  await createAuditLog({
+    userId: user.id,
+    action: "DELETE",
+    entityType: "Category",
+    entityId: id,
+    metadata: {
+      slug: category.slug,
+      nameFr: category.translations.find((t) => t.locale === "fr")?.name,
+      nameEn: category.translations.find((t) => t.locale === "en")?.name,
+      color: category.color,
+    },
+    ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+    userAgent: req.headers.get("user-agent") ?? undefined,
   });
 
   return NextResponse.json({ success: true });

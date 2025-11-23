@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
+import { createAuditLog } from "@/lib/audit-log";
 
 const composerLinkSchema = z.object({
   platform: z.string().min(1),
-  url: z.string().url(),
+  url: z.url(),
   label: z.string().optional().nullable(),
   order: z.number().int().optional().default(0),
 });
@@ -88,7 +89,7 @@ export const GET = withAuth(async (req) => {
 // POST create new composer
 export const POST = withAuthAndValidation(
   composerSchema,
-  async (_req, _context, _user, data) => {
+  async (req, _context, user, data) => {
     const composer = await prisma.composer.create({
       data: {
         slug: data.slug,
@@ -127,6 +128,21 @@ export const POST = withAuthAndValidation(
         image: true,
         links: true,
       },
+    });
+
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "CREATE",
+      entityType: "Composer",
+      entityId: composer.id,
+      metadata: {
+        slug: composer.slug,
+        nameFr: data.translations.fr.name,
+        nameEn: data.translations.en.name,
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
     });
 
     return NextResponse.json(composer, { status: 201 });

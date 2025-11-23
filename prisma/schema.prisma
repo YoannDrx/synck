@@ -192,9 +192,11 @@ model Work {
   updatedAt              DateTime @updatedAt
 
   // Relations
-  translations  WorkTranslation[]
-  contributions Contribution[]
-  images        Asset[]           @relation("WorkImages")
+  translations   WorkTranslation[]
+  contributions  Contribution[]
+  images         Asset[]           @relation("WorkImages")
+  versions       WorkVersion[]
+  previewTokens  PreviewToken[]
 
   @@index([slug])
   @@index([categoryId, isActive, order])
@@ -281,21 +283,27 @@ enum UserRole {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  emailVerified Boolean   @default(false)
-  name          String?
-  image         String? // Avatar URL
-  role          UserRole  @default(ADMIN)
-  isActive      Boolean   @default(true)
-  lastLoginAt   DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id                String    @id @default(cuid())
+  email             String    @unique
+  emailVerified     Boolean   @default(false)
+  name              String?
+  image             String? // Avatar URL
+  role              UserRole  @default(ADMIN)
+  isActive          Boolean   @default(true)
+  twoFactorSecret   String? // TOTP secret for 2FA
+  twoFactorEnabled  Boolean   @default(false)
+  lastLoginAt       DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   // Relations
   sessions        Session[]
   accounts        Account[]
-  invitationsSent Invitation[] @relation("InvitationSender")
+  invitationsSent Invitation[]   @relation("InvitationSender")
+  auditLogs       AuditLog[]
+  workVersions    WorkVersion[]
+  notifications   Notification[]
+  exportHistory   ExportHistory[]
 
   @@index([email])
   @@index([role, isActive])
@@ -362,4 +370,121 @@ model Verification {
 
   @@unique([identifier, value])
   @@index([identifier])
+}
+
+// ============================================
+// AUDIT LOGS
+// ============================================
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action     String // CREATE, UPDATE, DELETE, LOGIN, etc.
+  entityType String? // Work, Composer, etc.
+  entityId   String?
+  metadata   Json? // Détails changements
+  ipAddress  String?
+  userAgent  String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
+
+// ============================================
+// WORK VERSIONS (History)
+// ============================================
+
+model WorkVersion {
+  id        String   @id @default(cuid())
+  workId    String
+  work      Work     @relation(fields: [workId], references: [id], onDelete: Cascade)
+  snapshot  Json // Full work data
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([workId])
+  @@index([createdAt])
+}
+
+// ============================================
+// NOTIFICATIONS
+// ============================================
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String // ASSET_ORPHANED, PROJECT_PUBLISHED, etc.
+  title     String
+  message   String   @db.Text
+  read      Boolean  @default(false)
+  link      String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId, read])
+  @@index([createdAt])
+}
+
+// ============================================
+// PREVIEW TOKENS
+// ============================================
+
+model PreviewToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  workId    String
+  work      Work     @relation(fields: [workId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([expiresAt])
+}
+
+// ============================================
+// EXPORT HISTORY
+// ============================================
+
+enum ExportType {
+  ASSETS
+  WORKS
+  COMPOSERS
+  CATEGORIES
+  LABELS
+  ALL
+}
+
+enum ExportFormat {
+  JSON
+  CSV
+}
+
+enum ExportStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model ExportHistory {
+  id           String       @id @default(cuid())
+  userId       String
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type         ExportType
+  format       ExportFormat
+  entityCount  Int? // Nombre d'entités exportées
+  fileSize     Int? // Taille du fichier en bytes
+  status       ExportStatus @default(PENDING)
+  errorMessage String?      @db.Text
+  downloadUrl  String? // Optionnel: URL de téléchargement si stocké
+  createdAt    DateTime     @default(now())
+  completedAt  DateTime?
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([status])
 }

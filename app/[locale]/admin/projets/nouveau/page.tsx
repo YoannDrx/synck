@@ -27,7 +27,7 @@ export default async function NouveauProjetPage({
 
       {/* Form */}
       <div className="rounded-lg border border-lime-300/20 bg-black p-6">
-        <WorkForm dictionary={dict.admin} mode="create" />
+        <WorkForm dictionary={dict.admin} mode="create" locale={locale} />
       </div>
     </div>
   );

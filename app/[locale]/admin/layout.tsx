@@ -28,8 +28,8 @@ export default async function AdminLayout({
     headers: headersList,
   });
 
-  // Redirect if not authenticated or not admin
-  if (session?.user?.role !== "ADMIN") {
+  // Redirect if not authenticated, not admin or deactivated
+  if (session?.user?.role !== "ADMIN" || session.user.isActive === false) {
     redirect(`/${locale}`);
   }
 

@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { AdminDictionary } from "@/types/dictionary";
 import { AdminSidebar } from "@/components/admin/layout/admin-sidebar";
 import { AdminTopBar } from "@/components/admin/layout/admin-topbar";
 import { GlobalSearch } from "@/components/admin/global-search";
 import { Toaster } from "@/components/ui/sonner";
+import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 type AdminShellProps = {
   locale: string;
@@ -27,9 +28,8 @@ export function AdminShell({
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    setMobileOpen(false);
-  }, []);
+  // Enable keyboard shortcuts
+  useKeyboardShortcuts(locale);
 
   return (
     <div className="min-h-screen bg-black">

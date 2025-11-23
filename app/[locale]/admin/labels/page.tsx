@@ -23,6 +23,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import { ExportButton } from "@/components/admin/export-button";
 
 type Label = {
   id: string;
@@ -174,12 +175,9 @@ export default function LabelsPage({
 
     try {
       setIsDeleting(true);
-      const res = await fetchWithAuth(
-        `/api/admin/labels/${labelToDelete.id}`,
-        {
-          method: "DELETE",
-        },
-      );
+      const res = await fetchWithAuth(`/api/admin/labels/${labelToDelete.id}`, {
+        method: "DELETE",
+      });
 
       if (!res.ok) {
         throw new Error("Failed to delete label");
@@ -324,12 +322,15 @@ export default function LabelsPage({
             {filteredLabels.length > 1 ? "labels" : "label"})
           </p>
         </div>
-        <Link href={`/${locale}/admin/labels/nouveau`}>
-          <Button className="gap-2 bg-lime-300 text-black hover:bg-lime-400">
-            <PlusIcon className="h-4 w-4" />
-            Nouveau label
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <ExportButton entity="labels" />
+          <Link href={`/${locale}/admin/labels/nouveau`}>
+            <Button className="gap-2 bg-lime-300 text-black hover:bg-lime-400">
+              <PlusIcon className="h-4 w-4" />
+              Nouveau label
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}

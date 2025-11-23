@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
+import { createAuditLog } from "@/lib/audit-log";
 
 const expertiseSchema = z.object({
   slug: z.string().min(1),
@@ -81,7 +82,7 @@ export const GET = withAuth(async (req) => {
 
 export const POST = withAuthAndValidation(
   expertiseSchema,
-  async (_req, _context, _user, data) => {
+  async (req, _context, user, data) => {
     // Create expertise with translations
     const expertise = await prisma.expertise.create({
       data: {
@@ -119,6 +120,21 @@ export const POST = withAuthAndValidation(
         coverImage: true,
         images: true,
       },
+    });
+
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "CREATE",
+      entityType: "Expertise",
+      entityId: expertise.id,
+      metadata: {
+        slug: expertise.slug,
+        titleFr: data.translations.fr.title,
+        titleEn: data.translations.en.title,
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
     });
 
     return NextResponse.json(expertise, { status: 201 });

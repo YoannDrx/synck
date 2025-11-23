@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import {
   ImageIcon,
@@ -36,6 +36,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import { ExportButton } from "@/components/admin/export-button";
 
 type Asset = {
   id: string;
@@ -67,6 +68,9 @@ export default function MediasPage() {
   // Pagination
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 20;
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+  const [orphansCount, setOrphansCount] = useState(0);
 
   // Sorting
   const [sortBy, setSortBy] = useState<string>("createdAt");
@@ -82,18 +86,44 @@ export default function MediasPage() {
   const [isBulkDeleting, setIsBulkDeleting] = useState(false);
   const [showBulkDeleteDialog, setShowBulkDeleteDialog] = useState(false);
 
-  useEffect(() => {
-    const fetchAssets = async () => {
+  const fetchAssets = useCallback(
+    async (pageToLoad = 0) => {
       try {
         setIsLoading(true);
-        const res = await fetchWithAuth("/api/admin/assets");
+        const params = new URLSearchParams({
+          page: pageToLoad.toString(),
+          limit: itemsPerPage.toString(),
+          sortBy,
+          sortOrder,
+        });
+
+        if (searchQuery) params.set("search", searchQuery);
+        if (showOrphansOnly) params.set("orphansOnly", "true");
+
+        const res = await fetchWithAuth(
+          `/api/admin/assets?${params.toString()}`,
+        );
 
         if (!res.ok) {
           throw new Error("Failed to fetch assets");
         }
 
-        const data = (await res.json()) as Asset[];
+        const { data, pagination } = (await res.json()) as {
+          data: Asset[];
+          pagination: {
+            page: number;
+            total: number;
+            totalPages: number;
+            orphans: number;
+          };
+        };
+
         setAssets(data);
+        setCurrentPage(pagination.page);
+        setTotalPages(pagination.totalPages);
+        setTotalCount(pagination.total);
+        setOrphansCount(pagination.orphans);
+        setSelectedIds(new Set());
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Error fetching assets:", error);
@@ -101,10 +131,14 @@ export default function MediasPage() {
       } finally {
         setIsLoading(false);
       }
-    };
+    },
+    [itemsPerPage, sortBy, sortOrder, searchQuery, showOrphansOnly],
+  );
 
-    void fetchAssets();
-  }, []);
+  useEffect(() => {
+    setCurrentPage(0);
+    void fetchAssets(0);
+  }, [fetchAssets]);
 
   // Calculate total usage
   const getTotalUsage = (asset: Asset): number => {
@@ -123,42 +157,7 @@ export default function MediasPage() {
   // Check if orphan
   const isOrphan = (asset: Asset): boolean => getTotalUsage(asset) === 0;
 
-  // Filter assets
-  const filteredAssets = assets.filter((asset) => {
-    const matchesSearch = asset.path
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const matchesOrphan = !showOrphansOnly || isOrphan(asset);
-    return matchesSearch && matchesOrphan;
-  });
-
-  // Sort assets
-  const sortedAssets = [...filteredAssets].sort((a, b) => {
-    let aValue: string | number = "";
-    let bValue: string | number = "";
-
-    if (sortBy === "size") {
-      aValue = a.size ?? 0;
-      bValue = b.size ?? 0;
-    } else if (sortBy === "usage") {
-      aValue = getTotalUsage(a);
-      bValue = getTotalUsage(b);
-    } else if (sortBy === "createdAt") {
-      aValue = new Date(a.createdAt).getTime();
-      bValue = new Date(b.createdAt).getTime();
-    }
-
-    if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-    if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
-    return 0;
-  });
-
-  // Paginate
-  const totalPages = Math.ceil(sortedAssets.length / itemsPerPage);
-  const paginatedAssets = sortedAssets.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage,
-  );
+  const paginatedAssets = assets;
 
   const handleSort = (column: string) => {
     if (sortBy === column) {
@@ -167,6 +166,7 @@ export default function MediasPage() {
       setSortBy(column);
       setSortOrder("asc");
     }
+    setCurrentPage(0);
   };
 
   // Bulk selection handlers
@@ -205,7 +205,8 @@ export default function MediasPage() {
         throw new Error("Failed to delete asset");
       }
 
-      setAssets(assets.filter((a) => a.id !== assetToDelete.id));
+      setSelectedIds(new Set());
+      await fetchAssets(currentPage);
       toast.success("Média supprimé avec succès");
       setAssetToDelete(null);
     } catch (error) {
@@ -232,7 +233,7 @@ export default function MediasPage() {
         throw new Error("Failed to bulk delete assets");
       }
 
-      setAssets(assets.filter((a) => !selectedIds.has(a.id)));
+      await fetchAssets(currentPage);
       toast.success(
         `${String(selectedIds.size)} média(s) supprimé(s) avec succès`,
       );
@@ -253,8 +254,6 @@ export default function MediasPage() {
     if (kb < 1024) return `${kb.toFixed(1)} KB`;
     return `${(kb / 1024).toFixed(1)} MB`;
   };
-
-  const orphansCount = assets.filter(isOrphan).length;
 
   const columns: Column<Asset>[] = [
     {
@@ -332,7 +331,7 @@ export default function MediasPage() {
     {
       key: "usage",
       label: "Utilisations",
-      sortable: true,
+      sortable: false,
       render: (asset) => {
         const usage = getTotalUsage(asset);
         return (
@@ -404,9 +403,15 @@ export default function MediasPage() {
         <div>
           <h1 className="text-3xl font-bold text-white">Médias</h1>
           <p className="mt-2 text-white/50">
-            Gérer les fichiers et images ({filteredAssets.length} médias)
+            Gérer les fichiers et images ({totalCount} médias)
           </p>
         </div>
+        <ExportButton
+          entity="assets"
+          filters={{
+            ...(showOrphansOnly && { orphansOnly: "true" }),
+          }}
+        />
       </div>
 
       {/* Orphans Warning */}
@@ -528,7 +533,10 @@ export default function MediasPage() {
         pagination={{
           page: currentPage,
           totalPages,
-          onPageChange: setCurrentPage,
+          onPageChange: (page) => {
+            setCurrentPage(page);
+            void fetchAssets(page);
+          },
         }}
         sortBy={sortBy}
         sortOrder={sortOrder}

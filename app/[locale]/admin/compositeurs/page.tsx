@@ -24,6 +24,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import { ExportButton } from "@/components/admin/export-button";
 
 const assetPathToUrl = (path?: string | null): string | null => {
   if (!path) return null;
@@ -384,12 +385,18 @@ export default function ComposeursPage({
             {filteredComposers.length > 1 ? "compositeurs" : "compositeur"})
           </p>
         </div>
-        <Link href={`/${locale}/admin/compositeurs/nouveau`} className="w-full sm:w-auto">
-          <Button className="w-full justify-center gap-2 bg-lime-300 text-black hover:bg-lime-400 sm:w-auto">
-            <PlusIcon className="h-4 w-4" />
-            Nouveau compositeur
-          </Button>
-        </Link>
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+          <ExportButton entity="composers" />
+          <Link
+            href={`/${locale}/admin/compositeurs/nouveau`}
+            className="w-full sm:w-auto"
+          >
+            <Button className="w-full justify-center gap-2 bg-lime-300 text-black hover:bg-lime-400 sm:w-auto">
+              <PlusIcon className="h-4 w-4" />
+              Nouveau compositeur
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}

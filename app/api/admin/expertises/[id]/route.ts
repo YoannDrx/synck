@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
+import { createAuditLog } from "@/lib/audit-log";
 
 const expertiseUpdateSchema = z.object({
   slug: z.string().min(1).optional(),
@@ -56,7 +57,7 @@ export const GET = withAuth(async (_req, context) => {
 
 export const PATCH = withAuthAndValidation(
   expertiseUpdateSchema,
-  async (_req, context, _user, data) => {
+  async (req, context, user, data) => {
     const params = await context.params;
     const id = params?.id;
 
@@ -149,11 +150,32 @@ export const PATCH = withAuthAndValidation(
       },
     });
 
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "UPDATE",
+      entityType: "Expertise",
+      entityId: id,
+      metadata: {
+        slug: existing.slug,
+        before: {
+          titleFr: existing.translations.find((t) => t.locale === "fr")?.title,
+          titleEn: existing.translations.find((t) => t.locale === "en")?.title,
+        },
+        after: {
+          titleFr: data.translations?.fr.title,
+          titleEn: data.translations?.en.title,
+        },
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
+    });
+
     return NextResponse.json(expertise);
   },
 );
 
-export const DELETE = withAuth(async (_req, context) => {
+export const DELETE = withAuth(async (req, context, user) => {
   const params = await context.params;
   const id = params?.id;
 
@@ -164,6 +186,7 @@ export const DELETE = withAuth(async (_req, context) => {
   // Check if expertise exists
   const expertise = await prisma.expertise.findUnique({
     where: { id },
+    include: { translations: true },
   });
 
   if (!expertise) {
@@ -176,6 +199,21 @@ export const DELETE = withAuth(async (_req, context) => {
   // Delete expertise (cascade will delete translations)
   await prisma.expertise.delete({
     where: { id },
+  });
+
+  // Audit log
+  await createAuditLog({
+    userId: user.id,
+    action: "DELETE",
+    entityType: "Expertise",
+    entityId: id,
+    metadata: {
+      slug: expertise.slug,
+      titleFr: expertise.translations.find((t) => t.locale === "fr")?.title,
+      titleEn: expertise.translations.find((t) => t.locale === "en")?.title,
+    },
+    ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+    userAgent: req.headers.get("user-agent") ?? undefined,
   });
 
   return NextResponse.json({ success: true });

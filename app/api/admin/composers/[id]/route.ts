@@ -3,10 +3,11 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
 import { ApiError } from "@/lib/api/error-handler";
+import { createAuditLog } from "@/lib/audit-log";
 
 const composerLinkSchema = z.object({
   platform: z.string().min(1),
-  url: z.string().url(),
+  url: z.url(),
   label: z.string().optional().nullable(),
   order: z.number().int().optional().default(0),
 });
@@ -87,14 +88,17 @@ export const GET = withAuth(async (_req, context) => {
 // PUT update composer
 export const PUT = withAuthAndValidation(
   composerUpdateSchema,
-  async (_req, context, _user, data) => {
+  async (req, context, user, data) => {
     if (!context.params) {
       throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
     }
     const { id } = await context.params;
 
-    // Check if composer exists
-    const existing = await prisma.composer.findUnique({ where: { id } });
+    // Check if composer exists and get old values for audit log
+    const existing = await prisma.composer.findUnique({
+      where: { id },
+      include: { translations: true },
+    });
     if (!existing) {
       throw new ApiError(404, "Compositeur non trouvé", "NOT_FOUND");
     }
@@ -179,21 +183,43 @@ export const PUT = withAuthAndValidation(
       });
     });
 
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "UPDATE",
+      entityType: "Composer",
+      entityId: id,
+      metadata: {
+        slug: data.slug ?? existing.slug,
+        before: {
+          nameFr: existing.translations.find((t) => t.locale === "fr")?.name,
+          nameEn: existing.translations.find((t) => t.locale === "en")?.name,
+        },
+        after: {
+          nameFr: data.translations?.fr.name,
+          nameEn: data.translations?.en.name,
+        },
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
+    });
+
     return NextResponse.json(updated);
   },
 );
 
 // DELETE composer
-export const DELETE = withAuth(async (_req, context) => {
+export const DELETE = withAuth(async (req, context, user) => {
   if (!context.params) {
     throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
   }
   const { id } = await context.params;
 
-  // Check if composer exists
+  // Check if composer exists and get metadata for audit log
   const existing = await prisma.composer.findUnique({
     where: { id },
     include: {
+      translations: true,
       _count: {
         select: { contributions: true },
       },
@@ -216,6 +242,21 @@ export const DELETE = withAuth(async (_req, context) => {
   // Delete composer (translations will be cascade deleted)
   await prisma.composer.delete({
     where: { id },
+  });
+
+  // Audit log
+  await createAuditLog({
+    userId: user.id,
+    action: "DELETE",
+    entityType: "Composer",
+    entityId: id,
+    metadata: {
+      slug: existing.slug,
+      nameFr: existing.translations.find((t) => t.locale === "fr")?.name,
+      nameEn: existing.translations.find((t) => t.locale === "en")?.name,
+    },
+    ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+    userAgent: req.headers.get("user-agent") ?? undefined,
   });
 
   return NextResponse.json({ success: true });

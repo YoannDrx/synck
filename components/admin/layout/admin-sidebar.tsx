@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import {
   HomeIcon,
   MusicIcon,
@@ -12,7 +11,10 @@ import {
   BookOpenIcon,
   ImageIcon,
   LogOutIcon,
-  SettingsIcon,
+  ScrollTextIcon,
+  ShieldCheckIcon,
+  AlertTriangleIcon,
+  DownloadIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { AdminDictionary } from "@/types/dictionary";
@@ -92,9 +94,27 @@ export function AdminSidebar({
       group: "system",
     },
     {
-      href: `/${locale}/admin/settings`,
-      label: "Paramètres",
-      icon: SettingsIcon,
+      href: `/${locale}/admin/monitoring/duplicates`,
+      label: "Doublons",
+      icon: AlertTriangleIcon,
+      group: "system",
+    },
+    {
+      href: `/${locale}/admin/exports/history`,
+      label: "Exports",
+      icon: DownloadIcon,
+      group: "system",
+    },
+    {
+      href: `/${locale}/admin/logs`,
+      label: "Audit Logs",
+      icon: ScrollTextIcon,
+      group: "system",
+    },
+    {
+      href: `/${locale}/admin/settings/security`,
+      label: "Sécurité",
+      icon: ShieldCheckIcon,
       group: "system",
     },
   ];
@@ -131,34 +151,34 @@ export function AdminSidebar({
         <div className="flex h-full flex-col">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-lime-300/10 px-4 py-4">
-          <div className="flex items-center gap-3 overflow-hidden">
-            {!collapsed && (
-              <>
-                <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white/10">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  {avatarUrl ? (
-                    <img
-                      src={avatarUrl}
-                      alt={userName ?? userEmail}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-sm font-semibold text-white">
-                      {userEmail?.charAt(0).toUpperCase()}
-                    </span>
-                  )}
-                </div>
-                <div className="transition-all">
-                  <h1 className="text-sm font-semibold text-white">
-                    {userName ?? "Admin"}
-                  </h1>
-                  <p className="text-xs text-white/50 truncate max-w-[140px]">
-                    {userEmail}
-                  </p>
-                </div>
-              </>
-            )}
-          </div>
+            <div className="flex items-center gap-3 overflow-hidden">
+              {!collapsed && (
+                <>
+                  <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white/10">
+                    {}
+                    {avatarUrl ? (
+                      <img
+                        src={avatarUrl}
+                        alt={userName ?? userEmail}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-sm font-semibold text-white">
+                        {userEmail?.charAt(0).toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                  <div className="transition-all">
+                    <h1 className="text-sm font-semibold text-white">
+                      {userName ?? "Admin"}
+                    </h1>
+                    <p className="text-xs text-white/50 truncate max-w-[140px]">
+                      {userEmail}
+                    </p>
+                  </div>
+                </>
+              )}
+            </div>
             <button
               type="button"
               onClick={onToggleCollapse}

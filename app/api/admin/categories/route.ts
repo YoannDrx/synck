@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
+import { createAuditLog } from "@/lib/audit-log";
 
 const categorySchema = z.object({
   color: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
@@ -75,7 +76,7 @@ export const GET = withAuth(async (req) => {
 
 export const POST = withAuthAndValidation(
   categorySchema,
-  async (_req, _context, _user, data) => {
+  async (req, _context, user, data) => {
     // Generate slug from French name
     const slug = data.translations.fr.name
       .toLowerCase()
@@ -109,6 +110,22 @@ export const POST = withAuthAndValidation(
       include: {
         translations: true,
       },
+    });
+
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "CREATE",
+      entityType: "Category",
+      entityId: category.id,
+      metadata: {
+        slug: category.slug,
+        nameFr: data.translations.fr.name,
+        nameEn: data.translations.en.name,
+        color: category.color,
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
     });
 
     return NextResponse.json(category, { status: 201 });

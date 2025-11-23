@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { ImageIcon, SaveIcon } from "lucide-react";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import { MarkdownEditor } from "@/components/admin/markdown-editor";
 
 type ExpertiseFormData = {
   slug: string;
@@ -290,25 +291,21 @@ export function ExpertiseForm({
                 <Label htmlFor="content-fr" className="text-white">
                   Contenu (Markdown) *
                 </Label>
-                <Textarea
-                  id="content-fr"
+                <MarkdownEditor
                   value={formData.translations.fr.content}
-                  onChange={(e) => {
+                  onChange={(value) => {
                     setFormData({
                       ...formData,
                       translations: {
                         ...formData.translations,
                         fr: {
                           ...formData.translations.fr,
-                          content: e.target.value,
+                          content: value ?? "",
                         },
                       },
                     });
                   }}
-                  rows={15}
-                  required
-                  className="border-white/20 bg-white/5 font-mono text-white"
-                  placeholder="# Titre&#10;&#10;Contenu en markdown...&#10;&#10;<!-- section:end -->"
+                  height={500}
                 />
               </div>
             </TabsContent>
@@ -390,25 +387,21 @@ export function ExpertiseForm({
                 <Label htmlFor="content-en" className="text-white">
                   Content (Markdown) *
                 </Label>
-                <Textarea
-                  id="content-en"
+                <MarkdownEditor
                   value={formData.translations.en.content}
-                  onChange={(e) => {
+                  onChange={(value) => {
                     setFormData({
                       ...formData,
                       translations: {
                         ...formData.translations,
                         en: {
                           ...formData.translations.en,
-                          content: e.target.value,
+                          content: value ?? "",
                         },
                       },
                     });
                   }}
-                  rows={15}
-                  required
-                  className="border-white/20 bg-white/5 font-mono text-white"
-                  placeholder="# Title&#10;&#10;Markdown content...&#10;&#10;<!-- section:end -->"
+                  height={500}
                 />
               </div>
             </TabsContent>

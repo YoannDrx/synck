@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -37,6 +37,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import { ExportButton } from "@/components/admin/export-button";
+import { ImportDialog } from "@/components/admin/import-dialog";
+import { BulkActionsToolbar } from "@/components/admin/bulk-actions-toolbar";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type Work = {
   id: string;
@@ -80,6 +84,9 @@ export default function ProjetsPage({
   const [categories, setCategories] = useState<Category[]>([]);
   const [labels, setLabels] = useState<Label[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [totalCount, setTotalCount] = useState(0);
 
   // Filters state
   const [searchQuery, setSearchQuery] = useState("");
@@ -90,12 +97,10 @@ export default function ProjetsPage({
   // Sorting state
   const [sortBy, setSortBy] = useState<string>("createdAt");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-
-  // Infinite scroll state
-  const INITIAL_BATCH = 20;
-  const BATCH_SIZE = 20;
-  const [visibleCount, setVisibleCount] = useState(INITIAL_BATCH);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  // Bulk selection state
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   // Delete dialog state
   const [workToDelete, setWorkToDelete] = useState<Work | null>(null);
@@ -108,75 +113,124 @@ export default function ProjetsPage({
     });
   }, [params]);
 
-  // Fetch initial data
-  useEffect(() => {
-    const fetchData = async () => {
+  const PAGE_SIZE = 20;
+
+  const mapWork = (work: any): Work => ({
+    id: work.id,
+    slug: work.slug,
+    titleFr:
+      work.translations?.find((t: any) => t.locale === "fr")?.title ?? "",
+    titleEn:
+      work.translations?.find((t: any) => t.locale === "en")?.title ?? "",
+    status: ["PUBLISHED", "DRAFT", "ARCHIVED"].includes(
+      (work.status ?? "").toUpperCase(),
+    )
+      ? (work.status as Work["status"])
+      : work.isActive
+        ? "PUBLISHED"
+        : "DRAFT",
+    createdAt: work.createdAt,
+    updatedAt: work.updatedAt,
+    coverImageUrl: work.coverImage?.path ?? null,
+    coverImageBlur: work.coverImage?.blurDataUrl ?? null,
+    category: work.category
+      ? {
+          id: work.category.id,
+          nameFr:
+            work.category.translations?.find((t: any) => t.locale === "fr")
+              ?.name ?? "",
+          nameEn:
+            work.category.translations?.find((t: any) => t.locale === "en")
+              ?.name ?? "",
+          color: work.category.color ?? "#ffffff",
+        }
+      : null,
+    label: work.label
+      ? {
+          id: work.label.id,
+          nameFr:
+            work.label.translations?.find((t: any) => t.locale === "fr")
+              ?.name ?? "",
+          nameEn:
+            work.label.translations?.find((t: any) => t.locale === "en")
+              ?.name ?? "",
+        }
+      : null,
+  });
+
+  const fetchWorks = useCallback(
+    async (pageToLoad = 0, append = false) => {
       try {
         setIsLoading(true);
-        const [worksRes, categoriesRes, labelsRes] = await Promise.all([
-          fetchWithAuth("/api/admin/projects"),
+
+        const params = new URLSearchParams({
+          page: pageToLoad.toString(),
+          limit: PAGE_SIZE.toString(),
+          sortBy,
+          sortOrder,
+          full: "true",
+        });
+
+        if (searchQuery) params.set("search", searchQuery);
+        if (selectedCategory !== "all")
+          params.set("categoryId", selectedCategory);
+        if (selectedLabel !== "all") params.set("labelId", selectedLabel);
+        if (selectedStatus !== "all") params.set("status", selectedStatus);
+
+        const res = await fetchWithAuth(
+          `/api/admin/projects?${params.toString()}`,
+        );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const { data, pagination } = (await res.json()) as {
+          data: any[];
+          pagination: { page: number; total: number; totalPages: number };
+        };
+
+        const worksData = data.map(mapWork);
+
+        setWorks((prev) => (append ? [...prev, ...worksData] : worksData));
+        setPage(pagination.page);
+        setHasMore(pagination.page < pagination.totalPages - 1);
+        setTotalCount(pagination.total);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error("Error fetching data:", error);
+        toast.error("Erreur lors du chargement des données");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [
+      searchQuery,
+      selectedCategory,
+      selectedLabel,
+      selectedStatus,
+      sortBy,
+      sortOrder,
+    ],
+  );
+
+  // Fetch categories and labels once
+  useEffect(() => {
+    const fetchTaxonomies = async () => {
+      try {
+        const [categoriesRes, labelsRes] = await Promise.all([
           fetchWithAuth("/api/admin/categories"),
           fetchWithAuth("/api/admin/labels"),
         ]);
 
-        if (!worksRes.ok || !categoriesRes.ok || !labelsRes.ok) {
-          throw new Error("Failed to fetch data");
+        if (!categoriesRes.ok || !labelsRes.ok) {
+          throw new Error("Failed to fetch taxonomies");
         }
 
-        const [worksRaw, categoriesRaw, labelsRaw] = await Promise.all([
-          worksRes.json(),
+        const [categoriesRaw, labelsRaw] = await Promise.all([
           categoriesRes.json(),
           labelsRes.json(),
         ]);
-
-        // Normalize works from admin API shape
-        const worksData: Work[] = (worksRaw as any[]).map((work) => ({
-          id: work.id,
-          slug: work.slug,
-          titleFr:
-            work.translations?.find((t: any) => t.locale === "fr")?.title ?? "",
-          titleEn:
-            work.translations?.find((t: any) => t.locale === "en")?.title ?? "",
-          status:
-            ["PUBLISHED", "DRAFT", "ARCHIVED"].includes(
-              (work.status ?? "").toUpperCase(),
-            )
-              ? (work.status as Work["status"])
-              : work.isActive
-                ? "PUBLISHED"
-                : "DRAFT",
-          createdAt: work.createdAt,
-          updatedAt: work.updatedAt,
-          coverImageUrl: work.coverImage?.path ?? null,
-          coverImageBlur: work.coverImage?.blurDataUrl ?? null,
-          category: work.category
-            ? {
-                id: work.category.id,
-                nameFr:
-                  work.category.translations?.find(
-                    (t: any) => t.locale === "fr",
-                  )?.name ?? "",
-                nameEn:
-                  work.category.translations?.find(
-                    (t: any) => t.locale === "en",
-                  )?.name ?? "",
-                color: work.category.color ?? "#ffffff",
-              }
-            : null,
-          label: work.label
-            ? {
-                id: work.label.id,
-                nameFr:
-                  work.label.translations?.find(
-                    (t: any) => t.locale === "fr",
-                  )?.name ?? "",
-                nameEn:
-                  work.label.translations?.find(
-                    (t: any) => t.locale === "en",
-                  )?.name ?? "",
-              }
-            : null,
-        }));
 
         const categoriesData: Category[] = (categoriesRaw as any[]).map(
           (category) => ({
@@ -194,111 +248,42 @@ export default function ProjetsPage({
         const labelsData: Label[] = (labelsRaw as any[]).map((label) => ({
           id: label.id,
           nameFr:
-            label.translations?.find((t: any) => t.locale === "fr")?.name ?? "",
+            label.translations?.find((t: any) => t.locale === "fr")?.name ??
+            "",
           nameEn:
-            label.translations?.find((t: any) => t.locale === "en")?.name ?? "",
+            label.translations?.find((t: any) => t.locale === "en")?.name ??
+            "",
         }));
 
-        setWorks(worksData);
         setCategories(categoriesData);
         setLabels(labelsData);
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error("Error fetching data:", error);
-        toast.error("Erreur lors du chargement des données");
-      } finally {
-        setIsLoading(false);
+        console.error("Error fetching taxonomies:", error);
+        toast.error("Erreur lors du chargement des catégories/labels");
       }
     };
 
-    void fetchData();
+    void fetchTaxonomies();
   }, []);
 
-  // Filter and sort works
-  const filteredWorks = works.filter((work) => {
-    // Search filter
-    const title = locale === "fr" ? work.titleFr : work.titleEn;
-    const matchesSearch = title
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-
-    // Category filter
-    const matchesCategory =
-      selectedCategory === "all" || work.category?.id === selectedCategory;
-
-    // Label filter
-    const matchesLabel =
-      selectedLabel === "all" || work.label?.id === selectedLabel;
-
-    // Status filter
-    const matchesStatus =
-      selectedStatus === "all" || work.status === selectedStatus;
-
-    return matchesSearch && matchesCategory && matchesLabel && matchesStatus;
-  });
-
-  // Sort works
-  const sortedWorks = [...filteredWorks].sort((a, b) => {
-    let aValue: string | number = "";
-    let bValue: string | number = "";
-
-    if (sortBy === "title") {
-      aValue = locale === "fr" ? a.titleFr : a.titleEn;
-      bValue = locale === "fr" ? b.titleFr : b.titleEn;
-    } else if (sortBy === "category") {
-      aValue = a.category
-        ? locale === "fr"
-          ? a.category.nameFr
-          : a.category.nameEn
-        : "";
-      bValue = b.category
-        ? locale === "fr"
-          ? b.category.nameFr
-          : b.category.nameEn
-        : "";
-    } else if (sortBy === "status") {
-      aValue = a.status;
-      bValue = b.status;
-    } else if (sortBy === "createdAt") {
-      aValue = new Date(a.createdAt).getTime();
-      bValue = new Date(b.createdAt).getTime();
-    }
-
-    if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-    if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
-    return 0;
-  });
-
-  // Paginate works
-  const visibleWorks = sortedWorks.slice(0, visibleCount);
-
-  // Reset visible count on filters/sort change
+  // Fetch works when filters change
   useEffect(() => {
-    setVisibleCount(INITIAL_BATCH);
-  }, [
-    searchQuery,
-    selectedCategory,
-    selectedLabel,
-    selectedStatus,
-    sortBy,
-    sortOrder,
-    works.length,
-  ]);
+    setSelectedIds([]);
+    setWorks([]);
+    setHasMore(true);
+    setPage(0);
+    void fetchWorks(0, false);
+  }, [fetchWorks]);
 
-  // Infinite scroll observer
+  // Infinite scroll observer (server-side pagination)
   useEffect(() => {
     if (!loadMoreRef.current) return;
     const observer = new IntersectionObserver(
       (entries) => {
         const first = entries[0];
-        if (
-          first.isIntersecting &&
-          visibleCount < sortedWorks.length &&
-          !isLoading
-        ) {
-          setVisibleCount((prev) =>
-            Math.min(prev + BATCH_SIZE, sortedWorks.length),
-          );
+        if (first.isIntersecting && hasMore && !isLoading) {
+          void fetchWorks(page + 1, true);
         }
       },
       { rootMargin: "200px" },
@@ -308,7 +293,7 @@ export default function ProjetsPage({
     return () => {
       observer.disconnect();
     };
-  }, [visibleCount, sortedWorks.length, isLoading]);
+  }, [fetchWorks, hasMore, isLoading, page]);
 
   // Handle sort
   const handleSort = (column: string) => {
@@ -337,7 +322,12 @@ export default function ProjetsPage({
         throw new Error("Failed to delete work");
       }
 
-      setWorks(works.filter((w) => w.id !== workToDelete.id));
+      setSelectedIds([]);
+      setWorks([]);
+      setHasMore(true);
+      setPage(0);
+      void fetchWorks(0, false);
+      setTotalCount((count) => Math.max(count - 1, 0));
       toast.success("Projet supprimé avec succès");
       setWorkToDelete(null);
     } catch (error) {
@@ -355,7 +345,6 @@ export default function ProjetsPage({
     setSelectedCategory("all");
     setSelectedLabel("all");
     setSelectedStatus("all");
-    setVisibleCount(INITIAL_BATCH);
   };
 
   const hasActiveFilters =
@@ -364,8 +353,50 @@ export default function ProjetsPage({
     selectedLabel !== "all" ||
     selectedStatus !== "all";
 
+  // Handle checkbox selection
+  const handleSelectAll = () => {
+    if (selectedIds.length === works.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(works.map((work) => work.id));
+    }
+  };
+
+  const handleSelectOne = (id: string) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter((selectedId) => selectedId !== id));
+    } else {
+      setSelectedIds([...selectedIds, id]);
+    }
+  };
+
+  const isAllSelected =
+    works.length > 0 && selectedIds.length === works.length;
+  const isSomeSelected = selectedIds.length > 0 && !isAllSelected;
+
   // Define columns
   const columns: Column<Work>[] = [
+    {
+      key: "select",
+      label: (
+        <Checkbox
+          checked={
+            isSomeSelected ? "indeterminate" : isAllSelected ? true : false
+          }
+          onCheckedChange={handleSelectAll}
+          aria-label="Sélectionner tout"
+        />
+      ),
+      render: (work) => (
+        <Checkbox
+          checked={selectedIds.includes(work.id)}
+          onCheckedChange={() => {
+            handleSelectOne(work.id);
+          }}
+          aria-label={`Sélectionner ${locale === "fr" ? work.titleFr : work.titleEn}`}
+        />
+      ),
+    },
     {
       key: "cover",
       label: "Visuel",
@@ -506,16 +537,39 @@ export default function ProjetsPage({
         <div>
           <h1 className="text-3xl font-bold text-white">Projets</h1>
           <p className="mt-2 text-white/50">
-            Gérer vos œuvres musicales ({filteredWorks.length}{" "}
-            {filteredWorks.length > 1 ? "projets" : "projet"})
+            Gérer vos œuvres musicales ({totalCount}{" "}
+            {totalCount > 1 ? "projets" : "projet"})
           </p>
         </div>
-        <Link href={`/${locale}/admin/projets/nouveau`} className="w-full sm:w-auto">
-          <Button className="w-full justify-center gap-2 bg-lime-300 text-black hover:bg-lime-400 sm:w-auto">
-            <PlusIcon className="h-4 w-4" />
-            Nouveau projet
-          </Button>
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <ImportDialog
+            entity="projects"
+            onSuccess={() => {
+              setHasMore(true);
+              setPage(0);
+              void fetchWorks(0, false);
+            }}
+          />
+          <ExportButton
+            entity="projects"
+            filters={{
+              ...(selectedCategory !== "all" && {
+                categoryId: selectedCategory,
+              }),
+              ...(selectedLabel !== "all" && { labelId: selectedLabel }),
+              ...(selectedStatus !== "all" && { status: selectedStatus }),
+            }}
+          />
+          <Link
+            href={`/${locale}/admin/projets/nouveau`}
+            className="w-full sm:w-auto"
+          >
+            <Button className="w-full justify-center gap-2 bg-lime-300 text-black hover:bg-lime-400 sm:w-auto">
+              <PlusIcon className="h-4 w-4" />
+              Nouveau projet
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}
@@ -629,7 +683,7 @@ export default function ProjetsPage({
       {/* Data Table */}
       <DataTable
         columns={columns}
-        data={visibleWorks}
+        data={works}
         sortBy={sortBy}
         sortOrder={sortOrder}
         onSort={handleSort}
@@ -643,7 +697,7 @@ export default function ProjetsPage({
 
       {/* Infinite scroll sentinel */}
       <div ref={loadMoreRef} className="h-8">
-        {visibleCount < sortedWorks.length && !isLoading && (
+        {hasMore && !isLoading && (
           <p className="text-center text-xs text-white/40">
             Chargement automatique...
           </p>
@@ -691,6 +745,23 @@ export default function ProjetsPage({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Bulk Actions Toolbar */}
+      {selectedIds.length > 0 && (
+        <BulkActionsToolbar
+          selectedIds={selectedIds}
+          onSuccess={() => {
+            setSelectedIds([]);
+            setHasMore(true);
+            setPage(0);
+            setWorks([]);
+            void fetchWorks(0, false);
+          }}
+          onClear={() => {
+            setSelectedIds([]);
+          }}
+        />
+      )}
     </div>
   );
 }

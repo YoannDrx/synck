@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import { ExportButton } from "@/components/admin/export-button";
 
 type ExpertiseTranslation = {
   locale: string;
@@ -128,12 +129,15 @@ export default function ExpertisesPage() {
             {expertises.length} expertise{expertises.length > 1 ? "s" : ""}
           </p>
         </div>
-        <Link href={`/${locale}/admin/expertises/nouveau`}>
-          <Button className="gap-2 bg-lime-300 text-black hover:bg-lime-400">
-            <PlusIcon className="h-4 w-4" />
-            Nouvelle expertise
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <ExportButton entity="expertises" />
+          <Link href={`/${locale}/admin/expertises/nouveau`}>
+            <Button className="gap-2 bg-lime-300 text-black hover:bg-lime-400">
+              <PlusIcon className="h-4 w-4" />
+              Nouvelle expertise
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Table */}

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
+import { createAuditLog } from "@/lib/audit-log";
 
 // Schema validation for creating/updating works
 const workSchema = z.object({
@@ -44,9 +45,10 @@ const workSchema = z.object({
 export const GET = withAuth(async (req) => {
   const { searchParams } = new URL(req.url);
   const search = searchParams.get("search");
+  const full = searchParams.get("full") === "true";
 
-  // If search param exists, return simplified results for search
-  if (search) {
+  // Quick search mode (used by global search)
+  if (search && !full) {
     const works = await prisma.work.findMany({
       where: {
         translations: {
@@ -80,42 +82,116 @@ export const GET = withAuth(async (req) => {
     return NextResponse.json(searchResults);
   }
 
-  // Default: return full works data
-  const works = await prisma.work.findMany({
-    include: {
-      category: {
-        include: {
-          translations: true,
-        },
-      },
-      label: {
-        include: {
-          translations: true,
-        },
-      },
-      coverImage: true,
-      translations: true,
-      contributions: {
-        include: {
-          composer: {
-            include: {
-              translations: true,
+  const page = Math.max(Number(searchParams.get("page") ?? "0"), 0);
+  const limitParam = Number(searchParams.get("limit") ?? "20");
+  const limit = Number.isNaN(limitParam)
+    ? 20
+    : Math.min(Math.max(limitParam, 1), 100);
+  const categoryId = searchParams.get("categoryId");
+  const labelId = searchParams.get("labelId");
+  const status = searchParams.get("status");
+  const sortBy = searchParams.get("sortBy") ?? "createdAt";
+  const sortOrder =
+    (searchParams.get("sortOrder") ?? "desc") === "asc" ? "asc" : "desc";
+
+  const where = {
+    ...(categoryId ? { categoryId } : {}),
+    ...(labelId ? { labelId } : {}),
+    ...(status ? { status: status.toUpperCase() } : {}),
+    ...(search
+      ? {
+          translations: {
+            some: {
+              title: {
+                contains: search,
+                mode: "insensitive",
+              },
             },
           },
-        },
-        orderBy: { order: "asc" },
-      },
-      images: true,
-    },
-    orderBy: [{ order: "asc" }, { createdAt: "desc" }],
-  });
+        }
+      : {}),
+  };
 
-  return NextResponse.json(works);
+  const orderBy = [];
+
+  if (sortBy === "title") {
+    orderBy.push({
+      translations: {
+        _min: {
+          title: sortOrder,
+        },
+      },
+    });
+  } else if (sortBy === "category") {
+    orderBy.push({
+      category: {
+        translations: {
+          _min: {
+            name: sortOrder,
+          },
+        },
+      },
+    });
+  } else if (sortBy === "status") {
+    orderBy.push({ status: sortOrder });
+  } else if (sortBy === "order") {
+    orderBy.push({ order: sortOrder });
+  } else {
+    orderBy.push({ createdAt: sortOrder });
+  }
+
+  // Always add a stable secondary sort
+  orderBy.push({ createdAt: "desc" });
+
+  const [works, total] = await Promise.all([
+    prisma.work.findMany({
+      where,
+      include: {
+        category: {
+          include: {
+            translations: true,
+          },
+        },
+        label: {
+          include: {
+            translations: true,
+          },
+        },
+        coverImage: true,
+        translations: true,
+        contributions: {
+          include: {
+            composer: {
+              include: {
+                translations: true,
+              },
+            },
+          },
+          orderBy: { order: "asc" },
+        },
+        images: true,
+      },
+      orderBy,
+      skip: page * limit,
+      take: limit,
+    }),
+    prisma.work.count({ where }),
+  ]);
+
+  return NextResponse.json({
+    data: works,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.max(Math.ceil(total / limit), 1),
+    },
+  });
 });
 
 export const POST = withAuthAndValidation(
   workSchema,
-  async (_req, _context, _user, data) => {
+  async (req, _context, user, data) => {
     // Create work with translations and contributions
     const work = await prisma.work.create({
       data: {
@@ -171,6 +247,22 @@ export const POST = withAuthAndValidation(
         },
         images: true,
       },
+    });
+
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "CREATE",
+      entityType: "Work",
+      entityId: work.id,
+      metadata: {
+        slug: work.slug,
+        titleFr: data.translations.fr.title,
+        titleEn: data.translations.en.title,
+        status: work.status,
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
     });
 
     return NextResponse.json(work, { status: 201 });

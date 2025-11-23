@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
+import { createAuditLog } from "@/lib/audit-log";
 
 const labelSchema = z.object({
   website: z
@@ -91,7 +92,7 @@ export const GET = withAuth(async (req) => {
 
 export const POST = withAuthAndValidation(
   labelSchema,
-  async (_req, _context, _user, data) => {
+  async (req, _context, user, data) => {
     // Generate slug from French name
     const slug = data.translations.fr.name
       .toLowerCase()
@@ -124,6 +125,22 @@ export const POST = withAuthAndValidation(
       include: {
         translations: true,
       },
+    });
+
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "CREATE",
+      entityType: "Label",
+      entityId: label.id,
+      metadata: {
+        slug: label.slug,
+        nameFr: data.translations.fr.name,
+        nameEn: data.translations.en.name,
+        website: label.website,
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
     });
 
     return NextResponse.json(label, { status: 201 });
