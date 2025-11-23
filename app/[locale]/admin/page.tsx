@@ -1,110 +1,254 @@
-"use client";
+import { headers } from "next/headers";
+import Link from "next/link";
+import {
+  MusicIcon,
+  UsersIcon,
+  FolderIcon,
+  TagIcon,
+  ImageIcon,
+  AlertCircleIcon,
+  PlusIcon,
+  ActivityIcon,
+} from "lucide-react";
+import { StatCard } from "@/components/admin/dashboard/stat-card";
+import { DashboardCharts } from "@/components/admin/dashboard/dashboard-charts";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
-import { useSession, signOut } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+// Fetch stats server-side
+async function getStats() {
+  const headersList = await headers();
+  const host = headersList.get("host");
+  const protocol =
+    headersList.get("x-forwarded-proto") ??
+    (host?.includes("localhost") ? "http" : "https");
+  const baseUrl =
+    host && protocol
+      ? `${protocol}://${host}`
+      : process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const cookie = headersList.get("cookie");
 
-export default function AdminPage() {
-  const { data: session, isPending } = useSession();
-  const router = useRouter();
+  try {
+    const res = await fetch(`${baseUrl}/api/admin/stats`, {
+      cache: "no-store", // Always get fresh data
+      headers: cookie ? { cookie } : undefined, // Forward auth session
+    });
 
-  useEffect(() => {
-    if (!isPending && !session) {
-      router.push("/fr");
+    if (!res.ok) {
+      throw new Error("Failed to fetch stats");
     }
-  }, [session, isPending, router]);
 
-  if (isPending) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
-        <div className="text-white">Chargement...</div>
-      </div>
-    );
+    return await (res.json() as Promise<{
+      works: { total: number; active: number; inactive: number };
+      composers: { total: number; active: number; inactive: number };
+      categories: { total: number; active: number };
+      labels: { total: number; active: number };
+      assets: { total: number; orphaned: number };
+      lastActivity: {
+        work: { id: string; title: string; createdAt: string } | null;
+        composer: { id: string; name: string; createdAt: string } | null;
+      };
+    }>);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error("Error fetching stats:", error);
+    // Return default values on error
+    return {
+      works: { total: 0, active: 0, inactive: 0 },
+      composers: { total: 0, active: 0, inactive: 0 },
+      categories: { total: 0, active: 0 },
+      labels: { total: 0, active: 0 },
+      assets: { total: 0, orphaned: 0 },
+      lastActivity: { work: null, composer: null },
+    };
   }
+}
 
-  if (!session) {
-    return null;
-  }
+export default async function AdminDashboardPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const stats = await getStats();
 
-  const handleSignOut = async () => {
-    await signOut();
-    router.push("/fr");
-    router.refresh();
-  };
-
-  const handleSignOutClick = () => {
-    void handleSignOut();
+  // Format date helper
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat("fr-FR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date);
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-3xl font-bold text-lime-300 mb-2">
-                Administration
-              </h1>
-              <p className="text-white/60">
-                Bienvenue, {session.user.name ?? session.user.email}
-              </p>
+    <div className="space-y-8">
+      {/* Page Header */}
+      <div>
+        <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+        <p className="mt-2 text-white/50">
+          Vue d'ensemble de votre contenu et activité
+        </p>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          title="Projets"
+          value={stats.works.total}
+          description={`${String(stats.works.active)} actifs, ${String(stats.works.inactive)} inactifs`}
+          icon={MusicIcon}
+        />
+        <StatCard
+          title="Compositeurs"
+          value={stats.composers.total}
+          description={`${String(stats.composers.active)} actifs`}
+          icon={UsersIcon}
+        />
+        <StatCard
+          title="Catégories"
+          value={stats.categories.total}
+          description={`${String(stats.categories.active)} actives`}
+          icon={FolderIcon}
+        />
+        <StatCard
+          title="Labels"
+          value={stats.labels.total}
+          description={`${String(stats.labels.active)} actifs`}
+          icon={TagIcon}
+        />
+      </div>
+
+      {/* Analytics Charts */}
+      <DashboardCharts />
+
+      {/* Health & Quick Actions Grid */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Site Health */}
+        <Card className="border-lime-300/20 bg-black">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-white">
+              <ActivityIcon className="h-5 w-5 text-lime-300" />
+              Santé du site
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {/* Assets Status */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <ImageIcon className="h-4 w-4 text-white/50" />
+                <span className="text-sm text-white/70">Assets totaux</span>
+              </div>
+              <Badge
+                variant="outline"
+                className="border-lime-300/30 text-lime-300"
+              >
+                {stats.assets.total}
+              </Badge>
             </div>
-            <button
-              onClick={handleSignOutClick}
-              type="button"
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg transition"
+
+            {/* Orphaned Assets Warning */}
+            {stats.assets.orphaned > 0 && (
+              <div className="flex items-center justify-between rounded-lg bg-orange-500/10 p-3">
+                <div className="flex items-center gap-2">
+                  <AlertCircleIcon className="h-4 w-4 text-orange-400" />
+                  <span className="text-sm text-orange-300">
+                    Assets orphelins
+                  </span>
+                </div>
+                <Badge
+                  variant="outline"
+                  className="border-orange-400/30 text-orange-400"
+                >
+                  {stats.assets.orphaned}
+                </Badge>
+              </div>
+            )}
+
+            {/* Last Activity */}
+            {(stats.lastActivity.work ?? stats.lastActivity.composer) && (
+              <div className="space-y-2 border-t border-white/10 pt-4">
+                <p className="text-xs font-semibold uppercase text-white/50">
+                  Dernière activité
+                </p>
+                {stats.lastActivity.work && (
+                  <div className="text-sm">
+                    <p className="text-white/70">
+                      Projet:{" "}
+                      <span className="font-medium text-white">
+                        {stats.lastActivity.work.title}
+                      </span>
+                    </p>
+                    <p className="text-xs text-white/50">
+                      {formatDate(stats.lastActivity.work.createdAt)}
+                    </p>
+                  </div>
+                )}
+                {stats.lastActivity.composer && (
+                  <div className="text-sm">
+                    <p className="text-white/70">
+                      Compositeur:{" "}
+                      <span className="font-medium text-white">
+                        {stats.lastActivity.composer.name}
+                      </span>
+                    </p>
+                    <p className="text-xs text-white/50">
+                      {formatDate(stats.lastActivity.composer.createdAt)}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Quick Actions */}
+        <Card className="border-lime-300/20 bg-black">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-white">
+              <PlusIcon className="h-5 w-5 text-lime-300" />
+              Actions rapides
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Link href={`/${locale}/admin/projets/nouveau`} className="block">
+              <Button
+                className="w-full justify-start gap-2 bg-lime-300 text-black hover:bg-lime-400"
+                size="lg"
+              >
+                <MusicIcon className="h-4 w-4" />
+                Nouveau projet
+              </Button>
+            </Link>
+            <Link
+              href={`/${locale}/admin/compositeurs/nouveau`}
+              className="block"
             >
-              Se déconnecter
-            </button>
-          </div>
-
-          {/* Content */}
-          <div className="bg-white/5 border border-white/10 rounded-lg p-8">
-            <h2 className="text-xl font-semibold mb-4">
-              🎉 Authentification réussie !
-            </h2>
-            <p className="text-white/80 mb-6">
-              Le système d'authentification BetterAuth fonctionne correctement.
-            </p>
-
-            <div className="space-y-4">
-              <div className="p-4 bg-white/5 rounded-lg">
-                <h3 className="font-semibold mb-2 text-lime-300">
-                  Informations du compte
-                </h3>
-                <ul className="space-y-2 text-sm text-white/80">
-                  <li>
-                    <span className="text-white/60">Email :</span>{" "}
-                    {session.user.email}
-                  </li>
-                  <li>
-                    <span className="text-white/60">Nom :</span>{" "}
-                    {session.user.name ?? "Non défini"}
-                  </li>
-                  <li>
-                    <span className="text-white/60">ID :</span>{" "}
-                    {session.user.id}
-                  </li>
-                </ul>
-              </div>
-
-              <div className="p-4 bg-lime-300/10 border border-lime-300/20 rounded-lg">
-                <h3 className="font-semibold mb-2 text-lime-300">
-                  ✅ Prochaines étapes
-                </h3>
-                <ul className="space-y-2 text-sm text-white/80 list-disc list-inside">
-                  <li>
-                    Créer les pages de gestion (projets, compositeurs, etc.)
-                  </li>
-                  <li>Ajouter les formulaires CRUD</li>
-                  <li>Implémenter l'upload d'images</li>
-                  <li>Ajouter la gestion des utilisateurs</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+              <Button
+                variant="outline"
+                className="w-full justify-start gap-2 border-white/20 text-white hover:bg-white/5"
+                size="lg"
+              >
+                <UsersIcon className="h-4 w-4" />
+                Nouveau compositeur
+              </Button>
+            </Link>
+            <Link href={`/${locale}/admin/medias`} className="block">
+              <Button
+                variant="outline"
+                className="w-full justify-start gap-2 border-white/20 text-white hover:bg-white/5"
+                size="lg"
+              >
+                <ImageIcon className="h-4 w-4" />
+                Gérer les médias
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

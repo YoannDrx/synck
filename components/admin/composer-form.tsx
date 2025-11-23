@@ -4,20 +4,39 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { ImageUploader } from "./image-uploader"
 import type { AdminDictionary } from "@/types/dictionary"
+import { fetchWithAuth } from "@/lib/fetch-with-auth"
 import type { Composer, ComposerTranslation, Asset } from "@prisma/client"
+
+const assetPathToUrl = (path?: string | null): string | null => {
+  if (!path) return null
+  if (path.startsWith("http://") || path.startsWith("https://")) return path
+  if (path.startsWith("public/")) return `/${path.substring("public/".length)}`
+  if (path.startsWith("/")) return path
+  return `/${path}`
+}
 
 type ComposerWithRelations = {
   translations: ComposerTranslation[]
   image: Asset | null
+  links?: { id: string; platform: string; url: string; label: string | null; order: number }[]
 } & Composer
 
 type ComposerFormProps = {
   dictionary: AdminDictionary
   composer?: ComposerWithRelations
   mode: "create" | "edit"
+  locale: string
 }
 
-export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) {
+type LinkInput = {
+  id?: string
+  platform: string
+  url: string
+  label?: string | null
+  order: number
+}
+
+export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFormProps) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -30,7 +49,7 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
   const [formData, setFormData] = useState({
     slug: composer?.slug ?? "",
     imageId: composer?.imageId ?? null,
-    imageUrl: composer?.image?.path ?? null,
+    imageUrl: assetPathToUrl(composer?.image?.path),
     externalUrl: composer?.externalUrl ?? "",
     order: composer?.order ?? 0,
     isActive: composer?.isActive ?? true,
@@ -44,11 +63,29 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
         bio: enTranslation?.bio ?? "",
       },
     },
+    links:
+      composer?.links?.map((link) => ({
+        id: link.id,
+        platform: link.platform,
+        url: link.url,
+        label: link.label,
+        order: link.order ?? 0,
+      })) ??
+      (composer?.externalUrl
+        ? [
+            {
+              platform: "website",
+              url: composer.externalUrl,
+              label: null,
+              order: 0,
+            },
+          ]
+        : []),
   })
 
   const handleImageUploaded = async (image: { url: string; width: number; height: number; aspectRatio: number; blurDataUrl: string }) => {
     // First, create Asset in database
-    const response = await fetch("/api/admin/assets", {
+    const response = await fetchWithAuth("/api/admin/assets", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -78,6 +115,32 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
     }))
   }
 
+  const addLink = () => {
+    setFormData((prev) => ({
+      ...prev,
+      links: [
+        ...prev.links,
+        { platform: "website", url: "", label: "", order: prev.links.length },
+      ],
+    }))
+  }
+
+  const updateLink = (index: number, field: keyof LinkInput, value: string | number | null) => {
+    setFormData((prev) => ({
+      ...prev,
+      links: prev.links.map((link, i) =>
+        i === index ? { ...link, [field]: value } : link,
+      ),
+    }))
+  }
+
+  const removeLink = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      links: prev.links.filter((_, i) => i !== index),
+    }))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
@@ -90,17 +153,22 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
           : `/api/admin/composers/${composer?.id ?? ''}`
 
       const method = mode === "create" ? "POST" : "PUT"
+      const primaryLink =
+        formData.links.find((l) => l.platform === "website") ??
+        formData.links[0]
 
-      const response = await fetch(url, {
+      const response = await fetchWithAuth(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           slug: formData.slug,
           imageId: formData.imageId,
-          externalUrl: formData.externalUrl || null,
+          externalUrl:
+            (primaryLink?.url ?? formData.externalUrl) || null,
           order: formData.order,
           isActive: formData.isActive,
           translations: formData.translations,
+          links: formData.links.filter((l) => l.url && l.platform),
         }),
       })
 
@@ -110,7 +178,7 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
       }
 
       // Success - redirect to list
-      router.push("/admin/compositeurs")
+      router.push(`/${locale}/admin/compositeurs`)
       router.refresh()
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erreur lors de l'enregistrement")
@@ -244,9 +312,22 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
 
       {/* Image */}
       <div>
-        <label className="block text-sm font-medium mb-4">
+        <label className="block text-sm font-medium mb-2">
           {dictionary.composers.fields.imageLabel}
         </label>
+        {formData.imageUrl && (
+          <div className="mb-4 flex items-center gap-3 rounded border border-white/10 bg-white/5 p-3">
+            <div className="relative h-16 w-16 overflow-hidden rounded-full border border-white/10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={formData.imageUrl}
+                alt="Photo actuelle"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <span className="text-sm text-white/70">Photo actuelle</span>
+          </div>
+        )}
         <ImageUploader
           dictionary={dictionary.common}
           currentImage={formData.imageUrl}
@@ -255,20 +336,81 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
         />
       </div>
 
-      {/* External URL */}
-      <div>
-        <label className="block text-sm font-medium mb-2">
-          {dictionary.composers.fields.externalUrl}
+      {/* External Links */}
+      <div className="space-y-3">
+        <label className="block text-sm font-medium">
+          Liens externes (Instagram, Spotify, SoundCloud, site...)
         </label>
-        <input
-          type="url"
-          value={formData.externalUrl}
-          onChange={(e) =>
-            { setFormData((prev) => ({ ...prev, externalUrl: e.target.value })); }
-          }
-          placeholder="https://www.youtube.com/..."
-          className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
-        />
+        <button
+          type="button"
+          onClick={addLink}
+          className="text-xs font-semibold text-[#d5ff0a] hover:text-white"
+        >
+          + Ajouter un lien
+        </button>
+        {formData.links.length === 0 && (
+          <div className="text-sm text-white/50">
+            Aucun lien. Cliquez sur « Ajouter un lien » pour commencer.
+          </div>
+        )}
+        <div className="space-y-3">
+          {formData.links.map((link, index) => (
+            <div
+              key={`${link.id ?? "new"}-${index}`}
+              className="grid gap-3 rounded-lg border border-white/10 bg-white/5 p-4 md:grid-cols-5"
+            >
+              <div className="md:col-span-1">
+                <label className="block text-xs text-white/60">Plateforme</label>
+                <input
+                  type="text"
+                  value={link.platform}
+                  onChange={(e) => { updateLink(index, "platform", e.target.value); }}
+                  placeholder="spotify, instagram..."
+                  className="w-full bg-black border-2 border-white/20 px-3 py-2 text-white text-sm focus:border-[#d5ff0a] focus:outline-none"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-xs text-white/60">URL *</label>
+                <input
+                  type="url"
+                  value={link.url}
+                  onChange={(e) => { updateLink(index, "url", e.target.value); }}
+                  placeholder="https://..."
+                  required
+                  className="w-full bg-black border-2 border-white/20 px-3 py-2 text-white text-sm focus:border-[#d5ff0a] focus:outline-none"
+                />
+              </div>
+              <div className="md:col-span-1">
+                <label className="block text-xs text-white/60">Label</label>
+                <input
+                  type="text"
+                  value={link.label ?? ""}
+                  onChange={(e) => { updateLink(index, "label", e.target.value); }}
+                  placeholder="Officiel"
+                  className="w-full bg-black border-2 border-white/20 px-3 py-2 text-white text-sm focus:border-[#d5ff0a] focus:outline-none"
+                />
+              </div>
+              <div className="md:col-span-1 flex items-end justify-between gap-2">
+                <div className="w-full">
+                  <label className="block text-xs text-white/60">Ordre</label>
+                  <input
+                    type="number"
+                    value={link.order}
+                    onChange={(e) => { updateLink(index, "order", parseInt(e.target.value) || 0); }}
+                    className="w-full bg-black border-2 border-white/20 px-3 py-2 text-white text-sm focus:border-[#d5ff0a] focus:outline-none"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => { removeLink(index); }}
+                  className="self-end rounded border border-red-500/50 px-3 py-2 text-xs text-red-400 hover:bg-red-500/10"
+                >
+                  Supprimer
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Order & Active */}
@@ -317,7 +459,7 @@ export function ComposerForm({ dictionary, composer, mode }: ComposerFormProps) 
 
         <button
           type="button"
-          onClick={() => { router.push("/admin/compositeurs"); }}
+          onClick={() => { router.push(`/${locale}/admin/compositeurs`); }}
           disabled={isSubmitting}
           className="border-2 border-white/20 px-6 py-3 hover:border-[#d5ff0a] transition-colors disabled:opacity-50"
         >

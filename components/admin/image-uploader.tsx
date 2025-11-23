@@ -3,6 +3,7 @@
 import { useState, useRef } from "react"
 import Image from "next/image"
 import type { AdminDictionary } from "@/types/dictionary"
+import { fetchWithAuth } from "@/lib/fetch-with-auth"
 
 type UploadedImage = {
   url: string
@@ -60,7 +61,7 @@ export function ImageUploader({
       const formData = new FormData()
       formData.append("file", file)
 
-      const response = await fetch("/api/admin/upload", {
+      const response = await fetchWithAuth("/api/admin/upload", {
         method: "POST",
         body: formData,
       })
@@ -124,15 +125,15 @@ export function ImageUploader({
         />
         <label
           htmlFor="image-upload"
-          className={`inline-block border-2 border-[#d5ff0a] bg-[#d5ff0a]/10 hover:bg-[#d5ff0a]/20 px-6 py-3 cursor-pointer transition-colors ${
+          className={`inline-block border-2 border-[#d5ff0a] bg-[#d5ff0a] text-black font-semibold hover:bg-[#c5ef00] px-6 py-3 cursor-pointer transition-colors ${
             isUploading ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
           {isUploading
             ? dictionary.uploadingImage
             : preview
-            ? dictionary.changeImage
-            : dictionary.uploadImage}
+              ? dictionary.changeImage
+              : dictionary.uploadImage}
         </label>
       </div>
 

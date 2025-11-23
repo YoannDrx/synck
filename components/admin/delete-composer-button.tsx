@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import type { AdminDictionary } from "@/types/dictionary"
+import { fetchWithAuth } from "@/lib/fetch-with-auth"
 
 type DeleteComposerButtonProps = {
   composerId: string
@@ -24,7 +25,7 @@ export function DeleteComposerButton({
     setIsDeleting(true)
 
     try {
-      const response = await fetch(`/api/admin/composers/${composerId}`, {
+      const response = await fetchWithAuth(`/api/admin/composers/${composerId}`, {
         method: "DELETE",
       })
 

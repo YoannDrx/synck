@@ -1,9 +1,7 @@
-/* eslint-disable no-console */
-
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { prisma } from "@/lib/prisma";
+import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
 
 // Schema validation for creating/updating works
 const workSchema = z.object({
@@ -43,51 +41,81 @@ const workSchema = z.object({
   imageIds: z.array(z.string()).optional(),
 });
 
-export async function GET() {
-  try {
+export const GET = withAuth(async (req) => {
+  const { searchParams } = new URL(req.url);
+  const search = searchParams.get("search");
+
+  // If search param exists, return simplified results for search
+  if (search) {
     const works = await prisma.work.findMany({
-      include: {
-        category: {
-          include: {
-            translations: true,
-          },
-        },
-        label: {
-          include: {
-            translations: true,
-          },
-        },
-        coverImage: true,
-        translations: true,
-        contributions: {
-          include: {
-            composer: {
-              include: {
-                translations: true,
-              },
+      where: {
+        translations: {
+          some: {
+            title: {
+              contains: search,
+              mode: "insensitive",
             },
           },
-          orderBy: { order: "asc" },
         },
-        images: true,
       },
-      orderBy: [{ order: "asc" }, { createdAt: "desc" }],
+      include: {
+        translations: {
+          select: {
+            locale: true,
+            title: true,
+          },
+        },
+      },
+      take: 10,
+      orderBy: { updatedAt: "desc" },
     });
 
-    return NextResponse.json(works);
-  } catch {
-    return NextResponse.json(
-      { error: "Erreur lors de la récupération des projets" },
-      { status: 500 },
-    );
+    // Transform to flat structure for search results
+    const searchResults = works.map((work) => ({
+      id: work.id,
+      titleFr: work.translations.find((t) => t.locale === "fr")?.title ?? "",
+      titleEn: work.translations.find((t) => t.locale === "en")?.title ?? "",
+    }));
+
+    return NextResponse.json(searchResults);
   }
-}
 
-export async function POST(request: NextRequest) {
-  try {
-    const body: unknown = await request.json();
-    const data = workSchema.parse(body);
+  // Default: return full works data
+  const works = await prisma.work.findMany({
+    include: {
+      category: {
+        include: {
+          translations: true,
+        },
+      },
+      label: {
+        include: {
+          translations: true,
+        },
+      },
+      coverImage: true,
+      translations: true,
+      contributions: {
+        include: {
+          composer: {
+            include: {
+              translations: true,
+            },
+          },
+        },
+        orderBy: { order: "asc" },
+      },
+      images: true,
+    },
+    orderBy: [{ order: "asc" }, { createdAt: "desc" }],
+  });
 
+  return NextResponse.json(works);
+});
+
+export const POST = withAuthAndValidation(
+  workSchema,
+  async (_req, _context, _user, data) => {
     // Create work with translations and contributions
     const work = await prisma.work.create({
       data: {
@@ -146,18 +174,5 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(work, { status: 201 });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: "Données invalides", details: error.issues },
-        { status: 400 },
-      );
-    }
-
-    console.error("Create project error:", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la création du projet" },
-      { status: 500 },
-    );
-  }
-}
+  },
+);

@@ -1,9 +1,14 @@
- 
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { prisma } from "@/lib/prisma";
+import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
 
-import type { NextRequest} from "next/server";
-import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
-import { z } from "zod"
+const composerLinkSchema = z.object({
+  platform: z.string().min(1),
+  url: z.string().url(),
+  label: z.string().optional().nullable(),
+  order: z.number().int().optional().default(0),
+});
 
 const composerSchema = z.object({
   slug: z.string().min(1),
@@ -21,37 +26,69 @@ const composerSchema = z.object({
       bio: z.string().optional().nullable(),
     }),
   }),
-})
+  links: z.array(composerLinkSchema).optional(),
+});
 
 // GET all composers
-export async function GET() {
-  try {
+export const GET = withAuth(async (req) => {
+  const { searchParams } = new URL(req.url);
+  const search = searchParams.get("search");
+
+  // If search param exists, return simplified results for search
+  if (search) {
     const composers = await prisma.composer.findMany({
-      include: {
-        translations: true,
-        image: true,
-        _count: {
-          select: { contributions: true },
+      where: {
+        translations: {
+          some: {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
         },
       },
-      orderBy: [{ order: "asc" }, { createdAt: "desc" }],
-    })
+      include: {
+        translations: {
+          select: {
+            locale: true,
+            name: true,
+          },
+        },
+      },
+      take: 10,
+      orderBy: { updatedAt: "desc" },
+    });
 
-    return NextResponse.json(composers)
-  } catch {
-    return NextResponse.json(
-      { error: "Erreur lors de la récupération des compositeurs" },
-      { status: 500 }
-    )
+    // Transform to flat structure for search results
+    const searchResults = composers.map((composer) => ({
+      id: composer.id,
+      nameFr: composer.translations.find((t) => t.locale === "fr")?.name ?? "",
+      nameEn: composer.translations.find((t) => t.locale === "en")?.name ?? "",
+    }));
+
+    return NextResponse.json(searchResults);
   }
-}
+
+  // Default: return full composers data
+  const composers = await prisma.composer.findMany({
+    include: {
+      translations: true,
+      image: true,
+      links: true,
+      _count: {
+        select: { contributions: true },
+      },
+    },
+    orderBy: [{ order: "asc" }, { createdAt: "desc" }],
+  });
+
+  return NextResponse.json(composers);
+});
 
 // POST create new composer
-export async function POST(request: NextRequest) {
-  try {
-    const body: unknown = await request.json()
-    const data = composerSchema.parse(body)
-
+export const POST = withAuthAndValidation(
+  composerSchema,
+  async (_req, _context, _user, data) => {
     const composer = await prisma.composer.create({
       data: {
         slug: data.slug,
@@ -73,25 +110,25 @@ export async function POST(request: NextRequest) {
             },
           ],
         },
+        ...(data.links &&
+          data.links.length > 0 && {
+            links: {
+              create: data.links.map((link) => ({
+                platform: link.platform,
+                url: link.url,
+                label: link.label ?? null,
+                order: link.order ?? 0,
+              })),
+            },
+          }),
       },
       include: {
         translations: true,
         image: true,
+        links: true,
       },
-    })
+    });
 
-    return NextResponse.json(composer, { status: 201 })
-  } catch (error: unknown) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: "Données invalides", details: error.issues },
-        { status: 400 }
-      )
-    }
-
-    return NextResponse.json(
-      { error: "Erreur lors de la création du compositeur" },
-      { status: 500 }
-    )
-  }
-}
+    return NextResponse.json(composer, { status: 201 });
+  },
+);

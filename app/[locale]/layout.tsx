@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getDictionary } from "@/lib/dictionaries";
 import { i18n } from "@/lib/i18n-config";
@@ -34,15 +35,26 @@ export default async function LocaleLayout({
   const { locale } = await params;
   const safeLocale = (locale === "en" ? "en" : "fr");
   const dictionary = await getDictionary(safeLocale);
+  const headersList = await headers();
+  const currentPath =
+    headersList.get("x-pathname") ??
+    headersList.get("x-invoke-path") ??
+    headersList.get("x-matched-path") ??
+    headersList.get("next-url") ??
+    headersList.get("referer") ??
+    "";
+  const isAdmin = currentPath.includes(`/${safeLocale}/admin`);
 
   return (
     <>
-      <SiteHeader
-        locale={safeLocale}
-        navigation={dictionary.nav}
-        language={dictionary.layout.language}
-        menu={dictionary.layout.menu}
-      />
+      {!isAdmin && (
+        <SiteHeader
+          locale={safeLocale}
+          navigation={dictionary.nav}
+          language={dictionary.layout.language}
+          menu={dictionary.layout.menu}
+        />
+      )}
       {children}
     </>
   );

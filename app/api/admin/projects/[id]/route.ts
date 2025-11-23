@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
-
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { prisma } from "@/lib/prisma";
+import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
+import { ApiError } from "@/lib/api/error-handler";
 
 const workSchema = z.object({
   slug: z.string().min(1),
@@ -59,64 +58,55 @@ const workSchema = z.object({
   imageIds: z.array(z.string()).optional(),
 });
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  try {
-    const { id } = await params;
+export const GET = withAuth(async (_req, context) => {
+  if (!context.params) {
+    throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
+  }
+  const { id } = await context.params;
 
-    const work = await prisma.work.findUnique({
-      where: { id },
-      include: {
-        category: {
-          include: {
-            translations: true,
-          },
+  const work = await prisma.work.findUnique({
+    where: { id },
+    include: {
+      category: {
+        include: {
+          translations: true,
         },
-        label: {
-          include: {
-            translations: true,
-          },
+      },
+      label: {
+        include: {
+          translations: true,
         },
-        coverImage: true,
-        translations: true,
-        contributions: {
-          include: {
-            composer: {
-              include: {
-                translations: true,
-              },
+      },
+      coverImage: true,
+      translations: true,
+      contributions: {
+        include: {
+          composer: {
+            include: {
+              translations: true,
             },
           },
-          orderBy: { order: "asc" },
         },
-        images: true,
+        orderBy: { order: "asc" },
       },
-    });
+      images: true,
+    },
+  });
 
-    if (!work) {
-      return NextResponse.json({ error: "Projet non trouvé" }, { status: 404 });
-    }
-
-    return NextResponse.json(work);
-  } catch (error) {
-    console.error("Get project error:", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la récupération du projet" },
-      { status: 500 },
-    );
+  if (!work) {
+    throw new ApiError(404, "Projet non trouvé", "NOT_FOUND");
   }
-}
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  try {
-    const { id } = await params;
-    const body: unknown = await request.json();
-    const data = workSchema.parse(body);
+  return NextResponse.json(work);
+});
+
+export const PUT = withAuthAndValidation(
+  workSchema,
+  async (_req, context, _user, data) => {
+    if (!context.params) {
+      throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
+    }
+    const { id } = await context.params;
 
     // Delete existing contributions, then recreate
     await prisma.contribution.deleteMany({
@@ -166,12 +156,6 @@ export async function PUT(
               })),
             },
           }),
-        // Note: images relationship needs to be handled differently
-        // ...(data.imageIds && data.imageIds.length > 0 && {
-        //   images: {
-        //     connect: data.imageIds.map((imageId) => ({ id: imageId })),
-        //   },
-        // }),
       },
       include: {
         translations: true,
@@ -189,49 +173,28 @@ export async function PUT(
     });
 
     return NextResponse.json(work);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: "Données invalides", details: error.issues },
-        { status: 400 },
-      );
-    }
+  },
+);
 
-    console.error("Update project error:", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la mise à jour du projet" },
-      { status: 500 },
-    );
+export const DELETE = withAuth(async (_req, context) => {
+  if (!context.params) {
+    throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
   }
-}
+  const { id } = await context.params;
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  try {
-    const { id } = await params;
+  // Check if work exists
+  const existing = await prisma.work.findUnique({
+    where: { id },
+  });
 
-    // Check if work exists
-    const existing = await prisma.work.findUnique({
-      where: { id },
-    });
-
-    if (!existing) {
-      return NextResponse.json({ error: "Projet non trouvé" }, { status: 404 });
-    }
-
-    // Delete work (cascades will handle related data)
-    await prisma.work.delete({
-      where: { id },
-    });
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Delete project error:", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la suppression du projet" },
-      { status: 500 },
-    );
+  if (!existing) {
+    throw new ApiError(404, "Projet non trouvé", "NOT_FOUND");
   }
-}
+
+  // Delete work (cascades will handle related data)
+  await prisma.work.delete({
+    where: { id },
+  });
+
+  return NextResponse.json({ success: true });
+});

@@ -1,23 +1,131 @@
-/* eslint-disable no-console */
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { prisma } from "@/lib/prisma";
+import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
 
-import { NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
+const labelSchema = z.object({
+  website: z
+    .string()
+    .refine(
+      (val) => {
+        if (!val) return true;
+        try {
+          new URL(val);
+          return true;
+        } catch {
+          return false;
+        }
+      },
+      { message: "URL invalide" },
+    )
+    .optional()
+    .nullable(),
+  order: z.number().int().default(0),
+  isActive: z.boolean().default(true),
+  translations: z.object({
+    fr: z.object({
+      name: z.string().min(1),
+    }),
+    en: z.object({
+      name: z.string().min(1),
+    }),
+  }),
+});
 
-export async function GET() {
-  try {
+export const GET = withAuth(async (req) => {
+  const { searchParams } = new URL(req.url);
+  const search = searchParams.get("search");
+
+  // If search param exists, return simplified results for search
+  if (search) {
     const labels = await prisma.label.findMany({
+      where: {
+        translations: {
+          some: {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        },
+      },
+      include: {
+        translations: {
+          select: {
+            locale: true,
+            name: true,
+          },
+        },
+      },
+      take: 10,
+      orderBy: { order: "asc" },
+    });
+
+    // Transform to flat structure for search results
+    const searchResults = labels.map((label) => ({
+      id: label.id,
+      name:
+        label.translations.find((t) => t.locale === "fr")?.name ??
+        label.translations.find((t) => t.locale === "en")?.name ??
+        "",
+    }));
+
+    return NextResponse.json(searchResults);
+  }
+
+  // Default: return full labels data
+  const labels = await prisma.label.findMany({
+    include: {
+      translations: true,
+      _count: {
+        select: {
+          works: true,
+        },
+      },
+    },
+    orderBy: { order: "asc" },
+  });
+
+  return NextResponse.json(labels);
+});
+
+export const POST = withAuthAndValidation(
+  labelSchema,
+  async (_req, _context, _user, data) => {
+    // Generate slug from French name
+    const slug = data.translations.fr.name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+    const label = await prisma.label.create({
+      data: {
+        slug,
+        website: data.website ?? null,
+        order: data.order,
+        isActive: data.isActive,
+        translations: {
+          createMany: {
+            data: [
+              {
+                locale: "fr",
+                name: data.translations.fr.name,
+              },
+              {
+                locale: "en",
+                name: data.translations.en.name,
+              },
+            ],
+          },
+        },
+      },
       include: {
         translations: true,
       },
-      orderBy: { order: "asc" },
-    })
+    });
 
-    return NextResponse.json(labels)
-  } catch (error) {
-    console.error("Error fetching labels:", error)
-    return NextResponse.json(
-      { error: "Failed to fetch labels" },
-      { status: 500 }
-    )
-  }
-}
+    return NextResponse.json(label, { status: 201 });
+  },
+);

@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import type { AdminDictionary } from "@/types/dictionary"
+import { fetchWithAuth } from "@/lib/fetch-with-auth"
 
 type DeleteWorkButtonProps = {
   workId: string
@@ -22,7 +23,7 @@ export function DeleteWorkButton({
     setIsDeleting(true)
 
     try {
-      const response = await fetch(`/api/admin/projects/${workId}`, {
+      const response = await fetchWithAuth(`/api/admin/projects/${workId}`, {
         method: "DELETE",
       })
 
