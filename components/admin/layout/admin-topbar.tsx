@@ -1,17 +1,23 @@
 "use client";
 
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon, LogOutIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { NotificationsBell } from "@/components/admin/notifications-bell";
 import { ThemeToggle } from "@/components/admin/theme-toggle";
+import type { AdminDictionary } from "@/types/dictionary";
 
 type AdminTopBarProps = {
   locale: string;
+  dict: AdminDictionary;
   onToggleSidebar?: () => void;
 };
 
-export function AdminTopBar({ locale, onToggleSidebar }: AdminTopBarProps) {
+export function AdminTopBar({
+  locale,
+  dict,
+  onToggleSidebar,
+}: AdminTopBarProps) {
   const pathname = usePathname();
 
   // Generate breadcrumbs from pathname
@@ -100,6 +106,30 @@ export function AdminTopBar({ locale, onToggleSidebar }: AdminTopBarProps) {
         <div className="flex items-center gap-3">
           <ThemeToggle />
           <NotificationsBell />
+          <button
+            type="button"
+            onClick={() => {
+              void (async () => {
+                try {
+                  await fetch("/api/auth/sign-out", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({}),
+                  });
+                  // Force full page reload with hard refresh
+                  window.location.href = "/";
+                  window.location.reload();
+                } catch {
+                  // Silently fail - user will notice they're still logged in
+                }
+              })();
+            }}
+            className="flex items-center gap-2 rounded-lg border border-white/15 px-3 py-1.5 text-sm font-medium text-white/70 transition-colors hover:border-white/30 hover:bg-white/5 hover:text-white"
+            aria-label={dict.nav.logout}
+          >
+            <LogOutIcon className="h-4 w-4" />
+            <span className="hidden sm:inline">{dict.nav.logout}</span>
+          </button>
         </div>
       </div>
     </header>

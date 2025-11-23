@@ -416,6 +416,7 @@ const dictionary: Dictionary = {
       labels: "Labels",
       invitations: "Invitations",
       logout: "Logout",
+      backToSite: "Back to site",
     },
     dashboard: {
       title: "Dashboard",

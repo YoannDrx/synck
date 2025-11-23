@@ -423,6 +423,7 @@ const dictionary: Dictionary = {
       labels: "Labels",
       invitations: "Invitations",
       logout: "Déconnexion",
+      backToSite: "Retour au site",
     },
     dashboard: {
       title: "Tableau de bord",

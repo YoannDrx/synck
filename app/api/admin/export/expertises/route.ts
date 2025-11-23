@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { flattenForExport } from "@/lib/export";
 import { withAuth } from "@/lib/api/with-auth";
 import { createAuditLog } from "@/lib/audit-log";
+import { recordSuccessfulExport } from "@/lib/export-history";
 
 export const GET = withAuth(async (req, _context, user) => {
   const { searchParams } = new URL(req.url);
@@ -46,6 +47,22 @@ export const GET = withAuth(async (req, _context, user) => {
       format === "csv" || format === "xlsx"
         ? flattenForExport(exportData)
         : exportData;
+
+    // Enregistrer l'export dans l'historique
+    let exportFormat: "JSON" | "CSV" | "TXT" | "XLS" = "JSON";
+    const formatLower = format.toLowerCase();
+    if (formatLower === "csv") exportFormat = "CSV";
+    else if (formatLower === "txt") exportFormat = "TXT";
+    else if (formatLower === "xls" || formatLower === "xlsx")
+      exportFormat = "XLS";
+
+    await recordSuccessfulExport({
+      userId: user.id,
+      type: "EXPERTISES",
+      format: exportFormat,
+      entityCount: finalData.length,
+      data: finalData,
+    });
 
     await createAuditLog({
       userId: user.id,

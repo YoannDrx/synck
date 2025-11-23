@@ -308,6 +308,7 @@ export type AdminDictionary = {
     labels: string;
     invitations: string;
     logout: string;
+    backToSite: string;
   };
   dashboard: {
     title: string;

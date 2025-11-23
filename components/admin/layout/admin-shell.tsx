@@ -52,6 +52,7 @@ export function AdminShell({
       <div className="lg:ml-64">
         <AdminTopBar
           locale={locale}
+          dict={dict}
           onToggleSidebar={() => {
             setMobileOpen((prev) => !prev);
           }}

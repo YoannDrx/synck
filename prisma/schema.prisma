@@ -456,6 +456,7 @@ enum ExportType {
   COMPOSERS
   CATEGORIES
   LABELS
+  EXPERTISES
   ALL
 }
 
