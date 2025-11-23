@@ -5,11 +5,10 @@ import {
   recordSuccessfulExport,
   recordFailedExport,
 } from "@/lib/export-history";
+import { createAuditLog } from "@/lib/audit-log";
 
 // GET /api/admin/exports/all - Export all data
-export const GET = withAuth(async (request) => {
-  const userId = request.headers.get("x-user-id") ?? "system";
-
+export const GET = withAuth(async (request, _context, user) => {
   try {
     // Fetch all data
     const [assets, works, composers, categories, labels, expertises] =
@@ -102,24 +101,45 @@ export const GET = withAuth(async (request) => {
 
     // Record export in history
     await recordSuccessfulExport({
-      userId,
+      userId: user.id,
       type: "ALL",
       format: "JSON",
       entityCount: totalCount,
       data,
     });
 
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "EXPORT",
+      entityType: "All",
+      metadata: {
+        type: "ALL",
+        format: "JSON",
+        entityCount: totalCount,
+        breakdown: {
+          assets: assets.length,
+          works: works.length,
+          composers: composers.length,
+          categories: categories.length,
+          labels: labels.length,
+          expertises: expertises.length,
+        },
+      },
+      ipAddress: request.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: request.headers.get("user-agent") ?? undefined,
+    });
+
     return NextResponse.json(data);
   } catch (error) {
     // Record failed export
     await recordFailedExport({
-      userId,
+      userId: user.id,
       type: "ALL",
       format: "JSON",
       error: error instanceof Error ? error.message : "Unknown error",
     });
 
-    console.error("Error exporting all data:", error);
     return NextResponse.json(
       { error: "Failed to export data" },
       { status: 500 },

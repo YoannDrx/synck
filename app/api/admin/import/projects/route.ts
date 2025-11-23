@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { withAuth } from "@/lib/api/with-auth";
 import { z } from "zod";
+import { createAuditLog } from "@/lib/audit-log";
 
 const importProjectSchema = z.object({
   slug: z.string().min(1),
@@ -13,13 +14,16 @@ const importProjectSchema = z.object({
   genre: z.string().optional(),
 });
 
-export const POST = withAuth(async (req) => {
+export const POST = withAuth(async (req, _context, user) => {
+  let updateExisting = false;
+
   try {
     const body = (await req.json()) as {
       data: unknown[];
       updateExisting?: boolean;
     };
-    const { data, updateExisting = false } = body;
+    const { data } = body;
+    updateExisting = body.updateExisting ?? false;
 
     const results = {
       created: 0,
@@ -128,8 +132,35 @@ export const POST = withAuth(async (req) => {
       }
     }
 
+    await createAuditLog({
+      userId: user.id,
+      action: "IMPORT",
+      entityType: "Work",
+      metadata: {
+        created: results.created,
+        updated: results.updated,
+        errors: results.errors.length,
+        updateExisting,
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
+    });
+
     return NextResponse.json(results);
-  } catch {
+  } catch (error) {
+    await createAuditLog({
+      userId: user.id,
+      action: "IMPORT",
+      entityType: "Work",
+      metadata: {
+        status: "failed",
+        updateExisting,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
+    });
+
     return NextResponse.json(
       { error: "Erreur lors de l'import" },
       { status: 500 },

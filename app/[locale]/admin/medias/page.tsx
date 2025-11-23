@@ -154,9 +154,6 @@ export default function MediasPage() {
     );
   };
 
-  // Check if orphan
-  const isOrphan = (asset: Asset): boolean => getTotalUsage(asset) === 0;
-
   const paginatedAssets = assets;
 
   const handleSort = (column: string) => {

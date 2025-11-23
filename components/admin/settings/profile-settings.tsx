@@ -158,7 +158,6 @@ export function ProfileSettings() {
             <div className="flex items-center gap-3">
               <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white/10">
                 {profile.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={profile.image}
                     alt={profile.name ?? profile.email}

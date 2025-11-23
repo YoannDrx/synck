@@ -269,16 +269,30 @@ export function AdminSidebar({
 
           {/* Footer - Logout */}
           <div className="border-t border-lime-300/10 p-2">
-            <form action="/api/auth/sign-out" method="POST">
-              <button
-                type="submit"
-                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-white/70 transition-colors hover:bg-white/5 hover:text-white"
-                onClick={onCloseMobile}
-              >
-                <LogOutIcon className="h-5 w-5" />
-                {!collapsed && dict.nav.logout}
-              </button>
-            </form>
+            <button
+              type="button"
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+              onClick={() => {
+                void (async () => {
+                  try {
+                    await fetch("/api/auth/sign-out", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({}),
+                    });
+                    // Force full page reload with hard refresh
+                    window.location.href = "/";
+                    window.location.reload();
+                  } catch {
+                    // Silently fail - user will notice they're still logged in
+                  }
+                  onCloseMobile();
+                })();
+              }}
+            >
+              <LogOutIcon className="h-5 w-5" />
+              {!collapsed && dict.nav.logout}
+            </button>
           </div>
         </div>
       </aside>

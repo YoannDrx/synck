@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { del } from "@vercel/blob";
 import { withAuthAndValidation } from "@/lib/api/with-auth";
+import { createAuditLog } from "@/lib/audit-log";
 
 const bulkDeleteSchema = z.object({
   ids: z.array(z.string()).min(1),
@@ -10,7 +11,7 @@ const bulkDeleteSchema = z.object({
 
 export const POST = withAuthAndValidation(
   bulkDeleteSchema,
-  async (_req, _context, _user, data) => {
+  async (req, _context, user, data) => {
     try {
       // Fetch assets to get their paths for Vercel Blob deletion
       const assets = await prisma.asset.findMany({
@@ -41,6 +42,20 @@ export const POST = withAuthAndValidation(
         where: {
           id: { in: data.ids },
         },
+      });
+
+      // Audit log - log bulk delete action
+      await createAuditLog({
+        userId: user.id,
+        action: "BULK_DELETE",
+        entityType: "Asset",
+        entityId: "bulk",
+        metadata: {
+          deletedCount: assets.length,
+          deletedIds: assets.map((a) => a.id),
+        },
+        ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+        userAgent: req.headers.get("user-agent") ?? undefined,
       });
 
       return NextResponse.json({

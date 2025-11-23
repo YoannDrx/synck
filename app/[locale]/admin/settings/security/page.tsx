@@ -19,6 +19,7 @@ import {
 import { ShieldCheckIcon, ShieldOffIcon, KeyIcon } from "lucide-react";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import { logger } from "@/lib/logger";
 
 type TwoFactorData = {
   secret: string;
@@ -48,7 +49,7 @@ export default function SecuritySettingsPage() {
       const data = (await res.json()) as TwoFactorData;
       setTwoFactorData(data);
     } catch (error) {
-      console.error("Error generating 2FA:", error);
+      logger.error("Error generating 2FA setup", error);
       toast.error("Erreur lors de la génération du QR code");
     } finally {
       setIsLoading(false);
@@ -82,7 +83,7 @@ export default function SecuritySettingsPage() {
       setVerificationCode("");
       toast.success("2FA activée avec succès");
     } catch (error) {
-      console.error("Error enabling 2FA:", error);
+      logger.error("Error enabling 2FA", error);
       toast.error("Code invalide ou erreur lors de l'activation");
     } finally {
       setIsLoading(false);
@@ -105,7 +106,7 @@ export default function SecuritySettingsPage() {
       setShowDisableDialog(false);
       toast.success("2FA désactivée avec succès");
     } catch (error) {
-      console.error("Error disabling 2FA:", error);
+      logger.error("Error disabling 2FA", error);
       toast.error("Erreur lors de la désactivation");
     } finally {
       setIsLoading(false);

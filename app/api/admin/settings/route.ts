@@ -5,7 +5,7 @@ import { withAuth, requireAuth } from "@/lib/api/with-auth";
 import { ApiError, handleApiError } from "@/lib/api/error-handler";
 
 const profileSchema = z.object({
-  email: z.string().email().optional(),
+  email: z.email().optional(),
   name: z.string().min(1).optional(),
   image: z
     .string()
@@ -39,7 +39,7 @@ export const GET = withAuth(async () => {
 export const PUT = withAuth(async (req) => {
   try {
     const user = await requireAuth();
-    const body = await req.json();
+    const body = (await req.json()) as unknown;
     const data = profileSchema.parse(body);
 
     const updated = await prisma.user.update({
@@ -47,7 +47,7 @@ export const PUT = withAuth(async (req) => {
       data: {
         ...(data.email && { email: data.email, emailVerified: false }),
         ...(data.name && { name: data.name }),
-        ...(data.image !== undefined && { image: data.image || null }),
+        ...(data.image !== undefined && { image: data.image ?? null }),
       },
       select: { email: true, name: true, image: true, role: true },
     });

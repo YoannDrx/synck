@@ -57,6 +57,7 @@ export function NotificationsBell() {
     }
   };
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     void fetchNotifications();
     const interval = setInterval(() => {
@@ -64,6 +65,7 @@ export function NotificationsBell() {
     }, 30000); // Poll every 30s
     return () => { clearInterval(interval); };
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

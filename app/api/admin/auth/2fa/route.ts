@@ -3,6 +3,7 @@ import { withAuth } from "@/lib/api/with-auth";
 import * as OTPAuth from "otplib";
 import * as QRCode from "qrcode";
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger";
 
 // Configure TOTP
 OTPAuth.authenticator.options = {
@@ -31,7 +32,7 @@ export const GET = withAuth(async (_request, _context, user) => {
       otpauth,
     });
   } catch (error) {
-    console.error("Error generating 2FA:", error);
+    logger.error("Error generating 2FA QR", error);
     return NextResponse.json(
       { error: "Failed to generate 2FA" },
       { status: 500 },
@@ -75,7 +76,7 @@ export const POST = withAuth(async (request, _context, user) => {
       message: "2FA enabled successfully",
     });
   } catch (error) {
-    console.error("Error enabling 2FA:", error);
+    logger.error("Error enabling 2FA", error);
     return NextResponse.json(
       { error: "Failed to enable 2FA" },
       { status: 500 },
@@ -100,7 +101,7 @@ export const DELETE = withAuth(async (_request, _context, user) => {
       message: "2FA disabled successfully",
     });
   } catch (error) {
-    console.error("Error disabling 2FA:", error);
+    logger.error("Error disabling 2FA", error);
     return NextResponse.json(
       { error: "Failed to disable 2FA" },
       { status: 500 },

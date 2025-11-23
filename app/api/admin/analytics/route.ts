@@ -18,7 +18,7 @@ export const GET = withAuth(async () => {
       },
       select: {
         createdAt: true,
-        status: true,
+        isActive: true,
       },
       orderBy: { createdAt: "asc" },
     }),
@@ -84,8 +84,8 @@ export const GET = withAuth(async () => {
     months.push({
       month: monthLabel,
       works: monthWorks.length,
-      published: monthWorks.filter((w) => w.status === "PUBLISHED").length,
-      draft: monthWorks.filter((w) => w.status === "DRAFT").length,
+      published: monthWorks.filter((w) => w.isActive).length,
+      draft: monthWorks.filter((w) => !w.isActive).length,
       composers: monthComposers.length,
     });
   }
@@ -94,14 +94,14 @@ export const GET = withAuth(async () => {
   const [totalWorks, publishedWorks, totalCategories, totalLabels] =
     await Promise.all([
       prisma.work.count(),
-      prisma.work.count({ where: { status: "PUBLISHED" } }),
+      prisma.work.count({ where: { isActive: true } }),
       prisma.category.count({ where: { isActive: true } }),
       prisma.label.count({ where: { isActive: true } }),
     ]);
 
   const statusDistribution = [
     { name: "Publiés", value: publishedWorks, color: "#d5ff0a" },
-    { name: "Brouillons", value: totalWorks - publishedWorks, color: "#666" },
+    { name: "Inactifs", value: totalWorks - publishedWorks, color: "#666" },
   ];
 
   // Get category distribution (top 5)

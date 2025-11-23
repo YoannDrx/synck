@@ -3,6 +3,15 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   DownloadIcon,
   DatabaseIcon,
@@ -15,6 +24,7 @@ import {
   XCircleIcon,
   ClockIcon,
   FileJsonIcon,
+  EyeIcon,
 } from "lucide-react";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
 import type { ExportType, ExportFormat, ExportStatus } from "@prisma/client";
@@ -54,6 +64,7 @@ export default function ExportHistoryPage() {
         const data = (await res.json()) as ExportHistoryItem[];
         setHistory(data);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error("Error fetching export history:", error);
       } finally {
         setIsLoading(false);
@@ -150,7 +161,7 @@ export default function ExportHistoryPage() {
   const formatDate = (dateString: string) => {
     return new Intl.DateTimeFormat("fr-FR", {
       year: "numeric",
-      month: "long",
+      month: "short",
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
@@ -165,6 +176,63 @@ export default function ExportHistoryPage() {
     if (duration < 1) return "< 1s";
     if (duration < 60) return `${duration.toFixed(1)}s`;
     return `${(duration / 60).toFixed(1)}min`;
+  };
+
+  const handleDownload = async (item: ExportHistoryItem) => {
+    try {
+      const res = await fetchWithAuth(`/api/admin/exports/history/${item.id}`);
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch export data");
+      }
+
+      const result = (await res.json()) as {
+        data: unknown;
+        format: string;
+        type: string;
+      };
+
+      // Créer le fichier à télécharger
+      const filename = `export-${result.type.toLowerCase()}-${new Date(item.createdAt).toISOString().split("T")[0]}.${result.format.toLowerCase()}`;
+      const content = JSON.stringify(result.data, null, 2);
+      const blob = new Blob([content], { type: "application/json" });
+      const url = window.URL.createObjectURL(blob);
+
+      // Déclencher le téléchargement
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Error downloading export:", error);
+      alert("Erreur lors du téléchargement de l'export");
+    }
+  };
+
+  const handleView = async (item: ExportHistoryItem) => {
+    try {
+      const res = await fetchWithAuth(`/api/admin/exports/history/${item.id}`);
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch export data");
+      }
+
+      const result = (await res.json()) as { data: unknown };
+
+      // Ouvrir les données dans un nouvel onglet
+      const content = JSON.stringify(result.data, null, 2);
+      const blob = new Blob([content], { type: "application/json" });
+      const url = window.URL.createObjectURL(blob);
+      window.open(url, "_blank");
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Error viewing export:", error);
+      alert("Erreur lors de l'affichage de l'export");
+    }
   };
 
   if (isLoading) {
@@ -248,104 +316,136 @@ export default function ExportHistoryPage() {
         </Card>
       </div>
 
-      {/* Export History List */}
-      {history.length === 0 ? (
-        <Card className="border-white/10 bg-black">
-          <CardContent className="p-12 text-center">
-            <DownloadIcon className="mx-auto h-12 w-12 text-white/20" />
-            <p className="mt-4 text-white/50">
-              Aucun export effectué pour le moment
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="space-y-4">
-          {history.map((item) => {
-            const TypeIcon = getTypeIcon(item.type);
-            const StatusIcon = getStatusIcon(item.status);
+      {/* Export History Table */}
+      <Card className="border-white/10 bg-black">
+        <CardHeader>
+          <CardTitle className="text-white">Historique des exports</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {history.length === 0 ? (
+            <div className="p-12 text-center">
+              <DownloadIcon className="mx-auto h-12 w-12 text-white/20" />
+              <p className="mt-4 text-white/50">
+                Aucun export effectué pour le moment
+              </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-white/10 hover:bg-white/5">
+                    <TableHead className="text-white/70">Type</TableHead>
+                    <TableHead className="text-white/70">Format</TableHead>
+                    <TableHead className="text-white/70">Statut</TableHead>
+                    <TableHead className="text-white/70">Entités</TableHead>
+                    <TableHead className="text-white/70">Taille</TableHead>
+                    <TableHead className="text-white/70">Durée</TableHead>
+                    <TableHead className="text-white/70">Date</TableHead>
+                    <TableHead className="text-white/70">Utilisateur</TableHead>
+                    <TableHead className="text-right text-white/70">
+                      Actions
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {history.map((item) => {
+                    const TypeIcon = getTypeIcon(item.type);
+                    const StatusIcon = getStatusIcon(item.status);
 
-            return (
-              <Card
-                key={item.id}
-                className="border-white/10 bg-black hover:border-lime-300/30 transition-colors"
-              >
-                <CardHeader>
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <TypeIcon className="h-5 w-5 text-lime-300" />
-                      <div>
-                        <CardTitle className="text-white">
-                          {getTypeLabel(item.type)}
-                        </CardTitle>
-                        <p className="mt-1 text-sm text-white/50">
+                    return (
+                      <TableRow
+                        key={item.id}
+                        className="border-white/10 hover:bg-white/5"
+                      >
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <TypeIcon className="h-4 w-4 text-lime-300" />
+                            <span className="font-medium text-white">
+                              {getTypeLabel(item.type)}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant="outline"
+                            className="border-white/20 bg-white/5 text-white"
+                          >
+                            {item.format}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant="outline"
+                            className={getStatusColor(item.status)}
+                          >
+                            <StatusIcon className="mr-1 h-3 w-3" />
+                            {getStatusLabel(item.status)}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-white">
+                          {item.entityCount?.toLocaleString() ?? "N/A"}
+                        </TableCell>
+                        <TableCell className="text-white">
+                          {formatFileSize(item.fileSize)}
+                        </TableCell>
+                        <TableCell className="text-white">
+                          {getDuration(item.createdAt, item.completedAt)}
+                        </TableCell>
+                        <TableCell className="text-white/70">
                           {formatDate(item.createdAt)}
-                        </p>
-                      </div>
-                    </div>
-                    <Badge
-                      variant="outline"
-                      className={getStatusColor(item.status)}
-                    >
-                      <StatusIcon className="mr-1 h-3 w-3" />
-                      {getStatusLabel(item.status)}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <div>
-                      <p className="text-xs text-white/50">Format</p>
-                      <p className="mt-1 font-medium text-white">
-                        {item.format}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-white/50">Entités</p>
-                      <p className="mt-1 font-medium text-white">
-                        {item.entityCount?.toLocaleString() ?? "N/A"}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-white/50">Taille</p>
-                      <p className="mt-1 font-medium text-white">
-                        {formatFileSize(item.fileSize)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-white/50">Durée</p>
-                      <p className="mt-1 font-medium text-white">
-                        {getDuration(item.createdAt, item.completedAt)}
-                      </p>
-                    </div>
-                  </div>
-
-                  {item.user && (
-                    <div className="mt-4 border-t border-white/10 pt-4">
-                      <p className="text-xs text-white/50">
-                        Exporté par:{" "}
-                        <span className="font-medium text-white">
+                        </TableCell>
+                        <TableCell className="text-white/70">
                           {item.user.name ?? item.user.email}
-                        </span>
-                      </p>
-                    </div>
-                  )}
-
-                  {item.errorMessage && (
-                    <div className="mt-4 rounded-lg border border-red-500/20 bg-red-500/10 p-3">
-                      <p className="text-xs font-medium text-red-400">
-                        Erreur:
-                      </p>
-                      <p className="mt-1 text-sm text-red-300">
-                        {item.errorMessage}
-                      </p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      )}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end gap-2">
+                            {item.status === "COMPLETED" && (
+                              <>
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={() => {
+                                    void handleView(item);
+                                  }}
+                                  className="h-8 gap-1 text-lime-300 hover:bg-lime-300/10 hover:text-lime-300"
+                                  title="Voir l'export"
+                                >
+                                  <EyeIcon className="h-3 w-3" />
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={() => {
+                                    void handleDownload(item);
+                                  }}
+                                  className="h-8 gap-1 text-lime-300 hover:bg-lime-300/10 hover:text-lime-300"
+                                  title="Télécharger l'export"
+                                >
+                                  <DownloadIcon className="h-3 w-3" />
+                                </Button>
+                              </>
+                            )}
+                            {item.status === "FAILED" && item.errorMessage && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                className="h-8 text-red-400 hover:bg-red-500/10 hover:text-red-300"
+                                title={item.errorMessage}
+                              >
+                                Erreur
+                              </Button>
+                            )}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

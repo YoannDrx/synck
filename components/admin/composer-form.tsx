@@ -36,6 +36,20 @@ type LinkInput = {
   order: number
 }
 
+type FormState = {
+  slug: string
+  imageId: string | null
+  imageUrl: string | null
+  externalUrl: string
+  order: number
+  isActive: boolean
+  translations: {
+    fr: { name: string; bio: string }
+    en: { name: string; bio: string }
+  }
+  links: LinkInput[]
+}
+
 export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFormProps) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -45,8 +59,27 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
   const frTranslation = composer?.translations.find((t) => t.locale === "fr")
   const enTranslation = composer?.translations.find((t) => t.locale === "en")
 
+  const initialLinks: LinkInput[] =
+    composer?.links?.map((link) => ({
+      id: link.id,
+      platform: link.platform,
+      url: link.url,
+      label: link.label,
+      order: link.order ?? 0,
+    })) ??
+    (composer?.externalUrl
+      ? [
+          {
+            platform: "website",
+            url: composer.externalUrl,
+            label: null,
+            order: 0,
+          },
+        ]
+      : [])
+
   // Form state
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormState>({
     slug: composer?.slug ?? "",
     imageId: composer?.imageId ?? null,
     imageUrl: assetPathToUrl(composer?.image?.path),
@@ -63,24 +96,7 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
         bio: enTranslation?.bio ?? "",
       },
     },
-    links:
-      composer?.links?.map((link) => ({
-        id: link.id,
-        platform: link.platform,
-        url: link.url,
-        label: link.label,
-        order: link.order ?? 0,
-      })) ??
-      (composer?.externalUrl
-        ? [
-            {
-              platform: "website",
-              url: composer.externalUrl,
-              label: null,
-              order: 0,
-            },
-          ]
-        : []),
+    links: initialLinks,
   })
 
   const handleImageUploaded = async (image: { url: string; width: number; height: number; aspectRatio: number; blurDataUrl: string }) => {
@@ -318,7 +334,6 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
         {formData.imageUrl && (
           <div className="mb-4 flex items-center gap-3 rounded border border-white/10 bg-white/5 p-3">
             <div className="relative h-16 w-16 overflow-hidden rounded-full border border-white/10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={formData.imageUrl}
                 alt="Photo actuelle"
@@ -356,7 +371,7 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
         <div className="space-y-3">
           {formData.links.map((link, index) => (
             <div
-              key={`${link.id ?? "new"}-${index}`}
+              key={`${link.id ?? "new"}-${String(index)}`}
               className="grid gap-3 rounded-lg border border-white/10 bg-white/5 p-4 md:grid-cols-5"
             >
               <div className="md:col-span-1">

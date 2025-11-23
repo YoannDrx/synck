@@ -12,7 +12,7 @@ const passwordSchema = z.object({
 
 export const POST = withAuth(async (req, _ctx, user) => {
   try {
-    const body = await req.json();
+    const body = (await req.json()) as unknown;
     const { currentPassword, newPassword } = passwordSchema.parse(body);
 
     // Find account with password
@@ -23,7 +23,8 @@ export const POST = withAuth(async (req, _ctx, user) => {
       },
     });
 
-    if (!account || !account.password) {
+    const password = account?.password;
+    if (!account || !password) {
       throw new ApiError(
         400,
         "Aucun mot de passe n'est configuré pour ce compte",
@@ -31,7 +32,7 @@ export const POST = withAuth(async (req, _ctx, user) => {
       );
     }
 
-    const valid = await bcrypt.compare(currentPassword, account.password);
+    const valid = await bcrypt.compare(currentPassword, password);
     if (!valid) {
       throw new ApiError(400, "Mot de passe actuel incorrect", "INVALID_PASSWORD");
     }

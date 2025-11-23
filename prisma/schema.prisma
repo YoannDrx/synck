@@ -462,6 +462,8 @@ enum ExportType {
 enum ExportFormat {
   JSON
   CSV
+  TXT
+  XLS
 }
 
 enum ExportStatus {
@@ -481,6 +483,7 @@ model ExportHistory {
   status       ExportStatus @default(PENDING)
   errorMessage String?      @db.Text
   downloadUrl  String? // Optionnel: URL de téléchargement si stocké
+  data         Json? // Données de l'export stockées en JSON
   createdAt    DateTime     @default(now())
   completedAt  DateTime?
 

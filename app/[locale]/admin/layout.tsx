@@ -5,7 +5,6 @@ import { getDictionary } from "@/lib/dictionaries";
 import { i18n } from "@/lib/i18n-config";
 import { prisma } from "@/lib/prisma";
 import { AdminShell } from "@/components/admin/layout/admin-shell";
-import type { AuthenticatedUser } from "@/lib/api/with-auth";
 import type { Locale } from "@/lib/i18n-config";
 
 export default async function AdminLayout({

@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { FilterIcon, XIcon } from "lucide-react";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import { logger } from "@/lib/logger";
 
 type AuditLog = {
   id: string;
@@ -90,7 +91,7 @@ export default function AuditLogsPage() {
       setLogs(data.logs);
       setPagination(data.pagination);
     } catch (error) {
-      console.error("Error fetching logs:", error);
+      logger.error("Error fetching audit logs", error);
       toast.error("Erreur lors du chargement des logs");
     } finally {
       setIsLoading(false);
@@ -126,9 +127,9 @@ export default function AuditLogsPage() {
     return (
       log.action.toLowerCase().includes(query) ||
       log.user.email.toLowerCase().includes(query) ||
-      log.user.name?.toLowerCase().includes(query) ||
-      log.entityType?.toLowerCase().includes(query) ||
-      log.entityId?.toLowerCase().includes(query)
+      (log.user.name?.toLowerCase().includes(query) ?? false) ||
+      (log.entityType?.toLowerCase().includes(query) ?? false) ||
+      (log.entityId?.toLowerCase().includes(query) ?? false)
     );
   });
 

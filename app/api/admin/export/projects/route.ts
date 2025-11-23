@@ -2,9 +2,11 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { flattenForExport } from "@/lib/export";
 import { withAuth } from "@/lib/api/with-auth";
+import { recordSuccessfulExport } from "@/lib/export-history";
+import { createAuditLog } from "@/lib/audit-log";
 import type { Prisma } from "@prisma/client";
 
-export const GET = withAuth(async (req) => {
+export const GET = withAuth(async (req, _context, user) => {
   const { searchParams } = new URL(req.url);
   const format = searchParams.get("format") ?? "json";
   const categoryId = searchParams.get("categoryId");
@@ -121,13 +123,56 @@ export const GET = withAuth(async (req) => {
         ? flattenForExport(exportData)
         : exportData;
 
+    // Enregistrer l'export dans l'historique
+    let exportFormat: "JSON" | "CSV" | "TXT" | "XLS" = "JSON";
+    const formatLower = format.toLowerCase();
+    if (formatLower === "csv") exportFormat = "CSV";
+    else if (formatLower === "txt") exportFormat = "TXT";
+    else if (formatLower === "xls" || formatLower === "xlsx")
+      exportFormat = "XLS";
+
+    await recordSuccessfulExport({
+      userId: user.id,
+      type: "WORKS",
+      format: exportFormat,
+      entityCount: finalData.length,
+      data: finalData,
+    });
+
+    await createAuditLog({
+      userId: user.id,
+      action: "EXPORT",
+      entityType: "Work",
+      metadata: {
+        format,
+        count: finalData.length,
+        filters: { categoryId, labelId, status },
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
+    });
+
     // Retourner les données brutes (le client gère la génération du fichier)
     return NextResponse.json({
       data: finalData,
       count: finalData.length,
       format,
     });
-  } catch {
+  } catch (error) {
+    await createAuditLog({
+      userId: user.id,
+      action: "EXPORT",
+      entityType: "Work",
+      metadata: {
+        format,
+        status: "failed",
+        filters: { categoryId, labelId, status },
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
+    });
+
     return NextResponse.json(
       { error: "Erreur lors de l'export" },
       { status: 500 },

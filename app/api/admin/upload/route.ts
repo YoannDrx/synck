@@ -77,7 +77,7 @@ export const POST = withAuth(async (req) => {
   // Local disk fallback (public/uploads)
   const uploadsDir = path.join(process.cwd(), "public", "uploads");
   await fs.mkdir(uploadsDir, { recursive: true });
-  const fileName = `${Date.now()}-${randomUUID()}-${file.name}`;
+  const fileName = `${String(Date.now())}-${randomUUID()}-${file.name}`;
   const filePath = path.join(uploadsDir, fileName);
   await fs.writeFile(filePath, buffer);
 

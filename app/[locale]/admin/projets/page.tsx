@@ -42,6 +42,26 @@ import { ImportDialog } from "@/components/admin/import-dialog";
 import { BulkActionsToolbar } from "@/components/admin/bulk-actions-toolbar";
 import { Checkbox } from "@/components/ui/checkbox";
 
+type WorkApi = {
+  id: string;
+  slug: string;
+  status?: string | null;
+  isActive?: boolean | null;
+  createdAt: string;
+  updatedAt: string;
+  translations?: { locale: string; title?: string | null }[];
+  coverImage?: { path?: string | null; blurDataUrl?: string | null } | null;
+  category?: {
+    id: string;
+    color?: string | null;
+    translations?: { locale: string; name?: string | null }[];
+  } | null;
+  label?: {
+    id: string;
+    translations?: { locale: string; name?: string | null }[];
+  } | null;
+};
+
 type Work = {
   id: string;
   slug: string;
@@ -65,6 +85,12 @@ type Category = {
   id: string;
   nameFr: string;
   nameEn: string;
+};
+
+type TaxonomyApi = {
+  id: string;
+  translations: { locale: string; name?: string | null }[];
+  color?: string | null;
 };
 
 type Label = {
@@ -115,48 +141,54 @@ export default function ProjetsPage({
 
   const PAGE_SIZE = 20;
 
-  const mapWork = (work: any): Work => ({
-    id: work.id,
-    slug: work.slug,
-    titleFr:
-      work.translations?.find((t: any) => t.locale === "fr")?.title ?? "",
-    titleEn:
-      work.translations?.find((t: any) => t.locale === "en")?.title ?? "",
-    status: ["PUBLISHED", "DRAFT", "ARCHIVED"].includes(
-      (work.status ?? "").toUpperCase(),
+  const mapWork = (work: WorkApi): Work => {
+    const translations = work.translations ?? [];
+    const titleFr = translations.find((t) => t.locale === "fr")?.title ?? "";
+    const titleEn = translations.find((t) => t.locale === "en")?.title ?? "";
+
+    const statusCandidate = (work.status ?? "").toUpperCase();
+    const status: Work["status"] = ["PUBLISHED", "DRAFT", "ARCHIVED"].includes(
+      statusCandidate,
     )
-      ? (work.status as Work["status"])
+      ? (statusCandidate as Work["status"])
       : work.isActive
         ? "PUBLISHED"
-        : "DRAFT",
-    createdAt: work.createdAt,
-    updatedAt: work.updatedAt,
-    coverImageUrl: work.coverImage?.path ?? null,
-    coverImageBlur: work.coverImage?.blurDataUrl ?? null,
-    category: work.category
-      ? {
-          id: work.category.id,
-          nameFr:
-            work.category.translations?.find((t: any) => t.locale === "fr")
-              ?.name ?? "",
-          nameEn:
-            work.category.translations?.find((t: any) => t.locale === "en")
-              ?.name ?? "",
-          color: work.category.color ?? "#ffffff",
-        }
-      : null,
-    label: work.label
-      ? {
-          id: work.label.id,
-          nameFr:
-            work.label.translations?.find((t: any) => t.locale === "fr")
-              ?.name ?? "",
-          nameEn:
-            work.label.translations?.find((t: any) => t.locale === "en")
-              ?.name ?? "",
-        }
-      : null,
-  });
+        : "DRAFT";
+
+    const categoryTranslations = work.category?.translations ?? [];
+    const labelTranslations = work.label?.translations ?? [];
+
+    return {
+      id: work.id,
+      slug: work.slug,
+      titleFr,
+      titleEn,
+      status,
+      createdAt: work.createdAt,
+      updatedAt: work.updatedAt,
+      coverImageUrl: work.coverImage?.path ?? null,
+      coverImageBlur: work.coverImage?.blurDataUrl ?? null,
+      category: work.category
+        ? {
+            id: work.category.id,
+            nameFr:
+              categoryTranslations.find((t) => t.locale === "fr")?.name ?? "",
+            nameEn:
+              categoryTranslations.find((t) => t.locale === "en")?.name ?? "",
+            color: work.category.color ?? "#ffffff",
+          }
+        : null,
+      label: work.label
+        ? {
+            id: work.label.id,
+            nameFr:
+              labelTranslations.find((t) => t.locale === "fr")?.name ?? "",
+            nameEn:
+              labelTranslations.find((t) => t.locale === "en")?.name ?? "",
+          }
+        : null,
+    };
+  };
 
   const fetchWorks = useCallback(
     async (pageToLoad = 0, append = false) => {
@@ -185,8 +217,17 @@ export default function ProjetsPage({
           throw new Error("Failed to fetch data");
         }
 
-        const { data, pagination } = (await res.json()) as {
-          data: any[];
+        const payload = (await res.json()) as unknown;
+        if (
+          !payload ||
+          typeof payload !== "object" ||
+          !Array.isArray((payload as { data?: unknown }).data)
+        ) {
+          throw new Error("Invalid projects payload");
+        }
+
+        const { data, pagination } = payload as {
+          data: WorkApi[];
           pagination: { page: number; total: number; totalPages: number };
         };
 
@@ -227,33 +268,35 @@ export default function ProjetsPage({
           throw new Error("Failed to fetch taxonomies");
         }
 
-        const [categoriesRaw, labelsRaw] = await Promise.all([
+        const [categoriesRaw, labelsRaw] = (await Promise.all([
           categoriesRes.json(),
           labelsRes.json(),
-        ]);
+        ])) as [unknown, unknown];
 
-        const categoriesData: Category[] = (categoriesRaw as any[]).map(
-          (category) => ({
-            id: category.id,
-            nameFr:
-              category.translations?.find((t: any) => t.locale === "fr")
-                ?.name ?? "",
-            nameEn:
-              category.translations?.find((t: any) => t.locale === "en")
-                ?.name ?? "",
-            color: category.color ?? "#ffffff",
-          }),
+        if (!Array.isArray(categoriesRaw) || !Array.isArray(labelsRaw)) {
+          throw new Error("Invalid taxonomies payload");
+        }
+
+        const categoriesData: Category[] = (categoriesRaw as TaxonomyApi[]).map(
+          (category) => {
+            const translations = category.translations ?? [];
+            return {
+              id: category.id,
+              nameFr: translations.find((t) => t.locale === "fr")?.name ?? "",
+              nameEn: translations.find((t) => t.locale === "en")?.name ?? "",
+              color: category.color ?? "#ffffff",
+            };
+          },
         );
 
-        const labelsData: Label[] = (labelsRaw as any[]).map((label) => ({
-          id: label.id,
-          nameFr:
-            label.translations?.find((t: any) => t.locale === "fr")?.name ??
-            "",
-          nameEn:
-            label.translations?.find((t: any) => t.locale === "en")?.name ??
-            "",
-        }));
+        const labelsData: Label[] = (labelsRaw as TaxonomyApi[]).map((label) => {
+          const translations = label.translations ?? [];
+          return {
+            id: label.id,
+            nameFr: translations.find((t) => t.locale === "fr")?.name ?? "",
+            nameEn: translations.find((t) => t.locale === "en")?.name ?? "",
+          };
+        });
 
         setCategories(categoriesData);
         setLabels(labelsData);

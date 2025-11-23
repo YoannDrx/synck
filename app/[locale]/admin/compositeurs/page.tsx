@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { PencilIcon, PlusIcon, Trash2Icon, XIcon } from "lucide-react";
 import {
   DataTable,
@@ -25,6 +24,17 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
 import { ExportButton } from "@/components/admin/export-button";
+
+type ComposerApi = {
+  id: string;
+  slug: string;
+  translations: { locale: string; name?: string | null; bio?: string | null }[];
+  isActive: boolean | null;
+  createdAt: string;
+  updatedAt: string;
+  image?: { path?: string | null; blurDataUrl?: string | null } | null;
+  _count?: { contributions?: number };
+};
 
 const assetPathToUrl = (path?: string | null): string | null => {
   if (!path) return null;
@@ -99,29 +109,37 @@ export default function ComposeursPage({
           throw new Error("Failed to fetch composers");
         }
 
-        const raw = await res.json();
-        const mapped: Composer[] = (raw as any[]).map((composer) => ({
-          id: composer.id,
-          slug: composer.slug,
-          nameFr:
-            composer.translations?.find((t: any) => t.locale === "fr")?.name ??
-            "",
-          nameEn:
-            composer.translations?.find((t: any) => t.locale === "en")?.name ??
-            "",
-          bioFr:
-            composer.translations?.find((t: any) => t.locale === "fr")?.bio ??
-            null,
-          bioEn:
-            composer.translations?.find((t: any) => t.locale === "en")?.bio ??
-            null,
-          isActive: Boolean(composer.isActive),
-          createdAt: composer.createdAt,
-          updatedAt: composer.updatedAt,
-          imageUrl: assetPathToUrl(composer.image?.path),
-          imageBlur: composer.image?.blurDataUrl ?? null,
-          _count: composer._count ?? { contributions: 0 },
-        }));
+        const raw = (await res.json()) as unknown;
+        if (!Array.isArray(raw)) {
+          throw new Error("Invalid composers payload");
+        }
+
+        const mapped: Composer[] = (raw as ComposerApi[]).map((composer) => {
+          const translations = composer.translations ?? [];
+          const nameFr =
+            translations.find((t) => t.locale === "fr")?.name ?? "";
+          const nameEn =
+            translations.find((t) => t.locale === "en")?.name ?? "";
+          const bioFr =
+            translations.find((t) => t.locale === "fr")?.bio ?? null;
+          const bioEn =
+            translations.find((t) => t.locale === "en")?.bio ?? null;
+
+          return {
+            id: composer.id,
+            slug: composer.slug,
+            nameFr,
+            nameEn,
+            bioFr,
+            bioEn,
+            isActive: Boolean(composer.isActive),
+            createdAt: composer.createdAt,
+            updatedAt: composer.updatedAt,
+            imageUrl: assetPathToUrl(composer.image?.path),
+            imageBlur: composer.image?.blurDataUrl ?? null,
+            _count: composer._count ?? { contributions: 0 },
+          };
+        });
         setComposers(mapped);
       } catch (error) {
         // eslint-disable-next-line no-console

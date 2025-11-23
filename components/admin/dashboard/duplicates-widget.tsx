@@ -6,11 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   AlertTriangleIcon,
-  ImageIcon,
-  MusicIcon,
-  UsersIcon,
-  FolderIcon,
-  TagIcon,
+  XCircleIcon,
+  AlertCircle,
+  InfoIcon,
   ArrowRightIcon,
 } from "lucide-react";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
@@ -20,18 +18,33 @@ type DuplicatesSummary = {
   assets: {
     totalDuplicates: number;
     totalUnused: number;
+    totalErrors: number;
+    totalWarnings: number;
+    totalInfo: number;
   };
   works: {
     totalDuplicates: number;
+    totalErrors: number;
+    totalWarnings: number;
+    totalInfo: number;
   };
   composers: {
     totalDuplicates: number;
+    totalErrors: number;
+    totalWarnings: number;
+    totalInfo: number;
   };
   categories: {
     totalDuplicates: number;
+    totalErrors: number;
+    totalWarnings: number;
+    totalInfo: number;
   };
   labels: {
     totalDuplicates: number;
+    totalErrors: number;
+    totalWarnings: number;
+    totalInfo: number;
   };
 };
 
@@ -52,6 +65,7 @@ export function DuplicatesWidget({ locale }: { locale: string }) {
         const result = (await res.json()) as DuplicatesSummary;
         setData(result);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error("Error fetching duplicates:", error);
       } finally {
         setIsLoading(false);
@@ -89,38 +103,26 @@ export function DuplicatesWidget({ locale }: { locale: string }) {
     data.categories.totalDuplicates +
     data.labels.totalDuplicates;
 
-  const items = [
-    {
-      label: "Assets",
-      count: data.assets.totalDuplicates + data.assets.totalUnused,
-      icon: ImageIcon,
-      color: "text-blue-400",
-    },
-    {
-      label: "Projets",
-      count: data.works.totalDuplicates,
-      icon: MusicIcon,
-      color: "text-lime-300",
-    },
-    {
-      label: "Compositeurs",
-      count: data.composers.totalDuplicates,
-      icon: UsersIcon,
-      color: "text-purple-400",
-    },
-    {
-      label: "Catégories",
-      count: data.categories.totalDuplicates,
-      icon: FolderIcon,
-      color: "text-pink-400",
-    },
-    {
-      label: "Labels",
-      count: data.labels.totalDuplicates,
-      icon: TagIcon,
-      color: "text-yellow-400",
-    },
-  ];
+  const totalErrors =
+    data.assets.totalErrors +
+    data.works.totalErrors +
+    data.composers.totalErrors +
+    data.categories.totalErrors +
+    data.labels.totalErrors;
+
+  const totalWarnings =
+    data.assets.totalWarnings +
+    data.works.totalWarnings +
+    data.composers.totalWarnings +
+    data.categories.totalWarnings +
+    data.labels.totalWarnings;
+
+  const totalInfo =
+    data.assets.totalInfo +
+    data.works.totalInfo +
+    data.composers.totalInfo +
+    data.categories.totalInfo +
+    data.labels.totalInfo;
 
   if (totalIssues === 0) {
     return (
@@ -140,8 +142,16 @@ export function DuplicatesWidget({ locale }: { locale: string }) {
     );
   }
 
+  // Determine the most severe issue to set border color
+  const borderColor =
+    totalErrors > 0
+      ? "border-red-500/20"
+      : totalWarnings > 0
+        ? "border-orange-500/20"
+        : "border-blue-500/20";
+
   return (
-    <Card className="border-orange-500/20 bg-black">
+    <Card className={`${borderColor} bg-black`}>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-white">
@@ -157,27 +167,192 @@ export function DuplicatesWidget({ locale }: { locale: string }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Summary List */}
+        {/* Severity breakdown */}
+        <div className="grid grid-cols-3 gap-2">
+          {totalErrors > 0 && (
+            <div className="flex flex-col items-center rounded-lg border border-red-500/30 bg-red-500/10 p-3">
+              <XCircleIcon className="h-5 w-5 text-red-400" />
+              <p className="mt-1 text-2xl font-bold text-red-400">
+                {totalErrors}
+              </p>
+              <p className="text-xs text-red-400/70">
+                Erreur{totalErrors > 1 ? "s" : ""}
+              </p>
+            </div>
+          )}
+          {totalWarnings > 0 && (
+            <div className="flex flex-col items-center rounded-lg border border-orange-500/30 bg-orange-500/10 p-3">
+              <AlertCircle className="h-5 w-5 text-orange-400" />
+              <p className="mt-1 text-2xl font-bold text-orange-400">
+                {totalWarnings}
+              </p>
+              <p className="text-xs text-orange-400/70">Attention</p>
+            </div>
+          )}
+          {totalInfo > 0 && (
+            <div className="flex flex-col items-center rounded-lg border border-blue-500/30 bg-blue-500/10 p-3">
+              <InfoIcon className="h-5 w-5 text-blue-400" />
+              <p className="mt-1 text-2xl font-bold text-blue-400">
+                {totalInfo}
+              </p>
+              <p className="text-xs text-blue-400/70">Info</p>
+            </div>
+          )}
+        </div>
+
+        {/* Detailed breakdown by type */}
         <div className="space-y-2">
-          {items
-            .filter((item) => item.count > 0)
-            .map((item) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={item.label}
-                  className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-3"
-                >
-                  <div className="flex items-center gap-3">
-                    <Icon className={`h-4 w-4 ${item.color}`} />
-                    <span className="text-sm text-white">{item.label}</span>
-                  </div>
-                  <Badge variant="secondary" className="bg-white/10 text-white">
-                    {item.count}
-                  </Badge>
-                </div>
-              );
-            })}
+          <p className="text-xs font-semibold uppercase text-white/50">
+            Détails par type
+          </p>
+
+          {data.works.totalDuplicates > 0 && (
+            <div className="space-y-1 rounded-lg border border-white/10 bg-white/5 p-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-white">Projets</span>
+                <Badge variant="secondary" className="bg-white/10 text-white">
+                  {data.works.totalDuplicates}
+                </Badge>
+              </div>
+              <div className="flex gap-2 text-xs">
+                {data.works.totalErrors > 0 && (
+                  <span className="text-red-400">
+                    {data.works.totalErrors} erreur
+                    {data.works.totalErrors > 1 ? "s" : ""}
+                  </span>
+                )}
+                {data.works.totalWarnings > 0 && (
+                  <span className="text-orange-400">
+                    {data.works.totalWarnings} attention
+                  </span>
+                )}
+                {data.works.totalInfo > 0 && (
+                  <span className="text-blue-400">
+                    {data.works.totalInfo} info
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-white/50">
+                Slugs ou titres en doublon
+              </p>
+            </div>
+          )}
+
+          {(data.assets.totalDuplicates > 0 || data.assets.totalUnused > 0) && (
+            <div className="space-y-1 rounded-lg border border-white/10 bg-white/5 p-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-white">Assets</span>
+                <Badge variant="secondary" className="bg-white/10 text-white">
+                  {data.assets.totalDuplicates + data.assets.totalUnused}
+                </Badge>
+              </div>
+              <div className="flex gap-2 text-xs">
+                {data.assets.totalErrors > 0 && (
+                  <span className="text-red-400">
+                    {data.assets.totalErrors} erreur
+                    {data.assets.totalErrors > 1 ? "s" : ""}
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-white/50">
+                Fichiers dupliqués ou inutilisés
+              </p>
+            </div>
+          )}
+
+          {data.composers.totalDuplicates > 0 && (
+            <div className="space-y-1 rounded-lg border border-white/10 bg-white/5 p-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-white">
+                  Compositeurs
+                </span>
+                <Badge variant="secondary" className="bg-white/10 text-white">
+                  {data.composers.totalDuplicates}
+                </Badge>
+              </div>
+              <div className="flex gap-2 text-xs">
+                {data.composers.totalErrors > 0 && (
+                  <span className="text-red-400">
+                    {data.composers.totalErrors} erreur
+                    {data.composers.totalErrors > 1 ? "s" : ""}
+                  </span>
+                )}
+                {data.composers.totalWarnings > 0 && (
+                  <span className="text-orange-400">
+                    {data.composers.totalWarnings} attention
+                  </span>
+                )}
+                {data.composers.totalInfo > 0 && (
+                  <span className="text-blue-400">
+                    {data.composers.totalInfo} info
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-white/50">Slugs ou noms en doublon</p>
+            </div>
+          )}
+
+          {data.categories.totalDuplicates > 0 && (
+            <div className="space-y-1 rounded-lg border border-white/10 bg-white/5 p-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-white">
+                  Catégories
+                </span>
+                <Badge variant="secondary" className="bg-white/10 text-white">
+                  {data.categories.totalDuplicates}
+                </Badge>
+              </div>
+              <div className="flex gap-2 text-xs">
+                {data.categories.totalErrors > 0 && (
+                  <span className="text-red-400">
+                    {data.categories.totalErrors} erreur
+                    {data.categories.totalErrors > 1 ? "s" : ""}
+                  </span>
+                )}
+                {data.categories.totalWarnings > 0 && (
+                  <span className="text-orange-400">
+                    {data.categories.totalWarnings} attention
+                  </span>
+                )}
+                {data.categories.totalInfo > 0 && (
+                  <span className="text-blue-400">
+                    {data.categories.totalInfo} info
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-white/50">Slugs en doublon</p>
+            </div>
+          )}
+
+          {data.labels.totalDuplicates > 0 && (
+            <div className="space-y-1 rounded-lg border border-white/10 bg-white/5 p-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-white">Labels</span>
+                <Badge variant="secondary" className="bg-white/10 text-white">
+                  {data.labels.totalDuplicates}
+                </Badge>
+              </div>
+              <div className="flex gap-2 text-xs">
+                {data.labels.totalErrors > 0 && (
+                  <span className="text-red-400">
+                    {data.labels.totalErrors} erreur
+                    {data.labels.totalErrors > 1 ? "s" : ""}
+                  </span>
+                )}
+                {data.labels.totalWarnings > 0 && (
+                  <span className="text-orange-400">
+                    {data.labels.totalWarnings} attention
+                  </span>
+                )}
+                {data.labels.totalInfo > 0 && (
+                  <span className="text-blue-400">
+                    {data.labels.totalInfo} info
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-white/50">Slugs en doublon</p>
+            </div>
+          )}
         </div>
 
         {/* Action Button */}

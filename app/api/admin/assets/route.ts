@@ -113,7 +113,6 @@ export const POST = withAuthAndValidation(
         path: asset.path,
         width: asset.width,
         height: asset.height,
-        size: asset.size,
       },
       ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
       userAgent: req.headers.get("user-agent") ?? undefined,

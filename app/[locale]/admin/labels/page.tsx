@@ -25,6 +25,16 @@ import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
 import { ExportButton } from "@/components/admin/export-button";
 
+type LabelApi = {
+  id: string;
+  translations: { locale: string; name: string }[];
+  website: string | null;
+  order: number | null;
+  isActive: boolean | null;
+  createdAt: string;
+  _count?: { works?: number };
+};
+
 type Label = {
   id: string;
   nameFr: string;
@@ -82,19 +92,29 @@ export default function LabelsPage({
           throw new Error("Failed to fetch labels");
         }
 
-        const raw = await res.json();
-        const mapped: Label[] = (raw as any[]).map((label) => ({
-          id: label.id,
-          nameFr:
-            label.translations?.find((t: any) => t.locale === "fr")?.name ?? "",
-          nameEn:
-            label.translations?.find((t: any) => t.locale === "en")?.name ?? "",
-          website: label.website ?? null,
-          order: label.order ?? 0,
-          isActive: Boolean(label.isActive),
-          createdAt: label.createdAt,
-          _count: label._count ?? { works: 0 },
-        }));
+        const raw = (await res.json()) as unknown;
+        if (!Array.isArray(raw)) {
+          throw new Error("Invalid labels payload");
+        }
+
+        const mapped: Label[] = (raw as LabelApi[]).map((label) => {
+          const translations = label.translations ?? [];
+          const nameFr =
+            translations.find((t) => t.locale === "fr")?.name ?? "";
+          const nameEn =
+            translations.find((t) => t.locale === "en")?.name ?? "";
+
+          return {
+            id: label.id,
+            nameFr,
+            nameEn,
+            website: label.website ?? null,
+            order: label.order ?? 0,
+            isActive: Boolean(label.isActive),
+            createdAt: label.createdAt,
+            _count: label._count ?? { works: 0 },
+          };
+        });
         setLabels(mapped);
       } catch (error) {
         // eslint-disable-next-line no-console

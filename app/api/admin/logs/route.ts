@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { withAuth } from "@/lib/api/with-auth";
+import { logger } from "@/lib/logger";
 
 // GET /api/admin/logs - Get audit logs with filters
 export const GET = withAuth(async (request) => {
@@ -66,7 +67,7 @@ export const GET = withAuth(async (request) => {
       },
     });
   } catch (error) {
-    console.error("Error fetching audit logs:", error);
+    logger.error("Error fetching audit logs", error);
     return NextResponse.json(
       { error: "Failed to fetch audit logs" },
       { status: 500 },

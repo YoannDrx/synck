@@ -5,11 +5,10 @@ import {
   recordSuccessfulExport,
   recordFailedExport,
 } from "@/lib/export-history";
+import { createAuditLog } from "@/lib/audit-log";
 
 // GET /api/admin/exports/works - Export works
-export const GET = withAuth(async (request) => {
-  const userId = request.headers.get("x-user-id") ?? "system";
-
+export const GET = withAuth(async (request, _context, user) => {
   try {
     const works = await prisma.work.findMany({
       include: {
@@ -33,23 +32,36 @@ export const GET = withAuth(async (request) => {
     };
 
     await recordSuccessfulExport({
-      userId,
+      userId: user.id,
       type: "WORKS",
       format: "JSON",
       entityCount: works.length,
       data,
     });
 
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "EXPORT",
+      entityType: "Work",
+      metadata: {
+        type: "WORKS",
+        format: "JSON",
+        entityCount: works.length,
+      },
+      ipAddress: request.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: request.headers.get("user-agent") ?? undefined,
+    });
+
     return NextResponse.json(data);
   } catch (error) {
     await recordFailedExport({
-      userId,
+      userId: user.id,
       type: "WORKS",
       format: "JSON",
       error: error instanceof Error ? error.message : "Unknown error",
     });
 
-    console.error("Error exporting works:", error);
     return NextResponse.json(
       { error: "Failed to export works" },
       { status: 500 },

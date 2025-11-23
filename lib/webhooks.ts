@@ -1,3 +1,5 @@
+import { logger } from "@/lib/logger";
+
 type WebhookEvent = {
   type: "PROJECT_PUBLISHED" | "PROJECT_DELETED" | "ASSET_ORPHANED";
   data: Record<string, unknown>;
@@ -15,7 +17,7 @@ export async function sendWebhook(event: WebhookEvent): Promise<void> {
       body: JSON.stringify(event),
     });
   } catch (error) {
-    console.error("Webhook failed:", error);
+    logger.warn("Webhook call failed", error);
   }
 }
 
@@ -30,6 +32,6 @@ export async function sendDiscordNotification(message: string): Promise<void> {
       body: JSON.stringify({ content: message }),
     });
   } catch (error) {
-    console.error("Discord webhook failed:", error);
+    logger.warn("Discord webhook failed", error);
   }
 }

@@ -6,12 +6,12 @@ export function fetchWithAuth(
   input: RequestInfo | URL,
   init: RequestInit = {},
 ): Promise<Response> {
+  const headers = new Headers(init.headers ?? undefined);
+
   return fetch(input, {
+    ...init,
     cache: "no-store",
     credentials: "include",
-    ...init,
-    headers: {
-      ...(init.headers ?? {}),
-    },
+    headers,
   });
 }

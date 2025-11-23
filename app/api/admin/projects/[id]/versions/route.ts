@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { withAuth } from "@/lib/api/with-auth";
+import { logger } from "@/lib/logger";
 
 // GET /api/admin/projects/[id]/versions - Get version history for a project
 export const GET = withAuth(async (request, context) => {
@@ -42,7 +43,7 @@ export const GET = withAuth(async (request, context) => {
 
     return NextResponse.json({ versions });
   } catch (error) {
-    console.error("Error fetching versions:", error);
+    logger.error("Error fetching work versions", error);
     return NextResponse.json(
       { error: "Failed to fetch versions" },
       { status: 500 },
@@ -104,7 +105,7 @@ export const POST = withAuth(async (request, context) => {
       message: "Version restored successfully",
     });
   } catch (error) {
-    console.error("Error restoring version:", error);
+    logger.error("Error restoring work version", error);
     return NextResponse.json(
       { error: "Failed to restore version" },
       { status: 500 },

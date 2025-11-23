@@ -1,5 +1,10 @@
 import { prisma } from "@/lib/prisma";
-import type { ExportType, ExportFormat, ExportStatus } from "@prisma/client";
+import type {
+  ExportType,
+  ExportFormat,
+  ExportStatus,
+  Prisma,
+} from "@prisma/client";
 
 type CreateExportHistoryParams = {
   userId: string;
@@ -69,6 +74,7 @@ export async function recordSuccessfulExport(
       format: params.format,
       entityCount: params.entityCount,
       fileSize,
+      data: params.data as Prisma.InputJsonValue,
       status: "COMPLETED",
       completedAt: new Date(),
     },

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { withAuth } from "@/lib/api/with-auth";
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger";
 
 type Severity = "error" | "warning" | "info";
 
@@ -522,7 +523,7 @@ export const GET = withAuth(async () => {
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error("Error detecting duplicates:", error);
+    logger.error("Error detecting duplicates", error);
     return NextResponse.json(
       { error: "Failed to detect duplicates" },
       { status: 500 },

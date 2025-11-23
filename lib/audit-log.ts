@@ -1,4 +1,6 @@
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger";
 
 export async function createAuditLog({
   userId,
@@ -13,7 +15,7 @@ export async function createAuditLog({
   action: string;
   entityType?: string;
   entityId?: string;
-  metadata?: Record<string, unknown>;
+  metadata?: Prisma.InputJsonValue;
   ipAddress?: string;
   userAgent?: string;
 }): Promise<void> {
@@ -24,12 +26,12 @@ export async function createAuditLog({
         action,
         entityType,
         entityId,
-        metadata: metadata ? JSON.parse(JSON.stringify(metadata)) : null,
+        metadata: metadata ?? null,
         ipAddress,
         userAgent,
       },
     });
   } catch (error) {
-    console.error("Failed to create audit log:", error);
+    logger.error("Failed to create audit log", error);
   }
 }

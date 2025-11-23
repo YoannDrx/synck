@@ -17,6 +17,7 @@ import {
 import { ArrowLeftIcon, HistoryIcon, RotateCcwIcon } from "lucide-react";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import { logger } from "@/lib/logger";
 
 type WorkVersion = {
   id: string;
@@ -73,7 +74,7 @@ export default function VersionHistoryPage({
         const data = (await res.json()) as { versions: WorkVersion[] };
         setVersions(data.versions);
       } catch (error) {
-        console.error("Error fetching versions:", error);
+        logger.error("Error fetching work versions", error);
         toast.error("Erreur lors du chargement de l'historique");
       } finally {
         setIsLoading(false);
@@ -106,7 +107,7 @@ export default function VersionHistoryPage({
       setVersionToRestore(null);
       router.push(`/${locale}/admin/projets/${workId}`);
     } catch (error) {
-      console.error("Error restoring version:", error);
+      logger.error("Error restoring work version", error);
       toast.error("Erreur lors de la restauration");
     } finally {
       setIsRestoring(false);

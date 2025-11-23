@@ -37,13 +37,14 @@ export function SiteHeader({
   menu,
 }: SiteHeaderProps) {
   const pathname = usePathname() || "/";
+  const links = buildLinks(locale);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+
   // Hide header on admin routes
   if (pathname.includes("/admin")) {
     return null;
   }
-  const links = buildLinks(locale);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [loginOpen, setLoginOpen] = useState(false);
 
   const closeMobile = () => {
     setMobileOpen(false);

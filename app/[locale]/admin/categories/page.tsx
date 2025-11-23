@@ -31,6 +31,17 @@ import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
 import { ExportButton } from "@/components/admin/export-button";
 
+type CategoryApi = {
+  id: string;
+  translations: { locale: string; name: string }[];
+  color: string | null;
+  icon: string | null;
+  order: number | null;
+  isActive: boolean | null;
+  createdAt: string;
+  _count?: { works?: number };
+};
+
 type Category = {
   id: string;
   nameFr: string;
@@ -91,22 +102,30 @@ export default function CategoriesPage({
           throw new Error("Failed to fetch categories");
         }
 
-        const raw = await res.json();
-        const mapped: Category[] = (raw as any[]).map((category) => ({
-          id: category.id,
-          nameFr:
-            category.translations?.find((t: any) => t.locale === "fr")?.name ??
-            "",
-          nameEn:
-            category.translations?.find((t: any) => t.locale === "en")?.name ??
-            "",
-          color: category.color ?? "#ffffff",
-          icon: category.icon ?? null,
-          order: category.order ?? 0,
-          isActive: Boolean(category.isActive),
-          createdAt: category.createdAt,
-          _count: category._count ?? { works: 0 },
-        }));
+        const raw = (await res.json()) as unknown;
+        if (!Array.isArray(raw)) {
+          throw new Error("Invalid categories payload");
+        }
+
+        const mapped: Category[] = (raw as CategoryApi[]).map((category) => {
+          const translations = category.translations ?? [];
+          const nameFr =
+            translations.find((t) => t.locale === "fr")?.name ?? "";
+          const nameEn =
+            translations.find((t) => t.locale === "en")?.name ?? "";
+
+          return {
+            id: category.id,
+            nameFr,
+            nameEn,
+            color: category.color ?? "#ffffff",
+            icon: category.icon ?? null,
+            order: category.order ?? 0,
+            isActive: Boolean(category.isActive),
+            createdAt: category.createdAt,
+            _count: category._count ?? { works: 0 },
+          };
+        });
         setCategories(mapped);
       } catch (error) {
         // eslint-disable-next-line no-console
