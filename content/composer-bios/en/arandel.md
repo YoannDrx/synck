@@ -1,0 +1,3 @@
+Arandel is an anonymous French music project. The main performer keeps his identity hidden and plays behind curtains during live shows, sometimes joined on stage by well-known musicians. Arandel works exclusively with instruments, avoiding samplers and MIDI devices.
+His debut album, In D, released in 2010, is regarded as an experimental classic. Since then, Arandel has released several other albums, including Solarispellis (2014), Aleae (2017), InBach (2020) and InBach Vol. 2 (2021), as well as various remixes and EPs.
+His work is highly valued by record collectors, DJs and sample diggers, and has received praise from publications such as The Wire, XLR8R and The Line of Best Fit.

@@ -1,0 +1,1 @@
+Chicho Cortez is a French producer and beatmaker closely connected to the Mutant Ninja label. His boom-bap productions, heavily influenced by 1990s hip-hop, combine hard-hitting drums, soulful samples and cinematic atmospheres.

@@ -1,0 +1,3 @@
+Bonetrips is a French producer and beatmaker affiliated with Mutant Ninja Records. His highly cinematic beats blend boom-bap, dusty samples and dark atmospheres inspired by genre films. A brilliant producer with clear trap, pop and West Coast influences, he also handles the mixing and mastering of most Mutant Ninja Records projects at Studio Polycarpe alongside his partner Tony Tandoori.
+A relentless hard worker, Bonetrips crafts beats from the future, experiments with new techniques, forms the duo Gonzo84 with Liqid, writes and tours with Cœur, and delivers some of the most original synth solos in the game on stage.
+This Lyon-based producer / sound engineer / composer is undoubtedly one of the cornerstone figures of the Mutant Ninja label.

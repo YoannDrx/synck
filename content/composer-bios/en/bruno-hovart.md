@@ -1,3 +1,4 @@
-Bruno Hovart:
-Bruno Hovart aka Patchworks is a Lyon-based producer, remixer and composer. A self-taught multi-instrumentalist, his fingerprints are on projects like Voilaaa, Metropolitan Jazz Affair, Mr Day, Mr President, Taggy Matcher, The Dynamics, Uptown Funk Empire, The Bongo Hop and, more recently, Joao Selva.
-Often seen on stage—usually on bass—Bruno focuses his energy on studio composition and album production with performers. His range stretches from deep house to Afro-Latin music, electric to acoustic, always with a soulful touch.
+Bruno Hovart is a producer, multi-instrumentalist, sound illustrator and remixer. After spending time in Angers, Birmingham and London, he has been based in Lyon since 2001. Active since the mid-90s, his musical style ranges from rock to jazz, through Jamaican and African music, electro and soul.
+For his solo projects, he performs under various aliases: Patchworks, Patchworks Galactic Project, Uptown Funk Empire, Mr President, Taggy Matcher and Voilaaa.
+On stage, he mainly plays bass guitar. He is involved in, or has been part of, bands such as Mr President, Hawa, John Milk, Lightnin 3, Mr Day and The Dynamics.
+Bruno “Patchworks” Hovart has worked with numerous labels, including Favorite Recordings (Paris), Acid Jazz (London), Still Music (Chicago), Infracom (Frankfurt), Quieres Circles (Los Angeles), Feel Music (Seoul), Level Two Music (Melbourne), Sweet Soul (Tokyo), Soultronik (Strasbourg) and Kolour Recordings (Houston/Detroit), among others.

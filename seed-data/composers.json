@@ -17,6 +17,12 @@
         "url": "https://soundcloud.com/2080",
         "label": "SoundCloud",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/2080music/",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 0,
@@ -50,6 +56,12 @@
         "url": "https://soundcloud.com/aeon-seven",
         "label": "SoundCloud",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/aeon7even/?hl=fr",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 3,
@@ -67,6 +79,12 @@
         "url": "https://www.youtube.com/channel/UCTEyPqy3PEAGWDDGr03sysw",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "website",
+        "url": "https://www.afterinparis.com/",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 4,
@@ -124,6 +142,12 @@
         "url": "https://soundcloud.com/arandel",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/iamarandel/",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 7,
@@ -147,6 +171,12 @@
         "url": "https://soundcloud.com/arat_kilo_band",
         "label": "SoundCloud",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/arat_kilo_band/?hl=fr",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 8,
@@ -164,6 +194,12 @@
         "url": "https://soundcloud.com/arom-de-la-spirale",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/arom_boglins/",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 9,
@@ -198,6 +234,12 @@
         "url": "https://soundcloud.com/Bonetrips",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/bonetrips84/",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 11,
@@ -215,6 +257,12 @@
         "url": "https://www.youtube.com/@brunopatchworks4249",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/brunopatchworks/",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 12,
@@ -265,6 +313,12 @@
         "url": "https://soundcloud.com/charlottesavary",
         "label": "SoundCloud",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/charlottesavarymusic/",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 16,
@@ -322,6 +376,12 @@
         "url": "https://soundcloud.com/user-585670844",
         "label": "SoundCloud",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/coeurkokoro/?hl=fr",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 19,
@@ -362,6 +422,12 @@
         "url": "https://www.facebook.com/daniel.amozig",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/danamozig/reels/?__d=dist",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 21,
@@ -425,6 +491,12 @@
         "url": "https://soundcloud.com/djhertz-music",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/9_o_clock/",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 24,
@@ -442,6 +514,12 @@
         "url": "https://soundcloud.com/djtroubl",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/djtroubl/?hl=af",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 25,
@@ -453,7 +531,14 @@
     "name": "Drixxxé",
     "image": "public/images/projets/photoscompo/drixxxe.jpg",
     "externalUrl": "https://soundcloud.com/drixxxe-2",
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/drizzzel/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 27,
     "isActive": true
   },
@@ -492,6 +577,12 @@
         "url": "https://open.spotify.com/intl-fr/artist/0IeJOb65ZEwVTKs77bx9vW",
         "label": "Forever Pavot",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/foreverpavot/?hl=fr",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 29,
@@ -513,7 +604,14 @@
     "name": "F.Stokes",
     "image": "public/images/projets/photoscompo/fstokes.jpg",
     "externalUrl": "https://www.youtube.com/@TheRealFStokes",
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/rodneyluthaking/?hl=fr",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 32,
     "isActive": true
   },
@@ -535,6 +633,12 @@
         "url": "https://soundcloud.com/flore",
         "label": "SoundCloud",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/floremusic/?hl=fr",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 33,
@@ -612,6 +716,12 @@
         "url": "https://www.mowno.com/news/infos/avec-hexahedre-jb-hanak-et-cyril-laurent-invitent-au-voyage-extra-corporel/",
         "label": "Hexahedre",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/jbhanak/",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 40,
@@ -635,6 +745,12 @@
         "url": "https://soundcloud.com/laurentdury",
         "label": "SoundCloud",
         "order": 1
+      },
+      {
+        "platform": "spotify",
+        "url": "https://open.spotify.com/intl-fr/artist/7gpOQ6zpHZobl99wEQQRwj",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 41,
@@ -652,6 +768,12 @@
         "url": "https://soundcloud.com/Liqid",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/liqid84/?hl=fr",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 42,
@@ -692,6 +814,12 @@
         "url": "https://soundcloud.com/madben",
         "label": "SoundCloud",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/madben_official/?hl=fr",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 44,
@@ -749,6 +877,12 @@
         "url": "https://soundcloud.com/minimatic",
         "label": "SoundCloud",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/minimatic.music/",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 47,
@@ -766,6 +900,12 @@
         "url": "https://soundcloud.com/lediktat",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/modulhater/",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 48,
@@ -875,6 +1015,12 @@
         "url": "https://open.spotify.com/intl-fr/artist/55h2juci7J6sa1hSIBYf3W",
         "label": "Spotify",
         "order": 1
+      },
+      {
+        "platform": "website",
+        "url": "https://musicboxpublishing.fr/catalogue/nicodrum/",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 52,
@@ -892,6 +1038,12 @@
         "url": "https://soundcloud.com/cosmicdude",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/nicolas__pisani/",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 53,
@@ -915,6 +1067,12 @@
         "url": "https://soundcloud.com/nsdoslazerconnect",
         "label": "SoundCloud",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/koodes_k/?hl=fr",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 54,
@@ -943,7 +1101,14 @@
     "name": "Patrice Dambrine (Viro Major Records )",
     "image": "public/images/projets/photoscompo/viromajorrecords.jpg",
     "externalUrl": "https://www.facebook.com/viromajor/",
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/viromajorrecords/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 57,
     "isActive": true
   },
@@ -1009,7 +1174,14 @@
     "name": "Sébastien Blanchon",
     "image": "public/images/projets/photoscompo/sebastienblanchon.jpg",
     "externalUrl": "https://soundcloud.com/nzeng",
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/nzeng_music/?hl=fr",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 65,
     "isActive": true
   },
@@ -1035,6 +1207,12 @@
         "url": "https://www.youtube.com/@SrOrtegon",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/srortegon/",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 67,
@@ -1092,6 +1270,12 @@
         "url": "https://soundcloud.com/tcheep",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/_tcheep_/?hl=fr",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 70,
@@ -1115,6 +1299,12 @@
         "url": "https://soundcloud.com/fresh-and-dusty-loops",
         "label": "SoundCloud",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/thearchitect_one/?hl=fr",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 71,
@@ -1173,6 +1363,12 @@
         "url": "https://soundcloud.com/mistermodouglymacbeer",
         "label": "Mister Modo & Ugly Mac Beer",
         "order": 3
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/uglymacbeer/?hl=fr",
+        "label": null,
+        "order": 4
       }
     ],
     "order": 73,
@@ -1196,6 +1392,12 @@
         "url": "https://soundcloud.com/chaosinchatelet",
         "label": "SoundCloud",
         "order": 1
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/yannkornowicz/",
+        "label": null,
+        "order": 2
       }
     ],
     "order": 74,
@@ -1224,18 +1426,15 @@
     "name": "Aïwa",
     "image": null,
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "soundcloud",
+        "url": "https://soundcloud.com/a-wa",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 76,
-    "isActive": true
-  },
-  {
-    "id": 78,
-    "slug": "amaury-messelier",
-    "name": "Amaury Messelier",
-    "image": null,
-    "externalUrl": null,
-    "links": [],
-    "order": 77,
     "isActive": true
   },
   {
@@ -1244,7 +1443,14 @@
     "name": "Cyril Laurent",
     "image": null,
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "website",
+        "url": "https://www.mowno.com/news/infos/avec-hexahedre-jb-hanak-et-cyril-laurent-invitent-au-voyage-extra-corporel/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 78,
     "isActive": true
   },
@@ -1254,18 +1460,15 @@
     "name": "Fabien Girard",
     "image": null,
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/fabien_girard/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 79,
-    "isActive": true
-  },
-  {
-    "id": 81,
-    "slug": "franck-sinnassamy",
-    "name": "Franck Sinnassamy",
-    "image": null,
-    "externalUrl": null,
-    "links": [],
-    "order": 80,
     "isActive": true
   },
   {
@@ -1274,7 +1477,14 @@
     "name": "Grand David",
     "image": null,
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "bandcamp",
+        "url": "https://legranddavid.bandcamp.com/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 81,
     "isActive": true
   },
@@ -1284,7 +1494,14 @@
     "name": "Jean-Pierre Ménager",
     "image": null,
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "website",
+        "url": "https://www.jeanpierremenager.com/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 82,
     "isActive": true
   },
@@ -1294,7 +1511,14 @@
     "name": "Mister Modo",
     "image": null,
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/modoandmacbeer/?hl=fr",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 83,
     "isActive": true
   },
@@ -1304,7 +1528,14 @@
     "name": "Of Ivory & Horn",
     "image": null,
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "website",
+        "url": "https://www.dorianchamoin.fr/dorian-chamoin",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 84,
     "isActive": true
   },
@@ -1314,7 +1545,14 @@
     "name": "Pierre Millet",
     "image": null,
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/milletpierre/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 85,
     "isActive": true
   },
@@ -1324,7 +1562,14 @@
     "name": "Thierry Los",
     "image": null,
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "website",
+        "url": "http://www.dng-music.com/3jt/thierrylos/index.html",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 86,
     "isActive": true
   },
@@ -1334,8 +1579,31 @@
     "name": "Yann Jankielewicz",
     "image": null,
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/yann_jankielewicz/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 87,
+    "isActive": true
+  },
+  {
+    "id": 89,
+    "slug": "well-quartet",
+    "name": "Well Quartet",
+    "externalUrl": "https://www.instagram.com/wellquartet/",
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/wellquartet/",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 88,
     "isActive": true
   }
 ]

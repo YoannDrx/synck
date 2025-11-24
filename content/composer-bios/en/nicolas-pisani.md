@@ -1,0 +1,1 @@
+Nicolas Pisani is a sound engineer, sound designer and composer. Specializing in mixing and mastering electronic and techno music, he works with both major and independent labels, helping artists and projects achieve a professional sound.
