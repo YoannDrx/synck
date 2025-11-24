@@ -39,8 +39,8 @@ export default async function CVAdminPage({
     ? (() => {
         const theme = (cv as { theme?: unknown })?.theme ?? null;
         const accentColor =
-          cv.accentColor ||
-          (theme as { primary?: string } | null)?.primary ||
+          cv.accentColor ??
+          (theme as { primary?: string } | null)?.primary ??
           undefined;
 
         return {

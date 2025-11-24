@@ -296,6 +296,13 @@ const dictionary: Dictionary = {
     loading: "Chargement...",
     empty: "Aucun projet trouvé pour cette catégorie",
     noResults: "Aucun projet ne correspond à votre recherche",
+    sortByLabel: "Trier par",
+    sortByDate: "Date",
+    sortByTitle: "Titre",
+    sortOrderTitleAsc: "A → Z",
+    sortOrderTitleDesc: "Z → A",
+    sortOrderDateAsc: "Ancien → Récent",
+    sortOrderDateDesc: "Récent → Ancien",
     ctaTitle: "Intéressé par une collaboration ?",
     ctaDescription:
       "N'hésitez pas à me contacter pour discuter de votre projet.",

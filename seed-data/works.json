@@ -2165,7 +2165,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/a-vous-de-juger.jpg",
-    "releaseDate": null,
+    "releaseDate": "14/10/2019",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/a-vous-de-juger/",
     "spotifyUrl": null,
@@ -2174,7 +2174,8 @@
     "order": 87,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2019
   },
   {
     "slug": "ainsi-soit-il",
@@ -2186,7 +2187,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/ainsi-soit-il.jpg",
-    "releaseDate": null,
+    "releaseDate": "10/06/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -2195,7 +2196,8 @@
     "order": 88,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "almodovar-l-insolent-de-la-mancha",
@@ -2228,7 +2230,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/andre-mailfert-lepopee-dun-faussaire-industriel.jpg",
-    "releaseDate": null,
+    "releaseDate": "16/11/2020",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/andre-mailfert/",
     "spotifyUrl": null,
@@ -2237,7 +2239,8 @@
     "order": 90,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "anny-duperey-artiste",
@@ -2249,7 +2252,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/anny-duperey.jpg",
-    "releaseDate": null,
+    "releaseDate": "23/01/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -2258,7 +2261,8 @@
     "order": 91,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "avant-que-la-grande-nacre-meure",
@@ -2270,7 +2274,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/avant-que-la-grande-nacre-meure.jpg",
-    "releaseDate": null,
+    "releaseDate": "07/02/2023",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/avant-que-la-grande-nacre-meure/",
     "spotifyUrl": null,
@@ -2279,7 +2283,8 @@
     "order": 92,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2023
   },
   {
     "slug": "bastelica-fesch",
@@ -2291,7 +2296,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/bastelica-fesch.jpg",
-    "releaseDate": null,
+    "releaseDate": "03/04/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -2300,7 +2305,8 @@
     "order": 93,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "cabrera-un-secret-revele",
@@ -2333,7 +2339,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/cahier-d-un-retour-en-langue-natale.jpg",
-    "releaseDate": null,
+    "releaseDate": "26/11/2021",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/cahier-dun-retour-en-langue-natale/",
     "spotifyUrl": null,
@@ -2342,7 +2348,8 @@
     "order": 95,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "calanques-les-usines-du-bout-du-monde",
@@ -2375,7 +2382,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/cancre.jpg",
-    "releaseDate": null,
+    "releaseDate": "18/09/2017",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/cancre/",
     "spotifyUrl": null,
@@ -2384,7 +2391,8 @@
     "order": 97,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2017
   },
   {
     "slug": "chanter-a-tout-prix",
@@ -2396,7 +2404,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/chanter-a-tout-prix.jpg",
-    "releaseDate": null,
+    "releaseDate": "14/12/2020",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/chanter-a-tout-prix/",
     "spotifyUrl": null,
@@ -2405,7 +2413,8 @@
     "order": 98,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "chanter-ensemble",
@@ -2417,7 +2426,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/chanter-ensemble.jpg",
-    "releaseDate": null,
+    "releaseDate": "22/11/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -2426,7 +2435,8 @@
     "order": 99,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "clearstream-et-moi",
@@ -2438,7 +2448,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/clearstream.jpg",
-    "releaseDate": null,
+    "releaseDate": "14/09/2020",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/clearstream/",
     "spotifyUrl": null,
@@ -2447,7 +2457,8 @@
     "order": 100,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "cogolin-ville-a-prendre",
@@ -2480,7 +2491,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/comment-te-dire-adieu.jpg",
-    "releaseDate": null,
+    "releaseDate": "15/02/2021",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/comment-te-dire-adieu/",
     "spotifyUrl": null,
@@ -2489,7 +2500,8 @@
     "order": 102,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "concordat-et-laicite-l-exception",
@@ -2501,7 +2513,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/laicite-et-concordat.jpg",
-    "releaseDate": null,
+    "releaseDate": "30/12/2020",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/concordat-et-laicite/",
     "spotifyUrl": null,
@@ -2510,7 +2522,8 @@
     "order": 103,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "concordat-et-laicite-lexception",
@@ -2543,7 +2556,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/diam-a-jul-marseille-capitale-rap2.jpg",
-    "releaseDate": null,
+    "releaseDate": "14/11/2020",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/rap-marseille/",
     "spotifyUrl": null,
@@ -2552,7 +2565,8 @@
     "order": 105,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "d-iam-a-jul-marseille-capitale-rap-2",
@@ -2606,7 +2620,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/deconfines.jpg",
-    "releaseDate": null,
+    "releaseDate": "28/09/2020",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/deconfines-en-re/",
     "spotifyUrl": null,
@@ -2615,7 +2629,8 @@
     "order": 108,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "deconnectes-les-oublies-du-numerique",
@@ -2627,7 +2642,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/deconnectes-les-oublies-du-numerique.jpg",
-    "releaseDate": null,
+    "releaseDate": "09/11/2020",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/deconnectes-les-oublies-du-numerique/",
     "spotifyUrl": null,
@@ -2636,7 +2651,8 @@
     "order": 109,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "des-antilles-au-djebel",
@@ -2648,7 +2664,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/des-antilles-au-djebel.jpg",
-    "releaseDate": null,
+    "releaseDate": "12/06/2022",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/des-antilles-au-djebel/",
     "spotifyUrl": null,
@@ -2657,7 +2673,8 @@
     "order": 110,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2022
   },
   {
     "slug": "des-antilles-au-djebel-les-antillais-dans-la-guerre-dalgerie",
@@ -2690,7 +2707,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/des-joujoux-par-milliers.jpg",
-    "releaseDate": null,
+    "releaseDate": "03/12/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -2699,7 +2716,8 @@
     "order": 112,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "diam-a-jul-marseille-capitale-rap",
@@ -2732,7 +2750,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/enjachere.jpg",
-    "releaseDate": null,
+    "releaseDate": "14/09/2023",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/en-jachere/",
     "spotifyUrl": null,
@@ -2741,7 +2759,8 @@
     "order": 114,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2023
   },
   {
     "slug": "entendez-nous-violences-intrafamiliales-en-polynesie",
@@ -2795,7 +2814,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/filles-de-harkis.jpg",
-    "releaseDate": null,
+    "releaseDate": "09/06/2022",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/filles-de-harkis/",
     "spotifyUrl": null,
@@ -2804,7 +2823,8 @@
     "order": 117,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2022
   },
   {
     "slug": "gal-au-nom-de-la-raison-detat",
@@ -2816,7 +2836,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/gal-au-nom-de-la-raison-d-etat.jpg",
-    "releaseDate": null,
+    "releaseDate": "02/04/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -2825,7 +2845,8 @@
     "order": 118,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "gang-stories",
@@ -2837,7 +2858,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/gang-stories.jpg",
-    "releaseDate": null,
+    "releaseDate": "27/09/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -2846,7 +2867,8 @@
     "order": 119,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "gaudin-lheure-de-linventaire",
@@ -2858,7 +2880,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/gaudin.jpg",
-    "releaseDate": null,
+    "releaseDate": "18/11/2019",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -2867,7 +2889,8 @@
     "order": 120,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2019
   },
   {
     "slug": "gaudin-l-heure-de-l-inventaire",
@@ -2900,7 +2923,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/generation-grand-bleu.jpg",
-    "releaseDate": null,
+    "releaseDate": "27/11/2017",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -2909,7 +2932,8 @@
     "order": 122,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2017
   },
   {
     "slug": "generation-grand-bleu-2",
@@ -2942,7 +2966,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/georges-perec-l-homme-qui-ne-voulait-pas-oublier.jpg",
-    "releaseDate": null,
+    "releaseDate": "25/02/2022",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -2951,7 +2975,8 @@
     "order": 124,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2022
   },
   {
     "slug": "guadeloupe-les-soldats-de-la-terre",
@@ -2963,7 +2988,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/guadeloupe-les-soldats-de-la-terre.jpg",
-    "releaseDate": null,
+    "releaseDate": "19/09/2019",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-soldats-de-la-terre/",
     "spotifyUrl": null,
@@ -2972,7 +2997,8 @@
     "order": 125,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2019
   },
   {
     "slug": "gurs-un-silence-assourdissant",
@@ -3005,7 +3031,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/guyane-vivre-avec.jpg",
-    "releaseDate": null,
+    "releaseDate": "21/10/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3014,7 +3040,8 @@
     "order": 127,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "guyane-underground",
@@ -3026,7 +3053,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/guyane-underground.jpg",
-    "releaseDate": null,
+    "releaseDate": "21/09/2020",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/guyane-underground/",
     "spotifyUrl": null,
@@ -3035,7 +3062,8 @@
     "order": 128,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "hors-radar",
@@ -3047,7 +3075,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/hors-radar.jpg",
-    "releaseDate": null,
+    "releaseDate": "15/02/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3056,7 +3084,8 @@
     "order": 129,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "ivg-en-polynesie",
@@ -3068,7 +3097,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/ivg-en-polynesie.jpeg",
-    "releaseDate": null,
+    "releaseDate": "13/01/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3077,7 +3106,8 @@
     "order": 130,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "j-irai-crier-sur-vos-murs",
@@ -3089,7 +3119,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/j-irai-crier-sur-vos-murs.jpg",
-    "releaseDate": null,
+    "releaseDate": "03/03/2022",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/jirai-crier-sur-vos-murs/",
     "spotifyUrl": null,
@@ -3098,7 +3128,8 @@
     "order": 131,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2022
   },
   {
     "slug": "jirai-crier-sur-vos-murs",
@@ -3131,7 +3162,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/jean-jouzel-dans-la-bataille-du-siecle.jpg",
-    "releaseDate": null,
+    "releaseDate": "08/11/2021",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/jean-jouzel-la-bataille-du-siecle/",
     "spotifyUrl": null,
@@ -3140,7 +3171,8 @@
     "order": 133,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "jimmy-somerville",
@@ -3152,7 +3184,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/jimmy-somerville.jpg",
-    "releaseDate": null,
+    "releaseDate": "14/11/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3161,7 +3193,8 @@
     "order": 134,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "joseph-kessel-la-mallette-de-l-ogre",
@@ -3173,7 +3206,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/joseph-kessel-la-mallette-de-l-ogre.jpg",
-    "releaseDate": null,
+    "releaseDate": "17/10/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3182,7 +3215,8 @@
     "order": 135,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "juppe-un-roman-bordelais",
@@ -3215,7 +3249,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/karim-contre-mittal.jpg",
-    "releaseDate": null,
+    "releaseDate": "14/09/2020",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/karim-contre-mittal/",
     "spotifyUrl": null,
@@ -3224,7 +3258,8 @@
     "order": 137,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "khaled-kelkal",
@@ -3236,7 +3271,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/khaled-kelkal.jpg",
-    "releaseDate": null,
+    "releaseDate": "03/04/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3245,7 +3280,8 @@
     "order": 138,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "l-eveil-du-desir",
@@ -3257,7 +3293,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/leveil-du-desir.jpg",
-    "releaseDate": null,
+    "releaseDate": "15/02/2021",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/leveil-du-desir/",
     "spotifyUrl": null,
@@ -3266,7 +3302,8 @@
     "order": 139,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "leveil-du-desir",
@@ -3320,7 +3357,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/la-clinique-de-lamour.jpg",
-    "releaseDate": null,
+    "releaseDate": "09/02/2023",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/la-clinique-de-lamour/",
     "spotifyUrl": null,
@@ -3329,7 +3366,8 @@
     "order": 142,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2023
   },
   {
     "slug": "la-dette",
@@ -3341,7 +3379,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/la-dette.jpg",
-    "releaseDate": null,
+    "releaseDate": "08/05/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3350,7 +3388,8 @@
     "order": 143,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "la-double-vie-du-cognac",
@@ -3362,7 +3401,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/la-double-vie-du-cognac.jpg",
-    "releaseDate": "2021-01-01",
+    "releaseDate": "07/12/2020",
     "genre": "Documentaire",
     "externalUrl": "https://www.13prods.fr/la-double-vie-du-cognac/",
     "spotifyUrl": null,
@@ -3371,7 +3410,8 @@
     "order": 144,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "la-greve-du-siecle",
@@ -3383,7 +3423,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/la-greve-du-siecle.jpg",
-    "releaseDate": null,
+    "releaseDate": "30/04/2018",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/68lagrevedusiecle/",
     "spotifyUrl": null,
@@ -3392,7 +3432,8 @@
     "order": 145,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2018
   },
   {
     "slug": "la-pride-des-champs",
@@ -3404,7 +3445,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/la-pride-des-champs.jpg",
-    "releaseDate": null,
+    "releaseDate": "18/02/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3413,7 +3454,8 @@
     "order": 146,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "la-rumeur-d-orleans",
@@ -3425,7 +3467,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/la-rumeur-dorleans.jpg",
-    "releaseDate": null,
+    "releaseDate": "21/10/2019",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/la-rumeur-dorleans/",
     "spotifyUrl": null,
@@ -3434,7 +3476,8 @@
     "order": 147,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2019
   },
   {
     "slug": "la-rumeur-dorleans",
@@ -3458,16 +3501,16 @@
     ]
   },
   {
-    "slug": "la-tragique-histoire-de-fritz-haber",
-    "titleFr": "La Tragique Histoire de Fritz Haber",
-    "titleEn": "The Tragic Story of Fritz Haber",
+    "slug": "la-tragique-histoire-de-fritz-l-elephant",
+    "titleFr": "La tragique histoire de Fritz l'éléphant",
+    "titleEn": "The tragic story of Fritz the elephant",
     "subtitleFr": "",
     "subtitleEn": "",
     "descriptionFr": "",
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/la-tragique-histoire.jpg",
-    "releaseDate": null,
+    "releaseDate": "20/09/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3476,7 +3519,8 @@
     "order": 149,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "lache-ton-smartphone",
@@ -3488,7 +3532,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/lache-ton-smartphone.jpg",
-    "releaseDate": null,
+    "releaseDate": "11/10/2021",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/lache-ton-smartphone/",
     "spotifyUrl": null,
@@ -3497,7 +3541,8 @@
     "order": 150,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "le-3e-reich-n-aura-pas-la-bombe",
@@ -3509,7 +3554,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/le-iiieme-reich-naurapaslabombe.jpg",
-    "releaseDate": null,
+    "releaseDate": "22/09/2019",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/le-3eme-reich-naura-pas-la-bombe/",
     "spotifyUrl": null,
@@ -3518,7 +3563,8 @@
     "order": 151,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2019
   },
   {
     "slug": "le-masque-de-fer",
@@ -3530,7 +3576,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/le-masque-de-fer.jpg",
-    "releaseDate": null,
+    "releaseDate": "25/12/2021",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/masque-de-fer/",
     "spotifyUrl": null,
@@ -3539,7 +3585,8 @@
     "order": 152,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "le-ministere",
@@ -3551,7 +3598,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/le-ministere.jpg",
-    "releaseDate": null,
+    "releaseDate": "11/12/2021",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/le-ministere/",
     "spotifyUrl": null,
@@ -3560,7 +3607,8 @@
     "order": 153,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "le-proces-d-auschwitz-la-fin-du-silence",
@@ -3593,7 +3641,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/le-temps-daimer.jpg",
-    "releaseDate": null,
+    "releaseDate": "15/02/2021",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/le-temps-daimer/",
     "spotifyUrl": null,
@@ -3602,7 +3650,8 @@
     "order": 155,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "le-temps-daimer",
@@ -3656,7 +3705,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/leila-une-vie-a-miquelon.jpg",
-    "releaseDate": null,
+    "releaseDate": "16/10/2023",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/leila-une-vie-a-miquelon/",
     "spotifyUrl": null,
@@ -3666,7 +3715,8 @@
     "productionCompanySlug": [
       "13prods",
       "via-decouvertes-films"
-    ]
+    ],
+    "year": 2023
   },
   {
     "slug": "les-amoureux-de-marianne",
@@ -3678,7 +3728,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-amoureux-de-marianne.jpg",
-    "releaseDate": null,
+    "releaseDate": "15/02/2021",
     "genre": null,
     "externalUrl": "https://www.film-documentaire.fr/4DACTION/w_fiche_film/64091_0",
     "spotifyUrl": null,
@@ -3688,7 +3738,8 @@
     "productionCompanySlug": [
       "13prods",
       "via-decouvertes-films"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "les-antilles-empoisonnees",
@@ -3700,7 +3751,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-antilles-empoisonnees.jpg",
-    "releaseDate": null,
+    "releaseDate": "04/11/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3709,7 +3760,8 @@
     "order": 160,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "les-doleances",
@@ -3721,7 +3773,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-doleances.jpg",
-    "releaseDate": null,
+    "releaseDate": "09/02/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3730,7 +3782,8 @@
     "order": 161,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "les-enfants-de-huahine-en-occitanie",
@@ -3742,7 +3795,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-enfants-de-huahine-en-occitanie.jpg",
-    "releaseDate": null,
+    "releaseDate": "22/02/2023",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-enfants-de-huahine-en-occitanie/",
     "spotifyUrl": null,
@@ -3751,7 +3804,8 @@
     "order": 162,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2023
   },
   {
     "slug": "les-enfants-de-huahine",
@@ -3784,7 +3838,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-enfants-de-madame-massu.jpg",
-    "releaseDate": null,
+    "releaseDate": "20/03/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3793,7 +3847,8 @@
     "order": 164,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "les-femmes-du-iiieme-reich",
@@ -3805,7 +3860,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-femmes-du-troisieme-reich.jpg",
-    "releaseDate": null,
+    "releaseDate": "14/12/2018",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-femmes-du-iiie-reich/",
     "spotifyUrl": null,
@@ -3814,7 +3869,8 @@
     "order": 165,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2018
   },
   {
     "slug": "les-femmes-du-troisieme-reich",
@@ -3847,7 +3903,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-freres-verges.jpg",
-    "releaseDate": null,
+    "releaseDate": "20/10/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3856,7 +3912,8 @@
     "order": 167,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "les-loups-noirs-dalsace",
@@ -3868,7 +3925,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-loups-noirs-d-alsace.jpg",
-    "releaseDate": null,
+    "releaseDate": "04/04/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3877,7 +3934,8 @@
     "order": 168,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "les-murs-de-la-honte",
@@ -3889,7 +3947,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-murs-de-la-honte.jpg",
-    "releaseDate": null,
+    "releaseDate": "18/10/2019",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-murs-de-la-honte/",
     "spotifyUrl": null,
@@ -3898,7 +3956,8 @@
     "order": 169,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2019
   },
   {
     "slug": "les-oublies-de-la-justice",
@@ -3910,7 +3969,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-oublies-de-la-justice.jpg",
-    "releaseDate": null,
+    "releaseDate": "11/03/2019",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-oublies-de-la-justice/",
     "spotifyUrl": null,
@@ -3919,7 +3978,8 @@
     "order": 170,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2019
   },
   {
     "slug": "les-ouvrieres-du-made-in-france",
@@ -3931,7 +3991,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-ouvrieres-du-made-in-france.jpg",
-    "releaseDate": null,
+    "releaseDate": "01/03/2018",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-ouvrieres-du-made-in-france/",
     "spotifyUrl": null,
@@ -3940,7 +4000,8 @@
     "order": 171,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2018
   },
   {
     "slug": "les-poisons-de-poutine",
@@ -3952,7 +4013,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-poisons-de-poutine.jpg",
-    "releaseDate": null,
+    "releaseDate": "16/05/2023",
     "genre": null,
     "externalUrl": "https://www.film-documentaire.fr/4DACTION/w_fiche_film/68279_0",
     "spotifyUrl": null,
@@ -3961,7 +4022,8 @@
     "order": 172,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2023
   },
   {
     "slug": "les-raisins-du-desespoir",
@@ -3973,7 +4035,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-raisins-du-desespoir.jpg",
-    "releaseDate": null,
+    "releaseDate": "03/04/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -3982,7 +4044,8 @@
     "order": 173,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "les-resistants-de-mauthausen",
@@ -3994,7 +4057,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-resistants-de-mauthausen.jpg",
-    "releaseDate": null,
+    "releaseDate": "26/05/2021",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/mauthausen/",
     "spotifyUrl": null,
@@ -4003,7 +4066,8 @@
     "order": 174,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "les-vivants",
@@ -4015,7 +4079,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-vivants.jpg",
-    "releaseDate": null,
+    "releaseDate": "29/02/2024",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-vivants/",
     "spotifyUrl": null,
@@ -4024,7 +4088,8 @@
     "order": 175,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "les-yeux-dans-les-vieux",
@@ -4036,7 +4101,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/les-yeux-dans-les-vieux.jpg",
-    "releaseDate": null,
+    "releaseDate": "13/11/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -4045,7 +4110,8 @@
     "order": 176,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "ma-cite-mon-village",
@@ -4057,7 +4123,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/ma-cite-mon-village.jpg",
-    "releaseDate": null,
+    "releaseDate": "26/02/2018",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/ma-cite-mon-village-disabelle-cadiere/",
     "spotifyUrl": null,
@@ -4066,7 +4132,8 @@
     "order": 177,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2018
   },
   {
     "slug": "makaeta-la-terre-convoitee",
@@ -4141,7 +4208,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/marcus-klingberg-un-pur-espion.jpg",
-    "releaseDate": null,
+    "releaseDate": "26/02/2023",
     "genre": null,
     "externalUrl": "https://www.film-documentaire.fr/4DACTION/w_fiche_film/67198_0",
     "spotifyUrl": null,
@@ -4150,7 +4217,8 @@
     "order": 181,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2023
   },
   {
     "slug": "martinique-les-yeux-ouverts",
@@ -4162,7 +4230,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/martinique-les-yeux-ouverts.jpg",
-    "releaseDate": null,
+    "releaseDate": "16/01/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -4171,7 +4239,8 @@
     "order": 182,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "martinique-la-reconquete-de-la-terre",
@@ -4225,7 +4294,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/matrine-aubry-la-dame-de-lille.jpg",
-    "releaseDate": null,
+    "releaseDate": "18/11/2019",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/aubry-la-dame-de-lille/",
     "spotifyUrl": null,
@@ -4234,7 +4303,8 @@
     "order": 185,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2019
   },
   {
     "slug": "mayotte-lenfance-en-danger",
@@ -4246,7 +4316,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/mayotte-lenfance-en-danger.jpg",
-    "releaseDate": null,
+    "releaseDate": "28/03/2019",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -4255,7 +4325,8 @@
     "order": 186,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2019
   },
   {
     "slug": "mayotte-l-enfance-en-danger",
@@ -4309,7 +4380,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/mes-parents-ces-heros-ordinaires.jpg",
-    "releaseDate": null,
+    "releaseDate": "27/05/2019",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/mes-parents-ces-heros-ordinaires/",
     "spotifyUrl": null,
@@ -4318,7 +4389,8 @@
     "order": 189,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2019
   },
   {
     "slug": "micmac-a-millau-les-paysans-face-a-la-mondialisation",
@@ -4372,7 +4444,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/montmartre-est-une-fete.jpg",
-    "releaseDate": null,
+    "releaseDate": "16/05/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -4381,7 +4453,8 @@
     "order": 192,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "mort-dun-berger",
@@ -4393,7 +4466,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/mort-d-un-berger.jpg",
-    "releaseDate": null,
+    "releaseDate": "23/01/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -4402,7 +4475,8 @@
     "order": 193,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "nous-ne-sommes-rien-soyons-tout",
@@ -4414,7 +4488,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/nous-ne-sommes-rien.jpg",
-    "releaseDate": null,
+    "releaseDate": "02/11/2020",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/nous-ne-sommes-rien-soyons-tout/",
     "spotifyUrl": null,
@@ -4423,7 +4497,8 @@
     "order": 194,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "nous-soignants",
@@ -4435,7 +4510,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/nous-soignants2.jpg",
-    "releaseDate": null,
+    "releaseDate": "29/11/2023",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -4444,7 +4519,8 @@
     "order": 195,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2023
   },
   {
     "slug": "outre-mer-100-ans-en-cliches",
@@ -4477,7 +4553,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/par-nos-yeux.jpg",
-    "releaseDate": null,
+    "releaseDate": "11/12/2018",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/par-nos-yeux/",
     "spotifyUrl": null,
@@ -4486,7 +4562,8 @@
     "order": 197,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2018
   },
   {
     "slug": "pas-folle-la-liberte",
@@ -4498,7 +4575,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/pas-folle-la-liberte.jpg",
-    "releaseDate": null,
+    "releaseDate": "25/01/2021",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/pas-folle-la-liberte/",
     "spotifyUrl": null,
@@ -4507,7 +4584,8 @@
     "order": 198,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "patrick-edlinger-la-liberte-au-bout-des-doigts",
@@ -4561,7 +4639,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/plonger-pour-guerir.jpg",
-    "releaseDate": null,
+    "releaseDate": "23/05/2022",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/plonger-pour-guerir/",
     "spotifyUrl": null,
@@ -4571,7 +4649,8 @@
     "productionCompanySlug": [
       "13prods",
       "via-decouvertes-films"
-    ]
+    ],
+    "year": 2022
   },
   {
     "slug": "quand-l-afrique-sauva-la-france",
@@ -4583,7 +4662,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/quand-lafrique-sauva.jpg",
-    "releaseDate": null,
+    "releaseDate": "07/03/2023",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/quand-l-afrique-sauva-la-france/",
     "spotifyUrl": null,
@@ -4592,7 +4671,8 @@
     "order": 202,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2023
   },
   {
     "slug": "quand-lafrique-sauva-la-france",
@@ -4625,7 +4705,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/reves-de-princesse.jpg",
-    "releaseDate": null,
+    "releaseDate": "05/06/2018",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/reves-de-princesses/",
     "spotifyUrl": null,
@@ -4634,7 +4714,8 @@
     "order": 204,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2018
   },
   {
     "slug": "se-mettre-au-vert-une-utopie-en-perigord",
@@ -4667,7 +4748,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/si-loin-de-la-polynesie.jpg",
-    "releaseDate": null,
+    "releaseDate": "10/10/2022",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/si-loin-de-la-polynesie/",
     "spotifyUrl": null,
@@ -4676,7 +4757,8 @@
     "order": 206,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2022
   },
   {
     "slug": "solidarnosc-la-premere-breche",
@@ -4688,7 +4770,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/solidarnosc-la-premere-breche.jpg",
-    "releaseDate": null,
+    "releaseDate": "16/09/2020",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/solidarnosc-la-premiere-breche/",
     "spotifyUrl": null,
@@ -4697,7 +4779,8 @@
     "order": 207,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "sous-la-loi-des-talibans",
@@ -4709,7 +4792,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/sous-la-loi-des-talibans.jpg",
-    "releaseDate": null,
+    "releaseDate": "27/09/2022",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/sous-la-loi-des-talibans/",
     "spotifyUrl": null,
@@ -4718,7 +4801,8 @@
     "order": 208,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2022
   },
   {
     "slug": "souvenirs-en-cuisine",
@@ -4730,7 +4814,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/souvenirs-en-cuisine.jpg",
-    "releaseDate": null,
+    "releaseDate": "26/11/2022",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/souvenirs-en-cuisine/",
     "spotifyUrl": null,
@@ -4739,7 +4823,8 @@
     "order": 209,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2022
   },
   {
     "slug": "t-gros",
@@ -4751,7 +4836,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/t-gros.jpg",
-    "releaseDate": null,
+    "releaseDate": "24/06/2019",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/t-gros/",
     "spotifyUrl": null,
@@ -4760,7 +4845,8 @@
     "order": 210,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2019
   },
   {
     "slug": "terrorisme-armenien",
@@ -4772,7 +4858,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/terrorisme-armenien.jpg",
-    "releaseDate": null,
+    "releaseDate": "02/04/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -4781,7 +4867,8 @@
     "order": 211,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "un-jou-je-serai",
@@ -4814,7 +4901,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/une-deuxieme-chance.jpg",
-    "releaseDate": null,
+    "releaseDate": "02/02/2023",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/deuxieme-chance/",
     "spotifyUrl": null,
@@ -4823,7 +4910,8 @@
     "order": 213,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2023
   },
   {
     "slug": "unique-en-mon-genre",
@@ -4835,7 +4923,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/unique-en-mon-genre.jpg",
-    "releaseDate": null,
+    "releaseDate": "11/10/2021",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -4844,7 +4932,8 @@
     "order": 214,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "unique-en-mon-genre-2",
@@ -4877,7 +4966,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/veilleur-de-nuit.jpg",
-    "releaseDate": null,
+    "releaseDate": "08/05/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -4886,7 +4975,8 @@
     "order": 216,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "votez-jeunesse",
@@ -4898,7 +4988,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/votez-jeunesse.jpg",
-    "releaseDate": null,
+    "releaseDate": "23/02/2022",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/votez-jeunesse/",
     "spotifyUrl": null,
@@ -4907,7 +4997,8 @@
     "order": 217,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2022
   },
   {
     "slug": "ymca-une-flamme",
@@ -4919,7 +5010,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/13prods/ymca.jpg",
-    "releaseDate": null,
+    "releaseDate": "07/07/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -4928,7 +5019,8 @@
     "order": 218,
     "productionCompanySlug": [
       "13prods"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "bnp-paribas-dans-les-eaux-troubles-de-la-plus-grande-banque-europeenne",
@@ -4982,7 +5074,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/little-big-story/inde-les-paysans.jpg",
-    "releaseDate": null,
+    "releaseDate": "28/05/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -4991,7 +5083,8 @@
     "order": 221,
     "productionCompanySlug": [
       "little-big-story"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "l-empire-de-l-or-rouge",
@@ -5003,7 +5096,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/little-big-story/lempire-de-lor-rouge.jpg",
-    "releaseDate": null,
+    "releaseDate": "03/05/2017",
     "genre": null,
     "externalUrl": "https://www.film-documentaire.fr/4DACTION/w_fiche_film/52255_0",
     "spotifyUrl": null,
@@ -5012,7 +5105,8 @@
     "order": 222,
     "productionCompanySlug": [
       "little-big-story"
-    ]
+    ],
+    "year": 2017
   },
   {
     "slug": "lempire-de-lor-rouge",
@@ -5045,7 +5139,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/little-big-story/la-democratie-du-dollar.jpg",
-    "releaseDate": null,
+    "releaseDate": "03/11/2020",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/la-democratie-du-dollar/",
     "spotifyUrl": null,
@@ -5054,7 +5148,8 @@
     "order": 224,
     "productionCompanySlug": [
       "little-big-story"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "la-femme-sans-nom-l-histoire-de-jeanne-et-baudelaire",
@@ -5087,7 +5182,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/little-big-story/les-oublies-de-latome.jpg",
-    "releaseDate": null,
+    "releaseDate": "15/05/2023",
     "genre": null,
     "externalUrl": "https://www.film-documentaire.fr/4DACTION/w_fiche_film/68272",
     "spotifyUrl": null,
@@ -5096,7 +5191,8 @@
     "order": 226,
     "productionCompanySlug": [
       "little-big-story"
-    ]
+    ],
+    "year": 2023
   },
   {
     "slug": "les-oublies-de-latome",
@@ -5129,7 +5225,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/little-big-story/disparu_387.jpg",
-    "releaseDate": null,
+    "releaseDate": "08/09/2020",
     "genre": null,
     "externalUrl": "http://www.film-documentaire.fr/4DACTION/w_fiche_film/52256_1",
     "spotifyUrl": null,
@@ -5138,7 +5234,8 @@
     "order": 228,
     "productionCompanySlug": [
       "little-big-story"
-    ]
+    ],
+    "year": 2020
   },
   {
     "slug": "portrait-dun-pere",
@@ -5150,7 +5247,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/little-big-story/portrait.jpg",
-    "releaseDate": null,
+    "releaseDate": "24/09/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -5159,7 +5256,8 @@
     "order": 229,
     "productionCompanySlug": [
       "little-big-story"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "soeurs-de-la-terre",
@@ -5171,7 +5269,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/little-big-story/soeurs-de-la-terre.jpg",
-    "releaseDate": null,
+    "releaseDate": "09/09/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -5180,7 +5278,8 @@
     "order": 230,
     "productionCompanySlug": [
       "little-big-story"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "taiwan-une-democratie-a-lombre-de-la-chine",
@@ -5234,7 +5333,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/little-big-story/un-pasteur.jpg",
-    "releaseDate": null,
+    "releaseDate": "13/06/2024",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -5243,7 +5342,8 @@
     "order": 233,
     "productionCompanySlug": [
       "little-big-story"
-    ]
+    ],
+    "year": 2024
   },
   {
     "slug": "vikings-la-saga-des-femmes",
@@ -5255,7 +5355,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/little-big-story/vikings.jpg",
-    "releaseDate": null,
+    "releaseDate": "06/03/2025",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -5264,7 +5364,8 @@
     "order": 234,
     "productionCompanySlug": [
       "little-big-story"
-    ]
+    ],
+    "year": 2025
   },
   {
     "slug": "chants-gregoriens-2-0",
@@ -5340,7 +5441,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/pop-films/jamie-lee-curtis-un-cri-de-liberte-a-hollywood.jpg",
-    "releaseDate": null,
+    "releaseDate": "28/10/2022",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/jamie-lee-curtis-un-cri-de-liberte-a-hollywood/",
     "spotifyUrl": null,
@@ -5349,7 +5450,8 @@
     "order": 238,
     "productionCompanySlug": [
       "pop-films"
-    ]
+    ],
+    "year": 2022
   },
   {
     "slug": "jules-verne-et-le-defi-du-tour-du-monde",
@@ -5361,7 +5463,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/pop-films/jules-verne-et-le-defi-du-tour-du-tour-du-monde.jpg",
-    "releaseDate": null,
+    "releaseDate": "03/11/2022",
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
@@ -5370,7 +5472,8 @@
     "order": 239,
     "productionCompanySlug": [
       "pop-films"
-    ]
+    ],
+    "year": 2022
   },
   {
     "slug": "jules-vernes-et-le-defi-du-tour-du-monde",
@@ -5466,7 +5569,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/via-decouvertes-films/au-nom-de-la-mer.jpg",
-    "releaseDate": null,
+    "releaseDate": "26/04/2021",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/au-nom-de-la-mer/",
     "spotifyUrl": null,
@@ -5476,7 +5579,8 @@
     "productionCompanySlug": [
       "via-decouvertes-films",
       "13prods"
-    ]
+    ],
+    "year": 2021
   },
   {
     "slug": "gorongosa-le-parc-de-reconciliation",
@@ -5509,7 +5613,7 @@
     "descriptionEn": "",
     "category": "documentaire",
     "coverImage": "public/images/projets/documentaires/via-decouvertes-films/operation-biodiversite.jpg",
-    "releaseDate": null,
+    "releaseDate": "20/05/2019",
     "genre": null,
     "externalUrl": "https://www.13prods.fr/operation-biodiversite/",
     "spotifyUrl": null,
@@ -5518,6 +5622,40 @@
     "order": 246,
     "productionCompanySlug": [
       "via-decouvertes-films"
-    ]
+    ],
+    "year": 2019
+  },
+  {
+    "slug": "lens-1998-un-champion-en-nord",
+    "titleFr": "Lens 1998, un champion en Nord",
+    "titleEn": "Lens 1998, a champion in the North",
+    "category": "Documentaire",
+    "releaseDate": "21/12/2023",
+    "year": 2023,
+    "coverImage": "",
+    "isActive": true,
+    "order": 247
+  },
+  {
+    "slug": "nous-gens-de-la-terre-mayotte",
+    "titleFr": "Nous, gens de la terre - Mayotte",
+    "titleEn": "We, people of the land - Mayotte",
+    "category": "Documentaire",
+    "releaseDate": "28/02/2019",
+    "year": 2019,
+    "coverImage": "",
+    "isActive": true,
+    "order": 248
+  },
+  {
+    "slug": "l-aventure-des-manuscrits",
+    "titleFr": "L'aventure des manuscrits",
+    "titleEn": "The adventure of manuscripts",
+    "category": "Documentaire",
+    "releaseDate": "29/08/2021",
+    "year": 2021,
+    "coverImage": "",
+    "isActive": true,
+    "order": 249
   }
 ]
