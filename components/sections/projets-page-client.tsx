@@ -7,6 +7,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { Breadcrumb } from "@/components/breadcrumb";
 import { YouTubeModal } from "@/components/youtube-modal";
+import { ToggleSwitch } from "@/components/ui/toggle-switch";
+import { SortToggle } from "@/components/ui/sort-toggle";
 import type { ProjetsPageDictionary } from "@/types/dictionary";
 import type { Locale } from "@/lib/i18n-config";
 
@@ -22,6 +24,7 @@ type GalleryWork = {
   composers: string[];
   externalUrl?: string;
   youtubeUrl?: string;
+  year?: number;
 };
 
 type Category = {
@@ -57,6 +60,8 @@ export function ProjetsPageClient({
     categoryParam ?? "all",
   );
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [sortBy, setSortBy] = useState<"date" | "title">("date");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [loading, setLoading] = useState(true);
   const [youtubeModal, setYoutubeModal] = useState<{
     isOpen: boolean;
@@ -91,12 +96,28 @@ export function ProjetsPageClient({
     void init();
   }, [locale]);
 
-  // Sync selectedCategory with URL params
+  // Sync selectedCategory and sort params with URL
   useEffect(() => {
     if (categoryParam && categoryParam !== selectedCategory) {
       setSelectedCategory(categoryParam);
     }
-  }, [categoryParam, selectedCategory]);
+
+    const sortByParam = searchParams.get("sortBy") as "date" | "title" | null;
+    const sortOrderParam = searchParams.get("sortOrder") as
+      | "asc"
+      | "desc"
+      | null;
+
+    if (sortByParam && (sortByParam === "date" || sortByParam === "title")) {
+      setSortBy(sortByParam);
+    }
+    if (
+      sortOrderParam &&
+      (sortOrderParam === "asc" || sortOrderParam === "desc")
+    ) {
+      setSortOrder(sortOrderParam);
+    }
+  }, [categoryParam, selectedCategory, searchParams]);
 
   // Update URL when category changes
   const handleCategoryChange = (category: string) => {
@@ -113,6 +134,32 @@ export function ProjetsPageClient({
     router.push(newUrl, { scroll: false });
   };
 
+  // Update URL when sort changes
+  const handleSortChange = (newSortBy?: string, newSortOrder?: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (newSortBy) {
+      setSortBy(newSortBy as "date" | "title");
+      params.set("sortBy", newSortBy);
+    }
+    if (newSortOrder) {
+      setSortOrder(newSortOrder as "asc" | "desc");
+      params.set("sortOrder", newSortOrder);
+    }
+
+    const newUrl = `/${locale}/projets?${params.toString()}`;
+    router.push(newUrl, { scroll: false });
+  };
+
+  // Get toggle options based on sortBy
+  const getToggleOptions = (): [string, string] => {
+    if (sortBy === "title") {
+      return [copy.sortOrderTitleAsc, copy.sortOrderTitleDesc];
+    } else {
+      return [copy.sortOrderDateAsc, copy.sortOrderDateDesc];
+    }
+  };
+
   const filteredWorks = works
     .filter(
       (work) =>
@@ -120,7 +167,16 @@ export function ProjetsPageClient({
     )
     .filter((work) =>
       work.title.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
+    )
+    .sort((a, b) => {
+      let comparison = 0;
+      if (sortBy === "date") {
+        comparison = (a.year ?? 0) - (b.year ?? 0);
+      } else {
+        comparison = a.title.localeCompare(b.title, locale);
+      }
+      return sortOrder === "asc" ? comparison : -comparison;
+    });
 
   if (loading) {
     return (
@@ -166,9 +222,9 @@ export function ProjetsPageClient({
             {copy.description}
           </p>
 
-          {/* Search bar */}
-          <div className="mb-6">
-            <div className="relative max-w-md">
+          {/* Search bar and sort controls */}
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-4">
+            <div className="relative flex-1 max-w-md">
               <input
                 type="text"
                 data-testid="projects-search"
@@ -190,6 +246,27 @@ export function ProjetsPageClient({
                   ✕
                 </button>
               )}
+            </div>
+
+            <div className="flex gap-3 flex-wrap sm:flex-nowrap">
+              <ToggleSwitch
+                options={[
+                  { value: "date" as const, label: copy.sortByDate },
+                  { value: "title" as const, label: copy.sortByTitle },
+                ]}
+                value={sortBy}
+                onChange={(newSortBy) => {
+                  handleSortChange(newSortBy, undefined);
+                }}
+              />
+
+              <SortToggle
+                options={getToggleOptions()}
+                value={sortOrder}
+                onChange={(newOrder) => {
+                  handleSortChange(undefined, newOrder);
+                }}
+              />
             </div>
           </div>
 
@@ -296,8 +373,15 @@ export function ProjetsPageClient({
                 </div>
 
                 <div className="p-4">
-                  <div className="mb-2 text-xs font-bold uppercase text-lime-400">
-                    {work.category}
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="text-xs font-bold uppercase text-lime-400">
+                      {work.category}
+                    </span>
+                    {work.year && (
+                      <span className="text-xs font-bold text-white/50">
+                        {work.year}
+                      </span>
+                    )}
                   </div>
                   <h2 className="mb-2 text-lg font-bold uppercase leading-tight">
                     {work.title}

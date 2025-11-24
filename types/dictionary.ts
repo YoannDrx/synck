@@ -159,6 +159,13 @@ export type ProjetsPageDictionary = {
   loading: string;
   empty: string;
   noResults: string;
+  sortByLabel: string;
+  sortByDate: string;
+  sortByTitle: string;
+  sortOrderTitleAsc: string;
+  sortOrderTitleDesc: string;
+  sortOrderDateAsc: string;
+  sortOrderDateDesc: string;
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
@@ -308,6 +315,7 @@ export type AdminDictionary = {
     labels: string;
     invitations: string;
     logout: string;
+    backToSite: string;
   };
   dashboard: {
     title: string;

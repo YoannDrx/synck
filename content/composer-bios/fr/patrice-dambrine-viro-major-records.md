@@ -1,0 +1,1 @@
+Viro Major Records est un label indépendant français basé entre Paris et la région nantaise, actif depuis 2019. Il défend une esthétique punk, post-punk, electro-clash et hardcore, en produisant des groupes comme Last Night, Règlement, Tempomat ou Campari Crepuscule.

@@ -15,16 +15,15 @@ type GalleryComposer = {
   bio?: string;
   image?: string;
   imageAlt?: string;
-  externalUrl?: string;
   worksCount: number;
-}
+};
 
 type ComposersCopy = HomeDictionary["composers"];
 
 type ComposersSectionProps = {
   locale: Locale;
   copy: ComposersCopy;
-}
+};
 
 export function ComposersSection({ locale, copy }: ComposersSectionProps) {
   const [composers, setComposers] = useState<GalleryComposer[]>([]);
@@ -38,7 +37,7 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
         if (!response.ok) {
           throw new Error("Failed to fetch composers");
         }
-        const data = await response.json() as GalleryComposer[];
+        const data = (await response.json()) as GalleryComposer[];
         setComposers(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
@@ -50,14 +49,17 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
     void fetchComposers();
   }, [locale]);
 
-  const renderWorksCount = (count: number) => `${String(count)} ${count > 1 ? copy.worksPlural : copy.worksSingular}`;
+  const renderWorksCount = (count: number) =>
+    `${String(count)} ${count > 1 ? copy.worksPlural : copy.worksSingular}`;
 
   if (loading) {
     return (
       <section id="composers" className="space-y-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.5em] text-white/55">{copy.eyebrow}</p>
+            <p className="text-xs uppercase tracking-[0.5em] text-white/55">
+              {copy.eyebrow}
+            </p>
             <h2 className="text-4xl font-black">{copy.title}</h2>
           </div>
         </div>
@@ -87,10 +89,16 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
     <section id="composers" className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.5em] text-white/55">{copy.eyebrow}</p>
+          <p className="text-xs uppercase tracking-[0.5em] text-white/55">
+            {copy.eyebrow}
+          </p>
           <h2 className="text-4xl font-black">{copy.title}</h2>
         </div>
-        <Button asChild variant="outline" className="inline-flex items-center gap-2 rounded-full">
+        <Button
+          asChild
+          variant="outline"
+          className="inline-flex items-center gap-2 rounded-full"
+        >
           <Link href={`/${locale}/compositeurs`}>
             {copy.viewAll}
             <span aria-hidden>↗</span>
@@ -124,10 +132,18 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
                 </div>
               )}
 
-              <h3 className="text-xl font-bold uppercase tracking-tight">{composer.name}</h3>
-              <div className="text-sm text-white/60">{renderWorksCount(composer.worksCount)}</div>
+              <h3 className="text-xl font-bold uppercase tracking-tight">
+                {composer.name}
+              </h3>
+              <div className="text-sm text-white/60">
+                {renderWorksCount(composer.worksCount)}
+              </div>
 
-              {composer.bio && <p className="text-xs text-white/50 line-clamp-2">{composer.bio}</p>}
+              {composer.bio && (
+                <p className="text-xs text-white/50 line-clamp-2">
+                  {composer.bio}
+                </p>
+              )}
             </div>
           </Link>
         ))}

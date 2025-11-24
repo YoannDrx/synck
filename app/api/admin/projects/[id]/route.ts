@@ -1,9 +1,9 @@
-/* eslint-disable no-console */
-
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { prisma } from "@/lib/prisma";
+import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
+import { ApiError } from "@/lib/api/error-handler";
+import { createAuditLog } from "@/lib/audit-log";
 
 const workSchema = z.object({
   slug: z.string().min(1),
@@ -59,179 +59,188 @@ const workSchema = z.object({
   imageIds: z.array(z.string()).optional(),
 });
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  try {
-    const { id } = await params;
+export const GET = withAuth(async (_req, context) => {
+  if (!context.params) {
+    throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
+  }
+  const { id } = await context.params;
 
-    const work = await prisma.work.findUnique({
+  const work = await prisma.work.findUnique({
+    where: { id },
+    include: {
+      category: {
+        include: {
+          translations: true,
+        },
+      },
+      label: {
+        include: {
+          translations: true,
+        },
+      },
+      coverImage: true,
+      translations: true,
+      contributions: {
+        include: {
+          composer: {
+            include: {
+              translations: true,
+            },
+          },
+        },
+        orderBy: { order: "asc" },
+      },
+      images: true,
+    },
+  });
+
+  if (!work) {
+    throw new ApiError(404, "Projet non trouvé", "NOT_FOUND");
+  }
+
+  return NextResponse.json(work);
+});
+
+export const PUT = withAuthAndValidation(
+  workSchema,
+  async (req, context, user, data) => {
+    if (!context.params) {
+      throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
+    }
+    const { id } = await context.params;
+
+    // Get old values for audit log
+    const oldWork = await prisma.work.findUnique({
       where: { id },
-      include: {
-        category: {
-          include: {
-            translations: true,
+      include: { translations: true },
+    });
+
+    const work = await prisma.$transaction(async (tx) => {
+      await tx.contribution.deleteMany({
+        where: { workId: id },
+      });
+
+      return tx.work.update({
+        where: { id },
+        data: {
+          slug: data.slug,
+          categoryId: data.categoryId,
+          labelId: data.labelId,
+          coverImageId: data.coverImageId,
+          year: data.year ?? null,
+          status: data.status,
+          spotifyUrl: data.spotifyUrl ?? null,
+          releaseDate: data.releaseDate,
+          genre: data.genre,
+          order: data.order,
+          isActive: data.isActive,
+          isFeatured: data.isFeatured,
+          translations: {
+            deleteMany: {},
+            create: [
+              {
+                locale: "fr",
+                title: data.translations.fr.title,
+                description: data.translations.fr.description,
+                role: data.translations.fr.role,
+              },
+              {
+                locale: "en",
+                title: data.translations.en.title,
+                description: data.translations.en.description,
+                role: data.translations.en.role,
+              },
+            ],
           },
+          ...(data.composers &&
+            data.composers.length > 0 && {
+              contributions: {
+                create: data.composers.map((composer) => ({
+                  composerId: composer.composerId,
+                  role: composer.role,
+                  order: composer.order,
+                })),
+              },
+            }),
         },
-        label: {
-          include: {
-            translations: true,
-          },
-        },
-        coverImage: true,
-        translations: true,
-        contributions: {
-          include: {
-            composer: {
-              include: {
-                translations: true,
+        include: {
+          translations: true,
+          contributions: {
+            include: {
+              composer: {
+                include: {
+                  translations: true,
+                },
               },
             },
           },
-          orderBy: { order: "asc" },
+          images: true,
         },
-        images: true,
-      },
+      });
     });
 
-    if (!work) {
-      return NextResponse.json({ error: "Projet non trouvé" }, { status: 404 });
-    }
-
-    return NextResponse.json(work);
-  } catch (error) {
-    console.error("Get project error:", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la récupération du projet" },
-      { status: 500 },
-    );
-  }
-}
-
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  try {
-    const { id } = await params;
-    const body: unknown = await request.json();
-    const data = workSchema.parse(body);
-
-    // Delete existing contributions, then recreate
-    await prisma.contribution.deleteMany({
-      where: { workId: id },
-    });
-
-    // Update work with new data
-    const work = await prisma.work.update({
-      where: { id },
-      data: {
-        slug: data.slug,
-        categoryId: data.categoryId,
-        labelId: data.labelId,
-        coverImageId: data.coverImageId,
-        year: data.year ?? null,
-        status: data.status,
-        spotifyUrl: data.spotifyUrl ?? null,
-        releaseDate: data.releaseDate,
-        genre: data.genre,
-        order: data.order,
-        isActive: data.isActive,
-        isFeatured: data.isFeatured,
-        translations: {
-          deleteMany: {},
-          create: [
-            {
-              locale: "fr",
-              title: data.translations.fr.title,
-              description: data.translations.fr.description,
-              role: data.translations.fr.role,
-            },
-            {
-              locale: "en",
-              title: data.translations.en.title,
-              description: data.translations.en.description,
-              role: data.translations.en.role,
-            },
-          ],
+    // Audit log
+    await createAuditLog({
+      userId: user.id,
+      action: "UPDATE",
+      entityType: "Work",
+      entityId: work.id,
+      metadata: {
+        slug: work.slug,
+        before: {
+          titleFr: oldWork?.translations.find((t) => t.locale === "fr")?.title,
+          titleEn: oldWork?.translations.find((t) => t.locale === "en")?.title,
+          status: oldWork?.status,
         },
-        ...(data.composers &&
-          data.composers.length > 0 && {
-            contributions: {
-              create: data.composers.map((composer) => ({
-                composerId: composer.composerId,
-                role: composer.role,
-                order: composer.order,
-              })),
-            },
-          }),
-        // Note: images relationship needs to be handled differently
-        // ...(data.imageIds && data.imageIds.length > 0 && {
-        //   images: {
-        //     connect: data.imageIds.map((imageId) => ({ id: imageId })),
-        //   },
-        // }),
-      },
-      include: {
-        translations: true,
-        contributions: {
-          include: {
-            composer: {
-              include: {
-                translations: true,
-              },
-            },
-          },
+        after: {
+          titleFr: data.translations.fr.title,
+          titleEn: data.translations.en.title,
+          status: work.status,
         },
-        images: true,
       },
+      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+      userAgent: req.headers.get("user-agent") ?? undefined,
     });
 
     return NextResponse.json(work);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: "Données invalides", details: error.issues },
-        { status: 400 },
-      );
-    }
+  },
+);
 
-    console.error("Update project error:", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la mise à jour du projet" },
-      { status: 500 },
-    );
+export const DELETE = withAuth(async (req, context, user) => {
+  if (!context.params) {
+    throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
   }
-}
+  const { id } = await context.params;
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  try {
-    const { id } = await params;
+  // Check if work exists and get metadata for audit log
+  const existing = await prisma.work.findUnique({
+    where: { id },
+    include: { translations: true },
+  });
 
-    // Check if work exists
-    const existing = await prisma.work.findUnique({
-      where: { id },
-    });
-
-    if (!existing) {
-      return NextResponse.json({ error: "Projet non trouvé" }, { status: 404 });
-    }
-
-    // Delete work (cascades will handle related data)
-    await prisma.work.delete({
-      where: { id },
-    });
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Delete project error:", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la suppression du projet" },
-      { status: 500 },
-    );
+  if (!existing) {
+    throw new ApiError(404, "Projet non trouvé", "NOT_FOUND");
   }
-}
+
+  // Delete work (cascades will handle related data)
+  await prisma.work.delete({
+    where: { id },
+  });
+
+  // Audit log
+  await createAuditLog({
+    userId: user.id,
+    action: "DELETE",
+    entityType: "Work",
+    entityId: id,
+    metadata: {
+      slug: existing.slug,
+      titleFr: existing.translations.find((t) => t.locale === "fr")?.title,
+      titleEn: existing.translations.find((t) => t.locale === "en")?.title,
+    },
+    ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
+    userAgent: req.headers.get("user-agent") ?? undefined,
+  });
+
+  return NextResponse.json({ success: true });
+});

@@ -1,4 +1,3 @@
-Amaury Messelier :
 Tout droit sorti de la banlieue lilloise, Arom est un ovni, un cyberpunk extralucide qui compose autant qu’il écrit. 
 Biberonné au rap US made in Midwest, aux films de science-fiction des années 90 et aux jeux vidéo, le roux à lunettes a planté le décor d’un univers à la fois sombre et coloré à travers un bon nombre de collaborations (Madchild, ChinoXL Emsallam, Deadi, La Gale…) et de projets solo (LP « John Connor », EP « Damien vs Van Helsing », EP « 1987 ») sortis sur le label Mutant Ninja.
 Derrière les machines, Arom s’amuse autant à produire des beats hip-hop sombres et évolutifs, qu’à composer des morceaux chiptune ou funkwave sautillant pour des éditeurs de renom tels que Parigo, Sonoton, Prodigious, West One.... Il participe aussi à la bande originale du film “La dérive des continents (au sud)” de Lionel Baier, ainsi qu’au sound design du jeu-vidéo “GI Joe : Wrath Of Cobra”.

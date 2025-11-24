@@ -1,0 +1,7 @@
+https://www.instagram.com/coeurkokoro/?hl=fr 
+
+Cœur est une chanteuse et productrice française liée à la scène Mutant Ninja. Sa musique mêle influences pop, hip-hop et électroniques dans une esthétique sombre et introspective, portée par une écriture très personnelle.
+Charlie Duran, connue sous le nom de Cœur, est une artiste, rappeuse, chanteuse française. Elle est originaire de Lyon et a commencé sa carrière musicale en tant que membre du duo Schlaasss.
+Elle a depuis sorti sa première mixtape, Minouche Mafia, en mars 2021. Celle-ci a été produite par Bonetrips et Nicolas Steib. La mixtape est un mélange de rap, d’électronique et de pop, avec des paroles poétiques et charnelles.
+En parallèle, Cœur est également connue pour ses performances scéniques uniques, où elle porte une robe de mariée blanche et est entourée de danseuses drag queens. Dans les milieux LGBT en France, Cœur est une figure importante du mouvement féministe.
+D’autre part, dans le cadre de performance scéniques, vous avez sûrement déjà pu voir Cœur en première partie de Lorenzo, Chilla, Vald, Charlotte Adigery ou encore Poupie. Dernièrement, l’artiste lyonnaise était en concert dans la région, au Transbordeur (Villeurbanne), en décembre 2023, en première partie de Troubles

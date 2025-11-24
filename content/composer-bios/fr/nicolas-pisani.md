@@ -1,0 +1,1 @@
+Nicolas Pisani est ingénieur du son, sound designer et compositeur. Spécialisé dans le mixage et le mastering de musiques électroniques et techno, il travaille pour des labels majeurs et indépendants et accompagne artistes et projets vers un son professionnel.

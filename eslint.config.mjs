@@ -65,6 +65,14 @@ export default [
     },
   },
 
+  // Allow console inside logger utility
+  {
+    files: ["lib/logger.ts"],
+    rules: {
+      "no-console": "off",
+    },
+  },
+
   // Ignores
   {
     ignores: [

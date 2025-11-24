@@ -33,6 +33,7 @@ export type GalleryWork = {
   composers: string[];
   externalUrl?: string;
   youtubeUrl?: string;
+  year?: number;
 };
 
 // Cache the projets data fetch for deduplication
@@ -103,6 +104,7 @@ export const getProjetsFromPrisma = cache(
           }),
           externalUrl: work.externalUrl ?? undefined,
           youtubeUrl: work.youtubeUrl ?? undefined,
+          year: work.year ?? undefined,
         };
       });
 

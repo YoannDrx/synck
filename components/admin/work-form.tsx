@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ImageUploader } from "./image-uploader";
 import type { AdminDictionary } from "@/types/dictionary";
+import { fetchWithAuth } from "@/lib/fetch-with-auth";
 import type {
   Work,
   WorkTranslation,
@@ -30,6 +31,7 @@ type WorkFormProps = {
   dictionary: AdminDictionary;
   work?: WorkWithRelations;
   mode: "create" | "edit";
+  locale: string;
 };
 
 type ComposerOption = {
@@ -47,7 +49,7 @@ type LabelOption = {
   name: string;
 };
 
-export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
+export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -103,7 +105,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
     const loadOptions = async () => {
       try {
         // Load categories
-        const categoriesRes = await fetch("/api/admin/categories");
+        const categoriesRes = await fetchWithAuth("/api/admin/categories");
         if (categoriesRes.ok) {
           const categoriesData = (await categoriesRes.json()) as {
             id: string;
@@ -120,7 +122,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
         }
 
         // Load labels
-        const labelsRes = await fetch("/api/admin/labels");
+        const labelsRes = await fetchWithAuth("/api/admin/labels");
         if (labelsRes.ok) {
           const labelsData = (await labelsRes.json()) as {
             id: string;
@@ -137,7 +139,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
         }
 
         // Load composers
-        const composersRes = await fetch("/api/admin/composers");
+        const composersRes = await fetchWithAuth("/api/admin/composers");
         if (composersRes.ok) {
           const composersData = (await composersRes.json()) as {
             id: string;
@@ -168,7 +170,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
     blurDataUrl: string;
   }) => {
     // Create Asset in database
-    const response = await fetch("/api/admin/assets", {
+    const response = await fetchWithAuth("/api/admin/assets", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -236,7 +238,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
     blurDataUrl: string;
   }) => {
     // Create Asset in database
-    const response = await fetch("/api/admin/assets", {
+    const response = await fetchWithAuth("/api/admin/assets", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -279,7 +281,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
 
       const method = mode === "create" ? "POST" : "PUT";
 
-      const response = await fetch(url, {
+      const response = await fetchWithAuth(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -307,7 +309,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
       }
 
       // Success - redirect to list
-      router.push("/admin/projets");
+      router.push(`/${locale}/admin/projets`);
       router.refresh();
     } catch (err: unknown) {
       setError(
@@ -844,7 +846,7 @@ export function WorkForm({ dictionary, work, mode }: WorkFormProps) {
         <button
           type="button"
           onClick={() => {
-            router.push("/admin/projets");
+            router.push(`/${locale}/admin/projets`);
           }}
           disabled={isSubmitting}
           className="border-2 border-white/20 px-6 py-3 hover:border-[#d5ff0a] transition-colors disabled:opacity-50"

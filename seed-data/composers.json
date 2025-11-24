@@ -4,11 +4,10 @@
     "slug": "2080",
     "name": "2080",
     "image": "public/images/projets/photoscompo/2080.jpg",
-    "externalUrl": "https://www.youtube.com/@The2080",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@The2080",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/2080music/",
         "label": null,
         "order": 0
       },
@@ -27,7 +26,6 @@
     "slug": "9-o-clock",
     "name": "9 O'Clock",
     "image": "public/images/projets/photoscompo/9oclock.jpg",
-    "externalUrl": "https://www.youtube.com/@9oclock162",
     "links": [],
     "order": 1,
     "isActive": true
@@ -36,12 +34,11 @@
     "id": 4,
     "slug": "aeon-seven",
     "name": "Aeon Seven",
-    "image": "public/images/projets/photoscompo/aeonseven.jpg",
-    "externalUrl": "https://www.youtube.com/@aeonseven4130",
+    "image": "public/images/projets/photoscompo/aeon-seven.jpg",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@aeonseven4130",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/aeon7even/?hl=fr",
         "label": null,
         "order": 0
       },
@@ -59,12 +56,11 @@
     "id": 5,
     "slug": "after-in-paris",
     "name": "After In Paris",
-    "image": "public/images/projets/photoscompo/afterinparis.jpg",
-    "externalUrl": "https://www.youtube.com/channel/UCTEyPqy3PEAGWDDGr03sysw",
+    "image": "public/images/projets/photoscompo/after-in-paris.jpg",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/channel/UCTEyPqy3PEAGWDDGr03sysw",
+        "platform": "website",
+        "url": "https://www.afterinparis.com/",
         "label": null,
         "order": 0
       }
@@ -77,7 +73,6 @@
     "slug": "alexis-molenat-les-cavaliers",
     "name": "Alexis Molenat (Les Cavaliers)",
     "image": "public/images/projets/photoscompo/lescavaliers.jpg",
-    "externalUrl": "https://open.spotify.com/intl-fr/artist/68VVrFrf8sXN9NxkIRvYNO",
     "links": [
       {
         "platform": "spotify",
@@ -94,21 +89,7 @@
     "slug": "ana-kap",
     "name": "Ana Kap",
     "image": "public/images/projets/photoscompo/anakap.jpg",
-    "externalUrl": "https://www.facebook.com/anakaptrio/?locale=fr_FR",
-    "links": [
-      {
-        "platform": "facebook",
-        "url": "https://www.facebook.com/anakaptrio/?locale=fr_FR",
-        "label": null,
-        "order": 0
-      },
-      {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@anakap8263",
-        "label": "YouTube",
-        "order": 1
-      }
-    ],
+    "links": [],
     "order": 6,
     "isActive": true
   },
@@ -117,13 +98,18 @@
     "slug": "arandel",
     "name": "Arandel",
     "image": "public/images/projets/photoscompo/arandel.jpg",
-    "externalUrl": "https://soundcloud.com/arandel",
     "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/iamarandel/",
+        "label": null,
+        "order": 0
+      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/arandel",
         "label": null,
-        "order": 0
+        "order": 1
       }
     ],
     "order": 7,
@@ -133,12 +119,11 @@
     "id": 9,
     "slug": "arat-kilo",
     "name": "Arat Kilo",
-    "image": "public/images/projets/photoscompo/aratkilo.jpg",
-    "externalUrl": "https://www.youtube.com/@aratkilo7994",
+    "image": "public/images/projets/photoscompo/arat-kilo.jpg",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@aratkilo7994",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/arat_kilo_band/?hl=fr",
         "label": null,
         "order": 0
       },
@@ -157,13 +142,18 @@
     "slug": "arom",
     "name": "Arom",
     "image": "public/images/projets/photoscompo/arom.jpg",
-    "externalUrl": "https://soundcloud.com/arom-de-la-spirale",
     "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/arom_boglins/",
+        "label": null,
+        "order": 0
+      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/arom-de-la-spirale",
         "label": null,
-        "order": 0
+        "order": 1
       }
     ],
     "order": 9,
@@ -174,7 +164,6 @@
     "slug": "blanka",
     "name": "Blanka",
     "image": "public/images/projets/photoscompo/blanka.jpg",
-    "externalUrl": "https://soundcloud.com/blankalfe",
     "links": [
       {
         "platform": "soundcloud",
@@ -191,13 +180,18 @@
     "slug": "bonetrips",
     "name": "Bonetrips",
     "image": "public/images/projets/photoscompo/bonetrips.jpg",
-    "externalUrl": "https://soundcloud.com/Bonetrips",
     "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/bonetrips84/",
+        "label": null,
+        "order": 0
+      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/Bonetrips",
         "label": null,
-        "order": 0
+        "order": 1
       }
     ],
     "order": 11,
@@ -207,12 +201,11 @@
     "id": 13,
     "slug": "bruno-hovart",
     "name": "Bruno Hovart",
-    "image": "public/images/projets/photoscompo/brunohovart.jpg",
-    "externalUrl": "https://www.youtube.com/@brunopatchworks4249",
+    "image": "public/images/projets/photoscompo/bruno-hovart.jpg",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@brunopatchworks4249",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/brunopatchworks/",
         "label": null,
         "order": 0
       }
@@ -225,7 +218,6 @@
     "slug": "cally-reed",
     "name": "Cally Reed",
     "image": "public/images/projets/photoscompo/callyreed.jpg",
-    "externalUrl": "https://open.spotify.com/intl-fr/artist/4R7CNJ3OyT9G1bEkvcCi9X",
     "links": [
       {
         "platform": "spotify",
@@ -251,12 +243,11 @@
     "id": 17,
     "slug": "charlotte-savary",
     "name": "Charlotte Savary",
-    "image": "public/images/projets/photoscompo/charlottesavary.jpg",
-    "externalUrl": "https://www.youtube.com/@CharlotteSavaryMusic/featured",
+    "image": "public/images/projets/photoscompo/charlotte-savary.jpg",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@CharlotteSavaryMusic/featured",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/charlottesavarymusic/",
         "label": null,
         "order": 0
       },
@@ -275,7 +266,6 @@
     "slug": "chicho-cortez",
     "name": "Chicho Cortez",
     "image": "public/images/projets/photoscompo/chichocortez.jpg",
-    "externalUrl": "https://soundcloud.com/chicho-cortez",
     "links": [
       {
         "platform": "soundcloud",
@@ -292,7 +282,6 @@
     "slug": "chris-kemp",
     "name": "Chris Kemp",
     "image": "public/images/projets/photoscompo/chriskemp.jpg",
-    "externalUrl": "https://soundcloud.com/kempfest",
     "links": [
       {
         "platform": "soundcloud",
@@ -309,11 +298,10 @@
     "slug": "coeur",
     "name": "Coeur",
     "image": "public/images/projets/photoscompo/coeur.jpg",
-    "externalUrl": "https://www.youtube.com/@Coeurkokoro",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@Coeurkokoro",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/coeurkokoro/?hl=fr",
         "label": null,
         "order": 0
       },
@@ -332,19 +320,12 @@
     "slug": "cory-tate",
     "name": "Cory Tate",
     "image": "public/images/projets/photoscompo/corytate.jpg",
-    "externalUrl": "https://www.youtube.com/channel/UCvzoh7xQ3fYX47auU_HCc2w",
     "links": [
-      {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/channel/UCvzoh7xQ3fYX47auU_HCc2w",
-        "label": null,
-        "order": 0
-      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/corytate",
         "label": "SoundCloud",
-        "order": 1
+        "order": 0
       }
     ],
     "order": 20,
@@ -354,12 +335,11 @@
     "id": 22,
     "slug": "dan-amozig",
     "name": "Dan Amozig",
-    "image": "public/images/projets/photoscompo/danamozig.jpg",
-    "externalUrl": "https://www.facebook.com/daniel.amozig",
+    "image": "public/images/projets/photoscompo/dan-amozig.jpg",
     "links": [
       {
-        "platform": "facebook",
-        "url": "https://www.facebook.com/daniel.amozig",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/danamozig/reels/?__d=dist",
         "label": null,
         "order": 0
       }
@@ -372,7 +352,6 @@
     "slug": "daxovii",
     "name": "DaXoVii",
     "image": "public/images/projets/photoscompo/daxovii.jpg",
-    "externalUrl": "https://open.spotify.com/intl-fr/artist/4nQRld5mxpXtOY7GJt7AJN",
     "links": [
       {
         "platform": "spotify",
@@ -389,25 +368,18 @@
     "slug": "ddamage",
     "name": "dDamage",
     "image": "public/images/projets/photoscompo/ddamage.jpg",
-    "externalUrl": "https://www.youtube.com/channel/UCuSV_oQIah-mMF8C6OcvQdQ",
     "links": [
-      {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/channel/UCuSV_oQIah-mMF8C6OcvQdQ",
-        "label": null,
-        "order": 0
-      },
       {
         "platform": "spotify",
         "url": "https://open.spotify.com/intl-fr/artist/2HXjjAcmNeyqM1InDkqFbu",
         "label": "dDash",
-        "order": 1
+        "order": 0
       },
       {
         "platform": "apple-music",
         "url": "https://music.apple.com/us/artist/ddash/412245274?l=fr-FR",
         "label": "dDash",
-        "order": 2
+        "order": 1
       }
     ],
     "order": 23,
@@ -417,14 +389,19 @@
     "id": 25,
     "slug": "dj-hertz",
     "name": "DJ Hertz",
-    "image": "public/images/projets/photoscompo/9oclock.jpg",
-    "externalUrl": "https://soundcloud.com/djhertz-music",
+    "image": "public/images/projets/photoscompo/dj-hertz.jpg",
     "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/9_o_clock/",
+        "label": null,
+        "order": 0
+      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/djhertz-music",
         "label": null,
-        "order": 0
+        "order": 1
       }
     ],
     "order": 24,
@@ -434,14 +411,19 @@
     "id": 26,
     "slug": "dj-troubl",
     "name": "DJ Troubl",
-    "image": "public/images/projets/photoscompo/djtroubl.jpg",
-    "externalUrl": "https://soundcloud.com/djtroubl",
+    "image": "public/images/projets/photoscompo/dj-troubl.jpg",
     "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/djtroubl/?hl=af",
+        "label": null,
+        "order": 0
+      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/djtroubl",
         "label": null,
-        "order": 0
+        "order": 1
       }
     ],
     "order": 25,
@@ -452,8 +434,14 @@
     "slug": "drixxxe",
     "name": "Drixxxé",
     "image": "public/images/projets/photoscompo/drixxxe.jpg",
-    "externalUrl": "https://soundcloud.com/drixxxe-2",
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/drizzzel/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 27,
     "isActive": true
   },
@@ -462,7 +450,6 @@
     "slug": "ducer",
     "name": "Ducer",
     "image": "public/images/projets/photoscompo/ducer.jpg",
-    "externalUrl": "https://soundcloud.com/ducermusic",
     "links": [
       {
         "platform": "soundcloud",
@@ -478,12 +465,11 @@
     "id": 30,
     "slug": "emile-sornin-forever-pavot",
     "name": "Emile Sornin (Forever Pavot)",
-    "image": "public/images/projets/photoscompo/foreverpavot.jpg",
-    "externalUrl": "https://www.facebook.com/ForeverPavot/?locale=fr_FR",
+    "image": "public/images/projets/photoscompo/emile-sornin-forever-pavot.jpg",
     "links": [
       {
-        "platform": "facebook",
-        "url": "https://www.facebook.com/ForeverPavot/?locale=fr_FR",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/foreverpavot/?hl=fr",
         "label": null,
         "order": 0
       },
@@ -502,7 +488,6 @@
     "slug": "emmanuel-maree",
     "name": "Emmanuel Marée",
     "image": "public/images/projets/photoscompo/emmanuelmaree.jpg",
-    "externalUrl": "https://open.spotify.com/intl-fr/artist/6WPBlXYBmOPAoZAxSeBORf",
     "links": [],
     "order": 30,
     "isActive": true
@@ -511,9 +496,15 @@
     "id": 33,
     "slug": "f-stokes",
     "name": "F.Stokes",
-    "image": "public/images/projets/photoscompo/fstokes.jpg",
-    "externalUrl": "https://www.youtube.com/@TheRealFStokes",
-    "links": [],
+    "image": "public/images/projets/photoscompo/f-stokes.jpg",
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/rodneyluthaking/?hl=fr",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 32,
     "isActive": true
   },
@@ -522,11 +513,10 @@
     "slug": "flore",
     "name": "Flore",
     "image": "public/images/projets/photoscompo/flore.jpg",
-    "externalUrl": "https://www.youtube.com/@FloreMusic/releases",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@FloreMusic/releases",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/floremusic/?hl=fr",
         "label": null,
         "order": 0
       },
@@ -545,7 +535,6 @@
     "slug": "frederic-hanak",
     "name": "Frédéric Hanak",
     "image": "public/images/projets/photoscompo/ddash.jpg",
-    "externalUrl": "https://open.spotify.com/intl-fr/artist/2HXjjAcmNeyqM1InDkqFbu",
     "links": [],
     "order": 35,
     "isActive": true
@@ -555,15 +544,7 @@
     "slug": "gerz-marcellino",
     "name": "Gerz Marcellino",
     "image": "public/images/projets/photoscompo/gerz.jpg",
-    "externalUrl": "https://www.youtube.com/@MutantNinjaRecords",
-    "links": [
-      {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@MutantNinjaRecords",
-        "label": null,
-        "order": 0
-      }
-    ],
+    "links": [],
     "order": 37,
     "isActive": true
   },
@@ -582,7 +563,6 @@
     "slug": "hexahedre",
     "name": "Hexahedre",
     "image": "public/images/projets/vinyles/hexahedre.jpg",
-    "externalUrl": "https://www.mowno.com/news/infos/avec-hexahedre-jb-hanak-et-cyril-laurent-invitent-au-voyage-extra-corporel/",
     "links": [
       {
         "platform": "website",
@@ -598,12 +578,11 @@
     "id": 41,
     "slug": "jb-hanak",
     "name": "JB Hanak",
-    "image": "public/images/projets/photoscompo/jbhanak.jpg",
-    "externalUrl": "https://www.facebook.com/jbhak/?locale=fr_FR",
+    "image": "public/images/projets/photoscompo/jb-hanak.jpg",
     "links": [
       {
-        "platform": "facebook",
-        "url": "https://www.facebook.com/jbhak/?locale=fr_FR",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/jbhanak/",
         "label": null,
         "order": 0
       },
@@ -621,12 +600,11 @@
     "id": 42,
     "slug": "laurent-dury",
     "name": "Laurent Dury",
-    "image": "public/images/projets/photoscompo/laurentdury.jpg",
-    "externalUrl": "https://www.youtube.com/channel/UCmmr9nj-GOwiB3qB2xGa2ow",
+    "image": "public/images/projets/photoscompo/laurent-dury.jpeg",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/channel/UCmmr9nj-GOwiB3qB2xGa2ow",
+        "platform": "spotify",
+        "url": "https://open.spotify.com/intl-fr/artist/7gpOQ6zpHZobl99wEQQRwj",
         "label": null,
         "order": 0
       },
@@ -645,13 +623,18 @@
     "slug": "liqid",
     "name": "Liqid",
     "image": "public/images/projets/photoscompo/liqid.jpg",
-    "externalUrl": "https://soundcloud.com/Liqid",
     "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/liqid84/?hl=fr",
+        "label": null,
+        "order": 0
+      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/Liqid",
         "label": null,
-        "order": 0
+        "order": 1
       }
     ],
     "order": 42,
@@ -662,7 +645,6 @@
     "slug": "lovlion",
     "name": "LovLion",
     "image": "public/images/projets/photoscompo/lovlion.jpg",
-    "externalUrl": "https://open.spotify.com/intl-fr/artist/4iLSUJSIR7y2vknbGaZXD1",
     "links": [
       {
         "platform": "spotify",
@@ -679,11 +661,10 @@
     "slug": "madben",
     "name": "Madben",
     "image": "public/images/projets/photoscompo/madben.jpg",
-    "externalUrl": "https://www.youtube.com/channel/UChTegJsrojWlBiUhpWY7IOQ",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/channel/UChTegJsrojWlBiUhpWY7IOQ",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/madben_official/?hl=fr",
         "label": null,
         "order": 0
       },
@@ -702,7 +683,6 @@
     "slug": "marie-sophie-mallet",
     "name": "Marie-Sophie Mallet",
     "image": "public/images/projets/photoscompo/marie-sophie-mallet.jpg",
-    "externalUrl": "https://open.spotify.com/intl-fr/track/4BOrPAF6kbOW3mXbLQrfgX",
     "links": [
       {
         "platform": "spotify",
@@ -719,7 +699,6 @@
     "slug": "maxime-raynier-les-arondes",
     "name": "Maxime Raynier (Les Arondes)",
     "image": "public/images/projets/photoscompo/lesarondes.jpg",
-    "externalUrl": "https://open.spotify.com/intl-fr/artist/5TugFO50h3uzx6lsAmZaoA",
     "links": [
       {
         "platform": "spotify",
@@ -736,11 +715,10 @@
     "slug": "minimatic",
     "name": "Minimatic",
     "image": "public/images/projets/photoscompo/minimatic.jpg",
-    "externalUrl": "https://www.youtube.com/@MinimaticMusic",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@MinimaticMusic",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/minimatic.music/",
         "label": null,
         "order": 0
       },
@@ -759,13 +737,18 @@
     "slug": "modulhater",
     "name": "Modulhater",
     "image": "public/images/projets/photoscompo/modulhater.jpg",
-    "externalUrl": "https://soundcloud.com/lediktat",
     "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/modulhater/",
+        "label": null,
+        "order": 0
+      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/lediktat",
         "label": null,
-        "order": 0
+        "order": 1
       }
     ],
     "order": 48,
@@ -776,19 +759,12 @@
     "slug": "mr-viktor",
     "name": "Mr Viktor",
     "image": "public/images/projets/photoscompo/mrviktor.jpg",
-    "externalUrl": "https://www.youtube.com/channel/UC4U1YdCBptWTIrrXWpck52w",
     "links": [
-      {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/channel/UC4U1YdCBptWTIrrXWpck52w",
-        "label": null,
-        "order": 0
-      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/mr-viktor",
         "label": "SoundCloud",
-        "order": 1
+        "order": 0
       }
     ],
     "order": 49,
@@ -799,49 +775,42 @@
     "slug": "mutant-ninja-records",
     "name": "Mutant Ninja Records",
     "image": "public/images/projets/photoscompo/mutantninja.jpg",
-    "externalUrl": "https://www.youtube.com/@MutantNinjaRecords",
     "links": [
-      {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@MutantNinjaRecords",
-        "label": null,
-        "order": 0
-      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/mutantninja",
         "label": "SoundCloud",
-        "order": 1
+        "order": 0
       },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/tcheep",
         "label": "Tcheep",
-        "order": 2
+        "order": 1
       },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/Liqid",
         "label": "Liqid",
-        "order": 3
+        "order": 2
       },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/Bonetrips",
         "label": "Bonetrips",
-        "order": 4
+        "order": 3
       },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/arom-de-la-spirale",
         "label": "Arom de la Spirale",
-        "order": 5
+        "order": 4
       },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/chicho-cortez",
         "label": "Chicho Cortez",
-        "order": 6
+        "order": 5
       }
     ],
     "order": 50,
@@ -852,7 +821,6 @@
     "slug": "n-zeng",
     "name": "N’ZENG",
     "image": "public/images/projets/photoscompo/sebastienblanchon.jpg",
-    "externalUrl": "https://soundcloud.com/nzeng",
     "links": [],
     "order": 51,
     "isActive": true
@@ -861,19 +829,18 @@
     "id": 53,
     "slug": "nicodrums-friends",
     "name": "Nicodrums & Friends",
-    "image": "public/images/projets/photoscompo/nicodrum.jpg",
-    "externalUrl": "https://www.youtube.com/channel/UC-wBKGqXxqbzTJM2xQH42ug",
+    "image": "public/images/projets/photoscompo/nicodrums-friends.jpg",
     "links": [
-      {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/channel/UC-wBKGqXxqbzTJM2xQH42ug",
-        "label": null,
-        "order": 0
-      },
       {
         "platform": "spotify",
         "url": "https://open.spotify.com/intl-fr/artist/55h2juci7J6sa1hSIBYf3W",
         "label": "Spotify",
+        "order": 0
+      },
+      {
+        "platform": "website",
+        "url": "https://musicboxpublishing.fr/catalogue/nicodrum/",
+        "label": null,
         "order": 1
       }
     ],
@@ -884,14 +851,19 @@
     "id": 54,
     "slug": "nicolas-pisani",
     "name": "Nicolas Pisani",
-    "image": "public/images/projets/photoscompo/nicolaspisani.jpg",
-    "externalUrl": "https://soundcloud.com/cosmicdude",
+    "image": "public/images/projets/photoscompo/nicolas-pisani.jpg",
     "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/nicolas__pisani/",
+        "label": null,
+        "order": 0
+      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/cosmicdude",
         "label": null,
-        "order": 0
+        "order": 1
       }
     ],
     "order": 53,
@@ -902,11 +874,10 @@
     "slug": "nsdos",
     "name": "NSDOS",
     "image": "public/images/projets/photoscompo/nsdos.jpg",
-    "externalUrl": "https://www.youtube.com/@NSDOS",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@NSDOS",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/koodes_k/?hl=fr",
         "label": null,
         "order": 0
       },
@@ -925,7 +896,6 @@
     "slug": "pana-black",
     "name": "Pana Black",
     "image": "public/images/projets/photoscompo/panablack.jpg",
-    "externalUrl": "https://soundcloud.com/panablack",
     "links": [
       {
         "platform": "soundcloud",
@@ -941,9 +911,15 @@
     "id": 58,
     "slug": "patrice-dambrine-viro-major-records",
     "name": "Patrice Dambrine (Viro Major Records )",
-    "image": "public/images/projets/photoscompo/viromajorrecords.jpg",
-    "externalUrl": "https://www.facebook.com/viromajor/",
-    "links": [],
+    "image": "public/images/projets/photoscompo/patrice-dambrine-viro-major-records.jpg",
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/viromajorrecords/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 57,
     "isActive": true
   },
@@ -952,19 +928,12 @@
     "slug": "rebecca-meyer",
     "name": "Rebecca Meyer",
     "image": "public/images/projets/photoscompo/rebeccameyer.jpg",
-    "externalUrl": "https://www.youtube.com/channel/UCRweKKqx5mtXOkRuFy8yXVg/about",
     "links": [
-      {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/channel/UCRweKKqx5mtXOkRuFy8yXVg/about",
-        "label": null,
-        "order": 0
-      },
       {
         "platform": "spotify",
         "url": "https://open.spotify.com/intl-fr/artist/4tpHyEUjJcXlLSQPBpSNkk",
         "label": "Spotify",
-        "order": 1
+        "order": 0
       }
     ],
     "order": 59,
@@ -975,19 +944,12 @@
     "slug": "roma-luca",
     "name": "Roma Luca",
     "image": "public/images/projets/photoscompo/romaluca.jpg",
-    "externalUrl": "https://www.youtube.com/@romaluca",
     "links": [
-      {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@romaluca",
-        "label": null,
-        "order": 0
-      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/camilleluca",
         "label": "SoundCloud",
-        "order": 1
+        "order": 0
       }
     ],
     "order": 60,
@@ -998,7 +960,6 @@
     "slug": "scherazade",
     "name": "Schérazade",
     "image": "public/images/projets/photoscompo/scherazade.jpg",
-    "externalUrl": "https://www.youtube.com/channel/UCsG36srWE1YHxYJI6ASnKGQ",
     "links": [],
     "order": 63,
     "isActive": true
@@ -1007,9 +968,15 @@
     "id": 66,
     "slug": "sebastien-blanchon",
     "name": "Sébastien Blanchon",
-    "image": "public/images/projets/photoscompo/sebastienblanchon.jpg",
-    "externalUrl": "https://soundcloud.com/nzeng",
-    "links": [],
+    "image": "public/images/projets/photoscompo/sebastien-blanchon.jpeg",
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/nzeng_music/?hl=fr",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 65,
     "isActive": true
   },
@@ -1018,7 +985,6 @@
     "slug": "sebastien-blanchon-n-zeng",
     "name": "Sébastien Blanchon / N'ZENG",
     "image": "public/images/projets/photoscompo/sebastienblanchon.jpg",
-    "externalUrl": "https://soundcloud.com/nzeng",
     "links": [],
     "order": 66,
     "isActive": true
@@ -1027,12 +993,11 @@
     "id": 68,
     "slug": "sr-ortegon",
     "name": "Sr Ortegon",
-    "image": "public/images/projets/photoscompo/srortegon.jpg",
-    "externalUrl": "https://www.youtube.com/@SrOrtegon",
+    "image": "public/images/projets/photoscompo/sr-ortegon.jpg",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@SrOrtegon",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/srortegon/",
         "label": null,
         "order": 0
       }
@@ -1045,7 +1010,6 @@
     "slug": "stan-galouo-palma-coco-reccords",
     "name": "Stan Galouo (Palma Coco Reccords)",
     "image": "public/images/projets/photoscompo/stangalouo.jpg",
-    "externalUrl": "https://soundcloud.com/palmacoco",
     "links": [
       {
         "platform": "soundcloud",
@@ -1062,19 +1026,12 @@
     "slug": "syra",
     "name": "Syra",
     "image": "public/images/projets/photoscompo/syra.jpg",
-    "externalUrl": "https://www.youtube.com/@syra7874/featured",
     "links": [
-      {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@syra7874/featured",
-        "label": null,
-        "order": 0
-      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/syra-sc",
         "label": "SoundCloud",
-        "order": 1
+        "order": 0
       }
     ],
     "order": 69,
@@ -1085,13 +1042,18 @@
     "slug": "tcheep",
     "name": "Tcheep",
     "image": "public/images/projets/photoscompo/tcheep.jpg",
-    "externalUrl": "https://soundcloud.com/tcheep",
     "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/_tcheep_/?hl=fr",
+        "label": null,
+        "order": 0
+      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/tcheep",
         "label": null,
-        "order": 0
+        "order": 1
       }
     ],
     "order": 70,
@@ -1101,12 +1063,11 @@
     "id": 72,
     "slug": "the-architect",
     "name": "The Architect",
-    "image": "public/images/projets/photoscompo/thearchitect.jpg",
-    "externalUrl": "https://www.youtube.com/channel/UCB5YJuWzpqeAa-t6wDwZBpw",
+    "image": "public/images/projets/photoscompo/the-architect.jpg",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/channel/UCB5YJuWzpqeAa-t6wDwZBpw",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/thearchitect_one/?hl=fr",
         "label": null,
         "order": 0
       },
@@ -1125,19 +1086,12 @@
     "slug": "the-real-fake-mc",
     "name": "The Real Fake MC",
     "image": "public/images/projets/photoscompo/therealfakemc.jpg",
-    "externalUrl": "https://www.youtube.com/@THEREALFAKEMC",
     "links": [
-      {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@THEREALFAKEMC",
-        "label": null,
-        "order": 0
-      },
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/therealfakemc",
         "label": "SoundCloud",
-        "order": 1
+        "order": 0
       }
     ],
     "order": 72,
@@ -1147,12 +1101,11 @@
     "id": 74,
     "slug": "ugly-mac-beer",
     "name": "Ugly Mac Beer",
-    "image": "public/images/projets/photoscompo/uglymacbeer.jpg",
-    "externalUrl": "https://www.youtube.com/channel/UCj8mVWiBl256CIfVl3qFHwA",
+    "image": "public/images/projets/photoscompo/ugly-mac-beer.jpg",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/channel/UCj8mVWiBl256CIfVl3qFHwA",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/uglymacbeer/?hl=fr",
         "label": null,
         "order": 0
       },
@@ -1163,16 +1116,10 @@
         "order": 1
       },
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@BEATSQUEEZE",
-        "label": "Beatsqueeze Records",
-        "order": 2
-      },
-      {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/mistermodouglymacbeer",
         "label": "Mister Modo & Ugly Mac Beer",
-        "order": 3
+        "order": 2
       }
     ],
     "order": 73,
@@ -1182,12 +1129,11 @@
     "id": 75,
     "slug": "yann-kornowicz",
     "name": "Yann Kornowicz",
-    "image": "public/images/projets/photoscompo/yannkornowicz.jpg",
-    "externalUrl": "https://www.youtube.com/channel/UCNVPNRi4dBCOeCBG0rJJ-IA",
+    "image": "public/images/projets/photoscompo/yann-kornowicz.jpg",
     "links": [
       {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/channel/UCNVPNRi4dBCOeCBG0rJJ-IA",
+        "platform": "instagram",
+        "url": "https://www.instagram.com/yannkornowicz/",
         "label": null,
         "order": 0
       },
@@ -1206,7 +1152,6 @@
     "slug": "zoe-wolf",
     "name": "Zoe Wolf",
     "image": "public/images/projets/photoscompo/zoewolf.jpg",
-    "externalUrl": "https://open.spotify.com/intl-fr/artist/6sJbyR4JKjsQaCp6T0E3Pz",
     "links": [
       {
         "platform": "spotify",
@@ -1222,29 +1167,33 @@
     "id": 77,
     "slug": "aiwa",
     "name": "Aïwa",
-    "image": null,
+    "image": "public/images/projets/photoscompo/aiwa.jpg",
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "soundcloud",
+        "url": "https://soundcloud.com/a-wa",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 76,
-    "isActive": true
-  },
-  {
-    "id": 78,
-    "slug": "amaury-messelier",
-    "name": "Amaury Messelier",
-    "image": null,
-    "externalUrl": null,
-    "links": [],
-    "order": 77,
     "isActive": true
   },
   {
     "id": 79,
     "slug": "cyril-laurent",
     "name": "Cyril Laurent",
-    "image": null,
+    "image": "public/images/projets/photoscompo/cyril-laurent.jpg",
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "website",
+        "url": "https://www.mowno.com/news/infos/avec-hexahedre-jb-hanak-et-cyril-laurent-invitent-au-voyage-extra-corporel/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 78,
     "isActive": true
   },
@@ -1252,29 +1201,33 @@
     "id": 80,
     "slug": "fabien-girard",
     "name": "Fabien Girard",
-    "image": null,
+    "image": "public/images/projets/photoscompo/fabien-girard.jpg",
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/fabien_girard/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 79,
-    "isActive": true
-  },
-  {
-    "id": 81,
-    "slug": "franck-sinnassamy",
-    "name": "Franck Sinnassamy",
-    "image": null,
-    "externalUrl": null,
-    "links": [],
-    "order": 80,
     "isActive": true
   },
   {
     "id": 82,
     "slug": "grand-david",
     "name": "Grand David",
-    "image": null,
+    "image": "public/images/projets/photoscompo/grand-david.jpg",
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "bandcamp",
+        "url": "https://legranddavid.bandcamp.com/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 81,
     "isActive": true
   },
@@ -1282,9 +1235,16 @@
     "id": 83,
     "slug": "jean-pierre-menager",
     "name": "Jean-Pierre Ménager",
-    "image": null,
+    "image": "public/images/projets/photoscompo/jean-pierre-menager.jpeg",
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "website",
+        "url": "https://www.jeanpierremenager.com/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 82,
     "isActive": true
   },
@@ -1292,9 +1252,16 @@
     "id": 84,
     "slug": "mister-modo",
     "name": "Mister Modo",
-    "image": null,
+    "image": "public/images/projets/photoscompo/mister-modo.jpg",
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/modoandmacbeer/?hl=fr",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 83,
     "isActive": true
   },
@@ -1302,9 +1269,16 @@
     "id": 85,
     "slug": "of-ivory-horn",
     "name": "Of Ivory & Horn",
-    "image": null,
+    "image": "public/images/projets/photoscompo/of-ivory-horn.webp",
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "website",
+        "url": "https://www.dorianchamoin.fr/dorian-chamoin",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 84,
     "isActive": true
   },
@@ -1312,9 +1286,16 @@
     "id": 86,
     "slug": "pierre-millet",
     "name": "Pierre Millet",
-    "image": null,
+    "image": "public/images/projets/photoscompo/pierre-millet.jpg",
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/milletpierre/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 85,
     "isActive": true
   },
@@ -1322,9 +1303,16 @@
     "id": 87,
     "slug": "thierry-los",
     "name": "Thierry Los",
-    "image": null,
+    "image": "public/images/projets/photoscompo/thierry-los.jpeg",
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "website",
+        "url": "http://www.dng-music.com/3jt/thierrylos/index.html",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 86,
     "isActive": true
   },
@@ -1332,10 +1320,33 @@
     "id": 88,
     "slug": "yann-jankielewicz",
     "name": "Yann Jankielewicz",
-    "image": null,
+    "image": "public/images/projets/photoscompo/yann-jankielewicz.jpg",
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/yann_jankielewicz/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 87,
     "isActive": true
+  },
+  {
+    "id": 89,
+    "slug": "well-quartet",
+    "name": "Well Quartet",
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/wellquartet/",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 88,
+    "isActive": true,
+    "image": "public/images/projets/photoscompo/well-quartet.jpeg"
   }
 ]
