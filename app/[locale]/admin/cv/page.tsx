@@ -1,6 +1,18 @@
 import { prisma } from "@/lib/prisma";
 import { CVEditor } from "@/components/admin/cv/cv-editor";
 
+type CVTheme = {
+  primary: string;
+  secondary: string;
+  header: string;
+  sidebar: string;
+  surface: string;
+  text: string;
+  muted: string;
+  border: string;
+  badge: string;
+};
+
 export default async function CVAdminPage({
   params,
 }: {
@@ -37,7 +49,17 @@ export default async function CVAdminPage({
 
   const transformedCV = cv
     ? (() => {
-        const theme = (cv as { theme?: unknown })?.theme ?? null;
+        // Validate theme is a proper CVTheme object
+        const rawTheme = cv.theme as Record<string, unknown> | null;
+        const isValidTheme =
+          rawTheme &&
+          typeof rawTheme === "object" &&
+          "primary" in rawTheme &&
+          "secondary" in rawTheme &&
+          "header" in rawTheme;
+        const theme: CVTheme | null = isValidTheme
+          ? (rawTheme as CVTheme)
+          : null;
         const accentColor =
           cv.accentColor ??
           (theme as { primary?: string } | null)?.primary ??
