@@ -17,20 +17,48 @@ async function seedCV() {
 
   console.log("🗑️  Cleaned existing CV data");
 
+  const theme = {
+    primary: "#D5FF0A",
+    secondary: "#9EF01A",
+    header: "#0B0C12",
+    sidebar: "#F4F5F7",
+    surface: "#FFFFFF",
+    text: "#0D0E11",
+    muted: "#60626A",
+    border: "#E2E4EA",
+    badge: "#0F1118",
+  };
+
+  const photoAsset = await prisma.asset.upsert({
+    where: {
+      path: "/uploads/1763895080486-f67266ab-06cf-4957-a198-12af535eac0f-caro-avatar.jpeg",
+    },
+    update: {},
+    create: {
+      path: "/uploads/1763895080486-f67266ab-06cf-4957-a198-12af535eac0f-caro-avatar.jpeg",
+      alt: "Portrait de Caroline Senyk",
+      width: 800,
+      height: 800,
+      aspectRatio: 1,
+    },
+  });
+
   // 1. Create the CV
   const cv = await prisma.cV.create({
     data: {
+      photoAssetId: photoAsset.id,
       phone: "06 84 18 18 84",
       email: "caroline.senyk@gmail.com",
       location: "75020 Paris",
       linkedInUrl: "https://linkedin.com/in/caroline-senyk",
       headlineFr: "Gestionnaire de droits musicaux",
       headlineEn: "Music Rights Manager",
-      bioFr: `Depuis plusieurs années, j'accompagne des artistes dans l'émergence de leurs projets tant au niveau de la production originale que de la gestion des droits d'auteur et d'interprète. Je recherche aujourd'hui un poste qui me permettra de combiner ma rigueur en gestion du copyright et mes compétences en production musicale, développement dans le secteur du développement artistique.`,
-      bioEn: `For several years, I have been supporting artists in developing their projects, both in terms of original production and copyright and performer rights management. I am currently seeking a position that will allow me to combine my rigor in copyright management and my skills in music production and artist development.`,
+      bioFr: `Gestionnaire de droits musicaux, j'accompagne les artistes dans l'émergence de leurs projets, du dépôt des œuvres à la production originale. Je cherche aujourd'hui un poste qui mêle rigueur juridique, pilotage de production et développement artistique.`,
+      bioEn: `Music rights manager supporting artists from registrations to original production. I am looking for a role that blends copyright rigor with production leadership and artist development.`,
       layout: "creative",
-      accentColor: "#D5FF0A",
+      accentColor: theme.primary,
       showPhoto: true,
+      theme,
     },
   });
 
@@ -42,7 +70,8 @@ async function seedCV() {
       cvId: cv.id,
       type: "experience",
       icon: "Briefcase",
-      color: "#D5FF0A",
+      color: theme.primary,
+      placement: "main",
       layoutType: "timeline",
       order: 0,
       isActive: true,
@@ -70,14 +99,16 @@ async function seedCV() {
             title: "Directrice Copyright & Administrative",
             subtitle: "PARIGO",
             location: "Paris",
-            description: `Réception des catalogues via Harvest et dépôt des œuvres locales et étrangères - Vérification des fichiers de répartition par source de diffusion - Relations avec les organismes de gestion collective - Gestion budgétaire des productions musicales - Création et gestion de la facturation (clients et fournisseurs) - Demandes de subventions - Relationnel ACI/Éditeurs - Accompagnement du CEO pour entretiens et recrutements - Transmission de données comptables et suivi du nombre de cabinet d'expert-comptable - Création / envoi / paiement des décomptes de royalties - Gestion des demandes RH (paies, titres restaurants, mutuelle santé, notes de frais) - Suivi Bancier`,
+            description:
+              "Dépôts Harvest France/International et contrôle des fichiers de répartition; relations directes avec les organismes de gestion collective. Budget, facturation clients/fournisseurs, calculs de royalties et coordination comptable. Pilotage RH (paie, titres-resto, mutuelle) et support CEO pour recrutements et rendez-vous clefs.",
           },
           {
             locale: "en",
             title: "Copyright & Administrative Director",
             subtitle: "PARIGO",
             location: "Paris",
-            description: `Catalogue reception via Harvest and deposit of local and foreign works - Verification of distribution files by broadcasting source - Relations with collective management organizations - Budget management of music productions - Creation and management of invoicing (clients and suppliers) - Grant applications - ACI/Publishers relations - CEO support for interviews and recruitment - Transmission of accounting data and monitoring of accounting firm - Creation / sending / payment of royalty statements - HR requests management (payroll, meal vouchers, health insurance, expense reports) - Bank monitoring`,
+            description:
+              "Harvest deposits for domestic and international catalogs; audit of distribution files and liaison with CMOs. Budget ownership, client/supplier invoicing, royalty statements and accounting coordination. HR coordination (payroll, meal vouchers, health insurance) and CEO support for recruiting and key meetings.",
           },
         ],
       },
@@ -100,14 +131,16 @@ async function seedCV() {
             title: "Responsable Copyright & Production",
             subtitle: "PARIGO",
             location: "Paris",
-            description: `Création et gestion du budget de production (supervision enregistrements studio, cachets artistes, mixage, mastering, visuel pochette, clips) - Mise en place des programmings de production artistique - Déclaration et paiement des brevets et clients via Movinmotion - Création des contrats d'enregistrement artiste interprète, de rachat de phonogrammes, diffusion à la SCPP - Dépôt de phonogrammes sur Vericast (Bmat) - Création et suivi de dossiers de subvention - Gestion des contrats d'édition et sous-édition (mise à jour des contrats, dépôt des fichiers sur metadata, dépôt des nouvelles représentations en sous-édition à la SACEM) - Dépôt de toute la sous-édition à la SCPP et Numérica - Tracking des programmes et des publicités via Vericast (Bmat) - Mise en place stratégie avec attachés de presse - Gestion message distribution envoi vinyles promotionnels - Déclarations SDRM`,
+            description:
+              "Construction des budgets de production (studio, cachets, mix/master, visuels, clips) et programmation artistique. Déclarations légales, dépôts SCPP/SDRM/Vericast et suivi subventions. Gestion contrats d’édition/sous-édition, metadata et coordination attaché·es de presse et envois promo.",
           },
           {
             locale: "en",
             title: "Copyright & Production Manager",
             subtitle: "PARIGO",
             location: "Paris",
-            description: `Creation and management of production budget (studio recording supervision, artist fees, mixing, mastering, cover art, videos) - Setting up artistic production programming - Declaration and payment of patents and clients via Movinmotion - Creation of artist performer recording contracts, phonogram buyback, distribution to SCPP - Deposit of phonograms on Vericast (Bmat) - Creation and monitoring of grant files - Management of publishing and sub-publishing contracts (contract updates, metadata file deposits, new sub-publishing representations at SACEM) - Deposit of all sub-publishing at SCPP and Numérica - Tracking of programs and advertisements via Vericast (Bmat) - Press relations strategy implementation - Distribution message management, promotional vinyl shipments - SDRM declarations`,
+            description:
+              "Built production budgets (studio, artist fees, mix/master, artwork, video) and artistic schedules. Legal filings, SCPP/SDRM/Vericast deposits and grant monitoring. Managed publishing and sub-publishing contracts, metadata, press coordination and promotional shipments.",
           },
         ],
       },
@@ -130,14 +163,16 @@ async function seedCV() {
             title: "Assistante Copyright & Administration",
             subtitle: "PARIGO",
             location: "Paris",
-            description: `Préparation et archivage des pièces comptables, fiscales et sociales - Préparation et suivi des dossiers de subvention - Gestion des factures fournisseurs/clients et suivi des créances - Préparation et suivi des dépôts d'œuvres/des programmes et des publicités à la SACEM et SCPP - Dépôt et suivi des programmes et des publicités à la SACEM - Administration des contrats de gestion (productions audiovisuelles 13Prods, Via Découvertes Films et Little Big Story)`,
+            description:
+              "Préparation et archivage comptable/fiscal, suivi factures et créances. Montage de dossiers de subvention et dépôts d’œuvres/programmes publicitaires SACEM/SCPP. Administration des contrats de gestion (13Prods, Via Découvertes Films, Little Big Story).",
           },
           {
             locale: "en",
             title: "Copyright & Administration Assistant",
             subtitle: "PARIGO",
             location: "Paris",
-            description: `Preparation and archiving of accounting, tax and social documents - Preparation and monitoring of grant files - Management of supplier/client invoices and receivables tracking - Preparation and monitoring of work/program and advertisement deposits at SACEM and SCPP - Deposit and monitoring of programs and advertisements at SACEM - Administration of management contracts (audiovisual productions 13Prods, Via Découvertes Films and Little Big Story)`,
+            description:
+              "Prepared and filed accounting/tax documents, managed invoices and receivables. Built grant files and handled SACEM/SCPP deposits for works and advertising programs. Administered management contracts (13Prods, Via Découvertes Films, Little Big Story).",
           },
         ],
       },
@@ -160,14 +195,16 @@ async function seedCV() {
             title: "Assistante Manager d'Artistes",
             subtitle: "GIN AGENCY",
             location: "Paris",
-            description: `Gestion et organisation des tournées pour Feder, Cristobal and the Sea et Ginkgoa - Élaboration des plannings - Création du routing - Coordination logistique (transports hébergements, transferts) - Création des feuilles de route - Gestion du merchandising et suivi des ventes - Communication avec les agences de booking - Examen du contenu des contrats artiste - Community management - Relations Presse - Suivi des budgets par artiste, tournée et projet`,
+            description:
+              "Organisation des tournées pour Feder, Cristobal and the Sea et Ginkgoa : plannings, routing, logistique transports/hébergement. Création des feuilles de route, merchandising et suivi ventes, coordination booking. Relecture contrats, community management, relations presse et suivi budgétaire par tournée.",
           },
           {
             locale: "en",
             title: "Artist Management Assistant",
             subtitle: "GIN AGENCY",
             location: "Paris",
-            description: `Tour management and organization for Feder, Cristobal and the Sea and Ginkgoa - Schedule development - Routing creation - Logistical coordination (transport, accommodation, transfers) - Creation of road sheets - Merchandising management and sales tracking - Communication with booking agencies - Artist contract content review - Community management - Press relations - Budget monitoring per artist, tour and project`,
+            description:
+              "Tour management for Feder, Cristobal and the Sea and Ginkgoa: schedules, routing and travel/accommodation logistics. Built road books, handled merchandising and sales tracking, liaised with booking agencies. Reviewed artist contracts, managed communities and press, and tracked tour budgets.",
           },
         ],
       },
@@ -190,14 +227,16 @@ async function seedCV() {
             title: "Assistante Edition Musicale",
             subtitle: "DISTRICT 6 FRANCE PUBLISHING",
             location: "Paris",
-            description: `Rédaction des contrats de cession et bulletins de déclaration - Dépôt des œuvres à la SACEM - Gestion de l'exploitation du catalogue - Mise en ligne des supports de communication (site, réseaux sociaux) - Gestion des droits voisins - Tracking des œuvres et publicités non identifiées - Création et suivi de dossiers de subvention - Inscription des artistes aux sociétés de gestion (SACEM, ADAMI, SPEDIDAM)`,
+            description:
+              "Rédaction des contrats de cession et dépôts SACEM. Gestion de l’exploitation catalogue et des droits voisins. Mise en ligne des supports de communication, suivi des œuvres/publicités non identifiées et création de dossiers de subvention. Inscription des artistes aux sociétés de gestion (SACEM, ADAMI, SPEDIDAM).",
           },
           {
             locale: "en",
             title: "Music Publishing Assistant",
             subtitle: "DISTRICT 6 FRANCE PUBLISHING",
             location: "Paris",
-            description: `Drafting of assignment contracts and declaration forms - Deposit of works at SACEM - Catalogue exploitation management - Online communication materials (website, social networks) - Neighboring rights management - Tracking of unidentified works and advertisements - Creation and monitoring of grant files - Artist registration with management societies (SACEM, ADAMI, SPEDIDAM)`,
+            description:
+              "Drafted assignment contracts and handled SACEM deposits. Managed catalogue exploitation and neighboring rights. Published communication assets, tracked unidentified works/ads, prepared grant files and registered artists with CMOs (SACEM, ADAMI, SPEDIDAM).",
           },
         ],
       },
@@ -212,7 +251,8 @@ async function seedCV() {
       cvId: cv.id,
       type: "education",
       icon: "GraduationCap",
-      color: "#D5FF0A",
+      color: theme.secondary,
+      placement: "sidebar",
       layoutType: "list",
       order: 1,
       isActive: true,
@@ -287,7 +327,8 @@ async function seedCV() {
       cvId: cv.id,
       type: "custom",
       icon: "Heart",
-      color: "#D5FF0A",
+      color: theme.secondary,
+      placement: "sidebar",
       layoutType: "list",
       order: 2,
       isActive: true,

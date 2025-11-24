@@ -8,10 +8,36 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Label } from "@/components/ui/label";
-import { PlusIcon, TrashIcon, SaveIcon, ArrowUpIcon, ArrowDownIcon } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PlusIcon, TrashIcon, SaveIcon, ArrowUpIcon, ArrowDownIcon, SettingsIcon } from "lucide-react";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
 import { CVDocument } from "@/components/cv/pdf-document";
+import { ColorPicker } from "@/components/admin/color-picker";
+
+type CVTheme = {
+  primary: string;
+  secondary: string;
+  header: string;
+  sidebar: string;
+  surface: string;
+  text: string;
+  muted: string;
+  border: string;
+  badge: string;
+};
+
+const defaultTheme: CVTheme = {
+  primary: "#D5FF0A",
+  secondary: "#9EF01A",
+  header: "#0B0C12",
+  sidebar: "#F4F5F7",
+  surface: "#FFFFFF",
+  text: "#0D0E11",
+  muted: "#60626A",
+  border: "#E2E4EA",
+  badge: "#0F1118",
+};
 
 const PDFViewerClient = dynamic(() => import("@react-pdf/renderer").then(mod => mod.PDFViewer), {
   ssr: false,
@@ -24,10 +50,11 @@ type Translation = {
   subtitle?: string | null;
   location?: string | null;
   description?: string | null;
+  name?: string; // For skills
 };
 
 type CVItem = {
-  id?: string; // optional for new items
+  id?: string;
   startDate?: string | null;
   endDate?: string | null;
   isCurrent: boolean;
@@ -39,29 +66,105 @@ type CVItem = {
 type CVSection = {
   id?: string;
   type: string;
+  placement?: string; // "sidebar" | "main"
+  layoutType?: string; // "list" | "timeline"
+  color?: string | null;
+  icon?: string | null;
   order: number;
   isActive: boolean;
   translations: Translation[];
   items: CVItem[];
 };
 
+type CVSkill = {
+    id?: string;
+    category: string;
+    level: number;
+    showAsBar: boolean;
+    order: number;
+    isActive: boolean;
+    translations: Translation[];
+};
+
+type CVSocialLink = {
+    id?: string;
+    platform: string;
+    url: string;
+    label?: string | null;
+    order: number;
+};
+
 type CVData = {
   id?: string;
+  photo?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  website?: string | null;
+  location?: string | null;
+  linkedInUrl?: string | null;
+  headlineFr?: string | null;
+  headlineEn?: string | null;
+  bioFr?: string | null;
+  bioEn?: string | null;
+  layout?: string;
+  accentColor?: string;
+  showPhoto?: boolean;
+  theme?: CVTheme | null;
   sections: CVSection[];
+  skills: CVSkill[];
+  socialLinks: CVSocialLink[];
 };
 
 export function CVEditor({ initialData, locale }: { initialData: CVData | null, locale: string }) {
-  const [data, setData] = useState<CVData>(initialData ?? { sections: [] });
+  const baseData: CVData = {
+    sections: [],
+    skills: [],
+    socialLinks: [],
+    accentColor: defaultTheme.primary,
+    showPhoto: true,
+    layout: "creative",
+    ...(initialData ?? {}),
+  };
+
+  const initialTheme: CVTheme = {
+    ...defaultTheme,
+    ...(baseData.theme || {}),
+    primary: baseData.accentColor || baseData.theme?.primary || defaultTheme.primary,
+  };
+
+  baseData.theme = initialTheme;
+  baseData.accentColor = initialTheme.primary;
+
+  // Merge initial data with defaults
+  const [data, setData] = useState<CVData>(baseData);
+  
   const [isSaving, setIsSaving] = useState(false);
   const [previewLocale, setPreviewLocale] = useState(locale);
 
-  // --- SECTION MANAGERS ---
+  // --- GLOBAL SETTINGS ---
+  const updateGlobal = (field: keyof CVData, value: unknown) => {
+      setData({ ...data, [field]: value });
+  };
 
+  const updateTheme = (field: keyof CVTheme, value: string) => {
+    const nextTheme: CVTheme = { ...defaultTheme, ...(data.theme || {}), [field]: value };
+    const nextData: CVData = { ...data, theme: nextTheme };
+    if (field === "primary") {
+      nextData.accentColor = value;
+    }
+    setData(nextData);
+  };
+
+  // --- SECTION MANAGERS ---
   const addSection = () => {
     const newSection: CVSection = {
       type: "custom",
+      placement: "main",
+      layoutType: "list",
       order: data.sections.length,
       isActive: true,
+      color: data.theme?.secondary || data.accentColor || defaultTheme.primary,
+      icon: "Sparkles",
       translations: [
         { locale: "fr", title: "Nouvelle Section" },
         { locale: "en", title: "New Section" }
@@ -69,6 +172,13 @@ export function CVEditor({ initialData, locale }: { initialData: CVData | null, 
       items: []
     };
     setData({ ...data, sections: [...data.sections, newSection] });
+  };
+
+  const updateSection = (index: number, field: keyof CVSection, value: unknown) => {
+      const newSections = [...data.sections];
+      // @ts-expect-error Dynamic assignment
+      newSections[index][field] = value;
+      setData({ ...data, sections: newSections });
   };
 
   const updateSectionTranslation = (index: number, loc: string, value: string) => {
@@ -96,15 +206,11 @@ export function CVEditor({ initialData, locale }: { initialData: CVData | null, 
       const newSections = [...data.sections];
       const targetIndex = direction === 'up' ? index - 1 : index + 1;
       [newSections[index], newSections[targetIndex]] = [newSections[targetIndex], newSections[index]];
-      
-      // Update orders
       newSections.forEach((s, i) => { s.order = i; });
-      
       setData({ ...data, sections: newSections });
   };
 
   // --- ITEM MANAGERS ---
-
   const addItem = (sectionIndex: number) => {
     const newSections = [...data.sections];
     const newItem: CVItem = {
@@ -123,7 +229,7 @@ export function CVEditor({ initialData, locale }: { initialData: CVData | null, 
   const updateItem = (sectionIndex: number, itemIndex: number, field: keyof CVItem, value: unknown) => {
     const newSections = [...data.sections];
     const items = [...newSections[sectionIndex].items];
-    
+    // @ts-expect-error Dynamic assignment
     items[itemIndex] = { ...items[itemIndex], [field]: value };
     newSections[sectionIndex].items = items;
     setData({ ...data, sections: newSections });
@@ -136,11 +242,11 @@ export function CVEditor({ initialData, locale }: { initialData: CVData | null, 
     const tIndex = translations.findIndex(t => t.locale === loc);
     
     if (tIndex >= 0) {
+        // @ts-expect-error Dynamic assignment
         translations[tIndex] = { ...translations[tIndex], [field]: value };
     } else {
-        // Init if missing
         const newT: Translation = { locale: loc };
-        
+        // @ts-expect-error Dynamic assignment
         newT[field] = value;
         translations.push(newT);
     }
@@ -159,15 +265,11 @@ export function CVEditor({ initialData, locale }: { initialData: CVData | null, 
   const moveItem = (sectionIndex: number, itemIndex: number, direction: 'up' | 'down') => {
       const newSections = [...data.sections];
       const items = [...newSections[sectionIndex].items];
-      
       if (direction === 'up' && itemIndex === 0) return;
       if (direction === 'down' && itemIndex === items.length - 1) return;
-
       const targetIndex = direction === 'up' ? itemIndex - 1 : itemIndex + 1;
       [items[itemIndex], items[targetIndex]] = [items[targetIndex], items[itemIndex]];
-      
       items.forEach((item, i) => { item.order = i; });
-      
       newSections[sectionIndex].items = items;
       setData({ ...data, sections: newSections });
   };
@@ -195,11 +297,77 @@ export function CVEditor({ initialData, locale }: { initialData: CVData | null, 
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 h-[calc(100vh-12rem)]">
-      {/* Editor Column - Scrollable */}
-      <div className="space-y-6 overflow-y-auto pr-2 h-full">
+      {/* Editor Column */}
+      <div className="space-y-6 overflow-y-auto pr-2 h-full pb-20">
+        
+        {/* Global Settings */}
+        <Card className="bg-black border-white/10">
+            <CardHeader><CardTitle className="text-white flex items-center gap-2"><SettingsIcon className="w-5 h-5" /> Paramètres Généraux</CardTitle></CardHeader>
+            <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label className="text-white/70">Accent principal</Label>
+                        <ColorPicker value={data.theme?.primary || data.accentColor || defaultTheme.primary} onChange={(c) => updateTheme("primary", c)} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label className="text-white/70">Accent secondaire</Label>
+                        <ColorPicker value={data.theme?.secondary || defaultTheme.secondary} onChange={(c) => updateTheme("secondary", c)} />
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label className="text-white/70">Fond du header</Label>
+                        <ColorPicker value={data.theme?.header || defaultTheme.header} onChange={(c) => updateTheme("header", c)} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label className="text-white/70">Fond de la sidebar</Label>
+                        <ColorPicker value={data.theme?.sidebar || defaultTheme.sidebar} onChange={(c) => updateTheme("sidebar", c)} />
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label className="text-white/70">Couleur du texte</Label>
+                        <ColorPicker value={data.theme?.text || defaultTheme.text} onChange={(c) => updateTheme("text", c)} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label className="text-white/70">Séparateurs / contours</Label>
+                        <ColorPicker value={data.theme?.border || defaultTheme.border} onChange={(c) => updateTheme("border", c)} />
+                    </div>
+                </div>
+                <div className="flex items-center gap-2 pt-2">
+                    <input type="checkbox" checked={data.showPhoto} onChange={(e) => updateGlobal("showPhoto", e.target.checked)} className="w-4 h-4" />
+                    <Label className="text-white">Afficher la photo</Label>
+                </div>
+                <div className="space-y-2">
+                    <Label className="text-white/70">Titre (FR)</Label>
+                    <Input value={data.headlineFr || ""} onChange={(e) => updateGlobal("headlineFr", e.target.value)} className="bg-black border-white/10 text-white" />
+                </div>
+                <div className="space-y-2">
+                    <Label className="text-white/70">Titre (EN)</Label>
+                    <Input value={data.headlineEn || ""} onChange={(e) => updateGlobal("headlineEn", e.target.value)} className="bg-black border-white/10 text-white" />
+                </div>
+                <div className="space-y-2">
+                    <Label className="text-white/70">Bio (FR)</Label>
+                    <Textarea value={data.bioFr || ""} onChange={(e) => updateGlobal("bioFr", e.target.value)} className="bg-black border-white/10 text-white h-20" />
+                </div>
+                <div className="space-y-2">
+                    <Label className="text-white/70">Bio (EN)</Label>
+                    <Textarea value={data.bioEn || ""} onChange={(e) => updateGlobal("bioEn", e.target.value)} className="bg-black border-white/10 text-white h-20" />
+                </div>
+                
+                {/* Contacts */}
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
+                    <Input placeholder="Email" value={data.email || ""} onChange={(e) => updateGlobal("email", e.target.value)} className="bg-black border-white/10 text-white" />
+                    <Input placeholder="Téléphone" value={data.phone || ""} onChange={(e) => updateGlobal("phone", e.target.value)} className="bg-black border-white/10 text-white" />
+                    <Input placeholder="Site Web" value={data.website || ""} onChange={(e) => updateGlobal("website", e.target.value)} className="bg-black border-white/10 text-white" />
+                    <Input placeholder="Localisation" value={data.location || ""} onChange={(e) => updateGlobal("location", e.target.value)} className="bg-black border-white/10 text-white" />
+                </div>
+            </CardContent>
+        </Card>
+
         <Card className="bg-black border-white/10">
           <CardHeader className="flex flex-row items-center justify-between sticky top-0 z-10 bg-black border-b border-white/10">
-            <CardTitle className="text-white">Contenu</CardTitle>
+            <CardTitle className="text-white">Sections</CardTitle>
             <Button onClick={handleSave} disabled={isSaving} className="bg-lime-300 text-black hover:bg-lime-400">
               <SaveIcon className="mr-2 h-4 w-4" />
               {isSaving ? "..." : "Sauvegarder"}
@@ -210,10 +378,13 @@ export function CVEditor({ initialData, locale }: { initialData: CVData | null, 
               {data.sections.map((section, sIndex) => (
                 <AccordionItem key={sIndex} value={`section-${sIndex}`} className="border border-white/10 rounded-lg px-4 bg-white/5">
                   <div className="flex items-center justify-between py-2">
-                    <AccordionTrigger className="hover:no-underline py-2">
-                        <span className="text-lg font-medium text-white">
-                            {getT(section.translations, "fr").title || "Nouvelle Section"}
-                        </span>
+                    <AccordionTrigger className="hover:no-underline py-2 text-white">
+                        <div className="flex items-center gap-3">
+                            <span className="text-lg font-medium">
+                                {getT(section.translations, "fr").title || "Nouvelle Section"}
+                            </span>
+                            <span className="text-xs bg-white/10 px-2 py-1 rounded text-white/50 uppercase">{section.placement || 'main'}</span>
+                        </div>
                     </AccordionTrigger>
                     <div className="flex items-center gap-1">
                         <Button size="icon" variant="ghost" onClick={() => moveSection(sIndex, 'up')} disabled={sIndex === 0}>
@@ -229,8 +400,53 @@ export function CVEditor({ initialData, locale }: { initialData: CVData | null, 
                   </div>
                   
                   <AccordionContent className="space-y-6 pb-4">
-                    {/* Section Settings */}
-                    <div className="grid grid-cols-2 gap-4 p-4 bg-black/20 rounded-md">
+                    {/* Section Config */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-black/20 rounded-md mb-4">
+                         <div className="space-y-2">
+                            <Label className="text-white/70">Placement</Label>
+                            <Select value={section.placement || "main"} onValueChange={(v) => updateSection(sIndex, "placement", v)}>
+                                <SelectTrigger className="bg-black border-white/10 text-white">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="main">Principal (Main)</SelectItem>
+                                    <SelectItem value="sidebar">Latéral (Sidebar)</SelectItem>
+                                </SelectContent>
+                            </Select>
+                         </div>
+                         <div className="space-y-2">
+                            <Label className="text-white/70">Style d'affichage</Label>
+                            <Select value={section.layoutType || "list"} onValueChange={(v) => updateSection(sIndex, "layoutType", v)}>
+                                <SelectTrigger className="bg-black border-white/10 text-white">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="list">Liste Simple</SelectItem>
+                                    <SelectItem value="timeline">Chronologie (Timeline)</SelectItem>
+                                    <SelectItem value="grid">Grille</SelectItem>
+                                </SelectContent>
+                            </Select>
+                         </div>
+                         <div className="space-y-2">
+                            <Label className="text-white/70">Couleur du bloc</Label>
+                            <ColorPicker
+                              value={section.color || data.theme?.secondary || data.accentColor || defaultTheme.primary}
+                              onChange={(v) => updateSection(sIndex, "color", v)}
+                            />
+                         </div>
+                         <div className="space-y-2 md:col-span-2 lg:col-span-3">
+                            <Label className="text-white/70">Icône (nom Lucide, optionnel)</Label>
+                            <Input
+                              value={section.icon || ""}
+                              onChange={(e) => updateSection(sIndex, "icon", e.target.value)}
+                              placeholder="Briefcase, GraduationCap..."
+                              className="bg-black border-white/10 text-white"
+                            />
+                         </div>
+                    </div>
+
+                    {/* Section Titles */}
+                    <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label className="text-white/70">Titre (FR)</Label>
                             <Input 
@@ -250,11 +466,11 @@ export function CVEditor({ initialData, locale }: { initialData: CVData | null, 
                     </div>
 
                     {/* Items List */}
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                            <h4 className="text-sm font-medium text-white/70 uppercase">Éléments</h4>
+                    <div className="space-y-4 mt-4">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                            <h4 className="text-sm font-medium text-white/70 uppercase">Éléments de contenu</h4>
                             <Button size="sm" variant="outline" onClick={() => { addItem(sIndex); }} className="border-white/20 text-white hover:bg-white/10">
-                                <PlusIcon className="mr-2 h-3 w-3" /> Ajouter
+                                <PlusIcon className="mr-2 h-3 w-3" /> Ajouter un élément
                             </Button>
                         </div>
                         
@@ -262,35 +478,43 @@ export function CVEditor({ initialData, locale }: { initialData: CVData | null, 
                             <div key={iIndex} className="p-4 border border-white/10 rounded-md bg-black/40 space-y-4">
                                 <div className="flex items-start justify-between">
                                     <div className="grid grid-cols-2 gap-2 text-xs text-white/50 w-full pr-4">
-                                        <span>Date début: <input type="date" className="bg-transparent border-none text-white" value={item.startDate ? new Date(item.startDate).toISOString().split('T')[0] : ''} onChange={(e) => { updateItem(sIndex, iIndex, 'startDate', e.target.value); }} /></span>
-                                        <span>Date fin: <input type="date" className="bg-transparent border-none text-white" value={item.endDate ? new Date(item.endDate).toISOString().split('T')[0] : ''} onChange={(e) => { updateItem(sIndex, iIndex, 'endDate', e.target.value); }} disabled={item.isCurrent} /></span>
-                                        <label className="flex items-center gap-2 cursor-pointer">
-                                            <input type="checkbox" checked={item.isCurrent} onChange={(e) => { updateItem(sIndex, iIndex, 'isCurrent', e.target.checked); }} />
-                                            En poste
-                                        </label>
+                                        <div className="space-y-1">
+                                            <span>Début</span>
+                                            <input type="date" className="w-full bg-white/5 rounded border border-white/10 text-white p-1" value={item.startDate ? new Date(item.startDate).toISOString().split('T')[0] : ''} onChange={(e) => { updateItem(sIndex, iIndex, 'startDate', e.target.value); }} />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <span>Fin</span>
+                                            <input type="date" className="w-full bg-white/5 rounded border border-white/10 text-white p-1" value={item.endDate ? new Date(item.endDate).toISOString().split('T')[0] : ''} onChange={(e) => { updateItem(sIndex, iIndex, 'endDate', e.target.value); }} disabled={item.isCurrent} />
+                                        </div>
+                                        <div className="col-span-2 pt-2">
+                                            <label className="flex items-center gap-2 cursor-pointer hover:text-white">
+                                                <input type="checkbox" checked={item.isCurrent} onChange={(e) => { updateItem(sIndex, iIndex, 'isCurrent', e.target.checked); }} className="rounded border-white/20 bg-white/5" />
+                                                En poste actuellement
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div className="flex gap-1">
+                                    <div className="flex flex-col gap-1">
                                         <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => { moveItem(sIndex, iIndex, 'up'); }} disabled={iIndex === 0}><ArrowUpIcon className="h-3 w-3" /></Button>
                                         <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => { moveItem(sIndex, iIndex, 'down'); }} disabled={iIndex === section.items.length - 1}><ArrowDownIcon className="h-3 w-3" /></Button>
                                         <Button size="icon" variant="ghost" className="h-6 w-6 text-red-400" onClick={() => { removeItem(sIndex, iIndex); }}><TrashIcon className="h-3 w-3" /></Button>
                                     </div>
                                 </div>
                                 
-                                <Tabs defaultValue="fr">
-                                    <TabsList className="bg-white/10 h-8">
-                                        <TabsTrigger value="fr" className="text-xs h-7">Français</TabsTrigger>
-                                        <TabsTrigger value="en" className="text-xs h-7">English</TabsTrigger>
+                                <Tabs defaultValue="fr" className="w-full">
+                                    <TabsList className="bg-white/10 h-8 w-full justify-start">
+                                        <TabsTrigger value="fr" className="text-xs h-7 px-4">Français</TabsTrigger>
+                                        <TabsTrigger value="en" className="text-xs h-7 px-4">English</TabsTrigger>
                                     </TabsList>
-                                    <TabsContent value="fr" className="space-y-3">
-                                        <Input placeholder="Titre / Poste" value={getT(item.translations, "fr").title ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "fr", "title", e.target.value); }} className="bg-black border-white/10 text-white h-8" />
-                                        <Input placeholder="Sous-titre / Entreprise" value={getT(item.translations, "fr").subtitle ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "fr", "subtitle", e.target.value); }} className="bg-black border-white/10 text-white h-8" />
-                                        <Input placeholder="Lieu" value={getT(item.translations, "fr").location ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "fr", "location", e.target.value); }} className="bg-black border-white/10 text-white h-8" />
+                                    <TabsContent value="fr" className="space-y-3 mt-3">
+                                        <Input placeholder="Titre / Poste" value={getT(item.translations, "fr").title ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "fr", "title", e.target.value); }} className="bg-black border-white/10 text-white h-9" />
+                                        <Input placeholder="Sous-titre / Entreprise" value={getT(item.translations, "fr").subtitle ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "fr", "subtitle", e.target.value); }} className="bg-black border-white/10 text-white h-9" />
+                                        <Input placeholder="Lieu" value={getT(item.translations, "fr").location ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "fr", "location", e.target.value); }} className="bg-black border-white/10 text-white h-9" />
                                         <Textarea placeholder="Description" value={getT(item.translations, "fr").description ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "fr", "description", e.target.value); }} className="bg-black border-white/10 text-white min-h-[80px]" />
                                     </TabsContent>
-                                    <TabsContent value="en" className="space-y-3">
-                                        <Input placeholder="Title / Position" value={getT(item.translations, "en").title ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "en", "title", e.target.value); }} className="bg-black border-white/10 text-white h-8" />
-                                        <Input placeholder="Subtitle / Company" value={getT(item.translations, "en").subtitle ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "en", "subtitle", e.target.value); }} className="bg-black border-white/10 text-white h-8" />
-                                        <Input placeholder="Location" value={getT(item.translations, "en").location ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "en", "location", e.target.value); }} className="bg-black border-white/10 text-white h-8" />
+                                    <TabsContent value="en" className="space-y-3 mt-3">
+                                        <Input placeholder="Title / Position" value={getT(item.translations, "en").title ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "en", "title", e.target.value); }} className="bg-black border-white/10 text-white h-9" />
+                                        <Input placeholder="Subtitle / Company" value={getT(item.translations, "en").subtitle ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "en", "subtitle", e.target.value); }} className="bg-black border-white/10 text-white h-9" />
+                                        <Input placeholder="Location" value={getT(item.translations, "en").location ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "en", "location", e.target.value); }} className="bg-black border-white/10 text-white h-9" />
                                         <Textarea placeholder="Description" value={getT(item.translations, "en").description ?? ""} onChange={(e) => { updateItemTranslation(sIndex, iIndex, "en", "description", e.target.value); }} className="bg-black border-white/10 text-white min-h-[80px]" />
                                     </TabsContent>
                                 </Tabs>
@@ -302,20 +526,20 @@ export function CVEditor({ initialData, locale }: { initialData: CVData | null, 
               ))}
             </Accordion>
             
-            <Button variant="outline" className="w-full border-dashed border-white/20 hover:bg-white/5 text-white py-8" onClick={addSection}>
-                <PlusIcon className="mr-2 h-4 w-4" /> Ajouter une section
+            <Button variant="outline" className="w-full border-dashed border-white/20 hover:bg-white/5 text-white py-8 mt-4" onClick={addSection}>
+                <PlusIcon className="mr-2 h-4 w-4" /> Ajouter une nouvelle section
             </Button>
           </CardContent>
         </Card>
       </div>
 
-      {/* Preview Column - Fixed/Sticky */}
-      <div className="h-full sticky top-0">
+      {/* Preview Column */}
+      <div className="h-full sticky top-0 pb-4">
         <Card className="bg-black border-white/10 h-full flex flex-col">
-          <CardHeader className="flex flex-row items-center justify-between py-4 shrink-0">
-            <CardTitle className="text-white">Prévisualisation</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between py-4 shrink-0 bg-black z-20 border-b border-white/10">
+            <CardTitle className="text-white">Prévisualisation PDF</CardTitle>
             <Tabs value={previewLocale} onValueChange={setPreviewLocale}>
-              <TabsList className="bg-white/10">
+              <TabsList className="bg-white/10 border border-white/10">
                 <TabsTrigger value="fr">FR</TabsTrigger>
                 <TabsTrigger value="en">EN</TabsTrigger>
               </TabsList>

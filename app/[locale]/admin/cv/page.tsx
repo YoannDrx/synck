@@ -36,66 +36,75 @@ export default async function CVAdminPage({
   });
 
   const transformedCV = cv
-    ? {
-        id: cv.id,
-        photo: cv.photoAsset?.path ?? null,
-        phone: cv.phone,
-        email: cv.email,
-        website: cv.website,
-        location: cv.location,
-        linkedInUrl: cv.linkedInUrl,
-        headlineFr: cv.headlineFr,
-        headlineEn: cv.headlineEn,
-        bioFr: cv.bioFr,
-        bioEn: cv.bioEn,
-        layout: cv.layout,
-        accentColor: cv.accentColor,
-        showPhoto: cv.showPhoto,
-        sections: cv.sections.map((section) => ({
-          id: section.id,
-          type: section.type,
-          order: section.order,
-          isActive: section.isActive,
-          translations: section.translations.map((t) => ({
-            locale: t.locale,
-            title: t.title,
-          })),
-          items: section.items.map((item) => ({
-            id: item.id,
-            startDate: item.startDate?.toISOString() ?? null,
-            endDate: item.endDate?.toISOString() ?? null,
-            isCurrent: item.isCurrent,
-            order: item.order,
-            isActive: item.isActive,
-            translations: item.translations.map((t) => ({
+    ? (() => {
+        const theme = (cv as { theme?: unknown })?.theme ?? null;
+        const accentColor =
+          cv.accentColor ||
+          (theme as { primary?: string } | null)?.primary ||
+          undefined;
+
+        return {
+          id: cv.id,
+          photo: cv.photoAsset?.path ?? null,
+          phone: cv.phone,
+          email: cv.email,
+          website: cv.website,
+          location: cv.location,
+          linkedInUrl: cv.linkedInUrl,
+          headlineFr: cv.headlineFr,
+          headlineEn: cv.headlineEn,
+          bioFr: cv.bioFr,
+          bioEn: cv.bioEn,
+          layout: cv.layout,
+          accentColor,
+          showPhoto: cv.showPhoto,
+          theme,
+          sections: cv.sections.map((section) => ({
+            id: section.id,
+            type: section.type,
+            order: section.order,
+            isActive: section.isActive,
+            translations: section.translations.map((t) => ({
               locale: t.locale,
               title: t.title,
-              subtitle: t.subtitle,
-              location: t.location,
-              description: t.description,
+            })),
+            items: section.items.map((item) => ({
+              id: item.id,
+              startDate: item.startDate?.toISOString() ?? null,
+              endDate: item.endDate?.toISOString() ?? null,
+              isCurrent: item.isCurrent,
+              order: item.order,
+              isActive: item.isActive,
+              translations: item.translations.map((t) => ({
+                locale: t.locale,
+                title: t.title,
+                subtitle: t.subtitle,
+                location: t.location,
+                description: t.description,
+              })),
             })),
           })),
-        })),
-        skills: cv.skills.map((skill) => ({
-          id: skill.id,
-          category: skill.category,
-          level: skill.level,
-          showAsBar: skill.showAsBar,
-          order: skill.order,
-          isActive: skill.isActive,
-          translations: skill.translations.map((t) => ({
-            locale: t.locale,
-            name: t.name,
+          skills: cv.skills.map((skill) => ({
+            id: skill.id,
+            category: skill.category,
+            level: skill.level,
+            showAsBar: skill.showAsBar,
+            order: skill.order,
+            isActive: skill.isActive,
+            translations: skill.translations.map((t) => ({
+              locale: t.locale,
+              name: t.name,
+            })),
           })),
-        })),
-        socialLinks: cv.socialLinks.map((link) => ({
-          id: link.id,
-          platform: link.platform,
-          url: link.url,
-          label: link.label,
-          order: link.order,
-        })),
-      }
+          socialLinks: cv.socialLinks.map((link) => ({
+            id: link.id,
+            platform: link.platform,
+            url: link.url,
+            label: link.label,
+            order: link.order,
+          })),
+        };
+      })()
     : null;
 
   return (

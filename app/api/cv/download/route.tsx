@@ -43,9 +43,15 @@ export async function GET(req: NextRequest) {
       return new NextResponse("CV not found", { status: 404 });
     }
 
+    const accent =
+      cv.accentColor ||
+      ((cv as unknown as { theme?: { primary?: string } }).theme?.primary ?? undefined);
+
     const transformedCV = {
       ...cv,
+      accentColor: accent,
       photo: cv.photoAsset?.path ?? null,
+      theme: (cv as { theme?: unknown }).theme ?? null,
       sections: cv.sections.map((section) => ({
         ...section,
         items: section.items.map((item) => ({
