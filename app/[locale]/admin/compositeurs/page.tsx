@@ -137,7 +137,7 @@ export default function ComposeursPage({
             updatedAt: composer.updatedAt,
             imageUrl: assetPathToUrl(composer.image?.path),
             imageBlur: composer.image?.blurDataUrl ?? null,
-            _count: composer._count ?? { contributions: 0 },
+            _count: { contributions: composer._count?.contributions ?? 0 },
           };
         });
         setComposers(mapped);

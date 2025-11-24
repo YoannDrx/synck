@@ -112,7 +112,7 @@ export default function LabelsPage({
             order: label.order ?? 0,
             isActive: Boolean(label.isActive),
             createdAt: label.createdAt,
-            _count: label._count ?? { works: 0 },
+            _count: { works: label._count?.works ?? 0 },
           };
         });
         setLabels(mapped);

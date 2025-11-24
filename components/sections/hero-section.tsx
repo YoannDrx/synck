@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent } from "react";
+import { useParams } from "next/navigation";
 import { motion, type TargetAndTransition } from "framer-motion";
 import { MetricCard } from "@/components/cards/metric-card";
 import { Button } from "@/components/ui/button";
@@ -218,6 +219,8 @@ type HeroSectionProps = {
 
 export function HeroSection({ metrics, hero }: HeroSectionProps) {
   const [glow, setGlow] = useState({ x: 45, y: 50 });
+  const params = useParams();
+  const locale = (params?.locale as string) || "fr";
 
   const handleGlow = (event: PointerEvent<HTMLElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -267,7 +270,7 @@ export function HeroSection({ metrics, hero }: HeroSectionProps) {
               <a href="#contact">{hero.ctas.contact}</a>
             </Button>
             <Button asChild variant="outline" size="lg" className="rounded-full">
-              <a href="/cv-caroline-senyk.pdf" download>
+              <a href={`/api/cv/download?lang=${locale}`} download>
                 {hero.ctas.downloadCv}
               </a>
             </Button>

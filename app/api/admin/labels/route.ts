@@ -45,7 +45,7 @@ export const GET = withAuth(async (req) => {
           some: {
             name: {
               contains: search,
-              mode: "insensitive",
+              mode: "insensitive" as const,
             },
           },
         },

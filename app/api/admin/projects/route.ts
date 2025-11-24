@@ -55,7 +55,7 @@ export const GET = withAuth(async (req) => {
           some: {
             title: {
               contains: search,
-              mode: "insensitive",
+              mode: "insensitive" as const,
             },
           },
         },
@@ -92,7 +92,7 @@ export const GET = withAuth(async (req) => {
   const status = searchParams.get("status");
   const sortBy = searchParams.get("sortBy") ?? "createdAt";
   const sortOrder =
-    (searchParams.get("sortOrder") ?? "desc") === "asc" ? "asc" : "desc";
+    (searchParams.get("sortOrder") ?? "desc") === "asc" ? ("asc" as const) : ("desc" as const);
 
   const where = {
     ...(categoryId ? { categoryId } : {}),
@@ -104,7 +104,7 @@ export const GET = withAuth(async (req) => {
             some: {
               title: {
                 contains: search,
-                mode: "insensitive",
+                mode: "insensitive" as const,
               },
             },
           },
@@ -114,25 +114,7 @@ export const GET = withAuth(async (req) => {
 
   const orderBy = [];
 
-  if (sortBy === "title") {
-    orderBy.push({
-      translations: {
-        _min: {
-          title: sortOrder,
-        },
-      },
-    });
-  } else if (sortBy === "category") {
-    orderBy.push({
-      category: {
-        translations: {
-          _min: {
-            name: sortOrder,
-          },
-        },
-      },
-    });
-  } else if (sortBy === "status") {
+  if (sortBy === "status") {
     orderBy.push({ status: sortOrder });
   } else if (sortBy === "order") {
     orderBy.push({ order: sortOrder });
@@ -141,7 +123,7 @@ export const GET = withAuth(async (req) => {
   }
 
   // Always add a stable secondary sort
-  orderBy.push({ createdAt: "desc" });
+  orderBy.push({ createdAt: "desc" as const });
 
   const [works, total] = await Promise.all([
     prisma.work.findMany({

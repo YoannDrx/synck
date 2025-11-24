@@ -22,9 +22,9 @@ export const GET = withAuth(async (req) => {
     : Math.min(Math.max(limitParam, 1), 100);
   const search = searchParams.get("search");
   const orphansOnly = searchParams.get("orphansOnly") === "true";
-  const sortBy = searchParams.get("sortBy") ?? "createdAt";
+  const _sortBy = searchParams.get("sortBy") ?? "createdAt";
   const sortOrder =
-    (searchParams.get("sortOrder") ?? "desc") === "asc" ? "asc" : "desc";
+    (searchParams.get("sortOrder") ?? "desc") === "asc" ? ("asc" as const) : ("desc" as const);
 
   const orphanFilters = {
     workImages: { none: {} },
@@ -41,15 +41,15 @@ export const GET = withAuth(async (req) => {
       ? {
           path: {
             contains: search,
-            mode: "insensitive",
+            mode: "insensitive" as const,
           },
         }
       : {}),
     ...(orphansOnly ? orphanFilters : {}),
   };
 
-  const orderBy =
-    sortBy === "size" ? { size: sortOrder } : { createdAt: sortOrder };
+  // Asset model does not have a 'size' field, fallback to createdAt
+  const orderBy = { createdAt: sortOrder };
 
   const [assets, total, orphanedCount] = await Promise.all([
     prisma.asset.findMany({

@@ -26,7 +26,7 @@ export async function createAuditLog({
         action,
         entityType,
         entityId,
-        metadata: metadata ?? null,
+        metadata,
         ipAddress,
         userAgent,
       },

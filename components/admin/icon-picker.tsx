@@ -31,8 +31,8 @@ export function IconPicker({
   const [open, setOpen] = useState(false);
 
   const IconComponent =
-    value && (Icons as Record<string, React.ElementType>)[value]
-      ? (Icons as Record<string, React.ElementType>)[value]
+    value && (Icons as unknown as Record<string, React.ElementType>)[value]
+      ? (Icons as unknown as Record<string, React.ElementType>)[value]
       : Icons.HelpCircle;
 
   return (
@@ -50,7 +50,7 @@ export function IconPicker({
           <CommandList className="max-h-64">
             <CommandGroup>
               {iconNames.slice(0, 100).map((iconName) => {
-                const Icon = (Icons as Record<string, React.ElementType>)[
+                const Icon = (Icons as unknown as Record<string, React.ElementType>)[
                   iconName
                 ];
                 return (

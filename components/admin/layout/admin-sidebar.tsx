@@ -14,6 +14,7 @@ import {
   ShieldCheckIcon,
   AlertTriangleIcon,
   DownloadIcon,
+  FileTextIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { AdminDictionary } from "@/types/dictionary";
@@ -84,6 +85,12 @@ export function AdminSidebar({
       href: `/${locale}/admin/expertises`,
       label: dict.nav.expertises,
       icon: BookOpenIcon,
+      group: "content",
+    },
+    {
+      href: `/${locale}/admin/cv`,
+      label: "CV",
+      icon: FileTextIcon,
       group: "content",
     },
     {

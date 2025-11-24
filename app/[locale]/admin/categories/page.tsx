@@ -123,7 +123,7 @@ export default function CategoriesPage({
             order: category.order ?? 0,
             isActive: Boolean(category.isActive),
             createdAt: category.createdAt,
-            _count: category._count ?? { works: 0 },
+            _count: { works: category._count?.works ?? 0 },
           };
         });
         setCategories(mapped);

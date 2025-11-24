@@ -35,6 +35,7 @@ model Asset {
   composerImages  Composer[]  @relation("ComposerImages")
   expertiseImages Expertise[] @relation("ExpertiseImages")
   expertiseCover  Expertise[] @relation("ExpertiseCover")
+  cvPhotos        CV[]        @relation("CVPhoto")
 
   @@index([path])
 }
@@ -491,4 +492,147 @@ model ExportHistory {
   @@index([userId])
   @@index([createdAt])
   @@index([status])
+}
+
+// ============================================
+// CV / RESUME
+// ============================================
+
+model CV {
+  id        String   @id @default(cuid())
+  isActive  Boolean  @default(true)
+
+  // Personal info
+  photoAssetId String?
+  photoAsset   Asset?  @relation("CVPhoto", fields: [photoAssetId], references: [id])
+  phone        String?
+  email        String?
+  website      String?
+  location     String?
+  linkedInUrl  String?
+
+  // Bio/Headline (multilingue)
+  headlineFr String? // Ex: "Gestionnaire de droits musicaux"
+  headlineEn String? // Ex: "Music Rights Manager"
+  bioFr      String? @db.Text
+  bioEn      String? @db.Text
+
+  // Layout settings
+  layout      String  @default("creative") // classic, modern, creative, sidebar
+  accentColor String  @default("#D5FF0A")
+  showPhoto   Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sections    CVSection[]
+  skills      CVSkill[]
+  socialLinks CVSocialLink[]
+
+  @@map("cv")
+}
+
+model CVSection {
+  id         String   @id @default(cuid())
+  cvId       String
+  cv         CV       @relation(fields: [cvId], references: [id], onDelete: Cascade)
+  type       String   // Ex: "experience", "education", "skills", "languages", "custom"
+  icon       String?  // Lucide icon name (ex: "Briefcase", "GraduationCap")
+  color      String?  // Hex color for section accent
+  layoutType String   @default("list") // "list", "timeline", "grid", "sidebar"
+  order      Int      @default(0)
+  isActive   Boolean  @default(true)
+
+  translations CVSectionTranslation[]
+  items        CVItem[]
+
+  @@index([cvId])
+  @@index([order])
+  @@map("cv_section")
+}
+
+model CVSectionTranslation {
+  id          String   @id @default(cuid())
+  sectionId   String
+  section     CVSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  locale      String   // 'fr' or 'en'
+  title       String   // Ex: "Expérience Professionnelle"
+  
+  @@unique([sectionId, locale])
+  @@index([locale])
+  @@map("cv_section_translation")
+}
+
+model CVItem {
+  id          String    @id @default(cuid())
+  sectionId   String
+  section     CVSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  startDate   DateTime?
+  endDate     DateTime?
+  isCurrent   Boolean   @default(false)
+  order       Int       @default(0)
+  isActive    Boolean   @default(true)
+
+  translations CVItemTranslation[]
+
+  @@index([sectionId])
+  @@index([order])
+  @@map("cv_item")
+}
+
+model CVItemTranslation {
+  id          String  @id @default(cuid())
+  itemId      String
+  item        CVItem  @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  locale      String  // 'fr' or 'en'
+  title       String  // Ex: "Project Manager"
+  subtitle    String? // Ex: "Company Name"
+  location    String? // Ex: "Paris, France"
+  description String? @db.Text
+
+  @@unique([itemId, locale])
+  @@index([locale])
+  @@map("cv_item_translation")
+}
+
+model CVSkill {
+  id        String   @id @default(cuid())
+  cvId      String
+  cv        CV       @relation(fields: [cvId], references: [id], onDelete: Cascade)
+  category  String   // "technical", "soft", "language", "software"
+  level     Int      @default(3) // 1-5 or 0-100
+  showAsBar Boolean  @default(true)
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+
+  translations CVSkillTranslation[]
+
+  @@index([cvId])
+  @@index([category])
+  @@map("cv_skill")
+}
+
+model CVSkillTranslation {
+  id      String  @id @default(cuid())
+  skillId String
+  skill   CVSkill @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  locale  String  // 'fr' or 'en'
+  name    String  // Ex: "Gestion de droits", "Copyright Management"
+
+  @@unique([skillId, locale])
+  @@index([locale])
+  @@map("cv_skill_translation")
+}
+
+model CVSocialLink {
+  id       String @id @default(cuid())
+  cvId     String
+  cv       CV     @relation(fields: [cvId], references: [id], onDelete: Cascade)
+  platform String // "linkedin", "github", "website", "email", "phone"
+  url      String
+  label    String? // Custom label (optional)
+  order    Int    @default(0)
+
+  @@index([cvId])
+  @@map("cv_social_link")
 }
