@@ -40,7 +40,6 @@ export const GET = withAuth(async (req, _context, user) => {
         bioFr: frTrans?.bio ?? "",
         bioEn: enTrans?.bio ?? "",
         imagePath: composer.image?.path ?? "",
-        externalUrl: composer.externalUrl ?? "",
         linksCount: composer.links.length,
         links: composer.links
           .map((link) => `${link.platform}: ${link.url}`)

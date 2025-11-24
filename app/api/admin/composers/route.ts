@@ -14,7 +14,6 @@ const composerLinkSchema = z.object({
 const composerSchema = z.object({
   slug: z.string().min(1),
   imageId: z.string().optional().nullable(),
-  externalUrl: z.string().optional().nullable().or(z.literal("")),
   order: z.number().int().default(0),
   isActive: z.boolean().default(true),
   translations: z.object({
@@ -94,7 +93,7 @@ export const POST = withAuthAndValidation(
       data: {
         slug: data.slug,
         imageId: data.imageId,
-        externalUrl: data.externalUrl ?? null,
+        externalUrl: null,
         order: data.order,
         isActive: data.isActive,
         translations: {

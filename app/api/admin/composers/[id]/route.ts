@@ -15,24 +15,6 @@ const composerLinkSchema = z.object({
 const composerUpdateSchema = z.object({
   slug: z.string().min(1).optional(),
   imageId: z.string().optional().nullable(),
-  externalUrl: z
-    .union([
-      z.string().refine(
-        (val) => {
-          if (!val) return true;
-          try {
-            new URL(val);
-            return true;
-          } catch {
-            return false;
-          }
-        },
-        { message: "URL invalide" },
-      ),
-      z.literal(""),
-      z.null(),
-    ])
-    .optional(),
   order: z.number().int().optional(),
   isActive: z.boolean().optional(),
   translations: z
@@ -110,7 +92,7 @@ export const PUT = withAuthAndValidation(
         data: {
           slug: data.slug,
           imageId: data.imageId,
-          externalUrl: data.externalUrl ?? null,
+          externalUrl: null,
           order: data.order,
           isActive: data.isActive,
         },

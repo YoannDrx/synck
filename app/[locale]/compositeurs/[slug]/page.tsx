@@ -82,17 +82,6 @@ export default async function CompositeurDetailPage({
       url: link.url,
     })) ?? [];
 
-  // Add externalUrl if it exists and is not already in links
-  if (
-    composer.externalUrl &&
-    !socialLinks.some((link) => link.url === composer.externalUrl)
-  ) {
-    socialLinks.push({
-      label: getPlatformName(composer.externalUrl, safeLocale),
-      url: composer.externalUrl,
-    });
-  }
-
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
       {/* Background layers */}

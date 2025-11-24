@@ -1,63 +1,73 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { ImageUploader } from "./image-uploader"
-import type { AdminDictionary } from "@/types/dictionary"
-import { fetchWithAuth } from "@/lib/fetch-with-auth"
-import type { Composer, ComposerTranslation, Asset } from "@prisma/client"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ImageUploader } from "./image-uploader";
+import type { AdminDictionary } from "@/types/dictionary";
+import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import type { Composer, ComposerTranslation, Asset } from "@prisma/client";
 
 const assetPathToUrl = (path?: string | null): string | null => {
-  if (!path) return null
-  if (path.startsWith("http://") || path.startsWith("https://")) return path
-  if (path.startsWith("public/")) return `/${path.substring("public/".length)}`
-  if (path.startsWith("/")) return path
-  return `/${path}`
-}
+  if (!path) return null;
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  if (path.startsWith("public/")) return `/${path.substring("public/".length)}`;
+  if (path.startsWith("/")) return path;
+  return `/${path}`;
+};
 
 type ComposerWithRelations = {
-  translations: ComposerTranslation[]
-  image: Asset | null
-  links?: { id: string; platform: string; url: string; label: string | null; order: number }[]
-} & Composer
+  translations: ComposerTranslation[];
+  image: Asset | null;
+  links?: {
+    id: string;
+    platform: string;
+    url: string;
+    label: string | null;
+    order: number;
+  }[];
+} & Composer;
 
 type ComposerFormProps = {
-  dictionary: AdminDictionary
-  composer?: ComposerWithRelations
-  mode: "create" | "edit"
-  locale: string
-}
+  dictionary: AdminDictionary;
+  composer?: ComposerWithRelations;
+  mode: "create" | "edit";
+  locale: string;
+};
 
 type LinkInput = {
-  id?: string
-  platform: string
-  url: string
-  label?: string | null
-  order: number
-}
+  id?: string;
+  platform: string;
+  url: string;
+  label?: string | null;
+  order: number;
+};
 
 type FormState = {
-  slug: string
-  imageId: string | null
-  imageUrl: string | null
-  externalUrl: string
-  order: number
-  isActive: boolean
+  slug: string;
+  imageId: string | null;
+  imageUrl: string | null;
+  order: number;
+  isActive: boolean;
   translations: {
-    fr: { name: string; bio: string }
-    en: { name: string; bio: string }
-  }
-  links: LinkInput[]
-}
+    fr: { name: string; bio: string };
+    en: { name: string; bio: string };
+  };
+  links: LinkInput[];
+};
 
-export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFormProps) {
-  const router = useRouter()
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+export function ComposerForm({
+  dictionary,
+  composer,
+  mode,
+  locale,
+}: ComposerFormProps) {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Get translations by locale
-  const frTranslation = composer?.translations.find((t) => t.locale === "fr")
-  const enTranslation = composer?.translations.find((t) => t.locale === "en")
+  const frTranslation = composer?.translations.find((t) => t.locale === "fr");
+  const enTranslation = composer?.translations.find((t) => t.locale === "en");
 
   const initialLinks: LinkInput[] =
     composer?.links?.map((link) => ({
@@ -66,24 +76,13 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
       url: link.url,
       label: link.label,
       order: link.order ?? 0,
-    })) ??
-    (composer?.externalUrl
-      ? [
-          {
-            platform: "website",
-            url: composer.externalUrl,
-            label: null,
-            order: 0,
-          },
-        ]
-      : [])
+    })) ?? [];
 
   // Form state
   const [formData, setFormData] = useState<FormState>({
     slug: composer?.slug ?? "",
     imageId: composer?.imageId ?? null,
     imageUrl: assetPathToUrl(composer?.image?.path),
-    externalUrl: composer?.externalUrl ?? "",
     order: composer?.order ?? 0,
     isActive: composer?.isActive ?? true,
     translations: {
@@ -97,9 +96,15 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
       },
     },
     links: initialLinks,
-  })
+  });
 
-  const handleImageUploaded = async (image: { url: string; width: number; height: number; aspectRatio: number; blurDataUrl: string }) => {
+  const handleImageUploaded = async (image: {
+    url: string;
+    width: number;
+    height: number;
+    aspectRatio: number;
+    blurDataUrl: string;
+  }) => {
     // First, create Asset in database
     const response = await fetchWithAuth("/api/admin/assets", {
       method: "POST",
@@ -111,25 +116,25 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
         aspectRatio: image.aspectRatio,
         blurDataUrl: image.blurDataUrl,
       }),
-    })
+    });
 
     if (response.ok) {
-      const asset = await response.json() as { id: string; path: string }
+      const asset = (await response.json()) as { id: string; path: string };
       setFormData((prev) => ({
         ...prev,
         imageId: asset.id,
         imageUrl: asset.path,
-      }))
+      }));
     }
-  }
+  };
 
   const handleImageRemoved = () => {
     setFormData((prev) => ({
       ...prev,
       imageId: null,
       imageUrl: null,
-    }))
-  }
+    }));
+  };
 
   const addLink = () => {
     setFormData((prev) => ({
@@ -138,40 +143,41 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
         ...prev.links,
         { platform: "website", url: "", label: "", order: prev.links.length },
       ],
-    }))
-  }
+    }));
+  };
 
-  const updateLink = (index: number, field: keyof LinkInput, value: string | number | null) => {
+  const updateLink = (
+    index: number,
+    field: keyof LinkInput,
+    value: string | number | null,
+  ) => {
     setFormData((prev) => ({
       ...prev,
       links: prev.links.map((link, i) =>
         i === index ? { ...link, [field]: value } : link,
       ),
-    }))
-  }
+    }));
+  };
 
   const removeLink = (index: number) => {
     setFormData((prev) => ({
       ...prev,
       links: prev.links.filter((_, i) => i !== index),
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-    setIsSubmitting(true)
+    e.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
 
     try {
       const url =
         mode === "create"
           ? "/api/admin/composers"
-          : `/api/admin/composers/${composer?.id ?? ''}`
+          : `/api/admin/composers/${composer?.id ?? ""}`;
 
-      const method = mode === "create" ? "POST" : "PUT"
-      const primaryLink =
-        formData.links.find((l) => l.platform === "website") ??
-        formData.links[0]
+      const method = mode === "create" ? "POST" : "PUT";
 
       const response = await fetchWithAuth(url, {
         method,
@@ -179,31 +185,37 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
         body: JSON.stringify({
           slug: formData.slug,
           imageId: formData.imageId,
-          externalUrl:
-            (primaryLink?.url ?? formData.externalUrl) || null,
+          externalUrl: null,
           order: formData.order,
           isActive: formData.isActive,
           translations: formData.translations,
           links: formData.links.filter((l) => l.url && l.platform),
         }),
-      })
+      });
 
       if (!response.ok) {
-        const data = await response.json() as { error?: string }
-        throw new Error(data.error ?? "Erreur lors de l'enregistrement")
+        const data = (await response.json()) as { error?: string };
+        throw new Error(data.error ?? "Erreur lors de l'enregistrement");
       }
 
       // Success - redirect to list
-      router.push(`/${locale}/admin/compositeurs`)
-      router.refresh()
+      router.push(`/${locale}/admin/compositeurs`);
+      router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erreur lors de l'enregistrement")
-      setIsSubmitting(false)
+      setError(
+        err instanceof Error ? err.message : "Erreur lors de l'enregistrement",
+      );
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
-    <form onSubmit={(e) => { void handleSubmit(e) }} className="space-y-8">
+    <form
+      onSubmit={(e) => {
+        void handleSubmit(e);
+      }}
+      className="space-y-8"
+    >
       {error && (
         <div className="border-2 border-red-500/50 bg-red-500/10 p-4 text-red-400">
           {error}
@@ -218,12 +230,12 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
         <input
           type="text"
           value={formData.slug}
-          onChange={(e) =>
-            { setFormData((prev) => ({
+          onChange={(e) => {
+            setFormData((prev) => ({
               ...prev,
               slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"),
-            })); }
-          }
+            }));
+          }}
           required
           placeholder="maurice-ravel"
           className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
@@ -242,15 +254,15 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
             <input
               type="text"
               value={formData.translations.fr.name}
-              onChange={(e) =>
-                { setFormData((prev) => ({
+              onChange={(e) => {
+                setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
                     fr: { ...prev.translations.fr, name: e.target.value },
                   },
-                })); }
-              }
+                }));
+              }}
               required
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
             />
@@ -262,15 +274,15 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
             </label>
             <textarea
               value={formData.translations.fr.bio}
-              onChange={(e) =>
-                { setFormData((prev) => ({
+              onChange={(e) => {
+                setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
                     fr: { ...prev.translations.fr, bio: e.target.value },
                   },
-                })); }
-              }
+                }));
+              }}
               rows={4}
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
             />
@@ -290,15 +302,15 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
             <input
               type="text"
               value={formData.translations.en.name}
-              onChange={(e) =>
-                { setFormData((prev) => ({
+              onChange={(e) => {
+                setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
                     en: { ...prev.translations.en, name: e.target.value },
                   },
-                })); }
-              }
+                }));
+              }}
               required
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
             />
@@ -310,15 +322,15 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
             </label>
             <textarea
               value={formData.translations.en.bio}
-              onChange={(e) =>
-                { setFormData((prev) => ({
+              onChange={(e) => {
+                setFormData((prev) => ({
                   ...prev,
                   translations: {
                     ...prev.translations,
                     en: { ...prev.translations.en, bio: e.target.value },
                   },
-                })); }
-              }
+                }));
+              }}
               rows={4}
               className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
             />
@@ -346,7 +358,9 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
         <ImageUploader
           dictionary={dictionary.common}
           currentImage={formData.imageUrl}
-          onImageUploaded={(img) => { void handleImageUploaded(img) }}
+          onImageUploaded={(img) => {
+            void handleImageUploaded(img);
+          }}
           onImageRemoved={handleImageRemoved}
         />
       </div>
@@ -375,11 +389,15 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
               className="grid gap-3 rounded-lg border border-white/10 bg-white/5 p-4 md:grid-cols-5"
             >
               <div className="md:col-span-1">
-                <label className="block text-xs text-white/60">Plateforme</label>
+                <label className="block text-xs text-white/60">
+                  Plateforme
+                </label>
                 <input
                   type="text"
                   value={link.platform}
-                  onChange={(e) => { updateLink(index, "platform", e.target.value); }}
+                  onChange={(e) => {
+                    updateLink(index, "platform", e.target.value);
+                  }}
                   placeholder="spotify, instagram..."
                   className="w-full bg-black border-2 border-white/20 px-3 py-2 text-white text-sm focus:border-[#d5ff0a] focus:outline-none"
                 />
@@ -389,7 +407,9 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
                 <input
                   type="url"
                   value={link.url}
-                  onChange={(e) => { updateLink(index, "url", e.target.value); }}
+                  onChange={(e) => {
+                    updateLink(index, "url", e.target.value);
+                  }}
                   placeholder="https://..."
                   required
                   className="w-full bg-black border-2 border-white/20 px-3 py-2 text-white text-sm focus:border-[#d5ff0a] focus:outline-none"
@@ -400,7 +420,9 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
                 <input
                   type="text"
                   value={link.label ?? ""}
-                  onChange={(e) => { updateLink(index, "label", e.target.value); }}
+                  onChange={(e) => {
+                    updateLink(index, "label", e.target.value);
+                  }}
                   placeholder="Officiel"
                   className="w-full bg-black border-2 border-white/20 px-3 py-2 text-white text-sm focus:border-[#d5ff0a] focus:outline-none"
                 />
@@ -411,13 +433,17 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
                   <input
                     type="number"
                     value={link.order}
-                    onChange={(e) => { updateLink(index, "order", parseInt(e.target.value) || 0); }}
+                    onChange={(e) => {
+                      updateLink(index, "order", parseInt(e.target.value) || 0);
+                    }}
                     className="w-full bg-black border-2 border-white/20 px-3 py-2 text-white text-sm focus:border-[#d5ff0a] focus:outline-none"
                   />
                 </div>
                 <button
                   type="button"
-                  onClick={() => { removeLink(index); }}
+                  onClick={() => {
+                    removeLink(index);
+                  }}
                   className="self-end rounded border border-red-500/50 px-3 py-2 text-xs text-red-400 hover:bg-red-500/10"
                 >
                   Supprimer
@@ -431,13 +457,18 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
       {/* Order & Active */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-2">Ordre d&apos;affichage</label>
+          <label className="block text-sm font-medium mb-2">
+            Ordre d&apos;affichage
+          </label>
           <input
             type="number"
             value={formData.order}
-            onChange={(e) =>
-              { setFormData((prev) => ({ ...prev, order: parseInt(e.target.value) || 0 })); }
-            }
+            onChange={(e) => {
+              setFormData((prev) => ({
+                ...prev,
+                order: parseInt(e.target.value) || 0,
+              }));
+            }}
             className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
           />
         </div>
@@ -448,9 +479,12 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
             <input
               type="checkbox"
               checked={formData.isActive}
-              onChange={(e) =>
-                { setFormData((prev) => ({ ...prev, isActive: e.target.checked })); }
-              }
+              onChange={(e) => {
+                setFormData((prev) => ({
+                  ...prev,
+                  isActive: e.target.checked,
+                }));
+              }}
               className="w-5 h-5"
             />
             <span>{dictionary.common.active}</span>
@@ -468,13 +502,15 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
           {isSubmitting
             ? dictionary.common.saving
             : mode === "create"
-            ? dictionary.common.create
-            : dictionary.common.save}
+              ? dictionary.common.create
+              : dictionary.common.save}
         </button>
 
         <button
           type="button"
-          onClick={() => { router.push(`/${locale}/admin/compositeurs`); }}
+          onClick={() => {
+            router.push(`/${locale}/admin/compositeurs`);
+          }}
           disabled={isSubmitting}
           className="border-2 border-white/20 px-6 py-3 hover:border-[#d5ff0a] transition-colors disabled:opacity-50"
         >
@@ -482,5 +518,5 @@ export function ComposerForm({ dictionary, composer, mode, locale }: ComposerFor
         </button>
       </div>
     </form>
-  )
+  );
 }
