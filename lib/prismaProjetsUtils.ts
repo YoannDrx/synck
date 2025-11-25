@@ -30,6 +30,10 @@ export type GalleryWork = {
   categorySlug: string;
   coverImage: string;
   coverImageAlt: string;
+  coverImageWidth?: number;
+  coverImageHeight?: number;
+  coverImageAspectRatio?: number;
+  coverImageBlurDataUrl?: string;
   composers: string[];
   externalUrl?: string;
   youtubeUrl?: string;
@@ -98,6 +102,10 @@ export const getProjetsFromPrisma = cache(
             assetPathToUrl(work.coverImage?.path) ?? "/images/placeholder.jpg",
           coverImageAlt:
             work.coverImage?.alt ?? translation?.title ?? work.slug,
+          coverImageWidth: work.coverImage?.width ?? undefined,
+          coverImageHeight: work.coverImage?.height ?? undefined,
+          coverImageAspectRatio: work.coverImage?.aspectRatio ?? undefined,
+          coverImageBlurDataUrl: work.coverImage?.blurDataUrl ?? undefined,
           composers: work.contributions.map((contrib) => {
             const composerTranslation = contrib.composer.translations[0];
             return composerTranslation?.name ?? "";

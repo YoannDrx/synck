@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import Masonry from "react-masonry-css";
 
 type Documentaire = {
   title: string;
@@ -11,8 +12,19 @@ type Documentaire = {
   srcLg: string;
   link: string;
   category: string;
-  productionCompanies?: string[]; // Array pour gérer les co-productions
+  productionCompanies?: string[];
   height?: string;
+  width?: number;
+  imgHeight?: number;
+  aspectRatio?: number;
+};
+
+/** Masonry breakpoints configuration */
+const masonryBreakpoints = {
+  default: 5, // lg: 5 colonnes
+  1024: 4, // md: 4 colonnes
+  768: 3, // sm: 3 colonnes
+  640: 2, // xs: 2 colonnes
 };
 
 type DocumentairesGalleryProps = {
@@ -148,23 +160,28 @@ export function DocumentairesGallery({
             <h4 className="mb-6 text-xl font-bold uppercase tracking-wide text-white/90">
               {category}
             </h4>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <Masonry
+              breakpointCols={masonryBreakpoints}
+              className="flex w-auto -ml-6"
+              columnClassName="pl-6 bg-clip-padding"
+            >
               {docs.map((doc, index) => (
                 <a
                   key={index}
                   href={doc.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative overflow-hidden border-4 border-white/10 bg-black/20 transition-all hover:border-lime-300 hover:scale-105"
+                  className="group relative mb-6 block overflow-hidden border-4 border-white/10 bg-black/20 transition-all hover:border-lime-300 hover:scale-105"
                 >
                   {doc.srcLg && (
-                    <div className="relative aspect-[5/4] overflow-hidden bg-black/40 p-4">
+                    <div className="relative overflow-hidden">
                       <Image
                         src={doc.srcLg}
                         alt={doc.title}
-                        fill
+                        width={doc.width ?? 400}
+                        height={doc.imgHeight ?? 300}
                         sizes="(max-width: 1024px) 50vw, 20vw"
-                        className="object-contain transition-transform duration-500 group-hover:scale-105 p-2"
+                        className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
                   )}
@@ -175,7 +192,7 @@ export function DocumentairesGallery({
                   </div>
                 </a>
               ))}
-            </div>
+            </Masonry>
           </div>
         ))}
 

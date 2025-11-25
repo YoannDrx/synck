@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, useInView } from "framer-motion";
+import Masonry from "react-masonry-css";
 
 import { Breadcrumb } from "@/components/breadcrumb";
 import { YouTubeModal } from "@/components/youtube-modal";
@@ -28,10 +29,22 @@ type GalleryWork = {
   categorySlug: string;
   coverImage: string;
   coverImageAlt: string;
+  coverImageWidth?: number;
+  coverImageHeight?: number;
+  coverImageAspectRatio?: number;
+  coverImageBlurDataUrl?: string;
   composers: string[];
   externalUrl?: string;
   youtubeUrl?: string;
   year?: number;
+};
+
+/** Masonry breakpoints configuration */
+const masonryBreakpoints = {
+  default: 4, // xl: 4 colonnes
+  1280: 3, // lg: 3 colonnes
+  1024: 2, // md: 2 colonnes
+  640: 1, // sm: 1 colonne
 };
 
 type Category = {
@@ -182,30 +195,21 @@ function ProjectCard({
           <span className="shrink-0">{String(index + 1).padStart(2, "0")}</span>
         </div>
 
-        {/* Image - contain to show full image without cropping */}
-        <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-black/40">
+        {/* Image - ratio naturel Masonry */}
+        <div className="relative overflow-hidden rounded-lg">
           {work.coverImage && work.coverImage !== "/images/placeholder.jpg" ? (
-            <>
-              {/* Blurred background to fill empty space */}
-              <div
-                className="absolute inset-0 scale-110 blur-xl opacity-50"
-                style={{
-                  backgroundImage: `url(${work.coverImage})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              />
-              {/* Main image - object-contain to show full image */}
-              <Image
-                src={work.coverImage}
-                alt={work.coverImageAlt}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                className="object-contain transition-transform duration-500 group-hover:scale-105"
-              />
-            </>
+            <Image
+              src={work.coverImage}
+              alt={work.coverImageAlt}
+              width={work.coverImageWidth ?? 400}
+              height={work.coverImageHeight ?? 300}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+              className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+              placeholder={work.coverImageBlurDataUrl ? "blur" : "empty"}
+              blurDataURL={work.coverImageBlurDataUrl}
+            />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
+            <div className="aspect-[4/3] flex h-full w-full items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
               <span className="text-4xl font-black uppercase text-white/20">
                 {work.title.charAt(0)}
               </span>
@@ -567,24 +571,30 @@ export function ProjetsPageClient({
         </div>
       </motion.div>
 
-      {/* Projects grid with stagger animation */}
+      {/* Projects masonry grid with stagger animation */}
       <motion.div
         ref={gridRef}
-        className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         variants={cardGridStagger}
         initial="initial"
         animate={isGridInView ? "animate" : "initial"}
       >
-        {filteredWorks.map((work, index) => (
-          <ProjectCard
-            key={work.id}
-            work={work}
-            index={index}
-            locale={locale}
-            selectedCategory={selectedCategory}
-            onClipClick={handleClipClick}
-          />
-        ))}
+        <Masonry
+          breakpointCols={masonryBreakpoints}
+          className="flex w-auto -ml-8"
+          columnClassName="pl-8 bg-clip-padding"
+        >
+          {filteredWorks.map((work, index) => (
+            <div key={work.id} className="mb-8">
+              <ProjectCard
+                work={work}
+                index={index}
+                locale={locale}
+                selectedCategory={selectedCategory}
+                onClipClick={handleClipClick}
+              />
+            </div>
+          ))}
+        </Masonry>
       </motion.div>
 
       <YouTubeModal
