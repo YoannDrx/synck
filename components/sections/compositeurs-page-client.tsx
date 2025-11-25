@@ -7,9 +7,6 @@ import { motion, useInView } from "framer-motion";
 
 import { Breadcrumb } from "@/components/breadcrumb";
 import { PageLayout } from "@/components/layout/page-layout";
-import { PageHeader } from "@/components/layout/page-header";
-import { CTASection } from "@/components/layout/cta-section";
-import { cardGridStagger } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/lib/i18n-config";
 import type { GalleryComposer } from "@/lib/prismaProjetsUtils";
@@ -31,54 +28,18 @@ type ComposersPageClientProps = {
   };
 };
 
-/** Accent colors for composer cards - matching home section */
-const composerAccents = [
-  {
-    bg: "from-[#ff6b6b] via-[#ff8e53] to-[#feca57]",
-    ring: "ring-[#ff6b6b]/50",
-    text: "text-[#ff6b6b]",
-    glow: "shadow-[0_0_40px_rgba(255,107,107,0.4)]",
-    borderColor: "rgba(255,107,107,0.7)",
-  },
-  {
-    bg: "from-[#4ecdc4] via-[#44a08d] to-[#093637]",
-    ring: "ring-[#4ecdc4]/50",
-    text: "text-[#4ecdc4]",
-    glow: "shadow-[0_0_40px_rgba(78,205,196,0.4)]",
-    borderColor: "rgba(78,205,196,0.7)",
-  },
-  {
-    bg: "from-[#a855f7] via-[#7c3aed] to-[#4f46e5]",
-    ring: "ring-[#a855f7]/50",
-    text: "text-[#a855f7]",
-    glow: "shadow-[0_0_40px_rgba(168,85,247,0.4)]",
-    borderColor: "rgba(168,85,247,0.7)",
-  },
-  {
-    bg: "from-[#d5ff0a] via-[#9eff00] to-[#00d9ff]",
-    ring: "ring-[#d5ff0a]/50",
-    text: "text-[#d5ff0a]",
-    glow: "shadow-[0_0_40px_rgba(213,255,10,0.4)]",
-    borderColor: "rgba(213,255,10,0.7)",
-  },
-  {
-    bg: "from-[#f472b6] via-[#ec4899] to-[#db2777]",
-    ring: "ring-[#f472b6]/50",
-    text: "text-[#f472b6]",
-    glow: "shadow-[0_0_40px_rgba(244,114,182,0.4)]",
-    borderColor: "rgba(244,114,182,0.7)",
-  },
-  {
-    bg: "from-[#fb923c] via-[#f97316] to-[#ea580c]",
-    ring: "ring-[#fb923c]/50",
-    text: "text-[#fb923c]",
-    glow: "shadow-[0_0_40px_rgba(251,146,60,0.4)]",
-    borderColor: "rgba(251,146,60,0.7)",
-  },
-];
+/** Accent color for artist cards - Neon lime */
+const artistAccent = {
+  border: "border-[#d5ff0a]/30",
+  borderHover: "hover:border-[#d5ff0a]",
+  glow: "hover:shadow-[0_0_25px_rgba(213,255,10,0.2)]",
+  badge: "bg-[#d5ff0a]/10 text-[#d5ff0a]",
+  ring: "ring-[#d5ff0a]/50",
+  gradient: "from-[#d5ff0a] via-[#9eff00] to-[#00d9ff]",
+};
 
-/** Animated composer card - matching home design */
-function ComposerCard({
+/** Artist card component */
+function ArtistCard({
   composer,
   index,
   locale,
@@ -90,82 +51,52 @@ function ComposerCard({
   copy: { worksPlural: string; worksSingular: string };
 }) {
   const cardRef = useRef<HTMLAnchorElement>(null);
-  const isInView = useInView(cardRef, { once: true, margin: "-50px" });
-  const accent = composerAccents[index % composerAccents.length];
+  // Trigger when card is 30px inside the viewport (just after crossing bottom edge)
+  const isInView = useInView(cardRef, {
+    once: true,
+    margin: "0px 0px -30px 0px",
+  });
 
   const renderWorksCount = (count: number) =>
     `${String(count)} ${count > 1 ? copy.worksPlural : copy.worksSingular}`;
 
+  // Stagger delay based on column position (0-5) for wave effect per row
+  const columnPosition = index % 6;
+  const staggerDelay = columnPosition * 0.03;
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40, scale: 0.95 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      initial={{ opacity: 0, y: 25 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{
-        duration: 0.6,
-        delay: index * 0.08,
+        duration: 0.4,
+        delay: staggerDelay,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="group relative h-full"
     >
       <Link
         ref={cardRef}
         data-testid="composer-card"
         href={`/${locale}/compositeurs/${composer.slug}`}
         className={cn(
-          "relative flex h-full flex-col items-center gap-3 p-4",
-          "rounded-2xl",
-          "border border-white/[0.06]",
-          "transition-all duration-500 ease-out",
-          "hover:scale-105 hover:border-white/20",
-          "hover:bg-white/[0.03]",
+          "group relative flex flex-col items-center gap-4 p-5",
+          "rounded-[20px] border-2 bg-white/[0.02]",
+          "transition-all duration-300",
+          "hover:-translate-y-1",
+          artistAccent.border,
+          artistAccent.borderHover,
+          artistAccent.glow,
         )}
-        style={
-          {
-            "--accent-border": accent.borderColor,
-          } as React.CSSProperties
-        }
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = accent.borderColor;
-          e.currentTarget.style.backgroundColor = accent.borderColor.replace(
-            "0.7",
-            "0.05",
-          );
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
-          e.currentTarget.style.backgroundColor = "transparent";
-        }}
       >
-        {/* Gradient orb behind image */}
-        <div
-          className={cn(
-            "absolute -top-4 left-1/2 -translate-x-1/2",
-            "h-32 w-32 rounded-full opacity-0 blur-3xl",
-            "transition-opacity duration-500 group-hover:opacity-60",
-            "bg-gradient-to-br",
-            accent.bg,
-          )}
-        />
-
-        {/* Avatar with animated ring */}
+        {/* Avatar */}
         <div className="relative">
-          <motion.div
-            className={cn(
-              "absolute -inset-2 rounded-full opacity-0",
-              "bg-gradient-to-br",
-              accent.bg,
-              "transition-opacity duration-300 group-hover:opacity-100",
-            )}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            style={{ filter: "blur(8px)" }}
-          />
           <div
             className={cn(
               "relative h-20 w-20 overflow-hidden rounded-full",
               "ring-2 ring-white/10",
               "transition-all duration-300",
-              "group-hover:ring-4 group-hover:ring-white/30",
+              "group-hover:ring-4",
+              `group-hover:${artistAccent.ring}`,
             )}
           >
             {composer.image ? (
@@ -174,14 +105,14 @@ function ComposerCard({
                 alt={composer.imageAlt ?? composer.name}
                 fill
                 sizes="80px"
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
               />
             ) : (
               <div
                 className={cn(
                   "flex h-full w-full items-center justify-center",
                   "bg-gradient-to-br",
-                  accent.bg,
+                  artistAccent.gradient,
                 )}
               >
                 <span className="text-2xl font-black text-white">
@@ -192,54 +123,19 @@ function ComposerCard({
           </div>
         </div>
 
-        {/* Name with gradient on hover */}
-        <h3
-          className={cn(
-            "line-clamp-1 text-center text-base font-bold tracking-tight",
-            "text-[var(--color-text-primary)]",
-            "transition-all duration-300",
-            "group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:text-transparent",
-            `group-hover:${accent.bg}`,
-          )}
-        >
+        {/* Name */}
+        <h3 className="line-clamp-1 text-center text-sm font-bold text-white/90 transition-colors group-hover:text-white">
           {composer.name}
         </h3>
 
         {/* Works count badge */}
         <div
           className={cn(
-            "rounded-full px-3 py-1",
-            "bg-white/5 text-xs font-medium",
-            "text-[var(--color-text-muted)]",
-            "transition-all duration-300",
-            `group-hover:bg-gradient-to-r group-hover:${accent.bg}`,
-            "group-hover:text-white group-hover:shadow-lg",
+            "rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider",
+            artistAccent.badge,
           )}
         >
           {renderWorksCount(composer.worksCount)}
-        </div>
-
-        {/* Floating music notes decoration */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-          {[0, 1, 2].map((i) => (
-            <motion.span
-              key={i}
-              className={cn("absolute text-lg", accent.text)}
-              initial={{ y: 100, x: 20 + i * 30, opacity: 0 }}
-              animate={{
-                y: [-20, -60],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: 2,
-                delay: i * 0.3,
-                repeat: Infinity,
-                ease: "easeOut",
-              }}
-            >
-              ♪
-            </motion.span>
-          ))}
         </div>
       </Link>
     </motion.div>
@@ -252,8 +148,11 @@ export function CompositeursPageClient({
   nav,
   copy,
 }: ComposersPageClientProps) {
-  const gridRef = useRef<HTMLDivElement>(null);
-  const isGridInView = useInView(gridRef, { once: true, margin: "-50px" });
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+
+  // Calculate total works
+  const totalWorks = composers.reduce((sum, c) => sum + c.worksCount, 0);
 
   return (
     <PageLayout orbsConfig="subtle" className="mx-auto max-w-[1600px]">
@@ -264,38 +163,92 @@ export function CompositeursPageClient({
         ]}
       />
 
-      <PageHeader
-        title={nav.composers}
-        description={copy.description}
-        highlightFirstLetter
-      />
-
-      {/* Composers Grid with stagger animation */}
-      <motion.div
-        ref={gridRef}
-        className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6"
-        variants={cardGridStagger}
-        initial="initial"
-        animate={isGridInView ? "animate" : "initial"}
+      {/* Main Bento Container */}
+      <motion.section
+        ref={sectionRef}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="rounded-[32px] border-4 border-white/10 bg-[#0a0a0f]/90 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.5)] backdrop-blur-sm sm:p-6 lg:p-8"
       >
-        {composers.map((composer, index) => (
-          <ComposerCard
-            key={composer.id}
-            composer={composer}
-            index={index}
-            locale={locale}
-            copy={copy}
-          />
-        ))}
-      </motion.div>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between"
+        >
+          <div>
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+              <span className="text-[#d5ff0a]">{nav.composers.charAt(0)}</span>
+              {nav.composers.slice(1)}
+            </h1>
+            <p className="mt-3 max-w-2xl text-base text-white/50">
+              {copy.description}
+            </p>
+          </div>
 
-      <CTASection
-        title={copy.ctaTitle}
-        description={copy.ctaDescription}
-        buttonLabel={copy.ctaButton}
-        buttonHref={`/${locale}/contact`}
-        variant="lime"
-      />
+          {/* Stats */}
+          <div className="flex gap-8">
+            <div className="text-right">
+              <p className="text-3xl font-black text-white">
+                {composers.length}
+              </p>
+              <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
+                Artistes
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-3xl font-black text-[#d5ff0a]">{totalWorks}</p>
+              <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
+                Projets
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Artists Grid */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="grid gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+        >
+          {composers.map((composer, index) => (
+            <ArtistCard
+              key={composer.id}
+              composer={composer}
+              index={index}
+              locale={locale}
+              copy={copy}
+            />
+          ))}
+        </motion.div>
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-8 rounded-[24px] border-2 border-[#d5ff0a]/40 bg-gradient-to-br from-[#d5ff0a]/10 via-[#9eff00]/5 to-transparent p-6 sm:p-8"
+        >
+          <div className="flex flex-col items-center gap-4 text-center lg:flex-row lg:justify-between lg:text-left">
+            <div>
+              <h2 className="mb-2 text-xl font-bold text-white sm:text-2xl">
+                {copy.ctaTitle}
+              </h2>
+              <p className="text-sm text-white/60">{copy.ctaDescription}</p>
+            </div>
+            <Link
+              href={`/${locale}/contact`}
+              className="inline-flex items-center gap-2 rounded-full border-2 border-[#d5ff0a] bg-[#d5ff0a] px-6 py-3 text-sm font-bold uppercase tracking-wider text-[#050505] transition-all hover:bg-transparent hover:text-[#d5ff0a]"
+            >
+              {copy.ctaButton}
+              <span>→</span>
+            </Link>
+          </div>
+        </motion.div>
+      </motion.section>
     </PageLayout>
   );
 }
