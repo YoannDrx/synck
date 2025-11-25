@@ -112,23 +112,28 @@ function ComposerCard({
         data-testid="composer-card"
         href={`/${locale}/compositeurs/${composer.slug}`}
         className={cn(
-          "relative flex h-full flex-col items-center gap-4 p-6",
-          "rounded-2xl bg-[var(--color-surface)]/80 backdrop-blur-sm",
-          "border-2 border-transparent",
+          "relative flex h-full flex-col items-center gap-3 p-4",
+          "rounded-2xl",
+          "border border-white/[0.06]",
           "transition-all duration-500 ease-out",
-          "hover:scale-105 hover:bg-[var(--color-surface)]",
+          "hover:scale-105 hover:border-white/20",
+          "hover:bg-white/[0.03]",
         )}
         style={
           {
             "--accent-border": accent.borderColor,
-            borderColor: "rgba(255,255,255,0.1)",
           } as React.CSSProperties
         }
         onMouseEnter={(e) => {
           e.currentTarget.style.borderColor = accent.borderColor;
+          e.currentTarget.style.backgroundColor = accent.borderColor.replace(
+            "0.7",
+            "0.05",
+          );
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+          e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+          e.currentTarget.style.backgroundColor = "transparent";
         }}
       >
         {/* Gradient orb behind image */}
@@ -157,10 +162,10 @@ function ComposerCard({
           />
           <div
             className={cn(
-              "relative h-24 w-24 overflow-hidden rounded-full",
-              "ring-2 ring-white/20 ring-offset-2 ring-offset-[var(--color-surface)]",
+              "relative h-20 w-20 overflow-hidden rounded-full",
+              "ring-2 ring-white/10",
               "transition-all duration-300",
-              `group-hover:ring-4 group-hover:${accent.ring}`,
+              "group-hover:ring-4 group-hover:ring-white/30",
             )}
           >
             {composer.image ? (
@@ -168,7 +173,7 @@ function ComposerCard({
                 src={composer.image}
                 alt={composer.imageAlt ?? composer.name}
                 fill
-                sizes="96px"
+                sizes="80px"
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
             ) : (
@@ -179,7 +184,7 @@ function ComposerCard({
                   accent.bg,
                 )}
               >
-                <span className="text-3xl font-black text-white">
+                <span className="text-2xl font-black text-white">
                   {composer.name.charAt(0).toUpperCase()}
                 </span>
               </div>
@@ -190,7 +195,7 @@ function ComposerCard({
         {/* Name with gradient on hover */}
         <h3
           className={cn(
-            "line-clamp-1 text-center text-lg font-bold tracking-tight",
+            "line-clamp-1 text-center text-base font-bold tracking-tight",
             "text-[var(--color-text-primary)]",
             "transition-all duration-300",
             "group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:text-transparent",
@@ -213,11 +218,6 @@ function ComposerCard({
         >
           {renderWorksCount(composer.worksCount)}
         </div>
-
-        {/* Bio preview - fixed height */}
-        <p className="min-h-[2rem] text-center text-xs text-white/50 line-clamp-2">
-          {composer.bio ?? ""}
-        </p>
 
         {/* Floating music notes decoration */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100">
@@ -273,7 +273,7 @@ export function CompositeursPageClient({
       {/* Composers Grid with stagger animation */}
       <motion.div
         ref={gridRef}
-        className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6"
         variants={cardGridStagger}
         initial="initial"
         animate={isGridInView ? "animate" : "initial"}

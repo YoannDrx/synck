@@ -108,22 +108,27 @@ function ComposerCard({
         href={`/${locale}/compositeurs/${composer.slug}`}
         className={cn(
           "relative flex flex-col items-center gap-4 p-6",
-          "rounded-2xl bg-[var(--color-surface)]/80 backdrop-blur-sm",
-          "border-2 border-transparent",
+          "rounded-2xl",
+          "border border-white/[0.06]",
           "transition-all duration-500 ease-out",
-          "hover:scale-105 hover:bg-[var(--color-surface)]",
+          "hover:scale-105 hover:border-white/20",
+          "hover:bg-white/[0.03]",
         )}
         style={
           {
             "--accent-border": accent.borderColor,
-            borderColor: "rgba(255,255,255,0.1)",
           } as React.CSSProperties
         }
         onMouseEnter={(e) => {
           e.currentTarget.style.borderColor = accent.borderColor;
+          e.currentTarget.style.backgroundColor = accent.borderColor.replace(
+            "0.7",
+            "0.05",
+          );
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+          e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+          e.currentTarget.style.backgroundColor = "transparent";
         }}
       >
         {/* Gradient orb behind image */}
@@ -153,9 +158,9 @@ function ComposerCard({
           <div
             className={cn(
               "relative h-20 w-20 overflow-hidden rounded-full",
-              "ring-2 ring-white/20 ring-offset-2 ring-offset-[var(--color-surface)]",
+              "ring-2 ring-white/10",
               "transition-all duration-300",
-              `group-hover:ring-4 group-hover:${accent.ring}`,
+              "group-hover:ring-4 group-hover:ring-white/30",
             )}
           >
             {composer.image ? (
@@ -270,7 +275,7 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
           {[1, 2, 3, 4, 5, 6].map((id) => (
             <div
               key={id}
-              className="flex flex-col items-center gap-4 rounded-2xl bg-[var(--color-surface)]/50 p-6"
+              className="flex flex-col items-center gap-4 rounded-2xl border border-white/[0.06] p-6"
             >
               <Skeleton
                 variant="shimmer"
