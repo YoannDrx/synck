@@ -318,3 +318,94 @@ export function createStaggerVariants(
     exit: {},
   };
 }
+
+/* ============================================
+   PAGE & LAYOUT ANIMATIONS (NEW)
+   ============================================ */
+
+/** Page enter transition for whole page content */
+export const pageEnter: Variants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      ease: [0.4, 0, 0.2, 1],
+    },
+  },
+};
+
+/** Orb float animation with scale pulse */
+export const orbFloat: Variants = {
+  animate: {
+    scale: [1, 1.2, 1],
+    opacity: [0.3, 0.5, 0.3],
+    transition: {
+      duration: 8,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+};
+
+/** Card grid stagger - optimized for card layouts */
+export const cardGridStagger: Variants = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
+  },
+  exit: {},
+};
+
+/** Card item animation */
+export const cardItem: Variants = {
+  initial: { opacity: 0, y: 40, scale: 0.95 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+  exit: { opacity: 0, y: 40, scale: 0.95 },
+};
+
+/** Section scroll animation values */
+export const sectionScrollConfig = {
+  /** Standard scroll progress to opacity mapping */
+  opacity: {
+    input: [0, 0.2, 0.85, 1],
+    output: [0, 1, 1, 0.5],
+  },
+  /** Standard scroll progress to Y mapping */
+  y: {
+    input: [0, 0.2, 0.85, 1],
+    output: [80, 0, 0, -20],
+  },
+  /** Standard scroll progress to scale mapping */
+  scale: {
+    input: [0, 0.2, 0.85, 1],
+    output: [0.92, 1, 1, 0.98],
+  },
+};
+
+/** Hover effects for cards */
+export const cardHoverEffect = {
+  y: -8,
+  transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+};
+
+/** Scale hover for buttons */
+export const buttonHover = {
+  scale: 1.05,
+  transition: fastTransition,
+};
+
+export const buttonTap = {
+  scale: 0.98,
+};

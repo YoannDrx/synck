@@ -20,7 +20,6 @@ export default async function ProjetsPage({ params }: ProjetsPageParams) {
         locale={safeLocale}
         nav={{ home: dictionary.nav.home, projets: dictionary.nav.projets }}
         copy={dictionary.projetsPage}
-        viewProjectLabel={dictionary.cta.viewProject}
       />
     </Suspense>
   );

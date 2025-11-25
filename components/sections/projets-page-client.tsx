@@ -2,13 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { motion, useInView } from "framer-motion";
 
 import { Breadcrumb } from "@/components/breadcrumb";
 import { YouTubeModal } from "@/components/youtube-modal";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { SortToggle } from "@/components/ui/sort-toggle";
+import { PageLayout } from "@/components/layout/page-layout";
+import { PageHeader } from "@/components/layout/page-header";
+import { CTASection } from "@/components/layout/cta-section";
+import { ParallaxCard } from "@/components/motion/parallax-card";
+import { cardGridStagger, smoothTransition } from "@/lib/animations";
+import { cn } from "@/lib/utils";
 import type { ProjetsPageDictionary } from "@/types/dictionary";
 import type { Locale } from "@/lib/i18n-config";
 
@@ -41,18 +48,281 @@ type ProjetsPageClientProps = {
     projets: string;
   };
   copy: ProjetsPageDictionary;
-  viewProjectLabel: string;
 };
+
+/** Animated filter button */
+function FilterButton({
+  label,
+  count,
+  isActive,
+  onClick,
+  index,
+}: {
+  label: string;
+  count: number;
+  isActive: boolean;
+  onClick: () => void;
+  index: number;
+}) {
+  return (
+    <motion.button
+      data-testid="category-filter"
+      onClick={onClick}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05, ...smoothTransition }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.98 }}
+      className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-colors ${
+        isActive
+          ? "border-lime-300 bg-lime-300 text-[#050505]"
+          : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
+      }`}
+    >
+      {label}{" "}
+      <span
+        className={`ml-1.5 text-xs font-normal ${isActive ? "opacity-70" : "opacity-50"}`}
+      >
+        ({count})
+      </span>
+    </motion.button>
+  );
+}
+
+/** Accent colors for project cards - matching home section */
+const projectAccents = [
+  {
+    gradient: "from-[#d5ff0a]/25 via-[#9eff00]/15 to-transparent",
+    border: "border-[#d5ff0a]/30",
+    hoverBorder: "hover:border-[#d5ff0a]/70",
+    glow: "hover:shadow-[0_0_30px_rgba(213,255,10,0.3)]",
+    accent: "#d5ff0a",
+  },
+  {
+    gradient: "from-[#ff6b6b]/25 via-[#ff8e53]/15 to-transparent",
+    border: "border-[#ff6b6b]/30",
+    hoverBorder: "hover:border-[#ff6b6b]/70",
+    glow: "hover:shadow-[0_0_30px_rgba(255,107,107,0.3)]",
+    accent: "#ff6b6b",
+  },
+  {
+    gradient: "from-[#4ecdc4]/25 via-[#45b7aa]/15 to-transparent",
+    border: "border-[#4ecdc4]/30",
+    hoverBorder: "hover:border-[#4ecdc4]/70",
+    glow: "hover:shadow-[0_0_30px_rgba(78,205,196,0.3)]",
+    accent: "#4ecdc4",
+  },
+  {
+    gradient: "from-[#a855f7]/25 via-[#7c3aed]/15 to-transparent",
+    border: "border-[#a855f7]/30",
+    hoverBorder: "hover:border-[#a855f7]/70",
+    glow: "hover:shadow-[0_0_30px_rgba(168,85,247,0.3)]",
+    accent: "#a855f7",
+  },
+  {
+    gradient: "from-[#f472b6]/25 via-[#ec4899]/15 to-transparent",
+    border: "border-[#f472b6]/30",
+    hoverBorder: "hover:border-[#f472b6]/70",
+    glow: "hover:shadow-[0_0_30px_rgba(244,114,182,0.3)]",
+    accent: "#f472b6",
+  },
+  {
+    gradient: "from-[#fb923c]/25 via-[#f97316]/15 to-transparent",
+    border: "border-[#fb923c]/30",
+    hoverBorder: "hover:border-[#fb923c]/70",
+    glow: "hover:shadow-[0_0_30px_rgba(251,146,60,0.3)]",
+    accent: "#fb923c",
+  },
+];
+
+/** Project card with animations - matching home design */
+function ProjectCard({
+  work,
+  index,
+  locale,
+  selectedCategory,
+  onClipClick,
+}: {
+  work: GalleryWork;
+  index: number;
+  locale: Locale;
+  selectedCategory: string;
+  onClipClick: (url: string, title: string) => void;
+}) {
+  const isClip = work.categorySlug === "clips" && work.youtubeUrl;
+  const accent = projectAccents[index % projectAccents.length];
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (isClip) {
+      e.preventDefault();
+      onClipClick(work.youtubeUrl ?? "", work.title);
+    }
+  };
+
+  const projectUrl =
+    selectedCategory !== "all"
+      ? `/${locale}/projets/${work.slug}?category=${selectedCategory}`
+      : `/${locale}/projets/${work.slug}`;
+
+  const CardContent = (
+    <>
+      {/* Gradient overlay */}
+      <div
+        className={cn(
+          "absolute inset-0 opacity-40 transition-opacity duration-300 group-hover:opacity-80",
+          "bg-gradient-to-br",
+          accent.gradient,
+        )}
+      />
+
+      <div className="relative z-10 flex h-full flex-col p-4">
+        {/* Header: category + index */}
+        <div className="mb-3 flex items-center justify-between text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-text-muted)]">
+          <span className="truncate">{work.category}</span>
+          <span className="shrink-0">{String(index + 1).padStart(2, "0")}</span>
+        </div>
+
+        {/* Image - contain to show full image without cropping */}
+        <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-black/40">
+          {work.coverImage && work.coverImage !== "/images/placeholder.jpg" ? (
+            <>
+              {/* Blurred background to fill empty space */}
+              <div
+                className="absolute inset-0 scale-110 blur-xl opacity-50"
+                style={{
+                  backgroundImage: `url(${work.coverImage})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+              {/* Main image - object-contain to show full image */}
+              <Image
+                src={work.coverImage}
+                alt={work.coverImageAlt}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                className="object-contain transition-transform duration-500 group-hover:scale-105"
+              />
+            </>
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
+              <span className="text-4xl font-black uppercase text-white/20">
+                {work.title.charAt(0)}
+              </span>
+            </div>
+          )}
+          {/* Play icon for clips */}
+          {isClip && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <motion.svg
+                className="h-16 w-16 text-white"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                initial={{ scale: 0.8 }}
+                whileHover={{ scale: 1.1 }}
+              >
+                <path d="M8 5v14l11-7z" />
+              </motion.svg>
+            </div>
+          )}
+        </div>
+
+        {/* Content */}
+        <div className="mt-3 flex flex-1 flex-col">
+          {/* Title */}
+          <h3 className="line-clamp-2 min-h-[2.5rem] text-base font-bold leading-tight text-[var(--color-text-primary)]">
+            {work.title}
+          </h3>
+
+          {/* Year */}
+          {work.year && (
+            <span className="mt-1 text-xs font-medium text-white/40">
+              {work.year}
+            </span>
+          )}
+
+          {/* Composers badges */}
+          {work.composers.length > 0 && (
+            <div className="mt-auto flex flex-wrap gap-1.5 pt-3">
+              {work.composers.slice(0, 2).map((composer) => (
+                <span
+                  key={composer}
+                  className="rounded-full border border-white/20 bg-white/5 px-2 py-0.5 text-[0.55rem] font-medium uppercase tracking-wider text-white/60"
+                >
+                  {composer}
+                </span>
+              ))}
+              {work.composers.length > 2 && (
+                <span className="rounded-full border border-white/20 bg-white/5 px-2 py-0.5 text-[0.55rem] font-medium text-white/60">
+                  +{work.composers.length - 2}
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* CTA on hover */}
+          <div
+            className="mt-3 flex items-center gap-1 text-xs font-semibold opacity-0 transition-all duration-300 group-hover:opacity-100"
+            style={{ color: accent.accent }}
+          >
+            {isClip ? "Voir le clip" : "Voir le projet"}
+            <span className="transform transition-transform duration-300 group-hover:translate-x-1">
+              →
+            </span>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
+  const cardClasses = cn(
+    "group relative flex h-full flex-col overflow-hidden",
+    "rounded-[var(--radius-xl)] border-2",
+    "bg-[var(--color-surface)]",
+    "transition-all duration-300",
+    "hover:-translate-y-1",
+    accent.border,
+    accent.hoverBorder,
+    accent.glow,
+  );
+
+  return (
+    <ParallaxCard
+      index={index}
+      parallaxSpeed={0.12}
+      scaleOnScroll
+      className="h-full"
+    >
+      {isClip ? (
+        <button
+          onClick={handleClick}
+          className={cn(cardClasses, "w-full text-left")}
+        >
+          {CardContent}
+        </button>
+      ) : (
+        <Link
+          data-testid="project-card"
+          href={projectUrl}
+          className={cardClasses}
+        >
+          {CardContent}
+        </Link>
+      )}
+    </ParallaxCard>
+  );
+}
 
 export function ProjetsPageClient({
   locale,
   nav,
   copy,
-  viewProjectLabel,
 }: ProjetsPageClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
+  const gridRef = useRef<HTMLDivElement>(null);
+  const isGridInView = useInView(gridRef, { once: true, margin: "-50px" });
 
   const [works, setWorks] = useState<GalleryWork[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -96,7 +366,6 @@ export function ProjetsPageClient({
     void init();
   }, [locale]);
 
-  // Sync selectedCategory and sort params with URL
   useEffect(() => {
     if (categoryParam && categoryParam !== selectedCategory) {
       setSelectedCategory(categoryParam);
@@ -119,7 +388,6 @@ export function ProjetsPageClient({
     }
   }, [categoryParam, selectedCategory, searchParams]);
 
-  // Update URL when category changes
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
     const params = new URLSearchParams(searchParams.toString());
@@ -134,7 +402,6 @@ export function ProjetsPageClient({
     router.push(newUrl, { scroll: false });
   };
 
-  // Update URL when sort changes
   const handleSortChange = (newSortBy?: string, newSortOrder?: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -151,7 +418,6 @@ export function ProjetsPageClient({
     router.push(newUrl, { scroll: false });
   };
 
-  // Get toggle options based on sortBy
   const getToggleOptions = (): [string, string] => {
     if (sortBy === "title") {
       return [copy.sortOrderTitleAsc, copy.sortOrderTitleDesc];
@@ -178,287 +444,175 @@ export function ProjetsPageClient({
       return sortOrder === "asc" ? comparison : -comparison;
     });
 
+  const handleClipClick = (url: string, title: string) => {
+    setYoutubeModal({ isOpen: true, url, title });
+  };
+
   if (loading) {
     return (
-      <div className="relative min-h-screen bg-[#050505] text-white">
-        <div className="pointer-events-none fixed inset-0 -z-10 opacity-80">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(213,255,10,0.15),transparent_55%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(255,75,162,0.1),transparent_50%)]" />
-          <div className="absolute inset-0 noise-layer" />
-        </div>
-        <main className="relative z-10 mx-auto w-full max-w-[1600px] px-4 pb-20 pt-16 sm:px-8 lg:px-16">
-          <div className="flex min-h-[60vh] items-center justify-center text-xl text-white/50">
+      <PageLayout showOrbs={false}>
+        <div className="flex min-h-[60vh] items-center justify-center text-xl text-white/50">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex flex-col items-center gap-4"
+          >
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-lime-300 border-t-transparent" />
             {copy.loading}
-          </div>
-        </main>
-      </div>
+          </motion.div>
+        </div>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-white">
-      <div className="pointer-events-none fixed inset-0 -z-10 opacity-80">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(213,255,10,0.15),transparent_55%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(255,75,162,0.1),transparent_50%)]" />
-        <div className="absolute inset-0 noise-layer" />
-      </div>
+    <PageLayout orbsConfig="subtle" className="mx-auto max-w-[1600px]">
+      <Breadcrumb
+        items={[
+          { label: nav.home, href: `/${locale}` },
+          { label: nav.projets },
+        ]}
+      />
 
-      <main className="relative z-10 mx-auto w-full max-w-[1600px] px-4 pb-16 pt-6 sm:px-8 sm:pt-16 lg:px-16">
-        <Breadcrumb
-          items={[
-            { label: nav.home, href: `/${locale}` },
-            { label: nav.projets },
-          ]}
-        />
+      <PageHeader
+        title={nav.projets}
+        description={copy.description}
+        highlightFirstLetter
+      />
 
-        <div className="mb-12">
-          <h1 className="mb-2 text-4xl font-black uppercase tracking-tighter sm:text-7xl lg:text-9xl">
-            <span className="bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
-              {nav.projets.charAt(0)}
-            </span>
-            <span>{nav.projets.slice(1)}</span>
-          </h1>
-          <p className="mb-6 max-w-2xl text-lg text-white/70">
-            {copy.description}
-          </p>
-
-          {/* Search bar and sort controls */}
-          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-4">
-            <div className="relative flex-1 max-w-md">
-              <input
-                type="text"
-                data-testid="projects-search"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
+      {/* Search and filters section */}
+      <motion.div
+        className="mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, ...smoothTransition }}
+      >
+        {/* Search bar and sort controls */}
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-4">
+          <div className="relative flex-1 max-w-md">
+            <motion.input
+              type="text"
+              data-testid="projects-search"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
+              placeholder={copy.searchPlaceholder}
+              className="w-full rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-3 text-white placeholder:text-white/50 transition-all focus:border-[var(--brand-neon)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-neon)]/50"
+              whileFocus={{ scale: 1.02 }}
+            />
+            {searchQuery && (
+              <button
+                onClick={() => {
+                  setSearchQuery("");
                 }}
-                placeholder={copy.searchPlaceholder}
-                className="w-full rounded-full border-2 border-white/30 bg-black/20 px-6 py-3 text-white placeholder:text-white/50 focus:border-lime-300 focus:outline-none focus:ring-2 focus:ring-lime-300/50"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => {
-                    setSearchQuery("");
-                  }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
-                  aria-label="Clear search"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
-            <div className="flex gap-3 flex-wrap sm:flex-nowrap">
-              <ToggleSwitch
-                options={[
-                  { value: "date" as const, label: copy.sortByDate },
-                  { value: "title" as const, label: copy.sortByTitle },
-                ]}
-                value={sortBy}
-                onChange={(newSortBy) => {
-                  handleSortChange(newSortBy, undefined);
-                }}
-              />
-
-              <SortToggle
-                options={getToggleOptions()}
-                value={sortOrder}
-                onChange={(newOrder) => {
-                  handleSortChange(undefined, newOrder);
-                }}
-              />
-            </div>
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors"
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
           </div>
 
-          <div className="flex flex-wrap gap-3">
-            <button
-              data-testid="category-filter"
-              onClick={() => {
-                handleCategoryChange("all");
+          <div className="flex gap-3 flex-wrap sm:flex-nowrap">
+            <ToggleSwitch
+              options={[
+                { value: "date" as const, label: copy.sortByDate },
+                { value: "title" as const, label: copy.sortByTitle },
+              ]}
+              value={sortBy}
+              onChange={(newSortBy) => {
+                handleSortChange(newSortBy, undefined);
               }}
-              className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
-                selectedCategory === "all"
-                  ? "border-lime-300 bg-lime-300 text-[#050505]"
-                  : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
-              }`}
-            >
-              {copy.filterAll}{" "}
-              <span
-                className={`ml-1.5 text-xs font-normal ${
-                  selectedCategory === "all" ? "opacity-70" : "opacity-50"
-                }`}
-              >
-                ({works.length})
-              </span>
-            </button>
-            {categories.map((category) => {
-              const count = works.filter(
-                (w) => w.category === category.name,
-              ).length;
-              return (
-                <button
-                  key={category.id}
-                  data-testid="category-filter"
-                  onClick={() => {
-                    handleCategoryChange(category.name);
-                  }}
-                  className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
-                    selectedCategory === category.name
-                      ? "border-lime-300 bg-lime-300 text-[#050505]"
-                      : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
-                  }`}
-                >
-                  {category.name}{" "}
-                  <span
-                    className={`ml-1.5 text-xs font-normal ${
-                      selectedCategory === category.name
-                        ? "opacity-70"
-                        : "opacity-50"
-                    }`}
-                  >
-                    ({count})
-                  </span>
-                </button>
-              );
-            })}
+            />
+
+            <SortToggle
+              options={getToggleOptions()}
+              value={sortOrder}
+              onChange={(newOrder) => {
+                handleSortChange(undefined, newOrder);
+              }}
+            />
           </div>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredWorks.map((work) => {
-            const isClip = work.categorySlug === "clips" && work.youtubeUrl;
-            const handleClick = (e: React.MouseEvent) => {
-              if (isClip) {
-                e.preventDefault();
-                setYoutubeModal({
-                  isOpen: true,
-                  url: work.youtubeUrl ?? "",
-                  title: work.title,
-                });
-              }
-            };
-
-            const CardContent = (
-              <>
-                <div className="relative overflow-hidden bg-black/20">
-                  {work.coverImage &&
-                  work.coverImage !== "/images/placeholder.jpg" ? (
-                    <div className="relative aspect-[3/4] overflow-hidden">
-                      <Image
-                        src={work.coverImage}
-                        alt={work.coverImageAlt}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                        className="object-contain transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
-                  ) : (
-                    <div className="relative aspect-[3/4] flex items-center justify-center bg-gradient-to-br from-lime-300/10 to-emerald-400/10">
-                      <span className="text-6xl font-black uppercase text-white/20 leading-none">
-                        {work.title.charAt(0)}
-                      </span>
-                    </div>
-                  )}
-                  {isClip && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
-                      <svg
-                        className="h-20 w-20 text-white"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-4">
-                  <div className="mb-2 flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase text-lime-400">
-                      {work.category}
-                    </span>
-                    {work.year && (
-                      <span className="text-xs font-bold text-white/50">
-                        {work.year}
-                      </span>
-                    )}
-                  </div>
-                  <h2 className="mb-2 text-lg font-bold uppercase leading-tight">
-                    {work.title}
-                  </h2>
-                  {work.subtitle && (
-                    <p className="mb-3 text-sm text-white/70 line-clamp-2">
-                      {work.subtitle}
-                    </p>
-                  )}
-                  {work.composers.length > 0 && (
-                    <div className="text-xs text-white/50">
-                      {work.composers.join(", ")}
-                    </div>
-                  )}
-                  <div className="mt-3 inline-block text-xs font-bold uppercase text-lime-300 opacity-0 transition-opacity group-hover:opacity-100">
-                    {isClip ? "Voir le clip →" : `${viewProjectLabel} →`}
-                  </div>
-                </div>
-              </>
-            );
-
-            const projectUrl =
-              selectedCategory !== "all"
-                ? `/${locale}/projets/${work.slug}?category=${selectedCategory}`
-                : `/${locale}/projets/${work.slug}`;
-
-            return isClip ? (
-              <button
-                key={work.id}
-                onClick={handleClick}
-                className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] text-left transition-all duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)] w-full"
-              >
-                {CardContent}
-              </button>
-            ) : (
-              <Link
-                key={work.id}
-                data-testid="project-card"
-                href={projectUrl}
-                className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] transition-all duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
-              >
-                {CardContent}
-              </Link>
+        {/* Category filters */}
+        <div className="flex flex-wrap gap-3">
+          <FilterButton
+            label={copy.filterAll}
+            count={works.length}
+            isActive={selectedCategory === "all"}
+            onClick={() => {
+              handleCategoryChange("all");
+            }}
+            index={0}
+          />
+          {categories.map((category, index) => {
+            const count = works.filter(
+              (w) => w.category === category.name,
+            ).length;
+            return (
+              <FilterButton
+                key={category.id}
+                label={category.name}
+                count={count}
+                isActive={selectedCategory === category.name}
+                onClick={() => {
+                  handleCategoryChange(category.name);
+                }}
+                index={index + 1}
+              />
             );
           })}
         </div>
+      </motion.div>
 
-        <YouTubeModal
-          youtubeUrl={youtubeModal.url}
-          title={youtubeModal.title}
-          isOpen={youtubeModal.isOpen}
-          onClose={() => {
-            setYoutubeModal({ isOpen: false, url: "", title: "" });
-          }}
-        />
+      {/* Projects grid with stagger animation */}
+      <motion.div
+        ref={gridRef}
+        className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        variants={cardGridStagger}
+        initial="initial"
+        animate={isGridInView ? "animate" : "initial"}
+      >
+        {filteredWorks.map((work, index) => (
+          <ProjectCard
+            key={work.id}
+            work={work}
+            index={index}
+            locale={locale}
+            selectedCategory={selectedCategory}
+            onClipClick={handleClipClick}
+          />
+        ))}
+      </motion.div>
 
-        {filteredWorks.length === 0 && (
-          <div className="py-20 text-center text-xl text-white/50">
-            {searchQuery ? copy.noResults : copy.empty}
-          </div>
-        )}
+      <YouTubeModal
+        youtubeUrl={youtubeModal.url}
+        title={youtubeModal.title}
+        isOpen={youtubeModal.isOpen}
+        onClose={() => {
+          setYoutubeModal({ isOpen: false, url: "", title: "" });
+        }}
+      />
 
-        <div className="mt-16">
-          <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-12">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
-              {copy.ctaTitle}
-            </h2>
-            <p className="mb-6 text-[#050505]/80">{copy.ctaDescription}</p>
-            <Link
-              href={`/${locale}/contact`}
-              className="inline-block border-4 border-[#050505] bg-[#050505] px-8 py-3 font-bold uppercase text-white transition-transform hover:scale-105"
-            >
-              {copy.ctaButton}
-            </Link>
-          </div>
-        </div>
-      </main>
-    </div>
+      {filteredWorks.length === 0 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="py-20 text-center text-xl text-white/50"
+        >
+          {searchQuery ? copy.noResults : copy.empty}
+        </motion.div>
+      )}
+
+      <CTASection
+        title={copy.ctaTitle}
+        description={copy.ctaDescription}
+        buttonLabel={copy.ctaButton}
+        buttonHref={`/${locale}/contact`}
+        variant="lime"
+      />
+    </PageLayout>
   );
 }

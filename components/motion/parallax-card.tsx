@@ -25,30 +25,35 @@ export function ParallaxCard({
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"],
+    // Start tracking earlier, end later for more visible effect
+    offset: ["start 95%", "end 5%"],
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 150,
+    damping: 20,
   });
 
-  // Stagger the parallax effect based on index
-  const yOffset = 50 + index * 10;
+  // More pronounced parallax effect based on index
+  const yOffset = 80 + index * 15;
   const y = useTransform(
     smoothProgress,
-    [0, 0.5, 1],
-    [yOffset * parallaxSpeed, 0, -yOffset * parallaxSpeed],
+    [0, 0.3, 0.7, 1],
+    [yOffset * parallaxSpeed, 0, 0, -yOffset * parallaxSpeed * 0.5],
   );
 
-  // Opacity: fade in as it enters, fade out as it leaves
-  const opacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  // Opacity: always visible, subtle fade
+  const opacity = useTransform(
+    smoothProgress,
+    [0, 0.15, 0.85, 1],
+    [0.85, 1, 1, 0.85],
+  );
 
-  // Scale effect
+  // Scale effect - more noticeable
   const scale = useTransform(
     smoothProgress,
-    [0, 0.2, 0.8, 1],
-    scaleOnScroll ? [0.95, 1, 1, 0.95] : [1, 1, 1, 1],
+    [0, 0.25, 0.75, 1],
+    scaleOnScroll ? [0.92, 1, 1, 0.96] : [1, 1, 1, 1],
   );
 
   // Subtle rotation based on position
