@@ -469,9 +469,6 @@ function DocumentaireCard({
     margin: "0px 0px -30px 0px",
   });
 
-  // Get accent based on category for badge
-  const categoryAccent = getCategoryAccent(doc.category);
-
   // Get accent based on production company for border/glow
   const primaryCompany = doc.productionCompanies?.[0] ?? "";
   const companyAccent = getCompanyAccent(primaryCompany);
@@ -536,17 +533,25 @@ function DocumentaireCard({
           {/* Production companies tags */}
           {doc.productionCompanies && doc.productionCompanies.length > 0 && (
             <div className="flex flex-wrap gap-1.5 pt-1">
-              {doc.productionCompanies.slice(0, 2).map((company) => (
-                <span
-                  key={company}
-                  className="rounded-sm bg-white/5 px-2 py-0.5 text-[9px] font-medium text-white/50"
-                >
-                  {company
-                    .split("-")
-                    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-                    .join(" ")}
-                </span>
-              ))}
+              {doc.productionCompanies.slice(0, 2).map((company) => {
+                const accent = getCompanyAccent(company);
+                const displayName = company
+                  .split("-")
+                  .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                  .join(" ");
+
+                return (
+                  <span
+                    key={company}
+                    className={cn(
+                      "rounded-sm px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider",
+                      accent.badge,
+                    )}
+                  >
+                    {displayName}
+                  </span>
+                );
+              })}
               {doc.productionCompanies.length > 2 && (
                 <span className="rounded-sm bg-white/5 px-2 py-0.5 text-[9px] font-medium text-white/50">
                   +{doc.productionCompanies.length - 2}
@@ -555,32 +560,28 @@ function DocumentaireCard({
             </div>
           )}
 
-          {/* Tags footer: Category badge + Year */}
-          <div className="mt-auto flex items-center justify-between gap-2 border-t border-white/5 pt-3">
-            <div
-              className={cn(
-                "rounded-sm px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider",
-                categoryAccent.badge,
-              )}
-            >
-              {doc.category}
-            </div>
+          <div className="mt-auto">
             {doc.year && (
-              <div className="rounded-sm bg-white/10 px-2 py-1 text-[10px] font-bold text-white/60">
-                {doc.year}
+              <div className="flex justify-end border-t border-white/5 pt-3">
+                <div className="rounded-sm bg-white/10 px-2 py-1 text-[10px] font-bold text-white/70">
+                  {doc.year}
+                </div>
               </div>
             )}
-          </div>
 
-          {/* Hover CTA */}
-          <div
-            className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider opacity-0 transition-all duration-300 group-hover:opacity-100"
-            style={{ color: companyAccent.accent }}
-          >
-            Voir le documentaire
-            <span className="transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
+            {/* Hover CTA */}
+            <div
+              className={cn(
+                "mt-2 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider opacity-0 transition-all duration-300 group-hover:opacity-100",
+                !doc.year && "mt-0",
+              )}
+              style={{ color: companyAccent.accent }}
+            >
+              Voir le documentaire
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
+            </div>
           </div>
         </div>
       </a>
