@@ -6,12 +6,12 @@ import { motion, useInView } from "framer-motion";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { ContactForm } from "@/components/contact-form";
 import { PageLayout } from "@/components/layout/page-layout";
-import { PageHeader } from "@/components/layout/page-header";
-import { smoothTransition } from "@/lib/animations";
+import { cn } from "@/lib/utils";
 import type { Locale } from "@/lib/i18n-config";
 import type { ContactFormDictionary } from "@/types/dictionary";
 
 type Service = {
+  focus: string;
   title: string;
   description: string;
 };
@@ -44,61 +44,26 @@ type ContactPageClientProps = {
   formDictionary: ContactFormDictionary;
 };
 
-/** Animated info card */
-function InfoCard({
-  children,
-  index,
-  className = "",
-}: {
-  children: React.ReactNode;
-  index: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{
-        duration: 0.5,
-        delay: 0.2 + index * 0.1,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      whileHover={{ y: -4, transition: { duration: 0.2 } }}
-      className={`rounded-[var(--radius-xl)] border-2 border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-[var(--shadow-lg)] transition-shadow hover:shadow-[var(--shadow-glow-neon-sm)] ${className}`}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-/** Animated contact info item */
-function ContactInfoItem({
-  label,
-  children,
-  index,
-}: {
-  label: string;
-  children: React.ReactNode;
-  index: number;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.3 + index * 0.1, ...smoothTransition }}
-      className="mb-6 pb-6 border-b border-[var(--color-border)]"
-    >
-      <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-lime-300">
-        {label}
-      </h4>
-      {children}
-    </motion.div>
-  );
-}
+const serviceAccents = [
+  {
+    border: "border-[#d5ff0a]/30",
+    glow: "group-hover:shadow-[0_0_25px_rgba(213,255,10,0.15)]",
+    focusColor: "text-[#d5ff0a]",
+    bg: "bg-[#d5ff0a]/5",
+  },
+  {
+    border: "border-[#4ecdc4]/30",
+    glow: "group-hover:shadow-[0_0_25px_rgba(78,205,196,0.15)]",
+    focusColor: "text-[#4ecdc4]",
+    bg: "bg-[#4ecdc4]/5",
+  },
+  {
+    border: "border-[#a855f7]/30",
+    glow: "group-hover:shadow-[0_0_25px_rgba(168,85,247,0.15)]",
+    focusColor: "text-[#a855f7]",
+    bg: "bg-[#a855f7]/5",
+  },
+];
 
 export function ContactPageClient({
   locale,
@@ -106,17 +71,11 @@ export function ContactPageClient({
   copy,
   formDictionary,
 }: ContactPageClientProps) {
-  const formRef = useRef<HTMLDivElement>(null);
-  const isFormInView = useInView(formRef, { once: true, margin: "-50px" });
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   return (
-    <PageLayout
-      orbsConfig="default"
-      glowTracking
-      glowConfig="contact"
-      glowFullscreen
-      className="mx-auto max-w-[1600px]"
-    >
+    <PageLayout orbsConfig="subtle" className="mx-auto max-w-[1600px]">
       <Breadcrumb
         items={[
           { label: nav.home, href: `/${locale}` },
@@ -124,124 +83,176 @@ export function ContactPageClient({
         ]}
       />
 
-      <PageHeader
-        title={nav.contact}
-        description={copy.heroDescription}
-        highlightFirstLetter
-      />
-
-      <div className="grid gap-8 lg:grid-cols-2">
-        {/* Left - Form */}
+      {/* Main Bento Container */}
+      <motion.section
+        ref={sectionRef}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="rounded-[32px] border-4 border-white/10 bg-[#0a0a0f]/90 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.5)] backdrop-blur-sm sm:p-6 lg:p-8"
+      >
+        {/* Header */}
         <motion.div
-          ref={formRef}
-          initial={{ opacity: 0, y: 40 }}
-          animate={isFormInView ? { opacity: 1, y: 0 } : {}}
-          transition={smoothTransition}
-          className="space-y-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-6 lg:mb-8"
         >
-          <div className="rounded-[var(--radius-xl)] border-2 border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-[var(--shadow-lg)]">
-            <h2 className="mb-2 text-2xl font-bold uppercase tracking-tight">
-              {copy.introTitle}
-            </h2>
-            <p className="text-white/60 mb-8 text-sm">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+            <span className="text-[#d5ff0a]">{nav.contact.charAt(0)}</span>
+            {nav.contact.slice(1)}
+          </h1>
+          <p className="mt-3 max-w-2xl text-base text-white/50">
+            {copy.heroDescription}
+          </p>
+        </motion.div>
+
+        {/* Bento Grid */}
+        <div className="grid gap-4 lg:grid-cols-[1fr,0.8fr] lg:gap-6">
+          {/* Left Column - Form */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="rounded-[24px] border-2 border-white/10 bg-white/[0.02] p-5 sm:p-6 lg:p-8"
+          >
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-xs uppercase tracking-[0.4em] text-white/40">
+                {copy.introTitle}
+              </h2>
+              <span className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/40">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-[#d5ff0a]" />
+                Online
+              </span>
+            </div>
+            <p className="mb-6 text-sm text-white/50">
               {copy.introDescription}
             </p>
             <ContactForm dictionary={formDictionary} />
-          </div>
-        </motion.div>
-
-        {/* Right - Info cards */}
-        <div className="space-y-6">
-          {/* Contact Info Card */}
-          <InfoCard index={0}>
-            <h3 className="mb-6 text-xl font-bold uppercase tracking-tight">
-              {copy.contactInfoTitle}
-            </h3>
-
-            <ContactInfoItem label={copy.emailLabel} index={0}>
-              <motion.a
-                href={`mailto:${copy.emailValue}`}
-                className="text-base font-bold hover:text-lime-300 transition-colors break-all"
-                whileHover={{ x: 4 }}
-              >
-                {copy.emailValue}
-              </motion.a>
-            </ContactInfoItem>
-
-            <ContactInfoItem label={copy.locationLabel} index={1}>
-              <p className="text-sm font-bold text-white">
-                {copy.locationValue}
-              </p>
-            </ContactInfoItem>
-
-            <ContactInfoItem label={copy.linkedinLabel} index={2}>
-              <motion.a
-                href={copy.linkedinUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-base font-bold hover:text-lime-300 transition-colors"
-                whileHover={{ x: 4 }}
-              >
-                <span>{copy.linkedinCta}</span>
-                <span>↗</span>
-              </motion.a>
-            </ContactInfoItem>
-
-            <div>
-              <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-lime-300">
-                {copy.availabilityLabel}
-              </h4>
-              <p className="text-sm text-white/70 leading-relaxed">
-                {copy.availabilityValue}
-              </p>
-            </div>
-          </InfoCard>
-
-          {/* Services Card */}
-          <InfoCard index={1}>
-            <h3 className="mb-6 text-xl font-bold uppercase tracking-tight">
-              {copy.servicesTitle}
-            </h3>
-            <ul className="space-y-4 text-sm text-white/70">
-              {copy.services.map((service, idx) => (
-                <motion.li
-                  key={service.title}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + idx * 0.1, ...smoothTransition }}
-                  className="flex items-start gap-3"
-                >
-                  <span className="text-lime-300 font-bold text-base">→</span>
-                  <div>
-                    <div className="font-bold text-white mb-1">
-                      {service.title}
-                    </div>
-                    <div className="text-xs text-white/50">
-                      {service.description}
-                    </div>
-                  </div>
-                </motion.li>
-              ))}
-            </ul>
-          </InfoCard>
-
-          {/* CTA Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.6, ...smoothTransition }}
-            whileHover={{ scale: 1.02 }}
-            className="rounded-[var(--radius-xl)] border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-8 text-center"
-          >
-            <h3 className="mb-2 text-2xl font-bold uppercase text-[#050505]">
-              {copy.consultationTitle}
-            </h3>
-            <p className="text-sm text-[#050505]/80">
-              {copy.consultationDescription}
-            </p>
           </motion.div>
+
+          {/* Right Column - Info & Services */}
+          <div className="flex flex-col gap-4 lg:gap-6">
+            {/* Contact Info Box */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="rounded-[24px] border-2 border-white/10 bg-white/[0.02] p-5 sm:p-6"
+            >
+              <h3 className="mb-5 text-xs uppercase tracking-[0.4em] text-white/40">
+                {copy.contactInfoTitle}
+              </h3>
+
+              <div className="space-y-4">
+                {/* Email */}
+                <div className="group">
+                  <p className="mb-1 text-[10px] uppercase tracking-[0.3em] text-[#d5ff0a]/70">
+                    {copy.emailLabel}
+                  </p>
+                  <a
+                    href={`mailto:${copy.emailValue}`}
+                    className="text-sm font-medium text-white/90 transition-colors hover:text-[#d5ff0a]"
+                  >
+                    {copy.emailValue}
+                  </a>
+                </div>
+
+                {/* Location */}
+                <div>
+                  <p className="mb-1 text-[10px] uppercase tracking-[0.3em] text-[#4ecdc4]/70">
+                    {copy.locationLabel}
+                  </p>
+                  <p className="text-sm font-medium text-white/90">
+                    {copy.locationValue}
+                  </p>
+                </div>
+
+                {/* LinkedIn */}
+                <div>
+                  <p className="mb-1 text-[10px] uppercase tracking-[0.3em] text-[#a855f7]/70">
+                    {copy.linkedinLabel}
+                  </p>
+                  <a
+                    href={copy.linkedinUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-white/90 transition-colors hover:text-[#a855f7]"
+                  >
+                    {copy.linkedinCta}
+                    <span className="text-xs">↗</span>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Services Grid - 3 mini cards */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="rounded-[24px] border-2 border-white/10 bg-white/[0.02] p-5 sm:p-6"
+            >
+              <h3 className="mb-4 text-xs uppercase tracking-[0.4em] text-white/40">
+                {copy.servicesTitle}
+              </h3>
+
+              <div className="grid gap-3 sm:grid-cols-3">
+                {copy.services.map((service, idx) => {
+                  const accent = serviceAccents[idx % serviceAccents.length];
+                  return (
+                    <motion.div
+                      key={service.title}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                      transition={{ duration: 0.4, delay: 0.5 + idx * 0.1 }}
+                      className={cn(
+                        "group rounded-[16px] border p-4 transition-all duration-300",
+                        "hover:-translate-y-0.5",
+                        accent.border,
+                        accent.bg,
+                        accent.glow,
+                      )}
+                    >
+                      <p
+                        className={cn(
+                          "mb-2 text-[9px] uppercase tracking-[0.25em]",
+                          accent.focusColor,
+                        )}
+                      >
+                        {service.focus}
+                      </p>
+                      <p className="text-xs font-semibold text-white/90">
+                        {service.title}
+                      </p>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+
+            {/* CTA Box */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              className="flex-1 rounded-[24px] border-2 border-[#d5ff0a]/40 bg-gradient-to-br from-[#d5ff0a]/10 via-[#9eff00]/5 to-transparent p-5 sm:p-6"
+            >
+              <div className="flex h-full flex-col justify-center">
+                <p className="mb-2 text-[10px] uppercase tracking-[0.3em] text-[#d5ff0a]">
+                  {copy.availabilityLabel}
+                </p>
+                <h3 className="mb-2 text-lg font-bold text-white">
+                  {copy.consultationTitle}
+                </h3>
+                <p className="text-xs text-white/60 leading-relaxed">
+                  {copy.consultationDescription}
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </div>
-      </div>
+      </motion.section>
     </PageLayout>
   );
 }

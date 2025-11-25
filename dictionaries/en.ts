@@ -357,23 +357,25 @@ const dictionary: Dictionary = {
     availabilityLabel: "Availability",
     availabilityValue:
       "I usually reply within 24-48h. Mention urgent requests in your subject line.",
-    servicesTitle: "Services",
+    servicesTitle: "Areas of expertise",
     services: [
       {
-        title: "Copyright management",
-        description: "Safeguard and track your works.",
+        focus: "Copyright & Publishing",
+        title: "Secure your works",
+        description:
+          "SACEM registration, management of assignment and publishing contracts, royalty tracking and work identification.",
       },
       {
-        title: "Music rights advisory",
-        description: "Legal and strategic expertise.",
+        focus: "Neighboring rights & Production",
+        title: "Enhance your recordings",
+        description:
+          "SCPP/SPPF management, ISRC code creation, performer contracts and equitable remuneration declarations.",
       },
       {
-        title: "Artist support",
-        description: "Full guidance for creative projects.",
-      },
-      {
-        title: "SACEM expertise",
-        description: "Filing and optimization support.",
+        focus: "Grants & Funding",
+        title: "Finance your projects",
+        description:
+          "CNM, SACEM, ADAMI, SPPF, SCPP applications - budgets and complete administrative follow-up.",
       },
     ],
     consultationTitle: "First consultation offered",

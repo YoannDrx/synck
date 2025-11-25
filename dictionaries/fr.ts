@@ -363,23 +363,25 @@ const dictionary: Dictionary = {
     availabilityLabel: "Disponibilité",
     availabilityValue:
       "Je réponds généralement sous 24-48h. Pour les demandes urgentes, précisez-le dans le sujet.",
-    servicesTitle: "Services",
+    servicesTitle: "Domaines d'expertise",
     services: [
       {
-        title: "Gestion de droits d'auteur",
-        description: "Suivi et protection de vos œuvres.",
+        focus: "Droits d'auteur & Édition",
+        title: "Sécuriser vos œuvres",
+        description:
+          "Déclaration SACEM, gestion des contrats de cession et d'édition musicale, suivi des répartitions et identification des œuvres.",
       },
       {
-        title: "Conseil en droits musicaux",
-        description: "Expertise juridique et stratégique.",
+        focus: "Droits voisins & Production",
+        title: "Valoriser vos enregistrements",
+        description:
+          "Gestion SCPP/SPPF, création de codes ISRC, contrats d'artiste-interprète et déclarations de rémunération équitable.",
       },
       {
-        title: "Accompagnement artistique",
-        description: "Support complet de vos projets musicaux.",
-      },
-      {
-        title: "Expertise SACEM",
-        description: "Gestion et optimisation des déclarations.",
+        focus: "Subventions & Financement",
+        title: "Financer vos projets",
+        description:
+          "Constitution de dossiers CNM, SACEM, ADAMI, SPPF, SCPP - budgets prévisionnels et suivi administratif complet.",
       },
     ],
     consultationTitle: "Première consultation gratuite",

@@ -224,11 +224,15 @@ export function ContactForm({ dictionary }: ContactFormProps) {
       </AnimatePresence>
 
       {/* Submit button */}
-      <motion.div variants={fieldVariants} custom={4}>
+      <motion.div
+        variants={fieldVariants}
+        custom={4}
+        className="flex justify-end"
+      >
         <motion.button
           type="submit"
           disabled={status === "loading"}
-          className="w-full rounded-[var(--radius-md)] border-4 border-lime-300 bg-lime-300 px-8 py-4 font-bold uppercase text-[#050505] transition-colors hover:bg-transparent hover:text-lime-300 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-full border-2 border-lime-300 bg-lime-300 px-6 py-3 text-sm font-bold uppercase tracking-wide text-[#050505] transition-colors hover:bg-transparent hover:text-lime-300 disabled:cursor-not-allowed disabled:opacity-50"
           whileHover={{ scale: status === "loading" ? 1 : 1.02 }}
           whileTap={{ scale: status === "loading" ? 1 : 0.98 }}
         >

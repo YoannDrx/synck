@@ -226,6 +226,7 @@ export type ContactPageDictionary = {
   availabilityValue: string;
   servicesTitle: string;
   services: {
+    focus: string;
     title: string;
     description: string;
   }[];
