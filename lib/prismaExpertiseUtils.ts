@@ -423,6 +423,7 @@ async function getDocumentairesFromPrisma(
         link: work.youtubeUrl ?? work.externalUrl ?? "",
         category: categoryTranslation?.name ?? "Documentaire",
         productionCompanies,
+        year: work.year ?? undefined,
         height: undefined,
       };
     });

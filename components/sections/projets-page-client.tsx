@@ -8,10 +8,9 @@ import { motion, useInView } from "framer-motion";
 import Masonry from "react-masonry-css";
 
 import { Breadcrumb } from "@/components/breadcrumb";
-import { YouTubeModal } from "@/components/youtube-modal";
-import { ToggleSwitch } from "@/components/ui/toggle-switch";
-import { SortToggle } from "@/components/ui/sort-toggle";
+import { GalleryShell } from "@/components/galleries/gallery-shell";
 import { PageLayout } from "@/components/layout/page-layout";
+import { YouTubeModal } from "@/components/youtube-modal";
 import { cn } from "@/lib/utils";
 import type { ProjetsPageDictionary } from "@/types/dictionary";
 import type { Locale } from "@/lib/i18n-config";
@@ -145,8 +144,6 @@ export function ProjetsPageClient({
   const router = useRouter();
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
-  const sectionRef = useRef<HTMLElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
 
   const [works, setWorks] = useState<GalleryWork[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -298,108 +295,48 @@ export function ProjetsPageClient({
         ]}
       />
 
-      {/* Main Bento Container */}
-      <motion.section
-        ref={sectionRef}
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="rounded-[32px] border-4 border-white/10 bg-[#0a0a0f]/90 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.5)] backdrop-blur-sm sm:p-6 lg:p-8"
-      >
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-6"
-        >
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-                <span className="text-[#d5ff0a]">{nav.projets.charAt(0)}</span>
-                {nav.projets.slice(1)}
-              </h1>
-              <p className="max-w-2xl text-base text-white/60">
-                {copy.description}
-              </p>
-            </div>
-
-            {/* Stats */}
-            <div className="flex gap-8">
-              <div className="text-right">
-                <p className="text-3xl font-black text-white">{works.length}</p>
-                <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
-                  {copy.statsProjects}
-                </p>
-              </div>
-              <div className="h-12 w-px bg-white/10" />
-              <div className="text-right">
-                <p className="text-3xl font-black text-lime-300">
-                  {categories.length}
-                </p>
-                <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
-                  {copy.statsCategories}
-                </p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Filters Box */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-8 border-4 border-white/10 bg-[#0a0a0e] p-4 sm:p-6"
-        >
-          {/* Search and sort */}
-          <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <div className="relative flex-1 max-w-md">
-              <input
-                type="text"
-                data-testid="projects-search"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                }}
-                placeholder={copy.searchPlaceholder}
-                className="w-full border-2 border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/30 transition-all focus:border-lime-300/50 focus:outline-none"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => {
-                    setSearchQuery("");
-                  }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-lime-300 transition-colors text-xs"
-                  aria-label="Clear search"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
-            <div className="flex gap-2 flex-wrap sm:flex-nowrap">
-              <ToggleSwitch
-                options={[
-                  { value: "date" as const, label: copy.sortByDate },
-                  { value: "title" as const, label: copy.sortByTitle },
-                ]}
-                value={sortBy}
-                onChange={(newSortBy) => {
-                  handleSortChange(newSortBy, undefined);
-                }}
-              />
-              <SortToggle
-                options={getToggleOptions()}
-                value={sortOrder}
-                onChange={(newOrder) => {
-                  handleSortChange(undefined, newOrder);
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Category filters */}
+      <GalleryShell
+        title={nav.projets}
+        description={copy.description}
+        titleVariant="large"
+        highlightColor="#d5ff0a"
+        stats={[
+          { value: works.length, label: copy.statsProjects },
+          {
+            value: categories.length,
+            label: copy.statsCategories,
+            valueClassName: "text-lime-300",
+          },
+        ]}
+        search={{
+          value: searchQuery,
+          onChange: (value) => {
+            setSearchQuery(value);
+          },
+          onClear: () => {
+            setSearchQuery("");
+          },
+          placeholder: copy.searchPlaceholder,
+          inputAccentClassName: "focus:border-lime-300/50",
+          clearButtonAccentClassName: "hover:text-lime-300",
+          inputTestId: "projects-search",
+        }}
+        sort={{
+          sortBy,
+          sortByOptions: [
+            { value: "date", label: copy.sortByDate },
+            { value: "title", label: copy.sortByTitle },
+          ],
+          onSortByChange: (value) => {
+            handleSortChange(value, undefined);
+          },
+          sortOrder,
+          sortOrderLabels: getToggleOptions(),
+          onSortOrderChange: (value) => {
+            handleSortChange(undefined, value);
+          },
+        }}
+        filters={
           <div className="flex flex-wrap gap-2">
             <button
               data-testid="category-filter"
@@ -441,64 +378,54 @@ export function ProjetsPageClient({
               );
             })}
           </div>
-        </motion.div>
-
-        {/* Projects Grid */}
-        <motion.div
-          ref={gridRef}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          {filteredWorks.length > 0 ? (
-            <Masonry
-              breakpointCols={masonryBreakpoints}
-              className="flex w-auto -ml-4"
-              columnClassName="pl-4 bg-clip-padding"
-            >
-              {filteredWorks.map((work, index) => (
-                <div key={work.id} className="mb-4">
-                  <ProjectCard
-                    work={work}
-                    locale={locale}
-                    selectedCategory={selectedCategory}
-                    onClipClick={handleClipClick}
-                    index={index}
-                  />
-                </div>
-              ))}
-            </Masonry>
-          ) : (
-            <div className="py-16 text-center">
-              <p className="text-white/40">
-                {searchQuery ? copy.noResults : copy.empty}
-              </p>
-            </div>
-          )}
-        </motion.div>
-
-        {/* CTA Box - Style Expertise */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-8 overflow-hidden rounded-[24px] border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-8 text-center sm:p-10"
-        >
-          <h3 className="mb-3 text-2xl font-bold uppercase text-[#050505] sm:text-3xl">
-            {copy.ctaTitle}
-          </h3>
-          <p className="mx-auto mb-6 max-w-xl text-sm text-[#050505]/70 sm:text-base">
-            {copy.ctaDescription}
+        }
+        hasItems={filteredWorks.length > 0}
+        emptyContent={
+          <p className="text-white/40">
+            {searchQuery ? copy.noResults : copy.empty}
           </p>
-          <Link
-            href={`/${locale}/contact`}
-            className="inline-flex items-center gap-2 border-4 border-[#050505] bg-[#050505] px-8 py-3 text-sm font-bold uppercase tracking-wide text-white transition-transform hover:scale-105"
+        }
+        afterContent={
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="mt-8 overflow-hidden rounded-[24px] border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-8 text-center sm:p-10"
           >
-            {copy.ctaButton}
-            <span>→</span>
-          </Link>
-        </motion.div>
-      </motion.section>
+            <h3 className="mb-3 text-2xl font-bold uppercase text-[#050505] sm:text-3xl">
+              {copy.ctaTitle}
+            </h3>
+            <p className="mx-auto mb-6 max-w-xl text-sm text-[#050505]/70 sm:text-base">
+              {copy.ctaDescription}
+            </p>
+            <Link
+              href={`/${locale}/contact`}
+              className="inline-flex items-center gap-2 border-4 border-[#050505] bg-[#050505] px-8 py-3 text-sm font-bold uppercase tracking-wide text-white transition-transform hover:scale-105"
+            >
+              {copy.ctaButton}
+              <span>→</span>
+            </Link>
+          </motion.div>
+        }
+      >
+        <Masonry
+          breakpointCols={masonryBreakpoints}
+          className="flex w-auto -ml-4"
+          columnClassName="pl-4 bg-clip-padding"
+        >
+          {filteredWorks.map((work, index) => (
+            <div key={work.id} className="mb-4">
+              <ProjectCard
+                work={work}
+                locale={locale}
+                selectedCategory={selectedCategory}
+                onClipClick={handleClipClick}
+                index={index}
+              />
+            </div>
+          ))}
+        </Masonry>
+      </GalleryShell>
 
       <YouTubeModal
         youtubeUrl={youtubeModal.url}

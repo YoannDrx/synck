@@ -487,11 +487,11 @@ body {
 }
 
 .animate-marquee-left {
-  animation: marquee-left 200s linear infinite;
+  animation: marquee-left 280s linear infinite;
 }
 
 .animate-marquee-right {
-  animation: marquee-right 250s linear infinite;
+  animation: marquee-right 320s linear infinite;
 }
 
 /* Pause animation on hover */

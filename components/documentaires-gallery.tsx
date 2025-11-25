@@ -5,8 +5,7 @@ import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Masonry from "react-masonry-css";
 import { cn } from "@/lib/utils";
-import { ToggleSwitch } from "@/components/ui/toggle-switch";
-import { SortToggle } from "@/components/ui/sort-toggle";
+import { GalleryShell } from "@/components/galleries/gallery-shell";
 
 type Documentaire = {
   title: string;
@@ -254,204 +253,133 @@ export function DocumentairesGallery({
   );
 
   return (
-    <motion.div
-      ref={sectionRef}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    <GalleryShell
+      title={copy.title}
+      highlightColor="#d5ff0a"
+      stats={[
+        { value: documentaires.length, label: copy.statsDocumentaries },
+        {
+          value: categories.length,
+          label: copy.statsCategories,
+          valueClassName: "text-cyan-400",
+        },
+        ...(productionCompanies.length > 0
+          ? [
+              {
+                value: productionCompanies.length,
+                label: copy.statsProducers,
+                valueClassName: "text-[#d5ff0a]",
+              },
+            ]
+          : []),
+      ]}
+      search={{
+        value: searchQuery,
+        onChange: (value) => {
+          setSearchQuery(value);
+        },
+        onClear: () => {
+          setSearchQuery("");
+        },
+        placeholder: copy.searchPlaceholder,
+        inputAccentClassName: "focus:border-[#d5ff0a]/50",
+        clearButtonAccentClassName: "hover:text-[#d5ff0a]",
+      }}
+      sort={{
+        sortBy,
+        sortByOptions: [
+          { value: "date", label: copy.sortByDate },
+          { value: "title", label: copy.sortByTitle },
+        ],
+        onSortByChange: (value) => {
+          setSortBy(value);
+        },
+        sortOrder,
+        sortOrderLabels: getToggleOptions(),
+        onSortOrderChange: (value) => {
+          setSortOrder(value);
+        },
+      }}
+      filters={
+        productionCompanies.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => {
+                setSelectedProductionCompany("all");
+              }}
+              className={cn(
+                "px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all border-2",
+                selectedProductionCompany === "all"
+                  ? "border-[#d5ff0a] bg-[#d5ff0a] text-[#050505]"
+                  : "border-white/10 bg-black/20 text-white/60 hover:border-[#d5ff0a] hover:text-[#d5ff0a]",
+              )}
+            >
+              {copy.filterAll}
+              <span className="ml-1.5 opacity-70">
+                ({documentaires.length})
+              </span>
+            </button>
+            {productionCompanies.map((company) => {
+              const count = documentaires.filter((d) =>
+                d.productionCompanies?.includes(company),
+              ).length;
+              const displayName = company
+                .split("-")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ");
+              const companyAccent = getCompanyAccent(company);
+              return (
+                <button
+                  key={company}
+                  onClick={() => {
+                    setSelectedProductionCompany(company);
+                  }}
+                  className={cn(
+                    "px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all border-2",
+                    selectedProductionCompany === company
+                      ? companyAccent.filterActive
+                      : companyAccent.filterInactive,
+                  )}
+                >
+                  {displayName}
+                  <span className="ml-1.5 opacity-70">({count})</span>
+                </button>
+              );
+            })}
+          </div>
+        ) : undefined
+      }
+      hasItems={filteredDocs.length > 0}
+      emptyContent={
+        <p className="text-white/40">
+          {searchQuery ? copy.noResults : copy.empty}
+        </p>
+      }
+      isInView={isInView}
+      containerRef={sectionRef}
       className="mt-12"
     >
-      <div className="rounded-[32px] border-4 border-white/10 bg-[#0a0a0f]/90 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.5)] backdrop-blur-sm sm:p-6 lg:p-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between"
-        >
-          <div>
-            <h3 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
-              <span className="text-[#d5ff0a]">{copy.title.charAt(0)}</span>
-              {copy.title.slice(1)}
-            </h3>
+      {Object.entries(groupedDocs).map(([category, docs]) => {
+        const catAccent = getCategoryAccent(category);
+        return (
+          <div key={category} className="mb-10 last:mb-0">
+            <h4 className="mb-6 flex items-center gap-3 text-lg font-bold uppercase tracking-wide">
+              <span style={{ color: catAccent.accent }}>{category}</span>
+              <span className="text-white/30">({docs.length})</span>
+            </h4>
+            <Masonry
+              breakpointCols={masonryBreakpoints}
+              className="flex w-auto -ml-4"
+              columnClassName="pl-4 bg-clip-padding"
+            >
+              {docs.map((doc, index) => (
+                <DocumentaireCard key={index} doc={doc} index={index} />
+              ))}
+            </Masonry>
           </div>
-
-          {/* Stats */}
-          <div className="flex gap-8">
-            <div className="text-right">
-              <p className="text-3xl font-black text-white">
-                {documentaires.length}
-              </p>
-              <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
-                {copy.statsDocumentaries}
-              </p>
-            </div>
-            <div className="h-12 w-px bg-white/10" />
-            <div className="text-right">
-              <p className="text-3xl font-black text-cyan-400">
-                {categories.length}
-              </p>
-              <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
-                {copy.statsCategories}
-              </p>
-            </div>
-            {productionCompanies.length > 0 && (
-              <>
-                <div className="h-12 w-px bg-white/10" />
-                <div className="text-right">
-                  <p className="text-3xl font-black text-[#d5ff0a]">
-                    {productionCompanies.length}
-                  </p>
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
-                    {copy.statsProducers}
-                  </p>
-                </div>
-              </>
-            )}
-          </div>
-        </motion.div>
-
-        {/* Filters Box */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-8 border-4 border-white/10 bg-[#0a0a0e] p-4 sm:p-6"
-        >
-          {/* Search and sort */}
-          <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <div className="relative flex-1 max-w-md">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                }}
-                placeholder={copy.searchPlaceholder}
-                className="w-full border-2 border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/30 transition-all focus:border-[#d5ff0a]/50 focus:outline-none"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => {
-                    setSearchQuery("");
-                  }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-[#d5ff0a] transition-colors text-xs"
-                  aria-label="Clear search"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
-            <div className="flex gap-2 flex-wrap sm:flex-nowrap">
-              <ToggleSwitch
-                options={[
-                  { value: "date" as const, label: copy.sortByDate },
-                  { value: "title" as const, label: copy.sortByTitle },
-                ]}
-                value={sortBy}
-                onChange={(newSortBy) => {
-                  setSortBy(newSortBy);
-                }}
-              />
-              <SortToggle
-                options={getToggleOptions()}
-                value={sortOrder}
-                onChange={(newOrder) => {
-                  setSortOrder(newOrder);
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Production Company Filters */}
-          {productionCompanies.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => {
-                  setSelectedProductionCompany("all");
-                }}
-                className={cn(
-                  "px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all border-2",
-                  selectedProductionCompany === "all"
-                    ? "border-[#d5ff0a] bg-[#d5ff0a] text-[#050505]"
-                    : "border-white/10 bg-black/20 text-white/60 hover:border-[#d5ff0a] hover:text-[#d5ff0a]",
-                )}
-              >
-                {copy.filterAll}
-                <span className="ml-1.5 opacity-70">
-                  ({documentaires.length})
-                </span>
-              </button>
-              {productionCompanies.map((company) => {
-                const count = documentaires.filter((d) =>
-                  d.productionCompanies?.includes(company),
-                ).length;
-                const displayName = company
-                  .split("-")
-                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(" ");
-                const companyAccent = getCompanyAccent(company);
-                return (
-                  <button
-                    key={company}
-                    onClick={() => {
-                      setSelectedProductionCompany(company);
-                    }}
-                    className={cn(
-                      "px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all border-2",
-                      selectedProductionCompany === company
-                        ? companyAccent.filterActive
-                        : companyAccent.filterInactive,
-                    )}
-                  >
-                    {displayName}
-                    <span className="ml-1.5 opacity-70">({count})</span>
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </motion.div>
-
-        {/* Documentaires Grid by Category */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          {Object.entries(groupedDocs).map(([category, docs]) => {
-            const catAccent = getCategoryAccent(category);
-            return (
-              <div key={category} className="mb-10 last:mb-0">
-                <h4 className="mb-6 flex items-center gap-3 text-lg font-bold uppercase tracking-wide">
-                  <span style={{ color: catAccent.accent }}>{category}</span>
-                  <span className="text-white/30">({docs.length})</span>
-                </h4>
-                <Masonry
-                  breakpointCols={masonryBreakpoints}
-                  className="flex w-auto -ml-4"
-                  columnClassName="pl-4 bg-clip-padding"
-                >
-                  {docs.map((doc, index) => (
-                    <DocumentaireCard key={index} doc={doc} index={index} />
-                  ))}
-                </Masonry>
-              </div>
-            );
-          })}
-        </motion.div>
-
-        {/* Empty State */}
-        {filteredDocs.length === 0 && (
-          <div className="py-16 text-center">
-            <p className="text-white/40">
-              {searchQuery ? copy.noResults : copy.empty}
-            </p>
-          </div>
-        )}
-      </div>
-    </motion.div>
+        );
+      })}
+    </GalleryShell>
   );
 }
 
@@ -472,6 +400,10 @@ function DocumentaireCard({
   // Get accent based on production company for border/glow
   const primaryCompany = doc.productionCompanies?.[0] ?? "";
   const companyAccent = getCompanyAccent(primaryCompany);
+  const primaryCompanyLabel = primaryCompany
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
 
   // Stagger delay based on column position (max 4 columns)
   const columnPosition = index % 4;
@@ -531,41 +463,28 @@ function DocumentaireCard({
           </h3>
 
           {/* Production companies tags */}
-          {doc.productionCompanies && doc.productionCompanies.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 pt-1">
-              {doc.productionCompanies.slice(0, 2).map((company) => {
-                const accent = getCompanyAccent(company);
-                const displayName = company
-                  .split("-")
-                  .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-                  .join(" ");
-
-                return (
-                  <span
-                    key={company}
-                    className={cn(
-                      "rounded-sm px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider",
-                      accent.badge,
-                    )}
-                  >
-                    {displayName}
-                  </span>
-                );
-              })}
-              {doc.productionCompanies.length > 2 && (
-                <span className="rounded-sm bg-white/5 px-2 py-0.5 text-[9px] font-medium text-white/50">
-                  +{doc.productionCompanies.length - 2}
-                </span>
-              )}
-            </div>
-          )}
+          {/* Removed inline production chips to keep only footer badge */}
 
           <div className="mt-auto">
-            {doc.year && (
-              <div className="flex justify-end border-t border-white/5 pt-3">
-                <div className="rounded-sm bg-white/10 px-2 py-1 text-[10px] font-bold text-white/70">
-                  {doc.year}
-                </div>
+            {(primaryCompany || doc.year) && (
+              <div className="flex items-center justify-between gap-2 border-t border-white/5 pt-3">
+                {primaryCompany ? (
+                  <div
+                    className={cn(
+                      "rounded-sm px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider",
+                      companyAccent.badge,
+                    )}
+                  >
+                    {primaryCompanyLabel}
+                  </div>
+                ) : (
+                  <div />
+                )}
+                {doc.year && (
+                  <div className="rounded-sm bg-white/10 px-2 py-1 text-[10px] font-bold text-white/70">
+                    {doc.year}
+                  </div>
+                )}
               </div>
             )}
 
