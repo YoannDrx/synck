@@ -176,15 +176,15 @@ const dictionary: Dictionary = {
     },
     projects: {
       eyebrow: "Projets",
-      title: "Travaux sélectionnés",
+      title: "Derniers albums",
       viewAll: "Voir tous les projets",
       cardWorkLabel: "PROJET",
       error: "Erreur lors du chargement des projets",
     },
     composers: {
-      eyebrow: "Compositeurs",
-      title: "Compositeurs du moment",
-      viewAll: "Voir tous les compositeurs",
+      eyebrow: "Artistes",
+      title: "Artistes",
+      viewAll: "Voir tous les artistes",
       worksSingular: "projet",
       worksPlural: "projets",
       error: "Erreur lors du chargement des compositeurs",
@@ -215,7 +215,7 @@ const dictionary: Dictionary = {
         },
         {
           label: "LinkedIn",
-          content: "caroline-senyk-0307752a7",
+          content: "Caroline Senyk",
           href: "https://www.linkedin.com/in/caroline-senyk-0307752a7/",
         },
         {
