@@ -73,18 +73,8 @@
         "role": "composer"
       },
       {
-        "slug": "syra",
-        "name": "Syra",
-        "role": "composer"
-      },
-      {
         "slug": "daxovii",
         "name": "DaXoVii",
-        "role": "composer"
-      },
-      {
-        "slug": "lovlion",
-        "name": "LovLion",
         "role": "composer"
       },
       {
@@ -347,11 +337,6 @@
         "slug": "ducer",
         "name": "Ducer",
         "role": "composer"
-      },
-      {
-        "slug": "ghostmaker",
-        "name": "Ghostmaker",
-        "role": "composer"
       }
     ],
     "isActive": true,
@@ -569,11 +554,6 @@
       {
         "slug": "cedric-hanak",
         "name": "Cédric Hanak",
-        "role": "composer"
-      },
-      {
-        "slug": "zoe-wolf",
-        "name": "Zoe Wolf",
         "role": "composer"
       }
     ],
@@ -851,11 +831,6 @@
     "externalUrl": "https://open.spotify.com/intl-fr/album/5p4wkVshgSA0JZmh41alTn",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/5p4wkVshgSA0JZmh41alTn",
     "composers": [
-      {
-        "slug": "marie-sophie-mallet",
-        "name": "Marie-Sophie Mallet",
-        "role": "composer"
-      },
       {
         "slug": "emile-sornin-forever-pavot",
         "name": "Emile Sornin (Forever Pavot)",
@@ -1773,8 +1748,8 @@
     "slug": "une-derniere-fois-2",
     "titleFr": "Une dernière fois",
     "titleEn": "Une dernière fois",
-    "subtitleFr": "JB Hanak, Cédric Hanak & Zoe Wolf",
-    "subtitleEn": "JB Hanak, Cédric Hanak & Zoe Wolf",
+    "subtitleFr": "JB Hanak & Cédric Hanak",
+    "subtitleEn": "JB Hanak & Cédric Hanak",
     "descriptionFr": "",
     "descriptionEn": "",
     "category": "clip",
@@ -1923,8 +1898,13 @@
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/0O7bmhtk9WczLpeQAvxItj",
     "composers": [
       {
-        "slug": "hexahedre",
-        "name": "Hexahedre",
+        "slug": "jb-hanak",
+        "name": "JB Hanak",
+        "role": "composer"
+      },
+      {
+        "slug": "cyril-laurent",
+        "name": "Cyril Laurent",
         "role": "composer"
       }
     ],
@@ -2051,8 +2031,8 @@
     "slug": "une-derniere-fois",
     "titleFr": "Une Dernière Fois",
     "titleEn": "Une Dernière Fois",
-    "subtitleFr": "JB Hanak, Cédric Hanak & Zoe Wolf",
-    "subtitleEn": "JB Hanak, Cédric Hanak & Zoe Wolf",
+    "subtitleFr": "JB Hanak & Cédric Hanak",
+    "subtitleEn": "JB Hanak & Cédric Hanak",
     "descriptionFr": "",
     "descriptionEn": "",
     "category": "vinyle",
@@ -2070,11 +2050,6 @@
       {
         "slug": "cedric-hanak",
         "name": "Cédric Hanak",
-        "role": "composer"
-      },
-      {
-        "slug": "zoe-wolf",
-        "name": "Zoe Wolf",
         "role": "composer"
       }
     ],
@@ -2151,9 +2126,7 @@
     "composers": [],
     "isActive": true,
     "order": 86,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "a-vous-de-juger",
@@ -2172,9 +2145,7 @@
     "composers": [],
     "isActive": true,
     "order": 87,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -2194,9 +2165,7 @@
     "composers": [],
     "isActive": true,
     "order": 88,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -2216,9 +2185,7 @@
     "composers": [],
     "isActive": true,
     "order": 89,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "andre-mailfert-l-epopee-d-un-faussaire-industriel",
@@ -2237,9 +2204,7 @@
     "composers": [],
     "isActive": true,
     "order": 90,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2259,9 +2224,7 @@
     "composers": [],
     "isActive": true,
     "order": 91,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -2281,9 +2244,7 @@
     "composers": [],
     "isActive": true,
     "order": 92,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -2303,9 +2264,7 @@
     "composers": [],
     "isActive": true,
     "order": 93,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -2325,9 +2284,7 @@
     "composers": [],
     "isActive": true,
     "order": 94,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "cahier-d-un-retour-en-langue-natale",
@@ -2346,9 +2303,7 @@
     "composers": [],
     "isActive": true,
     "order": 95,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -2368,9 +2323,7 @@
     "composers": [],
     "isActive": true,
     "order": 96,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "cancre",
@@ -2389,9 +2342,7 @@
     "composers": [],
     "isActive": true,
     "order": 97,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2017
   },
   {
@@ -2411,9 +2362,7 @@
     "composers": [],
     "isActive": true,
     "order": 98,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2433,9 +2382,7 @@
     "composers": [],
     "isActive": true,
     "order": 99,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -2455,9 +2402,7 @@
     "composers": [],
     "isActive": true,
     "order": 100,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2477,9 +2422,7 @@
     "composers": [],
     "isActive": true,
     "order": 101,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "comment-te-dire-adieu",
@@ -2498,9 +2441,7 @@
     "composers": [],
     "isActive": true,
     "order": 102,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -2520,9 +2461,7 @@
     "composers": [],
     "isActive": true,
     "order": 103,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2542,9 +2481,7 @@
     "composers": [],
     "isActive": true,
     "order": 104,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "d-iam-a-jul-marseille-capitale-rap",
@@ -2563,9 +2500,7 @@
     "composers": [],
     "isActive": true,
     "order": 105,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2585,9 +2520,7 @@
     "composers": [],
     "isActive": true,
     "order": 106,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "de-gerard-a-monsieur-collomb-itineraire-d-un-baron",
@@ -2606,9 +2539,7 @@
     "composers": [],
     "isActive": true,
     "order": 107,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "deconfines-en-re",
@@ -2627,9 +2558,7 @@
     "composers": [],
     "isActive": true,
     "order": 108,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2649,9 +2578,7 @@
     "composers": [],
     "isActive": true,
     "order": 109,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2671,9 +2598,7 @@
     "composers": [],
     "isActive": true,
     "order": 110,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -2693,9 +2618,7 @@
     "composers": [],
     "isActive": true,
     "order": 111,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "des-joujoux-par-milliers",
@@ -2714,9 +2637,7 @@
     "composers": [],
     "isActive": true,
     "order": 112,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -2736,9 +2657,7 @@
     "composers": [],
     "isActive": true,
     "order": 113,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "en-jachere",
@@ -2757,9 +2676,7 @@
     "composers": [],
     "isActive": true,
     "order": 114,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -2779,9 +2696,7 @@
     "composers": [],
     "isActive": true,
     "order": 115,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "eric-piolle-le-pelerin-vert",
@@ -2800,9 +2715,7 @@
     "composers": [],
     "isActive": true,
     "order": 116,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "filles-de-harkis",
@@ -2821,9 +2734,7 @@
     "composers": [],
     "isActive": true,
     "order": 117,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -2843,9 +2754,7 @@
     "composers": [],
     "isActive": true,
     "order": 118,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -2865,9 +2774,7 @@
     "composers": [],
     "isActive": true,
     "order": 119,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -2887,9 +2794,7 @@
     "composers": [],
     "isActive": true,
     "order": 120,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -2909,9 +2814,7 @@
     "composers": [],
     "isActive": true,
     "order": 121,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "generation-grand-bleu",
@@ -2930,9 +2833,7 @@
     "composers": [],
     "isActive": true,
     "order": 122,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2017
   },
   {
@@ -2952,9 +2853,7 @@
     "composers": [],
     "isActive": true,
     "order": 123,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "georges-perec-l-homme-qui-ne-voulait-pas-oublier",
@@ -2973,9 +2872,7 @@
     "composers": [],
     "isActive": true,
     "order": 124,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -2995,9 +2892,7 @@
     "composers": [],
     "isActive": true,
     "order": 125,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -3017,9 +2912,7 @@
     "composers": [],
     "isActive": true,
     "order": 126,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "guyane-vivre-avec-le-jaguar",
@@ -3038,9 +2931,7 @@
     "composers": [],
     "isActive": true,
     "order": 127,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -3060,9 +2951,7 @@
     "composers": [],
     "isActive": true,
     "order": 128,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -3082,9 +2971,7 @@
     "composers": [],
     "isActive": true,
     "order": 129,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3104,9 +2991,7 @@
     "composers": [],
     "isActive": true,
     "order": 130,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3126,9 +3011,7 @@
     "composers": [],
     "isActive": true,
     "order": 131,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -3148,9 +3031,7 @@
     "composers": [],
     "isActive": true,
     "order": 132,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "jean-jouzel-dans-la-bataille-du-siecle",
@@ -3169,9 +3050,7 @@
     "composers": [],
     "isActive": true,
     "order": 133,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -3191,9 +3070,7 @@
     "composers": [],
     "isActive": true,
     "order": 134,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3213,9 +3090,7 @@
     "composers": [],
     "isActive": true,
     "order": 135,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3235,9 +3110,7 @@
     "composers": [],
     "isActive": true,
     "order": 136,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "karim-contre-mittal",
@@ -3256,9 +3129,7 @@
     "composers": [],
     "isActive": true,
     "order": 137,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -3278,9 +3149,7 @@
     "composers": [],
     "isActive": true,
     "order": 138,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3300,9 +3169,7 @@
     "composers": [],
     "isActive": true,
     "order": 139,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -3322,9 +3189,7 @@
     "composers": [],
     "isActive": true,
     "order": 140,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "la-brousse-une-terre-en-partage",
@@ -3343,9 +3208,7 @@
     "composers": [],
     "isActive": true,
     "order": 141,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "la-clinique-de-l-amour",
@@ -3364,9 +3227,7 @@
     "composers": [],
     "isActive": true,
     "order": 142,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -3386,9 +3247,7 @@
     "composers": [],
     "isActive": true,
     "order": 143,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3408,9 +3267,7 @@
     "composers": [],
     "isActive": true,
     "order": 144,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -3430,9 +3287,7 @@
     "composers": [],
     "isActive": true,
     "order": 145,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2018
   },
   {
@@ -3452,9 +3307,7 @@
     "composers": [],
     "isActive": true,
     "order": 146,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -3474,9 +3327,7 @@
     "composers": [],
     "isActive": true,
     "order": 147,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -3496,9 +3347,7 @@
     "composers": [],
     "isActive": true,
     "order": 148,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "la-tragique-histoire-de-fritz-l-elephant",
@@ -3517,9 +3366,7 @@
     "composers": [],
     "isActive": true,
     "order": 149,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -3539,9 +3386,7 @@
     "composers": [],
     "isActive": true,
     "order": 150,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -3561,9 +3406,7 @@
     "composers": [],
     "isActive": true,
     "order": 151,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -3583,9 +3426,7 @@
     "composers": [],
     "isActive": true,
     "order": 152,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -3605,9 +3446,7 @@
     "composers": [],
     "isActive": true,
     "order": 153,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -3627,9 +3466,7 @@
     "composers": [],
     "isActive": true,
     "order": 154,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "le-temps-d-aimer",
@@ -3648,9 +3485,7 @@
     "composers": [],
     "isActive": true,
     "order": 155,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -3670,9 +3505,7 @@
     "composers": [],
     "isActive": true,
     "order": 156,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "le-troisieme-reich-naura-pas-la-bombe",
@@ -3691,9 +3524,7 @@
     "composers": [],
     "isActive": true,
     "order": 157,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "leila-une-vie-a-miquelon",
@@ -3712,10 +3543,7 @@
     "composers": [],
     "isActive": true,
     "order": 158,
-    "productionCompanySlug": [
-      "13prods",
-      "via-decouvertes-films"
-    ],
+    "productionCompanySlug": ["13prods", "via-decouvertes-films"],
     "year": 2023
   },
   {
@@ -3735,10 +3563,7 @@
     "composers": [],
     "isActive": true,
     "order": 159,
-    "productionCompanySlug": [
-      "13prods",
-      "via-decouvertes-films"
-    ],
+    "productionCompanySlug": ["13prods", "via-decouvertes-films"],
     "year": 2021
   },
   {
@@ -3758,9 +3583,7 @@
     "composers": [],
     "isActive": true,
     "order": 160,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -3780,9 +3603,7 @@
     "composers": [],
     "isActive": true,
     "order": 161,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -3802,9 +3623,7 @@
     "composers": [],
     "isActive": true,
     "order": 162,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -3824,9 +3643,7 @@
     "composers": [],
     "isActive": true,
     "order": 163,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "les-enfants-de-madame-massu",
@@ -3845,9 +3662,7 @@
     "composers": [],
     "isActive": true,
     "order": 164,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3867,9 +3682,7 @@
     "composers": [],
     "isActive": true,
     "order": 165,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2018
   },
   {
@@ -3889,9 +3702,7 @@
     "composers": [],
     "isActive": true,
     "order": 166,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "les-freres-verges",
@@ -3910,9 +3721,7 @@
     "composers": [],
     "isActive": true,
     "order": 167,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -3932,9 +3741,7 @@
     "composers": [],
     "isActive": true,
     "order": 168,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3954,9 +3761,7 @@
     "composers": [],
     "isActive": true,
     "order": 169,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -3976,9 +3781,7 @@
     "composers": [],
     "isActive": true,
     "order": 170,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -3998,9 +3801,7 @@
     "composers": [],
     "isActive": true,
     "order": 171,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2018
   },
   {
@@ -4020,9 +3821,7 @@
     "composers": [],
     "isActive": true,
     "order": 172,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -4042,9 +3841,7 @@
     "composers": [],
     "isActive": true,
     "order": 173,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -4064,9 +3861,7 @@
     "composers": [],
     "isActive": true,
     "order": 174,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -4086,9 +3881,7 @@
     "composers": [],
     "isActive": true,
     "order": 175,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -4108,9 +3901,7 @@
     "composers": [],
     "isActive": true,
     "order": 176,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -4130,9 +3921,7 @@
     "composers": [],
     "isActive": true,
     "order": 177,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2018
   },
   {
@@ -4152,9 +3941,7 @@
     "composers": [],
     "isActive": true,
     "order": 178,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "makatea-la-terre-convoitee",
@@ -4173,9 +3960,7 @@
     "composers": [],
     "isActive": true,
     "order": 179,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "mangas-une-revolution-francaise",
@@ -4194,9 +3979,7 @@
     "composers": [],
     "isActive": true,
     "order": 180,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "marcus-klingberg-un-pur-espion",
@@ -4215,9 +3998,7 @@
     "composers": [],
     "isActive": true,
     "order": 181,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -4237,9 +4018,7 @@
     "composers": [],
     "isActive": true,
     "order": 182,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -4259,9 +4038,7 @@
     "composers": [],
     "isActive": true,
     "order": 183,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "masque-de-fer",
@@ -4280,9 +4057,7 @@
     "composers": [],
     "isActive": true,
     "order": 184,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "matrine-aubry-la-dame-de-lille",
@@ -4301,9 +4076,7 @@
     "composers": [],
     "isActive": true,
     "order": 185,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -4323,9 +4096,7 @@
     "composers": [],
     "isActive": true,
     "order": 186,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -4345,9 +4116,7 @@
     "composers": [],
     "isActive": true,
     "order": 187,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "mayotte-les-combattantes",
@@ -4366,9 +4135,7 @@
     "composers": [],
     "isActive": true,
     "order": 188,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "mes-parents-ces-heros-ordinaires",
@@ -4387,9 +4154,7 @@
     "composers": [],
     "isActive": true,
     "order": 189,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -4409,9 +4174,7 @@
     "composers": [],
     "isActive": true,
     "order": 190,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "miquelon-entre-deux-eaux",
@@ -4430,9 +4193,7 @@
     "composers": [],
     "isActive": true,
     "order": 191,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "montmartre-est-une-fete",
@@ -4451,9 +4212,7 @@
     "composers": [],
     "isActive": true,
     "order": 192,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -4473,9 +4232,7 @@
     "composers": [],
     "isActive": true,
     "order": 193,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -4495,9 +4252,7 @@
     "composers": [],
     "isActive": true,
     "order": 194,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -4517,9 +4272,7 @@
     "composers": [],
     "isActive": true,
     "order": 195,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -4539,9 +4292,7 @@
     "composers": [],
     "isActive": true,
     "order": 196,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "par-nos-yeux",
@@ -4560,9 +4311,7 @@
     "composers": [],
     "isActive": true,
     "order": 197,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2018
   },
   {
@@ -4582,9 +4331,7 @@
     "composers": [],
     "isActive": true,
     "order": 198,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -4604,9 +4351,7 @@
     "composers": [],
     "isActive": true,
     "order": 199,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "petit-pays-je-t-aime-beaucoup",
@@ -4625,9 +4370,7 @@
     "composers": [],
     "isActive": true,
     "order": 200,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "plonger-pour-guerir",
@@ -4646,10 +4389,7 @@
     "composers": [],
     "isActive": true,
     "order": 201,
-    "productionCompanySlug": [
-      "13prods",
-      "via-decouvertes-films"
-    ],
+    "productionCompanySlug": ["13prods", "via-decouvertes-films"],
     "year": 2022
   },
   {
@@ -4669,9 +4409,7 @@
     "composers": [],
     "isActive": true,
     "order": 202,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -4691,9 +4429,7 @@
     "composers": [],
     "isActive": true,
     "order": 203,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "reves-de-princesses",
@@ -4712,9 +4448,7 @@
     "composers": [],
     "isActive": true,
     "order": 204,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2018
   },
   {
@@ -4734,9 +4468,7 @@
     "composers": [],
     "isActive": true,
     "order": 205,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "si-loin-de-la-polynesie",
@@ -4755,9 +4487,7 @@
     "composers": [],
     "isActive": true,
     "order": 206,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -4777,9 +4507,7 @@
     "composers": [],
     "isActive": true,
     "order": 207,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -4799,9 +4527,7 @@
     "composers": [],
     "isActive": true,
     "order": 208,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -4821,9 +4547,7 @@
     "composers": [],
     "isActive": true,
     "order": 209,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -4843,9 +4567,7 @@
     "composers": [],
     "isActive": true,
     "order": 210,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -4865,9 +4587,7 @@
     "composers": [],
     "isActive": true,
     "order": 211,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -4887,9 +4607,7 @@
     "composers": [],
     "isActive": true,
     "order": 212,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "une-deuxieme-chance",
@@ -4908,9 +4626,7 @@
     "composers": [],
     "isActive": true,
     "order": 213,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -4930,9 +4646,7 @@
     "composers": [],
     "isActive": true,
     "order": 214,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -4952,9 +4666,7 @@
     "composers": [],
     "isActive": true,
     "order": 215,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "veilleur-de-nuit",
@@ -4973,9 +4685,7 @@
     "composers": [],
     "isActive": true,
     "order": 216,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -4995,9 +4705,7 @@
     "composers": [],
     "isActive": true,
     "order": 217,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -5017,9 +4725,7 @@
     "composers": [],
     "isActive": true,
     "order": 218,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -5039,9 +4745,7 @@
     "composers": [],
     "isActive": true,
     "order": 219,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "dans-les-eaux-troubles-de-la-plus-grande-banque-europeenne",
@@ -5060,9 +4764,7 @@
     "composers": [],
     "isActive": true,
     "order": 220,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "inde-les-paysans",
@@ -5081,9 +4783,7 @@
     "composers": [],
     "isActive": true,
     "order": 221,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2024
   },
   {
@@ -5103,9 +4803,7 @@
     "composers": [],
     "isActive": true,
     "order": 222,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2017
   },
   {
@@ -5125,9 +4823,7 @@
     "composers": [],
     "isActive": true,
     "order": 223,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "la-democratie-du-dollar",
@@ -5146,9 +4842,7 @@
     "composers": [],
     "isActive": true,
     "order": 224,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2020
   },
   {
@@ -5168,9 +4862,7 @@
     "composers": [],
     "isActive": true,
     "order": 225,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "les-oublies-de-l-atome",
@@ -5189,9 +4881,7 @@
     "composers": [],
     "isActive": true,
     "order": 226,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2023
   },
   {
@@ -5211,9 +4901,7 @@
     "composers": [],
     "isActive": true,
     "order": 227,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "numero-387-disparu-en-mediterranee",
@@ -5232,9 +4920,7 @@
     "composers": [],
     "isActive": true,
     "order": 228,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2020
   },
   {
@@ -5254,9 +4940,7 @@
     "composers": [],
     "isActive": true,
     "order": 229,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2025
   },
   {
@@ -5276,9 +4960,7 @@
     "composers": [],
     "isActive": true,
     "order": 230,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2024
   },
   {
@@ -5298,9 +4980,7 @@
     "composers": [],
     "isActive": true,
     "order": 231,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "taiwan-une-democratie-a-l-ombre-de-la-chine",
@@ -5319,9 +4999,7 @@
     "composers": [],
     "isActive": true,
     "order": 232,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "un-pasteur",
@@ -5340,9 +5018,7 @@
     "composers": [],
     "isActive": true,
     "order": 233,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2024
   },
   {
@@ -5362,9 +5038,7 @@
     "composers": [],
     "isActive": true,
     "order": 234,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2025
   },
   {
@@ -5384,9 +5058,7 @@
     "composers": [],
     "isActive": true,
     "order": 235,
-    "productionCompanySlug": [
-      "pop-films"
-    ]
+    "productionCompanySlug": ["pop-films"]
   },
   {
     "slug": "chants-gregoriens-20",
@@ -5405,9 +5077,7 @@
     "composers": [],
     "isActive": true,
     "order": 236,
-    "productionCompanySlug": [
-      "pop-films"
-    ]
+    "productionCompanySlug": ["pop-films"]
   },
   {
     "slug": "gorongosa-le-parc-de-la-reconciliation",
@@ -5426,10 +5096,7 @@
     "composers": [],
     "isActive": true,
     "order": 237,
-    "productionCompanySlug": [
-      "pop-films",
-      "via-decouvertes-films"
-    ]
+    "productionCompanySlug": ["pop-films", "via-decouvertes-films"]
   },
   {
     "slug": "jamie-lee-curtis-un-cri-de-liberte-a-hollywood",
@@ -5448,9 +5115,7 @@
     "composers": [],
     "isActive": true,
     "order": 238,
-    "productionCompanySlug": [
-      "pop-films"
-    ],
+    "productionCompanySlug": ["pop-films"],
     "year": 2022
   },
   {
@@ -5470,9 +5135,7 @@
     "composers": [],
     "isActive": true,
     "order": 239,
-    "productionCompanySlug": [
-      "pop-films"
-    ],
+    "productionCompanySlug": ["pop-films"],
     "year": 2022
   },
   {
@@ -5492,9 +5155,7 @@
     "composers": [],
     "isActive": true,
     "order": 240,
-    "productionCompanySlug": [
-      "pop-films"
-    ]
+    "productionCompanySlug": ["pop-films"]
   },
   {
     "slug": "naissance-d-un-hero-noir-au-cinema-sweet-sweetback",
@@ -5513,9 +5174,7 @@
     "composers": [],
     "isActive": true,
     "order": 241,
-    "productionCompanySlug": [
-      "pop-films"
-    ]
+    "productionCompanySlug": ["pop-films"]
   },
   {
     "slug": "naissance-d-un-hero-noir-au-cinema-sweet-sweetback-2",
@@ -5534,9 +5193,7 @@
     "composers": [],
     "isActive": true,
     "order": 242,
-    "productionCompanySlug": [
-      "pop-films"
-    ]
+    "productionCompanySlug": ["pop-films"]
   },
   {
     "slug": "naissance-dun-heros-noir-au-cinema-sweet-sweetback",
@@ -5555,9 +5212,7 @@
     "composers": [],
     "isActive": true,
     "order": 243,
-    "productionCompanySlug": [
-      "pop-films"
-    ]
+    "productionCompanySlug": ["pop-films"]
   },
   {
     "slug": "au-nom-de-la-mer",
@@ -5576,10 +5231,7 @@
     "composers": [],
     "isActive": true,
     "order": 244,
-    "productionCompanySlug": [
-      "via-decouvertes-films",
-      "13prods"
-    ],
+    "productionCompanySlug": ["via-decouvertes-films", "13prods"],
     "year": 2021
   },
   {
@@ -5599,9 +5251,7 @@
     "composers": [],
     "isActive": true,
     "order": 245,
-    "productionCompanySlug": [
-      "via-decouvertes-films"
-    ]
+    "productionCompanySlug": ["via-decouvertes-films"]
   },
   {
     "slug": "operation-biodiversite",
@@ -5620,9 +5270,7 @@
     "composers": [],
     "isActive": true,
     "order": 246,
-    "productionCompanySlug": [
-      "via-decouvertes-films"
-    ],
+    "productionCompanySlug": ["via-decouvertes-films"],
     "year": 2019
   },
   {

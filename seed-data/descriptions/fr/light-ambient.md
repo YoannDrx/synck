@@ -1,4 +1,4 @@
-LIGHT AMBIENT est une ode à la chaleur et la sensualité. La direction artistique est confiée à JB Hanak qui s’est entouré de son frère Cédric Hanak et a convié la chanteuse Zoe Wolf pour la chanson ouvrant l’album façon pop song au synthétiseur, pleine de rêverie.
+LIGHT AMBIENT est une ode à la chaleur et la sensualité. La direction artistique est confiée à JB Hanak qui s’est entouré de son frère Cédric Hanak pour la chanson ouvrant l’album façon pop song au synthétiseur, pleine de rêverie.
 
 Le reste des titres est une suite de portraits croisés en instrumentaux pornérotiques. Des instrumentaux souvent planants empreints d’émotion. Les synthétiseurs et les nappes de guitares électriques revisitent des mélodies qui évoquent la rêverie et l’émotion. Une collection d'ambiances électroniques shoegazing et de synthés analogiques pour les amoureux, les rêveurs et les pilotes de l'espace solitaires.
 

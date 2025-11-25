@@ -549,32 +549,6 @@
     "isActive": true
   },
   {
-    "id": 39,
-    "slug": "ghostmaker",
-    "name": "Ghostmaker",
-    "image": "public/images/projets/photoscompo/ghostmaker.jpg",
-    "externalUrl": null,
-    "links": [],
-    "order": 38,
-    "isActive": true
-  },
-  {
-    "id": 40,
-    "slug": "hexahedre",
-    "name": "Hexahedre",
-    "image": "public/images/projets/vinyles/hexahedre.jpg",
-    "links": [
-      {
-        "platform": "website",
-        "url": "https://www.mowno.com/news/infos/avec-hexahedre-jb-hanak-et-cyril-laurent-invitent-au-voyage-extra-corporel/",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 39,
-    "isActive": true
-  },
-  {
     "id": 41,
     "slug": "jb-hanak",
     "name": "JB Hanak",
@@ -585,12 +559,6 @@
         "url": "https://www.instagram.com/jbhanak/",
         "label": null,
         "order": 0
-      },
-      {
-        "platform": "website",
-        "url": "https://www.mowno.com/news/infos/avec-hexahedre-jb-hanak-et-cyril-laurent-invitent-au-voyage-extra-corporel/",
-        "label": "Hexahedre",
-        "order": 1
       }
     ],
     "order": 40,
@@ -641,22 +609,6 @@
     "isActive": true
   },
   {
-    "id": 44,
-    "slug": "lovlion",
-    "name": "LovLion",
-    "image": "public/images/projets/photoscompo/lovlion.jpg",
-    "links": [
-      {
-        "platform": "spotify",
-        "url": "https://open.spotify.com/intl-fr/artist/4iLSUJSIR7y2vknbGaZXD1",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 43,
-    "isActive": true
-  },
-  {
     "id": 45,
     "slug": "madben",
     "name": "Madben",
@@ -676,22 +628,6 @@
       }
     ],
     "order": 44,
-    "isActive": true
-  },
-  {
-    "id": 46,
-    "slug": "marie-sophie-mallet",
-    "name": "Marie-Sophie Mallet",
-    "image": "public/images/projets/photoscompo/marie-sophie-mallet.jpg",
-    "links": [
-      {
-        "platform": "spotify",
-        "url": "https://open.spotify.com/intl-fr/track/4BOrPAF6kbOW3mXbLQrfgX",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 45,
     "isActive": true
   },
   {
@@ -1022,22 +958,6 @@
     "isActive": true
   },
   {
-    "id": 70,
-    "slug": "syra",
-    "name": "Syra",
-    "image": "public/images/projets/photoscompo/syra.jpg",
-    "links": [
-      {
-        "platform": "soundcloud",
-        "url": "https://soundcloud.com/syra-sc",
-        "label": "SoundCloud",
-        "order": 0
-      }
-    ],
-    "order": 69,
-    "isActive": true
-  },
-  {
     "id": 71,
     "slug": "tcheep",
     "name": "Tcheep",
@@ -1148,52 +1068,12 @@
     "isActive": true
   },
   {
-    "id": 76,
-    "slug": "zoe-wolf",
-    "name": "Zoe Wolf",
-    "image": "public/images/projets/photoscompo/zoewolf.jpg",
-    "links": [
-      {
-        "platform": "spotify",
-        "url": "https://open.spotify.com/intl-fr/artist/6sJbyR4JKjsQaCp6T0E3Pz",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 75,
-    "isActive": true
-  },
-  {
-    "id": 77,
-    "slug": "aiwa",
-    "name": "Aïwa",
-    "image": "public/images/projets/photoscompo/aiwa.jpg",
-    "externalUrl": null,
-    "links": [
-      {
-        "platform": "soundcloud",
-        "url": "https://soundcloud.com/a-wa",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 76,
-    "isActive": true
-  },
-  {
     "id": 79,
     "slug": "cyril-laurent",
     "name": "Cyril Laurent",
     "image": "public/images/projets/photoscompo/cyril-laurent.jpg",
     "externalUrl": null,
-    "links": [
-      {
-        "platform": "website",
-        "url": "https://www.mowno.com/news/infos/avec-hexahedre-jb-hanak-et-cyril-laurent-invitent-au-voyage-extra-corporel/",
-        "label": null,
-        "order": 0
-      }
-    ],
+    "links": [],
     "order": 78,
     "isActive": true
   },
@@ -1297,23 +1177,6 @@
       }
     ],
     "order": 85,
-    "isActive": true
-  },
-  {
-    "id": 87,
-    "slug": "thierry-los",
-    "name": "Thierry Los",
-    "image": "public/images/projets/photoscompo/thierry-los.jpeg",
-    "externalUrl": null,
-    "links": [
-      {
-        "platform": "website",
-        "url": "http://www.dng-music.com/3jt/thierrylos/index.html",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 86,
     "isActive": true
   },
   {

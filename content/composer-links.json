@@ -32,12 +32,6 @@
     ]
   },
   {
-    "slug": "ghostmaker",
-    "name": "ghostmaker",
-    "externalUrl": null,
-    "links": []
-  },
-  {
     "slug": "ugly-mac-beer",
     "name": "ugly-mac-beer",
     "externalUrl": "https://www.youtube.com/channel/UCj8mVWiBl256CIfVl3qFHwA",
@@ -384,19 +378,6 @@
     ]
   },
   {
-    "slug": "marie-sophie-mallet",
-    "name": "marie-sophie-mallet",
-    "externalUrl": "https://open.spotify.com/intl-fr/track/4BOrPAF6kbOW3mXbLQrfgX",
-    "links": [
-      {
-        "platform": "spotify",
-        "url": "https://open.spotify.com/intl-fr/track/4BOrPAF6kbOW3mXbLQrfgX",
-        "label": null,
-        "order": 0
-      }
-    ]
-  },
-  {
     "slug": "emile-sornin-forever-pavot",
     "name": "emile-sornin-forever-pavot",
     "externalUrl": "https://www.facebook.com/ForeverPavot/?locale=fr_FR",
@@ -557,25 +538,6 @@
     ]
   },
   {
-    "slug": "syra",
-    "name": "syra",
-    "externalUrl": "https://www.youtube.com/@syra7874/featured",
-    "links": [
-      {
-        "platform": "youtube",
-        "url": "https://www.youtube.com/@syra7874/featured",
-        "label": null,
-        "order": 0
-      },
-      {
-        "platform": "soundcloud",
-        "url": "https://soundcloud.com/syra-sc",
-        "label": "SoundCloud",
-        "order": 1
-      }
-    ]
-  },
-  {
     "slug": "daxovii",
     "name": "daxovii",
     "externalUrl": "https://open.spotify.com/intl-fr/artist/4nQRld5mxpXtOY7GJt7AJN",
@@ -583,19 +545,6 @@
       {
         "platform": "spotify",
         "url": "https://open.spotify.com/intl-fr/artist/4nQRld5mxpXtOY7GJt7AJN",
-        "label": null,
-        "order": 0
-      }
-    ]
-  },
-  {
-    "slug": "lovlion",
-    "name": "lovlion",
-    "externalUrl": "https://open.spotify.com/intl-fr/artist/4iLSUJSIR7y2vknbGaZXD1",
-    "links": [
-      {
-        "platform": "spotify",
-        "url": "https://open.spotify.com/intl-fr/artist/4iLSUJSIR7y2vknbGaZXD1",
         "label": null,
         "order": 0
       }
@@ -624,12 +573,6 @@
         "url": "https://www.facebook.com/jbhak/?locale=fr_FR",
         "label": null,
         "order": 0
-      },
-      {
-        "platform": "website",
-        "url": "https://www.mowno.com/news/infos/avec-hexahedre-jb-hanak-et-cyril-laurent-invitent-au-voyage-extra-corporel/",
-        "label": "Hexahedre",
-        "order": 1
       }
     ]
   },
@@ -719,19 +662,6 @@
         "url": "https://soundcloud.com/aeon-seven",
         "label": "SoundCloud",
         "order": 1
-      }
-    ]
-  },
-  {
-    "slug": "zoe-wolf",
-    "name": "zoe-wolf",
-    "externalUrl": "https://open.spotify.com/intl-fr/artist/6sJbyR4JKjsQaCp6T0E3Pz",
-    "links": [
-      {
-        "platform": "spotify",
-        "url": "https://open.spotify.com/intl-fr/artist/6sJbyR4JKjsQaCp6T0E3Pz",
-        "label": null,
-        "order": 0
       }
     ]
   },
@@ -953,19 +883,6 @@
       {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/tcheep",
-        "label": null,
-        "order": 0
-      }
-    ]
-  },
-  {
-    "slug": "hexahedre",
-    "name": "hexahedre",
-    "externalUrl": "https://www.mowno.com/news/infos/avec-hexahedre-jb-hanak-et-cyril-laurent-invitent-au-voyage-extra-corporel/",
-    "links": [
-      {
-        "platform": "website",
-        "url": "https://www.mowno.com/news/infos/avec-hexahedre-jb-hanak-et-cyril-laurent-invitent-au-voyage-extra-corporel/",
         "label": null,
         "order": 0
       }
