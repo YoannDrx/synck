@@ -151,7 +151,7 @@ export function ProjectsSection({ locale, copy }: ProjectsSectionProps) {
                 <Link
                   href={`/${locale}/projets/${work.slug}`}
                   className={cn(
-                    "group relative flex flex-col overflow-hidden",
+                    "group relative flex h-full flex-col overflow-hidden",
                     "rounded-[var(--radius-xl)] border-2",
                     "bg-[var(--color-surface)] p-4",
                     "transition-all duration-300",
@@ -168,7 +168,7 @@ export function ProjectsSection({ locale, copy }: ProjectsSectionProps) {
                       accent.gradient,
                     )}
                   />
-                  <div className="relative z-10 flex flex-col gap-3">
+                  <div className="relative z-10 flex h-full flex-col gap-3">
                     <div className="flex items-center justify-between text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-text-muted)]">
                       <span className="truncate">{work.category}</span>
                       <span className="shrink-0">
@@ -190,29 +190,27 @@ export function ProjectsSection({ locale, copy }: ProjectsSectionProps) {
                       {work.title}
                     </h3>
 
-                    {work.composers.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5">
-                        {work.composers.slice(0, 2).map((composer) => (
-                          <Badge
-                            key={composer}
-                            variant="outline"
-                            size="sm"
-                            className="text-[0.55rem] uppercase tracking-[0.15em]"
-                          >
-                            {composer}
-                          </Badge>
-                        ))}
-                        {work.composers.length > 2 && (
-                          <Badge
-                            variant="outline"
-                            size="sm"
-                            className="text-[0.55rem]"
-                          >
-                            +{work.composers.length - 2}
-                          </Badge>
-                        )}
-                      </div>
-                    )}
+                    <div className="mt-auto flex min-h-[26px] flex-wrap items-start gap-1.5">
+                      {work.composers.slice(0, 2).map((composer) => (
+                        <Badge
+                          key={composer}
+                          variant="outline"
+                          size="sm"
+                          className="text-[0.55rem] uppercase tracking-[0.15em]"
+                        >
+                          {composer}
+                        </Badge>
+                      ))}
+                      {work.composers.length > 2 && (
+                        <Badge
+                          variant="outline"
+                          size="sm"
+                          className="text-[0.55rem]"
+                        >
+                          +{work.composers.length - 2}
+                        </Badge>
+                      )}
+                    </div>
                   </div>
                 </Link>
               </ParallaxCard>

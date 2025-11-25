@@ -67,7 +67,7 @@ export function ParallaxCard({
   return (
     <motion.div
       ref={ref}
-      className={cn("will-change-transform", className)}
+      className={cn("h-full will-change-transform", className)}
       style={{
         y,
         opacity,
