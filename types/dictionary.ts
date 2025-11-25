@@ -146,6 +146,18 @@ export type ExpertiseDetailDictionary = {
     searchPlaceholder: string;
     empty: string;
     noResults: string;
+    statsDocumentaries: string;
+    statsCategories: string;
+    statsProducers: string;
+    sortByDate: string;
+    sortByTitle: string;
+    sortOrderTitleAsc: string;
+    sortOrderTitleDesc: string;
+    sortOrderDateAsc: string;
+    sortOrderDateDesc: string;
+  };
+  productionCompanies: {
+    statsCompanies: string;
   };
   ctaTitle: string;
   ctaDescription: string;
@@ -166,6 +178,8 @@ export type ProjetsPageDictionary = {
   sortOrderTitleDesc: string;
   sortOrderDateAsc: string;
   sortOrderDateDesc: string;
+  statsProjects: string;
+  statsCategories: string;
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
@@ -196,6 +210,8 @@ export type ComposersPageDictionary = {
   description: string;
   worksSingular: string;
   worksPlural: string;
+  statsArtists: string;
+  statsProjects: string;
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;

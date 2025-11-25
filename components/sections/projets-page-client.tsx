@@ -329,7 +329,7 @@ export function ProjetsPageClient({
               <div className="text-right">
                 <p className="text-3xl font-black text-white">{works.length}</p>
                 <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
-                  Projets
+                  {copy.statsProjects}
                 </p>
               </div>
               <div className="h-12 w-px bg-white/10" />
@@ -338,7 +338,7 @@ export function ProjetsPageClient({
                   {categories.length}
                 </p>
                 <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
-                  Catégories
+                  {copy.statsCategories}
                 </p>
               </div>
             </div>

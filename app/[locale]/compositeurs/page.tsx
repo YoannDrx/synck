@@ -28,6 +28,8 @@ export default async function ComposeursPage({ params }: ComposersPageParams) {
         description: copy.description,
         worksPlural: copy.worksPlural,
         worksSingular: copy.worksSingular,
+        statsArtists: copy.statsArtists,
+        statsProjects: copy.statsProjects,
         ctaTitle: copy.ctaTitle,
         ctaDescription: copy.ctaDescription,
         ctaButton: copy.ctaButton,

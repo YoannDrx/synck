@@ -22,6 +22,8 @@ type ComposersPageClientProps = {
     description: string;
     worksPlural: string;
     worksSingular: string;
+    statsArtists: string;
+    statsProjects: string;
     ctaTitle: string;
     ctaDescription: string;
     ctaButton: string;
@@ -195,13 +197,13 @@ export function CompositeursPageClient({
                 {composers.length}
               </p>
               <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
-                Artistes
+                {copy.statsArtists}
               </p>
             </div>
             <div className="text-right">
               <p className="text-3xl font-black text-[#d5ff0a]">{totalWorks}</p>
               <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
-                Projets
+                {copy.statsProjects}
               </p>
             </div>
           </div>
