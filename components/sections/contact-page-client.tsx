@@ -114,6 +114,7 @@ export function ContactPageClient({
       orbsConfig="default"
       glowTracking
       glowConfig="contact"
+      glowFullscreen
       className="mx-auto max-w-[1600px]"
     >
       <Breadcrumb

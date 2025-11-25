@@ -24,6 +24,8 @@ export type PageLayoutProps = {
   glowTracking?: boolean;
   /** Custom glow configuration or preset name */
   glowConfig?: GlowConfig | keyof typeof glowPresets;
+  /** Make glow effect cover full viewport instead of container */
+  glowFullscreen?: boolean;
   /** Enable scroll-based parallax on content */
   scrollParallax?: boolean;
   /** Show background gradients */
@@ -47,6 +49,7 @@ export function PageLayout({
   orbsConfig = "default",
   glowTracking = false,
   glowConfig = "default",
+  glowFullscreen = false,
   scrollParallax = false,
   showBackgroundGradients = true,
   showNoise = true,
@@ -127,8 +130,20 @@ export function PageLayout({
         <MotionOrbs orbs={resolvedOrbs} containerRef={mainRef} />
       )}
 
+      {/* Fullscreen glow layer (fixed to viewport, tracks mouse via window events) */}
+      {glowTracking && glowFullscreen && (
+        <MotionGlowTracker
+          config={resolvedGlow}
+          fullscreen
+          className="pointer-events-none fixed inset-0 z-0"
+          glowClassName=""
+        >
+          <div />
+        </MotionGlowTracker>
+      )}
+
       {/* Glow tracking wrapper or direct content */}
-      {glowTracking ? (
+      {glowTracking && !glowFullscreen ? (
         <MotionGlowTracker
           config={resolvedGlow}
           className="relative"

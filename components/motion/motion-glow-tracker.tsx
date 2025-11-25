@@ -3,6 +3,7 @@
 import {
   useState,
   useCallback,
+  useEffect,
   type ReactNode,
   type PointerEvent,
   type CSSProperties,
@@ -30,6 +31,8 @@ export type MotionGlowTrackerProps = {
   enabled?: boolean;
   /** Glow configuration */
   config?: GlowConfig;
+  /** Track mouse across entire viewport using window events */
+  fullscreen?: boolean;
   /** Additional class names for the wrapper */
   className?: string;
   /** Additional class names for the glow layer */
@@ -53,6 +56,7 @@ export function MotionGlowTracker({
   children,
   enabled = true,
   config = {},
+  fullscreen = false,
   className,
   glowClassName,
   as: Component = "div",
@@ -62,16 +66,31 @@ export function MotionGlowTracker({
 
   const mergedConfig = { ...defaultConfig, ...config };
 
+  // Fullscreen mode: track mouse across entire viewport
+  useEffect(() => {
+    if (!enabled || !fullscreen) return;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      const x = (event.clientX / window.innerWidth) * 100;
+      const y = (event.clientY / window.innerHeight) * 100;
+      setGlow({ x, y });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => { window.removeEventListener("mousemove", handleMouseMove); };
+  }, [enabled, fullscreen]);
+
+  // Element-level tracking for non-fullscreen mode
   const handlePointerMove = useCallback(
     (event: PointerEvent<HTMLElement>) => {
-      if (!enabled) return;
+      if (!enabled || fullscreen) return;
 
       const rect = event.currentTarget.getBoundingClientRect();
       const x = ((event.clientX - rect.left) / rect.width) * 100;
       const y = ((event.clientY - rect.top) / rect.height) * 100;
       setGlow({ x, y });
     },
-    [enabled],
+    [enabled, fullscreen],
   );
 
   const glowBackground = enabled
@@ -81,7 +100,7 @@ export function MotionGlowTracker({
   return (
     <Component
       className={cn("relative", className)}
-      onPointerMove={handlePointerMove}
+      onPointerMove={fullscreen ? undefined : handlePointerMove}
       style={style}
     >
       {enabled && (
