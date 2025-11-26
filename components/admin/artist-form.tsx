@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ImageUploader } from "./image-uploader";
 import type { AdminDictionary } from "@/types/dictionary";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
-import type { Composer, ComposerTranslation, Asset } from "@prisma/client";
+import type { Artist, ArtistTranslation, Asset } from "@prisma/client";
 
 const assetPathToUrl = (path?: string | null): string | null => {
   if (!path) return null;
@@ -15,8 +15,8 @@ const assetPathToUrl = (path?: string | null): string | null => {
   return `/${path}`;
 };
 
-type ComposerWithRelations = {
-  translations: ComposerTranslation[];
+type ArtistWithRelations = {
+  translations: ArtistTranslation[];
   image: Asset | null;
   links?: {
     id: string;
@@ -25,11 +25,11 @@ type ComposerWithRelations = {
     label: string | null;
     order: number;
   }[];
-} & Composer;
+} & Artist;
 
-type ComposerFormProps = {
+type ArtistFormProps = {
   dictionary: AdminDictionary;
-  composer?: ComposerWithRelations;
+  artist?: ArtistWithRelations;
   mode: "create" | "edit";
   locale: string;
 };
@@ -55,22 +55,22 @@ type FormState = {
   links: LinkInput[];
 };
 
-export function ComposerForm({
+export function ArtistForm({
   dictionary,
-  composer,
+  artist,
   mode,
   locale,
-}: ComposerFormProps) {
+}: ArtistFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Get translations by locale
-  const frTranslation = composer?.translations.find((t) => t.locale === "fr");
-  const enTranslation = composer?.translations.find((t) => t.locale === "en");
+  const frTranslation = artist?.translations.find((t) => t.locale === "fr");
+  const enTranslation = artist?.translations.find((t) => t.locale === "en");
 
   const initialLinks: LinkInput[] =
-    composer?.links?.map((link) => ({
+    artist?.links?.map((link) => ({
       id: link.id,
       platform: link.platform,
       url: link.url,
@@ -80,11 +80,11 @@ export function ComposerForm({
 
   // Form state
   const [formData, setFormData] = useState<FormState>({
-    slug: composer?.slug ?? "",
-    imageId: composer?.imageId ?? null,
-    imageUrl: assetPathToUrl(composer?.image?.path),
-    order: composer?.order ?? 0,
-    isActive: composer?.isActive ?? true,
+    slug: artist?.slug ?? "",
+    imageId: artist?.imageId ?? null,
+    imageUrl: assetPathToUrl(artist?.image?.path),
+    order: artist?.order ?? 0,
+    isActive: artist?.isActive ?? true,
     translations: {
       fr: {
         name: frTranslation?.name ?? "",
@@ -174,8 +174,8 @@ export function ComposerForm({
     try {
       const url =
         mode === "create"
-          ? "/api/admin/composers"
-          : `/api/admin/composers/${composer?.id ?? ""}`;
+          ? "/api/admin/artists"
+          : `/api/admin/artists/${artist?.id ?? ""}`;
 
       const method = mode === "create" ? "POST" : "PUT";
 
@@ -199,7 +199,7 @@ export function ComposerForm({
       }
 
       // Success - redirect to list
-      router.push(`/${locale}/admin/compositeurs`);
+      router.push(`/${locale}/admin/artistes`);
       router.refresh();
     } catch (err) {
       setError(
@@ -249,7 +249,7 @@ export function ComposerForm({
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">
-              {dictionary.composers.fields.nameLabel} *
+              {dictionary.artists.fields.nameLabel} *
             </label>
             <input
               type="text"
@@ -270,7 +270,7 @@ export function ComposerForm({
 
           <div>
             <label className="block text-sm font-medium mb-2">
-              {dictionary.composers.fields.bioLabel}
+              {dictionary.artists.fields.bioLabel}
             </label>
             <textarea
               value={formData.translations.fr.bio}
@@ -297,7 +297,7 @@ export function ComposerForm({
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">
-              {dictionary.composers.fields.nameLabel} *
+              {dictionary.artists.fields.nameLabel} *
             </label>
             <input
               type="text"
@@ -318,7 +318,7 @@ export function ComposerForm({
 
           <div>
             <label className="block text-sm font-medium mb-2">
-              {dictionary.composers.fields.bioLabel}
+              {dictionary.artists.fields.bioLabel}
             </label>
             <textarea
               value={formData.translations.en.bio}
@@ -341,7 +341,7 @@ export function ComposerForm({
       {/* Image */}
       <div>
         <label className="block text-sm font-medium mb-2">
-          {dictionary.composers.fields.imageLabel}
+          {dictionary.artists.fields.imageLabel}
         </label>
         {formData.imageUrl && (
           <div className="mb-4 flex items-center gap-3 rounded border border-white/10 bg-white/5 p-3">
@@ -509,7 +509,7 @@ export function ComposerForm({
         <button
           type="button"
           onClick={() => {
-            router.push(`/${locale}/admin/compositeurs`);
+            router.push(`/${locale}/admin/artistes`);
           }}
           disabled={isSubmitting}
           className="border-2 border-white/20 px-6 py-3 hover:border-[#d5ff0a] transition-colors disabled:opacity-50"

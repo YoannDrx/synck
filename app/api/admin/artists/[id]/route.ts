@@ -5,14 +5,14 @@ import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
 import { ApiError } from "@/lib/api/error-handler";
 import { createAuditLog } from "@/lib/audit-log";
 
-const composerLinkSchema = z.object({
+const artistLinkSchema = z.object({
   platform: z.string().min(1),
   url: z.url(),
   label: z.string().optional().nullable(),
   order: z.number().int().optional().default(0),
 });
 
-const composerUpdateSchema = z.object({
+const artistUpdateSchema = z.object({
   slug: z.string().min(1).optional(),
   imageId: z.string().optional().nullable(),
   order: z.number().int().optional(),
@@ -29,17 +29,17 @@ const composerUpdateSchema = z.object({
       }),
     })
     .optional(),
-  links: z.array(composerLinkSchema).optional(),
+  links: z.array(artistLinkSchema).optional(),
 });
 
-// GET single composer
+// GET single artist
 export const GET = withAuth(async (_req, context) => {
   if (!context.params) {
     throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
   }
   const { id } = await context.params;
 
-  const composer = await prisma.composer.findUnique({
+  const artist = await prisma.artist.findUnique({
     where: { id },
     include: {
       translations: true,
@@ -60,24 +60,24 @@ export const GET = withAuth(async (_req, context) => {
     },
   });
 
-  if (!composer) {
+  if (!artist) {
     throw new ApiError(404, "Compositeur non trouvé", "NOT_FOUND");
   }
 
-  return NextResponse.json(composer);
+  return NextResponse.json(artist);
 });
 
-// PUT update composer
+// PUT update artist
 export const PUT = withAuthAndValidation(
-  composerUpdateSchema,
+  artistUpdateSchema,
   async (req, context, user, data) => {
     if (!context.params) {
       throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
     }
     const { id } = await context.params;
 
-    // Check if composer exists and get old values for audit log
-    const existing = await prisma.composer.findUnique({
+    // Check if artist exists and get old values for audit log
+    const existing = await prisma.artist.findUnique({
       where: { id },
       include: { translations: true },
     });
@@ -85,9 +85,9 @@ export const PUT = withAuthAndValidation(
       throw new ApiError(404, "Compositeur non trouvé", "NOT_FOUND");
     }
 
-    // Update composer + translations + links in a transaction
+    // Update artist + translations + links in a transaction
     const updated = await prisma.$transaction(async (tx) => {
-      await tx.composer.update({
+      await tx.artist.update({
         where: { id },
         data: {
           slug: data.slug,
@@ -100,15 +100,15 @@ export const PUT = withAuthAndValidation(
 
       if (data.translations) {
         await Promise.all([
-          tx.composerTranslation.upsert({
+          tx.artistTranslation.upsert({
             where: {
-              composerId_locale: {
-                composerId: id,
+              artistId_locale: {
+                artistId: id,
                 locale: "fr",
               },
             },
             create: {
-              composerId: id,
+              artistId: id,
               locale: "fr",
               name: data.translations.fr.name,
               bio: data.translations.fr.bio ?? null,
@@ -118,15 +118,15 @@ export const PUT = withAuthAndValidation(
               bio: data.translations.fr.bio ?? null,
             },
           }),
-          tx.composerTranslation.upsert({
+          tx.artistTranslation.upsert({
             where: {
-              composerId_locale: {
-                composerId: id,
+              artistId_locale: {
+                artistId: id,
                 locale: "en",
               },
             },
             create: {
-              composerId: id,
+              artistId: id,
               locale: "en",
               name: data.translations.en.name,
               bio: data.translations.en.bio ?? null,
@@ -141,11 +141,11 @@ export const PUT = withAuthAndValidation(
 
       if (data.links) {
         // Replace links to match payload
-        await tx.composerLink.deleteMany({ where: { composerId: id } });
+        await tx.artistLink.deleteMany({ where: { artistId: id } });
         if (data.links.length > 0) {
-          await tx.composerLink.createMany({
+          await tx.artistLink.createMany({
             data: data.links.map((link) => ({
-              composerId: id,
+              artistId: id,
               platform: link.platform,
               url: link.url,
               label: link.label ?? null,
@@ -155,7 +155,7 @@ export const PUT = withAuthAndValidation(
         }
       }
 
-      return tx.composer.findUnique({
+      return tx.artist.findUnique({
         where: { id },
         include: {
           translations: true,
@@ -169,7 +169,7 @@ export const PUT = withAuthAndValidation(
     await createAuditLog({
       userId: user.id,
       action: "UPDATE",
-      entityType: "Composer",
+      entityType: "Artist",
       entityId: id,
       metadata: {
         slug: data.slug ?? existing.slug,
@@ -190,15 +190,15 @@ export const PUT = withAuthAndValidation(
   },
 );
 
-// DELETE composer
+// DELETE artist
 export const DELETE = withAuth(async (req, context, user) => {
   if (!context.params) {
     throw new ApiError(400, "Paramètres manquants", "BAD_REQUEST");
   }
   const { id } = await context.params;
 
-  // Check if composer exists and get metadata for audit log
-  const existing = await prisma.composer.findUnique({
+  // Check if artist exists and get metadata for audit log
+  const existing = await prisma.artist.findUnique({
     where: { id },
     include: {
       translations: true,
@@ -212,7 +212,7 @@ export const DELETE = withAuth(async (req, context, user) => {
     throw new ApiError(404, "Compositeur non trouvé", "NOT_FOUND");
   }
 
-  // Check if composer has contributions
+  // Check if artist has contributions
   if (existing._count.contributions > 0) {
     throw new ApiError(
       400,
@@ -221,8 +221,8 @@ export const DELETE = withAuth(async (req, context, user) => {
     );
   }
 
-  // Delete composer (translations will be cascade deleted)
-  await prisma.composer.delete({
+  // Delete artist (translations will be cascade deleted)
+  await prisma.artist.delete({
     where: { id },
   });
 
@@ -230,7 +230,7 @@ export const DELETE = withAuth(async (req, context, user) => {
   await createAuditLog({
     userId: user.id,
     action: "DELETE",
-    entityType: "Composer",
+    entityType: "Artist",
     entityId: id,
     metadata: {
       slug: existing.slug,

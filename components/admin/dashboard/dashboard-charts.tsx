@@ -14,7 +14,7 @@ type AnalyticsData = {
     works: number;
     published: number;
     draft: number;
-    composers: number;
+    artists: number;
   }[];
   statusDistribution: {
     name: string;

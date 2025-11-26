@@ -35,24 +35,24 @@ type LabelData = {
   website?: string;
 };
 
-type ComposerLinkData = {
+type ArtistLinkData = {
   platform: string;
   url: string;
   label?: string;
   order?: number;
 };
 
-type ComposerData = {
+type ArtistData = {
   slug: string;
   name: string;
   image?: string;
   externalUrl?: string;
   order: number;
   isActive: boolean;
-  links?: ComposerLinkData[];
+  links?: ArtistLinkData[];
 };
 
-type WorkComposerData = {
+type WorkArtistData = {
   slug: string;
   role?: string;
 };
@@ -73,7 +73,7 @@ type WorkData = {
   genre?: string;
   isActive: boolean;
   order: number;
-  composers?: WorkComposerData[];
+  artists?: WorkArtistData[];
 };
 
 // ============================================
@@ -119,11 +119,11 @@ function loadMarkdown(filePath: string): MarkdownResult | null {
 }
 
 /**
- * Charge les biographies des compositeurs depuis content/composer-bios
+ * Charge les biographies des artistes depuis content/artist-bios
  * Retourne une map par slug avec les versions FR/EN si disponibles
  */
-function loadComposerBios(): Map<string, { fr?: string; en?: string }> {
-  const biosDir = path.join(process.cwd(), "content/composer-bios");
+function loadArtistBios(): Map<string, { fr?: string; en?: string }> {
+  const biosDir = path.join(process.cwd(), "content/artist-bios");
   const locales: ("fr" | "en")[] = ["fr", "en"];
   const biosMap = new Map<string, { fr?: string; en?: string }>();
 
@@ -334,75 +334,75 @@ async function seedLabels() {
 }
 
 // ============================================
-// SEED COMPOSERS
+// SEED ARTISTS
 // ============================================
 
-async function seedComposers() {
-  console.log("\n🎵 Seeding composers...");
+async function seedArtists() {
+  console.log("\n🎵 Seeding artists...");
 
-  const composersPath = path.join(process.cwd(), "seed-data/composers.json");
-  const composersData = JSON.parse(
-    fs.readFileSync(composersPath, "utf-8"),
-  ) as ComposerData[];
+  const artistsPath = path.join(process.cwd(), "seed-data/artists.json");
+  const artistsData = JSON.parse(
+    fs.readFileSync(artistsPath, "utf-8"),
+  ) as ArtistData[];
 
   // Charger les biographies (optionnelles)
-  const composerBios = loadComposerBios();
+  const artistBios = loadArtistBios();
 
   let created = 0;
-  for (const comp of composersData) {
-    const bios = composerBios.get(comp.slug);
+  for (const art of artistsData) {
+    const bios = artistBios.get(art.slug);
     const bioFr = bios?.fr ?? bios?.en ?? null;
     const bioEn = bios?.en ?? bios?.fr ?? null;
 
     // Créer l'image si elle existe
     let imageAsset: Asset | null = null;
-    if (comp.image && imageExists(comp.image)) {
-      imageAsset = await createAsset(comp.image);
+    if (art.image && imageExists(art.image)) {
+      imageAsset = await createAsset(art.image);
     }
 
-    // Créer le compositeur
-    const composer = await prisma.composer.upsert({
-      where: { slug: comp.slug },
+    // Créer l'artiste
+    const artist = await prisma.artist.upsert({
+      where: { slug: art.slug },
       create: {
-        slug: comp.slug,
-        externalUrl: comp.externalUrl,
-        order: comp.order,
-        isActive: comp.isActive,
+        slug: art.slug,
+        externalUrl: art.externalUrl,
+        order: art.order,
+        isActive: art.isActive,
         imageId: imageAsset?.id ?? null,
         translations: {
           create: [
-            { locale: "fr", name: comp.name, bio: bioFr },
-            { locale: "en", name: comp.name, bio: bioEn },
+            { locale: "fr", name: art.name, bio: bioFr },
+            { locale: "en", name: art.name, bio: bioEn },
           ],
         },
       },
       update: {
-        externalUrl: comp.externalUrl,
-        order: comp.order,
-        isActive: comp.isActive,
+        externalUrl: art.externalUrl,
+        order: art.order,
+        isActive: art.isActive,
         imageId: imageAsset?.id ?? null,
         translations: {
           deleteMany: {},
           create: [
-            { locale: "fr", name: comp.name, bio: bioFr },
-            { locale: "en", name: comp.name, bio: bioEn },
+            { locale: "fr", name: art.name, bio: bioFr },
+            { locale: "en", name: art.name, bio: bioEn },
           ],
         },
       },
     });
 
     // Créer les liens multiples si présents
-    if (comp.links && Array.isArray(comp.links) && comp.links.length > 0) {
+    if (art.links && Array.isArray(art.links) && art.links.length > 0) {
       // Supprimer les anciens liens
-      await prisma.composerLink.deleteMany({
-        where: { composerId: composer.id },
+      await prisma.artistLink.deleteMany({
+        where: { artistId: artist.id },
       });
 
       // Créer les nouveaux liens
-      for (const link of comp.links) {
-        await prisma.composerLink.create({
+      for (const link of art.links) {
+        await prisma.artistLink.create({
           data: {
-            composerId: composer.id,
+            artistId: artist.id,
             platform: link.platform ?? "other",
             url: link.url,
             label: link.label ?? null,
@@ -415,7 +415,7 @@ async function seedComposers() {
     created++;
   }
 
-  console.log(`✅ Created ${String(created)} composers`);
+  console.log(`✅ Created ${String(created)} artists`);
 }
 
 // ============================================
@@ -448,11 +448,11 @@ async function seedWorks() {
   // Récupérer toutes les catégories et labels
   const categories = await prisma.category.findMany();
   const labels = await prisma.label.findMany();
-  const composers = await prisma.composer.findMany();
+  const artists = await prisma.artist.findMany();
 
   const categoriesMap = new Map(categories.map((c) => [c.slug, c]));
   const labelsMap = new Map(labels.map((l) => [l.slug, l]));
-  const composersMap = new Map(composers.map((c) => [c.slug, c]));
+  const artistsMap = new Map(artists.map((a) => [a.slug, a]));
 
   let created = 0;
   let skipped = 0;
@@ -593,24 +593,24 @@ async function seedWorks() {
         },
       });
 
-      // Créer les contributions (relations Work ↔ Composer)
-      if (work.composers && Array.isArray(work.composers)) {
+      // Créer les contributions (relations Work ↔ Artist)
+      if (work.artists && Array.isArray(work.artists)) {
         // Supprimer les anciennes contributions
         await prisma.contribution.deleteMany({
           where: { workId: createdWork.id },
         });
 
         // Créer les nouvelles
-        for (let i = 0; i < work.composers.length; i++) {
-          const comp = work.composers[i];
-          const composer = comp ? composersMap.get(comp.slug) : undefined;
+        for (let i = 0; i < work.artists.length; i++) {
+          const art = work.artists[i];
+          const artist = art ? artistsMap.get(art.slug) : undefined;
 
-          if (composer) {
+          if (artist) {
             await prisma.contribution.create({
               data: {
                 workId: createdWork.id,
-                composerId: composer.id,
-                role: comp.role ?? "composer",
+                artistId: artist.id,
+                role: art.role ?? "artist",
                 order: i,
               },
             });
@@ -850,7 +850,7 @@ async function main() {
 
     await seedCategories();
     await seedLabels();
-    await seedComposers();
+    await seedArtists();
     await seedWorks();
     await seedExpertises();
     await seedAdminUser();

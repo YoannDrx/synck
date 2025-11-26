@@ -10,7 +10,7 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { StudioSection } from "@/components/sections/studio-section";
 import { ExpertisesSection } from "@/components/sections/expertises-section";
 import { ProjectsSection } from "@/components/sections/projects-section";
-import { ComposersSection } from "@/components/sections/composers-section";
+import { ArtistsSection } from "@/components/sections/artists-section";
 import { ContactSection } from "@/components/sections/contact-section";
 import { InfiniteMarquee } from "@/components/infinite-marquee";
 
@@ -67,7 +67,7 @@ export function HomePage({ locale, layout, home }: HomePageProps) {
 
           <ProjectsSection locale={locale} copy={home.projects} />
 
-          <ComposersSection locale={locale} copy={home.composers} />
+          <ArtistsSection locale={locale} copy={home.artists} />
 
           <ContactSection copy={home.contactSection} />
 

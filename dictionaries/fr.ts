@@ -7,7 +7,7 @@ const dictionary: Dictionary = {
     projets: "Projets",
     blog: "Blog",
     contact: "Contact",
-    composers: "Artistes",
+    artists: "Artistes",
   },
   cta: {
     viewMore: "Voir plus",
@@ -181,13 +181,13 @@ const dictionary: Dictionary = {
       cardWorkLabel: "PROJET",
       error: "Erreur lors du chargement des projets",
     },
-    composers: {
+    artists: {
       eyebrow: "Artistes",
       title: "Artistes",
       viewAll: "Voir tous les artistes",
       worksSingular: "projet",
       worksPlural: "projets",
-      error: "Erreur lors du chargement des compositeurs",
+      error: "Erreur lors du chargement des artistes",
     },
     experiments: {
       eyebrow: "Blog",
@@ -199,7 +199,7 @@ const dictionary: Dictionary = {
       eyebrow: "Contact",
       title: "Synchronisons vos droits musicaux.",
       description:
-        "Je conseille labels, éditeurs, compositeurs et producteurs pour sécuriser leurs catalogues, accélérer la facturation et ouvrir de nouveaux revenus.",
+        "Je conseille labels, éditeurs, artistes et producteurs pour sécuriser leurs catalogues, accélérer la facturation et ouvrir de nouveaux revenus.",
       primaryCta: {
         label: "Écrire à Caroline",
         href: "mailto:caroline.senyk@parigomusic.com",
@@ -323,7 +323,7 @@ const dictionary: Dictionary = {
     ctaButton: "Me contacter",
   },
   projetDetail: {
-    composersTitle: "Artistes",
+    artistsTitle: "Artistes",
     infoTitle: "Informations",
     releaseDate: "Date de sortie",
     category: "Catégorie",
@@ -343,7 +343,7 @@ const dictionary: Dictionary = {
     ctaDescription: "Discutons de votre projet de gestion de droits musicaux.",
     ctaButton: "Me contacter",
   },
-  composersPage: {
+  artistsPage: {
     description:
       "Découvrez les artistes avec lesquels Caroline collabore pour gérer leurs droits musicaux.",
     worksSingular: "projet",
@@ -364,7 +364,7 @@ const dictionary: Dictionary = {
     ctaDescription: "Discutons de la gestion de vos droits musicaux.",
     ctaButton: "Me contacter",
   },
-  composerDetail: {
+  artistDetail: {
     worksTitle: "Projets collaboratifs",
     worksSingular: "projet",
     worksPlural: "projets",
@@ -452,7 +452,7 @@ const dictionary: Dictionary = {
     nav: {
       dashboard: "Tableau de bord",
       albums: "Albums",
-      composers: "Compositeurs",
+      artists: "Artistes",
       expertises: "Expertises",
       categories: "Catégories",
       labels: "Labels",
@@ -465,7 +465,7 @@ const dictionary: Dictionary = {
       welcome: "Bienvenue dans l'administration de SYNCK",
       stats: {
         totalWorks: "Albums au catalogue",
-        totalComposers: "Compositeurs",
+        totalComposers: "Artistes",
         totalExpertises: "Expertises",
         activeCategories: "Catégories actives",
       },
@@ -473,7 +473,7 @@ const dictionary: Dictionary = {
       quickActions: {
         title: "Actions rapides",
         newWork: "Nouvel album",
-        newComposer: "Nouveau compositeur",
+        newComposer: "Nouveau artiste",
         newExpertise: "Nouvelle expertise",
         inviteAdmin: "Inviter un admin",
       },
@@ -530,10 +530,10 @@ const dictionary: Dictionary = {
         status: "Statut",
       },
     },
-    composers: {
-      title: "Gestion des compositeurs",
-      createNew: "Nouveau compositeur",
-      editTitle: "Modifier le compositeur",
+    artists: {
+      title: "Gestion des artistes",
+      createNew: "Nouveau artiste",
+      editTitle: "Modifier le artiste",
       fields: {
         nameLabel: "Nom",
         bioLabel: "Biographie",

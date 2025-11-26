@@ -8,7 +8,7 @@ Ce dossier contient les tests end-to-end (E2E) de l'application utilisant Playwr
 e2e/
 ├── home.spec.ts          # Tests de la page d'accueil
 ├── projets.spec.ts       # Tests de la page projets
-├── compositeurs.spec.ts  # Tests de la page compositeurs
+├── artistes.spec.ts      # Tests de la page artistes
 ├── expertises.spec.ts    # Tests de la page expertises
 └── contact.spec.ts       # Tests de la page contact
 ```

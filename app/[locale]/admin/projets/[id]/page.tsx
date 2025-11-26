@@ -24,7 +24,7 @@ async function getWork(id: string) {
       },
       contributions: {
         include: {
-          composer: {
+          artist: {
             include: {
               translations: true,
             },

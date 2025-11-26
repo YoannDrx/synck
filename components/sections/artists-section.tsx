@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AnimatedSection, SectionHeader } from "./animated-section";
 import { cn } from "@/lib/utils";
 
-type GalleryComposer = {
+type GalleryArtist = {
   id: string;
   slug: string;
   name: string;
@@ -22,14 +22,14 @@ type GalleryComposer = {
   worksCount: number;
 };
 
-type ComposersCopy = HomeDictionary["composers"];
+type ArtistsCopy = HomeDictionary["artists"];
 
-type ComposersSectionProps = {
+type ArtistsSectionProps = {
   locale: Locale;
-  copy: ComposersCopy;
+  copy: ArtistsCopy;
 };
 
-const composerAccents = [
+const artistAccents = [
   {
     bg: "from-[#ff6b6b] via-[#ff8e53] to-[#feca57]",
     ring: "ring-[#ff6b6b]/50",
@@ -74,20 +74,20 @@ const composerAccents = [
   },
 ];
 
-function ComposerCard({
-  composer,
+function ArtistCard({
+  artist,
   index,
   locale,
   copy,
 }: {
-  composer: GalleryComposer;
+  artist: GalleryArtist;
   index: number;
   locale: Locale;
-  copy: ComposersCopy;
+  copy: ArtistsCopy;
 }) {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const isInView = useInView(cardRef, { once: true, margin: "-50px" });
-  const accent = composerAccents[index % composerAccents.length];
+  const accent = artistAccents[index % artistAccents.length];
 
   const renderWorksCount = (count: number) =>
     `${String(count)} ${count > 1 ? copy.worksPlural : copy.worksSingular}`;
@@ -105,7 +105,7 @@ function ComposerCard({
     >
       <Link
         ref={cardRef}
-        href={`/${locale}/compositeurs/${composer.slug}`}
+        href={`/${locale}/artistes/${artist.slug}`}
         className={cn(
           "relative flex flex-col items-center gap-4 p-6",
           "rounded-2xl",
@@ -163,10 +163,10 @@ function ComposerCard({
               "group-hover:ring-4 group-hover:ring-white/30",
             )}
           >
-            {composer.image ? (
+            {artist.image ? (
               <Image
-                src={composer.image}
-                alt={composer.imageAlt ?? composer.name}
+                src={artist.image}
+                alt={artist.imageAlt ?? artist.name}
                 fill
                 sizes="80px"
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -180,7 +180,7 @@ function ComposerCard({
                 )}
               >
                 <span className="text-2xl font-black text-white">
-                  {composer.name.charAt(0).toUpperCase()}
+                  {artist.name.charAt(0).toUpperCase()}
                 </span>
               </div>
             )}
@@ -197,7 +197,7 @@ function ComposerCard({
             `group-hover:${accent.bg}`,
           )}
         >
-          {composer.name}
+          {artist.name}
         </h3>
 
         {/* Works count badge */}
@@ -211,7 +211,7 @@ function ComposerCard({
             "group-hover:text-white group-hover:shadow-lg",
           )}
         >
-          {renderWorksCount(composer.worksCount)}
+          {renderWorksCount(artist.worksCount)}
         </div>
 
         {/* Floating music notes decoration */}
@@ -241,20 +241,20 @@ function ComposerCard({
   );
 }
 
-export function ComposersSection({ locale, copy }: ComposersSectionProps) {
-  const [composers, setComposers] = useState<GalleryComposer[]>([]);
+export function ArtistsSection({ locale, copy }: ArtistsSectionProps) {
+  const [artists, setArtists] = useState<GalleryArtist[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchComposers() {
+    async function fetchArtists() {
       try {
-        const response = await fetch(`/api/composers?locale=${locale}&limit=6`);
+        const response = await fetch(`/api/artists?locale=${locale}&limit=6`);
         if (!response.ok) {
-          throw new Error("Failed to fetch composers");
+          throw new Error("Failed to fetch artists");
         }
-        const data = (await response.json()) as GalleryComposer[];
-        setComposers(data);
+        const data = (await response.json()) as GalleryArtist[];
+        setArtists(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
       } finally {
@@ -262,12 +262,12 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
       }
     }
 
-    void fetchComposers();
+    void fetchArtists();
   }, [locale]);
 
   if (loading) {
     return (
-      <AnimatedSection id="composers" className="space-y-8">
+      <AnimatedSection id="artists" className="space-y-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <SectionHeader eyebrow={copy.eyebrow} title={copy.title} />
         </div>
@@ -293,7 +293,7 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
 
   if (error) {
     return (
-      <AnimatedSection id="composers" className="space-y-8">
+      <AnimatedSection id="artists" className="space-y-8">
         <div className="py-12 text-center text-[var(--color-error)]">
           {copy.error}
         </div>
@@ -303,7 +303,7 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
 
   return (
     <AnimatedSection
-      id="composers"
+      id="artists"
       className="space-y-8 overflow-visible"
       scrollParallax
     >
@@ -314,7 +314,7 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
           variant="outline"
           className="inline-flex items-center gap-2 rounded-full"
         >
-          <Link href={`/${locale}/compositeurs`}>
+          <Link href={`/${locale}/artistes`}>
             {copy.viewAll}
             <span aria-hidden>↗</span>
           </Link>
@@ -323,10 +323,10 @@ export function ComposersSection({ locale, copy }: ComposersSectionProps) {
 
       <div className="-mx-6 px-6 py-4">
         <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
-          {composers.map((composer, index) => (
-            <ComposerCard
-              key={composer.id}
-              composer={composer}
+          {artists.map((artist, index) => (
+            <ArtistCard
+              key={artist.id}
+              artist={artist}
               index={index}
               locale={locale}
               copy={copy}

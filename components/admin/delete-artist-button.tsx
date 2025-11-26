@@ -5,18 +5,18 @@ import { useRouter } from "next/navigation"
 import type { AdminDictionary } from "@/types/dictionary"
 import { fetchWithAuth } from "@/lib/fetch-with-auth"
 
-type DeleteComposerButtonProps = {
-  composerId: string
-  composerName: string
+type DeleteArtistButtonProps = {
+  artistId: string
+  artistName: string
   hasContributions: boolean
   dictionary: AdminDictionary["common"]
 }
 
-export function DeleteComposerButton({
-  composerId,
+export function DeleteArtistButton({
+  artistId,
   hasContributions,
   dictionary,
-}: DeleteComposerButtonProps) {
+}: DeleteArtistButtonProps) {
   const router = useRouter()
   const [isDeleting, setIsDeleting] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
@@ -25,7 +25,7 @@ export function DeleteComposerButton({
     setIsDeleting(true)
 
     try {
-      const response = await fetchWithAuth(`/api/admin/composers/${composerId}`, {
+      const response = await fetchWithAuth(`/api/admin/artists/${artistId}`, {
         method: "DELETE",
       })
 
@@ -49,7 +49,7 @@ export function DeleteComposerButton({
         type="button"
         disabled
         className="border-2 border-white/10 px-3 py-2 text-sm text-white/30 cursor-not-allowed"
-        title="Ce compositeur a des contributions"
+        title="Ce artiste a des contributions"
       >
         {dictionary.delete}
       </button>

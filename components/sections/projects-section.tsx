@@ -21,7 +21,7 @@ type GalleryWork = {
   category: string;
   coverImage: string;
   coverImageAlt: string;
-  composers: string[];
+  artists: string[];
 };
 
 type ProjectsCopy = HomeDictionary["projects"];
@@ -191,23 +191,23 @@ export function ProjectsSection({ locale, copy }: ProjectsSectionProps) {
                     </h3>
 
                     <div className="mt-auto flex min-h-[26px] flex-wrap items-start gap-1.5">
-                      {work.composers.slice(0, 2).map((composer) => (
+                      {work.artists.slice(0, 2).map((artist) => (
                         <Badge
-                          key={composer}
+                          key={artist}
                           variant="outline"
                           size="sm"
                           className="text-[0.55rem] uppercase tracking-[0.15em]"
                         >
-                          {composer}
+                          {artist}
                         </Badge>
                       ))}
-                      {work.composers.length > 2 && (
+                      {work.artists.length > 2 && (
                         <Badge
                           variant="outline"
                           size="sm"
                           className="text-[0.55rem]"
                         >
-                          +{work.composers.length - 2}
+                          +{work.artists.length - 2}
                         </Badge>
                       )}
                     </div>

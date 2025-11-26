@@ -32,7 +32,7 @@ model Asset {
   workCover       Work[]      @relation("WorkCover")
   categoryImages  Category[]  @relation("CategoryImages")
   labelImages     Label[]     @relation("LabelImages")
-  composerImages  Composer[]  @relation("ComposerImages")
+  artistImages    Artist[]    @relation("ArtistImages")
   expertiseImages Expertise[] @relation("ExpertiseImages")
   expertiseCover  Expertise[] @relation("ExpertiseCover")
   cvPhotos        CV[]        @relation("CVPhoto")
@@ -78,14 +78,14 @@ model CategoryTranslation {
 }
 
 // ============================================
-// COMPOSERS / ARTISTS
+// ARTISTS
 // ============================================
 
-model Composer {
+model Artist {
   id          String   @id @default(cuid())
   slug        String   @unique
   imageId     String?
-  image       Asset?   @relation("ComposerImages", fields: [imageId], references: [id])
+  image       Asset?   @relation("ArtistImages", fields: [imageId], references: [id])
   externalUrl String? // Primary external link (kept for backward compatibility)
   order       Int      @default(0)
   isActive    Boolean  @default(true)
@@ -93,39 +93,39 @@ model Composer {
   updatedAt   DateTime @updatedAt
 
   // Relations
-  translations  ComposerTranslation[]
+  translations  ArtistTranslation[]
   contributions Contribution[]
-  links         ComposerLink[] // Multiple social/external links
+  links         ArtistLink[] // Multiple social/external links
 
   @@index([slug])
   @@index([isActive, order])
 }
 
-model ComposerTranslation {
-  id         String  @id @default(cuid())
-  composerId String
-  locale     String // 'fr' or 'en'
-  name       String // Ex: "Maurice Ravel", "Claude Debussy"
-  bio        String? @db.Text
+model ArtistTranslation {
+  id       String  @id @default(cuid())
+  artistId String
+  locale   String // 'fr' or 'en'
+  name     String // Ex: "Maurice Ravel", "Claude Debussy"
+  bio      String? @db.Text
 
-  composer Composer @relation(fields: [composerId], references: [id], onDelete: Cascade)
+  artist Artist @relation(fields: [artistId], references: [id], onDelete: Cascade)
 
-  @@unique([composerId, locale])
+  @@unique([artistId, locale])
   @@index([locale])
 }
 
-model ComposerLink {
-  id         String   @id @default(cuid())
-  composerId String
-  composer   Composer @relation(fields: [composerId], references: [id], onDelete: Cascade)
-  platform   String // Ex: "youtube", "soundcloud", "spotify", "facebook", "instagram", "website"
-  url        String
-  label      String? // Display label (optional, ex: "Official YouTube Channel")
-  order      Int      @default(0)
-  createdAt  DateTime @default(now())
+model ArtistLink {
+  id        String   @id @default(cuid())
+  artistId  String
+  artist    Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  platform  String // Ex: "youtube", "soundcloud", "spotify", "facebook", "instagram", "website"
+  url       String
+  label     String? // Display label (optional, ex: "Official YouTube Channel")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
 
-  @@unique([composerId, url]) // Prevent duplicate URLs for same composer
-  @@index([composerId])
+  @@unique([artistId, url]) // Prevent duplicate URLs for same artist
+  @@index([artistId])
   @@index([platform])
 }
 
@@ -220,21 +220,21 @@ model WorkTranslation {
 }
 
 // ============================================
-// CONTRIBUTIONS (Many-to-Many: Work ↔ Composer)
+// CONTRIBUTIONS (Many-to-Many: Work ↔ Artist)
 // ============================================
 
 model Contribution {
-  id         String   @id @default(cuid())
-  workId     String
-  work       Work     @relation(fields: [workId], references: [id], onDelete: Cascade)
-  composerId String
-  composer   Composer @relation(fields: [composerId], references: [id], onDelete: Cascade)
-  role       String? // Ex: "composer", "conductor", "performer"
-  order      Int      @default(0)
+  id       String  @id @default(cuid())
+  workId   String
+  work     Work    @relation(fields: [workId], references: [id], onDelete: Cascade)
+  artistId String
+  artist   Artist  @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  role     String? // Ex: "composer", "conductor", "performer"
+  order    Int     @default(0)
 
-  @@unique([workId, composerId])
+  @@unique([workId, artistId])
   @@index([workId])
-  @@index([composerId])
+  @@index([artistId])
 }
 
 // ============================================
@@ -454,7 +454,7 @@ model PreviewToken {
 enum ExportType {
   ASSETS
   WORKS
-  COMPOSERS
+  ARTISTS
   CATEGORIES
   LABELS
   EXPERTISES

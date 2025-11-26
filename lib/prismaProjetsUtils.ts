@@ -34,7 +34,7 @@ export type GalleryWork = {
   coverImageHeight?: number;
   coverImageAspectRatio?: number;
   coverImageBlurDataUrl?: string;
-  composers: string[];
+  artists: string[];
   externalUrl?: string;
   youtubeUrl?: string;
   year?: number;
@@ -66,7 +66,7 @@ export const getProjetsFromPrisma = cache(
           },
           contributions: {
             include: {
-              composer: {
+              artist: {
                 include: {
                   translations: {
                     where: {
@@ -106,9 +106,9 @@ export const getProjetsFromPrisma = cache(
           coverImageHeight: work.coverImage?.height ?? undefined,
           coverImageAspectRatio: work.coverImage?.aspectRatio ?? undefined,
           coverImageBlurDataUrl: work.coverImage?.blurDataUrl ?? undefined,
-          composers: work.contributions.map((contrib) => {
-            const composerTranslation = contrib.composer.translations[0];
-            return composerTranslation?.name ?? "";
+          artists: work.contributions.map((contrib) => {
+            const artistTranslation = contrib.artist.translations[0];
+            return artistTranslation?.name ?? "";
           }),
           externalUrl: work.externalUrl ?? undefined,
           youtubeUrl: work.youtubeUrl ?? undefined,
@@ -167,7 +167,7 @@ export type WorkImage = Prisma.AssetGetPayload<{
 
 export type WorkContribution = Prisma.ContributionGetPayload<{
   include: {
-    composer: {
+    artist: {
       include: {
         translations: {
           where: {
@@ -209,7 +209,7 @@ export type WorkWithDetails = Prisma.WorkGetPayload<{
     };
     contributions: {
       include: {
-        composer: {
+        artist: {
           include: {
             translations: {
               where: {
@@ -261,7 +261,7 @@ export const getWorkBySlug = cache(
           },
           contributions: {
             include: {
-              composer: {
+              artist: {
                 include: {
                   translations: {
                     where: {
@@ -305,10 +305,10 @@ export async function getAllWorkSlugs(): Promise<string[]> {
 }
 
 // ============================================
-// COMPOSERS / ARTISTS
+// ARTISTS
 // ============================================
 
-export type GalleryComposer = {
+export type GalleryArtist = {
   id: string;
   slug: string;
   name: string;
@@ -319,7 +319,7 @@ export type GalleryComposer = {
   worksCount: number;
 };
 
-export type ComposerWithContributions = Prisma.ComposerGetPayload<{
+export type ArtistWithContributions = Prisma.ArtistGetPayload<{
   include: {
     translations: {
       where: {
@@ -366,13 +366,13 @@ export type ComposerWithContributions = Prisma.ComposerGetPayload<{
   };
 }>;
 
-// Get all composers with translations
+// Get all artists with translations
 // NOTE: cache() is used for performance. If image paths appear incorrect after DB changes,
 // restart the dev server to clear React's in-memory cache.
-export const getComposersFromPrisma = cache(
-  async (locale: Locale): Promise<GalleryComposer[]> => {
+export const getArtistsFromPrisma = cache(
+  async (locale: Locale): Promise<GalleryArtist[]> => {
     try {
-      const composers = await prisma.composer.findMany({
+      const artists = await prisma.artist.findMany({
         where: {
           isActive: true,
         },
@@ -396,17 +396,17 @@ export const getComposersFromPrisma = cache(
         },
       });
 
-      return composers.map((composer) => {
-        const translation = composer.translations[0];
+      return artists.map((artist) => {
+        const translation = artist.translations[0];
         return {
-          id: composer.id,
-          slug: composer.slug,
-          name: translation?.name ?? composer.slug,
+          id: artist.id,
+          slug: artist.slug,
+          name: translation?.name ?? artist.slug,
           bio: translation?.bio ?? undefined,
-          image: assetPathToUrl(composer.image?.path),
-          imageAlt: composer.image?.alt ?? translation?.name ?? composer.slug,
-          externalUrl: composer.externalUrl ?? undefined,
-          worksCount: composer.contributions.length,
+          image: assetPathToUrl(artist.image?.path),
+          imageAlt: artist.image?.alt ?? translation?.name ?? artist.slug,
+          externalUrl: artist.externalUrl ?? undefined,
+          worksCount: artist.contributions.length,
         };
       });
     } catch {
@@ -415,14 +415,14 @@ export const getComposersFromPrisma = cache(
   },
 );
 
-// Get a single composer by slug with full details
-export const getComposerBySlug = cache(
+// Get a single artist by slug with full details
+export const getArtistBySlug = cache(
   async (
     slug: string,
     locale: Locale,
-  ): Promise<ComposerWithContributions | null> => {
+  ): Promise<ArtistWithContributions | null> => {
     try {
-      const composer = await prisma.composer.findUnique({
+      const artist = await prisma.artist.findUnique({
         where: { slug },
         include: {
           translations: {
@@ -470,17 +470,17 @@ export const getComposerBySlug = cache(
         },
       });
 
-      return composer;
+      return artist;
     } catch {
       return null;
     }
   },
 );
 
-// Get all composer slugs for generateStaticParams
-export async function getAllComposerSlugs(): Promise<string[]> {
+// Get all artist slugs for generateStaticParams
+export async function getAllArtistSlugs(): Promise<string[]> {
   try {
-    const composers = await prisma.composer.findMany({
+    const artists = await prisma.artist.findMany({
       where: {
         isActive: true,
       },
@@ -489,7 +489,7 @@ export async function getAllComposerSlugs(): Promise<string[]> {
       },
     });
 
-    return composers.map((composer) => composer.slug);
+    return artists.map((artist) => artist.slug);
   } catch {
     return [];
   }

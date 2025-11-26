@@ -19,7 +19,7 @@ export const GET = withAuth(async (req, _context, user) => {
             workCover: true,
             categoryImages: true,
             labelImages: true,
-            composerImages: true,
+            artistImages: true,
             expertiseImages: true,
             expertiseCover: true,
           },
@@ -37,7 +37,7 @@ export const GET = withAuth(async (req, _context, user) => {
           asset._count.workCover === 0 &&
           asset._count.categoryImages === 0 &&
           asset._count.labelImages === 0 &&
-          asset._count.composerImages === 0 &&
+          asset._count.artistImages === 0 &&
           asset._count.expertiseImages === 0 &&
           asset._count.expertiseCover === 0,
       );
@@ -49,7 +49,7 @@ export const GET = withAuth(async (req, _context, user) => {
         asset._count.workCover +
         asset._count.categoryImages +
         asset._count.labelImages +
-        asset._count.composerImages +
+        asset._count.artistImages +
         asset._count.expertiseImages +
         asset._count.expertiseCover;
 
@@ -66,7 +66,7 @@ export const GET = withAuth(async (req, _context, user) => {
         workCoverCount: asset._count.workCover,
         categoryImagesCount: asset._count.categoryImages,
         labelImagesCount: asset._count.labelImages,
-        composerImagesCount: asset._count.composerImages,
+        artistImagesCount: asset._count.artistImages,
         expertiseImagesCount: asset._count.expertiseImages,
         expertiseCoverCount: asset._count.expertiseCover,
         isOrphan: totalUsage === 0,

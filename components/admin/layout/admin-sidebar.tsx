@@ -64,8 +64,8 @@ export function AdminSidebar({
       group: "content",
     },
     {
-      href: `/${locale}/admin/compositeurs`,
-      label: dict.nav.composers,
+      href: `/${locale}/admin/artistes`,
+      label: dict.nav.artists,
       icon: UsersIcon,
       group: "content",
     },

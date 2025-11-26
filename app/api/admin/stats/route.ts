@@ -8,8 +8,8 @@ export const GET = withAuth(async () => {
     totalWorks,
     activeWorks,
     inactiveWorks,
-    totalComposers,
-    activeComposers,
+    totalArtists,
+    activeArtists,
     totalCategories,
     activeCategories,
     totalLabels,
@@ -17,16 +17,16 @@ export const GET = withAuth(async () => {
     totalAssets,
     orphanedAssets,
     lastWork,
-    lastComposer,
+    lastArtist,
   ] = await Promise.all([
     // Works stats
     prisma.work.count(),
     prisma.work.count({ where: { isActive: true } }),
     prisma.work.count({ where: { isActive: false } }),
 
-    // Composers stats
-    prisma.composer.count(),
-    prisma.composer.count({ where: { isActive: true } }),
+    // Artists stats
+    prisma.artist.count(),
+    prisma.artist.count({ where: { isActive: true } }),
 
     // Categories stats
     prisma.category.count(),
@@ -43,7 +43,7 @@ export const GET = withAuth(async () => {
         AND: [
           { workCover: { none: {} } },
           { workImages: { none: {} } },
-          { composerImages: { none: {} } },
+          { artistImages: { none: {} } },
           { categoryImages: { none: {} } },
           { labelImages: { none: {} } },
           { expertiseCover: { none: {} } },
@@ -65,8 +65,8 @@ export const GET = withAuth(async () => {
       },
     }),
 
-    // Last activity - most recent composer
-    prisma.composer.findFirst({
+    // Last activity - most recent artist
+    prisma.artist.findFirst({
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
@@ -85,10 +85,10 @@ export const GET = withAuth(async () => {
       active: activeWorks,
       inactive: inactiveWorks,
     },
-    composers: {
-      total: totalComposers,
-      active: activeComposers,
-      inactive: totalComposers - activeComposers,
+    artists: {
+      total: totalArtists,
+      active: activeArtists,
+      inactive: totalArtists - activeArtists,
     },
     categories: {
       total: totalCategories,
@@ -110,11 +110,11 @@ export const GET = withAuth(async () => {
             createdAt: lastWork.createdAt.toISOString(),
           }
         : null,
-      composer: lastComposer
+      artist: lastArtist
         ? {
-            id: lastComposer.id,
-            name: lastComposer.translations[0]?.name ?? "Sans nom",
-            createdAt: lastComposer.createdAt.toISOString(),
+            id: lastArtist.id,
+            name: lastArtist.translations[0]?.name ?? "Sans nom",
+            createdAt: lastArtist.createdAt.toISOString(),
           }
         : null,
     },

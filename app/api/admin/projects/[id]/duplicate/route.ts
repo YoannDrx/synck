@@ -47,7 +47,7 @@ export const POST = withAuth(async (_req, context) => {
         },
         contributions: {
           create: original.contributions.map((c) => ({
-            composerId: c.composerId,
+            artistId: c.artistId,
             role: c.role,
             order: c.order,
           })),

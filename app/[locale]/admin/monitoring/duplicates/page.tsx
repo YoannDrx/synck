@@ -106,14 +106,14 @@ type DuplicatesData = {
     totalWarnings: number;
     totalInfo: number;
   };
-  composers: {
+  artists: {
     duplicatesBySlug: {
       identifier: string;
       type: "slug" | "name" | "similar";
       count: number;
       severity: Severity;
       reason: string;
-      composers: {
+      artists: {
         id: string;
         slug: string;
         translations: { locale: string; name: string }[];
@@ -126,7 +126,7 @@ type DuplicatesData = {
       count: number;
       severity: Severity;
       reason: string;
-      composers: {
+      artists: {
         id: string;
         slug: string;
         translations: { locale: string; name: string }[];
@@ -139,7 +139,7 @@ type DuplicatesData = {
       count: number;
       severity: Severity;
       reason: string;
-      composers: {
+      artists: {
         id: string;
         slug: string;
         translations: { locale: string; name: string }[];
@@ -284,8 +284,8 @@ export default function DuplicatesMonitoringPage() {
     data.assets.totalDuplicates +
     data.assets.totalUnused +
     data.works.totalDuplicates +
-    data.composers.totalDuplicates +
-    data.composers.totalIntegrityIssues +
+    data.artists.totalDuplicates +
+    data.artists.totalIntegrityIssues +
     data.categories.totalDuplicates +
     data.labels.totalDuplicates;
 
@@ -325,7 +325,7 @@ export default function DuplicatesMonitoringPage() {
                 <p className="mt-2 text-3xl font-bold text-white">
                   {data.assets.totalErrors +
                     data.works.totalErrors +
-                    data.composers.totalErrors +
+                    data.artists.totalErrors +
                     data.categories.totalErrors +
                     data.labels.totalErrors}
                 </p>
@@ -343,7 +343,7 @@ export default function DuplicatesMonitoringPage() {
                 <p className="mt-2 text-3xl font-bold text-white">
                   {data.assets.totalWarnings +
                     data.works.totalWarnings +
-                    data.composers.totalWarnings +
+                    data.artists.totalWarnings +
                     data.categories.totalWarnings +
                     data.labels.totalWarnings}
                 </p>
@@ -361,7 +361,7 @@ export default function DuplicatesMonitoringPage() {
                 <p className="mt-2 text-3xl font-bold text-white">
                   {data.assets.totalInfo +
                     data.works.totalInfo +
-                    data.composers.totalInfo +
+                    data.artists.totalInfo +
                     data.categories.totalInfo +
                     data.labels.totalInfo}
                 </p>
@@ -469,10 +469,8 @@ export default function DuplicatesMonitoringPage() {
             className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-lime-300 data-[state=active]:bg-transparent data-[state=active]:text-lime-300"
           >
             <UsersIcon className="mr-2 h-4 w-4" />
-            Compositeurs (
-            {data.composers.totalDuplicates +
-              data.composers.totalIntegrityIssues}
-            )
+            Artistes (
+            {data.artists.totalDuplicates + data.artists.totalIntegrityIssues})
           </TabsTrigger>
           <TabsTrigger
             value="categories"
@@ -891,14 +889,14 @@ export default function DuplicatesMonitoringPage() {
 
         {/* Composers Tab */}
         <TabsContent value="composers" className="space-y-6">
-          {data.composers.duplicatesBySlug.filter(
+          {data.artists.duplicatesBySlug.filter(
             (d) => severityFilter === "all" || d.severity === severityFilter,
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Doublons par slug (
                 {
-                  data.composers.duplicatesBySlug.filter(
+                  data.artists.duplicatesBySlug.filter(
                     (d) =>
                       severityFilter === "all" || d.severity === severityFilter,
                   ).length
@@ -906,7 +904,7 @@ export default function DuplicatesMonitoringPage() {
                 )
               </h2>
               <div className="space-y-4">
-                {data.composers.duplicatesBySlug
+                {data.artists.duplicatesBySlug
                   .filter(
                     (d) =>
                       severityFilter === "all" || d.severity === severityFilter,
@@ -922,7 +920,7 @@ export default function DuplicatesMonitoringPage() {
                             <AlertTriangleIcon
                               className={`h-5 w-5 ${getSeverityIconColor(duplicate.severity)}`}
                             />
-                            {duplicate.count} compositeurs avec le slug "
+                            {duplicate.count} artistes avec le slug "
                             {duplicate.identifier}"
                           </CardTitle>
                           <Badge
@@ -939,19 +937,19 @@ export default function DuplicatesMonitoringPage() {
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-3">
-                          {duplicate.composers.map((composer) => (
+                          {duplicate.artists.map((artist) => (
                             <div
-                              key={composer.id}
+                              key={artist.id}
                               className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-4"
                             >
                               <div>
                                 <p className="font-medium text-white">
-                                  {composer.translations.find(
+                                  {artist.translations.find(
                                     (t) => t.locale === "fr",
-                                  )?.name ?? composer.slug}
+                                  )?.name ?? artist.slug}
                                 </p>
                                 <p className="mt-1 text-sm text-white/50">
-                                  Créé le: {formatDate(composer.createdAt)}
+                                  Créé le: {formatDate(artist.createdAt)}
                                 </p>
                               </div>
                               <Button
@@ -959,7 +957,7 @@ export default function DuplicatesMonitoringPage() {
                                 variant="ghost"
                                 onClick={() => {
                                   window.open(
-                                    `/${locale}/admin/compositeurs/${composer.id}`,
+                                    `/${locale}/admin/artistes/${artist.id}`,
                                     "_blank",
                                   );
                                 }}
@@ -978,14 +976,14 @@ export default function DuplicatesMonitoringPage() {
             </div>
           )}
 
-          {data.composers.duplicatesByName.filter(
+          {data.artists.duplicatesByName.filter(
             (d) => severityFilter === "all" || d.severity === severityFilter,
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Doublons par nom (
                 {
-                  data.composers.duplicatesByName.filter(
+                  data.artists.duplicatesByName.filter(
                     (d) =>
                       severityFilter === "all" || d.severity === severityFilter,
                   ).length
@@ -993,7 +991,7 @@ export default function DuplicatesMonitoringPage() {
                 )
               </h2>
               <div className="space-y-4">
-                {data.composers.duplicatesByName
+                {data.artists.duplicatesByName
                   .filter(
                     (d) =>
                       severityFilter === "all" || d.severity === severityFilter,
@@ -1009,7 +1007,7 @@ export default function DuplicatesMonitoringPage() {
                             <AlertTriangleIcon
                               className={`h-5 w-5 ${getSeverityIconColor(duplicate.severity)}`}
                             />
-                            {duplicate.count} compositeurs avec un nom similaire
+                            {duplicate.count} artistes avec un nom similaire
                           </CardTitle>
                           <Badge
                             className={getSeverityBadgeColor(
@@ -1025,19 +1023,19 @@ export default function DuplicatesMonitoringPage() {
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-3">
-                          {duplicate.composers.map((composer) => (
+                          {duplicate.artists.map((artist) => (
                             <div
-                              key={composer.id}
+                              key={artist.id}
                               className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-4"
                             >
                               <div>
                                 <p className="font-medium text-white">
-                                  {composer.translations.find(
+                                  {artist.translations.find(
                                     (t) => t.locale === "fr",
-                                  )?.name ?? composer.slug}
+                                  )?.name ?? artist.slug}
                                 </p>
                                 <p className="mt-1 text-sm text-white/50">
-                                  Slug: {composer.slug}
+                                  Slug: {artist.slug}
                                 </p>
                               </div>
                               <Button
@@ -1045,7 +1043,7 @@ export default function DuplicatesMonitoringPage() {
                                 variant="ghost"
                                 onClick={() => {
                                   window.open(
-                                    `/${locale}/admin/compositeurs/${composer.id}`,
+                                    `/${locale}/admin/artistes/${artist.id}`,
                                     "_blank",
                                   );
                                 }}
@@ -1065,14 +1063,14 @@ export default function DuplicatesMonitoringPage() {
           )}
 
           {/* Similar Names (normalized) */}
-          {data.composers.duplicatesBySimilarName.filter(
+          {data.artists.duplicatesBySimilarName.filter(
             (d) => severityFilter === "all" || d.severity === severityFilter,
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Noms similaires (
                 {
-                  data.composers.duplicatesBySimilarName.filter(
+                  data.artists.duplicatesBySimilarName.filter(
                     (d) =>
                       severityFilter === "all" || d.severity === severityFilter,
                   ).length
@@ -1080,7 +1078,7 @@ export default function DuplicatesMonitoringPage() {
                 )
               </h2>
               <div className="space-y-4">
-                {data.composers.duplicatesBySimilarName
+                {data.artists.duplicatesBySimilarName
                   .filter(
                     (d) =>
                       severityFilter === "all" || d.severity === severityFilter,
@@ -1096,8 +1094,7 @@ export default function DuplicatesMonitoringPage() {
                             <AlertTriangleIcon
                               className={`h-5 w-5 ${getSeverityIconColor(duplicate.severity)}`}
                             />
-                            {duplicate.count} compositeurs avec des noms
-                            similaires
+                            {duplicate.count} artistes avec des noms similaires
                           </CardTitle>
                           <Badge
                             className={getSeverityBadgeColor(
@@ -1113,19 +1110,19 @@ export default function DuplicatesMonitoringPage() {
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-3">
-                          {duplicate.composers.map((composer) => (
+                          {duplicate.artists.map((artist) => (
                             <div
-                              key={composer.id}
+                              key={artist.id}
                               className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-4"
                             >
                               <div>
                                 <p className="font-medium text-white">
-                                  {composer.translations.find(
+                                  {artist.translations.find(
                                     (t) => t.locale === "fr",
-                                  )?.name ?? composer.slug}
+                                  )?.name ?? artist.slug}
                                 </p>
                                 <p className="mt-1 text-sm text-white/50">
-                                  Slug: {composer.slug}
+                                  Slug: {artist.slug}
                                 </p>
                               </div>
                               <Button
@@ -1133,7 +1130,7 @@ export default function DuplicatesMonitoringPage() {
                                 variant="ghost"
                                 onClick={() => {
                                   window.open(
-                                    `/${locale}/admin/compositeurs/${composer.id}`,
+                                    `/${locale}/admin/artistes/${artist.id}`,
                                     "_blank",
                                   );
                                 }}
@@ -1153,14 +1150,14 @@ export default function DuplicatesMonitoringPage() {
           )}
 
           {/* Integrity Issues */}
-          {data.composers.integrityIssues.filter(
+          {data.artists.integrityIssues.filter(
             (i) => severityFilter === "all" || i.severity === severityFilter,
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Problèmes d&apos;intégrité (
                 {
-                  data.composers.integrityIssues.filter(
+                  data.artists.integrityIssues.filter(
                     (i) =>
                       severityFilter === "all" || i.severity === severityFilter,
                   ).length
@@ -1170,7 +1167,7 @@ export default function DuplicatesMonitoringPage() {
 
               {/* Group by issue type */}
               {/* No Bio */}
-              {data.composers.integrityIssues.filter(
+              {data.artists.integrityIssues.filter(
                 (i) =>
                   (severityFilter === "all" || i.severity === severityFilter) &&
                   (i.issue === "no_bio_both" ||
@@ -1183,7 +1180,7 @@ export default function DuplicatesMonitoringPage() {
                       <FileTextIcon className="h-5 w-5 text-orange-400" />
                       Biographies manquantes (
                       {
-                        data.composers.integrityIssues.filter(
+                        data.artists.integrityIssues.filter(
                           (i) =>
                             (severityFilter === "all" ||
                               i.severity === severityFilter) &&
@@ -1197,7 +1194,7 @@ export default function DuplicatesMonitoringPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-2">
-                      {data.composers.integrityIssues
+                      {data.artists.integrityIssues
                         .filter(
                           (i) =>
                             (severityFilter === "all" ||
@@ -1237,7 +1234,7 @@ export default function DuplicatesMonitoringPage() {
                               variant="ghost"
                               onClick={() => {
                                 window.open(
-                                  `/${locale}/admin/compositeurs/${issue.id}`,
+                                  `/${locale}/admin/artistes/${issue.id}`,
                                   "_blank",
                                 );
                               }}
@@ -1254,7 +1251,7 @@ export default function DuplicatesMonitoringPage() {
               )}
 
               {/* No Photo */}
-              {data.composers.integrityIssues.filter(
+              {data.artists.integrityIssues.filter(
                 (i) =>
                   (severityFilter === "all" || i.severity === severityFilter) &&
                   i.issue === "no_photo",
@@ -1265,7 +1262,7 @@ export default function DuplicatesMonitoringPage() {
                       <CameraIcon className="h-5 w-5 text-orange-400" />
                       Photos manquantes (
                       {
-                        data.composers.integrityIssues.filter(
+                        data.artists.integrityIssues.filter(
                           (i) =>
                             (severityFilter === "all" ||
                               i.severity === severityFilter) &&
@@ -1277,7 +1274,7 @@ export default function DuplicatesMonitoringPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                      {data.composers.integrityIssues
+                      {data.artists.integrityIssues
                         .filter(
                           (i) =>
                             (severityFilter === "all" ||
@@ -1297,7 +1294,7 @@ export default function DuplicatesMonitoringPage() {
                               variant="ghost"
                               onClick={() => {
                                 window.open(
-                                  `/${locale}/admin/compositeurs/${issue.id}`,
+                                  `/${locale}/admin/artistes/${issue.id}`,
                                   "_blank",
                                 );
                               }}
@@ -1313,7 +1310,7 @@ export default function DuplicatesMonitoringPage() {
               )}
 
               {/* No Links */}
-              {data.composers.integrityIssues.filter(
+              {data.artists.integrityIssues.filter(
                 (i) =>
                   (severityFilter === "all" || i.severity === severityFilter) &&
                   i.issue === "no_links",
@@ -1324,7 +1321,7 @@ export default function DuplicatesMonitoringPage() {
                       <LinkIcon className="h-5 w-5 text-blue-400" />
                       Liens manquants (
                       {
-                        data.composers.integrityIssues.filter(
+                        data.artists.integrityIssues.filter(
                           (i) =>
                             (severityFilter === "all" ||
                               i.severity === severityFilter) &&
@@ -1336,7 +1333,7 @@ export default function DuplicatesMonitoringPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                      {data.composers.integrityIssues
+                      {data.artists.integrityIssues
                         .filter(
                           (i) =>
                             (severityFilter === "all" ||
@@ -1356,7 +1353,7 @@ export default function DuplicatesMonitoringPage() {
                               variant="ghost"
                               onClick={() => {
                                 window.open(
-                                  `/${locale}/admin/compositeurs/${issue.id}`,
+                                  `/${locale}/admin/artistes/${issue.id}`,
                                   "_blank",
                                 );
                               }}
@@ -1373,15 +1370,15 @@ export default function DuplicatesMonitoringPage() {
             </div>
           )}
 
-          {data.composers.duplicatesBySlug.length === 0 &&
-            data.composers.duplicatesByName.length === 0 &&
-            data.composers.duplicatesBySimilarName.length === 0 &&
-            data.composers.integrityIssues.length === 0 && (
+          {data.artists.duplicatesBySlug.length === 0 &&
+            data.artists.duplicatesByName.length === 0 &&
+            data.artists.duplicatesBySimilarName.length === 0 &&
+            data.artists.integrityIssues.length === 0 && (
               <Card className="border-white/10 bg-black">
                 <CardContent className="p-12 text-center">
                   <UsersIcon className="mx-auto h-12 w-12 text-white/20" />
                   <p className="mt-4 text-white/50">
-                    Aucun problème détecté pour les compositeurs
+                    Aucun problème détecté pour les artistes
                   </p>
                 </CardContent>
               </Card>

@@ -191,7 +191,7 @@ export default async function WorkDetailPage({
             {work.contributions && work.contributions.length > 0 && (
               <div className="border-4 border-white/10 bg-[#0a0a0e] p-6">
                 <h2 className="mb-4 text-lg font-bold uppercase tracking-wider text-lime-300">
-                  {detailCopy.composersTitle}
+                  {detailCopy.artistsTitle}
                 </h2>
                 <div
                   className={
@@ -201,22 +201,22 @@ export default async function WorkDetailPage({
                   }
                 >
                   {work.contributions.map((contribution: WorkContribution) => {
-                    const composerTranslation =
-                      contribution.composer.translations[0];
+                    const artistTranslation =
+                      contribution.artist.translations[0];
                     return (
                       <Link
                         key={contribution.id}
-                        href={`/${safeLocale}/compositeurs/${contribution.composer.slug}`}
+                        href={`/${safeLocale}/artistes/${contribution.artist.slug}`}
                         className="flex items-center gap-3 p-2 rounded-lg transition-colors hover:bg-white/5"
                       >
-                        {contribution.composer.image ? (
+                        {contribution.artist.image ? (
                           <div className="h-12 w-12 flex-shrink-0 overflow-hidden border-2 border-white/20 rounded-full">
                             <Image
-                              src={contribution.composer.image.path}
+                              src={contribution.artist.image.path}
                               alt={
-                                contribution.composer.image.alt ??
-                                composerTranslation?.name ??
-                                "Composer"
+                                contribution.artist.image.alt ??
+                                artistTranslation?.name ??
+                                "Artist"
                               }
                               width={48}
                               height={48}
@@ -226,19 +226,19 @@ export default async function WorkDetailPage({
                         ) : (
                           <div className="h-12 w-12 flex-shrink-0 overflow-hidden border-2 border-white/20 rounded-full bg-gradient-to-br from-lime-300/20 to-emerald-400/20 flex items-center justify-center">
                             <span className="text-lg font-black text-white/40">
-                              {composerTranslation?.name
+                              {artistTranslation?.name
                                 ?.charAt(0)
-                                .toUpperCase() || "?"}
+                                .toUpperCase() ?? "?"}
                             </span>
                           </div>
                         )}
                         <div className="min-w-0">
                           <div className="font-bold text-white group-hover:text-lime-300 transition-colors">
-                            {composerTranslation?.name || "Unknown Artist"}
+                            {artistTranslation?.name ?? "Unknown Artist"}
                           </div>
-                          {composerTranslation?.bio && (
+                          {artistTranslation?.bio && (
                             <div className="text-xs text-white/60 line-clamp-1">
-                              {composerTranslation.bio}
+                              {artistTranslation.bio}
                             </div>
                           )}
                         </div>

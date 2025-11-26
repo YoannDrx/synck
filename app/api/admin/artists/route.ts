@@ -4,14 +4,14 @@ import { prisma } from "@/lib/prisma";
 import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
 import { createAuditLog } from "@/lib/audit-log";
 
-const composerLinkSchema = z.object({
+const artistLinkSchema = z.object({
   platform: z.string().min(1),
   url: z.url(),
   label: z.string().optional().nullable(),
   order: z.number().int().optional().default(0),
 });
 
-const composerSchema = z.object({
+const artistSchema = z.object({
   slug: z.string().min(1),
   imageId: z.string().optional().nullable(),
   order: z.number().int().default(0),
@@ -26,17 +26,17 @@ const composerSchema = z.object({
       bio: z.string().optional().nullable(),
     }),
   }),
-  links: z.array(composerLinkSchema).optional(),
+  links: z.array(artistLinkSchema).optional(),
 });
 
-// GET all composers
+// GET all artists
 export const GET = withAuth(async (req) => {
   const { searchParams } = new URL(req.url);
   const search = searchParams.get("search");
 
   // If search param exists, return simplified results for search
   if (search) {
-    const composers = await prisma.composer.findMany({
+    const artists = await prisma.artist.findMany({
       where: {
         translations: {
           some: {
@@ -60,17 +60,17 @@ export const GET = withAuth(async (req) => {
     });
 
     // Transform to flat structure for search results
-    const searchResults = composers.map((composer) => ({
-      id: composer.id,
-      nameFr: composer.translations.find((t) => t.locale === "fr")?.name ?? "",
-      nameEn: composer.translations.find((t) => t.locale === "en")?.name ?? "",
+    const searchResults = artists.map((artist) => ({
+      id: artist.id,
+      nameFr: artist.translations.find((t) => t.locale === "fr")?.name ?? "",
+      nameEn: artist.translations.find((t) => t.locale === "en")?.name ?? "",
     }));
 
     return NextResponse.json(searchResults);
   }
 
-  // Default: return full composers data
-  const composers = await prisma.composer.findMany({
+  // Default: return full artists data
+  const artists = await prisma.artist.findMany({
     include: {
       translations: true,
       image: true,
@@ -82,14 +82,14 @@ export const GET = withAuth(async (req) => {
     orderBy: [{ order: "asc" }, { createdAt: "desc" }],
   });
 
-  return NextResponse.json(composers);
+  return NextResponse.json(artists);
 });
 
-// POST create new composer
+// POST create new artist
 export const POST = withAuthAndValidation(
-  composerSchema,
+  artistSchema,
   async (req, _context, user, data) => {
-    const composer = await prisma.composer.create({
+    const artist = await prisma.artist.create({
       data: {
         slug: data.slug,
         imageId: data.imageId,
@@ -133,10 +133,10 @@ export const POST = withAuthAndValidation(
     await createAuditLog({
       userId: user.id,
       action: "CREATE",
-      entityType: "Composer",
-      entityId: composer.id,
+      entityType: "Artist",
+      entityId: artist.id,
       metadata: {
-        slug: composer.slug,
+        slug: artist.slug,
         nameFr: data.translations.fr.name,
         nameEn: data.translations.en.name,
       },
@@ -144,6 +144,6 @@ export const POST = withAuthAndValidation(
       userAgent: req.headers.get("user-agent") ?? undefined,
     });
 
-    return NextResponse.json(composer, { status: 201 });
+    return NextResponse.json(artist, { status: 201 });
   },
 );

@@ -28,7 +28,7 @@ type GalleryWork = {
   coverImageHeight?: number;
   coverImageAspectRatio?: number;
   coverImageBlurDataUrl?: string;
-  composers: string[];
+  artists: string[];
   externalUrl?: string;
   youtubeUrl?: string;
   year?: number;
@@ -524,19 +524,19 @@ function ProjectCard({
           {work.title}
         </h3>
 
-        {work.composers.length > 0 && (
+        {work.artists.length > 0 && (
           <div className="flex flex-wrap gap-1.5 pt-1">
-            {work.composers.slice(0, 2).map((composer) => (
+            {work.artists.slice(0, 2).map((artist) => (
               <span
-                key={composer}
+                key={artist}
                 className="rounded-sm bg-white/5 px-2 py-0.5 text-[9px] font-medium text-white/50"
               >
-                {composer}
+                {artist}
               </span>
             ))}
-            {work.composers.length > 2 && (
+            {work.artists.length > 2 && (
               <span className="rounded-sm bg-white/5 px-2 py-0.5 text-[9px] font-medium text-white/50">
-                +{work.composers.length - 2}
+                +{work.artists.length - 2}
               </span>
             )}
           </div>

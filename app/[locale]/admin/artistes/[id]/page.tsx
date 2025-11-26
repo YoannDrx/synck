@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionaries";
-import { ComposerForm } from "@/components/admin/composer-form";
+import { ArtistForm } from "@/components/admin/artist-form";
 import type { Locale } from "@/lib/i18n-config";
 import { i18n } from "@/lib/i18n-config";
 import { prisma } from "@/lib/prisma";
 
-async function getComposer(id: string) {
-  const composer = await prisma.composer.findUnique({
+async function getArtist(id: string) {
+  const artist = await prisma.artist.findUnique({
     where: { id },
     include: {
       translations: true,
@@ -15,10 +15,10 @@ async function getComposer(id: string) {
     },
   });
 
-  return composer;
+  return artist;
 }
 
-export default async function EditCompositeurPage({
+export default async function EditArtistePage({
   params,
 }: {
   params: Promise<{ locale: string; id: string }>;
@@ -29,9 +29,9 @@ export default async function EditCompositeurPage({
   ) as Locale;
 
   const dict = await getDictionary(locale);
-  const composer = await getComposer(id);
+  const artist = await getArtist(id);
 
-  if (!composer) {
+  if (!artist) {
     notFound();
   }
 
@@ -40,20 +40,20 @@ export default async function EditCompositeurPage({
       {/* Page Header */}
       <div>
         <h1 className="text-3xl font-bold text-white">
-          {dict.admin.composers.editTitle}
+          {dict.admin.artists.editTitle}
         </h1>
         <p className="mt-2 text-white/50">
-          Modifier le compositeur{" "}
-          {composer.translations.find((t) => t.locale === locale)?.name ??
-            composer.translations[0]?.name}
+          Modifier le artiste{" "}
+          {artist.translations.find((t) => t.locale === locale)?.name ??
+            artist.translations[0]?.name}
         </p>
       </div>
 
       {/* Form */}
       <div className="rounded-lg border border-lime-300/20 bg-black p-6">
-        <ComposerForm
+        <ArtistForm
           dictionary={dict.admin}
-          composer={composer}
+          artist={artist}
           mode="edit"
           locale={locale}
         />

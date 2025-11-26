@@ -10,7 +10,7 @@ export const GET = withAuth(async (req, _context, user) => {
   const format = searchParams.get("format") ?? "json";
 
   try {
-    const composers = await prisma.composer.findMany({
+    const artists = await prisma.artist.findMany({
       include: {
         translations: true,
         image: true,
@@ -28,24 +28,24 @@ export const GET = withAuth(async (req, _context, user) => {
       orderBy: { createdAt: "desc" },
     });
 
-    const exportData = composers.map((composer) => {
-      const frTrans = composer.translations.find((t) => t.locale === "fr");
-      const enTrans = composer.translations.find((t) => t.locale === "en");
+    const exportData = artists.map((artist) => {
+      const frTrans = artist.translations.find((t) => t.locale === "fr");
+      const enTrans = artist.translations.find((t) => t.locale === "en");
 
       return {
-        id: composer.id,
-        slug: composer.slug,
+        id: artist.id,
+        slug: artist.slug,
         nameFr: frTrans?.name ?? "",
         nameEn: enTrans?.name ?? "",
         bioFr: frTrans?.bio ?? "",
         bioEn: enTrans?.bio ?? "",
-        imagePath: composer.image?.path ?? "",
-        linksCount: composer.links.length,
-        links: composer.links
+        imagePath: artist.image?.path ?? "",
+        linksCount: artist.links.length,
+        links: artist.links
           .map((link) => `${link.platform}: ${link.url}`)
           .join("; "),
-        projectsCount: composer.contributions.length,
-        projects: composer.contributions
+        projectsCount: artist.contributions.length,
+        projects: artist.contributions
           .map((c) => {
             const workFr = c.work.translations.find((t) => t.locale === "fr");
             const workEn = c.work.translations.find((t) => t.locale === "en");
@@ -53,10 +53,10 @@ export const GET = withAuth(async (req, _context, user) => {
           })
           .filter(Boolean)
           .join(", "),
-        order: composer.order,
-        isActive: composer.isActive,
-        createdAt: composer.createdAt.toISOString(),
-        updatedAt: composer.updatedAt.toISOString(),
+        order: artist.order,
+        isActive: artist.isActive,
+        createdAt: artist.createdAt.toISOString(),
+        updatedAt: artist.updatedAt.toISOString(),
       };
     });
 
@@ -75,7 +75,7 @@ export const GET = withAuth(async (req, _context, user) => {
 
     await recordSuccessfulExport({
       userId: user.id,
-      type: "COMPOSERS",
+      type: "ARTISTS",
       format: exportFormat,
       entityCount: finalData.length,
       data: finalData,
@@ -84,7 +84,7 @@ export const GET = withAuth(async (req, _context, user) => {
     await createAuditLog({
       userId: user.id,
       action: "EXPORT",
-      entityType: "Composer",
+      entityType: "Artist",
       metadata: {
         format,
         count: finalData.length,
@@ -102,7 +102,7 @@ export const GET = withAuth(async (req, _context, user) => {
     await createAuditLog({
       userId: user.id,
       action: "EXPORT",
-      entityType: "Composer",
+      entityType: "Artist",
       metadata: {
         format,
         status: "failed",

@@ -7,7 +7,7 @@ const dictionary: Dictionary = {
     projets: "Projects",
     blog: "Blog",
     contact: "Contact",
-    composers: "Artists",
+    artists: "Artists",
   },
   cta: {
     viewMore: "View more",
@@ -176,13 +176,13 @@ const dictionary: Dictionary = {
       cardWorkLabel: "WORK",
       error: "Failed to load projects",
     },
-    composers: {
+    artists: {
       eyebrow: "Artists",
       title: "Artists",
       viewAll: "View all artists",
       worksSingular: "project",
       worksPlural: "projects",
-      error: "Failed to load composers",
+      error: "Failed to load artists",
     },
     experiments: {
       eyebrow: "Blog",
@@ -318,7 +318,7 @@ const dictionary: Dictionary = {
     ctaButton: "Get in touch",
   },
   projetDetail: {
-    composersTitle: "Artists",
+    artistsTitle: "Artists",
     infoTitle: "Information",
     releaseDate: "Release date",
     category: "Category",
@@ -338,7 +338,7 @@ const dictionary: Dictionary = {
     ctaDescription: "Let's talk about your music rights strategy.",
     ctaButton: "Contact me",
   },
-  composersPage: {
+  artistsPage: {
     description: "Meet the artists supported with music-rights administration.",
     worksSingular: "project",
     worksPlural: "projects",
@@ -358,7 +358,7 @@ const dictionary: Dictionary = {
     ctaDescription: "Let's secure and optimize your royalties.",
     ctaButton: "Contact me",
   },
-  composerDetail: {
+  artistDetail: {
     worksTitle: "Collaborative projects",
     worksSingular: "project",
     worksPlural: "projects",
@@ -444,7 +444,7 @@ const dictionary: Dictionary = {
     nav: {
       dashboard: "Dashboard",
       albums: "Albums",
-      composers: "Composers",
+      artists: "Artists",
       expertises: "Expertises",
       categories: "Categories",
       labels: "Labels",
@@ -457,7 +457,7 @@ const dictionary: Dictionary = {
       welcome: "Welcome to SYNCK admin",
       stats: {
         totalWorks: "Albums in catalog",
-        totalComposers: "Composers",
+        totalComposers: "Artists",
         totalExpertises: "Expertises",
         activeCategories: "Active categories",
       },
@@ -465,7 +465,7 @@ const dictionary: Dictionary = {
       quickActions: {
         title: "Quick actions",
         newWork: "New album",
-        newComposer: "New composer",
+        newComposer: "New artist",
         newExpertise: "New expertise",
         inviteAdmin: "Invite admin",
       },
@@ -522,10 +522,10 @@ const dictionary: Dictionary = {
         status: "Status",
       },
     },
-    composers: {
-      title: "Composer management",
-      createNew: "New composer",
-      editTitle: "Edit composer",
+    artists: {
+      title: "Artist management",
+      createNew: "New artist",
+      editTitle: "Edit artist",
       fields: {
         nameLabel: "Name",
         bioLabel: "Biography",

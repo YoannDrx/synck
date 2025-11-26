@@ -13,7 +13,7 @@
     "genre": "Techno",
     "externalUrl": " https://open.spotify.com/intl-fr/album/20Mg2DFhxHfEUK4mdH8lMC",
     "spotifyUrl": " https://open.spotify.com/intl-fr/album/20Mg2DFhxHfEUK4mdH8lMC",
-    "composers": [
+    "artists": [
       {
         "slug": "modulhater",
         "name": "Modulhater",
@@ -37,7 +37,7 @@
     "genre": "Afro Beat",
     "externalUrl": "https://open.spotify.com/intl-fr/album/5qe4qJH2y5Hu1pXZsBdDIN",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/5qe4qJH2y5Hu1pXZsBdDIN",
-    "composers": [
+    "artists": [
       {
         "slug": "arat-kilo",
         "name": "Arat Kilo",
@@ -61,7 +61,7 @@
     "genre": "Afro Pop / Afro Beat",
     "externalUrl": "https://open.spotify.com/intl-fr/album/2GxuTtOAI6HhqVwtqtTxWw",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/2GxuTtOAI6HhqVwtqtTxWw",
-    "composers": [
+    "artists": [
       {
         "slug": "dj-hertz",
         "name": "DJ Hertz",
@@ -105,7 +105,7 @@
     "genre": "Musique de publicité, Pop",
     "externalUrl": "https://open.spotify.com/intl-fr/album/6Yx6CNXRPwIzXkuVGn6d0I",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/6Yx6CNXRPwIzXkuVGn6d0I",
-    "composers": [
+    "artists": [
       {
         "slug": "dj-hertz",
         "name": "DJ Hertz",
@@ -144,7 +144,7 @@
     "genre": "Trap / Hip Hop",
     "externalUrl": "https://open.spotify.com/intl-fr/album/4yGNRsMNA8rD08limfOrza",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/4yGNRsMNA8rD08limfOrza",
-    "composers": [
+    "artists": [
       {
         "slug": "ugly-mac-beer",
         "name": "Ugly Mac Beer",
@@ -203,7 +203,7 @@
     "genre": "Musique Électronique / Ambient",
     "externalUrl": "https://open.spotify.com/intl-fr/album/1o1QfnyZeVxvtECm8DtTt9",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/1o1QfnyZeVxvtECm8DtTt9",
-    "composers": [
+    "artists": [
       {
         "slug": "yann-kornowicz",
         "name": "Yann Kornowicz",
@@ -232,7 +232,7 @@
     "genre": "Cinématique, Bande son, Ambient",
     "externalUrl": "https://open.spotify.com/intl-fr/album/6NrMyqzUbxmgh2mVAfG1ws",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/6NrMyqzUbxmgh2mVAfG1ws",
-    "composers": [
+    "artists": [
       {
         "slug": "ugly-mac-beer",
         "role": "composer"
@@ -259,7 +259,7 @@
     "genre": "Rap / Hip Hop",
     "externalUrl": "https://open.spotify.com/intl-fr/album/45xH9uGg9tHVHmabdGtfS2",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/45xH9uGg9tHVHmabdGtfS2",
-    "composers": [
+    "artists": [
       {
         "slug": "ugly-mac-beer",
         "name": "Ugly Mac Beer",
@@ -313,7 +313,7 @@
     "genre": "Reggae",
     "externalUrl": "https://open.spotify.com/intl-fr/album/0ntqHlliHt1EpZcMNQzALw",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/0ntqHlliHt1EpZcMNQzALw",
-    "composers": [
+    "artists": [
       {
         "slug": "nicodrums-friends",
         "name": "Nicodrums & Friends",
@@ -337,7 +337,7 @@
     "genre": "Electronic Dance Music",
     "externalUrl": "https://open.spotify.com/intl-fr/album/4kqgc7hoyZqMOBfzz08sSc",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/4kqgc7hoyZqMOBfzz08sSc",
-    "composers": [
+    "artists": [
       {
         "slug": "ducer",
         "name": "Ducer",
@@ -361,7 +361,7 @@
     "genre": "Électro",
     "externalUrl": "https://open.spotify.com/intl-fr/album/5LSeee3Tlrud2mIhFJx1lX",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/5LSeee3Tlrud2mIhFJx1lX",
-    "composers": [
+    "artists": [
       {
         "slug": "9-o-clock",
         "name": "9 O'Clock",
@@ -410,7 +410,7 @@
     "genre": "Funk",
     "externalUrl": "https://open.spotify.com/intl-fr/album/07kf0f06DKsV1wd9JTzmb4",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/07kf0f06DKsV1wd9JTzmb4",
-    "composers": [
+    "artists": [
       {
         "slug": "bruno-hovart",
         "name": "Bruno Hovart",
@@ -439,7 +439,7 @@
     "genre": "Funk",
     "externalUrl": "https://open.spotify.com/intl-fr/album/36Ynmevzo2QyQqxDF9TCpr",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/36Ynmevzo2QyQqxDF9TCpr",
-    "composers": [
+    "artists": [
       {
         "slug": "sebastien-blanchon-n-zeng",
         "name": "Sébastien Blanchon / N'ZENG",
@@ -473,7 +473,7 @@
     "genre": "Jazz",
     "externalUrl": "https://open.spotify.com/intl-fr/album/4BoHZb94U7t9zRBYGDCahz",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/4BoHZb94U7t9zRBYGDCahz",
-    "composers": [
+    "artists": [
       {
         "slug": "ana-kap",
         "name": "Ana Kap",
@@ -497,7 +497,7 @@
     "genre": "Latino",
     "externalUrl": " https://open.spotify.com/intl-fr/album/2OvhnSEQeu9TjQXvM37NkA",
     "spotifyUrl": " https://open.spotify.com/intl-fr/album/2OvhnSEQeu9TjQXvM37NkA",
-    "composers": [
+    "artists": [
       {
         "slug": "sr-ortegon",
         "name": "Sr Ortegon",
@@ -531,7 +531,7 @@
     "genre": "Musique Électronique",
     "externalUrl": "https://open.spotify.com/intl-fr/album/6G02rXZI4mPM1kdc5shX4R",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/6G02rXZI4mPM1kdc5shX4R",
-    "composers": [
+    "artists": [
       {
         "slug": "aeon-seven",
         "name": "Aeon Seven",
@@ -555,7 +555,7 @@
     "genre": "Musique Électronique / Light Ambient",
     "externalUrl": "https://open.spotify.com/intl-fr/album/5Cflht2qOXc7PGsjVh7ll0",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/5Cflht2qOXc7PGsjVh7ll0",
-    "composers": [
+    "artists": [
       {
         "slug": "jb-hanak",
         "name": "JB Hanak",
@@ -584,7 +584,7 @@
     "genre": "Hip-Hop / Lo-fi",
     "externalUrl": "https://open.spotify.com/intl-fr/album/4uqw30OZwb9IKTytSYE42N",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/4uqw30OZwb9IKTytSYE42N",
-    "composers": [
+    "artists": [
       {
         "slug": "tcheep",
         "name": "Tcheep",
@@ -623,7 +623,7 @@
     "genre": "Instrumentaux / Minimaliste",
     "externalUrl": "https://open.spotify.com/intl-fr/album/5mdfALHA6NyXz7msDxjLfX",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/5mdfALHA6NyXz7msDxjLfX",
-    "composers": [
+    "artists": [
       {
         "slug": "laurent-dury",
         "name": "Laurent Dury",
@@ -647,7 +647,7 @@
     "genre": "Ambient, Minimaliste",
     "externalUrl": "https://open.spotify.com/intl-fr/album/4koWahQT1qJ6U6ZZbjupec",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/4koWahQT1qJ6U6ZZbjupec",
-    "composers": [
+    "artists": [
       {
         "slug": "laurent-dury",
         "role": "composer"
@@ -670,7 +670,7 @@
     "genre": "Instrumentaux / Minimaliste",
     "externalUrl": "https://open.spotify.com/intl-fr/album/2UhFxgrXGqXy6AQJvq7Rwg",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/2UhFxgrXGqXy6AQJvq7Rwg",
-    "composers": [
+    "artists": [
       {
         "slug": "laurent-dury",
         "name": "Laurent Dury",
@@ -694,7 +694,7 @@
     "genre": "Musique électronique",
     "externalUrl": "https://open.spotify.com/intl-fr/album/3gJpCKor52lZzh1I4xT9vF",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/3gJpCKor52lZzh1I4xT9vF",
-    "composers": [
+    "artists": [
       {
         "slug": "sebastien-blanchon",
         "name": "Sébastien Blanchon",
@@ -753,7 +753,7 @@
     "genre": "Musique Électronique / Chiptune",
     "externalUrl": "https://open.spotify.com/intl-fr/album/4ixa7zHoxgDUpG1LGsDvpk",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/4ixa7zHoxgDUpG1LGsDvpk",
-    "composers": [
+    "artists": [
       {
         "slug": "2080",
         "name": "2080",
@@ -777,7 +777,7 @@
     "genre": "French Pop",
     "externalUrl": " https://open.spotify.com/intl-fr/album/49reqecJUCAnhQ8Guzfey1",
     "spotifyUrl": " https://open.spotify.com/intl-fr/album/49reqecJUCAnhQ8Guzfey1",
-    "composers": [
+    "artists": [
       {
         "slug": "minimatic",
         "name": "Minimatic",
@@ -801,7 +801,7 @@
     "genre": "Rock / Électro",
     "externalUrl": "https://open.spotify.com/intl-fr/album/3LYtFapF78Qqi0MBgKRGx4",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/3LYtFapF78Qqi0MBgKRGx4",
-    "composers": [
+    "artists": [
       {
         "slug": "frederic-hanak",
         "name": "Frédéric Hanak",
@@ -840,7 +840,7 @@
     "genre": "Rock / Pop",
     "externalUrl": "https://open.spotify.com/intl-fr/album/5p4wkVshgSA0JZmh41alTn",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/5p4wkVshgSA0JZmh41alTn",
-    "composers": [
+    "artists": [
       {
         "slug": "emile-sornin-forever-pavot",
         "name": "Emile Sornin (Forever Pavot)",
@@ -879,7 +879,7 @@
     "genre": "Electro, Synthwave, Retrowave",
     "externalUrl": "https://open.spotify.com/intl-fr/album/6zAhjSkUwrDh8ExeueZNX6",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/6zAhjSkUwrDh8ExeueZNX6",
-    "composers": [
+    "artists": [
       {
         "slug": "dj-hertz",
         "role": "composer"
@@ -902,7 +902,7 @@
     "genre": "Orchestral / Cinématographique",
     "externalUrl": "https://open.spotify.com/intl-fr/album/4yHli5V63bzVa1BHTi3A72",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/4yHli5V63bzVa1BHTi3A72",
-    "composers": [
+    "artists": [
       {
         "slug": "after-in-paris",
         "name": "After In Paris",
@@ -926,7 +926,7 @@
     "genre": "Trap / Hip Hop / Cloud Music",
     "externalUrl": "https://open.spotify.com/intl-fr/album/1ZkFE0yMiN6twIDEp7C4rs",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/1ZkFE0yMiN6twIDEp7C4rs",
-    "composers": [
+    "artists": [
       {
         "slug": "arom",
         "name": "Arom",
@@ -980,7 +980,7 @@
     "genre": "Bande originale",
     "externalUrl": "https://open.spotify.com/intl-fr/album/1oemtAHd4fX6Du4RJiBlUN",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/1oemtAHd4fX6Du4RJiBlUN",
-    "composers": [
+    "artists": [
       {
         "slug": "dan-amozig",
         "name": "Dan Amozig",
@@ -1009,7 +1009,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 31
   },
@@ -1027,7 +1027,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 32,
     "youtubeUrl": "https://www.youtube.com/watch?v=7JLe1hLIu_U"
@@ -1046,7 +1046,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 33,
     "youtubeUrl": "https://www.youtube.com/watch?v=Xc5-EKeDO6Y"
@@ -1065,7 +1065,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 34,
     "youtubeUrl": "https://www.youtube.com/watch?v=6xkrqHRGwx0"
@@ -1084,7 +1084,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 35,
     "youtubeUrl": null
@@ -1103,7 +1103,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 36,
     "youtubeUrl": "https://www.youtube.com/watch?v=KES5ncRZxBA"
@@ -1122,7 +1122,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 37,
     "youtubeUrl": "https://www.youtube.com/watch?v=OdkAgKz6p8E"
@@ -1141,7 +1141,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 38,
     "youtubeUrl": null
@@ -1160,7 +1160,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 39,
     "youtubeUrl": "https://www.youtube.com/watch?v=NI04hAc0SW4"
@@ -1179,7 +1179,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 40,
     "youtubeUrl": "https://www.youtube.com/watch?v=E3O5PfylPxs"
@@ -1198,7 +1198,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 41,
     "youtubeUrl": "https://www.youtube.com/watch?v=Yt6tVihDKaw"
@@ -1217,7 +1217,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 42,
     "youtubeUrl": "https://www.youtube.com/watch?v=10LSc8MjTmM"
@@ -1236,7 +1236,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 43,
     "youtubeUrl": "https://www.youtube.com/watch?v=Lvq-nel3_HY"
@@ -1255,7 +1255,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 44,
     "youtubeUrl": "https://www.youtube.com/watch?v=9CZD9GYdgoQ"
@@ -1274,7 +1274,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 45,
     "youtubeUrl": "https://www.youtube.com/watch?v=6JYSP7NekGo"
@@ -1293,7 +1293,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 46,
     "youtubeUrl": "https://www.youtube.com/watch?v=iANx5us_CjU"
@@ -1312,7 +1312,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 47,
     "youtubeUrl": "https://www.youtube.com/watch?v=ugsBtjXVgN0"
@@ -1331,7 +1331,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 48,
     "youtubeUrl": "https://www.youtube.com/watch?v=ViXn3Opo47Q"
@@ -1350,7 +1350,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 49,
     "youtubeUrl": "https://www.youtube.com/watch?v=FPhmJMAzsQ4"
@@ -1369,7 +1369,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 50,
     "youtubeUrl": "https://www.youtube.com/watch?v=4q9wHUjUME0"
@@ -1388,7 +1388,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 51,
     "youtubeUrl": "https://www.youtube.com/watch?v=xxVgORUhQ3E"
@@ -1407,7 +1407,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 52,
     "youtubeUrl": "https://www.youtube.com/watch?v=aT7MiuUHtZ4"
@@ -1427,7 +1427,7 @@
     "youtubeUrl": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 53
   },
@@ -1445,7 +1445,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 54,
     "youtubeUrl": "https://www.youtube.com/watch?v=YbHMdF7Oum8"
@@ -1464,7 +1464,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 55,
     "youtubeUrl": "https://www.youtube.com/watch?v=YbHMdF7Oum8"
@@ -1483,7 +1483,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 56,
     "youtubeUrl": "https://www.youtube.com/watch?v=YbHMdF7Oum8"
@@ -1502,7 +1502,7 @@
     "genre": null,
     "externalUrl": "/videos-synchros/Le-Monde-de-demain-Ep2-WHERE-U-AH!.mov",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 57,
     "youtubeUrl": null
@@ -1521,7 +1521,7 @@
     "genre": null,
     "externalUrl": "/videos-synchros/Le-Monde-de-demain-Ep6-ROCK-IT-UP.mov",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 58,
     "youtubeUrl": null
@@ -1540,7 +1540,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 59,
     "youtubeUrl": "https://www.youtube.com/watch?v=lsXj6hGHM-Q"
@@ -1559,7 +1559,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 60,
     "youtubeUrl": "https://www.youtube.com/watch?v=7S3BGBHDMwM"
@@ -1578,7 +1578,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 61,
     "youtubeUrl": "https://www.youtube.com/watch?v=jfTecY6qM2Q"
@@ -1597,7 +1597,7 @@
     "genre": null,
     "externalUrl": "/videos-synchros/OMV-Petrom-Pointillism.mov",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 62,
     "youtubeUrl": null
@@ -1616,7 +1616,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 63,
     "youtubeUrl": "https://www.youtube.com/watch?v=x--kTXN1DTY"
@@ -1635,7 +1635,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 64,
     "youtubeUrl": "https://www.youtube.com/watch?v=RewFfsLHZSc"
@@ -1654,7 +1654,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 65,
     "youtubeUrl": "https://www.youtube.com/watch?v=wrO96WV69aY"
@@ -1673,7 +1673,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 66,
     "youtubeUrl": null
@@ -1692,7 +1692,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 67,
     "youtubeUrl": "https://www.youtube.com/watch?v=FgWtZznWyno"
@@ -1711,7 +1711,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 68,
     "youtubeUrl": "https://www.youtube.com/watch?v=YB5geZTMDYI"
@@ -1730,7 +1730,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 69,
     "youtubeUrl": "https://www.youtube.com/watch?v=Ke41rOP9Nm8"
@@ -1749,7 +1749,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 70,
     "youtubeUrl": "https://www.youtube.com/watch?v=ngBH8bsqvV8"
@@ -1768,7 +1768,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 71,
     "youtubeUrl": "https://www.youtube.com/watch?v=EPnfDdfOx94"
@@ -1787,7 +1787,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 72,
     "youtubeUrl": null
@@ -1806,7 +1806,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 73,
     "youtubeUrl": "https://www.youtube.com/watch?v=anT5ocBumDk"
@@ -1825,7 +1825,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 74,
     "youtubeUrl": "https://www.youtube.com/watch?v=9u0zqjrsAFU"
@@ -1844,7 +1844,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 75,
     "youtubeUrl": "https://www.youtube.com/watch?v=xfy0FWlJucs"
@@ -1863,7 +1863,7 @@
     "genre": null,
     "externalUrl": "/videos-synchros/Jazz-Funk-Sabor-ZDF-HISTORY.mp4",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 76,
     "youtubeUrl": null
@@ -1882,7 +1882,7 @@
     "genre": "Techno",
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [
+    "artists": [
       {
         "slug": "modulhater",
         "name": "Modulhater",
@@ -1906,7 +1906,7 @@
     "genre": "Musique électronique",
     "externalUrl": "https://open.spotify.com/intl-fr/album/0O7bmhtk9WczLpeQAvxItj",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/0O7bmhtk9WczLpeQAvxItj",
-    "composers": [
+    "artists": [
       {
         "slug": "jb-hanak",
         "name": "JB Hanak",
@@ -1935,7 +1935,7 @@
     "genre": "Electro Funk",
     "externalUrl": "https://open.spotify.com/intl-fr/album/1n2wbxbrK6LAutiNHLKesA",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/1n2wbxbrK6LAutiNHLKesA",
-    "composers": [
+    "artists": [
       {
         "slug": "aeon-seven",
         "name": "Aeon Seven",
@@ -1959,7 +1959,7 @@
     "genre": "Funk",
     "externalUrl": "https://open.spotify.com/intl-fr/album/3qyTqVQ0ZHq59ebqyBV4l2",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/3qyTqVQ0ZHq59ebqyBV4l2",
-    "composers": [
+    "artists": [
       {
         "slug": "sebastien-blanchon",
         "name": "Sébastien Blanchon",
@@ -1993,7 +1993,7 @@
     "genre": "Hip Hop / Rap",
     "externalUrl": "https://open.spotify.com/intl-fr/album/2HKBtTS8PC2rT6n0G15yL5",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/2HKBtTS8PC2rT6n0G15yL5",
-    "composers": [
+    "artists": [
       {
         "slug": "ugly-mac-beer",
         "name": "Ugly Mac Beer",
@@ -2022,7 +2022,7 @@
     "genre": "Trip Hop",
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [
+    "artists": [
       {
         "slug": "n-zeng",
         "name": "N’ZENG",
@@ -2051,7 +2051,7 @@
     "genre": "Bande Originale",
     "externalUrl": "https://open.spotify.com/intl-fr/album/7nfXtRFt6ZEQ4yCHr59kEf",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/7nfXtRFt6ZEQ4yCHr59kEf",
-    "composers": [
+    "artists": [
       {
         "slug": "jb-hanak",
         "name": "JB Hanak",
@@ -2080,7 +2080,7 @@
     "genre": "Techno / Acid",
     "externalUrl": "https://open.spotify.com/intl-fr/album/23kSxhym1LiiAjkkgnOuDx",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/23kSxhym1LiiAjkkgnOuDx",
-    "composers": [
+    "artists": [
       {
         "slug": "modulhater",
         "name": "Modulhater",
@@ -2104,7 +2104,7 @@
     "genre": "Bande originale",
     "externalUrl": "https://open.spotify.com/intl-fr/album/6H7mtNYSsfmhgAuwmg5M2d",
     "spotifyUrl": "https://open.spotify.com/intl-fr/album/6H7mtNYSsfmhgAuwmg5M2d",
-    "composers": [
+    "artists": [
       {
         "slug": "dan-amozig",
         "name": "Dan Amozig",
@@ -2133,7 +2133,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/39-45-les-resistantes-allemandes/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 86,
     "productionCompanySlug": [
@@ -2154,7 +2154,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/a-vous-de-juger/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 87,
     "productionCompanySlug": [
@@ -2176,7 +2176,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 88,
     "productionCompanySlug": [
@@ -2198,7 +2198,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/almodovar-linsolent-de-la-mancha/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 89,
     "productionCompanySlug": [
@@ -2219,7 +2219,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/andre-mailfert/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 90,
     "productionCompanySlug": [
@@ -2241,7 +2241,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 91,
     "productionCompanySlug": [
@@ -2263,7 +2263,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/avant-que-la-grande-nacre-meure/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 92,
     "productionCompanySlug": [
@@ -2285,7 +2285,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 93,
     "productionCompanySlug": [
@@ -2307,7 +2307,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/cabrera-un-secret-revele/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 94,
     "productionCompanySlug": [
@@ -2328,7 +2328,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/cahier-dun-retour-en-langue-natale/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 95,
     "productionCompanySlug": [
@@ -2350,7 +2350,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/calanques-les-usines-du-bout-du-monde/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 96,
     "productionCompanySlug": [
@@ -2371,7 +2371,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/cancre/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 97,
     "productionCompanySlug": [
@@ -2393,7 +2393,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/chanter-a-tout-prix/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 98,
     "productionCompanySlug": [
@@ -2415,7 +2415,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 99,
     "productionCompanySlug": [
@@ -2437,7 +2437,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/clearstream/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 100,
     "productionCompanySlug": [
@@ -2459,7 +2459,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/cogolin-ville-a-prendre/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 101,
     "productionCompanySlug": [
@@ -2480,7 +2480,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/comment-te-dire-adieu/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 102,
     "productionCompanySlug": [
@@ -2502,7 +2502,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/concordat-et-laicite/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 103,
     "productionCompanySlug": [
@@ -2524,7 +2524,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 104,
     "productionCompanySlug": [
@@ -2545,7 +2545,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/rap-marseille/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 105,
     "productionCompanySlug": [
@@ -2567,7 +2567,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 106,
     "productionCompanySlug": [
@@ -2588,7 +2588,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/itineraire-d-un-baron/ ",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 107,
     "productionCompanySlug": [
@@ -2609,7 +2609,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/deconfines-en-re/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 108,
     "productionCompanySlug": [
@@ -2631,7 +2631,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/deconnectes-les-oublies-du-numerique/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 109,
     "productionCompanySlug": [
@@ -2653,7 +2653,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/des-antilles-au-djebel/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 110,
     "productionCompanySlug": [
@@ -2675,7 +2675,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 111,
     "productionCompanySlug": [
@@ -2696,7 +2696,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 112,
     "productionCompanySlug": [
@@ -2718,7 +2718,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 113,
     "productionCompanySlug": [
@@ -2739,7 +2739,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/en-jachere/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 114,
     "productionCompanySlug": [
@@ -2761,7 +2761,7 @@
     "genre": null,
     "externalUrl": "https://www.francetvpro.fr/contenu-de-presse/65053800",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 115,
     "productionCompanySlug": [
@@ -2782,7 +2782,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/eric-piolle-le-pelerin-vert/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 116,
     "productionCompanySlug": [
@@ -2803,7 +2803,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/filles-de-harkis/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 117,
     "productionCompanySlug": [
@@ -2825,7 +2825,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 118,
     "productionCompanySlug": [
@@ -2847,7 +2847,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 119,
     "productionCompanySlug": [
@@ -2869,7 +2869,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 120,
     "productionCompanySlug": [
@@ -2891,7 +2891,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/gaudin-lheure-de-linventaire/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 121,
     "productionCompanySlug": [
@@ -2912,7 +2912,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 122,
     "productionCompanySlug": [
@@ -2934,7 +2934,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/generation-grand-bleu-de-jerome-espla/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 123,
     "productionCompanySlug": [
@@ -2955,7 +2955,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 124,
     "productionCompanySlug": [
@@ -2977,7 +2977,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-soldats-de-la-terre/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 125,
     "productionCompanySlug": [
@@ -2999,7 +2999,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/gurs-un-silence-assourdissant/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 126,
     "productionCompanySlug": [
@@ -3020,7 +3020,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 127,
     "productionCompanySlug": [
@@ -3042,7 +3042,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/guyane-underground/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 128,
     "productionCompanySlug": [
@@ -3064,7 +3064,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 129,
     "productionCompanySlug": [
@@ -3086,7 +3086,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 130,
     "productionCompanySlug": [
@@ -3108,7 +3108,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/jirai-crier-sur-vos-murs/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 131,
     "productionCompanySlug": [
@@ -3130,7 +3130,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 132,
     "productionCompanySlug": [
@@ -3151,7 +3151,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/jean-jouzel-la-bataille-du-siecle/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 133,
     "productionCompanySlug": [
@@ -3173,7 +3173,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 134,
     "productionCompanySlug": [
@@ -3195,7 +3195,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 135,
     "productionCompanySlug": [
@@ -3217,7 +3217,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/juppe-un-roman-bordelais/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 136,
     "productionCompanySlug": [
@@ -3238,7 +3238,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/karim-contre-mittal/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 137,
     "productionCompanySlug": [
@@ -3260,7 +3260,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 138,
     "productionCompanySlug": [
@@ -3282,7 +3282,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/leveil-du-desir/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 139,
     "productionCompanySlug": [
@@ -3304,7 +3304,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 140,
     "productionCompanySlug": [
@@ -3325,7 +3325,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/la-brousse-une-terre-en-partage/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 141,
     "productionCompanySlug": [
@@ -3346,7 +3346,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/la-clinique-de-lamour/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 142,
     "productionCompanySlug": [
@@ -3368,7 +3368,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 143,
     "productionCompanySlug": [
@@ -3390,7 +3390,7 @@
     "genre": "Documentaire",
     "externalUrl": "https://www.13prods.fr/la-double-vie-du-cognac/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 144,
     "productionCompanySlug": [
@@ -3412,7 +3412,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/68lagrevedusiecle/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 145,
     "productionCompanySlug": [
@@ -3434,7 +3434,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 146,
     "productionCompanySlug": [
@@ -3456,7 +3456,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/la-rumeur-dorleans/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 147,
     "productionCompanySlug": [
@@ -3478,7 +3478,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 148,
     "productionCompanySlug": [
@@ -3499,7 +3499,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 149,
     "productionCompanySlug": [
@@ -3521,7 +3521,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/lache-ton-smartphone/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 150,
     "productionCompanySlug": [
@@ -3543,7 +3543,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/le-3eme-reich-naura-pas-la-bombe/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 151,
     "productionCompanySlug": [
@@ -3565,7 +3565,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/masque-de-fer/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 152,
     "productionCompanySlug": [
@@ -3587,7 +3587,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/le-ministere/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 153,
     "productionCompanySlug": [
@@ -3609,7 +3609,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/le-proces-dauschwitz-la-fin-du-silence-de-barbara-necek/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 154,
     "productionCompanySlug": [
@@ -3630,7 +3630,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/le-temps-daimer/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 155,
     "productionCompanySlug": [
@@ -3652,7 +3652,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 156,
     "productionCompanySlug": [
@@ -3673,7 +3673,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 157,
     "productionCompanySlug": [
@@ -3694,7 +3694,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/leila-une-vie-a-miquelon/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 158,
     "productionCompanySlug": [
@@ -3717,7 +3717,7 @@
     "genre": null,
     "externalUrl": "https://www.film-documentaire.fr/4DACTION/w_fiche_film/64091_0",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 159,
     "productionCompanySlug": [
@@ -3740,7 +3740,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 160,
     "productionCompanySlug": [
@@ -3762,7 +3762,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 161,
     "productionCompanySlug": [
@@ -3784,7 +3784,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-enfants-de-huahine-en-occitanie/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 162,
     "productionCompanySlug": [
@@ -3806,7 +3806,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 163,
     "productionCompanySlug": [
@@ -3827,7 +3827,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 164,
     "productionCompanySlug": [
@@ -3849,7 +3849,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-femmes-du-iiie-reich/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 165,
     "productionCompanySlug": [
@@ -3871,7 +3871,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 166,
     "productionCompanySlug": [
@@ -3892,7 +3892,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 167,
     "productionCompanySlug": [
@@ -3914,7 +3914,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 168,
     "productionCompanySlug": [
@@ -3936,7 +3936,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-murs-de-la-honte/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 169,
     "productionCompanySlug": [
@@ -3958,7 +3958,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-oublies-de-la-justice/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 170,
     "productionCompanySlug": [
@@ -3980,7 +3980,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-ouvrieres-du-made-in-france/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 171,
     "productionCompanySlug": [
@@ -4002,7 +4002,7 @@
     "genre": null,
     "externalUrl": "https://www.film-documentaire.fr/4DACTION/w_fiche_film/68279_0",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 172,
     "productionCompanySlug": [
@@ -4024,7 +4024,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 173,
     "productionCompanySlug": [
@@ -4046,7 +4046,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/mauthausen/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 174,
     "productionCompanySlug": [
@@ -4068,7 +4068,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/les-vivants/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 175,
     "productionCompanySlug": [
@@ -4090,7 +4090,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 176,
     "productionCompanySlug": [
@@ -4112,7 +4112,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/ma-cite-mon-village-disabelle-cadiere/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 177,
     "productionCompanySlug": [
@@ -4134,7 +4134,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/makatea-une-terre-convoitee/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 178,
     "productionCompanySlug": [
@@ -4155,7 +4155,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 179,
     "productionCompanySlug": [
@@ -4176,7 +4176,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/mangas-une-revolution-francaise-2/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 180,
     "productionCompanySlug": [
@@ -4197,7 +4197,7 @@
     "genre": null,
     "externalUrl": "https://www.film-documentaire.fr/4DACTION/w_fiche_film/67198_0",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 181,
     "productionCompanySlug": [
@@ -4219,7 +4219,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 182,
     "productionCompanySlug": [
@@ -4241,7 +4241,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/martinique-reconquete-terre/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 183,
     "productionCompanySlug": [
@@ -4262,7 +4262,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 184,
     "productionCompanySlug": [
@@ -4283,7 +4283,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/aubry-la-dame-de-lille/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 185,
     "productionCompanySlug": [
@@ -4305,7 +4305,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 186,
     "productionCompanySlug": [
@@ -4327,7 +4327,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/mayotte-lenfance-en-danger/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 187,
     "productionCompanySlug": [
@@ -4348,7 +4348,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/mayotte-les-combattantes-sur-france-o/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 188,
     "productionCompanySlug": [
@@ -4369,7 +4369,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/mes-parents-ces-heros-ordinaires/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 189,
     "productionCompanySlug": [
@@ -4391,7 +4391,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/mic-mac-a-millau-des-paysans-face-a-la-mondialisation/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 190,
     "productionCompanySlug": [
@@ -4412,7 +4412,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/entre-deux-eaux/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 191,
     "productionCompanySlug": [
@@ -4433,7 +4433,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 192,
     "productionCompanySlug": [
@@ -4455,7 +4455,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 193,
     "productionCompanySlug": [
@@ -4477,7 +4477,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/nous-ne-sommes-rien-soyons-tout/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 194,
     "productionCompanySlug": [
@@ -4499,7 +4499,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 195,
     "productionCompanySlug": [
@@ -4521,7 +4521,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/outremer-100-ans-en-cliches/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 196,
     "productionCompanySlug": [
@@ -4542,7 +4542,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/par-nos-yeux/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 197,
     "productionCompanySlug": [
@@ -4564,7 +4564,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/pas-folle-la-liberte/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 198,
     "productionCompanySlug": [
@@ -4586,7 +4586,7 @@
     "genre": null,
     "externalUrl": "https://popfilms.fr/index.php/edlinger-la-liberte-au-bout-des-doigts/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 199,
     "productionCompanySlug": [
@@ -4607,7 +4607,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/petit-pays-je-t-aime-beaucoup/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 200,
     "productionCompanySlug": [
@@ -4628,7 +4628,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/plonger-pour-guerir/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 201,
     "productionCompanySlug": [
@@ -4651,7 +4651,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/quand-l-afrique-sauva-la-france/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 202,
     "productionCompanySlug": [
@@ -4673,7 +4673,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 203,
     "productionCompanySlug": [
@@ -4694,7 +4694,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/reves-de-princesses/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 204,
     "productionCompanySlug": [
@@ -4716,7 +4716,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/se-mettre-au-vert-une-utopie-en-perigord/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 205,
     "productionCompanySlug": [
@@ -4737,7 +4737,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/si-loin-de-la-polynesie/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 206,
     "productionCompanySlug": [
@@ -4759,7 +4759,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/solidarnosc-la-premiere-breche/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 207,
     "productionCompanySlug": [
@@ -4781,7 +4781,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/sous-la-loi-des-talibans/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 208,
     "productionCompanySlug": [
@@ -4803,7 +4803,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/souvenirs-en-cuisine/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 209,
     "productionCompanySlug": [
@@ -4825,7 +4825,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/t-gros/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 210,
     "productionCompanySlug": [
@@ -4847,7 +4847,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 211,
     "productionCompanySlug": [
@@ -4869,7 +4869,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 212,
     "productionCompanySlug": [
@@ -4890,7 +4890,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/deuxieme-chance/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 213,
     "productionCompanySlug": [
@@ -4912,7 +4912,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 214,
     "productionCompanySlug": [
@@ -4934,7 +4934,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/unique-en-mon-genre/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 215,
     "productionCompanySlug": [
@@ -4955,7 +4955,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 216,
     "productionCompanySlug": [
@@ -4977,7 +4977,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/votez-jeunesse/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 217,
     "productionCompanySlug": [
@@ -4999,7 +4999,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 218,
     "productionCompanySlug": [
@@ -5021,7 +5021,7 @@
     "genre": null,
     "externalUrl": "https://www.film-documentaire.fr/4DACTION/w_fiche_film/55535_0",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 219,
     "productionCompanySlug": [
@@ -5042,7 +5042,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 220,
     "productionCompanySlug": [
@@ -5063,7 +5063,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 221,
     "productionCompanySlug": [
@@ -5085,7 +5085,7 @@
     "genre": null,
     "externalUrl": "https://www.film-documentaire.fr/4DACTION/w_fiche_film/52255_0",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 222,
     "productionCompanySlug": [
@@ -5107,7 +5107,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 223,
     "productionCompanySlug": [
@@ -5128,7 +5128,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/la-democratie-du-dollar/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 224,
     "productionCompanySlug": [
@@ -5150,7 +5150,7 @@
     "genre": null,
     "externalUrl": "https://www.unifrance.org/film/56020/la-femme-sans-nom-l-histoire-de-jeanne-et-baudelaire",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 225,
     "productionCompanySlug": [
@@ -5171,7 +5171,7 @@
     "genre": null,
     "externalUrl": "https://www.film-documentaire.fr/4DACTION/w_fiche_film/68272",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 226,
     "productionCompanySlug": [
@@ -5193,7 +5193,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 227,
     "productionCompanySlug": [
@@ -5214,7 +5214,7 @@
     "genre": null,
     "externalUrl": "http://www.film-documentaire.fr/4DACTION/w_fiche_film/52256_1",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 228,
     "productionCompanySlug": [
@@ -5236,7 +5236,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 229,
     "productionCompanySlug": [
@@ -5258,7 +5258,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 230,
     "productionCompanySlug": [
@@ -5280,7 +5280,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 231,
     "productionCompanySlug": [
@@ -5301,7 +5301,7 @@
     "genre": null,
     "externalUrl": "http://www.film-documentaire.fr/4DACTION/w_fiche_film/63324",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 232,
     "productionCompanySlug": [
@@ -5322,7 +5322,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 233,
     "productionCompanySlug": [
@@ -5344,7 +5344,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 234,
     "productionCompanySlug": [
@@ -5366,7 +5366,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/chants-gregoriens-2-0/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 235,
     "productionCompanySlug": [
@@ -5387,7 +5387,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 236,
     "productionCompanySlug": [
@@ -5408,7 +5408,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 237,
     "productionCompanySlug": [
@@ -5430,7 +5430,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/jamie-lee-curtis-un-cri-de-liberte-a-hollywood/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 238,
     "productionCompanySlug": [
@@ -5452,7 +5452,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 239,
     "productionCompanySlug": [
@@ -5474,7 +5474,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/jules-verne-et-le-defi-du-tour-du-monde/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 240,
     "productionCompanySlug": [
@@ -5495,7 +5495,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/sweet-sweetback/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 241,
     "productionCompanySlug": [
@@ -5516,7 +5516,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 242,
     "productionCompanySlug": [
@@ -5537,7 +5537,7 @@
     "genre": null,
     "externalUrl": null,
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 243,
     "productionCompanySlug": [
@@ -5558,7 +5558,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/au-nom-de-la-mer/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 244,
     "productionCompanySlug": [
@@ -5581,7 +5581,7 @@
     "genre": null,
     "externalUrl": "https://lukarn.fr/programme/gorongosa-le-parc-de-la-reconciliation/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 245,
     "productionCompanySlug": [
@@ -5602,7 +5602,7 @@
     "genre": null,
     "externalUrl": "https://www.13prods.fr/operation-biodiversite/",
     "spotifyUrl": null,
-    "composers": [],
+    "artists": [],
     "isActive": true,
     "order": 246,
     "productionCompanySlug": [

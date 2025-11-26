@@ -3,16 +3,16 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
 import {
-  getComposerBySlug,
-  getAllComposerSlugs,
+  getArtistBySlug,
+  getAllArtistSlugs,
 } from "@/lib/prismaProjetsUtils";
-import type { ComposerWithContributions } from "@/lib/prismaProjetsUtils";
+import type { ArtistWithContributions } from "@/lib/prismaProjetsUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { Breadcrumb } from "@/components/breadcrumb";
 
-// Generate static params for all composer slugs
+// Generate static params for all artist slugs
 export async function generateStaticParams() {
-  const slugs = await getAllComposerSlugs();
+  const slugs = await getAllArtistSlugs();
   const locales: Locale[] = ["fr", "en"];
 
   const params: { locale: Locale; slug: string }[] = [];
@@ -26,14 +26,14 @@ export async function generateStaticParams() {
   return params;
 }
 
-type ComposerDetailParams = {
+type ArtistDetailParams = {
   params: Promise<{
     locale: Locale;
     slug: string;
   }>;
 };
 
-type ComposerWorkSummary = {
+type ArtistWorkSummary = {
   id: string;
   slug: string;
   title: string;
@@ -42,23 +42,23 @@ type ComposerWorkSummary = {
   category: string;
 };
 
-export default async function CompositeurDetailPage({
+export default async function ArtisteDetailPage({
   params,
-}: ComposerDetailParams) {
+}: ArtistDetailParams) {
   const { locale, slug } = await params;
   const safeLocale = locale === "en" ? "en" : "fr";
-  const composer = await getComposerBySlug(slug, safeLocale);
+  const artist = await getArtistBySlug(slug, safeLocale);
   const dictionary = await getDictionary(safeLocale);
-  const copy = dictionary.composerDetail;
+  const copy = dictionary.artistDetail;
 
-  if (!composer) {
+  if (!artist) {
     notFound();
   }
 
   // Extract data
-  const translation = composer.translations[0];
-  const works: ComposerWorkSummary[] = composer.contributions.map(
-    (contribution: ComposerWithContributions["contributions"][number]) => ({
+  const translation = artist.translations[0];
+  const works: ArtistWorkSummary[] = artist.contributions.map(
+    (contribution: ArtistWithContributions["contributions"][number]) => ({
       id: contribution.work.id,
       slug: contribution.work.slug,
       title: contribution.work.translations[0]?.title ?? contribution.work.slug,
@@ -72,12 +72,12 @@ export default async function CompositeurDetailPage({
     }),
   );
 
-  const composerImage = composer.image?.path;
-  const hasValidImage = composerImage && composerImage.trim() !== "";
+  const artistImage = artist.image?.path;
+  const hasValidImage = artistImage && artistImage.trim() !== "";
 
-  // Build social links from ComposerLink table
+  // Build social links from ArtistLink table
   const socialLinks =
-    composer.links?.map((link) => ({
+    artist.links?.map((link) => ({
       label: link.label ?? getPlatformName(link.url, safeLocale),
       url: link.url,
     })) ?? [];
@@ -97,24 +97,24 @@ export default async function CompositeurDetailPage({
           items={[
             { label: dictionary.nav.home, href: `/${safeLocale}` },
             {
-              label: dictionary.nav.composers,
-              href: `/${safeLocale}/compositeurs`,
+              label: dictionary.nav.artists,
+              href: `/${safeLocale}/artistes`,
             },
-            { label: translation?.name || composer.slug },
+            { label: translation?.name || artist.slug },
           ]}
         />
 
-        {/* Composer Header */}
+        {/* Artist Header */}
         <div className="mb-12 space-y-8">
-          {/* Composer Name & Image */}
+          {/* Artist Name & Image */}
           <div className="flex items-center gap-6">
-            {/* Composer Image */}
+            {/* Artist Image */}
             {hasValidImage ? (
               <div className="relative overflow-hidden border-4 border-white/10 bg-black/20 rounded-full w-32 h-32 flex-shrink-0">
                 <Image
-                  src={composerImage}
+                  src={artistImage}
                   alt={
-                    composer.image?.alt ?? translation?.name ?? composer.slug
+                    artist.image?.alt ?? translation?.name ?? artist.slug
                   }
                   fill
                   sizes="128px"
@@ -125,15 +125,15 @@ export default async function CompositeurDetailPage({
               <div className="relative overflow-hidden border-4 border-white/10 bg-gradient-to-br from-lime-300/20 to-emerald-400/20 rounded-full w-32 h-32 flex-shrink-0 flex items-center justify-center">
                 <span className="text-5xl font-black text-white/40">
                   {translation?.name.charAt(0).toUpperCase() ||
-                    composer.slug.charAt(0).toUpperCase()}
+                    artist.slug.charAt(0).toUpperCase()}
                 </span>
               </div>
             )}
 
-            {/* Composer Name */}
+            {/* Artist Name */}
             <div className="flex-1 min-w-0">
               <h1 className="mb-2 text-4xl font-black uppercase tracking-tight sm:text-5xl lg:text-6xl">
-                {translation?.name || composer.slug}
+                {translation?.name || artist.slug}
               </h1>
               <span className="inline-block rounded-full border-2 border-lime-300 bg-lime-300/10 px-4 py-1 text-xs font-bold uppercase tracking-wider text-lime-300">
                 {works.length}{" "}
@@ -142,7 +142,7 @@ export default async function CompositeurDetailPage({
             </div>
           </div>
 
-          {/* Composer Info */}
+          {/* Artist Info */}
           <div className="space-y-6">
             {/* Bio */}
             {translation?.bio && (

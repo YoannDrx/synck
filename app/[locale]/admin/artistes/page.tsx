@@ -25,7 +25,7 @@ import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
 import { ExportButton } from "@/components/admin/export-button";
 
-type ComposerApi = {
+type ArtistApi = {
   id: string;
   slug: string;
   translations: { locale: string; name?: string | null; bio?: string | null }[];
@@ -44,7 +44,7 @@ const assetPathToUrl = (path?: string | null): string | null => {
   return `/${path}`;
 };
 
-type Composer = {
+type Artist = {
   id: string;
   slug: string;
   nameFr: string;
@@ -68,7 +68,7 @@ export default function ComposeursPage({
 }) {
   const router = useRouter();
   const [locale, setLocale] = useState<string>("fr");
-  const [composers, setComposers] = useState<Composer[]>([]);
+  const [artists, setArtists] = useState<Artist[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // Filters state
@@ -86,7 +86,7 @@ export default function ComposeursPage({
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   // Delete dialog state
-  const [composerToDelete, setComposerToDelete] = useState<Composer | null>(
+  const [artistToDelete, setArtistToDelete] = useState<Artist | null>(
     null,
   );
   const [isDeleting, setIsDeleting] = useState(false);
@@ -98,24 +98,24 @@ export default function ComposeursPage({
     });
   }, [params]);
 
-  // Fetch composers
+  // Fetch artists
   useEffect(() => {
-    const fetchComposers = async () => {
+    const fetchArtists = async () => {
       try {
         setIsLoading(true);
-        const res = await fetchWithAuth("/api/admin/composers");
+        const res = await fetchWithAuth("/api/admin/artists");
 
         if (!res.ok) {
-          throw new Error("Failed to fetch composers");
+          throw new Error("Failed to fetch artists");
         }
 
         const raw = (await res.json()) as unknown;
         if (!Array.isArray(raw)) {
-          throw new Error("Invalid composers payload");
+          throw new Error("Invalid artists payload");
         }
 
-        const mapped: Composer[] = (raw as ComposerApi[]).map((composer) => {
-          const translations = composer.translations ?? [];
+        const mapped: Artist[] = (raw as ArtistApi[]).map((artist) => {
+          const translations = artist.translations ?? [];
           const nameFr =
             translations.find((t) => t.locale === "fr")?.name ?? "";
           const nameEn =
@@ -126,37 +126,37 @@ export default function ComposeursPage({
             translations.find((t) => t.locale === "en")?.bio ?? null;
 
           return {
-            id: composer.id,
-            slug: composer.slug,
+            id: artist.id,
+            slug: artist.slug,
             nameFr,
             nameEn,
             bioFr,
             bioEn,
-            isActive: Boolean(composer.isActive),
-            createdAt: composer.createdAt,
-            updatedAt: composer.updatedAt,
-            imageUrl: assetPathToUrl(composer.image?.path),
-            imageBlur: composer.image?.blurDataUrl ?? null,
-            _count: { contributions: composer._count?.contributions ?? 0 },
+            isActive: Boolean(artist.isActive),
+            createdAt: artist.createdAt,
+            updatedAt: artist.updatedAt,
+            imageUrl: assetPathToUrl(artist.image?.path),
+            imageBlur: artist.image?.blurDataUrl ?? null,
+            _count: { contributions: artist._count?.contributions ?? 0 },
           };
         });
-        setComposers(mapped);
+        setArtists(mapped);
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error("Error fetching composers:", error);
-        toast.error("Erreur lors du chargement des compositeurs");
+        console.error("Error fetching artists:", error);
+        toast.error("Erreur lors du chargement des artistes");
       } finally {
         setIsLoading(false);
       }
     };
 
-    void fetchComposers();
+    void fetchArtists();
   }, []);
 
-  // Filter composers
-  const filteredComposers = composers.filter((composer) => {
+  // Filter artists
+  const filteredArtists = artists.filter((artist) => {
     // Search filter
-    const name = (locale === "fr" ? composer.nameFr : composer.nameEn) || "";
+    const name = (locale === "fr" ? artist.nameFr : artist.nameEn) || "";
     const matchesSearch = name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
@@ -164,14 +164,14 @@ export default function ComposeursPage({
     // Status filter
     const matchesStatus =
       selectedStatus === "all" ||
-      (selectedStatus === "active" && composer.isActive) ||
-      (selectedStatus === "inactive" && !composer.isActive);
+      (selectedStatus === "active" && artist.isActive) ||
+      (selectedStatus === "inactive" && !artist.isActive);
 
     return matchesSearch && matchesStatus;
   });
 
-  // Sort composers
-  const sortedComposers = [...filteredComposers].sort((a, b) => {
+  // Sort artists
+  const sortedArtists = [...filteredArtists].sort((a, b) => {
     let aValue: string | number = "";
     let bValue: string | number = "";
 
@@ -194,12 +194,12 @@ export default function ComposeursPage({
     return 0;
   });
 
-  const visibleComposers = sortedComposers.slice(0, visibleCount);
+  const visibleArtists = sortedArtists.slice(0, visibleCount);
 
   // Reset visible count on filters/sort change
   useEffect(() => {
     setVisibleCount(INITIAL_BATCH);
-  }, [searchQuery, selectedStatus, sortBy, sortOrder, composers.length]);
+  }, [searchQuery, selectedStatus, sortBy, sortOrder, artists.length]);
 
   // Infinite scroll observer
   useEffect(() => {
@@ -209,11 +209,11 @@ export default function ComposeursPage({
         const first = entries[0];
         if (
           first.isIntersecting &&
-          visibleCount < sortedComposers.length &&
+          visibleCount < sortedArtists.length &&
           !isLoading
         ) {
           setVisibleCount((prev) =>
-            Math.min(prev + BATCH_SIZE, sortedComposers.length),
+            Math.min(prev + BATCH_SIZE, sortedArtists.length),
           );
         }
       },
@@ -223,7 +223,7 @@ export default function ComposeursPage({
     return () => {
       observer.disconnect();
     };
-  }, [visibleCount, sortedComposers.length, isLoading]);
+  }, [visibleCount, sortedArtists.length, isLoading]);
 
   // Handle sort
   const handleSort = (column: string) => {
@@ -237,28 +237,28 @@ export default function ComposeursPage({
 
   // Handle delete
   const handleDelete = async () => {
-    if (!composerToDelete) return;
+    if (!artistToDelete) return;
 
     try {
       setIsDeleting(true);
       const res = await fetchWithAuth(
-        `/api/admin/composers/${composerToDelete.id}`,
+        `/api/admin/artists/${artistToDelete.id}`,
         {
           method: "DELETE",
         },
       );
 
       if (!res.ok) {
-        throw new Error("Failed to delete composer");
+        throw new Error("Failed to delete artist");
       }
 
-      setComposers(composers.filter((c) => c.id !== composerToDelete.id));
-      toast.success("Compositeur supprimé avec succès");
-      setComposerToDelete(null);
+      setArtists(artists.filter((c) => c.id !== artistToDelete.id));
+      toast.success("Artiste supprimé avec succès");
+      setArtistToDelete(null);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error("Error deleting composer:", error);
-      toast.error("Erreur lors de la suppression du compositeur");
+      console.error("Error deleting artist:", error);
+      toast.error("Erreur lors de la suppression du artiste");
     } finally {
       setIsDeleting(false);
     }
@@ -282,17 +282,17 @@ export default function ComposeursPage({
   };
 
   // Define columns
-  const columns: Column<Composer>[] = [
+  const columns: Column<Artist>[] = [
     {
       key: "photo",
       label: "Photo",
-      render: (composer) =>
-        composer.imageUrl ? (
+      render: (artist) =>
+        artist.imageUrl ? (
           <div className="relative h-14 w-14 overflow-hidden rounded-full border border-white/10 bg-white/5">
             {/* Using plain img to avoid remotePatterns constraints */}
             <img
-              src={composer.imageUrl}
-              alt={composer.nameFr || composer.nameEn}
+              src={artist.imageUrl}
+              alt={artist.nameFr || artist.nameEn}
               className="h-full w-full object-cover"
               loading="lazy"
             />
@@ -307,21 +307,21 @@ export default function ComposeursPage({
       key: "name",
       label: "Nom",
       sortable: true,
-      render: (composer) => (
+      render: (artist) => (
         <Link
-          href={`/${locale}/admin/compositeurs/${composer.id}`}
+          href={`/${locale}/admin/artistes/${artist.id}`}
           className="font-medium text-lime-300 hover:underline"
         >
-          {locale === "fr" ? composer.nameFr : composer.nameEn}
+          {locale === "fr" ? artist.nameFr : artist.nameEn}
         </Link>
       ),
     },
     {
       key: "bio",
       label: "Biographie",
-      render: (composer) => (
+      render: (artist) => (
         <span className="text-sm text-white/50">
-          {truncate(locale === "fr" ? composer.bioFr : composer.bioEn, 100)}
+          {truncate(locale === "fr" ? artist.bioFr : artist.bioEn, 100)}
         </span>
       ),
     },
@@ -329,9 +329,9 @@ export default function ComposeursPage({
       key: "contributions",
       label: "Projets",
       sortable: true,
-      render: (composer) => (
+      render: (artist) => (
         <Badge variant="outline" className="border-white/20 text-white/70">
-          {composer._count?.contributions ?? 0}
+          {artist._count?.contributions ?? 0}
         </Badge>
       ),
     },
@@ -339,16 +339,16 @@ export default function ComposeursPage({
       key: "status",
       label: "Statut",
       sortable: true,
-      render: (composer) => (
+      render: (artist) => (
         <Badge
-          variant={composer.isActive ? "default" : "outline"}
+          variant={artist.isActive ? "default" : "outline"}
           className={
-            composer.isActive
+            artist.isActive
               ? "bg-lime-300 text-black"
               : "border-white/30 text-white/50"
           }
         >
-          {composer.isActive ? "Actif" : "Inactif"}
+          {artist.isActive ? "Actif" : "Inactif"}
         </Badge>
       ),
     },
@@ -356,22 +356,22 @@ export default function ComposeursPage({
       key: "createdAt",
       label: "Date de création",
       sortable: true,
-      render: (composer) => (
+      render: (artist) => (
         <span className="text-sm text-white/50">
-          {new Date(composer.createdAt).toLocaleDateString("fr-FR")}
+          {new Date(artist.createdAt).toLocaleDateString("fr-FR")}
         </span>
       ),
     },
     {
       key: "actions",
       label: "Actions",
-      render: (composer) => (
+      render: (artist) => (
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => {
-              router.push(`/${locale}/admin/compositeurs/${composer.id}`);
+              router.push(`/${locale}/admin/artistes/${artist.id}`);
             }}
             className="h-8 w-8 p-0 text-white/50 hover:bg-white/10 hover:text-white"
           >
@@ -381,7 +381,7 @@ export default function ComposeursPage({
             variant="ghost"
             size="sm"
             onClick={() => {
-              setComposerToDelete(composer);
+              setArtistToDelete(artist);
             }}
             className="h-8 w-8 p-0 text-red-400/50 hover:bg-red-500/10 hover:text-red-400"
           >
@@ -397,21 +397,21 @@ export default function ComposeursPage({
       {/* Page Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white">Compositeurs</h1>
+          <h1 className="text-3xl font-bold text-white">Artistes</h1>
           <p className="mt-2 text-white/50">
-            Gérer vos compositeurs et artistes ({filteredComposers.length}{" "}
-            {filteredComposers.length > 1 ? "compositeurs" : "compositeur"})
+            Gérer vos artistes et artistes ({filteredArtists.length}{" "}
+            {filteredArtists.length > 1 ? "artistes" : "artiste"})
           </p>
         </div>
         <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-          <ExportButton entity="composers" />
+          <ExportButton entity="artists" />
           <Link
-            href={`/${locale}/admin/compositeurs/nouveau`}
+            href={`/${locale}/admin/artistes/nouveau`}
             className="w-full sm:w-auto"
           >
             <Button className="w-full justify-center gap-2 bg-lime-300 text-black hover:bg-lime-400 sm:w-auto">
               <PlusIcon className="h-4 w-4" />
-              Nouveau compositeur
+              Nouveau artiste
             </Button>
           </Link>
         </div>
@@ -497,21 +497,21 @@ export default function ComposeursPage({
       {/* Data Table */}
       <DataTable
         columns={columns}
-        data={visibleComposers}
+        data={visibleArtists}
         sortBy={sortBy}
         sortOrder={sortOrder}
         onSort={handleSort}
         isLoading={isLoading}
         emptyMessage={
           hasActiveFilters
-            ? "Aucun compositeur ne correspond aux filtres sélectionnés"
-            : "Aucun compositeur pour le moment"
+            ? "Aucun artiste ne correspond aux filtres sélectionnés"
+            : "Aucun artiste pour le moment"
         }
       />
 
       {/* Infinite scroll sentinel */}
       <div ref={loadMoreRef} className="h-8">
-        {visibleCount < sortedComposers.length && !isLoading && (
+        {visibleCount < sortedArtists.length && !isLoading && (
           <p className="text-center text-xs text-white/40">
             Chargement automatique...
           </p>
@@ -520,9 +520,9 @@ export default function ComposeursPage({
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog
-        open={Boolean(composerToDelete)}
+        open={Boolean(artistToDelete)}
         onOpenChange={(open) => {
-          if (!open) setComposerToDelete(null);
+          if (!open) setArtistToDelete(null);
         }}
       >
         <AlertDialogContent className="border-lime-300/20 bg-black">
@@ -531,11 +531,11 @@ export default function ComposeursPage({
               Confirmer la suppression
             </AlertDialogTitle>
             <AlertDialogDescription className="text-white/70">
-              Êtes-vous sûr de vouloir supprimer le compositeur "
-              {composerToDelete
+              Êtes-vous sûr de vouloir supprimer le artiste "
+              {artistToDelete
                 ? locale === "fr"
-                  ? composerToDelete.nameFr
-                  : composerToDelete.nameEn
+                  ? artistToDelete.nameFr
+                  : artistToDelete.nameEn
                 : ""}
               " ? Cette action est irréversible.
             </AlertDialogDescription>

@@ -47,13 +47,13 @@ type DuplicateWork = {
   }[];
 };
 
-type DuplicateComposer = {
+type DuplicateArtist = {
   identifier: string;
   type: "slug" | "name" | "similar";
   count: number;
   severity: Severity;
   reason: string;
-  composers: {
+  artists: {
     id: string;
     slug: string;
     translations: {
@@ -64,7 +64,7 @@ type DuplicateComposer = {
   }[];
 };
 
-type ComposerIntegrityIssue = {
+type ArtistIntegrityIssue = {
   id: string;
   slug: string;
   name: string;
@@ -133,11 +133,11 @@ type DuplicatesResponse = {
     totalWarnings: number;
     totalInfo: number;
   };
-  composers: {
-    duplicatesBySlug: DuplicateComposer[];
-    duplicatesByName: DuplicateComposer[];
-    duplicatesBySimilarName: DuplicateComposer[];
-    integrityIssues: ComposerIntegrityIssue[];
+  artists: {
+    duplicatesBySlug: DuplicateArtist[];
+    duplicatesByName: DuplicateArtist[];
+    duplicatesBySimilarName: DuplicateArtist[];
+    integrityIssues: ArtistIntegrityIssue[];
     totalDuplicates: number;
     totalIntegrityIssues: number;
     totalErrors: number;
@@ -176,7 +176,7 @@ export const GET = withAuth(async () => {
         workCover: { select: { id: true } },
         categoryImages: { select: { id: true } },
         labelImages: { select: { id: true } },
-        composerImages: { select: { id: true } },
+        artistImages: { select: { id: true } },
         expertiseImages: { select: { id: true } },
         expertiseCover: { select: { id: true } },
       },
@@ -195,7 +195,7 @@ export const GET = withAuth(async () => {
         asset.workCover.length +
         asset.categoryImages.length +
         asset.labelImages.length +
-        asset.composerImages.length +
+        asset.artistImages.length +
         asset.expertiseImages.length +
         asset.expertiseCover.length;
 
@@ -328,8 +328,8 @@ export const GET = withAuth(async () => {
         };
       });
 
-    // 3. Detect duplicate composers by slug and integrity issues
-    const allComposersWithDetails = await prisma.composer.findMany({
+    // 3. Detect duplicate artists by slug and integrity issues
+    const allArtistsWithDetails = await prisma.artist.findMany({
       select: {
         id: true,
         slug: true,
@@ -361,8 +361,8 @@ export const GET = withAuth(async () => {
         .trim();
     };
 
-    // Map composers for duplicate detection (without bio for the response)
-    const allComposers = allComposersWithDetails.map((c) => ({
+    // Map artists for duplicate detection (without bio for the response)
+    const allArtists = allArtistsWithDetails.map((c) => ({
       id: c.id,
       slug: c.slug,
       createdAt: c.createdAt,
@@ -373,158 +373,158 @@ export const GET = withAuth(async () => {
     }));
 
     // Group by slug
-    const composersBySlug = new Map<string, typeof allComposers>();
-    for (const composer of allComposers) {
-      const existing = composersBySlug.get(composer.slug) ?? [];
-      composersBySlug.set(composer.slug, [...existing, composer]);
+    const artistsBySlug = new Map<string, typeof allArtists>();
+    for (const artist of allArtists) {
+      const existing = artistsBySlug.get(artist.slug) ?? [];
+      artistsBySlug.set(artist.slug, [...existing, artist]);
     }
 
-    const duplicateComposersBySlug: DuplicateComposer[] = Array.from(
-      composersBySlug.entries(),
+    const duplicateArtistsBySlug: DuplicateArtist[] = Array.from(
+      artistsBySlug.entries(),
     )
-      .filter(([, composers]) => composers.length > 1)
-      .map(([slug, composers]) => ({
+      .filter(([, artists]) => artists.length > 1)
+      .map(([slug, artists]) => ({
         identifier: slug,
         type: "slug" as const,
-        count: composers.length,
+        count: artists.length,
         severity: "error" as const,
         reason: "Même slug - doublon critique à corriger",
-        composers,
+        artists,
       }));
 
     // Group by exact name (French)
-    const composersByName = new Map<string, typeof allComposers>();
-    for (const composer of allComposers) {
-      const frName = composer.translations.find((t) => t.locale === "fr")?.name;
+    const artistsByName = new Map<string, typeof allArtists>();
+    for (const artist of allArtists) {
+      const frName = artist.translations.find((t) => t.locale === "fr")?.name;
       if (frName) {
         const normalized = frName.toLowerCase().trim();
-        const existing = composersByName.get(normalized) ?? [];
-        composersByName.set(normalized, [...existing, composer]);
+        const existing = artistsByName.get(normalized) ?? [];
+        artistsByName.set(normalized, [...existing, artist]);
       }
     }
 
-    const duplicateComposersByName: DuplicateComposer[] = Array.from(
-      composersByName.entries(),
+    const duplicateArtistsByName: DuplicateArtist[] = Array.from(
+      artistsByName.entries(),
     )
-      .filter(([, composers]) => composers.length > 1)
-      .map(([name, composers]) => ({
+      .filter(([, artists]) => artists.length > 1)
+      .map(([name, artists]) => ({
         identifier: name,
         type: "name" as const,
-        count: composers.length,
+        count: artists.length,
         severity: "warning" as const,
         reason: "Même nom avec slug différent - potentiel doublon",
-        composers,
+        artists,
       }));
 
     // Group by similar name (normalized - ignoring accents, special chars)
-    const composersBySimilarName = new Map<string, typeof allComposers>();
-    for (const composer of allComposers) {
-      const frName = composer.translations.find((t) => t.locale === "fr")?.name;
+    const artistsBySimilarName = new Map<string, typeof allArtists>();
+    for (const artist of allArtists) {
+      const frName = artist.translations.find((t) => t.locale === "fr")?.name;
       if (frName) {
         const normalized = normalizeForComparison(frName);
-        const existing = composersBySimilarName.get(normalized) ?? [];
-        composersBySimilarName.set(normalized, [...existing, composer]);
+        const existing = artistsBySimilarName.get(normalized) ?? [];
+        artistsBySimilarName.set(normalized, [...existing, artist]);
       }
     }
 
     // Filter out groups that are already detected as exact name duplicates
     const exactNameKeys = new Set(
-      Array.from(composersByName.entries())
-        .filter(([, composers]) => composers.length > 1)
+      Array.from(artistsByName.entries())
+        .filter(([, artists]) => artists.length > 1)
         .map(([name]) => normalizeForComparison(name)),
     );
 
-    const duplicateComposersBySimilarName: DuplicateComposer[] = Array.from(
-      composersBySimilarName.entries(),
+    const duplicateArtistsBySimilarName: DuplicateArtist[] = Array.from(
+      artistsBySimilarName.entries(),
     )
       .filter(
-        ([normalizedName, composers]) =>
-          composers.length > 1 && !exactNameKeys.has(normalizedName),
+        ([normalizedName, artists]) =>
+          artists.length > 1 && !exactNameKeys.has(normalizedName),
       )
-      .map(([normalizedName, composers]) => ({
+      .map(([normalizedName, artists]) => ({
         identifier: normalizedName,
         type: "similar" as const,
-        count: composers.length,
+        count: artists.length,
         severity: "info" as const,
         reason:
           "Noms similaires (accents/caractères différents) - à vérifier manuellement",
-        composers,
+        artists,
       }));
 
-    // Detect integrity issues for composers
-    const composerIntegrityIssues: ComposerIntegrityIssue[] = [];
+    // Detect integrity issues for artists
+    const artistIntegrityIssues: ArtistIntegrityIssue[] = [];
 
-    for (const composer of allComposersWithDetails) {
-      const frTranslation = composer.translations.find(
+    for (const artist of allArtistsWithDetails) {
+      const frTranslation = artist.translations.find(
         (t) => t.locale === "fr",
       );
-      const enTranslation = composer.translations.find(
+      const enTranslation = artist.translations.find(
         (t) => t.locale === "en",
       );
-      const name = frTranslation?.name ?? enTranslation?.name ?? composer.slug;
+      const name = frTranslation?.name ?? enTranslation?.name ?? artist.slug;
       const hasBioFr =
         frTranslation?.bio && frTranslation.bio.trim().length > 0;
       const hasBioEn =
         enTranslation?.bio && enTranslation.bio.trim().length > 0;
-      const hasPhoto = composer.imageId !== null;
-      const hasLinks = composer.links.length > 0;
+      const hasPhoto = artist.imageId !== null;
+      const hasLinks = artist.links.length > 0;
 
       // Check for missing bio
       if (!hasBioFr && !hasBioEn) {
-        composerIntegrityIssues.push({
-          id: composer.id,
-          slug: composer.slug,
+        artistIntegrityIssues.push({
+          id: artist.id,
+          slug: artist.slug,
           name,
           issue: "no_bio_both",
           severity: "error",
           reason: "Aucune biographie (ni FR, ni EN)",
-          createdAt: composer.createdAt,
+          createdAt: artist.createdAt,
         });
       } else if (!hasBioFr) {
-        composerIntegrityIssues.push({
-          id: composer.id,
-          slug: composer.slug,
+        artistIntegrityIssues.push({
+          id: artist.id,
+          slug: artist.slug,
           name,
           issue: "no_bio_fr",
           severity: "warning",
           reason: "Biographie française manquante",
-          createdAt: composer.createdAt,
+          createdAt: artist.createdAt,
         });
       } else if (!hasBioEn) {
-        composerIntegrityIssues.push({
-          id: composer.id,
-          slug: composer.slug,
+        artistIntegrityIssues.push({
+          id: artist.id,
+          slug: artist.slug,
           name,
           issue: "no_bio_en",
           severity: "info",
           reason: "Biographie anglaise manquante",
-          createdAt: composer.createdAt,
+          createdAt: artist.createdAt,
         });
       }
 
       // Check for missing photo
       if (!hasPhoto) {
-        composerIntegrityIssues.push({
-          id: composer.id,
-          slug: composer.slug,
+        artistIntegrityIssues.push({
+          id: artist.id,
+          slug: artist.slug,
           name,
           issue: "no_photo",
           severity: "warning",
           reason: "Photo de profil manquante",
-          createdAt: composer.createdAt,
+          createdAt: artist.createdAt,
         });
       }
 
       // Check for missing links
       if (!hasLinks) {
-        composerIntegrityIssues.push({
-          id: composer.id,
-          slug: composer.slug,
+        artistIntegrityIssues.push({
+          id: artist.id,
+          slug: artist.slug,
           name,
           issue: "no_links",
           severity: "info",
           reason: "Aucun lien externe (réseaux sociaux, site web)",
-          createdAt: composer.createdAt,
+          createdAt: artist.createdAt,
         });
       }
     }
@@ -625,40 +625,40 @@ export const GET = withAuth(async () => {
           duplicateWorksBySlug.filter((d) => d.severity === "info").length +
           duplicateWorksByTitle.filter((d) => d.severity === "info").length,
       },
-      composers: {
-        duplicatesBySlug: duplicateComposersBySlug,
-        duplicatesByName: duplicateComposersByName,
-        duplicatesBySimilarName: duplicateComposersBySimilarName,
-        integrityIssues: composerIntegrityIssues,
+      artists: {
+        duplicatesBySlug: duplicateArtistsBySlug,
+        duplicatesByName: duplicateArtistsByName,
+        duplicatesBySimilarName: duplicateArtistsBySimilarName,
+        integrityIssues: artistIntegrityIssues,
         totalDuplicates:
-          duplicateComposersBySlug.reduce((sum, d) => sum + d.count, 0) +
-          duplicateComposersByName.reduce((sum, d) => sum + d.count, 0) +
-          duplicateComposersBySimilarName.reduce((sum, d) => sum + d.count, 0),
-        totalIntegrityIssues: composerIntegrityIssues.length,
+          duplicateArtistsBySlug.reduce((sum, d) => sum + d.count, 0) +
+          duplicateArtistsByName.reduce((sum, d) => sum + d.count, 0) +
+          duplicateArtistsBySimilarName.reduce((sum, d) => sum + d.count, 0),
+        totalIntegrityIssues: artistIntegrityIssues.length,
         totalErrors:
-          duplicateComposersBySlug.filter((d) => d.severity === "error")
+          duplicateArtistsBySlug.filter((d) => d.severity === "error")
             .length +
-          duplicateComposersByName.filter((d) => d.severity === "error")
+          duplicateArtistsByName.filter((d) => d.severity === "error")
             .length +
-          duplicateComposersBySimilarName.filter((d) => d.severity === "error")
+          duplicateArtistsBySimilarName.filter((d) => d.severity === "error")
             .length +
-          composerIntegrityIssues.filter((i) => i.severity === "error").length,
+          artistIntegrityIssues.filter((i) => i.severity === "error").length,
         totalWarnings:
-          duplicateComposersBySlug.filter((d) => d.severity === "warning")
+          duplicateArtistsBySlug.filter((d) => d.severity === "warning")
             .length +
-          duplicateComposersByName.filter((d) => d.severity === "warning")
+          duplicateArtistsByName.filter((d) => d.severity === "warning")
             .length +
-          duplicateComposersBySimilarName.filter(
+          duplicateArtistsBySimilarName.filter(
             (d) => d.severity === "warning",
           ).length +
-          composerIntegrityIssues.filter((i) => i.severity === "warning")
+          artistIntegrityIssues.filter((i) => i.severity === "warning")
             .length,
         totalInfo:
-          duplicateComposersBySlug.filter((d) => d.severity === "info").length +
-          duplicateComposersByName.filter((d) => d.severity === "info").length +
-          duplicateComposersBySimilarName.filter((d) => d.severity === "info")
+          duplicateArtistsBySlug.filter((d) => d.severity === "info").length +
+          duplicateArtistsByName.filter((d) => d.severity === "info").length +
+          duplicateArtistsBySimilarName.filter((d) => d.severity === "info")
             .length +
-          composerIntegrityIssues.filter((i) => i.severity === "info").length,
+          artistIntegrityIssues.filter((i) => i.severity === "info").length,
       },
       categories: {
         duplicatesBySlug: duplicateCategoriesBySlug,

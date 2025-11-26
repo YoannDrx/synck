@@ -11,17 +11,17 @@ import { GalleryShell } from "@/components/galleries/gallery-shell";
 import { PageLayout } from "@/components/layout/page-layout";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/lib/i18n-config";
-import type { GalleryComposer } from "@/lib/prismaProjetsUtils";
-import type { ComposersPageDictionary } from "@/types/dictionary";
+import type { GalleryArtist } from "@/lib/prismaProjetsUtils";
+import type { ArtistsPageDictionary } from "@/types/dictionary";
 
-type ComposersPageClientProps = {
+type ArtistsPageClientProps = {
   locale: Locale;
-  composers: GalleryComposer[];
+  artists: GalleryArtist[];
   nav: {
     home: string;
-    composers: string;
+    artists: string;
   };
-  copy: ComposersPageDictionary;
+  copy: ArtistsPageDictionary;
 };
 
 /** Accent color for artist cards - Neon lime */
@@ -36,12 +36,12 @@ const artistAccent = {
 
 /** Artist card component */
 function ArtistCard({
-  composer,
+  artist,
   index,
   locale,
   copy,
 }: {
-  composer: GalleryComposer;
+  artist: GalleryArtist;
   index: number;
   locale: Locale;
   copy: { worksPlural: string; worksSingular: string };
@@ -72,8 +72,8 @@ function ArtistCard({
     >
       <Link
         ref={cardRef}
-        data-testid="composer-card"
-        href={`/${locale}/compositeurs/${composer.slug}`}
+        data-testid="artist-card"
+        href={`/${locale}/artistes/${artist.slug}`}
         className={cn(
           "group relative flex flex-col items-center gap-4 p-5",
           "rounded-[20px] border-2 bg-white/[0.02]",
@@ -95,10 +95,10 @@ function ArtistCard({
               `group-hover:${artistAccent.ring}`,
             )}
           >
-            {composer.image ? (
+            {artist.image ? (
               <Image
-                src={composer.image}
-                alt={composer.imageAlt ?? composer.name}
+                src={artist.image}
+                alt={artist.imageAlt ?? artist.name}
                 fill
                 sizes="80px"
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -112,7 +112,7 @@ function ArtistCard({
                 )}
               >
                 <span className="text-2xl font-black text-white">
-                  {composer.name.charAt(0).toUpperCase()}
+                  {artist.name.charAt(0).toUpperCase()}
                 </span>
               </div>
             )}
@@ -121,7 +121,7 @@ function ArtistCard({
 
         {/* Name */}
         <h3 className="line-clamp-1 text-center text-sm font-bold text-white/90 transition-colors group-hover:text-white">
-          {composer.name}
+          {artist.name}
         </h3>
 
         {/* Works count badge */}
@@ -131,19 +131,19 @@ function ArtistCard({
             artistAccent.badge,
           )}
         >
-          {renderWorksCount(composer.worksCount)}
+          {renderWorksCount(artist.worksCount)}
         </div>
       </Link>
     </motion.div>
   );
 }
 
-export function CompositeursPageClient({
+export function ArtistesPageClient({
   locale,
-  composers,
+  artists,
   nav,
   copy,
-}: ComposersPageClientProps) {
+}: ArtistsPageClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const sectionRef = useRef<HTMLElement>(null);
@@ -159,7 +159,7 @@ export function CompositeursPageClient({
   );
 
   // Calculate total works
-  const totalWorks = composers.reduce((sum, c) => sum + c.worksCount, 0);
+  const totalWorks = artists.reduce((sum, c) => sum + c.worksCount, 0);
 
   // Handle sort change with URL update
   const handleSortChange = (newSortBy?: string, newSortOrder?: string) => {
@@ -174,7 +174,7 @@ export function CompositeursPageClient({
       params.set("sortOrder", newSortOrder);
     }
 
-    const newUrl = `/${locale}/compositeurs?${params.toString()}`;
+    const newUrl = `/${locale}/artistes?${params.toString()}`;
     router.push(newUrl, { scroll: false });
   };
 
@@ -187,11 +187,11 @@ export function CompositeursPageClient({
     }
   };
 
-  // Filter and sort composers
-  const filteredComposers = useMemo(() => {
-    return composers
-      .filter((composer) =>
-        composer.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  // Filter and sort artists
+  const filteredArtists = useMemo(() => {
+    return artists
+      .filter((artist) =>
+        artist.name.toLowerCase().includes(searchQuery.toLowerCase()),
       )
       .sort((a, b) => {
         let comparison = 0;
@@ -204,26 +204,26 @@ export function CompositeursPageClient({
         }
         return sortOrder === "asc" ? comparison : -comparison;
       });
-  }, [composers, searchQuery, sortBy, sortOrder, locale]);
+  }, [artists, searchQuery, sortBy, sortOrder, locale]);
 
   return (
     <PageLayout orbsConfig="subtle" className="mx-auto max-w-[1600px]">
       <Breadcrumb
         items={[
           { label: nav.home, href: `/${locale}` },
-          { label: nav.composers },
+          { label: nav.artists },
         ]}
       />
 
       <GalleryShell
-        title={nav.composers}
+        title={nav.artists}
         description={copy.description}
         titleVariant="large"
         highlightColor="#d5ff0a"
         containerRef={sectionRef}
         isInView={isInView}
         stats={[
-          { value: composers.length, label: copy.statsArtists },
+          { value: artists.length, label: copy.statsArtists },
           {
             value: totalWorks,
             label: copy.statsProjects,
@@ -241,7 +241,7 @@ export function CompositeursPageClient({
           placeholder: copy.searchPlaceholder,
           inputAccentClassName: "focus:border-[#d5ff0a]/50",
           clearButtonAccentClassName: "hover:text-[#d5ff0a]",
-          inputTestId: "composers-search",
+          inputTestId: "artists-search",
         }}
         sort={{
           sortBy,
@@ -258,7 +258,7 @@ export function CompositeursPageClient({
             handleSortChange(undefined, value);
           },
         }}
-        hasItems={filteredComposers.length > 0}
+        hasItems={filteredArtists.length > 0}
         emptyContent={
           <p className="text-white/40">
             {searchQuery ? copy.noResults : copy.empty}
@@ -291,10 +291,10 @@ export function CompositeursPageClient({
       >
         {/* Artists Grid */}
         <div className="grid gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-          {filteredComposers.map((composer, index) => (
+          {filteredArtists.map((artist, index) => (
             <ArtistCard
-              key={composer.id}
-              composer={composer}
+              key={artist.id}
+              artist={artist}
               index={index}
               locale={locale}
               copy={copy}

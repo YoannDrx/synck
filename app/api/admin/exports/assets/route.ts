@@ -16,7 +16,7 @@ export const GET = withAuth(async (request, _context, user) => {
         workCover: { select: { id: true, slug: true } },
         categoryImages: { select: { id: true, slug: true } },
         labelImages: { select: { id: true, slug: true } },
-        composerImages: { select: { id: true, slug: true } },
+        artistImages: { select: { id: true, slug: true } },
         expertiseImages: { select: { id: true, slug: true } },
         expertiseCover: { select: { id: true, slug: true } },
       },

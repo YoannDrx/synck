@@ -28,7 +28,7 @@ type DuplicatesSummary = {
     totalWarnings: number;
     totalInfo: number;
   };
-  composers: {
+  artists: {
     totalDuplicates: number;
     totalErrors: number;
     totalWarnings: number;
@@ -99,28 +99,28 @@ export function DuplicatesWidget({ locale }: { locale: string }) {
     data.assets.totalDuplicates +
     data.assets.totalUnused +
     data.works.totalDuplicates +
-    data.composers.totalDuplicates +
+    data.artists.totalDuplicates +
     data.categories.totalDuplicates +
     data.labels.totalDuplicates;
 
   const totalErrors =
     data.assets.totalErrors +
     data.works.totalErrors +
-    data.composers.totalErrors +
+    data.artists.totalErrors +
     data.categories.totalErrors +
     data.labels.totalErrors;
 
   const totalWarnings =
     data.assets.totalWarnings +
     data.works.totalWarnings +
-    data.composers.totalWarnings +
+    data.artists.totalWarnings +
     data.categories.totalWarnings +
     data.labels.totalWarnings;
 
   const totalInfo =
     data.assets.totalInfo +
     data.works.totalInfo +
-    data.composers.totalInfo +
+    data.artists.totalInfo +
     data.categories.totalInfo +
     data.labels.totalInfo;
 
@@ -260,31 +260,31 @@ export function DuplicatesWidget({ locale }: { locale: string }) {
             </div>
           )}
 
-          {data.composers.totalDuplicates > 0 && (
+          {data.artists.totalDuplicates > 0 && (
             <div className="space-y-1 rounded-lg border border-white/10 bg-white/5 p-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-white">
-                  Compositeurs
+                  Artistes
                 </span>
                 <Badge variant="secondary" className="bg-white/10 text-white">
-                  {data.composers.totalDuplicates}
+                  {data.artists.totalDuplicates}
                 </Badge>
               </div>
               <div className="flex gap-2 text-xs">
-                {data.composers.totalErrors > 0 && (
+                {data.artists.totalErrors > 0 && (
                   <span className="text-red-400">
-                    {data.composers.totalErrors} erreur
-                    {data.composers.totalErrors > 1 ? "s" : ""}
+                    {data.artists.totalErrors} erreur
+                    {data.artists.totalErrors > 1 ? "s" : ""}
                   </span>
                 )}
-                {data.composers.totalWarnings > 0 && (
+                {data.artists.totalWarnings > 0 && (
                   <span className="text-orange-400">
-                    {data.composers.totalWarnings} attention
+                    {data.artists.totalWarnings} attention
                   </span>
                 )}
-                {data.composers.totalInfo > 0 && (
+                {data.artists.totalInfo > 0 && (
                   <span className="text-blue-400">
-                    {data.composers.totalInfo} info
+                    {data.artists.totalInfo} info
                   </span>
                 )}
               </div>
