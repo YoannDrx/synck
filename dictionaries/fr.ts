@@ -368,6 +368,8 @@ const dictionary: Dictionary = {
     worksTitle: "Projets collaboratifs",
     worksSingular: "projet",
     worksPlural: "projets",
+    previousArtistLabel: "← Artiste précédent",
+    nextArtistLabel: "Artiste suivant →",
     ctaTitle: "Vous êtes artiste ?",
     ctaDescription: "Discutons de la gestion de vos droits musicaux.",
     ctaButton: "Me contacter",

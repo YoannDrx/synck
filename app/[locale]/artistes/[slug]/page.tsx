@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 import type { Locale } from "@/lib/i18n-config";
-import { getArtistBySlug, getAllArtistSlugs } from "@/lib/prismaProjetsUtils";
+import {
+  getAdjacentArtists,
+  getAllArtistSlugs,
+  getArtistBySlug,
+} from "@/lib/prismaProjetsUtils";
 import type { ArtistWithContributions } from "@/lib/prismaProjetsUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { ArtistDetailClient } from "@/components/sections/artist-detail-client";
@@ -86,6 +90,7 @@ export default async function ArtisteDetailPage({
   const artist = await getArtistBySlug(slug, safeLocale);
   const dictionary = await getDictionary(safeLocale);
   const copy = dictionary.artistDetail;
+  const adjacentArtists = await getAdjacentArtists(slug, safeLocale);
 
   if (!artist) {
     notFound();
@@ -131,6 +136,8 @@ export default async function ArtisteDetailPage({
       artist={artistData}
       works={works}
       socialLinks={socialLinks}
+      previousArtist={adjacentArtists.previous}
+      nextArtist={adjacentArtists.next}
       nav={{
         home: dictionary.nav.home,
         artists: dictionary.nav.artists,

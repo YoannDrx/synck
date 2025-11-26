@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, useInView } from "framer-motion";
 import ReactMarkdown from "react-markdown";
+import { X } from "lucide-react";
 
 import { Breadcrumb } from "@/components/breadcrumb";
 import { PageLayout } from "@/components/layout/page-layout";
-import { LightboxImage } from "@/components/lightbox-image";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/lib/i18n-config";
 import type { ProjetDetailDictionary } from "@/types/dictionary";
@@ -20,6 +21,7 @@ const categoryAccents: Record<
     primary: string;
     glow: string;
     border: string;
+    activeBorder: string;
     badge: string;
     text: string;
   }
@@ -28,6 +30,8 @@ const categoryAccents: Record<
     primary: "#a3e635",
     glow: "shadow-[0_0_30px_rgba(163,230,53,0.2)]",
     border: "border-lime-400/30 hover:border-lime-400",
+    activeBorder:
+      "hover:border-lime-400 focus:border-lime-400 focus:ring-lime-400/50",
     badge: "bg-lime-400/15 text-lime-400 border-lime-400/30",
     text: "text-lime-400",
   },
@@ -35,6 +39,8 @@ const categoryAccents: Record<
     primary: "#4ecdc4",
     glow: "shadow-[0_0_30px_rgba(78,205,196,0.2)]",
     border: "border-cyan-400/30 hover:border-cyan-400",
+    activeBorder:
+      "hover:border-cyan-400 focus:border-cyan-400 focus:ring-cyan-400/50",
     badge: "bg-cyan-400/15 text-cyan-400 border-cyan-400/30",
     text: "text-cyan-400",
   },
@@ -42,6 +48,8 @@ const categoryAccents: Record<
     primary: "#a855f7",
     glow: "shadow-[0_0_30px_rgba(168,85,247,0.2)]",
     border: "border-purple-400/30 hover:border-purple-400",
+    activeBorder:
+      "hover:border-purple-400 focus:border-purple-400 focus:ring-purple-400/50",
     badge: "bg-purple-400/15 text-purple-400 border-purple-400/30",
     text: "text-purple-400",
   },
@@ -49,6 +57,8 @@ const categoryAccents: Record<
     primary: "#fb923c",
     glow: "shadow-[0_0_30px_rgba(251,146,60,0.2)]",
     border: "border-orange-400/30 hover:border-orange-400",
+    activeBorder:
+      "hover:border-orange-400 focus:border-orange-400 focus:ring-orange-400/50",
     badge: "bg-orange-400/15 text-orange-400 border-orange-400/30",
     text: "text-orange-400",
   },
@@ -56,6 +66,8 @@ const categoryAccents: Record<
     primary: "#f472b6",
     glow: "shadow-[0_0_30px_rgba(244,114,182,0.2)]",
     border: "border-pink-400/30 hover:border-pink-400",
+    activeBorder:
+      "hover:border-pink-400 focus:border-pink-400 focus:ring-pink-400/50",
     badge: "bg-pink-400/15 text-pink-400 border-pink-400/30",
     text: "text-pink-400",
   },
@@ -63,6 +75,8 @@ const categoryAccents: Record<
     primary: "#d5ff0a",
     glow: "shadow-[0_0_30px_rgba(213,255,10,0.2)]",
     border: "border-[#d5ff0a]/30 hover:border-[#d5ff0a]",
+    activeBorder:
+      "hover:border-[#d5ff0a] focus:border-[#d5ff0a] focus:ring-[#d5ff0a]/50",
     badge: "bg-[#d5ff0a]/15 text-[#d5ff0a] border-[#d5ff0a]/30",
     text: "text-[#d5ff0a]",
   },
@@ -156,6 +170,14 @@ export function ProjetDetailClient({
   });
 
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [isCoverOpen, setIsCoverOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMounted(true);
+    }, 0);
+  }, []);
 
   const accent = getCategoryAccent(project.categorySlug);
   const hasArtists = artists.length > 0;
@@ -163,6 +185,11 @@ export function ProjetDetailClient({
   const hasYoutube = Boolean(project.youtubeUrl);
   const hasSpotify = Boolean(project.spotifyEmbedUrl);
   const hasExternalLink = Boolean(project.externalUrl) && !hasYoutube;
+  const hasCoverImage = Boolean(project.coverImage);
+
+  const closeLabel = locale === "fr" ? "Fermer" : "Close";
+  const enlargeLabel =
+    locale === "fr" ? "Agrandir l'image" : "Enlarge image";
 
   // Extract YouTube video ID
   const youtubeVideoId = project.youtubeUrl
@@ -221,18 +248,27 @@ export function ProjetDetailClient({
               transition={{ duration: 0.5, delay: 0.1 }}
               className="flex-shrink-0"
             >
-              <LightboxImage
-                src={project.coverImage}
-                alt={project.coverImageAlt ?? project.title}
-                fullSrc={project.coverImage}
-                width={280}
-                height={280}
-                radius="rounded-[20px]"
+              <button
+                type="button"
+                aria-label={enlargeLabel}
                 className={cn(
-                  "overflow-hidden rounded-[20px] border-2 transition-all duration-300",
-                  accent.border,
+                  "relative block h-[280px] w-[280px] overflow-hidden rounded-[20px] border-2 border-white/10 transition-all duration-300 focus:outline-none focus:ring-4",
+                  hasCoverImage && "cursor-zoom-in hover:scale-105",
+                  hasCoverImage && accent.activeBorder,
                 )}
-              />
+                onClick={() => {
+                  if (hasCoverImage) setIsCoverOpen(true);
+                }}
+                disabled={!hasCoverImage}
+              >
+                <Image
+                  src={project.coverImage}
+                  alt={project.coverImageAlt ?? project.title}
+                  fill
+                  sizes="280px"
+                  className="object-cover"
+                />
+              </button>
             </motion.div>
           )}
 
@@ -639,46 +675,81 @@ export function ProjetDetailClient({
         </div>
       </motion.div>
 
-      {/* Lightbox */}
+      {/* Gallery Lightbox (Existing) */}
       {lightboxImage && (
-        <button
-          type="button"
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
           onClick={() => {
             setLightboxImage(null);
           }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-6 backdrop-blur-sm"
-          aria-label="Fermer la galerie"
         >
-          <div className="relative max-h-[90vh] max-w-[90vw]">
-            <Image
-              src={lightboxImage}
-              alt="Gallery image"
-              width={1200}
-              height={900}
-              className="h-auto max-h-[85vh] w-auto rounded-[20px] object-contain"
-            />
+          <div
+            className="relative max-h-[90vh] max-w-[90vw] w-full md:w-auto rounded-[24px] border border-white/10 bg-[#0b0b0f]/80 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.6)]"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             <button
               onClick={() => {
                 setLightboxImage(null);
               }}
-              className="absolute -right-4 -top-12 text-white hover:text-[#d5ff0a] transition-colors"
+              className="absolute right-3 top-3 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40"
+              aria-label="Fermer la galerie"
             >
-              <svg
-                className="h-10 w-10"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <X size={24} />
             </button>
+            <div className="relative max-h-[80vh]">
+              <Image
+                src={lightboxImage}
+                alt="Gallery image"
+                width={1200}
+                height={900}
+                className="h-auto max-h-[75vh] w-full rounded-[16px] object-contain"
+              />
+            </div>
           </div>
-        </button>
+        </div>
+      )}
+
+      {/* Cover Image Lightbox Portal */}
+      {mounted && isCoverOpen && project.coverImage && createPortal(
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md"
+          onClick={() => {
+            setIsCoverOpen(false);
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-2xl"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <button
+              onClick={() => {
+                setIsCoverOpen(false);
+              }}
+              aria-label={closeLabel}
+              className="absolute top-4 right-4 z-50 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white/50"
+            >
+              <X size={24} />
+            </button>
+            <Image
+              src={project.coverImage}
+              alt={project.coverImageAlt ?? project.title}
+              width={1200}
+              height={1200}
+              className="h-auto max-h-[85vh] w-auto object-contain"
+              quality={90}
+            />
+          </motion.div>
+        </div>,
+        document.body
       )}
     </PageLayout>
   );

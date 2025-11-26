@@ -484,6 +484,17 @@ export async function getAllArtistSlugs(): Promise<string[]> {
       where: {
         isActive: true,
       },
+      orderBy: [
+        {
+          order: "asc",
+        },
+        {
+          createdAt: "asc",
+        },
+        {
+          slug: "asc",
+        },
+      ],
       select: {
         slug: true,
       },
@@ -492,5 +503,53 @@ export async function getAllArtistSlugs(): Promise<string[]> {
     return artists.map((artist) => artist.slug);
   } catch {
     return [];
+  }
+}
+
+// Get previous/next artists based on order field
+export async function getAdjacentArtists(
+  slug: string,
+  locale: Locale,
+): Promise<{
+  previous: { slug: string; name: string } | null;
+  next: { slug: string; name: string } | null;
+}> {
+  try {
+    const artists = await prisma.artist.findMany({
+      where: { isActive: true },
+      include: {
+        translations: {
+          where: { locale },
+        },
+      },
+      orderBy: [
+        { order: "asc" },
+        { createdAt: "asc" },
+        { slug: "asc" },
+      ],
+    });
+
+    const currentIndex = artists.findIndex((artist) => artist.slug === slug);
+    if (currentIndex === -1) {
+      return { previous: null, next: null };
+    }
+
+    const previousArtist = artists[currentIndex - 1];
+    const nextArtist = artists[currentIndex + 1];
+
+    const mapArtist = (artist: (typeof artists)[number] | undefined) =>
+      artist
+        ? {
+            slug: artist.slug,
+            name: artist.translations[0]?.name ?? artist.slug,
+          }
+        : null;
+
+    return {
+      previous: mapArtist(previousArtist),
+      next: mapArtist(nextArtist),
+    };
+  } catch {
+    return { previous: null, next: null };
   }
 }

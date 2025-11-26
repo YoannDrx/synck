@@ -231,6 +231,8 @@ export type ArtistDetailDictionary = {
   worksTitle: string;
   worksSingular: string;
   worksPlural: string;
+  previousArtistLabel: string;
+  nextArtistLabel: string;
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
