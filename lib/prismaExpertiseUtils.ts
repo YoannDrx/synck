@@ -274,6 +274,13 @@ async function getDocumentairesFromPrisma(
           ? (work.productionCompanySlugs as string[])
           : undefined;
 
+      // Map category to the first production company slug if available, to enable filtering in the gallery
+      // The gallery component uses 'category' field to create the tabs (e.g. "13-prods", "little-big-story")
+      const category =
+        productionCompanies && productionCompanies.length > 0
+          ? productionCompanies[0]
+          : categoryTranslation?.name ?? "Documentaire";
+
       return {
         title: translation?.title ?? work.slug,
         subtitle: translation?.subtitle ?? "",
@@ -281,7 +288,7 @@ async function getDocumentairesFromPrisma(
         src: imagePath,
         srcLg: imagePath,
         link: work.youtubeUrl ?? work.externalUrl ?? "",
-        category: categoryTranslation?.name ?? "Documentaire",
+        category: category,
         productionCompanies,
         year: work.year ?? undefined,
         height: undefined,

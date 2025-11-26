@@ -131,9 +131,7 @@ function loadArtistBios(): Map<string, { fr?: string; en?: string }> {
     const localeDir = path.join(biosDir, locale);
     if (!fs.existsSync(localeDir)) continue;
 
-    const files = fs
-      .readdirSync(localeDir)
-      .filter((file) => file.toLowerCase().endsWith(".md"));
+    const files = fs.readdirSync(localeDir).filter((file) => file.toLowerCase().endsWith(".md"));
 
     for (const file of files) {
       const slug = file.replace(/\.md$/i, "");
@@ -154,11 +152,7 @@ function loadArtistBios(): Map<string, { fr?: string; en?: string }> {
 /**
  * Récupère une valeur string du frontmatter de manière sûre
  */
-function getFrontmatterString(
-  frontmatter: Record<string, unknown>,
-  key: string,
-  defaultValue = "",
-): string {
+function getFrontmatterString(frontmatter: Record<string, unknown>, key: string, defaultValue = ""): string {
   const value = frontmatter[key];
   return typeof value === "string" ? value : defaultValue;
 }
@@ -181,10 +175,7 @@ async function createAsset(imagePath: string): Promise<Asset | null> {
     const metadata = await sharp(imageBuffer).metadata();
 
     // Générer blur placeholder
-    const blurBuffer = await sharp(imageBuffer)
-      .resize(20, 20, { fit: "inside" })
-      .blur(10)
-      .toBuffer();
+    const blurBuffer = await sharp(imageBuffer).resize(20, 20, { fit: "inside" }).blur(10).toBuffer();
     const base64 = blurBuffer.toString("base64");
     const blurDataUrl = `data:image/jpeg;base64,${base64}`;
 
@@ -233,9 +224,7 @@ async function seedCategories() {
   console.log("\n🏷️  Seeding categories...");
 
   const categoriesPath = path.join(process.cwd(), "seed-data/categories.json");
-  const categoriesData = JSON.parse(
-    fs.readFileSync(categoriesPath, "utf-8"),
-  ) as CategoryData[];
+  const categoriesData = JSON.parse(fs.readFileSync(categoriesPath, "utf-8")) as CategoryData[];
 
   let created = 0;
   for (const cat of categoriesData) {
@@ -282,9 +271,7 @@ async function seedLabels() {
   console.log("\n🏢 Seeding labels...");
 
   const labelsPath = path.join(process.cwd(), "seed-data/labels.json");
-  const labelsData = JSON.parse(
-    fs.readFileSync(labelsPath, "utf-8"),
-  ) as LabelData[];
+  const labelsData = JSON.parse(fs.readFileSync(labelsPath, "utf-8")) as LabelData[];
 
   let created = 0;
   for (const label of labelsData) {
@@ -341,9 +328,7 @@ async function seedArtists() {
   console.log("\n🎵 Seeding artists...");
 
   const artistsPath = path.join(process.cwd(), "seed-data/artists.json");
-  const artistsData = JSON.parse(
-    fs.readFileSync(artistsPath, "utf-8"),
-  ) as ArtistData[];
+  const artistsData = JSON.parse(fs.readFileSync(artistsPath, "utf-8")) as ArtistData[];
 
   // Charger les biographies (optionnelles)
   const artistBios = loadArtistBios();
@@ -426,9 +411,7 @@ async function seedWorks() {
   console.log("\n🎨 Seeding works...");
 
   const worksPath = path.join(process.cwd(), "seed-data/works.json");
-  const worksData = JSON.parse(
-    fs.readFileSync(worksPath, "utf-8"),
-  ) as WorkData[];
+  const worksData = JSON.parse(fs.readFileSync(worksPath, "utf-8")) as WorkData[];
 
   // Filtrer les works avec images valides, mais garder les synchros et documentaires même sans image
   const validWorks = worksData.filter((work) => {
@@ -441,9 +424,7 @@ async function seedWorks() {
     return work.coverImage && imageExists(work.coverImage);
   });
 
-  console.log(
-    `   Filtering: ${String(validWorks.length)}/${String(worksData.length)} works with valid images`,
-  );
+  console.log(`   Filtering: ${String(validWorks.length)}/${String(worksData.length)} works with valid images`);
 
   // Récupérer toutes les catégories et labels
   const categories = await prisma.category.findMany();
@@ -469,9 +450,7 @@ async function seedWorks() {
 
       const category = categoriesMap.get(categorySlug);
       if (!category) {
-        console.warn(
-          `   ⚠️  Category not found for ${work.slug}: ${categorySlug}`,
-        );
+        console.warn(`   ⚠️  Category not found for ${work.slug}: ${categorySlug}`);
         skipped++;
         continue;
       }
@@ -482,11 +461,7 @@ async function seedWorks() {
         coverImageAsset = await createAsset(work.coverImage);
         // Si la création a échoué et ce n'est ni une synchro ni un documentaire, on skip
         const category = work.category?.toLowerCase();
-        if (
-          !coverImageAsset &&
-          category !== "synchro" &&
-          category !== "documentaire"
-        ) {
+        if (!coverImageAsset && category !== "synchro" && category !== "documentaire") {
           console.warn(`   ⚠️  Failed to create cover image for ${work.slug}`);
           skipped++;
           continue;
@@ -498,9 +473,7 @@ async function seedWorks() {
       const firstProductionCompany = Array.isArray(work.productionCompanySlug)
         ? work.productionCompanySlug[0]
         : work.productionCompanySlug;
-      const label = firstProductionCompany
-        ? labelsMap.get(firstProductionCompany)
-        : null;
+      const label = firstProductionCompany ? labelsMap.get(firstProductionCompany) : null;
 
       // Préparer le tableau des sociétés de production pour les documentaires
       const productionCompanySlugs = work.productionCompanySlug
@@ -620,9 +593,7 @@ async function seedWorks() {
 
       created++;
       if (created % 50 === 0) {
-        console.log(
-          `   Progress: ${String(created)}/${String(validWorks.length)} works created...`,
-        );
+        console.log(`   Progress: ${String(created)}/${String(validWorks.length)} works created...`);
       }
     } catch (error: unknown) {
       console.error(`   ❌ Error creating work ${work.slug}:`, error);
@@ -630,9 +601,7 @@ async function seedWorks() {
     }
   }
 
-  console.log(
-    `✅ Created ${String(created)} works (${String(skipped)} skipped)`,
-  );
+  console.log(`✅ Created ${String(created)} works (${String(skipped)} skipped)`);
 }
 
 // ============================================
@@ -643,9 +612,7 @@ async function seedExpertises() {
   console.log("\n🎓 Seeding expertises...");
 
   const expertisesDir = "seed-data/expertises";
-  const expertisesFr = fs.readdirSync(
-    path.join(process.cwd(), expertisesDir, "fr"),
-  );
+  const expertisesFr = fs.readdirSync(path.join(process.cwd(), expertisesDir, "fr"));
 
   let created = 0;
 
@@ -665,9 +632,7 @@ async function seedExpertises() {
 
     // Diviser le contenu en sections (séparées par <!-- section:end -->)
     const contentFr = expertiseFr.content.split("<!-- section:end -->");
-    const contentEn = expertiseEn
-      ? expertiseEn.content.split("<!-- section:end -->")
-      : contentFr;
+    const contentEn = expertiseEn ? expertiseEn.content.split("<!-- section:end -->") : contentFr;
 
     // Créer les assets pour les images
     const imageAssets: string[] = [];
@@ -680,18 +645,18 @@ async function seedExpertises() {
         const imgValue = frontmatter[key];
         // Ensure we don't try to process empty strings
         if (typeof imgValue === "string" && imgValue.trim() !== "") {
-            const imgPath = normalizeImagePath(imgValue);
-            if (imgPath && imageExists(imgPath)) {
-              const asset = await createAsset(imgPath);
-              if (asset) {
-                // imgHome devient le coverImage
-                if (key === "imgHome") {
-                  coverImageId = asset.id;
-                } else {
-                  imageAssets.push(asset.id);
-                }
+          const imgPath = normalizeImagePath(imgValue);
+          if (imgPath && imageExists(imgPath)) {
+            const asset = await createAsset(imgPath);
+            if (asset) {
+              // imgHome devient le coverImage
+              if (key === "imgHome") {
+                coverImageId = asset.id;
+              } else {
+                imageAssets.push(asset.id);
               }
             }
+          }
         }
       }
     }
@@ -699,21 +664,15 @@ async function seedExpertises() {
     // Créer l'expertise avec les images connectées
     const titleFr = getFrontmatterString(frontmatter, "title", slug);
     const descriptionFr = getFrontmatterString(frontmatter, "description");
-    const titleEn = expertiseEn
-      ? getFrontmatterString(expertiseEn.frontmatter, "title", titleFr)
-      : titleFr;
+    const titleEn = expertiseEn ? getFrontmatterString(expertiseEn.frontmatter, "title", titleFr) : titleFr;
     const descriptionEn = expertiseEn
-      ? getFrontmatterString(
-          expertiseEn.frontmatter,
-          "description",
-          descriptionFr,
-        )
+      ? getFrontmatterString(expertiseEn.frontmatter, "description", descriptionFr)
       : descriptionFr;
     const orderId = parseInt(getFrontmatterString(frontmatter, "id", "0")) || 0;
 
     // Reconstruire le contenu complet avec frontmatter pour le stocker en DB
     const fullContentFr = matter.stringify(contentFr.join("\n<!-- section:end -->\n"), frontmatter);
-    const fullContentEn = matter.stringify(contentEn.join("\n<!-- section:end -->\n"), expertiseEn?.frontmatter || {});
+    const fullContentEn = matter.stringify(contentEn.join("\n<!-- section:end -->\n"), expertiseEn?.frontmatter ?? {});
 
     await prisma.expertise.upsert({
       where: { slug },
@@ -846,17 +805,15 @@ async function main() {
       ]);
 
       if (categoriesCount > 0 && worksCount > 0 && expertisesCount > 0) {
-        console.log(
-          "⏭️  SKIP_SEED_IF_DATA_PRESENT=1 et données déjà présentes, seed ignoré.",
-        );
+        console.log("⏭️  SKIP_SEED_IF_DATA_PRESENT=1 et données déjà présentes, seed ignoré.");
         return;
       }
     }
 
     await seedCategories();
     await seedLabels();
-    // await seedArtists();
-    // await seedWorks();
+    await seedArtists();
+    await seedWorks();
     await seedExpertises();
     await seedAdminUser();
 

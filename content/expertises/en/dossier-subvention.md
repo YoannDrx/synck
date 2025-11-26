@@ -1,14 +1,13 @@
 ---
 id: "6"
-title: Gestion des dossiers de subvention
-description: grant file management description
+title: "Grant Application Management"
+description: "Grant application management description"
 intro: >-
-  L'objectif principal des organismes de subvention est de dynamiser l'économie
-  musicale en faisant circuler les fonds. Plus fondamentalement, l'essence de
-  ces aides financières est de stimuler la création artistique tout en
-  renforçant la pérennité de l'emploi pour les artistes. L'aide demandée doit
-  alors servir à renforcer le budget et ainsi, enrichir la mise en œuvre du
-  projet.
+  The primary goal of grant-making organizations is to stimulate the music
+  economy by keeping funds flowing. More fundamentally, these financial
+  supports aim to encourage artistic creation while strengthening sustainable
+  employment for artists. Any aid requested should therefore bolster the budget
+  and, in turn, enrich the project's implementation.
 slug: dossier-subvention
 imgHome: /images/projets/expertises/dossier-subvention/dossier-subvention-home.jpg
 img1: /images/projets/expertises/dossier-subvention/dossier-subvention-section-1.jpg
@@ -61,7 +60,7 @@ supports:
     logo: /images/partner/logo-cnm.jpg
     description: "The CNM represents the largest and most powerful gathering of all the major players in the music industry. Unlike its predecessor (CNV), which also covered the arts of theater, dance and opera, the CNM is now dedicated to supporting music professionals. All collecting societies contribute to the CNM's budget, as does the French Ministry of Culture."
     links:
-      - title: "Aides à la production phonographique du CNM"
+      - title: "CNM phonographic production grants"
         url: "https://cnm.fr/aides/musique-enregistree/production-phonographique/"
       - title: "Support for phonographic production - Contemporary music"
         url: "https://cnm.fr/aides/musique-enregistree/production-phonographique/musiques-actuelles/"
