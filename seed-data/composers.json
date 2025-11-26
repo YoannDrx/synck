@@ -267,6 +267,12 @@
         "url": "https://cedrichanakostcomposer.bandcamp.com/music",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "spotify",
+        "url": "https://open.spotify.com/intl-fr/artist/12M2hO0FUtnsXYMp5jjGuN",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 15,
@@ -479,6 +485,12 @@
         "url": "https://www.instagram.com/drizzzel/",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "soundcloud",
+        "url": "https://soundcloud.com/drixxxe-2",
+        "label": "SoundCloud",
+        "order": 1
       }
     ],
     "order": 27,
@@ -533,6 +545,12 @@
         "url": "https://www.instagram.com/mustang_force_music/",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "spotify",
+        "url": "https://open.spotify.com/intl-fr/artist/6WPBlXYBmOPAoZAxSeBORf",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 30,
@@ -581,7 +599,14 @@
     "slug": "frederic-hanak",
     "name": "Frédéric Hanak",
     "image": "public/images/projets/photoscompo/ddash.jpg",
-    "links": [],
+    "links": [
+      {
+        "platform": "spotify",
+        "url": "https://open.spotify.com/intl-fr/artist/2HXjjAcmNeyqM1InDkqFbu",
+        "label": "dDash",
+        "order": 0
+      }
+    ],
     "order": 35,
     "isActive": true
   },
@@ -816,7 +841,14 @@
     "slug": "n-zeng",
     "name": "N’ZENG",
     "image": "public/images/projets/photoscompo/sebastienblanchon.jpg",
-    "links": [],
+    "links": [
+      {
+        "platform": "soundcloud",
+        "url": "https://soundcloud.com/nzeng",
+        "label": "SoundCloud",
+        "order": 0
+      }
+    ],
     "order": 51,
     "isActive": true
   },
@@ -913,6 +945,12 @@
         "url": "https://www.instagram.com/viromajorrecords/",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "bandcamp",
+        "url": "https://viromajorrecords.bandcamp.com/",
+        "label": "Bandcamp",
+        "order": 1
       }
     ],
     "order": 57,
@@ -970,6 +1008,12 @@
         "url": "https://www.instagram.com/nzeng_music/?hl=fr",
         "label": null,
         "order": 0
+      },
+      {
+        "platform": "soundcloud",
+        "url": "https://soundcloud.com/s-bastien-blanchon",
+        "label": null,
+        "order": 1
       }
     ],
     "order": 65,
@@ -980,7 +1024,20 @@
     "slug": "sebastien-blanchon-n-zeng",
     "name": "Sébastien Blanchon / N'ZENG",
     "image": "public/images/projets/photoscompo/sebastienblanchon.jpg",
-    "links": [],
+    "links": [
+      {
+        "platform": "soundcloud",
+        "url": "https://soundcloud.com/nzeng",
+        "label": "N'ZENG",
+        "order": 0
+      },
+      {
+        "platform": "soundcloud",
+        "url": "https://soundcloud.com/s-bastien-blanchon",
+        "label": "Sébastien Blanchon",
+        "order": 1
+      }
+    ],
     "order": 66,
     "isActive": true
   },

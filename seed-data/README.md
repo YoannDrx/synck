@@ -28,12 +28,11 @@ Les fichiers JSON sont générés automatiquement via les scripts :
 # Générer categories.json depuis metadata
 pnpm tsx scripts/generate-categories.ts
 
-# Générer composers.json (fusion metadata + composer-links)
-pnpm tsx scripts/generate-composers.ts
-
 # Générer works.json unifié FR+EN avec validation images
 pnpm tsx scripts/generate-works.ts
 ```
+
+> **Note** : `composers.json` est maintenu manuellement (source de vérité unique pour les compositeurs et leurs liens).
 
 ## 📊 Statistiques actuelles
 
@@ -140,7 +139,7 @@ pnpm db:seed
 
 1. **Source de vérité unique** : Un seul endroit pour toutes les données
 2. **Validation automatique** : Les works sans images sont filtrés
-3. **Fusion intelligente** : Compositeurs + liens multiples fusionnés
+3. **Liens centralisés** : Tous les liens des compositeurs dans `composers.json`
 4. **Traductions centralisées** : FR + EN dans les mêmes fichiers
 5. **Maintenabilité** : Fichiers JSON simples et lisibles
 
