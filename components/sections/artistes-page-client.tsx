@@ -17,6 +17,7 @@ import type { ArtistsPageDictionary } from "@/types/dictionary";
 type ArtistsPageClientProps = {
   locale: Locale;
   artists: GalleryArtist[];
+  totalProjects: number;
   nav: {
     home: string;
     artists: string;
@@ -141,6 +142,7 @@ function ArtistCard({
 export function ArtistesPageClient({
   locale,
   artists,
+  totalProjects,
   nav,
   copy,
 }: ArtistsPageClientProps) {
@@ -157,9 +159,6 @@ export function ArtistesPageClient({
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">(
     (searchParams.get("sortOrder") as "asc" | "desc") ?? "asc",
   );
-
-  // Calculate total works
-  const totalWorks = artists.reduce((sum, c) => sum + c.worksCount, 0);
 
   // Handle sort change with URL update
   const handleSortChange = (newSortBy?: string, newSortOrder?: string) => {
@@ -225,7 +224,7 @@ export function ArtistesPageClient({
         stats={[
           { value: artists.length, label: copy.statsArtists },
           {
-            value: totalWorks,
+            value: totalProjects,
             label: copy.statsProjects,
             valueClassName: "text-[#d5ff0a]",
           },

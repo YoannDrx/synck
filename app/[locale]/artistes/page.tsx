@@ -1,5 +1,8 @@
 import type { Locale } from "@/lib/i18n-config";
-import { getArtistsFromPrisma } from "@/lib/prismaProjetsUtils";
+import {
+  getArtistsFromPrisma,
+  getProjetsFromPrisma,
+} from "@/lib/prismaProjetsUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { ArtistesPageClient } from "@/components/sections/artistes-page-client";
 
@@ -13,6 +16,7 @@ export default async function ComposeursPage({ params }: ArtistsPageParams) {
   const { locale } = await params;
   const safeLocale = locale === "en" ? "en" : "fr";
   const artists = await getArtistsFromPrisma(safeLocale);
+  const projets = await getProjetsFromPrisma(safeLocale);
   const dictionary = await getDictionary(safeLocale);
   const copy = dictionary.artistsPage;
 
@@ -20,6 +24,7 @@ export default async function ComposeursPage({ params }: ArtistsPageParams) {
     <ArtistesPageClient
       locale={safeLocale}
       artists={artists}
+      totalProjects={projets.length}
       nav={{
         home: dictionary.nav.home,
         artists: dictionary.nav.artists,
