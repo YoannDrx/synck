@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { import { ExpertiseFormAdvanced } from "@/components/admin/expertises/expertise-form-advanced"; } from "@/components/admin/expertises/expertise-form";
+import { ExpertiseFormAdvanced } from "@/components/admin/expertises/expertise-form-advanced";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
 

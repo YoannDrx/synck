@@ -534,15 +534,18 @@ export function ProjetDetailClient({
           >
             {copy.spotifyTitle}
           </h2>
-          <div className="aspect-[4/3] overflow-hidden rounded-[16px]">
-            <iframe
-              src={project.spotifyEmbedUrl}
-              width="100%"
-              height="100%"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              className="h-full w-full"
-            />
+          <div className="w-full">
+            <div className="overflow-hidden rounded-[16px] border border-white/10 lg:aspect-[4/3]">
+              <iframe
+                src={project.spotifyEmbedUrl}
+                width="100%"
+                height="352"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                className="h-[352px] w-full sm:h-[352px] lg:h-full"
+                style={{ minHeight: 240 }}
+              />
+            </div>
           </div>
         </motion.section>
       )}
