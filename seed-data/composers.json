@@ -26,7 +26,20 @@
     "slug": "9-o-clock",
     "name": "9 O'Clock",
     "image": "public/images/projets/photoscompo/9oclock.jpg",
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/9_o_clock/",
+        "label": null,
+        "order": 0
+      },
+      {
+        "platform": "soundcloud",
+        "url": "https://soundcloud.com/9-oclock",
+        "label": "SoundCloud",
+        "order": 1
+      }
+    ],
     "order": 1,
     "isActive": true
   },
@@ -89,7 +102,14 @@
     "slug": "ana-kap",
     "name": "Ana Kap",
     "image": "public/images/projets/photoscompo/anakap.jpg",
-    "links": [],
+    "links": [
+      {
+        "platform": "website",
+        "url": "https://anakaptrio.wixsite.com/anakap",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 6,
     "isActive": true
   },
@@ -166,10 +186,16 @@
     "image": "public/images/projets/photoscompo/blanka.jpg",
     "links": [
       {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/blanka_lfe/",
+        "label": null,
+        "order": 0
+      },
+      {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/blankalfe",
         "label": null,
-        "order": 0
+        "order": 1
       }
     ],
     "order": 10,
@@ -235,7 +261,14 @@
     "name": "Cédric Hanak",
     "image": "public/images/projets/photoscompo/cedrichanak.jpg",
     "externalUrl": null,
-    "links": [],
+    "links": [
+      {
+        "platform": "bandcamp",
+        "url": "https://cedrichanakostcomposer.bandcamp.com/music",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 15,
     "isActive": true
   },
@@ -354,10 +387,16 @@
     "image": "public/images/projets/photoscompo/daxovii.jpg",
     "links": [
       {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/_daxovii_/",
+        "label": null,
+        "order": 0
+      },
+      {
         "platform": "spotify",
         "url": "https://open.spotify.com/intl-fr/artist/4nQRld5mxpXtOY7GJt7AJN",
         "label": null,
-        "order": 0
+        "order": 1
       }
     ],
     "order": 22,
@@ -488,7 +527,14 @@
     "slug": "emmanuel-maree",
     "name": "Emmanuel Marée",
     "image": "public/images/projets/photoscompo/emmanuelmaree.jpg",
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/mustang_force_music/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 30,
     "isActive": true
   },
@@ -544,7 +590,14 @@
     "slug": "gerz-marcellino",
     "name": "Gerz Marcellino",
     "image": "public/images/projets/photoscompo/gerz.jpg",
-    "links": [],
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/gero94700/",
+        "label": null,
+        "order": 0
+      }
+    ],
     "order": 37,
     "isActive": true
   },
@@ -697,10 +750,16 @@
     "image": "public/images/projets/photoscompo/mrviktor.jpg",
     "links": [
       {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/_mr_viktor/",
+        "label": null,
+        "order": 0
+      },
+      {
         "platform": "soundcloud",
         "url": "https://soundcloud.com/mr-viktor",
         "label": "SoundCloud",
-        "order": 0
+        "order": 1
       }
     ],
     "order": 49,
