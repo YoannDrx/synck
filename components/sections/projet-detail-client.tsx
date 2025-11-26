@@ -111,7 +111,7 @@ type RelatedWork = {
   title: string;
   subtitle?: string;
   category: string;
-  categorySlug: string;
+  categorySlug?: string;
   coverImage: string;
   coverImageAlt: string;
 };

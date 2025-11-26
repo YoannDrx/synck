@@ -7,7 +7,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 import type { Locale } from "@/lib/i18n-config";
-import type { Expertise, ExpertiseListItem, SectionLayout } from "@/lib/prismaExpertiseUtils";
+import type {
+  Expertise,
+  ExpertiseListItem,
+  SectionLayout,
+} from "@/lib/prismaExpertiseUtils";
 import type { ExpertiseDetailDictionary } from "@/types/dictionary";
 import { ParallaxSection } from "@/components/parallax-section";
 import { LogoGrid, type LogoGridItem } from "@/components/logo-grid";
@@ -18,7 +22,7 @@ import { Breadcrumb } from "@/components/breadcrumb";
 // Helper to get section layout (moved from page.tsx)
 function getSectionLayout(
   expertise: Expertise,
-  sectionIndex: number
+  sectionIndex: number,
 ): SectionLayout {
   // If sectionsLayout is defined, use it
   if (expertise.sectionsLayout?.[sectionIndex]) {
@@ -102,10 +106,14 @@ export function ExpertiseDetailClient({
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
 
   // Only show documentaires gallery for specific expertise
-  const showDocumentaires = expertise.slug === "gestion-administrative-et-editoriale";
+  const showDocumentaires =
+    expertise.slug === "gestion-administrative-et-editoriale";
 
   return (
-    <div ref={containerRef} className="relative min-h-screen bg-[#050505] text-white overflow-hidden">
+    <div
+      ref={containerRef}
+      className="relative min-h-screen bg-[#050505] text-white overflow-hidden"
+    >
       {/* Background Elements */}
       <div className="pointer-events-none fixed inset-0 z-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(213,255,10,0.08),transparent_55%)]" />
@@ -114,7 +122,6 @@ export function ExpertiseDetailClient({
       </div>
 
       <main className="relative z-10 pt-32 pb-20 px-4 sm:px-8 lg:px-16">
-        
         {/* Main Content Card */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -137,7 +144,9 @@ export function ExpertiseDetailClient({
               className="mt-8 lg:mt-10"
             >
               <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-                <span className="text-[#d5ff0a]">{expertise.title.charAt(0)}</span>
+                <span className="text-[#d5ff0a]">
+                  {expertise.title.charAt(0)}
+                </span>
                 {expertise.title.slice(1)}
               </h1>
               {expertise.description && (
@@ -158,9 +167,14 @@ export function ExpertiseDetailClient({
                   content={section}
                   image={layout.image ?? undefined}
                   // Alternating logic: Auto calculation based on index if not forced
-                  imagePosition={layout.position === "auto" ? (index % 2 === 0 ? "right" : "left") : layout.position}
+                  imagePosition={
+                    layout.position === "auto"
+                      ? index % 2 === 0
+                        ? "right"
+                        : "left"
+                      : layout.position
+                  }
                   index={index}
-                  priority={index === 0}
                   isLast={index === expertise.sections.length - 1}
                 />
               );
@@ -220,33 +234,35 @@ export function ExpertiseDetailClient({
         </motion.div>
 
         {/* Documentaires Gallery - Outside main card */}
-        {showDocumentaires && expertise.documentaires && expertise.documentaires.length > 0 && (
-          <div className="mt-24 mx-auto max-w-[1600px]">
-             <DocumentairesGallery
+        {showDocumentaires &&
+          expertise.documentaires &&
+          expertise.documentaires.length > 0 && (
+            <div className="mt-24 mx-auto max-w-[1600px]">
+              <DocumentairesGallery
                 documentaires={expertise.documentaires}
                 copy={copy.documentaries}
-             />
-          </div>
-        )}
+              />
+            </div>
+          )}
 
         {/* Footer Image */}
         {expertise.imgFooter && (
           <div className="mt-24 mx-auto max-w-[1600px]">
-               <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8 }}
-                  className="relative overflow-hidden rounded-[32px] border-4 border-white/10"
-               >
-                  <Image
-                    src={expertise.imgFooter}
-                    alt=""
-                    width={1600}
-                    height={900}
-                    className="w-full h-auto object-cover"
-                  />
-               </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8 }}
+              className="relative overflow-hidden rounded-[32px] border-4 border-white/10"
+            >
+              <Image
+                src={expertise.imgFooter}
+                alt=""
+                width={1600}
+                height={900}
+                className="w-full h-auto object-cover"
+              />
+            </motion.div>
           </div>
         )}
 
@@ -271,32 +287,32 @@ export function ExpertiseDetailClient({
 
         {/* Subtle CTA Section */}
         <div className="mt-24 mx-auto max-w-[1600px]">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.02] p-8 sm:p-12 text-center"
-            >
-              {/* Subtle gradient glow */}
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(213,255,10,0.1),transparent_70%)]" />
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.02] p-8 sm:p-12 text-center"
+          >
+            {/* Subtle gradient glow */}
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(213,255,10,0.1),transparent_70%)]" />
 
-              <div className="relative z-10 flex flex-col items-center justify-center">
-                <h2 className="mb-4 text-2xl font-bold uppercase tracking-tight text-white sm:text-3xl">
-                  {copy.ctaTitle}
-                </h2>
-                <p className="mb-8 max-w-xl text-base text-white/60">
-                  {copy.ctaDescription}
-                </p>
-                <Link
-                  href={`/${locale}/contact`}
-                  className="group flex items-center gap-2 rounded-full border border-[#d5ff0a]/30 bg-[#d5ff0a]/10 px-6 py-3 text-sm font-bold uppercase text-[#d5ff0a] transition-all hover:bg-[#d5ff0a] hover:text-black"
-                >
-                  <span>{copy.ctaButton}</span>
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </div>
-            </motion.div>
+            <div className="relative z-10 flex flex-col items-center justify-center">
+              <h2 className="mb-4 text-2xl font-bold uppercase tracking-tight text-white sm:text-3xl">
+                {copy.ctaTitle}
+              </h2>
+              <p className="mb-8 max-w-xl text-base text-white/60">
+                {copy.ctaDescription}
+              </p>
+              <Link
+                href={`/${locale}/contact`}
+                className="group flex items-center gap-2 rounded-full border border-[#d5ff0a]/30 bg-[#d5ff0a]/10 px-6 py-3 text-sm font-bold uppercase text-[#d5ff0a] transition-all hover:bg-[#d5ff0a] hover:text-black"
+              >
+                <span>{copy.ctaButton}</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </main>
     </div>
