@@ -26,9 +26,6 @@ type ExpertisesPageClientProps = {
   copy: {
     description: string;
     cardCta: string;
-    ctaTitle: string;
-    ctaDescription: string;
-    ctaButton: string;
   };
 };
 
@@ -136,33 +133,6 @@ export function ExpertisesPageClient({
               />
             </motion.div>
           ))}
-
-          {/* CTA Box - Same size as cards */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="flex h-full flex-col rounded-[24px] border-2 border-[#d5ff0a]/40 bg-gradient-to-br from-[#d5ff0a]/10 via-[#9eff00]/5 to-transparent p-5 sm:p-6"
-          >
-            <div className="flex flex-1 flex-col justify-center">
-              <p className="mb-2 text-[10px] uppercase tracking-[0.3em] text-[#d5ff0a]">
-                Contact
-              </p>
-              <h3 className="mb-2 text-lg font-bold text-white">
-                {copy.ctaTitle}
-              </h3>
-              <p className="mb-4 text-xs text-white/60 leading-relaxed">
-                {copy.ctaDescription}
-              </p>
-              <Link
-                href={`/${locale}/contact`}
-                className="inline-flex w-fit items-center gap-2 rounded-full border-2 border-[#d5ff0a] bg-[#d5ff0a] px-4 py-2 text-xs font-bold uppercase tracking-wide text-[#050505] transition-colors hover:bg-transparent hover:text-[#d5ff0a]"
-              >
-                {copy.ctaButton}
-                <span>→</span>
-              </Link>
-            </div>
-          </motion.div>
         </div>
       </motion.section>
     </PageLayout>

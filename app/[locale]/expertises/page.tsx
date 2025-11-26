@@ -27,9 +27,6 @@ export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
       copy={{
         description: copy.description,
         cardCta: copy.cardCta,
-        ctaTitle: copy.ctaTitle,
-        ctaDescription: copy.ctaDescription,
-        ctaButton: copy.ctaButton,
       }}
     />
   );
