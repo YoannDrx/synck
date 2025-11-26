@@ -25,7 +25,7 @@
     "id": 2,
     "slug": "9-o-clock",
     "name": "9 O'Clock",
-    "image": "public/images/projets/photoscompo/9oclock.jpg",
+    "image": "public/images/projets/photoscompo/9-o-clock.jpg",
     "links": [
       {
         "platform": "instagram",
@@ -62,7 +62,7 @@
         "order": 1
       }
     ],
-    "order": 3,
+    "order": 2,
     "isActive": true
   },
   {
@@ -78,14 +78,14 @@
         "order": 0
       }
     ],
-    "order": 4,
+    "order": 3,
     "isActive": true
   },
   {
     "id": 6,
     "slug": "alexis-molenat-les-cavaliers",
     "name": "Alexis Molenat (Les Cavaliers)",
-    "image": "public/images/projets/photoscompo/lescavaliers.jpg",
+    "image": "public/images/projets/photoscompo/alexis-molenat-les-cavaliers.jpg",
     "links": [
       {
         "platform": "spotify",
@@ -94,18 +94,34 @@
         "order": 0
       }
     ],
-    "order": 5,
+    "order": 4,
     "isActive": true
   },
   {
     "id": 7,
     "slug": "ana-kap",
     "name": "Ana Kap",
-    "image": "public/images/projets/photoscompo/anakap.jpg",
+    "image": "public/images/projets/photoscompo/ana-kap.jpg",
     "links": [
       {
         "platform": "website",
         "url": "https://anakaptrio.wixsite.com/anakap",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 5,
+    "isActive": true
+  },
+  {
+    "id": 90,
+    "slug": "aociz",
+    "name": "Aociz",
+    "image": "public/images/projets/photoscompo/aociz.jpeg",
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/aociz_music/",
         "label": null,
         "order": 0
       }
@@ -243,7 +259,7 @@
     "id": 14,
     "slug": "cally-reed",
     "name": "Cally Reed",
-    "image": "public/images/projets/photoscompo/callyreed.jpg",
+    "image": "public/images/projets/photoscompo/cally-reed.jpg",
     "links": [
       {
         "platform": "spotify",
@@ -259,7 +275,7 @@
     "id": 16,
     "slug": "cedric-hanak",
     "name": "Cédric Hanak",
-    "image": "public/images/projets/photoscompo/cedrichanak.jpg",
+    "image": "public/images/projets/photoscompo/cedric-hanak.jpg",
     "externalUrl": null,
     "links": [
       {
@@ -275,7 +291,7 @@
         "order": 1
       }
     ],
-    "order": 15,
+    "order": 14,
     "isActive": true
   },
   {
@@ -297,7 +313,7 @@
         "order": 1
       }
     ],
-    "order": 16,
+    "order": 15,
     "isActive": true
   },
   {
@@ -313,14 +329,14 @@
         "order": 0
       }
     ],
-    "order": 17,
+    "order": 16,
     "isActive": true
   },
   {
     "id": 19,
     "slug": "chris-kemp",
     "name": "Chris Kemp",
-    "image": "public/images/projets/photoscompo/chriskemp.jpg",
+    "image": "public/images/projets/photoscompo/chris-kemp.jpg",
     "links": [
       {
         "platform": "soundcloud",
@@ -329,7 +345,7 @@
         "order": 0
       }
     ],
-    "order": 18,
+    "order": 17,
     "isActive": true
   },
   {
@@ -351,7 +367,7 @@
         "order": 1
       }
     ],
-    "order": 19,
+    "order": 18,
     "isActive": true
   },
   {
@@ -367,6 +383,16 @@
         "order": 0
       }
     ],
+    "order": 19,
+    "isActive": true
+  },
+  {
+    "id": 79,
+    "slug": "cyril-laurent",
+    "name": "Cyril Laurent",
+    "image": "public/images/projets/photoscompo/cyril-laurent.jpg",
+    "externalUrl": null,
+    "links": [],
     "order": 20,
     "isActive": true
   },
@@ -412,7 +438,7 @@
     "id": 24,
     "slug": "ddamage",
     "name": "dDamage",
-    "image": "public/images/projets/photoscompo/ddamage.jpg",
+    "image": "public/images/projets/photoscompo/ddamage.png",
     "links": [
       {
         "platform": "spotify",
@@ -493,7 +519,7 @@
         "order": 1
       }
     ],
-    "order": 27,
+    "order": 26,
     "isActive": true
   },
   {
@@ -509,7 +535,7 @@
         "order": 0
       }
     ],
-    "order": 28,
+    "order": 27,
     "isActive": true
   },
   {
@@ -531,14 +557,14 @@
         "order": 1
       }
     ],
-    "order": 29,
+    "order": 28,
     "isActive": true
   },
   {
     "id": 31,
     "slug": "emmanuel-maree",
     "name": "Emmanuel Marée",
-    "image": "public/images/projets/photoscompo/emmanuelmaree.jpg",
+    "image": "public/images/projets/photoscompo/emmanuel-maree.jpg",
     "links": [
       {
         "platform": "instagram",
@@ -553,7 +579,7 @@
         "order": 1
       }
     ],
-    "order": 30,
+    "order": 29,
     "isActive": true
   },
   {
@@ -569,7 +595,24 @@
         "order": 0
       }
     ],
-    "order": 32,
+    "order": 30,
+    "isActive": true
+  },
+  {
+    "id": 80,
+    "slug": "fabien-girard",
+    "name": "Fabien Girard",
+    "image": "public/images/projets/photoscompo/fabien-girard.jpg",
+    "externalUrl": null,
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/fabien_girard/",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 31,
     "isActive": true
   },
   {
@@ -591,14 +634,14 @@
         "order": 1
       }
     ],
-    "order": 33,
+    "order": 32,
     "isActive": true
   },
   {
     "id": 36,
     "slug": "frederic-hanak",
     "name": "Frédéric Hanak",
-    "image": "public/images/projets/photoscompo/ddash.jpg",
+    "image": "public/images/projets/photoscompo/frederic-hanak.jpg",
     "links": [
       {
         "platform": "spotify",
@@ -607,14 +650,14 @@
         "order": 0
       }
     ],
-    "order": 35,
+    "order": 33,
     "isActive": true
   },
   {
     "id": 38,
     "slug": "gerz-marcellino",
     "name": "Gerz Marcellino",
-    "image": "public/images/projets/photoscompo/gerz.jpg",
+    "image": "public/images/projets/photoscompo/gerz-marcellino.jpg",
     "links": [
       {
         "platform": "instagram",
@@ -623,7 +666,24 @@
         "order": 0
       }
     ],
-    "order": 37,
+    "order": 34,
+    "isActive": true
+  },
+  {
+    "id": 82,
+    "slug": "grand-david",
+    "name": "Grand David",
+    "image": "public/images/projets/photoscompo/grand-david.jpg",
+    "externalUrl": null,
+    "links": [
+      {
+        "platform": "bandcamp",
+        "url": "https://legranddavid.bandcamp.com/",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 35,
     "isActive": true
   },
   {
@@ -639,7 +699,24 @@
         "order": 0
       }
     ],
-    "order": 40,
+    "order": 36,
+    "isActive": true
+  },
+  {
+    "id": 83,
+    "slug": "jean-pierre-menager",
+    "name": "Jean-Pierre Ménager",
+    "image": "public/images/projets/photoscompo/jean-pierre-menager.jpeg",
+    "externalUrl": null,
+    "links": [
+      {
+        "platform": "website",
+        "url": "https://www.jeanpierremenager.com/",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 37,
     "isActive": true
   },
   {
@@ -661,7 +738,7 @@
         "order": 1
       }
     ],
-    "order": 41,
+    "order": 38,
     "isActive": true
   },
   {
@@ -683,7 +760,7 @@
         "order": 1
       }
     ],
-    "order": 42,
+    "order": 39,
     "isActive": true
   },
   {
@@ -705,14 +782,14 @@
         "order": 1
       }
     ],
-    "order": 44,
+    "order": 40,
     "isActive": true
   },
   {
     "id": 47,
     "slug": "maxime-raynier-les-arondes",
     "name": "Maxime Raynier (Les Arondes)",
-    "image": "public/images/projets/photoscompo/lesarondes.jpg",
+    "image": "public/images/projets/photoscompo/maxime-raynier-les-arondes.jpg",
     "links": [
       {
         "platform": "spotify",
@@ -721,7 +798,7 @@
         "order": 0
       }
     ],
-    "order": 46,
+    "order": 41,
     "isActive": true
   },
   {
@@ -743,7 +820,24 @@
         "order": 1
       }
     ],
-    "order": 47,
+    "order": 42,
+    "isActive": true
+  },
+  {
+    "id": 84,
+    "slug": "mister-modo",
+    "name": "Mister Modo",
+    "image": "public/images/projets/photoscompo/mister-modo.jpg",
+    "externalUrl": null,
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/modoandmacbeer/?hl=fr",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 43,
     "isActive": true
   },
   {
@@ -765,7 +859,7 @@
         "order": 1
       }
     ],
-    "order": 48,
+    "order": 44,
     "isActive": true
   },
   {
@@ -787,14 +881,14 @@
         "order": 1
       }
     ],
-    "order": 49,
+    "order": 45,
     "isActive": true
   },
   {
     "id": 51,
     "slug": "mutant-ninja-records",
     "name": "Mutant Ninja Records",
-    "image": "public/images/projets/photoscompo/mutantninja.jpg",
+    "image": "public/images/projets/photoscompo/mutant-ninja-records.jpg",
     "links": [
       {
         "platform": "soundcloud",
@@ -833,7 +927,7 @@
         "order": 5
       }
     ],
-    "order": 50,
+    "order": 46,
     "isActive": true
   },
   {
@@ -849,7 +943,7 @@
         "order": 0
       }
     ],
-    "order": 51,
+    "order": 47,
     "isActive": true
   },
   {
@@ -871,7 +965,7 @@
         "order": 1
       }
     ],
-    "order": 52,
+    "order": 48,
     "isActive": true
   },
   {
@@ -893,7 +987,7 @@
         "order": 1
       }
     ],
-    "order": 53,
+    "order": 49,
     "isActive": true
   },
   {
@@ -915,14 +1009,31 @@
         "order": 1
       }
     ],
-    "order": 54,
+    "order": 50,
+    "isActive": true
+  },
+  {
+    "id": 85,
+    "slug": "of-ivory-horn",
+    "name": "Of Ivory & Horn",
+    "image": "public/images/projets/photoscompo/of-ivory-horn.webp",
+    "externalUrl": null,
+    "links": [
+      {
+        "platform": "website",
+        "url": "https://www.dorianchamoin.fr/dorian-chamoin",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 51,
     "isActive": true
   },
   {
     "id": 57,
     "slug": "pana-black",
     "name": "Pana Black",
-    "image": "public/images/projets/photoscompo/panablack.jpg",
+    "image": "public/images/projets/photoscompo/pana-black.jpg",
     "links": [
       {
         "platform": "soundcloud",
@@ -931,7 +1042,7 @@
         "order": 0
       }
     ],
-    "order": 56,
+    "order": 52,
     "isActive": true
   },
   {
@@ -953,14 +1064,31 @@
         "order": 1
       }
     ],
-    "order": 57,
+    "order": 53,
+    "isActive": true
+  },
+  {
+    "id": 86,
+    "slug": "pierre-millet",
+    "name": "Pierre Millet",
+    "image": "public/images/projets/photoscompo/pierre-millet.jpg",
+    "externalUrl": null,
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/milletpierre/",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 54,
     "isActive": true
   },
   {
     "id": 60,
     "slug": "rebecca-meyer",
     "name": "Rebecca Meyer",
-    "image": "public/images/projets/photoscompo/rebeccameyer.jpg",
+    "image": "public/images/projets/photoscompo/rebecca-meyer.jpeg",
     "links": [
       {
         "platform": "spotify",
@@ -969,14 +1097,14 @@
         "order": 0
       }
     ],
-    "order": 59,
+    "order": 55,
     "isActive": true
   },
   {
     "id": 61,
     "slug": "roma-luca",
     "name": "Roma Luca",
-    "image": "public/images/projets/photoscompo/romaluca.jpg",
+    "image": "public/images/projets/photoscompo/roma-luca.jpg",
     "links": [
       {
         "platform": "soundcloud",
@@ -985,7 +1113,7 @@
         "order": 0
       }
     ],
-    "order": 60,
+    "order": 56,
     "isActive": true
   },
   {
@@ -994,7 +1122,7 @@
     "name": "Schérazade",
     "image": "public/images/projets/photoscompo/scherazade.jpg",
     "links": [],
-    "order": 63,
+    "order": 57,
     "isActive": true
   },
   {
@@ -1016,7 +1144,7 @@
         "order": 1
       }
     ],
-    "order": 65,
+    "order": 58,
     "isActive": true
   },
   {
@@ -1038,7 +1166,7 @@
         "order": 1
       }
     ],
-    "order": 66,
+    "order": 59,
     "isActive": true
   },
   {
@@ -1054,14 +1182,14 @@
         "order": 0
       }
     ],
-    "order": 67,
+    "order": 60,
     "isActive": true
   },
   {
     "id": 69,
     "slug": "stan-galouo-palma-coco-reccords",
     "name": "Stan Galouo (Palma Coco Reccords)",
-    "image": "public/images/projets/photoscompo/stangalouo.jpg",
+    "image": "public/images/projets/photoscompo/stan-galouo-palma-coco-reccords.jpeg",
     "links": [
       {
         "platform": "soundcloud",
@@ -1070,7 +1198,7 @@
         "order": 0
       }
     ],
-    "order": 68,
+    "order": 61,
     "isActive": true
   },
   {
@@ -1092,7 +1220,7 @@
         "order": 1
       }
     ],
-    "order": 70,
+    "order": 62,
     "isActive": true
   },
   {
@@ -1114,14 +1242,14 @@
         "order": 1
       }
     ],
-    "order": 71,
+    "order": 63,
     "isActive": true
   },
   {
     "id": 73,
     "slug": "the-real-fake-mc",
     "name": "The Real Fake MC",
-    "image": "public/images/projets/photoscompo/therealfakemc.jpg",
+    "image": "public/images/projets/photoscompo/the-real-fake-mc.jpg",
     "links": [
       {
         "platform": "soundcloud",
@@ -1130,7 +1258,7 @@
         "order": 0
       }
     ],
-    "order": 72,
+    "order": 64,
     "isActive": true
   },
   {
@@ -1158,7 +1286,40 @@
         "order": 2
       }
     ],
-    "order": 73,
+    "order": 65,
+    "isActive": true
+  },
+  {
+    "id": 89,
+    "slug": "well-quartet",
+    "name": "Well Quartet",
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/wellquartet/",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 66,
+    "isActive": true,
+    "image": "public/images/projets/photoscompo/well-quartet.jpeg"
+  },
+  {
+    "id": 88,
+    "slug": "yann-jankielewicz",
+    "name": "Yann Jankielewicz",
+    "image": "public/images/projets/photoscompo/yann-jankielewicz.jpg",
+    "externalUrl": null,
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/yann_jankielewicz/",
+        "label": null,
+        "order": 0
+      }
+    ],
+    "order": 67,
     "isActive": true
   },
   {
@@ -1180,152 +1341,7 @@
         "order": 1
       }
     ],
-    "order": 74,
+    "order": 68,
     "isActive": true
-  },
-  {
-    "id": 79,
-    "slug": "cyril-laurent",
-    "name": "Cyril Laurent",
-    "image": "public/images/projets/photoscompo/cyril-laurent.jpg",
-    "externalUrl": null,
-    "links": [],
-    "order": 78,
-    "isActive": true
-  },
-  {
-    "id": 80,
-    "slug": "fabien-girard",
-    "name": "Fabien Girard",
-    "image": "public/images/projets/photoscompo/fabien-girard.jpg",
-    "externalUrl": null,
-    "links": [
-      {
-        "platform": "instagram",
-        "url": "https://www.instagram.com/fabien_girard/",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 79,
-    "isActive": true
-  },
-  {
-    "id": 82,
-    "slug": "grand-david",
-    "name": "Grand David",
-    "image": "public/images/projets/photoscompo/grand-david.jpg",
-    "externalUrl": null,
-    "links": [
-      {
-        "platform": "bandcamp",
-        "url": "https://legranddavid.bandcamp.com/",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 81,
-    "isActive": true
-  },
-  {
-    "id": 83,
-    "slug": "jean-pierre-menager",
-    "name": "Jean-Pierre Ménager",
-    "image": "public/images/projets/photoscompo/jean-pierre-menager.jpeg",
-    "externalUrl": null,
-    "links": [
-      {
-        "platform": "website",
-        "url": "https://www.jeanpierremenager.com/",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 82,
-    "isActive": true
-  },
-  {
-    "id": 84,
-    "slug": "mister-modo",
-    "name": "Mister Modo",
-    "image": "public/images/projets/photoscompo/mister-modo.jpg",
-    "externalUrl": null,
-    "links": [
-      {
-        "platform": "instagram",
-        "url": "https://www.instagram.com/modoandmacbeer/?hl=fr",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 83,
-    "isActive": true
-  },
-  {
-    "id": 85,
-    "slug": "of-ivory-horn",
-    "name": "Of Ivory & Horn",
-    "image": "public/images/projets/photoscompo/of-ivory-horn.webp",
-    "externalUrl": null,
-    "links": [
-      {
-        "platform": "website",
-        "url": "https://www.dorianchamoin.fr/dorian-chamoin",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 84,
-    "isActive": true
-  },
-  {
-    "id": 86,
-    "slug": "pierre-millet",
-    "name": "Pierre Millet",
-    "image": "public/images/projets/photoscompo/pierre-millet.jpg",
-    "externalUrl": null,
-    "links": [
-      {
-        "platform": "instagram",
-        "url": "https://www.instagram.com/milletpierre/",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 85,
-    "isActive": true
-  },
-  {
-    "id": 88,
-    "slug": "yann-jankielewicz",
-    "name": "Yann Jankielewicz",
-    "image": "public/images/projets/photoscompo/yann-jankielewicz.jpg",
-    "externalUrl": null,
-    "links": [
-      {
-        "platform": "instagram",
-        "url": "https://www.instagram.com/yann_jankielewicz/",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 87,
-    "isActive": true
-  },
-  {
-    "id": 89,
-    "slug": "well-quartet",
-    "name": "Well Quartet",
-    "links": [
-      {
-        "platform": "instagram",
-        "url": "https://www.instagram.com/wellquartet/",
-        "label": null,
-        "order": 0
-      }
-    ],
-    "order": 88,
-    "isActive": true,
-    "image": "public/images/projets/photoscompo/well-quartet.jpeg"
   }
 ]

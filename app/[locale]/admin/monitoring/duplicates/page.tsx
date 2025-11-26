@@ -16,6 +16,9 @@ import {
   TrashIcon,
   ExternalLinkIcon,
   FilterIcon,
+  FileTextIcon,
+  CameraIcon,
+  LinkIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
@@ -106,7 +109,7 @@ type DuplicatesData = {
   composers: {
     duplicatesBySlug: {
       identifier: string;
-      type: "slug" | "name";
+      type: "slug" | "name" | "similar";
       count: number;
       severity: Severity;
       reason: string;
@@ -119,7 +122,7 @@ type DuplicatesData = {
     }[];
     duplicatesByName: {
       identifier: string;
-      type: "slug" | "name";
+      type: "slug" | "name" | "similar";
       count: number;
       severity: Severity;
       reason: string;
@@ -130,7 +133,35 @@ type DuplicatesData = {
         createdAt: Date;
       }[];
     }[];
+    duplicatesBySimilarName: {
+      identifier: string;
+      type: "slug" | "name" | "similar";
+      count: number;
+      severity: Severity;
+      reason: string;
+      composers: {
+        id: string;
+        slug: string;
+        translations: { locale: string; name: string }[];
+        createdAt: Date;
+      }[];
+    }[];
+    integrityIssues: {
+      id: string;
+      slug: string;
+      name: string;
+      issue:
+        | "no_bio_fr"
+        | "no_bio_en"
+        | "no_bio_both"
+        | "no_photo"
+        | "no_links";
+      severity: Severity;
+      reason: string;
+      createdAt: Date;
+    }[];
     totalDuplicates: number;
+    totalIntegrityIssues: number;
     totalErrors: number;
     totalWarnings: number;
     totalInfo: number;
@@ -254,6 +285,7 @@ export default function DuplicatesMonitoringPage() {
     data.assets.totalUnused +
     data.works.totalDuplicates +
     data.composers.totalDuplicates +
+    data.composers.totalIntegrityIssues +
     data.categories.totalDuplicates +
     data.labels.totalDuplicates;
 
@@ -437,7 +469,10 @@ export default function DuplicatesMonitoringPage() {
             className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-lime-300 data-[state=active]:bg-transparent data-[state=active]:text-lime-300"
           >
             <UsersIcon className="mr-2 h-4 w-4" />
-            Compositeurs ({data.composers.totalDuplicates})
+            Compositeurs (
+            {data.composers.totalDuplicates +
+              data.composers.totalIntegrityIssues}
+            )
           </TabsTrigger>
           <TabsTrigger
             value="categories"
@@ -1029,13 +1064,324 @@ export default function DuplicatesMonitoringPage() {
             </div>
           )}
 
+          {/* Similar Names (normalized) */}
+          {data.composers.duplicatesBySimilarName.filter(
+            (d) => severityFilter === "all" || d.severity === severityFilter,
+          ).length > 0 && (
+            <div>
+              <h2 className="mb-4 text-xl font-semibold text-white">
+                Noms similaires (
+                {
+                  data.composers.duplicatesBySimilarName.filter(
+                    (d) =>
+                      severityFilter === "all" || d.severity === severityFilter,
+                  ).length
+                }
+                )
+              </h2>
+              <div className="space-y-4">
+                {data.composers.duplicatesBySimilarName
+                  .filter(
+                    (d) =>
+                      severityFilter === "all" || d.severity === severityFilter,
+                  )
+                  .map((duplicate) => (
+                    <Card
+                      key={duplicate.identifier}
+                      className={`${getSeverityBorderColor(duplicate.severity)} bg-black`}
+                    >
+                      <CardHeader>
+                        <div className="flex items-start justify-between gap-4">
+                          <CardTitle className="flex items-center gap-2 text-white">
+                            <AlertTriangleIcon
+                              className={`h-5 w-5 ${getSeverityIconColor(duplicate.severity)}`}
+                            />
+                            {duplicate.count} compositeurs avec des noms
+                            similaires
+                          </CardTitle>
+                          <Badge
+                            className={getSeverityBadgeColor(
+                              duplicate.severity,
+                            )}
+                          >
+                            {getSeverityLabel(duplicate.severity)}
+                          </Badge>
+                        </div>
+                        <p className="mt-2 text-sm text-white/60">
+                          {duplicate.reason}
+                        </p>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          {duplicate.composers.map((composer) => (
+                            <div
+                              key={composer.id}
+                              className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-4"
+                            >
+                              <div>
+                                <p className="font-medium text-white">
+                                  {composer.translations.find(
+                                    (t) => t.locale === "fr",
+                                  )?.name ?? composer.slug}
+                                </p>
+                                <p className="mt-1 text-sm text-white/50">
+                                  Slug: {composer.slug}
+                                </p>
+                              </div>
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => {
+                                  window.open(
+                                    `/${locale}/admin/compositeurs/${composer.id}`,
+                                    "_blank",
+                                  );
+                                }}
+                                className="gap-1 text-white/70 hover:text-white"
+                              >
+                                <ExternalLinkIcon className="h-4 w-4" />
+                                Voir
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+              </div>
+            </div>
+          )}
+
+          {/* Integrity Issues */}
+          {data.composers.integrityIssues.filter(
+            (i) => severityFilter === "all" || i.severity === severityFilter,
+          ).length > 0 && (
+            <div>
+              <h2 className="mb-4 text-xl font-semibold text-white">
+                Problèmes d&apos;intégrité (
+                {
+                  data.composers.integrityIssues.filter(
+                    (i) =>
+                      severityFilter === "all" || i.severity === severityFilter,
+                  ).length
+                }
+                )
+              </h2>
+
+              {/* Group by issue type */}
+              {/* No Bio */}
+              {data.composers.integrityIssues.filter(
+                (i) =>
+                  (severityFilter === "all" || i.severity === severityFilter) &&
+                  (i.issue === "no_bio_both" ||
+                    i.issue === "no_bio_fr" ||
+                    i.issue === "no_bio_en"),
+              ).length > 0 && (
+                <Card className="mb-4 border-orange-500/20 bg-black">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-white">
+                      <FileTextIcon className="h-5 w-5 text-orange-400" />
+                      Biographies manquantes (
+                      {
+                        data.composers.integrityIssues.filter(
+                          (i) =>
+                            (severityFilter === "all" ||
+                              i.severity === severityFilter) &&
+                            (i.issue === "no_bio_both" ||
+                              i.issue === "no_bio_fr" ||
+                              i.issue === "no_bio_en"),
+                        ).length
+                      }
+                      )
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      {data.composers.integrityIssues
+                        .filter(
+                          (i) =>
+                            (severityFilter === "all" ||
+                              i.severity === severityFilter) &&
+                            (i.issue === "no_bio_both" ||
+                              i.issue === "no_bio_fr" ||
+                              i.issue === "no_bio_en"),
+                        )
+                        .map((issue) => (
+                          <div
+                            key={`${issue.id}-${issue.issue}`}
+                            className={`flex items-center justify-between rounded-lg border ${getSeverityBorderColor(issue.severity)} bg-white/5 p-3`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <Badge
+                                className={getSeverityBadgeColor(
+                                  issue.severity,
+                                )}
+                              >
+                                {issue.issue === "no_bio_both"
+                                  ? "FR + EN"
+                                  : issue.issue === "no_bio_fr"
+                                    ? "FR"
+                                    : "EN"}
+                              </Badge>
+                              <div>
+                                <p className="font-medium text-white">
+                                  {issue.name}
+                                </p>
+                                <p className="text-sm text-white/50">
+                                  {issue.reason}
+                                </p>
+                              </div>
+                            </div>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => {
+                                window.open(
+                                  `/${locale}/admin/compositeurs/${issue.id}`,
+                                  "_blank",
+                                );
+                              }}
+                              className="gap-1 text-white/70 hover:text-white"
+                            >
+                              <ExternalLinkIcon className="h-4 w-4" />
+                              Éditer
+                            </Button>
+                          </div>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* No Photo */}
+              {data.composers.integrityIssues.filter(
+                (i) =>
+                  (severityFilter === "all" || i.severity === severityFilter) &&
+                  i.issue === "no_photo",
+              ).length > 0 && (
+                <Card className="mb-4 border-orange-500/20 bg-black">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-white">
+                      <CameraIcon className="h-5 w-5 text-orange-400" />
+                      Photos manquantes (
+                      {
+                        data.composers.integrityIssues.filter(
+                          (i) =>
+                            (severityFilter === "all" ||
+                              i.severity === severityFilter) &&
+                            i.issue === "no_photo",
+                        ).length
+                      }
+                      )
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                      {data.composers.integrityIssues
+                        .filter(
+                          (i) =>
+                            (severityFilter === "all" ||
+                              i.severity === severityFilter) &&
+                            i.issue === "no_photo",
+                        )
+                        .map((issue) => (
+                          <div
+                            key={`${issue.id}-${issue.issue}`}
+                            className="flex items-center justify-between rounded-lg border border-orange-500/20 bg-white/5 p-3"
+                          >
+                            <p className="font-medium text-white">
+                              {issue.name}
+                            </p>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => {
+                                window.open(
+                                  `/${locale}/admin/compositeurs/${issue.id}`,
+                                  "_blank",
+                                );
+                              }}
+                              className="gap-1 text-white/70 hover:text-white"
+                            >
+                              <ExternalLinkIcon className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* No Links */}
+              {data.composers.integrityIssues.filter(
+                (i) =>
+                  (severityFilter === "all" || i.severity === severityFilter) &&
+                  i.issue === "no_links",
+              ).length > 0 && (
+                <Card className="mb-4 border-blue-500/20 bg-black">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-white">
+                      <LinkIcon className="h-5 w-5 text-blue-400" />
+                      Liens manquants (
+                      {
+                        data.composers.integrityIssues.filter(
+                          (i) =>
+                            (severityFilter === "all" ||
+                              i.severity === severityFilter) &&
+                            i.issue === "no_links",
+                        ).length
+                      }
+                      )
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                      {data.composers.integrityIssues
+                        .filter(
+                          (i) =>
+                            (severityFilter === "all" ||
+                              i.severity === severityFilter) &&
+                            i.issue === "no_links",
+                        )
+                        .map((issue) => (
+                          <div
+                            key={`${issue.id}-${issue.issue}`}
+                            className="flex items-center justify-between rounded-lg border border-blue-500/20 bg-white/5 p-3"
+                          >
+                            <p className="font-medium text-white">
+                              {issue.name}
+                            </p>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => {
+                                window.open(
+                                  `/${locale}/admin/compositeurs/${issue.id}`,
+                                  "_blank",
+                                );
+                              }}
+                              className="gap-1 text-white/70 hover:text-white"
+                            >
+                              <ExternalLinkIcon className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          )}
+
           {data.composers.duplicatesBySlug.length === 0 &&
-            data.composers.duplicatesByName.length === 0 && (
+            data.composers.duplicatesByName.length === 0 &&
+            data.composers.duplicatesBySimilarName.length === 0 &&
+            data.composers.integrityIssues.length === 0 && (
               <Card className="border-white/10 bg-black">
                 <CardContent className="p-12 text-center">
                   <UsersIcon className="mx-auto h-12 w-12 text-white/20" />
                   <p className="mt-4 text-white/50">
-                    Aucun doublon détecté pour les compositeurs
+                    Aucun problème détecté pour les compositeurs
                   </p>
                 </CardContent>
               </Card>
