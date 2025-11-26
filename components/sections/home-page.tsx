@@ -10,15 +10,15 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { StudioSection } from "@/components/sections/studio-section";
 import { ExpertisesSection } from "@/components/sections/expertises-section";
 import { ProjectsSection } from "@/components/sections/projects-section";
-import { ComposersSection } from "@/components/sections/composers-section";
+import { ArtistsSection } from "@/components/sections/artists-section";
 import { ContactSection } from "@/components/sections/contact-section";
-import { MarqueeText } from "@/components/marquee-text";
+import { InfiniteMarquee } from "@/components/infinite-marquee";
 
 type HomePageProps = {
   locale: Locale;
   layout: LayoutDictionary;
   home: HomeDictionary;
-}
+};
 
 export function HomePage({ locale, layout, home }: HomePageProps) {
   const [progress, setProgress] = useState(0);
@@ -33,7 +33,9 @@ export function HomePage({ locale, layout, home }: HomePageProps) {
 
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => { window.removeEventListener("scroll", handleScroll); };
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
@@ -51,7 +53,7 @@ export function HomePage({ locale, layout, home }: HomePageProps) {
         <div className="space-y-18 min-w-0">
           <HeroSection metrics={home.metrics} hero={home.hero} />
 
-          <MarqueeText items={home.pulses} />
+          <InfiniteMarquee items={home.pulses} />
 
           <StudioSection
             rituals={home.studio.rituals}
@@ -65,7 +67,7 @@ export function HomePage({ locale, layout, home }: HomePageProps) {
 
           <ProjectsSection locale={locale} copy={home.projects} />
 
-          <ComposersSection locale={locale} copy={home.composers} />
+          <ArtistsSection locale={locale} copy={home.artists} />
 
           <ContactSection copy={home.contactSection} />
 

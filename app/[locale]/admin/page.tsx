@@ -42,13 +42,13 @@ async function getStats() {
 
     return await (res.json() as Promise<{
       works: { total: number; active: number; inactive: number };
-      composers: { total: number; active: number; inactive: number };
+      artists: { total: number; active: number; inactive: number };
       categories: { total: number; active: number };
       labels: { total: number; active: number };
       assets: { total: number; orphaned: number };
       lastActivity: {
         work: { id: string; title: string; createdAt: string } | null;
-        composer: { id: string; name: string; createdAt: string } | null;
+        artist: { id: string; name: string; createdAt: string } | null;
       };
     }>);
   } catch (error) {
@@ -57,11 +57,11 @@ async function getStats() {
     // Return default values on error
     return {
       works: { total: 0, active: 0, inactive: 0 },
-      composers: { total: 0, active: 0, inactive: 0 },
+      artists: { total: 0, active: 0, inactive: 0 },
       categories: { total: 0, active: 0 },
       labels: { total: 0, active: 0 },
       assets: { total: 0, orphaned: 0 },
-      lastActivity: { work: null, composer: null },
+      lastActivity: { work: null, artist: null },
     };
   }
 }
@@ -105,9 +105,9 @@ export default async function AdminDashboardPage({
           icon={MusicIcon}
         />
         <StatCard
-          title="Compositeurs"
-          value={stats.composers.total}
-          description={`${String(stats.composers.active)} actifs`}
+          title="Artistes"
+          value={stats.artists.total}
+          description={`${String(stats.artists.active)} actifs`}
           icon={UsersIcon}
         />
         <StatCard
@@ -171,7 +171,7 @@ export default async function AdminDashboardPage({
             )}
 
             {/* Last Activity */}
-            {(stats.lastActivity.work ?? stats.lastActivity.composer) && (
+            {(stats.lastActivity.work ?? stats.lastActivity.artist) && (
               <div className="space-y-2 border-t border-white/10 pt-4">
                 <p className="text-xs font-semibold uppercase text-white/50">
                   Dernière activité
@@ -189,16 +189,16 @@ export default async function AdminDashboardPage({
                     </p>
                   </div>
                 )}
-                {stats.lastActivity.composer && (
+                {stats.lastActivity.artist && (
                   <div className="text-sm">
                     <p className="text-white/70">
-                      Compositeur:{" "}
+                      Artiste:{" "}
                       <span className="font-medium text-white">
-                        {stats.lastActivity.composer.name}
+                        {stats.lastActivity.artist.name}
                       </span>
                     </p>
                     <p className="text-xs text-white/50">
-                      {formatDate(stats.lastActivity.composer.createdAt)}
+                      {formatDate(stats.lastActivity.artist.createdAt)}
                     </p>
                   </div>
                 )}

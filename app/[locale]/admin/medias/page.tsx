@@ -51,7 +51,7 @@ type Asset = {
     workCover: number;
     categoryImages: number;
     labelImages: number;
-    composerImages: number;
+    artistImages: number;
     expertiseImages: number;
     expertiseCover: number;
   };
@@ -148,7 +148,7 @@ export default function MediasPage() {
       asset._count.workCover +
       asset._count.categoryImages +
       asset._count.labelImages +
-      asset._count.composerImages +
+      asset._count.artistImages +
       asset._count.expertiseImages +
       asset._count.expertiseCover
     );
@@ -651,10 +651,10 @@ export default function MediasPage() {
                             • Images de projets: {assetToView._count.workImages}
                           </p>
                         )}
-                        {assetToView._count.composerImages > 0 && (
+                        {assetToView._count.artistImages > 0 && (
                           <p className="text-white">
                             • Images de compositeurs:{" "}
-                            {assetToView._count.composerImages}
+                            {assetToView._count.artistImages}
                           </p>
                         )}
                         {getTotalUsage(assetToView) === 0 && (

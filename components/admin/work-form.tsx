@@ -13,7 +13,7 @@ import type {
   Category,
   Label,
   Contribution,
-  Composer,
+  Artist,
 } from "@prisma/client";
 
 type WorkWithRelations = {
@@ -22,7 +22,7 @@ type WorkWithRelations = {
   category: Category & { translations: { locale: string; name: string }[] };
   label: (Label & { translations: { locale: string; name: string }[] }) | null;
   contributions: (Contribution & {
-    composer: Composer & { translations: { locale: string; name: string }[] };
+    artist: Artist & { translations: { locale: string; name: string }[] };
   })[];
   images: Asset[];
 } & Work;
@@ -34,7 +34,7 @@ type WorkFormProps = {
   locale: string;
 };
 
-type ComposerOption = {
+type ArtistOption = {
   id: string;
   name: string;
 };
@@ -57,7 +57,7 @@ export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
   // Options for selects
   const [categories, setCategories] = useState<CategoryOption[]>([]);
   const [labels, setLabels] = useState<LabelOption[]>([]);
-  const [composers, setComposers] = useState<ComposerOption[]>([]);
+  const [artists, setArtists] = useState<ArtistOption[]>([]);
 
   // Get translations by locale
   const frTranslation = work?.translations.find((t) => t.locale === "fr");
@@ -90,9 +90,9 @@ export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
         role: enTranslation?.role ?? "",
       },
     },
-    composers:
+    artists:
       work?.contributions.map((c) => ({
-        composerId: c.composerId,
+        artistId: c.artistId,
         role: c.role ?? "",
         order: c.order,
       })) ?? [],
@@ -100,7 +100,7 @@ export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
     imageUrls: work?.images.map((wi) => wi.path) ?? [],
   });
 
-  // Load categories, labels, and composers
+  // Load categories, labels, and artists
   useEffect(() => {
     const loadOptions = async () => {
       try {
@@ -138,15 +138,15 @@ export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
           );
         }
 
-        // Load composers
-        const composersRes = await fetchWithAuth("/api/admin/composers");
-        if (composersRes.ok) {
-          const composersData = (await composersRes.json()) as {
+        // Load artists
+        const artistsRes = await fetchWithAuth("/api/admin/artists");
+        if (artistsRes.ok) {
+          const artistsData = (await artistsRes.json()) as {
             id: string;
             translations: { locale: string; name: string }[];
           }[];
-          setComposers(
-            composersData.map((comp) => ({
+          setArtists(
+            artistsData.map((comp) => ({
               id: comp.id,
               name:
                 comp.translations.find((t) => t.locale === "fr")?.name ??
@@ -200,31 +200,31 @@ export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
     }));
   };
 
-  const handleAddComposer = () => {
+  const handleAddArtist = () => {
     setFormData((prev) => ({
       ...prev,
-      composers: [
-        ...prev.composers,
-        { composerId: "", role: "", order: prev.composers.length },
+      artists: [
+        ...prev.artists,
+        { artistId: "", role: "", order: prev.artists.length },
       ],
     }));
   };
 
-  const handleRemoveComposer = (index: number) => {
+  const handleRemoveArtist = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      composers: prev.composers.filter((_, i) => i !== index),
+      artists: prev.artists.filter((_, i) => i !== index),
     }));
   };
 
-  const handleComposerChange = (
+  const handleArtistChange = (
     index: number,
-    field: "composerId" | "role" | "order",
+    field: "artistId" | "role" | "order",
     value: string | number,
   ) => {
     setFormData((prev) => ({
       ...prev,
-      composers: prev.composers.map((c, i) =>
+      artists: prev.artists.map((c, i) =>
         i === index ? { ...c, [field]: value } : c,
       ),
     }));
@@ -298,7 +298,7 @@ export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
           isActive: formData.isActive,
           isFeatured: formData.isFeatured,
           translations: formData.translations,
-          composers: formData.composers.filter((c) => c.composerId),
+          artists: formData.artists.filter((c) => c.artistId),
           imageIds: formData.imageIds,
         }),
       });
@@ -626,39 +626,39 @@ export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
         </select>
       </div>
 
-      {/* Composers */}
+      {/* Artists */}
       <div className="border-2 border-white/20 p-6 bg-white/5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-bold text-[#d5ff0a]">Compositeurs</h3>
+          <h3 className="text-lg font-bold text-[#d5ff0a]">Artistes</h3>
           <button
             type="button"
-            onClick={handleAddComposer}
+            onClick={handleAddArtist}
             className="border-2 border-[#d5ff0a] text-[#d5ff0a] px-4 py-2 text-sm hover:bg-[#d5ff0a]/10 transition-colors"
           >
-            + Ajouter un compositeur
+            + Ajouter un artiste
           </button>
         </div>
 
         <div className="space-y-4">
-          {formData.composers.map((composer, index) => (
+          {formData.artists.map((artist, index) => (
             <div
               key={index}
               className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 border-2 border-white/10 bg-black/20"
             >
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium mb-2">
-                  Compositeur *
+                  Artiste *
                 </label>
                 <select
-                  value={composer.composerId}
+                  value={artist.artistId}
                   onChange={(e) => {
-                    handleComposerChange(index, "composerId", e.target.value);
+                    handleArtistChange(index, "artistId", e.target.value);
                   }}
                   required
                   className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white focus:border-[#d5ff0a] focus:outline-none"
                 >
-                  <option value="">Sélectionner un compositeur</option>
-                  {composers.map((comp) => (
+                  <option value="">Sélectionner un artiste</option>
+                  {artists.map((comp) => (
                     <option key={comp.id} value={comp.id}>
                       {comp.name}
                     </option>
@@ -670,7 +670,7 @@ export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
                 <button
                   type="button"
                   onClick={() => {
-                    handleRemoveComposer(index);
+                    handleRemoveArtist(index);
                   }}
                   className="w-full border-2 border-red-500/50 text-red-400 px-4 py-3 text-sm hover:bg-red-500/10 transition-colors"
                 >
@@ -684,11 +684,11 @@ export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
                 </label>
                 <input
                   type="text"
-                  value={composer.role}
+                  value={artist.role}
                   onChange={(e) => {
-                    handleComposerChange(index, "role", e.target.value);
+                    handleArtistChange(index, "role", e.target.value);
                   }}
-                  placeholder="Compositeur principal"
+                  placeholder="Artiste principal"
                   className="w-full bg-white/5 border-2 border-white/20 px-4 py-3 text-white placeholder:text-white/40 focus:border-[#d5ff0a] focus:outline-none"
                 />
               </div>
@@ -697,9 +697,9 @@ export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
                 <label className="block text-sm font-medium mb-2">Ordre</label>
                 <input
                   type="number"
-                  value={composer.order}
+                  value={artist.order}
                   onChange={(e) => {
-                    handleComposerChange(
+                    handleArtistChange(
                       index,
                       "order",
                       parseInt(e.target.value) || 0,
@@ -711,9 +711,9 @@ export function WorkForm({ dictionary, work, mode, locale }: WorkFormProps) {
             </div>
           ))}
 
-          {formData.composers.length === 0 && (
+          {formData.artists.length === 0 && (
             <p className="text-white/50 text-sm italic">
-              Aucun compositeur ajouté
+              Aucun artiste ajouté
             </p>
           )}
         </div>

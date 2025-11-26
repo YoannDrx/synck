@@ -18,6 +18,6 @@ export default defineConfig({
     },
   },
   migrations: {
-    seed: "node scripts/run-ts.cjs prisma/seed.ts",
+    seed: "tsx prisma/seed.ts",
   },
 });

@@ -1,8 +1,21 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent,
+} from "react";
 import { useParams } from "next/navigation";
-import { motion, type TargetAndTransition } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  type TargetAndTransition,
+} from "framer-motion";
 import { MetricCard } from "@/components/cards/metric-card";
 import { Button } from "@/components/ui/button";
 import type { HomeHeroDictionary } from "@/types/dictionary";
@@ -29,7 +42,9 @@ let hasNameMorphLinePlayed = false;
 
 const NameMorphLine = () => {
   const [shouldAnimate] = useState(() => !hasNameMorphLinePlayed);
-  const [phase, setPhase] = useState<MorphPhase>(() => (shouldAnimate ? "intro" : "locked"));
+  const [phase, setPhase] = useState<MorphPhase>(() =>
+    shouldAnimate ? "intro" : "locked",
+  );
   const [offsets, setOffsets] = useState<Record<number, number>>({});
   const initialRefs = useRef<Record<number, HTMLSpanElement | null>>({});
   const finalRefs = useRef<Record<string, HTMLSpanElement | null>>({});
@@ -41,7 +56,7 @@ const NameMorphLine = () => {
         index,
         isSpace: char === " ",
       })),
-    []
+    [],
   );
 
   const morphLookup = useMemo(() => {
@@ -57,8 +72,12 @@ const NameMorphLine = () => {
       return;
     }
 
-    const morphTimer = setTimeout(() => { setPhase("morph"); }, 1400);
-    const lockTimer = setTimeout(() => { setPhase("locked"); }, 3200);
+    const morphTimer = setTimeout(() => {
+      setPhase("morph");
+    }, 1400);
+    const lockTimer = setTimeout(() => {
+      setPhase("locked");
+    }, 3200);
     return () => {
       clearTimeout(morphTimer);
       clearTimeout(lockTimer);
@@ -82,7 +101,9 @@ const NameMorphLine = () => {
         const origin = initialRefs.current[index];
         const target = finalRefs.current[char];
         if (origin && target) {
-          const diff = target.getBoundingClientRect().left - origin.getBoundingClientRect().left;
+          const diff =
+            target.getBoundingClientRect().left -
+            origin.getBoundingClientRect().left;
           next[index] = diff;
         } else {
           next[index] = order * 60 - index * 6;
@@ -105,7 +126,10 @@ const NameMorphLine = () => {
         <span className="sr-only">{FINAL_WORD}</span>
         <div className="flex gap-[0.04em] whitespace-nowrap sm:gap-[0.08em]">
           {FINAL_LETTERS.map((char, order) => (
-            <span key={`final-static-${char}-${String(order)}`} className="text-white">
+            <span
+              key={`final-static-${char}-${String(order)}`}
+              className="text-white"
+            >
               {char}
             </span>
           ))}
@@ -138,32 +162,42 @@ const NameMorphLine = () => {
                   },
                 }
               : mapping
-              ? {
-                  x: offsets[letter.index] ?? 0,
-                  opacity: 1,
-                  y: 0,
-                  transition: isMorphing
-                    ? {
-                        delay: 0.12 + mapping.order * 0.08,
-                        duration: 0.6,
-                        ease: [0.4, 0, 0.2, 1] as [number, number, number, number],
-                      }
-                    : undefined,
-                }
-              : {
-                  opacity: 0,
-                  x: exit.x,
-                  y: exit.y,
-                  rotate: exit.x > 0 ? 10 : -12,
-                  scale: 0.82,
-                  transition: isMorphing
-                    ? {
-                        duration: 0.65,
-                        delay: 0.15 + letter.index * 0.03,
-                        ease: [0.22, 0.61, 0.36, 1] as [number, number, number, number],
-                      }
-                    : undefined,
-                };
+                ? {
+                    x: offsets[letter.index] ?? 0,
+                    opacity: 1,
+                    y: 0,
+                    transition: isMorphing
+                      ? {
+                          delay: 0.12 + mapping.order * 0.08,
+                          duration: 0.6,
+                          ease: [0.4, 0, 0.2, 1] as [
+                            number,
+                            number,
+                            number,
+                            number,
+                          ],
+                        }
+                      : undefined,
+                  }
+                : {
+                    opacity: 0,
+                    x: exit.x,
+                    y: exit.y,
+                    rotate: exit.x > 0 ? 10 : -12,
+                    scale: 0.82,
+                    transition: isMorphing
+                      ? {
+                          duration: 0.65,
+                          delay: 0.15 + letter.index * 0.03,
+                          ease: [0.22, 0.61, 0.36, 1] as [
+                            number,
+                            number,
+                            number,
+                            number,
+                          ],
+                        }
+                      : undefined,
+                  };
 
           const initialState = shouldAnimate
             ? { opacity: 0, y: 26 }
@@ -215,12 +249,28 @@ type HeroSectionProps = {
     detail: string;
   }[];
   hero: HomeHeroDictionary;
-}
+};
 
 export function HeroSection({ metrics, hero }: HeroSectionProps) {
   const [glow, setGlow] = useState({ x: 45, y: 50 });
   const params = useParams();
   const locale = (params?.locale as string) || "fr";
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+  });
+
+  const fuchsiaY = useTransform(smoothProgress, [0, 1], [0, -80]);
+  const limeY = useTransform(smoothProgress, [0, 1], [0, -120]);
+  const contentY = useTransform(smoothProgress, [0, 1], [0, 30]);
+  const opacity = useTransform(smoothProgress, [0, 0.8], [1, 0.3]);
 
   const handleGlow = (event: PointerEvent<HTMLElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -230,22 +280,33 @@ export function HeroSection({ metrics, hero }: HeroSectionProps) {
   };
 
   return (
-    <section
+    <motion.section
+      ref={sectionRef}
       id="hero"
-      className="relative overflow-hidden rounded-[32px] border-4 border-white/15 bg-[#08080d] px-6 py-12 shadow-[0_25px_80px_rgba(0,0,0,0.6)] sm:px-10"
+      className="relative overflow-hidden rounded-[var(--radius-2xl)] border-2 border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12 shadow-[var(--shadow-2xl)] sm:px-10"
       onPointerMove={handleGlow}
+      style={{ opacity }}
     >
       <div
-        className="absolute inset-0 opacity-80 transition-all duration-300"
+        className="absolute inset-0 opacity-80 transition-all duration-[var(--duration-normal)]"
         style={{
           background: `radial-gradient(circle at ${String(glow.x)}% ${String(glow.y)}%, rgba(213,255,10,0.3), transparent 45%), radial-gradient(circle at 90% 10%, rgba(255,75,162,0.25), transparent 45%)`,
         }}
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05),transparent_65%)]" />
-      <div className="absolute -left-32 top-6 h-64 w-64 rounded-full bg-fuchsia-500/30 blur-[140px]" />
-      <div className="absolute bottom-0 right-10 h-40 w-40 rounded-full bg-lime-300/30 blur-[120px]" />
+      <div className="absolute inset-0 bg-[var(--gradient-glow-center)]" />
+      <motion.div
+        className="absolute -left-32 top-6 h-64 w-64 rounded-full bg-fuchsia-500/30 blur-[140px]"
+        style={{ y: fuchsiaY }}
+      />
+      <motion.div
+        className="absolute bottom-0 right-10 h-40 w-40 rounded-full bg-[var(--brand-neon)]/30 blur-[120px]"
+        style={{ y: limeY }}
+      />
 
-      <div className="relative z-10 grid gap-12 lg:grid-cols-[1.2fr,0.8fr]">
+      <motion.div
+        className="relative z-10 grid gap-12 lg:grid-cols-[1.2fr,0.8fr]"
+        style={{ y: contentY }}
+      >
         <div className="space-y-8 min-w-0">
           {hero.eyebrow.length > 0 && (
             <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.5em] text-white/70">
@@ -256,20 +317,34 @@ export function HeroSection({ metrics, hero }: HeroSectionProps) {
             </div>
           )}
           <div className="space-y-4">
-            <p className="text-sm uppercase tracking-[0.6em] text-white/50">{hero.role}</p>
+            <p className="text-sm uppercase tracking-[0.6em] text-white/50">
+              {hero.role}
+            </p>
             <h1 className="text-5xl font-black text-white sm:text-6xl lg:text-7xl">
               <NameMorphLine />
             </h1>
-            <p className="max-w-2xl text-lg text-white/80">{hero.description}</p>
+            <p className="max-w-2xl text-lg text-white/80">
+              {hero.description}
+            </p>
           </div>
           <div className="flex flex-wrap gap-4 text-[0.75rem] font-semibold uppercase tracking-[0.35em]">
             <Button asChild size="lg" className="rounded-full">
               <a href="#projects">{hero.ctas.projets}</a>
             </Button>
-            <Button asChild variant="outline" size="lg" className="rounded-full">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="rounded-full"
+            >
               <a href="#contact">{hero.ctas.contact}</a>
             </Button>
-            <Button asChild variant="outline" size="lg" className="rounded-full">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="rounded-full"
+            >
               <a href={`/api/cv/download?lang=${locale}`} download>
                 {hero.ctas.downloadCv}
               </a>
@@ -287,27 +362,45 @@ export function HeroSection({ metrics, hero }: HeroSectionProps) {
             <span>{hero.status.title}</span>
             <span>{hero.status.year}</span>
           </div>
-          <p className="text-3xl font-semibold text-white">{hero.status.headline}</p>
+          <p className="text-3xl font-semibold text-white">
+            {hero.status.headline}
+          </p>
           <div className="space-y-3 text-xs uppercase tracking-[0.35em] text-white/60">
             <div>
-              <span className="block text-white/50">{hero.status.expertiseLabel}</span>
-              <span className="block text-white pt-1">{hero.status.expertiseValue}</span>
+              <span className="block text-white/50">
+                {hero.status.expertiseLabel}
+              </span>
+              <span className="block text-white pt-1">
+                {hero.status.expertiseValue}
+              </span>
             </div>
             <div className="border-t border-white/10 pt-3">
-              <span className="block text-white/50">{hero.status.organizationsLabel}</span>
-              <span className="block text-white pt-1">{hero.status.organizationsValue}</span>
+              <span className="block text-white/50">
+                {hero.status.organizationsLabel}
+              </span>
+              <span className="block text-white pt-1">
+                {hero.status.organizationsValue}
+              </span>
             </div>
             <div className="border-t border-white/10 pt-3">
-              <span className="block text-white/50">{hero.status.availabilityLabel}</span>
-              <span className="block text-lime-200 pt-1">{hero.status.availabilityValue}</span>
+              <span className="block text-white/50">
+                {hero.status.availabilityLabel}
+              </span>
+              <span className="block text-lime-200 pt-1">
+                {hero.status.availabilityValue}
+              </span>
             </div>
           </div>
           <div className="rounded-2xl border border-white/15 bg-black/40 p-4 text-xs uppercase tracking-[0.35em] text-white/70 leading-relaxed">
-            <span className="block text-white/50">{hero.status.servicesLabel}</span>
-            <span className="block font-bold text-white pt-2">{hero.status.servicesValue}</span>
+            <span className="block text-white/50">
+              {hero.status.servicesLabel}
+            </span>
+            <span className="block font-bold text-white pt-2">
+              {hero.status.servicesValue}
+            </span>
           </div>
         </div>
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 }

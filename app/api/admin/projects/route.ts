@@ -30,10 +30,10 @@ const workSchema = z.object({
       role: z.string().optional().nullable(),
     }),
   }),
-  composers: z
+  artists: z
     .array(
       z.object({
-        composerId: z.string(),
+        artistId: z.string(),
         role: z.string().optional().nullable(),
         order: z.number().int().default(0),
       }),
@@ -143,7 +143,7 @@ export const GET = withAuth(async (req) => {
         translations: true,
         contributions: {
           include: {
-            composer: {
+            artist: {
               include: {
                 translations: true,
               },
@@ -205,13 +205,13 @@ export const POST = withAuthAndValidation(
             },
           ],
         },
-        ...(data.composers &&
-          data.composers.length > 0 && {
+        ...(data.artists &&
+          data.artists.length > 0 && {
             contributions: {
-              create: data.composers.map((composer) => ({
-                composerId: composer.composerId,
-                role: composer.role,
-                order: composer.order,
+              create: data.artists.map((artist) => ({
+                artistId: artist.artistId,
+                role: artist.role,
+                order: artist.order,
               })),
             },
           }),
@@ -220,7 +220,7 @@ export const POST = withAuthAndValidation(
         translations: true,
         contributions: {
           include: {
-            composer: {
+            artist: {
               include: {
                 translations: true,
               },

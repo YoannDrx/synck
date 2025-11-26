@@ -34,11 +34,6 @@
         "name": "Ducer",
         "compoImg": "/images/projets/photosCompo/DUCER.jpeg",
         "links": "https://soundcloud.com/ducermusic"
-      },
-      {
-        "name": "Ghostmaker",
-        "compoImg": "/images/projets/photosCompo/Ghostmaker.jpeg",
-        "links": {}
       }
     ]
   },
@@ -342,11 +337,6 @@
     "genre": "Rock / Pop",
     "compositeurs": [
       {
-        "name": "Marie-Sophie Mallet",
-        "compoImg": "/images/projets/photosCompo/Marie-Sophie-Mallet.jpg",
-        "links": "https://open.spotify.com/intl-fr/track/4BOrPAF6kbOW3mXbLQrfgX"
-      },
-      {
         "name": "Emile Sornin (Forever Pavot)",
         "compoImg": "/images/projets/photosCompo/ForeverPavot.jpeg",
         "links": "https://open.spotify.com/intl-fr/artist/0IeJOb65ZEwVTKs77bx9vW "
@@ -459,19 +449,9 @@
         "links": "https://www.youtube.com/@9oclock162"
       },
       {
-        "name": "Syra",
-        "compoImg": "/images/projets/photosCompo/Syra.jpeg",
-        "links": "https://www.youtube.com/@syra7874/featured"
-      },
-      {
         "name": "DaXoVii",
         "compoImg": "/images/projets/photosCompo/Daxovii.jpeg",
         "links": "https://open.spotify.com/intl-fr/artist/4nQRld5mxpXtOY7GJt7AJN"
-      },
-      {
-        "name": "LovLion",
-        "compoImg": "/images/projets/photosCompo/LovLion.jpg",
-        "links": "https://open.spotify.com/intl-fr/artist/4iLSUJSIR7y2vknbGaZXD1"
       },
       {
         "name": "Schérazade",
@@ -597,11 +577,6 @@
         "name": "Cédric Hanak",
         "compoImg": "/images/projets/photosCompo/CedricHanak.jpeg",
         "links": " https://open.spotify.com/intl-fr/artist/12M2hO0FUtnsXYMp5jjGuN"
-      },
-      {
-        "name": "Zoe Wolf",
-        "compoImg": "/images/projets/photosCompo/ZoeWolf.jpg",
-        "links": "https://open.spotify.com/intl-fr/artist/6sJbyR4JKjsQaCp6T0E3Pz"
       }
     ]
   },
@@ -1244,25 +1219,6 @@
     ]
   },
   {
-    "id": 75,
-    "slug": "egocentric-visuo-spatial-perspective",
-    "title": "Egocentric Visuo-Spatial Perspective",
-    "subtitle": "Hexahedre",
-    "category": "Vinyle",
-    "externalLink": "",
-    "linkSpotify": "https://open.spotify.com/intl-fr/album/0O7bmhtk9WczLpeQAvxItj",
-    "src": "/images/projets/vinyles/HEXAHEDRE.jpg",
-    "releaseDate": "12/11/2023",
-    "genre": "Musique électronique",
-    "compositeurs": [
-      {
-        "name": "Hexahedre",
-        "compoImg": "/images/projets/vinyles/HEXAHEDRE.jpg",
-        "links": "https://www.mowno.com/news/infos/avec-hexahedre-jb-hanak-et-cyril-laurent-invitent-au-voyage-extra-corporel/"
-      }
-    ]
-  },
-  {
     "id": 76,
     "slug": "mustang-force",
     "title": "Mustang Force",
@@ -1319,7 +1275,7 @@
     "id": 78,
     "slug": "une-derniere-fois",
     "title": "Une Dernière Fois",
-    "subtitle": "JB Hanak, Cédric Hanak & Zoe Wolf",
+    "subtitle": "JB Hanak & Cédric Hanak",
     "category": "Vinyle",
     "externalLink": "",
     "linkSpotify": "https://open.spotify.com/intl-fr/album/7nfXtRFt6ZEQ4yCHr59kEf",
@@ -1336,11 +1292,6 @@
         "name": "Cédric Hanak",
         "compoImg": "/images/projets/photosCompo/CedricHanak.jpeg",
         "links": " https://open.spotify.com/intl-fr/artist/12M2hO0FUtnsXYMp5jjGuN"
-      },
-      {
-        "name": "Zoe Wolf",
-        "compoImg": "/images/projets/photosCompo/ZoeWolf.jpg",
-        "links": "https://open.spotify.com/intl-fr/artist/6sJbyR4JKjsQaCp6T0E3Pz"
       }
     ]
   },
@@ -2072,15 +2023,6 @@
     "src": "/images/projets/clips/dark-ambient2-making-of.png"
   },
   {
-    "id": 160,
-    "slug": "egocentric-visuo-spatial-perspective-2",
-    "title": "Egocentric Visuo-Spatial Perspective",
-    "subtitle": "Hexahedre",
-    "category": "clips",
-    "externalLink": "https://www.youtube.com/watch?v=10LSc8MjTmM",
-    "src": "/images/projets/clips/egocentric visuo-spatial perspective.png"
-  },
-  {
     "id": 161,
     "slug": "hold-me-closer",
     "title": "Hold Me Closer",
@@ -2129,7 +2071,7 @@
     "id": 166,
     "slug": "une-derniere-fois-2",
     "title": "Une dernière fois",
-    "subtitle": "JB Hanak, Cédric Hanak & Zoe Wolf",
+    "subtitle": "JB Hanak & Cédric Hanak",
     "category": "clips",
     "externalLink": "https://www.youtube.com/watch?v=EPnfDdfOx94",
     "src": "/images/projets/clips/une-derniere-fois.png"

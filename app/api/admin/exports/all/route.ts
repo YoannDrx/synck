@@ -11,7 +11,7 @@ import { createAuditLog } from "@/lib/audit-log";
 export const GET = withAuth(async (request, _context, user) => {
   try {
     // Fetch all data
-    const [assets, works, composers, categories, labels, expertises] =
+    const [assets, works, artists, categories, labels, expertises] =
       await Promise.all([
         prisma.asset.findMany({
           include: {
@@ -19,7 +19,7 @@ export const GET = withAuth(async (request, _context, user) => {
             workCover: { select: { id: true, slug: true } },
             categoryImages: { select: { id: true, slug: true } },
             labelImages: { select: { id: true, slug: true } },
-            composerImages: { select: { id: true, slug: true } },
+            artistImages: { select: { id: true, slug: true } },
             expertiseImages: { select: { id: true, slug: true } },
             expertiseCover: { select: { id: true, slug: true } },
           },
@@ -33,12 +33,12 @@ export const GET = withAuth(async (request, _context, user) => {
             images: true,
             contributions: {
               include: {
-                composer: { include: { translations: true } },
+                artist: { include: { translations: true } },
               },
             },
           },
         }),
-        prisma.composer.findMany({
+        prisma.artist.findMany({
           include: {
             translations: true,
             image: true,
@@ -76,7 +76,7 @@ export const GET = withAuth(async (request, _context, user) => {
     const data = {
       assets,
       works,
-      composers,
+      artists,
       categories,
       labels,
       expertises,
@@ -84,7 +84,7 @@ export const GET = withAuth(async (request, _context, user) => {
       totalEntities: {
         assets: assets.length,
         works: works.length,
-        composers: composers.length,
+        artists: artists.length,
         categories: categories.length,
         labels: labels.length,
         expertises: expertises.length,
@@ -94,7 +94,7 @@ export const GET = withAuth(async (request, _context, user) => {
     const totalCount =
       assets.length +
       works.length +
-      composers.length +
+      artists.length +
       categories.length +
       labels.length +
       expertises.length;
@@ -120,7 +120,7 @@ export const GET = withAuth(async (request, _context, user) => {
         breakdown: {
           assets: assets.length,
           works: works.length,
-          composers: composers.length,
+          artists: artists.length,
           categories: categories.length,
           labels: labels.length,
           expertises: expertises.length,

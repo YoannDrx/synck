@@ -1,93 +1,339 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================
+   DESIGN SYSTEM TOKENS
+   ============================================ */
 
-  /* Shadcn UI variables - adapted for neo-brutalist design */
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 3.9%;
-  --primary: 84 100% 51%; /* #d5ff0a - neon yellow */
-  --primary-foreground: 0 0% 2%;
-  --secondary: 0 0% 96.1%;
-  --secondary-foreground: 0 0% 9%;
-  --muted: 0 0% 96.1%;
-  --muted-foreground: 0 0% 45.1%;
-  --accent: 84 100% 51%;
-  --accent-foreground: 0 0% 9%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 0 0% 89.8%;
-  --input: 0 0% 89.8%;
-  --ring: 84 100% 51%;
+:root {
+  /* === BRAND GRADIENT === */
+  --brand-neon: #D5FF0A;
+  --brand-green: #5CE462;
+  --brand-emerald: #00C18B;
+  --brand-teal: #009998;
+  --brand-ocean: #006F84;
+  --brand-slate: #2F4858;
+
+  /* === NEON YELLOW SCALE === */
+  --neon-50: #fdfff0;
+  --neon-100: #f9ffd6;
+  --neon-200: #f2ffab;
+  --neon-300: #e8ff75;
+  --neon-400: #D5FF0A;
+  --neon-500: #c2e600;
+  --neon-600: #9ab800;
+  --neon-700: #748a00;
+  --neon-800: #5c6d00;
+  --neon-900: #4d5a00;
+  --neon-950: #293000;
+
+  /* === TEAL SCALE === */
+  --teal-50: #e6faf8;
+  --teal-100: #b3f0eb;
+  --teal-200: #80e6dd;
+  --teal-300: #4ddcd0;
+  --teal-400: #00C18B;
+  --teal-500: #009998;
+  --teal-600: #006F84;
+  --teal-700: #005868;
+  --teal-800: #00414d;
+  --teal-900: #2F4858;
+  --teal-950: #1a2a33;
+
+  /* === NEUTRALS === */
+  --neutral-0: #ffffff;
+  --neutral-50: #fafafa;
+  --neutral-100: #f4f4f5;
+  --neutral-200: #e4e4e7;
+  --neutral-300: #d4d4d8;
+  --neutral-400: #a1a1aa;
+  --neutral-500: #71717a;
+  --neutral-600: #52525b;
+  --neutral-700: #3f3f46;
+  --neutral-800: #27272a;
+  --neutral-850: #1f1f23;
+  --neutral-900: #18181b;
+  --neutral-925: #121214;
+  --neutral-950: #09090b;
+
+  /* === SPACING === */
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 0.125rem;
+  --space-1: 0.25rem;
+  --space-1-5: 0.375rem;
+  --space-2: 0.5rem;
+  --space-2-5: 0.625rem;
+  --space-3: 0.75rem;
+  --space-3-5: 0.875rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-9: 2.25rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-14: 3.5rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* === BORDER RADIUS === */
+  --radius-none: 0;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
   --radius: 0.5rem;
+
+  /* === Z-INDEX === */
+  --z-behind: -1;
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+  --z-popover: 60;
+  --z-tooltip: 70;
+  --z-toast: 80;
+
+  /* === DURATIONS === */
+  --duration-instant: 50ms;
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 700ms;
+  --duration-slowest: 1000ms;
+
+  /* === EASINGS === */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+
+  /* === SHADOWS === */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 2px -1px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+
+  /* === GLOW SHADOWS === */
+  --shadow-glow-neon-sm: 0 0 10px -2px rgba(213, 255, 10, 0.4);
+  --shadow-glow-neon-md: 0 0 20px -4px rgba(213, 255, 10, 0.5);
+  --shadow-glow-neon-lg: 0 0 30px -6px rgba(213, 255, 10, 0.6);
+  --shadow-glow-neon-xl: 0 0 50px -10px rgba(213, 255, 10, 0.5);
+  --shadow-glow-teal-sm: 0 0 10px -2px rgba(0, 193, 139, 0.3);
+  --shadow-glow-teal-md: 0 0 20px -4px rgba(0, 193, 139, 0.4);
+  --shadow-glow-teal-lg: 0 0 30px -6px rgba(0, 193, 139, 0.5);
+
+  /* === GRADIENTS === */
+  --gradient-brand: linear-gradient(135deg, #D5FF0A 0%, #5CE462 25%, #00C18B 50%, #009998 75%, #006F84 100%);
+  --gradient-brand-short: linear-gradient(135deg, #D5FF0A 0%, #00C18B 100%);
+  --gradient-neon: linear-gradient(135deg, #D5FF0A 0%, #5CE462 100%);
+  --gradient-neon-teal: linear-gradient(135deg, #D5FF0A 0%, #009998 100%);
+  --gradient-teal: linear-gradient(135deg, #00C18B 0%, #006F84 100%);
+  --gradient-ocean: linear-gradient(135deg, #009998 0%, #2F4858 100%);
+  --gradient-surface: linear-gradient(180deg, var(--neutral-900) 0%, var(--neutral-950) 100%);
+  --gradient-glow-neon: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(213, 255, 10, 0.15), transparent);
+  --gradient-glow-teal: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 193, 139, 0.12), transparent);
+  --gradient-glow-center: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(213, 255, 10, 0.08), transparent);
+  --gradient-text-brand: linear-gradient(135deg, #D5FF0A 0%, #00C18B 100%);
+  --gradient-border-neon: linear-gradient(135deg, rgba(213, 255, 10, 0.5) 0%, rgba(213, 255, 10, 0.1) 100%);
+  --gradient-border-teal: linear-gradient(135deg, rgba(0, 193, 139, 0.5) 0%, rgba(0, 153, 152, 0.1) 100%);
 }
+
+/* ============================================
+   DARK THEME (DEFAULT)
+   ============================================ */
+
+:root,
+[data-theme="dark"] {
+  /* === SEMANTIC COLORS === */
+  --color-background: var(--neutral-950);
+  --color-surface: var(--neutral-900);
+  --color-surface-elevated: var(--neutral-850);
+  --color-border: var(--neutral-800);
+  --color-border-subtle: var(--neutral-850);
+
+  --color-text-primary: var(--neutral-50);
+  --color-text-secondary: var(--neutral-400);
+  --color-text-muted: var(--neutral-500);
+
+  --color-primary: var(--brand-neon);
+  --color-primary-hover: var(--neon-300);
+  --color-primary-muted: rgba(213, 255, 10, 0.15);
+  --color-primary-glow: rgba(213, 255, 10, 0.4);
+
+  --color-secondary: var(--brand-emerald);
+  --color-secondary-hover: var(--brand-green);
+
+  --color-accent: var(--brand-teal);
+  --color-accent-hover: var(--brand-ocean);
+
+  /* === STATE COLORS === */
+  --color-success: var(--brand-green);
+  --color-warning: #eab308;
+  --color-error: #ef4444;
+  --color-info: var(--brand-teal);
+
+  /* === SHADCN COMPATIBILITY === */
+  --background: var(--neutral-950);
+  --foreground: var(--neutral-50);
+  --card: var(--neutral-900);
+  --card-foreground: var(--neutral-50);
+  --popover: var(--neutral-900);
+  --popover-foreground: var(--neutral-50);
+  --primary: 84 100% 51%;
+  --primary-foreground: 0 0% 2%;
+  --secondary: var(--neutral-800);
+  --secondary-foreground: var(--neutral-50);
+  --muted: var(--neutral-800);
+  --muted-foreground: var(--neutral-400);
+  --accent: 84 100% 51%;
+  --accent-foreground: 0 0% 2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: var(--neutral-50);
+  --border: var(--neutral-800);
+  --input: var(--neutral-800);
+  --ring: 84 100% 51%;
+}
+
+/* ============================================
+   LIGHT THEME
+   ============================================ */
+
+[data-theme="light"] {
+  /* === SEMANTIC COLORS === */
+  --color-background: var(--neutral-50);
+  --color-surface: var(--neutral-0);
+  --color-surface-elevated: var(--neutral-0);
+  --color-border: var(--neutral-200);
+  --color-border-subtle: var(--neutral-100);
+
+  --color-text-primary: var(--neutral-900);
+  --color-text-secondary: var(--neutral-600);
+  --color-text-muted: var(--neutral-500);
+
+  --color-primary: var(--neon-600);
+  --color-primary-hover: var(--neon-700);
+  --color-primary-muted: rgba(154, 184, 0, 0.15);
+  --color-primary-glow: rgba(154, 184, 0, 0.3);
+
+  --color-secondary: var(--teal-600);
+  --color-secondary-hover: var(--teal-700);
+
+  --color-accent: var(--brand-ocean);
+  --color-accent-hover: var(--teal-700);
+
+  /* === SHADCN COMPATIBILITY === */
+  --background: var(--neutral-50);
+  --foreground: var(--neutral-900);
+  --card: var(--neutral-0);
+  --card-foreground: var(--neutral-900);
+  --popover: var(--neutral-0);
+  --popover-foreground: var(--neutral-900);
+  --primary: 72 100% 36%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: var(--neutral-100);
+  --secondary-foreground: var(--neutral-900);
+  --muted: var(--neutral-100);
+  --muted-foreground: var(--neutral-500);
+  --accent: 72 100% 36%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: var(--neutral-50);
+  --border: var(--neutral-200);
+  --input: var(--neutral-200);
+  --ring: 72 100% 36%;
+
+  /* === ADJUSTED SHADOWS FOR LIGHT MODE === */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  --shadow-glow-neon-sm: 0 0 10px -2px rgba(154, 184, 0, 0.3);
+  --shadow-glow-neon-md: 0 0 20px -4px rgba(154, 184, 0, 0.4);
+  --shadow-glow-neon-lg: 0 0 30px -6px rgba(154, 184, 0, 0.5);
+}
+
+/* ============================================
+   TAILWIND THEME
+   ============================================ */
+
+@theme inline {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-text-primary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
 
 html {
   scroll-behavior: smooth;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-
-    /* Shadcn UI dark mode variables */
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 84 100% 51%;
-    --primary-foreground: 0 0% 2%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 84 100% 51%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 84 100% 51%;
-  }
-}
-
 body {
-  background: #050505;
-  color: var(--foreground);
+  background: var(--color-background);
+  color: var(--color-text-primary);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   min-height: 100vh;
   position: relative;
-  /* overflow-x: hidden; */
+  transition: background-color var(--duration-normal) var(--ease-in-out),
+              color var(--duration-normal) var(--ease-in-out);
 }
 
 ::selection {
-  background: #d5ff0a;
-  color: #050505;
+  background: var(--brand-neon);
+  color: var(--neutral-950);
 }
 
-body::after {
+/* === BACKGROUND PATTERN (DARK MODE ONLY) === */
+[data-theme="dark"] body::after,
+:root:not([data-theme="light"]) body::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.06), transparent 55%),
+  background-image:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.06), transparent 55%),
     linear-gradient(120deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(300deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
   background-size: 320px 320px, 160px 160px, 200px 200px;
   opacity: 0.4;
-  z-index: -1;
+  z-index: var(--z-behind);
 }
+
+/* === LIGHT MODE PATTERN === */
+[data-theme="light"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at center, rgba(0, 0, 0, 0.02), transparent 55%);
+  background-size: 320px 320px;
+  opacity: 0.5;
+  z-index: var(--z-behind);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
 
 .noise-layer {
   background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
@@ -95,12 +341,53 @@ body::after {
   opacity: 0.3;
 }
 
+.gradient-text {
+  background: var(--gradient-text-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-neon {
+  box-shadow: var(--shadow-glow-neon-md);
+}
+
+.glow-neon-lg {
+  box-shadow: var(--shadow-glow-neon-lg);
+}
+
+.glow-teal {
+  box-shadow: var(--shadow-glow-teal-md);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
 @keyframes marquee {
   0% {
     transform: translateX(0);
   }
   100% {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 
@@ -125,4 +412,128 @@ body::after {
   100% {
     transform: translate3d(-10px, 25px, 0) scale(0.95);
   }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* === ANIMATION UTILITIES === */
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+}
+
+.animate-wave {
+  animation: wave 1.5s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: glowOrbit 6s ease-in-out infinite alternate;
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--duration-normal) var(--ease-out) forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp var(--duration-slow) var(--ease-out) forwards;
+}
+
+.animate-marquee-left {
+  animation: marquee-left 280s linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 320s linear infinite;
+}
+
+/* Pause animation on hover */
+.marquee-container:hover .animate-marquee-left,
+.marquee-container:hover .animate-marquee-right {
+  animation-play-state: paused;
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   FOCUS STYLES
+   ============================================ */
+
+:focus-visible {
+  outline: 2px solid var(--brand-neon);
+  outline-offset: 2px;
+}
+
+[data-theme="light"] :focus-visible {
+  outline-color: var(--neon-600);
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
 }

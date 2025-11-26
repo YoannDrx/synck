@@ -1,39 +1,70 @@
+"use client";
+
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 type ProjectCardProps = {
   name: string;
   subtitle: string;
   description: string;
   cycle: string;
-  accent: string;
+  accent?: "neon" | "teal" | "emerald";
   tags: string[];
-}
+  className?: string;
+};
+
+const accentGradients = {
+  neon: "from-[var(--brand-neon)]/10 via-[var(--brand-green)]/5 to-transparent",
+  teal: "from-[var(--brand-teal)]/10 via-[var(--brand-ocean)]/5 to-transparent",
+  emerald:
+    "from-[var(--brand-emerald)]/10 via-[var(--brand-teal)]/5 to-transparent",
+};
 
 export function ProjectCard({
   name,
   subtitle,
   description,
   cycle,
-  accent,
+  accent = "neon",
   tags,
+  className,
 }: ProjectCardProps) {
   return (
-    <div className="group relative overflow-hidden rounded-[28px] border-4 border-white/10 bg-[#0a0a0e] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.65)] transition duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]">
+    <Card
+      variant="default"
+      hover="lift"
+      className={cn(
+        "group relative overflow-hidden rounded-[var(--radius-2xl)] border-2 p-6",
+        "transition-all duration-[var(--duration-normal)]",
+        "hover:border-[var(--brand-neon)]/50 hover:shadow-[var(--shadow-glow-neon-sm)]",
+        className,
+      )}
+    >
       <div
-        className={`absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-70 bg-gradient-to-br ${accent}`}
+        className={cn(
+          "absolute inset-0 opacity-0 transition-opacity duration-[var(--duration-normal)] group-hover:opacity-100",
+          "bg-gradient-to-br",
+          accentGradients[accent],
+        )}
       />
       <div className="relative z-10 flex h-full flex-col gap-6">
-        <div className="flex items-center justify-between text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-white/60">
+        <div className="flex items-center justify-between text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-[var(--color-text-muted)]">
           <span>{subtitle}</span>
           <span>{cycle}</span>
         </div>
-        <h3 className="text-3xl font-bold">{name}</h3>
-        <p className="text-sm text-white/75">{description}</p>
+        <h3 className="text-3xl font-bold text-[var(--color-text-primary)]">
+          {name}
+        </h3>
+        <p className="text-sm text-[var(--color-text-secondary)]">
+          {description}
+        </p>
         <div className="mt-auto flex flex-wrap gap-2">
           {tags.map((tag) => (
             <Badge
               key={tag}
               variant="outline"
+              size="sm"
               className="text-[0.6rem] uppercase tracking-[0.3em]"
             >
               {tag}
@@ -41,6 +72,6 @@ export function ProjectCard({
           ))}
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

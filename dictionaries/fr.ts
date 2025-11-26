@@ -7,7 +7,7 @@ const dictionary: Dictionary = {
     projets: "Projets",
     blog: "Blog",
     contact: "Contact",
-    composers: "Compositeurs",
+    artists: "Artistes",
   },
   cta: {
     viewMore: "Voir plus",
@@ -176,18 +176,18 @@ const dictionary: Dictionary = {
     },
     projects: {
       eyebrow: "Projets",
-      title: "Travaux sélectionnés",
+      title: "Derniers albums",
       viewAll: "Voir tous les projets",
       cardWorkLabel: "PROJET",
       error: "Erreur lors du chargement des projets",
     },
-    composers: {
-      eyebrow: "Compositeurs",
-      title: "Compositeurs du moment",
-      viewAll: "Voir tous les compositeurs",
+    artists: {
+      eyebrow: "Artistes",
+      title: "Artistes",
+      viewAll: "Voir tous les artistes",
       worksSingular: "projet",
       worksPlural: "projets",
-      error: "Erreur lors du chargement des compositeurs",
+      error: "Erreur lors du chargement des artistes",
     },
     experiments: {
       eyebrow: "Blog",
@@ -199,7 +199,7 @@ const dictionary: Dictionary = {
       eyebrow: "Contact",
       title: "Synchronisons vos droits musicaux.",
       description:
-        "Je conseille labels, éditeurs, compositeurs et producteurs pour sécuriser leurs catalogues, accélérer la facturation et ouvrir de nouveaux revenus.",
+        "Je conseille labels, éditeurs, artistes et producteurs pour sécuriser leurs catalogues, accélérer la facturation et ouvrir de nouveaux revenus.",
       primaryCta: {
         label: "Écrire à Caroline",
         href: "mailto:caroline.senyk@parigomusic.com",
@@ -215,7 +215,7 @@ const dictionary: Dictionary = {
         },
         {
           label: "LinkedIn",
-          content: "caroline-senyk-0307752a7",
+          content: "Caroline Senyk",
           href: "https://www.linkedin.com/in/caroline-senyk-0307752a7/",
         },
         {
@@ -282,6 +282,18 @@ const dictionary: Dictionary = {
       searchPlaceholder: "Rechercher par titre...",
       empty: "Aucun documentaire trouvé pour cette catégorie",
       noResults: "Aucun documentaire ne correspond à votre recherche",
+      statsDocumentaries: "Documentaires",
+      statsCategories: "Catégories",
+      statsProducers: "Producteurs",
+      sortByDate: "Date",
+      sortByTitle: "Titre",
+      sortOrderTitleAsc: "A → Z",
+      sortOrderTitleDesc: "Z → A",
+      sortOrderDateAsc: "Plus ancien",
+      sortOrderDateDesc: "Plus récent",
+    },
+    productionCompanies: {
+      statsCompanies: "Sociétés",
     },
     ctaTitle: "Besoin d'accompagnement ?",
     ctaDescription:
@@ -301,15 +313,17 @@ const dictionary: Dictionary = {
     sortByTitle: "Titre",
     sortOrderTitleAsc: "A → Z",
     sortOrderTitleDesc: "Z → A",
-    sortOrderDateAsc: "Ancien → Récent",
-    sortOrderDateDesc: "Récent → Ancien",
+    sortOrderDateAsc: "Plus ancien",
+    sortOrderDateDesc: "Plus récent",
+    statsProjects: "Projets",
+    statsCategories: "Catégories",
     ctaTitle: "Intéressé par une collaboration ?",
     ctaDescription:
       "N'hésitez pas à me contacter pour discuter de votre projet.",
     ctaButton: "Me contacter",
   },
   projetDetail: {
-    composersTitle: "Compositeurs",
+    artistsTitle: "Artistes",
     infoTitle: "Informations",
     releaseDate: "Date de sortie",
     category: "Catégorie",
@@ -320,29 +334,46 @@ const dictionary: Dictionary = {
     externalResourcesDescription:
       "Découvrez les informations officielles, extraits et compléments autour de ce projet.",
     externalResourcesButton: "Consulter la fiche complète",
+    relatedClipsTitle: "Clips associés",
+    relatedProjectsTitle: "Projet associé",
     galleryTitle: "Galerie",
     spotifyTitle: "Écouter",
     videoTitle: "Vidéo",
+    relatedProjectArtistsTitle: "Artistes du projet lié",
     previousLabel: "← Projet précédent",
     nextLabel: "Projet suivant →",
     ctaTitle: "Vous avez un projet similaire ?",
     ctaDescription: "Discutons de votre projet de gestion de droits musicaux.",
     ctaButton: "Me contacter",
   },
-  composersPage: {
+  artistsPage: {
     description:
-      "Découvrez les compositeurs avec lesquels Caroline collabore pour gérer leurs droits musicaux.",
+      "Découvrez les artistes avec lesquels Caroline collabore pour gérer leurs droits musicaux.",
     worksSingular: "projet",
     worksPlural: "projets",
-    ctaTitle: "Vous êtes compositeur ?",
+    statsArtists: "Artistes",
+    statsProjects: "Projets",
+    searchPlaceholder: "Rechercher un artiste...",
+    sortByDate: "Projets",
+    sortByTitle: "Nom",
+    sortOrderTitleAsc: "A → Z",
+    sortOrderTitleDesc: "Z → A",
+    sortOrderDateAsc: "Moins de projets",
+    sortOrderDateDesc: "Plus de projets",
+    loading: "Chargement...",
+    empty: "Aucun artiste trouvé",
+    noResults: "Aucun artiste ne correspond à votre recherche",
+    ctaTitle: "Vous êtes artiste ?",
     ctaDescription: "Discutons de la gestion de vos droits musicaux.",
     ctaButton: "Me contacter",
   },
-  composerDetail: {
+  artistDetail: {
     worksTitle: "Projets collaboratifs",
     worksSingular: "projet",
     worksPlural: "projets",
-    ctaTitle: "Vous êtes compositeur ?",
+    previousArtistLabel: "← Artiste précédent",
+    nextArtistLabel: "Artiste suivant →",
+    ctaTitle: "Vous êtes artiste ?",
     ctaDescription: "Discutons de la gestion de vos droits musicaux.",
     ctaButton: "Me contacter",
   },
@@ -363,23 +394,25 @@ const dictionary: Dictionary = {
     availabilityLabel: "Disponibilité",
     availabilityValue:
       "Je réponds généralement sous 24-48h. Pour les demandes urgentes, précisez-le dans le sujet.",
-    servicesTitle: "Services",
+    servicesTitle: "Domaines d'expertise",
     services: [
       {
-        title: "Gestion de droits d'auteur",
-        description: "Suivi et protection de vos œuvres.",
+        focus: "Droits d'auteur & Édition",
+        title: "Sécuriser vos œuvres",
+        description:
+          "Déclaration SACEM, gestion des contrats de cession et d'édition musicale, suivi des répartitions et identification des œuvres.",
       },
       {
-        title: "Conseil en droits musicaux",
-        description: "Expertise juridique et stratégique.",
+        focus: "Droits voisins & Production",
+        title: "Valoriser vos enregistrements",
+        description:
+          "Gestion SCPP/SPPF, création de codes ISRC, contrats d'artiste-interprète et déclarations de rémunération équitable.",
       },
       {
-        title: "Accompagnement artistique",
-        description: "Support complet de vos projets musicaux.",
-      },
-      {
-        title: "Expertise SACEM",
-        description: "Gestion et optimisation des déclarations.",
+        focus: "Subventions & Financement",
+        title: "Financer vos projets",
+        description:
+          "Constitution de dossiers CNM, SACEM, ADAMI, SPPF, SCPP - budgets prévisionnels et suivi administratif complet.",
       },
     ],
     consultationTitle: "Première consultation gratuite",
@@ -424,7 +457,7 @@ const dictionary: Dictionary = {
     nav: {
       dashboard: "Tableau de bord",
       albums: "Albums",
-      composers: "Compositeurs",
+      artists: "Artistes",
       expertises: "Expertises",
       categories: "Catégories",
       labels: "Labels",
@@ -437,7 +470,7 @@ const dictionary: Dictionary = {
       welcome: "Bienvenue dans l'administration de SYNCK",
       stats: {
         totalWorks: "Albums au catalogue",
-        totalComposers: "Compositeurs",
+        totalComposers: "Artistes",
         totalExpertises: "Expertises",
         activeCategories: "Catégories actives",
       },
@@ -445,7 +478,7 @@ const dictionary: Dictionary = {
       quickActions: {
         title: "Actions rapides",
         newWork: "Nouvel album",
-        newComposer: "Nouveau compositeur",
+        newComposer: "Nouveau artiste",
         newExpertise: "Nouvelle expertise",
         inviteAdmin: "Inviter un admin",
       },
@@ -502,10 +535,10 @@ const dictionary: Dictionary = {
         status: "Statut",
       },
     },
-    composers: {
-      title: "Gestion des compositeurs",
-      createNew: "Nouveau compositeur",
-      editTitle: "Modifier le compositeur",
+    artists: {
+      title: "Gestion des artistes",
+      createNew: "Nouveau artiste",
+      editTitle: "Modifier le artiste",
       fields: {
         nameLabel: "Nom",
         bioLabel: "Biographie",

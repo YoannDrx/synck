@@ -17,7 +17,7 @@ import { toast } from "sonner";
 import { parseFile, detectFormat } from "@/lib/import";
 
 type ImportDialogProps = {
-  entity: "projects" | "composers";
+  entity: "projects" | "artists";
   onSuccess?: () => void;
 };
 
@@ -92,7 +92,7 @@ export function ImportDialog({ entity, onSuccess }: ImportDialogProps) {
         <DialogHeader>
           <DialogTitle className="text-white">Importer des données</DialogTitle>
           <DialogDescription className="text-white/70">
-            Importez des {entity === "projects" ? "projets" : "compositeurs"}{" "}
+            Importez des {entity === "projects" ? "projets" : "artistes"}{" "}
             depuis un fichier CSV ou JSON
           </DialogDescription>
         </DialogHeader>

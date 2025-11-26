@@ -1,297 +1,166 @@
-# 🗄️ Database Environment Management
+# Database Environment Management
 
-Simple 2-file system for managing dev/prod databases with Neon PostgreSQL.
+Simple system for managing dev/prod databases with Neon PostgreSQL.
 
-## 📁 Structure
+## Structure
 
 ```
 scripts/db/
-├── reset-dev.ts           # Reset dev (no seed)
-├── seed-dev.ts            # Seed dev only
-├── reset-seed-dev.ts      # Reset + seed dev
-├── reset-only-prod.ts     # Reset prod (no seed)
-├── seed-prod.ts           # Seed prod only
-├── reset-seed-prod.ts     # Reset + seed prod
-└── README.md              # This file
+├── utils.ts             # Shared utilities (logging, env loading, prisma commands)
+├── reset-dev.ts         # Reset dev (no seed)
+├── seed-dev.ts          # Seed dev only
+├── reset-seed-dev.ts    # Reset + seed dev
+├── reset-only-prod.ts   # Reset prod (no seed)
+├── seed-prod.ts         # Seed prod only
+├── reset-seed-prod.ts   # Reset + seed prod
+├── migrate-prod.ts      # Apply migrations to prod
+└── README.md            # This file
 ```
 
-## 🚀 Commandes disponibles
+## Commands
 
-### Development (local - utilise `.env.local`)
+### Development (uses `.env.local` → Neon dev branch)
 
-| Commande | Description | Script |
-|----------|-------------|--------|
-| `pnpm db:reset` | Reset **sans seed** | `reset-dev.ts` |
-| `pnpm db:seed` | Seed uniquement | `seed-dev.ts` |
-| `pnpm db:reset:seed` | Reset + seed complet | `reset-seed-dev.ts` |
+| Command | Description |
+|---------|-------------|
+| `pnpm db:reset` | Reset without seed |
+| `pnpm db:seed` | Seed only |
+| `pnpm db:reset:seed` | Reset + seed (most common) |
 
-**Workflows courants :**
+### Production (uses `.env` only, ignores `.env.local`)
 
-```bash
-# Reset complet (le plus utilisé)
-pnpm db:reset:seed
+| Command | Description |
+|---------|-------------|
+| `pnpm db:reset:prod` | Reset prod without seed |
+| `pnpm db:seed:prod` | Seed prod only |
+| `pnpm db:reset:seed:prod` | Reset + seed prod |
+| `pnpm db:migrate:prod` | Apply migrations to prod |
 
-# Reset sans seed (pour tester le seed manuellement)
-pnpm db:reset
-pnpm db:seed
+### Other DB commands
 
-# Seed uniquement (ajouter/update données)
-pnpm db:seed
-```
+| Command | Description |
+|---------|-------------|
+| `pnpm db:migrate` | Create and apply a migration |
+| `pnpm db:generate` | Generate Prisma Client |
+| `pnpm db:studio` | Open Prisma Studio |
+| `pnpm db:migrate:check` | Check migration status (CI) |
 
-### Production (utilise `.env` uniquement, ignore `.env.local`)
+## Environment Files
 
-| Commande | Description | Script |
-|----------|-------------|--------|
-| `pnpm db:reset:prod` | Reset prod **sans seed** ⚠️ | `reset-only-prod.ts` |
-| `pnpm db:seed:prod` | Seed prod uniquement | `seed-prod.ts` |
-| `pnpm db:reset:seed:prod` | Reset + seed prod complet ⚠️ | `reset-seed-prod.ts` |
+### `.env.local` (Development - gitignored)
 
-**Workflows production :**
-
-```bash
-# Seed après migration (recommandé)
-pnpm db:seed:prod
-
-# Reset complet (⚠️ efface toutes les données!)
-pnpm db:reset:seed:prod
-```
-
-### Autres commandes DB
-
-| Commande | Description |
-|----------|-------------|
-| `pnpm db:migrate` | Créer et appliquer une migration |
-| `pnpm db:generate` | Générer le Prisma Client |
-| `pnpm db:studio` | Ouvrir Prisma Studio |
-| `pnpm db:migrate:check` | Vérifier état des migrations (CI) |
-
-## 📝 Configuration - 2 fichiers seulement
-
-### 1. `.env` (Production - versionnée)
-
-Contient les URLs de la branche **main** de Neon.
+URLs for Neon **dev** branch. Overrides `.env` locally.
 
 ```bash
-# Production Environment (Neon branch: main)
-DATABASE_URL="postgresql://...@ep-curly-pond-ag8mwcgd-pooler..."
-DIRECT_URL="postgresql://...@ep-curly-pond-ag8mwcgd..."
-NEXT_PUBLIC_SITE_URL="https://carolinesenyk.fr"
-RESEND_API_KEY="re_..."
-```
-
-**Utilisé par** :
-- Vercel (production)
-- CI/CD
-- `pnpm db:seed:prod`
-- `pnpm db:reset:prod`
-- `pnpm db:reset:seed:prod`
-
-### 2. `.env.local` (Development - gitignored)
-
-Contient les URLs de la branche **dev** de Neon. Override `.env` en local.
-
-```bash
-# Development Environment (Neon branch: dev)
 DATABASE_URL="postgresql://...@ep-royal-breeze-ag8sdda8..."
 DIRECT_URL="postgresql://...@ep-royal-breeze-ag8sdda8..."
 NEXT_PUBLIC_SITE_URL="http://localhost:3000"
-RESEND_API_KEY="re_..."
 ```
 
-**Utilisé par** :
-- Next.js en local (`pnpm dev`)
-- `pnpm db:seed` (dev)
-- `pnpm db:reset` (dev)
-- `pnpm db:reset:seed` (dev)
+**Used by**: `pnpm dev`, `pnpm db:seed`, `pnpm db:reset`, `pnpm db:reset:seed`
 
-## 🔧 Setup initial
+### `.env` (Production)
 
-### 1. Créer les branches Neon
+URLs for Neon **main** branch.
 
 ```bash
-# Créer branche dev (si elle n'existe pas)
-neonctl branches create --name dev
-
-# La branche main existe déjà par défaut
+DATABASE_URL="postgresql://...@ep-curly-pond-ag8mwcgd-pooler..."
+DIRECT_URL="postgresql://...@ep-curly-pond-ag8mwcgd..."
+NEXT_PUBLIC_SITE_URL="https://carolinesenyk.fr"
 ```
 
-### 2. Configurer .env (production)
+**Used by**: Vercel, CI/CD, `pnpm db:seed:prod`, `pnpm db:reset:prod`
 
-Récupérer les URLs de la branche **main** :
+## Common Workflows
 
-```bash
-neonctl connection-string main --pooled   # → DATABASE_URL
-neonctl connection-string main --direct   # → DIRECT_URL
-```
-
-Copier dans `.env`.
-
-### 3. Configurer .env.local (development)
-
-Récupérer les URLs de la branche **dev** :
+### Daily development
 
 ```bash
-neonctl connection-string dev --pooled    # → DATABASE_URL
-neonctl connection-string dev --direct    # → DIRECT_URL
-```
-
-Créer `.env.local` et y copier les URLs.
-
-## 💡 Exemples d'utilisation
-
-### Développement local quotidien
-
-```bash
-# 1. Démarrer le serveur (utilise .env.local → dev)
+# Start server (uses .env.local → dev)
 pnpm dev
 
-# 2. Reset + seed complet en une commande
+# Reset + seed in one command
 pnpm db:reset:seed
 ```
 
-### Modifier et tester le seed
+### Test seed changes
 
 ```bash
-# 1. Modifier prisma/seed.ts
-
-# 2. Reset sans seed
+# 1. Edit prisma/seed.ts
+# 2. Reset without seed
 pnpm db:reset
-
-# 3. Tester le nouveau seed
-pnpm db:seed
-
-# 4. Si OK, reset + seed complet pour valider
-pnpm db:reset:seed
-```
-
-### Ajouter des données sans tout reset
-
-```bash
-# Juste lancer le seed (upsert les données existantes)
+# 3. Test new seed
 pnpm db:seed
 ```
 
-### Nouvelle migration
+### Deploy to production
 
 ```bash
-# 1. Modifier prisma/schema.prisma
-
-# 2. Créer et appliquer la migration
-pnpm db:migrate
-
-# 3. La DB est reset automatiquement
-# 4. Re-seed si nécessaire
-pnpm db:seed
-```
-
-### Déployer en production
-
-```bash
-# Sur la branche production, après merge
-
-# Option A : Seed seulement (si migration déjà appliquée)
+# After merge to main, seed prod
 pnpm db:seed:prod
 
-# Option B : Reset + seed complet (⚠️ efface toutes les données!)
+# Or full reset + seed (DANGER: deletes all data!)
 pnpm db:reset:seed:prod
 ```
 
-## 🔍 Comment ça marche ?
+## How It Works
 
-### Next.js & dotenv behavior
+### Environment Loading
 
-Next.js (et dotenv) charge automatiquement les fichiers dans cet ordre :
+- **Development**: Loads `.env.local` first, falls back to `.env`
+- **Production** (`*:prod`): Loads **only** `.env`, ignores `.env.local`
 
-1. `.env` (toujours chargé)
-2. `.env.local` (si présent, override `.env`)
+This ensures you can't accidentally affect production from local.
 
-**En local** :
-- `.env` chargé → URLs prod
-- `.env.local` chargé → URLs dev (override)
-- **Résultat** : tu es sur dev ✅
+### Shared Utilities (`utils.ts`)
 
-**En production (Vercel)** :
-- `.env` chargé → URLs prod
-- `.env.local` n'existe pas (gitignored)
-- **Résultat** : tu es sur prod ✅
-
-### Scripts *:prod
-
-Ces scripts **ignorent volontairement** `.env.local` :
+All scripts use shared utilities:
 
 ```typescript
-// Charge UNIQUEMENT .env (ignore .env.local)
-config({ path: resolve(process.cwd(), ".env") });
-```
+import { log, loadEnv, validateEnv, runPrismaReset, runPrismaSeed } from "./utils";
 
-Donc même en local, tu peux seed prod de manière sécurisée.
-
-### Séparation reset/seed
-
-Tous les scripts utilisent `--skip-seed` pour désactiver le seed automatique de Prisma :
-
-```typescript
-execSync("prisma migrate reset --force --skip-seed", {
-  stdio: "inherit",
-  env: process.env,
+runScript("seed-dev", () => {
+  log.header("Seed DEVELOPMENT Database");
+  loadEnv("development");
+  validateEnv();
+  runPrismaSeed();
 });
 ```
 
-Cela permet de contrôler précisément quand lancer le seed.
+## Output Example
 
-## ✅ Avantages de cette organisation
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Reset + Seed DEVELOPMENT Database
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-1. **Contrôle granulaire** : reset et seed sont séparés
-2. **Workflows flexibles** : reset sans seed pour tester, seed sans reset pour ajouter
-3. **Safe par défaut** : commandes explicites pour prod
-4. **Convention claire** : `:prod` pour production, sans suffixe pour dev
-5. **2 fichiers seulement** : `.env` (prod) et `.env.local` (dev)
+[1/4] Loading environment...
+📁 Config: .env.local (development)
+🗄️  Database: postgresql://***:***@ep-royal-breeze...
+🌐 Host: ep-royal-breeze-ag8sdda8.c-2.eu-central-1.aws.neon.tech
 
-## ⚠️ Notes importantes
+[2/4] Resetting database...
+✅ Database reset complete
 
-### En local
+[3/4] Seeding database...
+✅ Database seeded
 
-- `pnpm dev` → utilise `.env.local` (dev)
-- `pnpm db:reset` → utilise `.env.local` (dev)
-- `pnpm db:seed` → utilise `.env.local` (dev)
-- `pnpm db:reset:seed` → utilise `.env.local` (dev)
-- `pnpm db:seed:prod` → utilise `.env` uniquement (prod)
-- `pnpm db:reset:prod` → utilise `.env` uniquement (prod)
+[4/4] Complete!
+✅ Development database ready!
 
-### En production (Vercel)
+⏱️  Completed in 145.3s
+```
 
-- `.env` → configuré dans Vercel settings
-- `.env.local` → n'existe pas (gitignored)
-
-### Sécurité
-
-- ✅ `.env` peut être versionné (credentials prod partagés en équipe)
-- ✅ `.env.local` est **toujours gitignored** (credentials dev personnels)
-- ✅ Impossible de seed prod accidentellement avec `pnpm dev`
-- ⚠️ Les commandes `:prod` sont **dangereuses** → utiliser avec précaution
-
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### "Can't reach database server"
 
-→ La branche Neon est probablement en sleep mode. Attendre quelques secondes qu'elle se réveille.
+The Neon branch is probably in sleep mode. Wait a few seconds for it to wake up.
 
-### Commande seed utilise prod au lieu de dev
+### Seed uses prod instead of dev
 
-→ Vérifier que `.env.local` existe et contient les URLs de dev. Sinon, c'est `.env` (prod) qui est utilisé.
+Check that `.env.local` exists and contains dev URLs. Otherwise, `.env` (prod) is used.
 
-### "Connection pool timeout"
+### Reset doesn't seed automatically
 
-→ Trop de connexions ouvertes. Redémarrer Next.js ou attendre que les connexions se ferment.
-
-### Reset ne seed pas automatiquement
-
-→ C'est normal ! Utilise `pnpm db:reset:seed` si tu veux reset + seed en une commande.
-
-## 📚 Ressources
-
-- [Next.js Environment Variables](https://nextjs.org/docs/basic-features/environment-variables)
-- [Neon Branching](https://neon.tech/docs/guides/branching)
-- [Prisma Seeding](https://www.prisma.io/docs/guides/database/seed-database)
-- [Prisma Migrations](https://www.prisma.io/docs/concepts/components/prisma-migrate)
+Normal! Use `pnpm db:reset:seed` if you want reset + seed in one command.

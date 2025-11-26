@@ -24,14 +24,16 @@ export const GET = withAuth(async (req) => {
   const orphansOnly = searchParams.get("orphansOnly") === "true";
   const _sortBy = searchParams.get("sortBy") ?? "createdAt";
   const sortOrder =
-    (searchParams.get("sortOrder") ?? "desc") === "asc" ? ("asc" as const) : ("desc" as const);
+    (searchParams.get("sortOrder") ?? "desc") === "asc"
+      ? ("asc" as const)
+      : ("desc" as const);
 
   const orphanFilters = {
     workImages: { none: {} },
     workCover: { none: {} },
     categoryImages: { none: {} },
     labelImages: { none: {} },
-    composerImages: { none: {} },
+    artistImages: { none: {} },
     expertiseImages: { none: {} },
     expertiseCover: { none: {} },
   };
@@ -61,7 +63,7 @@ export const GET = withAuth(async (req) => {
             workCover: true,
             categoryImages: true,
             labelImages: true,
-            composerImages: true,
+            artistImages: true,
             expertiseImages: true,
             expertiseCover: true,
           },

@@ -19,7 +19,7 @@ export const GET = withAuth(async (request, _context, user) => {
         images: true,
         contributions: {
           include: {
-            composer: { include: { translations: true } },
+            artist: { include: { translations: true } },
           },
         },
       },

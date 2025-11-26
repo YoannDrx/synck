@@ -16,7 +16,7 @@ type TimelineData = {
   works: number;
   published: number;
   draft: number;
-  composers: number;
+  artists: number;
 };
 
 type TimelineChartProps = {
@@ -55,8 +55,8 @@ export function TimelineChart({ data }: TimelineChartProps) {
         />
         <Line
           type="monotone"
-          dataKey="composers"
-          name="Compositeurs"
+          dataKey="artists"
+          name="Artistes"
           stroke="#818cf8"
           strokeWidth={2}
           dot={{ fill: "#818cf8", r: 4 }}

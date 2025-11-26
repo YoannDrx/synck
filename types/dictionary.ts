@@ -61,7 +61,7 @@ export type HomeDictionary = {
     cardWorkLabel: string;
     error: string;
   };
-  composers: {
+  artists: {
     eyebrow: string;
     title: string;
     viewAll: string;
@@ -146,6 +146,18 @@ export type ExpertiseDetailDictionary = {
     searchPlaceholder: string;
     empty: string;
     noResults: string;
+    statsDocumentaries: string;
+    statsCategories: string;
+    statsProducers: string;
+    sortByDate: string;
+    sortByTitle: string;
+    sortOrderTitleAsc: string;
+    sortOrderTitleDesc: string;
+    sortOrderDateAsc: string;
+    sortOrderDateDesc: string;
+  };
+  productionCompanies: {
+    statsCompanies: string;
   };
   ctaTitle: string;
   ctaDescription: string;
@@ -166,13 +178,15 @@ export type ProjetsPageDictionary = {
   sortOrderTitleDesc: string;
   sortOrderDateAsc: string;
   sortOrderDateDesc: string;
+  statsProjects: string;
+  statsCategories: string;
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
 };
 
 export type ProjetDetailDictionary = {
-  composersTitle: string;
+  artistsTitle: string;
   infoTitle: string;
   releaseDate: string;
   category: string;
@@ -182,6 +196,9 @@ export type ProjetDetailDictionary = {
   externalResourcesTitle: string;
   externalResourcesDescription: string;
   externalResourcesButton: string;
+  relatedClipsTitle: string;
+  relatedProjectsTitle: string;
+  relatedProjectArtistsTitle: string;
   galleryTitle: string;
   spotifyTitle: string;
   videoTitle: string;
@@ -192,19 +209,33 @@ export type ProjetDetailDictionary = {
   ctaButton: string;
 };
 
-export type ComposersPageDictionary = {
+export type ArtistsPageDictionary = {
   description: string;
   worksSingular: string;
   worksPlural: string;
+  statsArtists: string;
+  statsProjects: string;
+  searchPlaceholder: string;
+  sortByDate: string;
+  sortByTitle: string;
+  sortOrderTitleAsc: string;
+  sortOrderTitleDesc: string;
+  sortOrderDateAsc: string;
+  sortOrderDateDesc: string;
+  loading: string;
+  empty: string;
+  noResults: string;
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
 };
 
-export type ComposerDetailDictionary = {
+export type ArtistDetailDictionary = {
   worksTitle: string;
   worksSingular: string;
   worksPlural: string;
+  previousArtistLabel: string;
+  nextArtistLabel: string;
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
@@ -226,6 +257,7 @@ export type ContactPageDictionary = {
   availabilityValue: string;
   servicesTitle: string;
   services: {
+    focus: string;
     title: string;
     description: string;
   }[];
@@ -309,7 +341,7 @@ export type AdminDictionary = {
   nav: {
     dashboard: string;
     albums: string;
-    composers: string;
+    artists: string;
     expertises: string;
     categories: string;
     labels: string;
@@ -387,7 +419,7 @@ export type AdminDictionary = {
       status: string;
     };
   };
-  composers: {
+  artists: {
     title: string;
     createNew: string;
     editTitle: string;
@@ -434,7 +466,7 @@ export type Dictionary = {
     projets: string;
     blog: string;
     contact: string;
-    composers: string;
+    artists: string;
   };
   cta: {
     viewMore: string;
@@ -452,8 +484,8 @@ export type Dictionary = {
   expertiseDetail: ExpertiseDetailDictionary;
   projetsPage: ProjetsPageDictionary;
   projetDetail: ProjetDetailDictionary;
-  composersPage: ComposersPageDictionary;
-  composerDetail: ComposerDetailDictionary;
+  artistsPage: ArtistsPageDictionary;
+  artistDetail: ArtistDetailDictionary;
   contactPage: ContactPageDictionary;
   auth: AuthDictionary;
   admin: AdminDictionary;

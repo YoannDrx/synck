@@ -38,7 +38,7 @@ export const GET = withAuth(async (req, _context, user) => {
         },
         contributions: {
           include: {
-            composer: {
+            artist: {
               include: {
                 translations: true,
               },
@@ -94,19 +94,19 @@ export const GET = withAuth(async (req, _context, user) => {
         labelSlug: work.label?.slug ?? "",
         labelFr: labelFr?.name ?? "",
         labelEn: labelEn?.name ?? "",
-        composers: work.contributions
+        artists: work.contributions
           .map((c) => {
-            const composerFr = c.composer.translations.find(
+            const artistFr = c.artist.translations.find(
               (t) => t.locale === "fr",
             );
-            const composerEn = c.composer.translations.find(
+            const artistEn = c.artist.translations.find(
               (t) => t.locale === "en",
             );
-            return composerFr?.name ?? composerEn?.name ?? "";
+            return artistFr?.name ?? artistEn?.name ?? "";
           })
           .filter(Boolean)
           .join(", "),
-        composerRoles: work.contributions
+        artistRoles: work.contributions
           .map((c) => c.role ?? "")
           .filter(Boolean)
           .join(", "),

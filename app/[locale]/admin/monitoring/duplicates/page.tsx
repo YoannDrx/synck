@@ -16,6 +16,9 @@ import {
   TrashIcon,
   ExternalLinkIcon,
   FilterIcon,
+  FileTextIcon,
+  CameraIcon,
+  LinkIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
@@ -103,14 +106,14 @@ type DuplicatesData = {
     totalWarnings: number;
     totalInfo: number;
   };
-  composers: {
+  artists: {
     duplicatesBySlug: {
       identifier: string;
-      type: "slug" | "name";
+      type: "slug" | "name" | "similar";
       count: number;
       severity: Severity;
       reason: string;
-      composers: {
+      artists: {
         id: string;
         slug: string;
         translations: { locale: string; name: string }[];
@@ -119,18 +122,46 @@ type DuplicatesData = {
     }[];
     duplicatesByName: {
       identifier: string;
-      type: "slug" | "name";
+      type: "slug" | "name" | "similar";
       count: number;
       severity: Severity;
       reason: string;
-      composers: {
+      artists: {
         id: string;
         slug: string;
         translations: { locale: string; name: string }[];
         createdAt: Date;
       }[];
     }[];
+    duplicatesBySimilarName: {
+      identifier: string;
+      type: "slug" | "name" | "similar";
+      count: number;
+      severity: Severity;
+      reason: string;
+      artists: {
+        id: string;
+        slug: string;
+        translations: { locale: string; name: string }[];
+        createdAt: Date;
+      }[];
+    }[];
+    integrityIssues: {
+      id: string;
+      slug: string;
+      name: string;
+      issue:
+        | "no_bio_fr"
+        | "no_bio_en"
+        | "no_bio_both"
+        | "no_photo"
+        | "no_links";
+      severity: Severity;
+      reason: string;
+      createdAt: Date;
+    }[];
     totalDuplicates: number;
+    totalIntegrityIssues: number;
     totalErrors: number;
     totalWarnings: number;
     totalInfo: number;
@@ -253,7 +284,8 @@ export default function DuplicatesMonitoringPage() {
     data.assets.totalDuplicates +
     data.assets.totalUnused +
     data.works.totalDuplicates +
-    data.composers.totalDuplicates +
+    data.artists.totalDuplicates +
+    data.artists.totalIntegrityIssues +
     data.categories.totalDuplicates +
     data.labels.totalDuplicates;
 
@@ -293,7 +325,7 @@ export default function DuplicatesMonitoringPage() {
                 <p className="mt-2 text-3xl font-bold text-white">
                   {data.assets.totalErrors +
                     data.works.totalErrors +
-                    data.composers.totalErrors +
+                    data.artists.totalErrors +
                     data.categories.totalErrors +
                     data.labels.totalErrors}
                 </p>
@@ -311,7 +343,7 @@ export default function DuplicatesMonitoringPage() {
                 <p className="mt-2 text-3xl font-bold text-white">
                   {data.assets.totalWarnings +
                     data.works.totalWarnings +
-                    data.composers.totalWarnings +
+                    data.artists.totalWarnings +
                     data.categories.totalWarnings +
                     data.labels.totalWarnings}
                 </p>
@@ -329,7 +361,7 @@ export default function DuplicatesMonitoringPage() {
                 <p className="mt-2 text-3xl font-bold text-white">
                   {data.assets.totalInfo +
                     data.works.totalInfo +
-                    data.composers.totalInfo +
+                    data.artists.totalInfo +
                     data.categories.totalInfo +
                     data.labels.totalInfo}
                 </p>
@@ -437,7 +469,8 @@ export default function DuplicatesMonitoringPage() {
             className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-lime-300 data-[state=active]:bg-transparent data-[state=active]:text-lime-300"
           >
             <UsersIcon className="mr-2 h-4 w-4" />
-            Compositeurs ({data.composers.totalDuplicates})
+            Artistes (
+            {data.artists.totalDuplicates + data.artists.totalIntegrityIssues})
           </TabsTrigger>
           <TabsTrigger
             value="categories"
@@ -856,14 +889,14 @@ export default function DuplicatesMonitoringPage() {
 
         {/* Composers Tab */}
         <TabsContent value="composers" className="space-y-6">
-          {data.composers.duplicatesBySlug.filter(
+          {data.artists.duplicatesBySlug.filter(
             (d) => severityFilter === "all" || d.severity === severityFilter,
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Doublons par slug (
                 {
-                  data.composers.duplicatesBySlug.filter(
+                  data.artists.duplicatesBySlug.filter(
                     (d) =>
                       severityFilter === "all" || d.severity === severityFilter,
                   ).length
@@ -871,7 +904,7 @@ export default function DuplicatesMonitoringPage() {
                 )
               </h2>
               <div className="space-y-4">
-                {data.composers.duplicatesBySlug
+                {data.artists.duplicatesBySlug
                   .filter(
                     (d) =>
                       severityFilter === "all" || d.severity === severityFilter,
@@ -887,7 +920,7 @@ export default function DuplicatesMonitoringPage() {
                             <AlertTriangleIcon
                               className={`h-5 w-5 ${getSeverityIconColor(duplicate.severity)}`}
                             />
-                            {duplicate.count} compositeurs avec le slug "
+                            {duplicate.count} artistes avec le slug "
                             {duplicate.identifier}"
                           </CardTitle>
                           <Badge
@@ -904,19 +937,19 @@ export default function DuplicatesMonitoringPage() {
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-3">
-                          {duplicate.composers.map((composer) => (
+                          {duplicate.artists.map((artist) => (
                             <div
-                              key={composer.id}
+                              key={artist.id}
                               className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-4"
                             >
                               <div>
                                 <p className="font-medium text-white">
-                                  {composer.translations.find(
+                                  {artist.translations.find(
                                     (t) => t.locale === "fr",
-                                  )?.name ?? composer.slug}
+                                  )?.name ?? artist.slug}
                                 </p>
                                 <p className="mt-1 text-sm text-white/50">
-                                  Créé le: {formatDate(composer.createdAt)}
+                                  Créé le: {formatDate(artist.createdAt)}
                                 </p>
                               </div>
                               <Button
@@ -924,7 +957,7 @@ export default function DuplicatesMonitoringPage() {
                                 variant="ghost"
                                 onClick={() => {
                                   window.open(
-                                    `/${locale}/admin/compositeurs/${composer.id}`,
+                                    `/${locale}/admin/artistes/${artist.id}`,
                                     "_blank",
                                   );
                                 }}
@@ -943,14 +976,14 @@ export default function DuplicatesMonitoringPage() {
             </div>
           )}
 
-          {data.composers.duplicatesByName.filter(
+          {data.artists.duplicatesByName.filter(
             (d) => severityFilter === "all" || d.severity === severityFilter,
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Doublons par nom (
                 {
-                  data.composers.duplicatesByName.filter(
+                  data.artists.duplicatesByName.filter(
                     (d) =>
                       severityFilter === "all" || d.severity === severityFilter,
                   ).length
@@ -958,7 +991,7 @@ export default function DuplicatesMonitoringPage() {
                 )
               </h2>
               <div className="space-y-4">
-                {data.composers.duplicatesByName
+                {data.artists.duplicatesByName
                   .filter(
                     (d) =>
                       severityFilter === "all" || d.severity === severityFilter,
@@ -974,7 +1007,7 @@ export default function DuplicatesMonitoringPage() {
                             <AlertTriangleIcon
                               className={`h-5 w-5 ${getSeverityIconColor(duplicate.severity)}`}
                             />
-                            {duplicate.count} compositeurs avec un nom similaire
+                            {duplicate.count} artistes avec un nom similaire
                           </CardTitle>
                           <Badge
                             className={getSeverityBadgeColor(
@@ -990,19 +1023,19 @@ export default function DuplicatesMonitoringPage() {
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-3">
-                          {duplicate.composers.map((composer) => (
+                          {duplicate.artists.map((artist) => (
                             <div
-                              key={composer.id}
+                              key={artist.id}
                               className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-4"
                             >
                               <div>
                                 <p className="font-medium text-white">
-                                  {composer.translations.find(
+                                  {artist.translations.find(
                                     (t) => t.locale === "fr",
-                                  )?.name ?? composer.slug}
+                                  )?.name ?? artist.slug}
                                 </p>
                                 <p className="mt-1 text-sm text-white/50">
-                                  Slug: {composer.slug}
+                                  Slug: {artist.slug}
                                 </p>
                               </div>
                               <Button
@@ -1010,7 +1043,7 @@ export default function DuplicatesMonitoringPage() {
                                 variant="ghost"
                                 onClick={() => {
                                   window.open(
-                                    `/${locale}/admin/compositeurs/${composer.id}`,
+                                    `/${locale}/admin/artistes/${artist.id}`,
                                     "_blank",
                                   );
                                 }}
@@ -1029,13 +1062,323 @@ export default function DuplicatesMonitoringPage() {
             </div>
           )}
 
-          {data.composers.duplicatesBySlug.length === 0 &&
-            data.composers.duplicatesByName.length === 0 && (
+          {/* Similar Names (normalized) */}
+          {data.artists.duplicatesBySimilarName.filter(
+            (d) => severityFilter === "all" || d.severity === severityFilter,
+          ).length > 0 && (
+            <div>
+              <h2 className="mb-4 text-xl font-semibold text-white">
+                Noms similaires (
+                {
+                  data.artists.duplicatesBySimilarName.filter(
+                    (d) =>
+                      severityFilter === "all" || d.severity === severityFilter,
+                  ).length
+                }
+                )
+              </h2>
+              <div className="space-y-4">
+                {data.artists.duplicatesBySimilarName
+                  .filter(
+                    (d) =>
+                      severityFilter === "all" || d.severity === severityFilter,
+                  )
+                  .map((duplicate) => (
+                    <Card
+                      key={duplicate.identifier}
+                      className={`${getSeverityBorderColor(duplicate.severity)} bg-black`}
+                    >
+                      <CardHeader>
+                        <div className="flex items-start justify-between gap-4">
+                          <CardTitle className="flex items-center gap-2 text-white">
+                            <AlertTriangleIcon
+                              className={`h-5 w-5 ${getSeverityIconColor(duplicate.severity)}`}
+                            />
+                            {duplicate.count} artistes avec des noms similaires
+                          </CardTitle>
+                          <Badge
+                            className={getSeverityBadgeColor(
+                              duplicate.severity,
+                            )}
+                          >
+                            {getSeverityLabel(duplicate.severity)}
+                          </Badge>
+                        </div>
+                        <p className="mt-2 text-sm text-white/60">
+                          {duplicate.reason}
+                        </p>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          {duplicate.artists.map((artist) => (
+                            <div
+                              key={artist.id}
+                              className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-4"
+                            >
+                              <div>
+                                <p className="font-medium text-white">
+                                  {artist.translations.find(
+                                    (t) => t.locale === "fr",
+                                  )?.name ?? artist.slug}
+                                </p>
+                                <p className="mt-1 text-sm text-white/50">
+                                  Slug: {artist.slug}
+                                </p>
+                              </div>
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => {
+                                  window.open(
+                                    `/${locale}/admin/artistes/${artist.id}`,
+                                    "_blank",
+                                  );
+                                }}
+                                className="gap-1 text-white/70 hover:text-white"
+                              >
+                                <ExternalLinkIcon className="h-4 w-4" />
+                                Voir
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+              </div>
+            </div>
+          )}
+
+          {/* Integrity Issues */}
+          {data.artists.integrityIssues.filter(
+            (i) => severityFilter === "all" || i.severity === severityFilter,
+          ).length > 0 && (
+            <div>
+              <h2 className="mb-4 text-xl font-semibold text-white">
+                Problèmes d&apos;intégrité (
+                {
+                  data.artists.integrityIssues.filter(
+                    (i) =>
+                      severityFilter === "all" || i.severity === severityFilter,
+                  ).length
+                }
+                )
+              </h2>
+
+              {/* Group by issue type */}
+              {/* No Bio */}
+              {data.artists.integrityIssues.filter(
+                (i) =>
+                  (severityFilter === "all" || i.severity === severityFilter) &&
+                  (i.issue === "no_bio_both" ||
+                    i.issue === "no_bio_fr" ||
+                    i.issue === "no_bio_en"),
+              ).length > 0 && (
+                <Card className="mb-4 border-orange-500/20 bg-black">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-white">
+                      <FileTextIcon className="h-5 w-5 text-orange-400" />
+                      Biographies manquantes (
+                      {
+                        data.artists.integrityIssues.filter(
+                          (i) =>
+                            (severityFilter === "all" ||
+                              i.severity === severityFilter) &&
+                            (i.issue === "no_bio_both" ||
+                              i.issue === "no_bio_fr" ||
+                              i.issue === "no_bio_en"),
+                        ).length
+                      }
+                      )
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      {data.artists.integrityIssues
+                        .filter(
+                          (i) =>
+                            (severityFilter === "all" ||
+                              i.severity === severityFilter) &&
+                            (i.issue === "no_bio_both" ||
+                              i.issue === "no_bio_fr" ||
+                              i.issue === "no_bio_en"),
+                        )
+                        .map((issue) => (
+                          <div
+                            key={`${issue.id}-${issue.issue}`}
+                            className={`flex items-center justify-between rounded-lg border ${getSeverityBorderColor(issue.severity)} bg-white/5 p-3`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <Badge
+                                className={getSeverityBadgeColor(
+                                  issue.severity,
+                                )}
+                              >
+                                {issue.issue === "no_bio_both"
+                                  ? "FR + EN"
+                                  : issue.issue === "no_bio_fr"
+                                    ? "FR"
+                                    : "EN"}
+                              </Badge>
+                              <div>
+                                <p className="font-medium text-white">
+                                  {issue.name}
+                                </p>
+                                <p className="text-sm text-white/50">
+                                  {issue.reason}
+                                </p>
+                              </div>
+                            </div>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => {
+                                window.open(
+                                  `/${locale}/admin/artistes/${issue.id}`,
+                                  "_blank",
+                                );
+                              }}
+                              className="gap-1 text-white/70 hover:text-white"
+                            >
+                              <ExternalLinkIcon className="h-4 w-4" />
+                              Éditer
+                            </Button>
+                          </div>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* No Photo */}
+              {data.artists.integrityIssues.filter(
+                (i) =>
+                  (severityFilter === "all" || i.severity === severityFilter) &&
+                  i.issue === "no_photo",
+              ).length > 0 && (
+                <Card className="mb-4 border-orange-500/20 bg-black">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-white">
+                      <CameraIcon className="h-5 w-5 text-orange-400" />
+                      Photos manquantes (
+                      {
+                        data.artists.integrityIssues.filter(
+                          (i) =>
+                            (severityFilter === "all" ||
+                              i.severity === severityFilter) &&
+                            i.issue === "no_photo",
+                        ).length
+                      }
+                      )
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                      {data.artists.integrityIssues
+                        .filter(
+                          (i) =>
+                            (severityFilter === "all" ||
+                              i.severity === severityFilter) &&
+                            i.issue === "no_photo",
+                        )
+                        .map((issue) => (
+                          <div
+                            key={`${issue.id}-${issue.issue}`}
+                            className="flex items-center justify-between rounded-lg border border-orange-500/20 bg-white/5 p-3"
+                          >
+                            <p className="font-medium text-white">
+                              {issue.name}
+                            </p>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => {
+                                window.open(
+                                  `/${locale}/admin/artistes/${issue.id}`,
+                                  "_blank",
+                                );
+                              }}
+                              className="gap-1 text-white/70 hover:text-white"
+                            >
+                              <ExternalLinkIcon className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* No Links */}
+              {data.artists.integrityIssues.filter(
+                (i) =>
+                  (severityFilter === "all" || i.severity === severityFilter) &&
+                  i.issue === "no_links",
+              ).length > 0 && (
+                <Card className="mb-4 border-blue-500/20 bg-black">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-white">
+                      <LinkIcon className="h-5 w-5 text-blue-400" />
+                      Liens manquants (
+                      {
+                        data.artists.integrityIssues.filter(
+                          (i) =>
+                            (severityFilter === "all" ||
+                              i.severity === severityFilter) &&
+                            i.issue === "no_links",
+                        ).length
+                      }
+                      )
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                      {data.artists.integrityIssues
+                        .filter(
+                          (i) =>
+                            (severityFilter === "all" ||
+                              i.severity === severityFilter) &&
+                            i.issue === "no_links",
+                        )
+                        .map((issue) => (
+                          <div
+                            key={`${issue.id}-${issue.issue}`}
+                            className="flex items-center justify-between rounded-lg border border-blue-500/20 bg-white/5 p-3"
+                          >
+                            <p className="font-medium text-white">
+                              {issue.name}
+                            </p>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => {
+                                window.open(
+                                  `/${locale}/admin/artistes/${issue.id}`,
+                                  "_blank",
+                                );
+                              }}
+                              className="gap-1 text-white/70 hover:text-white"
+                            >
+                              <ExternalLinkIcon className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          )}
+
+          {data.artists.duplicatesBySlug.length === 0 &&
+            data.artists.duplicatesByName.length === 0 &&
+            data.artists.duplicatesBySimilarName.length === 0 &&
+            data.artists.integrityIssues.length === 0 && (
               <Card className="border-white/10 bg-black">
                 <CardContent className="p-12 text-center">
                   <UsersIcon className="mx-auto h-12 w-12 text-white/20" />
                   <p className="mt-4 text-white/50">
-                    Aucun doublon détecté pour les compositeurs
+                    Aucun problème détecté pour les artistes
                   </p>
                 </CardContent>
               </Card>

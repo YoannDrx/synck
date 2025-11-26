@@ -80,7 +80,7 @@ export default function ExportHistoryPage() {
         return ImageIcon;
       case "WORKS":
         return MusicIcon;
-      case "COMPOSERS":
+      case "ARTISTS":
         return UsersIcon;
       case "CATEGORIES":
         return FolderIcon;
@@ -99,8 +99,8 @@ export default function ExportHistoryPage() {
         return "Assets";
       case "WORKS":
         return "Projets";
-      case "COMPOSERS":
-        return "Compositeurs";
+      case "ARTISTS":
+        return "Artistes";
       case "CATEGORIES":
         return "Catégories";
       case "LABELS":

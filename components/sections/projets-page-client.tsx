@@ -2,13 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { motion, useInView } from "framer-motion";
+import Masonry from "react-masonry-css";
 
 import { Breadcrumb } from "@/components/breadcrumb";
+import { GalleryShell } from "@/components/galleries/gallery-shell";
+import { PageLayout } from "@/components/layout/page-layout";
 import { YouTubeModal } from "@/components/youtube-modal";
-import { ToggleSwitch } from "@/components/ui/toggle-switch";
-import { SortToggle } from "@/components/ui/sort-toggle";
+import { cn } from "@/lib/utils";
 import type { ProjetsPageDictionary } from "@/types/dictionary";
 import type { Locale } from "@/lib/i18n-config";
 
@@ -21,10 +24,21 @@ type GalleryWork = {
   categorySlug: string;
   coverImage: string;
   coverImageAlt: string;
-  composers: string[];
+  coverImageWidth?: number;
+  coverImageHeight?: number;
+  coverImageAspectRatio?: number;
+  coverImageBlurDataUrl?: string;
+  artists: string[];
   externalUrl?: string;
   youtubeUrl?: string;
   year?: number;
+};
+
+const masonryBreakpoints = {
+  default: 4,
+  1280: 3,
+  1024: 2,
+  640: 1,
 };
 
 type Category = {
@@ -41,14 +55,91 @@ type ProjetsPageClientProps = {
     projets: string;
   };
   copy: ProjetsPageDictionary;
-  viewProjectLabel: string;
+};
+
+// Couleurs par catégorie de projet
+const categoryAccents: Record<
+  string,
+  {
+    glow: string;
+    borderHover: string;
+    accent: string;
+    badge: string;
+    filterActive: string;
+    filterInactive: string;
+  }
+> = {
+  // Album de librairie musicale - Lime/Vert
+  "album-de-librairie-musicale": {
+    glow: "hover:shadow-[0_0_30px_rgba(163,230,53,0.3)]",
+    borderHover: "hover:border-lime-400",
+    accent: "#a3e635",
+    badge: "bg-lime-400/20 text-lime-400 border border-lime-400/30",
+    filterActive: "border-lime-400 bg-lime-400 text-[#050505]",
+    filterInactive:
+      "border-white/10 bg-black/20 text-white/60 hover:border-lime-400 hover:text-lime-400",
+  },
+  // Documentaire - Cyan/Turquoise
+  documentaire: {
+    glow: "hover:shadow-[0_0_30px_rgba(78,205,196,0.3)]",
+    borderHover: "hover:border-cyan-400",
+    accent: "#4ecdc4",
+    badge: "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30",
+    filterActive: "border-cyan-400 bg-cyan-400 text-[#050505]",
+    filterInactive:
+      "border-white/10 bg-black/20 text-white/60 hover:border-cyan-400 hover:text-cyan-400",
+  },
+  // Synchronisation - Violet/Purple
+  synchro: {
+    glow: "hover:shadow-[0_0_30px_rgba(168,85,247,0.3)]",
+    borderHover: "hover:border-purple-400",
+    accent: "#a855f7",
+    badge: "bg-purple-400/20 text-purple-400 border border-purple-400/30",
+    filterActive: "border-purple-400 bg-purple-400 text-[#050505]",
+    filterInactive:
+      "border-white/10 bg-black/20 text-white/60 hover:border-purple-400 hover:text-purple-400",
+  },
+  // Vinyle - Orange/Ambre
+  vinyle: {
+    glow: "hover:shadow-[0_0_30px_rgba(251,146,60,0.3)]",
+    borderHover: "hover:border-orange-400",
+    accent: "#fb923c",
+    badge: "bg-orange-400/20 text-orange-400 border border-orange-400/30",
+    filterActive: "border-orange-400 bg-orange-400 text-[#050505]",
+    filterInactive:
+      "border-white/10 bg-black/20 text-white/60 hover:border-orange-400 hover:text-orange-400",
+  },
+  // Clips - Rose/Pink
+  clip: {
+    glow: "hover:shadow-[0_0_30px_rgba(244,114,182,0.3)]",
+    borderHover: "hover:border-pink-400",
+    accent: "#f472b6",
+    badge: "bg-pink-400/20 text-pink-400 border border-pink-400/30",
+    filterActive: "border-pink-400 bg-pink-400 text-[#050505]",
+    filterInactive:
+      "border-white/10 bg-black/20 text-white/60 hover:border-pink-400 hover:text-pink-400",
+  },
+  // Fallback/Autre - Emerald
+  default: {
+    glow: "hover:shadow-[0_0_30px_rgba(52,211,153,0.3)]",
+    borderHover: "hover:border-emerald-400",
+    accent: "#34d399",
+    badge: "bg-emerald-400/20 text-emerald-400 border border-emerald-400/30",
+    filterActive: "border-emerald-400 bg-emerald-400 text-[#050505]",
+    filterInactive:
+      "border-white/10 bg-black/20 text-white/60 hover:border-emerald-400 hover:text-emerald-400",
+  },
+};
+
+// Helper pour obtenir l'accent d'une catégorie
+const getCategoryAccent = (categorySlug: string) => {
+  return categoryAccents[categorySlug] ?? categoryAccents.default;
 };
 
 export function ProjetsPageClient({
   locale,
   nav,
   copy,
-  viewProjectLabel,
 }: ProjetsPageClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -96,7 +187,6 @@ export function ProjetsPageClient({
     void init();
   }, [locale]);
 
-  // Sync selectedCategory and sort params with URL
   useEffect(() => {
     if (categoryParam && categoryParam !== selectedCategory) {
       setSelectedCategory(categoryParam);
@@ -119,7 +209,6 @@ export function ProjetsPageClient({
     }
   }, [categoryParam, selectedCategory, searchParams]);
 
-  // Update URL when category changes
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
     const params = new URLSearchParams(searchParams.toString());
@@ -134,7 +223,6 @@ export function ProjetsPageClient({
     router.push(newUrl, { scroll: false });
   };
 
-  // Update URL when sort changes
   const handleSortChange = (newSortBy?: string, newSortOrder?: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -151,7 +239,6 @@ export function ProjetsPageClient({
     router.push(newUrl, { scroll: false });
   };
 
-  // Get toggle options based on sortBy
   const getToggleOptions = (): [string, string] => {
     if (sortBy === "title") {
       return [copy.sortOrderTitleAsc, copy.sortOrderTitleDesc];
@@ -178,123 +265,99 @@ export function ProjetsPageClient({
       return sortOrder === "asc" ? comparison : -comparison;
     });
 
+  const handleClipClick = (url: string, title: string) => {
+    setYoutubeModal({ isOpen: true, url, title });
+  };
+
   if (loading) {
     return (
-      <div className="relative min-h-screen bg-[#050505] text-white">
-        <div className="pointer-events-none fixed inset-0 -z-10 opacity-80">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(213,255,10,0.15),transparent_55%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(255,75,162,0.1),transparent_50%)]" />
-          <div className="absolute inset-0 noise-layer" />
-        </div>
-        <main className="relative z-10 mx-auto w-full max-w-[1600px] px-4 pb-20 pt-16 sm:px-8 lg:px-16">
-          <div className="flex min-h-[60vh] items-center justify-center text-xl text-white/50">
+      <PageLayout showOrbs={false}>
+        <div className="flex min-h-[60vh] items-center justify-center text-xl text-white/50">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex flex-col items-center gap-4"
+          >
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#d5ff0a] border-t-transparent" />
             {copy.loading}
-          </div>
-        </main>
-      </div>
+          </motion.div>
+        </div>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-white">
-      <div className="pointer-events-none fixed inset-0 -z-10 opacity-80">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(213,255,10,0.15),transparent_55%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(255,75,162,0.1),transparent_50%)]" />
-        <div className="absolute inset-0 noise-layer" />
-      </div>
+    <PageLayout orbsConfig="subtle" className="mx-auto max-w-[1600px]">
+      <Breadcrumb
+        items={[
+          { label: nav.home, href: `/${locale}` },
+          { label: nav.projets },
+        ]}
+      />
 
-      <main className="relative z-10 mx-auto w-full max-w-[1600px] px-4 pb-16 pt-6 sm:px-8 sm:pt-16 lg:px-16">
-        <Breadcrumb
-          items={[
-            { label: nav.home, href: `/${locale}` },
-            { label: nav.projets },
-          ]}
-        />
-
-        <div className="mb-12">
-          <h1 className="mb-2 text-4xl font-black uppercase tracking-tighter sm:text-7xl lg:text-9xl">
-            <span className="bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
-              {nav.projets.charAt(0)}
-            </span>
-            <span>{nav.projets.slice(1)}</span>
-          </h1>
-          <p className="mb-6 max-w-2xl text-lg text-white/70">
-            {copy.description}
-          </p>
-
-          {/* Search bar and sort controls */}
-          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-4">
-            <div className="relative flex-1 max-w-md">
-              <input
-                type="text"
-                data-testid="projects-search"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                }}
-                placeholder={copy.searchPlaceholder}
-                className="w-full rounded-full border-2 border-white/30 bg-black/20 px-6 py-3 text-white placeholder:text-white/50 focus:border-lime-300 focus:outline-none focus:ring-2 focus:ring-lime-300/50"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => {
-                    setSearchQuery("");
-                  }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
-                  aria-label="Clear search"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
-            <div className="flex gap-3 flex-wrap sm:flex-nowrap">
-              <ToggleSwitch
-                options={[
-                  { value: "date" as const, label: copy.sortByDate },
-                  { value: "title" as const, label: copy.sortByTitle },
-                ]}
-                value={sortBy}
-                onChange={(newSortBy) => {
-                  handleSortChange(newSortBy, undefined);
-                }}
-              />
-
-              <SortToggle
-                options={getToggleOptions()}
-                value={sortOrder}
-                onChange={(newOrder) => {
-                  handleSortChange(undefined, newOrder);
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
+      <GalleryShell
+        title={nav.projets}
+        description={copy.description}
+        titleVariant="large"
+        highlightColor="#d5ff0a"
+        stats={[
+          { value: works.length, label: copy.statsProjects },
+          {
+            value: categories.length,
+            label: copy.statsCategories,
+            valueClassName: "text-lime-300",
+          },
+        ]}
+        search={{
+          value: searchQuery,
+          onChange: (value) => {
+            setSearchQuery(value);
+          },
+          onClear: () => {
+            setSearchQuery("");
+          },
+          placeholder: copy.searchPlaceholder,
+          inputAccentClassName: "focus:border-lime-300/50",
+          clearButtonAccentClassName: "hover:text-lime-300",
+          inputTestId: "projects-search",
+        }}
+        sort={{
+          sortBy,
+          sortByOptions: [
+            { value: "date", label: copy.sortByDate },
+            { value: "title", label: copy.sortByTitle },
+          ],
+          onSortByChange: (value) => {
+            handleSortChange(value, undefined);
+          },
+          sortOrder,
+          sortOrderLabels: getToggleOptions(),
+          onSortOrderChange: (value) => {
+            handleSortChange(undefined, value);
+          },
+        }}
+        filters={
+          <div className="flex flex-wrap gap-2">
             <button
               data-testid="category-filter"
               onClick={() => {
                 handleCategoryChange("all");
               }}
-              className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
+              className={cn(
+                "px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all",
                 selectedCategory === "all"
-                  ? "border-lime-300 bg-lime-300 text-[#050505]"
-                  : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
-              }`}
+                  ? "border-2 border-lime-300 bg-lime-300 text-[#050505]"
+                  : "border-2 border-white/10 bg-black/20 text-white/60 hover:border-lime-300 hover:text-lime-300",
+              )}
             >
-              {copy.filterAll}{" "}
-              <span
-                className={`ml-1.5 text-xs font-normal ${
-                  selectedCategory === "all" ? "opacity-70" : "opacity-50"
-                }`}
-              >
-                ({works.length})
-              </span>
+              {copy.filterAll}
+              <span className="ml-1.5 opacity-70">({works.length})</span>
             </button>
             {categories.map((category) => {
               const count = works.filter(
                 (w) => w.category === category.name,
               ).length;
+              const filterAccent = getCategoryAccent(category.slug);
               return (
                 <button
                   key={category.id}
@@ -302,163 +365,250 @@ export function ProjetsPageClient({
                   onClick={() => {
                     handleCategoryChange(category.name);
                   }}
-                  className={`rounded-full border-2 px-6 py-2 text-sm font-bold uppercase tracking-wider transition-all ${
+                  className={cn(
+                    "px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all border-2",
                     selectedCategory === category.name
-                      ? "border-lime-300 bg-lime-300 text-[#050505]"
-                      : "border-white/30 bg-transparent text-white hover:border-lime-300 hover:text-lime-300"
-                  }`}
+                      ? filterAccent.filterActive
+                      : filterAccent.filterInactive,
+                  )}
                 >
-                  {category.name}{" "}
-                  <span
-                    className={`ml-1.5 text-xs font-normal ${
-                      selectedCategory === category.name
-                        ? "opacity-70"
-                        : "opacity-50"
-                    }`}
-                  >
-                    ({count})
-                  </span>
+                  {category.name}
+                  <span className="ml-1.5 opacity-70">({count})</span>
                 </button>
               );
             })}
           </div>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredWorks.map((work) => {
-            const isClip = work.categorySlug === "clips" && work.youtubeUrl;
-            const handleClick = (e: React.MouseEvent) => {
-              if (isClip) {
-                e.preventDefault();
-                setYoutubeModal({
-                  isOpen: true,
-                  url: work.youtubeUrl ?? "",
-                  title: work.title,
-                });
-              }
-            };
-
-            const CardContent = (
-              <>
-                <div className="relative overflow-hidden bg-black/20">
-                  {work.coverImage &&
-                  work.coverImage !== "/images/placeholder.jpg" ? (
-                    <div className="relative aspect-[3/4] overflow-hidden">
-                      <Image
-                        src={work.coverImage}
-                        alt={work.coverImageAlt}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                        className="object-contain transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
-                  ) : (
-                    <div className="relative aspect-[3/4] flex items-center justify-center bg-gradient-to-br from-lime-300/10 to-emerald-400/10">
-                      <span className="text-6xl font-black uppercase text-white/20 leading-none">
-                        {work.title.charAt(0)}
-                      </span>
-                    </div>
-                  )}
-                  {isClip && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
-                      <svg
-                        className="h-20 w-20 text-white"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-4">
-                  <div className="mb-2 flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase text-lime-400">
-                      {work.category}
-                    </span>
-                    {work.year && (
-                      <span className="text-xs font-bold text-white/50">
-                        {work.year}
-                      </span>
-                    )}
-                  </div>
-                  <h2 className="mb-2 text-lg font-bold uppercase leading-tight">
-                    {work.title}
-                  </h2>
-                  {work.subtitle && (
-                    <p className="mb-3 text-sm text-white/70 line-clamp-2">
-                      {work.subtitle}
-                    </p>
-                  )}
-                  {work.composers.length > 0 && (
-                    <div className="text-xs text-white/50">
-                      {work.composers.join(", ")}
-                    </div>
-                  )}
-                  <div className="mt-3 inline-block text-xs font-bold uppercase text-lime-300 opacity-0 transition-opacity group-hover:opacity-100">
-                    {isClip ? "Voir le clip →" : `${viewProjectLabel} →`}
-                  </div>
-                </div>
-              </>
-            );
-
-            const projectUrl =
-              selectedCategory !== "all"
-                ? `/${locale}/projets/${work.slug}?category=${selectedCategory}`
-                : `/${locale}/projets/${work.slug}`;
-
-            return isClip ? (
-              <button
-                key={work.id}
-                onClick={handleClick}
-                className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] text-left transition-all duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)] w-full"
-              >
-                {CardContent}
-              </button>
-            ) : (
-              <Link
-                key={work.id}
-                data-testid="project-card"
-                href={projectUrl}
-                className="group relative overflow-hidden border-4 border-white/10 bg-[#0a0a0e] transition-all duration-300 hover:-translate-y-2 hover:border-lime-300/70 hover:shadow-[0_30px_90px_rgba(213,255,10,0.15)]"
-              >
-                {CardContent}
-              </Link>
-            );
-          })}
-        </div>
-
-        <YouTubeModal
-          youtubeUrl={youtubeModal.url}
-          title={youtubeModal.title}
-          isOpen={youtubeModal.isOpen}
-          onClose={() => {
-            setYoutubeModal({ isOpen: false, url: "", title: "" });
-          }}
-        />
-
-        {filteredWorks.length === 0 && (
-          <div className="py-20 text-center text-xl text-white/50">
+        }
+        hasItems={filteredWorks.length > 0}
+        emptyContent={
+          <p className="text-white/40">
             {searchQuery ? copy.noResults : copy.empty}
+          </p>
+        }
+        afterContent={
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="mt-8 overflow-hidden rounded-[24px] border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-8 text-center sm:p-10"
+          >
+            <h3 className="mb-3 text-2xl font-bold uppercase text-[#050505] sm:text-3xl">
+              {copy.ctaTitle}
+            </h3>
+            <p className="mx-auto mb-6 max-w-xl text-sm text-[#050505]/70 sm:text-base">
+              {copy.ctaDescription}
+            </p>
+            <Link
+              href={`/${locale}/contact`}
+              className="inline-flex items-center gap-2 border-4 border-[#050505] bg-[#050505] px-8 py-3 text-sm font-bold uppercase tracking-wide text-white transition-transform hover:scale-105"
+            >
+              {copy.ctaButton}
+              <span>→</span>
+            </Link>
+          </motion.div>
+        }
+      >
+        <Masonry
+          breakpointCols={masonryBreakpoints}
+          className="flex w-auto -ml-4"
+          columnClassName="pl-4 bg-clip-padding"
+        >
+          {filteredWorks.map((work, index) => (
+            <div key={work.id} className="mb-4">
+              <ProjectCard
+                work={work}
+                locale={locale}
+                selectedCategory={selectedCategory}
+                onClipClick={handleClipClick}
+                index={index}
+              />
+            </div>
+          ))}
+        </Masonry>
+      </GalleryShell>
+
+      <YouTubeModal
+        youtubeUrl={youtubeModal.url}
+        title={youtubeModal.title}
+        isOpen={youtubeModal.isOpen}
+        onClose={() => {
+          setYoutubeModal({ isOpen: false, url: "", title: "" });
+        }}
+      />
+    </PageLayout>
+  );
+}
+
+/** Project Card - Style unifié */
+function ProjectCard({
+  work,
+  locale,
+  selectedCategory,
+  onClipClick,
+  index,
+}: {
+  work: GalleryWork;
+  locale: Locale;
+  selectedCategory: string;
+  onClipClick: (url: string, title: string) => void;
+  index: number;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  // Trigger when card is 30px inside viewport (just after crossing bottom edge)
+  const isInView = useInView(cardRef, {
+    once: true,
+    margin: "0px 0px -30px 0px",
+  });
+
+  const isClip = work.categorySlug === "clips" && work.youtubeUrl;
+  const accent = getCategoryAccent(work.categorySlug);
+
+  // Stagger delay based on column position (max 4 columns) for wave effect
+  const columnPosition = index % 4;
+  const staggerDelay = columnPosition * 0.03;
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (isClip) {
+      e.preventDefault();
+      onClipClick(work.youtubeUrl ?? "", work.title);
+    }
+  };
+
+  const projectUrl =
+    selectedCategory !== "all"
+      ? `/${locale}/projets/${work.slug}?category=${selectedCategory}`
+      : `/${locale}/projets/${work.slug}`;
+
+  const CardContent = (
+    <>
+      {/* Image */}
+      <div className="relative overflow-hidden">
+        {work.coverImage && work.coverImage !== "/images/placeholder.jpg" ? (
+          <Image
+            src={work.coverImage}
+            alt={work.coverImageAlt}
+            width={work.coverImageWidth ?? 400}
+            height={work.coverImageHeight ?? 300}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+            className="w-full h-auto object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
+            placeholder={work.coverImageBlurDataUrl ? "blur" : "empty"}
+            blurDataURL={work.coverImageBlurDataUrl}
+          />
+        ) : (
+          <div className="aspect-[4/3] flex h-full w-full items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
+            <span className="text-5xl font-black uppercase text-white/10">
+              {work.title.charAt(0)}
+            </span>
           </div>
         )}
 
-        <div className="mt-16">
-          <div className="border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-12">
-            <h2 className="mb-4 text-3xl font-bold uppercase text-[#050505]">
-              {copy.ctaTitle}
-            </h2>
-            <p className="mb-6 text-[#050505]/80">{copy.ctaDescription}</p>
-            <Link
-              href={`/${locale}/contact`}
-              className="inline-block border-4 border-[#050505] bg-[#050505] px-8 py-3 font-bold uppercase text-white transition-transform hover:scale-105"
-            >
-              {copy.ctaButton}
-            </Link>
+        {/* Play icon for clips */}
+        {isClip && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+              <svg
+                className="ml-1 h-8 w-8 text-white"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
           </div>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <h3 className="line-clamp-2 text-sm font-bold text-white group-hover:text-white">
+          {work.title}
+        </h3>
+
+        {work.artists.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {work.artists.slice(0, 2).map((artist) => (
+              <span
+                key={artist}
+                className="rounded-sm bg-white/5 px-2 py-0.5 text-[9px] font-medium text-white/50"
+              >
+                {artist}
+              </span>
+            ))}
+            {work.artists.length > 2 && (
+              <span className="rounded-sm bg-white/5 px-2 py-0.5 text-[9px] font-medium text-white/50">
+                +{work.artists.length - 2}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Tags footer: Category + Year */}
+        <div className="mt-auto flex items-center justify-between gap-2 border-t border-white/5 pt-3">
+          <div
+            className={cn(
+              "rounded-sm px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider",
+              accent.badge,
+            )}
+          >
+            {work.category}
+          </div>
+          {work.year && (
+            <div className="rounded-sm bg-white/10 px-2 py-1 text-[10px] font-bold text-white/60">
+              {work.year}
+            </div>
+          )}
         </div>
-      </main>
-    </div>
+
+        {/* Hover CTA */}
+        <div
+          className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider opacity-0 transition-all duration-300 group-hover:opacity-100"
+          style={{ color: accent.accent }}
+        >
+          {isClip ? "Voir le clip" : "Voir le projet"}
+          <span className="transition-transform duration-300 group-hover:translate-x-1">
+            →
+          </span>
+        </div>
+      </div>
+    </>
+  );
+
+  const cardClasses = cn(
+    "group relative flex h-full flex-col overflow-hidden",
+    "border-2 border-white/10 bg-black/20",
+    "transition-all duration-300",
+    "hover:-translate-y-1",
+    accent.glow,
+    accent.borderHover,
+  );
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 25 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{
+        duration: 0.4,
+        delay: staggerDelay,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
+      {isClip ? (
+        <button
+          onClick={handleClick}
+          className={cn(cardClasses, "w-full text-left")}
+        >
+          {CardContent}
+        </button>
+      ) : (
+        <Link
+          data-testid="project-card"
+          href={projectUrl}
+          className={cardClasses}
+        >
+          {CardContent}
+        </Link>
+      )}
+    </motion.div>
   );
 }

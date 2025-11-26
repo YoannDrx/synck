@@ -1,47 +1,25 @@
 /**
- * Seed production database (ignores .env.local)
- * Uses only .env → production branch
+ * Seed PRODUCTION database (no reset)
+ * Uses .env only (ignores .env.local)
+ * Safe for CI (works with injected environment variables)
  */
 
-import { config } from "dotenv";
-import { resolve } from "path";
-import { existsSync } from "fs";
-import { execSync } from "child_process";
+import { log, loadEnv, validateEnv, runPrismaSeed, runScript } from "./utils";
 
-console.log("\n🚀 Seeding PRODUCTION database...");
-console.log("📄 Using: environment variables / .env if present (ignoring .env.local)\n");
+runScript("seed-prod", () => {
+  log.header("Seed PRODUCTION Database");
+  log.warning("This seeds the PRODUCTION database!");
+  log.separator();
 
-// Load ONLY .env (ignore .env.local) but do not fail if missing (CI injecte les secrets)
-const envPath = resolve(process.cwd(), ".env");
-if (existsSync(envPath)) {
-  const result = config({ path: envPath });
-  if (result.error) {
-    console.error("❌ Error loading .env:", result.error.message);
-    process.exit(1);
-  }
-} else {
-  console.log("ℹ️  .env non trouvé, utilisation des variables d'environnement existantes.\n");
-}
+  // Step 1: Load environment
+  log.step(1, 2, "Loading environment...");
+  loadEnv("production");
+  validateEnv();
+  log.db(process.env.DATABASE_URL!);
+  log.separator();
 
-// Verify required variables
-if (!process.env.DATABASE_URL || !process.env.DIRECT_URL) {
-  console.error("❌ Missing DATABASE_URL or DIRECT_URL in .env");
-  process.exit(1);
-}
-
-console.log(`✅ Environment loaded: production`);
-console.log(`📊 DATABASE_URL: ${process.env.DATABASE_URL?.substring(0, 50)}...`);
-console.log(`📊 DIRECT_URL: ${process.env.DIRECT_URL?.substring(0, 50)}...\n`);
-
-// Run seed
-try {
-  console.log("🌱 Starting seed...\n");
-  execSync("node scripts/run-ts.cjs prisma/seed.ts", {
-    stdio: "inherit",
-    env: process.env,
-  });
-  console.log("\n✅ Production seed completed! 🎉\n");
-} catch (error) {
-  console.error("\n❌ Production seed failed\n");
-  process.exit(1);
-}
+  // Step 2: Seed database
+  log.step(2, 2, "Seeding database...");
+  runPrismaSeed();
+  log.success("Production database seeded!");
+});

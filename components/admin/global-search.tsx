@@ -23,7 +23,7 @@ import { fetchWithAuth } from "@/lib/fetch-with-auth";
 
 type SearchResult = {
   id: string;
-  type: "work" | "composer" | "category" | "label" | "action";
+  type: "work" | "artist" | "category" | "label" | "action";
   title: string;
   description?: string;
   url: string;
@@ -65,13 +65,13 @@ export function GlobalSearch({ locale }: GlobalSearchProps) {
 
       setIsLoading(true);
       try {
-        const [worksRes, composersRes, categoriesRes, labelsRes] =
+        const [worksRes, artistsRes, categoriesRes, labelsRes] =
           await Promise.all([
             fetchWithAuth(
               `/api/admin/projects?search=${encodeURIComponent(searchQuery)}`,
             ),
             fetchWithAuth(
-              `/api/admin/composers?search=${encodeURIComponent(searchQuery)}`,
+              `/api/admin/artists?search=${encodeURIComponent(searchQuery)}`,
             ),
             fetchWithAuth(
               `/api/admin/categories?search=${encodeURIComponent(searchQuery)}`,
@@ -81,14 +81,14 @@ export function GlobalSearch({ locale }: GlobalSearchProps) {
             ),
           ]);
 
-        const [works, composers, categories, labels] = await Promise.all([
+        const [works, artists, categories, labels] = await Promise.all([
           worksRes.ok
             ? (worksRes.json() as Promise<
                 { id: string; titleFr: string; titleEn: string }[]
               >)
             : Promise.resolve([]),
-          composersRes.ok
-            ? (composersRes.json() as Promise<
+          artistsRes.ok
+            ? (artistsRes.json() as Promise<
                 { id: string; nameFr: string; nameEn: string }[]
               >)
             : Promise.resolve([]),
@@ -110,12 +110,12 @@ export function GlobalSearch({ locale }: GlobalSearchProps) {
             title: locale === "fr" ? work.titleFr : work.titleEn,
             url: `/${locale}/admin/projets/${work.id}`,
           })),
-          // Composers
-          ...composers.map((composer) => ({
-            id: composer.id,
-            type: "composer" as const,
-            title: locale === "fr" ? composer.nameFr : composer.nameEn,
-            url: `/${locale}/admin/compositeurs/${composer.id}`,
+          // Artists
+          ...artists.map((artist) => ({
+            id: artist.id,
+            type: "artist" as const,
+            title: locale === "fr" ? artist.nameFr : artist.nameEn,
+            url: `/${locale}/admin/artistes/${artist.id}`,
           })),
           // Categories
           ...categories.map((category) => ({
@@ -171,10 +171,10 @@ export function GlobalSearch({ locale }: GlobalSearchProps) {
       url: `/${locale}/admin/projets/nouveau`,
     },
     {
-      id: "new-composer",
+      id: "new-artist",
       type: "action",
-      title: "Nouveau compositeur",
-      url: `/${locale}/admin/compositeurs/nouveau`,
+      title: "Nouveau artiste",
+      url: `/${locale}/admin/artistes/nouveau`,
     },
     {
       id: "medias",
@@ -212,7 +212,7 @@ export function GlobalSearch({ locale }: GlobalSearchProps) {
     switch (type) {
       case "work":
         return MusicIcon;
-      case "composer":
+      case "artist":
         return UsersIcon;
       case "category":
         return FolderIcon;
@@ -229,8 +229,8 @@ export function GlobalSearch({ locale }: GlobalSearchProps) {
     switch (type) {
       case "work":
         return "Projets";
-      case "composer":
-        return "Compositeurs";
+      case "artist":
+        return "Artistes";
       case "category":
         return "Catégories";
       case "label":
@@ -259,7 +259,7 @@ export function GlobalSearch({ locale }: GlobalSearchProps) {
       open={open}
       onOpenChange={setOpen}
       title="Recherche globale"
-      description="Rechercher parmi les projets, compositeurs, catégories et labels"
+      description="Rechercher parmi les projets, artistes, catégories et labels"
     >
       <CommandInput
         placeholder="Rechercher..."

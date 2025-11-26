@@ -7,7 +7,7 @@ const dictionary: Dictionary = {
     projets: "Projects",
     blog: "Blog",
     contact: "Contact",
-    composers: "Composers",
+    artists: "Artists",
   },
   cta: {
     viewMore: "View more",
@@ -171,18 +171,18 @@ const dictionary: Dictionary = {
     },
     projects: {
       eyebrow: "Projects",
-      title: "Selected works",
+      title: "Latest albums",
       viewAll: "Browse all projects",
       cardWorkLabel: "WORK",
       error: "Failed to load projects",
     },
-    composers: {
-      eyebrow: "Composers",
-      title: "Featured composers",
-      viewAll: "View all composers",
+    artists: {
+      eyebrow: "Artists",
+      title: "Artists",
+      viewAll: "View all artists",
       worksSingular: "project",
       worksPlural: "projects",
-      error: "Failed to load composers",
+      error: "Failed to load artists",
     },
     experiments: {
       eyebrow: "Blog",
@@ -210,7 +210,7 @@ const dictionary: Dictionary = {
         },
         {
           label: "LinkedIn",
-          content: "caroline-senyk-0307752a7",
+          content: "Caroline Senyk",
           href: "https://www.linkedin.com/in/caroline-senyk-0307752a7/",
         },
         {
@@ -278,6 +278,18 @@ const dictionary: Dictionary = {
       searchPlaceholder: "Search by title...",
       empty: "No documentary available for this category",
       noResults: "No documentaries match your search",
+      statsDocumentaries: "Documentaries",
+      statsCategories: "Categories",
+      statsProducers: "Producers",
+      sortByDate: "Date",
+      sortByTitle: "Title",
+      sortOrderTitleAsc: "A → Z",
+      sortOrderTitleDesc: "Z → A",
+      sortOrderDateAsc: "Oldest",
+      sortOrderDateDesc: "Newest",
+    },
+    productionCompanies: {
+      statsCompanies: "Companies",
     },
     ctaTitle: "Need guidance?",
     ctaDescription:
@@ -297,14 +309,16 @@ const dictionary: Dictionary = {
     sortByTitle: "Title",
     sortOrderTitleAsc: "A → Z",
     sortOrderTitleDesc: "Z → A",
-    sortOrderDateAsc: "Old → New",
-    sortOrderDateDesc: "New → Old",
+    sortOrderDateAsc: "Oldest",
+    sortOrderDateDesc: "Newest",
+    statsProjects: "Projects",
+    statsCategories: "Categories",
     ctaTitle: "Interested in collaborating?",
     ctaDescription: "Feel free to reach out and tell me about your project.",
     ctaButton: "Get in touch",
   },
   projetDetail: {
-    composersTitle: "Composers",
+    artistsTitle: "Artists",
     infoTitle: "Information",
     releaseDate: "Release date",
     category: "Category",
@@ -315,29 +329,45 @@ const dictionary: Dictionary = {
     externalResourcesDescription:
       "Official information, excerpts, and complementary materials about this project.",
     externalResourcesButton: "Open full details",
+    relatedClipsTitle: "Related clips",
+    relatedProjectsTitle: "Related project",
     galleryTitle: "Gallery",
     spotifyTitle: "Listen",
     videoTitle: "Video",
+    relatedProjectArtistsTitle: "Artists on related project",
     previousLabel: "← Previous project",
     nextLabel: "Next project →",
     ctaTitle: "Working on something similar?",
     ctaDescription: "Let's talk about your music rights strategy.",
     ctaButton: "Contact me",
   },
-  composersPage: {
-    description:
-      "Meet the composers supported with music-rights administration.",
+  artistsPage: {
+    description: "Meet the artists supported with music-rights administration.",
     worksSingular: "project",
     worksPlural: "projects",
-    ctaTitle: "Are you a composer?",
+    statsArtists: "Artists",
+    statsProjects: "Projects",
+    searchPlaceholder: "Search for an artist...",
+    sortByDate: "Projects",
+    sortByTitle: "Name",
+    sortOrderTitleAsc: "A → Z",
+    sortOrderTitleDesc: "Z → A",
+    sortOrderDateAsc: "Fewest projects",
+    sortOrderDateDesc: "Most projects",
+    loading: "Loading...",
+    empty: "No artists found",
+    noResults: "No artists match your search",
+    ctaTitle: "Are you an artist?",
     ctaDescription: "Let's secure and optimize your royalties.",
     ctaButton: "Contact me",
   },
-  composerDetail: {
+  artistDetail: {
     worksTitle: "Collaborative projects",
     worksSingular: "project",
     worksPlural: "projects",
-    ctaTitle: "Are you a composer?",
+    previousArtistLabel: "← Previous artist",
+    nextArtistLabel: "Next artist →",
+    ctaTitle: "Are you an artist?",
     ctaDescription: "Let's secure and optimize your royalties.",
     ctaButton: "Contact me",
   },
@@ -357,23 +387,25 @@ const dictionary: Dictionary = {
     availabilityLabel: "Availability",
     availabilityValue:
       "I usually reply within 24-48h. Mention urgent requests in your subject line.",
-    servicesTitle: "Services",
+    servicesTitle: "Areas of expertise",
     services: [
       {
-        title: "Copyright management",
-        description: "Safeguard and track your works.",
+        focus: "Copyright & Publishing",
+        title: "Secure your works",
+        description:
+          "SACEM registration, management of assignment and publishing contracts, royalty tracking and work identification.",
       },
       {
-        title: "Music rights advisory",
-        description: "Legal and strategic expertise.",
+        focus: "Neighboring rights & Production",
+        title: "Enhance your recordings",
+        description:
+          "SCPP/SPPF management, ISRC code creation, performer contracts and equitable remuneration declarations.",
       },
       {
-        title: "Artist support",
-        description: "Full guidance for creative projects.",
-      },
-      {
-        title: "SACEM expertise",
-        description: "Filing and optimization support.",
+        focus: "Grants & Funding",
+        title: "Finance your projects",
+        description:
+          "CNM, SACEM, ADAMI, SPPF, SCPP applications - budgets and complete administrative follow-up.",
       },
     ],
     consultationTitle: "First consultation offered",
@@ -417,7 +449,7 @@ const dictionary: Dictionary = {
     nav: {
       dashboard: "Dashboard",
       albums: "Albums",
-      composers: "Composers",
+      artists: "Artists",
       expertises: "Expertises",
       categories: "Categories",
       labels: "Labels",
@@ -430,7 +462,7 @@ const dictionary: Dictionary = {
       welcome: "Welcome to SYNCK admin",
       stats: {
         totalWorks: "Albums in catalog",
-        totalComposers: "Composers",
+        totalComposers: "Artists",
         totalExpertises: "Expertises",
         activeCategories: "Active categories",
       },
@@ -438,7 +470,7 @@ const dictionary: Dictionary = {
       quickActions: {
         title: "Quick actions",
         newWork: "New album",
-        newComposer: "New composer",
+        newComposer: "New artist",
         newExpertise: "New expertise",
         inviteAdmin: "Invite admin",
       },
@@ -495,10 +527,10 @@ const dictionary: Dictionary = {
         status: "Status",
       },
     },
-    composers: {
-      title: "Composer management",
-      createNew: "New composer",
-      editTitle: "Edit composer",
+    artists: {
+      title: "Artist management",
+      createNew: "New artist",
+      editTitle: "Edit artist",
       fields: {
         nameLabel: "Name",
         bioLabel: "Biography",

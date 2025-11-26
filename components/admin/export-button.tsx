@@ -17,7 +17,7 @@ import { toast } from "sonner";
 type ExportButtonProps = {
   entity:
     | "projects"
-    | "composers"
+    | "artists"
     | "assets"
     | "categories"
     | "labels"
@@ -71,7 +71,7 @@ export function ExportButton({
       // Générer et télécharger le fichier
       const entityLabel = {
         projects: "projets",
-        composers: "compositeurs",
+        artists: "artistes",
         assets: "medias",
         categories: "categories",
         labels: "labels",

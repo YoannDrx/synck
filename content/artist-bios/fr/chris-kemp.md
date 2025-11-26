@@ -1,0 +1,1 @@
+Chris Kemp est un artiste hip-hop/rap basé à Seattle, notamment présent sur des plateformes comme ReverbNation et crédité sur des projets comme l'album NONA v.2 en collaboration avec Aeon Raps. Sur l'album Trap In The Cloud produit par PARIGO, il co-écrit les paroles du titre « SPACE MOUNTAINS ».

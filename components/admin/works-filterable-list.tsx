@@ -13,8 +13,8 @@ import type {
   Label,
   LabelTranslation,
   Contribution,
-  Composer,
-  ComposerTranslation,
+  Artist,
+  ArtistTranslation,
   Asset,
 } from "@prisma/client";
 
@@ -26,8 +26,8 @@ type WorkWithRelations = Work & {
   label: (Label & { translations: LabelTranslation[] }) | null;
   coverImage: Asset | null;
   contributions: (Contribution & {
-    composer: Composer & {
-      translations: ComposerTranslation[];
+    artist: Artist & {
+      translations: ArtistTranslation[];
     };
   })[];
 };
@@ -134,10 +134,10 @@ export function WorksFilterableList({
             const category = work.category?.translations.find(
               (t) => t.locale === "fr",
             )?.name;
-            const composers = work.contributions
+            const artists = work.contributions
               .map(
                 (c) =>
-                  c.composer.translations.find((t) => t.locale === "fr")?.name,
+                  c.artist.translations.find((t) => t.locale === "fr")?.name,
               )
               .filter(Boolean)
               .join(", ");
@@ -175,9 +175,9 @@ export function WorksFilterableList({
                           {category}
                         </p>
                       )}
-                      {composers && (
+                      {artists && (
                         <p className="text-xs text-white/60 line-clamp-1">
-                          {composers}
+                          {artists}
                         </p>
                       )}
                     </div>

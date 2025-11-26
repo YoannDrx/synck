@@ -8,8 +8,8 @@ export const GET = withAuth(async () => {
   const sixMonthsAgo = new Date(now);
   sixMonthsAgo.setMonth(now.getMonth() - 6);
 
-  // Fetch works and composers created in last 6 months
-  const [works, composers] = await Promise.all([
+  // Fetch works and artists created in last 6 months
+  const [works, artists] = await Promise.all([
     prisma.work.findMany({
       where: {
         createdAt: {
@@ -22,7 +22,7 @@ export const GET = withAuth(async () => {
       },
       orderBy: { createdAt: "asc" },
     }),
-    prisma.composer.findMany({
+    prisma.artist.findMany({
       where: {
         createdAt: {
           gte: sixMonthsAgo,
@@ -56,7 +56,7 @@ export const GET = withAuth(async () => {
     works: number;
     published: number;
     draft: number;
-    composers: number;
+    artists: number;
   }[] = [];
 
   // Generate last 6 months
@@ -73,7 +73,7 @@ export const GET = withAuth(async () => {
       );
     });
 
-    const monthComposers = composers.filter((c) => {
+    const monthArtists = artists.filter((c) => {
       const cDate = new Date(c.createdAt);
       return (
         cDate.getFullYear() === date.getFullYear() &&
@@ -86,7 +86,7 @@ export const GET = withAuth(async () => {
       works: monthWorks.length,
       published: monthWorks.filter((w) => w.isActive).length,
       draft: monthWorks.filter((w) => !w.isActive).length,
-      composers: monthComposers.length,
+      artists: monthArtists.length,
     });
   }
 

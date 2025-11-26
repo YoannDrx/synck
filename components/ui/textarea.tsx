@@ -1,18 +1,57 @@
-import * as React from "react"
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
-  return (
-    <textarea
-      data-slot="textarea"
-      className={cn(
-        "border-input placeholder:text-white/40 focus-visible:border-lime-300/70 focus-visible:ring-lime-300/40 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive flex field-sizing-content min-h-24 w-full rounded-md border border-white/15 bg-white/[0.08] px-3 py-2 text-sm text-white shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
-        className
-      )}
-      {...props}
-    />
-  )
-}
+const textareaVariants = cva(
+  "flex w-full min-h-24 rounded-[var(--radius-md)] text-sm transition-all outline-none resize-none disabled:cursor-not-allowed disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        // Default dark style
+        default:
+          "bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] selection:bg-[var(--brand-neon)]/20 selection:text-[var(--color-text-primary)] focus-visible:border-[var(--brand-neon)]/50 focus-visible:ring-2 focus-visible:ring-[var(--brand-neon)]/20",
+        // Glass style
+        glass:
+          "bg-white/5 border border-white/10 backdrop-blur-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] selection:bg-[var(--brand-neon)]/20 focus-visible:border-[var(--brand-neon)]/50 focus-visible:ring-2 focus-visible:ring-[var(--brand-neon)]/20",
+        // Outline only
+        outline:
+          "bg-transparent border border-[var(--color-border)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus-visible:border-[var(--brand-neon)]/50 focus-visible:ring-2 focus-visible:ring-[var(--brand-neon)]/20",
+        // Neon glow on focus
+        neon: "bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus-visible:border-[var(--brand-neon)]/70 focus-visible:ring-2 focus-visible:ring-[var(--brand-neon)]/30 focus-visible:shadow-[var(--shadow-glow-neon-sm)]",
+      },
+      textareaSize: {
+        sm: "px-2.5 py-2 text-xs min-h-20",
+        default: "px-3 py-2.5 min-h-24",
+        lg: "px-4 py-3 text-base min-h-32",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      textareaSize: "default",
+    },
+  },
+);
 
-export { Textarea }
+export type TextareaProps = React.ComponentProps<"textarea"> &
+  VariantProps<typeof textareaVariants>;
+
+const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ className, variant, textareaSize, ...props }, ref) => {
+    return (
+      <textarea
+        ref={ref}
+        data-slot="textarea"
+        className={cn(
+          textareaVariants({ variant, textareaSize }),
+          "aria-invalid:border-[var(--color-error)] aria-invalid:ring-[var(--color-error)]/20",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
+Textarea.displayName = "Textarea";
+
+export { Textarea, textareaVariants };
