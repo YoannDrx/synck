@@ -196,6 +196,9 @@ export type ProjetDetailDictionary = {
   externalResourcesTitle: string;
   externalResourcesDescription: string;
   externalResourcesButton: string;
+  relatedClipsTitle: string;
+  relatedProjectsTitle: string;
+  relatedProjectArtistsTitle: string;
   galleryTitle: string;
   spotifyTitle: string;
   videoTitle: string;
@@ -231,6 +234,8 @@ export type ArtistDetailDictionary = {
   worksTitle: string;
   worksSingular: string;
   worksPlural: string;
+  projectsTitle: string;
+  clipsTitle: string;
   previousArtistLabel: string;
   nextArtistLabel: string;
   ctaTitle: string;

@@ -107,6 +107,16 @@ type NavWork = {
   title: string;
 } | null;
 
+type RelatedWork = {
+  slug: string;
+  title: string;
+  subtitle?: string;
+  category: string;
+  categorySlug: string;
+  coverImage: string;
+  coverImageAlt: string;
+};
+
 type ProjetDetailClientProps = {
   locale: Locale;
   project: {
@@ -127,6 +137,9 @@ type ProjetDetailClientProps = {
   };
   artists: Artist[];
   gallery: GalleryImage[];
+  relatedClips?: RelatedWork[];
+  relatedProjects?: RelatedWork[];
+  relatedProjectArtists?: Artist[];
   prevWork: NavWork;
   nextWork: NavWork;
   nav: {
@@ -147,6 +160,9 @@ export function ProjetDetailClient({
   nav,
   copy,
   categoryParam,
+  relatedClips = [],
+  relatedProjects = [],
+  relatedProjectArtists = [],
 }: ProjetDetailClientProps) {
   const heroRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
@@ -186,6 +202,21 @@ export function ProjetDetailClient({
   const hasSpotify = Boolean(project.spotifyEmbedUrl);
   const hasExternalLink = Boolean(project.externalUrl) && !hasYoutube;
   const hasCoverImage = Boolean(project.coverImage);
+  const isClipCategory = (() => {
+    const slug = (project.categorySlug ?? "").toLowerCase();
+    const name = (project.category ?? "").toLowerCase();
+    return (
+      slug === "clip" ||
+      slug === "music-video" ||
+      name.includes("clip") ||
+      name.includes("music video") ||
+      name.includes("video")
+    );
+  })();
+  const hasRelatedClips = !isClipCategory && relatedClips.length > 0;
+  const hasRelatedProjects = isClipCategory && relatedProjects.length > 0;
+  const hasRelatedProjectArtists =
+    isClipCategory && relatedProjectArtists.length > 0;
 
   const closeLabel = locale === "fr" ? "Fermer" : "Close";
   const enlargeLabel =
@@ -246,13 +277,13 @@ export function ProjetDetailClient({
               initial={{ opacity: 0, scale: 0.95 }}
               animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex-shrink-0"
+              className="flex-shrink-0 lg:w-[320px]"
             >
               <button
                 type="button"
                 aria-label={enlargeLabel}
                 className={cn(
-                  "relative block h-[280px] w-[280px] overflow-hidden rounded-[20px] border-2 border-white/10 transition-all duration-300 focus:outline-none focus:ring-4",
+                  "relative block overflow-hidden rounded-[20px] border-2 border-white/10 transition-all duration-300 focus:outline-none focus:ring-4",
                   hasCoverImage && "cursor-zoom-in hover:scale-105",
                   hasCoverImage && accent.activeBorder,
                 )}
@@ -264,9 +295,9 @@ export function ProjetDetailClient({
                 <Image
                   src={project.coverImage}
                   alt={project.coverImageAlt ?? project.title}
-                  fill
-                  sizes="280px"
-                  className="object-cover"
+                  width={800}
+                  height={800}
+                  className="h-full w-full object-cover"
                 />
               </button>
             </motion.div>
@@ -358,7 +389,7 @@ export function ProjetDetailClient({
         </div>
       </motion.section>
 
-      {/* Info Grid: Artists + Details */}
+      {/* Info Grid: Artists + Related Project Artists + Details */}
       <motion.section
         ref={infoRef}
         initial={{ opacity: 0, y: 40 }}
@@ -367,87 +398,26 @@ export function ProjetDetailClient({
         className="mb-8 grid gap-6 lg:grid-cols-2"
       >
         {/* Artists */}
-        {hasArtists && (
-          <div className="rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm">
-            <h2
-              className={cn(
-                "mb-5 text-lg font-bold uppercase tracking-wider",
-                accent.text,
-              )}
-            >
-              {copy.artistsTitle}
-            </h2>
-            <div
-              className={
-                artists.length > 3 ? "grid gap-3 sm:grid-cols-2" : "space-y-3"
-              }
-            >
-              {artists.map((artist, index) => (
-                <motion.div
-                  key={artist.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInfoInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
-                >
-                  <Link
-                    href={`/${locale}/artistes/${artist.slug}`}
-                    className={cn(
-                      "group flex items-center gap-3 rounded-[12px] p-3",
-                      "border-2 border-transparent bg-white/[0.02]",
-                      "transition-all duration-300",
-                      "hover:border-white/10 hover:bg-white/5",
-                    )}
-                  >
-                    {/* Avatar */}
-                    <div
-                      className={cn(
-                        "relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full",
-                        "ring-2 ring-white/10 transition-all duration-300",
-                        "group-hover:ring-4",
-                        `group-hover:ring-[${accent.primary}]/30`,
-                      )}
-                    >
-                      {artist.image ? (
-                        <Image
-                          src={artist.image}
-                          alt={artist.imageAlt ?? artist.name}
-                          fill
-                          sizes="48px"
-                          className="object-cover"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
-                          <span className="text-lg font-black text-white/40">
-                            {artist.name.charAt(0).toUpperCase()}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                    {/* Name */}
-                    <div className="min-w-0 flex-1">
-                      <div className="font-bold text-white transition-colors group-hover:text-white">
-                        {artist.name}
-                      </div>
-                      {artist.bio && (
-                        <div className="text-xs text-white/50 line-clamp-1">
-                          {artist.bio}
-                        </div>
-                      )}
-                    </div>
-                    {/* Arrow */}
-                    <span
-                      className={cn(
-                        "text-sm opacity-0 transition-all duration-300",
-                        "group-hover:opacity-100 group-hover:translate-x-1",
-                        accent.text,
-                      )}
-                    >
-                      →
-                    </span>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
+        {(hasArtists || hasRelatedProjectArtists) && (
+          <div className="grid gap-6">
+            {hasArtists && (
+              <ArtistListCard
+                locale={locale}
+                title={copy.artistsTitle}
+                artists={artists}
+                accent={accent}
+                isInfoInView={isInfoInView}
+              />
+            )}
+            {hasRelatedProjectArtists && (
+              <ArtistListCard
+                locale={locale}
+                title={copy.relatedProjectArtistsTitle}
+                artists={relatedProjectArtists}
+                accent={getCategoryAccent("clip")}
+                isInfoInView={isInfoInView}
+              />
+            )}
           </div>
         )}
 
@@ -505,6 +475,45 @@ export function ProjetDetailClient({
               loading="lazy"
               className="h-full w-full"
             />
+          </div>
+        </motion.section>
+      )}
+
+      {(hasRelatedClips || hasRelatedProjects) && (
+        <motion.section
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-8 rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm"
+        >
+          <h2
+            className={cn(
+              "mb-5 text-lg font-bold uppercase tracking-wider",
+              accent.text,
+            )}
+          >
+            {isClipCategory
+              ? copy.relatedProjectsTitle
+              : copy.relatedClipsTitle}
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {(isClipCategory
+              ? relatedProjects
+              : relatedClips
+            ).map((item, index) => (
+              <motion.div
+                key={item.slug}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+              >
+                <RelatedWorkCard
+                  locale={locale}
+                  work={item}
+                  accent={getCategoryAccent(item.categorySlug)}
+                />
+              </motion.div>
+            ))}
           </div>
         </motion.section>
       )}
@@ -752,6 +761,156 @@ export function ProjetDetailClient({
         document.body
       )}
     </PageLayout>
+  );
+}
+
+function RelatedWorkCard({
+  locale,
+  work,
+  accent,
+}: {
+  locale: Locale;
+  work: RelatedWork;
+  accent: ReturnType<typeof getCategoryAccent>;
+}) {
+  return (
+    <Link
+      href={`/${locale}/projets/${work.slug}`}
+      className={cn(
+        "group relative flex h-full flex-col overflow-hidden rounded-[16px] border-2 bg-white/[0.02] p-3",
+        accent.border,
+        accent.glow,
+      )}
+    >
+      <div className="relative mb-3 aspect-[16/10] overflow-hidden rounded-[12px]">
+        <Image
+          src={work.coverImage}
+          alt={work.coverImageAlt}
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+      <div className="flex flex-1 flex-col gap-1">
+        <div
+          className={cn(
+            "w-fit rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wide",
+            accent.badge,
+          )}
+        >
+          {work.category}
+        </div>
+        <div className="text-base font-bold text-white transition-colors group-hover:text-white">
+          {work.title}
+        </div>
+        {work.subtitle && (
+          <div className="text-xs text-white/60 line-clamp-1">
+            {work.subtitle}
+          </div>
+        )}
+        <div
+          className={cn(
+            "mt-auto inline-flex items-center gap-2 text-xs font-semibold",
+            accent.text,
+          )}
+        >
+          {locale === "fr" ? "Voir le projet" : "View project"} <span>→</span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function ArtistListCard({
+  locale,
+  title,
+  artists,
+  accent,
+  isInfoInView,
+}: {
+  locale: Locale;
+  title: string;
+  artists: Artist[];
+  accent: ReturnType<typeof getCategoryAccent>;
+  isInfoInView: boolean;
+}) {
+  return (
+    <div className="rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm">
+      <h2
+        className={cn(
+          "mb-5 text-lg font-bold uppercase tracking-wider",
+          accent.text,
+        )}
+      >
+        {title}
+      </h2>
+      <div
+        className={artists.length > 3 ? "grid gap-3 sm:grid-cols-2" : "space-y-3"}
+      >
+        {artists.map((artist, index) => (
+          <motion.div
+            key={`${title}-${artist.id}`}
+            initial={{ opacity: 0, x: -20 }}
+            animate={isInfoInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
+          >
+            <Link
+              href={`/${locale}/artistes/${artist.slug}`}
+              className={cn(
+                "group flex items-center gap-3 rounded-[12px] p-3",
+                "border-2 border-transparent bg-white/[0.02]",
+                "transition-all duration-300",
+                "hover:border-white/10 hover:bg-white/5",
+              )}
+            >
+              <div
+                className={cn(
+                  "relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full",
+                  "ring-2 ring-white/10 transition-all duration-300",
+                  "group-hover:ring-4",
+                  `group-hover:ring-[${accent.primary}]/30`,
+                )}
+              >
+                {artist.image ? (
+                  <Image
+                    src={artist.image}
+                    alt={artist.imageAlt ?? artist.name}
+                    fill
+                    sizes="48px"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
+                    <span className="text-lg font-black text-white/40">
+                      {artist.name.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="font-bold text-white transition-colors group-hover:text-white">
+                  {artist.name}
+                </div>
+                {artist.bio && (
+                  <div className="text-xs text-white/50 line-clamp-1">
+                    {artist.bio}
+                  </div>
+                )}
+              </div>
+              <span
+                className={cn(
+                  "text-sm opacity-0 transition-all duration-300",
+                  "group-hover:opacity-100 group-hover:translate-x-1",
+                  accent.text,
+                )}
+              >
+                →
+              </span>
+            </Link>
+          </motion.div>
+        ))}
+      </div>
+    </div>
   );
 }
 

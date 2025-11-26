@@ -38,6 +38,7 @@ export type GalleryWork = {
   externalUrl?: string;
   youtubeUrl?: string;
   year?: number;
+  relatedProjectSlugs?: string[];
 };
 
 // Cache the projets data fetch for deduplication
@@ -106,6 +107,9 @@ export const getProjetsFromPrisma = cache(
           coverImageHeight: work.coverImage?.height ?? undefined,
           coverImageAspectRatio: work.coverImage?.aspectRatio ?? undefined,
           coverImageBlurDataUrl: work.coverImage?.blurDataUrl ?? undefined,
+          relatedProjectSlugs:
+            (work as unknown as { relatedProjectSlugs?: string[] })
+              .relatedProjectSlugs ?? undefined,
           artists: work.contributions.map((contrib) => {
             const artistTranslation = contrib.artist.translations[0];
             return artistTranslation?.name ?? "";

@@ -1011,7 +1011,10 @@
     "spotifyUrl": null,
     "artists": [],
     "isActive": true,
-    "order": 31
+    "order": 31,
+    "relatedProjectSlugs": [
+      "acid-body-music"
+    ]
   },
   {
     "slug": "ailleurs",
@@ -1030,7 +1033,10 @@
     "artists": [],
     "isActive": true,
     "order": 32,
-    "youtubeUrl": "https://www.youtube.com/watch?v=7JLe1hLIu_U"
+    "youtubeUrl": "https://www.youtube.com/watch?v=7JLe1hLIu_U",
+    "relatedProjectSlugs": [
+      "trap-in-the-cloud"
+    ]
   },
   {
     "slug": "alien-suites-remixes",
@@ -1049,7 +1055,10 @@
     "artists": [],
     "isActive": true,
     "order": 33,
-    "youtubeUrl": "https://www.youtube.com/watch?v=Xc5-EKeDO6Y"
+    "youtubeUrl": "https://www.youtube.com/watch?v=Xc5-EKeDO6Y",
+    "relatedProjectSlugs": [
+      "odissey-suites-remix"
+    ]
   },
   {
     "slug": "bad-boys",
@@ -1163,7 +1172,10 @@
     "artists": [],
     "isActive": true,
     "order": 39,
-    "youtubeUrl": "https://www.youtube.com/watch?v=NI04hAc0SW4"
+    "youtubeUrl": "https://www.youtube.com/watch?v=NI04hAc0SW4",
+    "relatedProjectSlugs": [
+      "dark-ambient-vol-2"
+    ]
   },
   {
     "slug": "dark-ambient-vol-2-2",
@@ -1182,7 +1194,10 @@
     "artists": [],
     "isActive": true,
     "order": 40,
-    "youtubeUrl": "https://www.youtube.com/watch?v=E3O5PfylPxs"
+    "youtubeUrl": "https://www.youtube.com/watch?v=E3O5PfylPxs",
+    "relatedProjectSlugs": [
+      "dark-ambient-vol-2"
+    ]
   },
   {
     "slug": "des-preuves-damour",
@@ -1220,7 +1235,10 @@
     "artists": [],
     "isActive": true,
     "order": 42,
-    "youtubeUrl": "https://www.youtube.com/watch?v=10LSc8MjTmM"
+    "youtubeUrl": "https://www.youtube.com/watch?v=10LSc8MjTmM",
+    "relatedProjectSlugs": [
+      "egocentric-visuo-spatial-perspective"
+    ]
   },
   {
     "slug": "emily-in-paris",
@@ -1277,7 +1295,10 @@
     "artists": [],
     "isActive": true,
     "order": 45,
-    "youtubeUrl": "https://www.youtube.com/watch?v=6JYSP7NekGo"
+    "youtubeUrl": "https://www.youtube.com/watch?v=6JYSP7NekGo",
+    "relatedProjectSlugs": [
+      "the-trip"
+    ]
   },
   {
     "slug": "get-millie-back",
@@ -1315,7 +1336,10 @@
     "artists": [],
     "isActive": true,
     "order": 47,
-    "youtubeUrl": "https://www.youtube.com/watch?v=ugsBtjXVgN0"
+    "youtubeUrl": "https://www.youtube.com/watch?v=ugsBtjXVgN0",
+    "relatedProjectSlugs": [
+      "brand-content"
+    ]
   },
   {
     "slug": "i-am-georgina",
@@ -1353,7 +1377,11 @@
     "artists": [],
     "isActive": true,
     "order": 49,
-    "youtubeUrl": "https://www.youtube.com/watch?v=FPhmJMAzsQ4"
+    "youtubeUrl": "https://www.youtube.com/watch?v=FPhmJMAzsQ4",
+    "relatedProjectSlugs": [
+      "velodrome",
+      "acid"
+    ]
   },
   {
     "slug": "klarna-apple-campaign",
@@ -1543,7 +1571,10 @@
     "artists": [],
     "isActive": true,
     "order": 59,
-    "youtubeUrl": "https://www.youtube.com/watch?v=lsXj6hGHM-Q"
+    "youtubeUrl": "https://www.youtube.com/watch?v=lsXj6hGHM-Q",
+    "relatedProjectSlugs": [
+      "lofi-hip-hop"
+    ]
   },
   {
     "slug": "monkey-man",
@@ -1581,7 +1612,10 @@
     "artists": [],
     "isActive": true,
     "order": 61,
-    "youtubeUrl": "https://www.youtube.com/watch?v=jfTecY6qM2Q"
+    "youtubeUrl": "https://www.youtube.com/watch?v=jfTecY6qM2Q",
+    "relatedProjectSlugs": [
+      "ny-parigo"
+    ]
   },
   {
     "slug": "ovm-petrom",
@@ -1638,7 +1672,10 @@
     "artists": [],
     "isActive": true,
     "order": 64,
-    "youtubeUrl": "https://www.youtube.com/watch?v=RewFfsLHZSc"
+    "youtubeUrl": "https://www.youtube.com/watch?v=RewFfsLHZSc",
+    "relatedProjectSlugs": [
+      "pixel-fiction"
+    ]
   },
   {
     "slug": "riviera-bizarre-2",
@@ -1657,7 +1694,10 @@
     "artists": [],
     "isActive": true,
     "order": 65,
-    "youtubeUrl": "https://www.youtube.com/watch?v=wrO96WV69aY"
+    "youtubeUrl": "https://www.youtube.com/watch?v=wrO96WV69aY",
+    "relatedProjectSlugs": [
+      "riviera-bizarre"
+    ]
   },
   {
     "slug": "somebody",
@@ -1771,7 +1811,10 @@
     "artists": [],
     "isActive": true,
     "order": 71,
-    "youtubeUrl": "https://www.youtube.com/watch?v=EPnfDdfOx94"
+    "youtubeUrl": "https://www.youtube.com/watch?v=EPnfDdfOx94",
+    "relatedProjectSlugs": [
+      "une-derniere-fois"
+    ]
   },
   {
     "slug": "vengeances",
@@ -1809,7 +1852,10 @@
     "artists": [],
     "isActive": true,
     "order": 73,
-    "youtubeUrl": "https://www.youtube.com/watch?v=anT5ocBumDk"
+    "youtubeUrl": "https://www.youtube.com/watch?v=anT5ocBumDk",
+    "relatedProjectSlugs": [
+      "videoclub"
+    ]
   },
   {
     "slug": "yongman-pizza",

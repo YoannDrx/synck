@@ -7,6 +7,7 @@ import {
   type WorkContribution,
   type WorkImage,
 } from "@/lib/prismaProjetsUtils";
+import { buildWorkRelations, toSimpleWork } from "@/lib/workRelations";
 import { getDictionary } from "@/lib/dictionaries";
 import { ProjetDetailClient } from "@/components/sections/projet-detail-client";
 
@@ -91,6 +92,7 @@ export default async function WorkDetailPage({
 
   // Get all works for prev/next navigation
   const allWorks = await getProjetsFromPrisma(safeLocale);
+  const relations = buildWorkRelations(allWorks.map(toSimpleWork));
   const currentIndex = allWorks.findIndex((w) => w.slug === slug);
   const prevWork = currentIndex > 0 ? allWorks[currentIndex - 1] : null;
   const nextWork =
@@ -125,21 +127,48 @@ export default async function WorkDetailPage({
     youtubeUrl: work.youtubeUrl?.trim() ?? undefined,
     spotifyEmbedUrl: createSpotifyEmbedUrl(work.spotifyUrl),
   };
+  const relatedClips = relations.projectToClips[slug] ?? [];
+  const relatedProjects = relations.clipToProjects[slug] ?? [];
+
+  const mapContributionToArtist = (
+    contribution: WorkContribution,
+    idPrefix?: string,
+  ) => {
+    const artistTranslation = contribution.artist.translations[0];
+    const slug = contribution.artist.slug;
+    return {
+      id: idPrefix ? `${idPrefix}-${slug}` : contribution.id,
+      slug,
+      name: artistTranslation?.name ?? "Unknown Artist",
+      bio: artistTranslation?.bio ?? undefined,
+      image: assetPathToUrl(contribution.artist.image?.path),
+      imageAlt:
+        contribution.artist.image?.alt ?? artistTranslation?.name ?? "Artist",
+    };
+  };
+
+  let relatedProjectArtists: ReturnType<typeof mapContributionToArtist>[] = [];
+  if (relatedProjects.length > 0) {
+    const relatedContributions = await Promise.all(
+      relatedProjects.map(async (proj) => {
+        const relatedWork = await getWorkBySlug(proj.slug, safeLocale);
+        return relatedWork?.contributions ?? [];
+      }),
+    );
+
+    const deduped = new Map<string, ReturnType<typeof mapContributionToArtist>>();
+    relatedContributions.flat().forEach((contribution) => {
+      const artistData = mapContributionToArtist(contribution, "related");
+      if (!deduped.has(artistData.slug)) {
+        deduped.set(artistData.slug, artistData);
+      }
+    });
+    relatedProjectArtists = Array.from(deduped.values());
+  }
 
   // Prepare artists data
-  const artists = (work.contributions ?? []).map(
-    (contribution: WorkContribution) => {
-      const artistTranslation = contribution.artist.translations[0];
-      return {
-        id: contribution.id,
-        slug: contribution.artist.slug,
-        name: artistTranslation?.name ?? "Unknown Artist",
-        bio: artistTranslation?.bio ?? undefined,
-        image: assetPathToUrl(contribution.artist.image?.path),
-        imageAlt:
-          contribution.artist.image?.alt ?? artistTranslation?.name ?? "Artist",
-      };
-    },
+  const artists = (work.contributions ?? []).map((contribution) =>
+    mapContributionToArtist(contribution),
   );
 
   // Prepare gallery data
@@ -163,6 +192,9 @@ export default async function WorkDetailPage({
       project={projectData}
       artists={artists}
       gallery={gallery}
+      relatedClips={relatedClips}
+      relatedProjects={relatedProjects}
+      relatedProjectArtists={relatedProjectArtists}
       prevWork={navPrevWork}
       nextWork={navNextWork}
       nav={{

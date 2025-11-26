@@ -4,10 +4,15 @@ import {
   getAdjacentArtists,
   getAllArtistSlugs,
   getArtistBySlug,
+  getProjetsFromPrisma,
 } from "@/lib/prismaProjetsUtils";
 import type { ArtistWithContributions } from "@/lib/prismaProjetsUtils";
 import { getDictionary } from "@/lib/dictionaries";
 import { ArtistDetailClient } from "@/components/sections/artist-detail-client";
+import {
+  buildWorkRelations,
+  toSimpleWork,
+} from "@/lib/workRelations";
 
 // Generate static params for all artist slugs
 export async function generateStaticParams() {
@@ -39,6 +44,7 @@ type ArtistWorkSummary = {
   coverImage: string;
   coverImageAlt: string;
   category: string;
+  categorySlug?: string;
 };
 
 // Helper function to transform asset path to URL
@@ -91,6 +97,10 @@ export default async function ArtisteDetailPage({
   const dictionary = await getDictionary(safeLocale);
   const copy = dictionary.artistDetail;
   const adjacentArtists = await getAdjacentArtists(slug, safeLocale);
+  const allWorks = await getProjetsFromPrisma(safeLocale);
+  const simpleWorks = allWorks.map(toSimpleWork);
+  const relations = buildWorkRelations(simpleWorks);
+  const workMap = new Map(simpleWorks.map((work) => [work.slug, work]));
 
   if (!artist) {
     notFound();
@@ -100,19 +110,87 @@ export default async function ArtisteDetailPage({
   const translation = artist.translations[0];
 
   // Transform works data
-  const works: ArtistWorkSummary[] = artist.contributions.map(
-    (contribution: ArtistWithContributions["contributions"][number]) => ({
-      id: contribution.work.id,
-      slug: contribution.work.slug,
-      title: contribution.work.translations[0]?.title ?? contribution.work.slug,
-      coverImage: assetPathToUrl(contribution.work.coverImage?.path),
-      coverImageAlt:
-        contribution.work.coverImage?.alt ??
-        contribution.work.translations[0]?.title ??
-        contribution.work.slug,
-      category: contribution.work.category?.translations[0]?.name ?? "Autres",
-    }),
+  const seenProjects = new Set<string>();
+  const seenClips = new Set<string>();
+  const projects: ArtistWorkSummary[] = [];
+  const clips: ArtistWorkSummary[] = [];
+
+  const isClipWork = (work: ArtistWorkSummary) => {
+    const slug = (work.categorySlug ?? "").toLowerCase();
+    const name = (work.category ?? "").toLowerCase();
+    return (
+      slug === "clip" ||
+      slug === "music-video" ||
+      name.includes("clip") ||
+      name.includes("music video") ||
+      name.includes("video")
+    );
+  };
+
+  const pushWork = (
+    work: ArtistWorkSummary,
+    target: ArtistWorkSummary[],
+    seen: Set<string>,
+  ) => {
+    if (seen.has(work.slug)) return;
+    seen.add(work.slug);
+    target.push(work);
+  };
+
+  artist.contributions.forEach(
+    (contribution: ArtistWithContributions["contributions"][number]) => {
+      const mapped = workMap.get(contribution.work.slug);
+      const normalized: ArtistWorkSummary = mapped
+        ? {
+            id: mapped.slug,
+            slug: mapped.slug,
+            title: mapped.title,
+            coverImage: assetPathToUrl(mapped.coverImage),
+            coverImageAlt: mapped.coverImageAlt ?? mapped.title,
+            category: mapped.category,
+            categorySlug: mapped.categorySlug,
+          }
+        : {
+            id: contribution.id,
+            slug: contribution.work.slug,
+            title:
+              contribution.work.translations[0]?.title ??
+              contribution.work.slug,
+            coverImage: assetPathToUrl(contribution.work.coverImage?.path),
+            coverImageAlt:
+              contribution.work.coverImage?.alt ??
+              contribution.work.translations[0]?.title ??
+              contribution.work.slug,
+            category:
+              contribution.work.category?.translations[0]?.name ?? "Autres",
+            categorySlug: contribution.work.category?.slug ?? "default",
+          };
+
+      const isClip = isClipWork(normalized);
+      const target = isClip ? clips : projects;
+      const seenSet = isClip ? seenClips : seenProjects;
+      pushWork(normalized, target, seenSet);
+    },
   );
+
+  projects.forEach((work) => {
+    const relatedClips = relations.projectToClips[work.slug] ?? [];
+    relatedClips.forEach((clip) => {
+      pushWork(
+        {
+          id: clip.slug,
+          slug: clip.slug,
+          title: clip.title,
+          coverImage: assetPathToUrl(clip.coverImage),
+          coverImageAlt: clip.coverImageAlt ?? clip.title,
+          category: clip.category,
+          categorySlug: clip.categorySlug ?? "clip",
+        },
+        clips,
+        seenClips,
+      );
+    });
+  });
 
   // Build social links from ArtistLink table
   const socialLinks =
@@ -134,7 +212,8 @@ export default async function ArtisteDetailPage({
     <ArtistDetailClient
       locale={safeLocale}
       artist={artistData}
-      works={works}
+      projects={projects}
+      clips={clips}
       socialLinks={socialLinks}
       previousArtist={adjacentArtists.previous}
       nextArtist={adjacentArtists.next}
