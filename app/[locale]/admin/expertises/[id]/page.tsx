@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { ExpertiseForm } from "@/components/admin/expertises/expertise-form";
+import { import { ExpertiseFormAdvanced } from "@/components/admin/expertises/expertise-form-advanced"; } from "@/components/admin/expertises/expertise-form";
 import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
 
@@ -121,7 +121,7 @@ export default function EditExpertisePage() {
         </p>
       </div>
 
-      <ExpertiseForm locale={locale} initialData={formData} isEdit />
+      <ExpertiseFormAdvanced locale={locale} initialData={formData} isEdit />
     </div>
   );
 }

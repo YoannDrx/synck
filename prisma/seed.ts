@@ -678,19 +678,20 @@ async function seedExpertises() {
     for (const key of Object.keys(frontmatter)) {
       if (key.startsWith("img")) {
         const imgValue = frontmatter[key];
-        const imgPath = normalizeImagePath(
-          typeof imgValue === "string" ? imgValue : null,
-        );
-        if (imgPath && imageExists(imgPath)) {
-          const asset = await createAsset(imgPath);
-          if (asset) {
-            // imgHome devient le coverImage
-            if (key === "imgHome") {
-              coverImageId = asset.id;
-            } else {
-              imageAssets.push(asset.id);
+        // Ensure we don't try to process empty strings
+        if (typeof imgValue === "string" && imgValue.trim() !== "") {
+            const imgPath = normalizeImagePath(imgValue);
+            if (imgPath && imageExists(imgPath)) {
+              const asset = await createAsset(imgPath);
+              if (asset) {
+                // imgHome devient le coverImage
+                if (key === "imgHome") {
+                  coverImageId = asset.id;
+                } else {
+                  imageAssets.push(asset.id);
+                }
+              }
             }
-          }
         }
       }
     }
@@ -710,6 +711,10 @@ async function seedExpertises() {
       : descriptionFr;
     const orderId = parseInt(getFrontmatterString(frontmatter, "id", "0")) || 0;
 
+    // Reconstruire le contenu complet avec frontmatter pour le stocker en DB
+    const fullContentFr = matter.stringify(contentFr.join("\n<!-- section:end -->\n"), frontmatter);
+    const fullContentEn = matter.stringify(contentEn.join("\n<!-- section:end -->\n"), expertiseEn?.frontmatter || {});
+
     await prisma.expertise.upsert({
       where: { slug },
       create: {
@@ -726,13 +731,13 @@ async function seedExpertises() {
               locale: "fr",
               title: titleFr,
               description: descriptionFr,
-              content: contentFr.join("\n<!-- section:end -->\n"),
+              content: fullContentFr,
             },
             {
               locale: "en",
               title: titleEn,
               description: descriptionEn,
-              content: contentEn.join("\n<!-- section:end -->\n"),
+              content: fullContentEn,
             },
           ],
         },
@@ -751,13 +756,13 @@ async function seedExpertises() {
               locale: "fr",
               title: titleFr,
               description: descriptionFr,
-              content: contentFr.join("\n<!-- section:end -->\n"),
+              content: fullContentFr,
             },
             {
               locale: "en",
               title: titleEn,
               description: descriptionEn,
-              content: contentEn.join("\n<!-- section:end -->\n"),
+              content: fullContentEn,
             },
           ],
         },
@@ -850,8 +855,8 @@ async function main() {
 
     await seedCategories();
     await seedLabels();
-    await seedArtists();
-    await seedWorks();
+    // await seedArtists();
+    // await seedWorks();
     await seedExpertises();
     await seedAdminUser();
 

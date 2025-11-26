@@ -527,3 +527,13 @@ body {
 [data-theme="light"] :focus-visible {
   outline-color: var(--neon-600);
 }
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}

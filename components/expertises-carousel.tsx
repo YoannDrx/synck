@@ -58,7 +58,7 @@ export function ExpertisesCarousel({
   const canGoNext = currentIndex < maxIndex;
 
   return (
-    <div className="mt-20 border-4 border-white/10 bg-[#0a0a0e] p-8 md:p-12 shadow-[0_25px_60px_rgba(0,0,0,0.65)]">
+    <div className="mt-20 border-4 border-white/10 bg-[#0a0a0e] p-8 md:p-12 shadow-[0_25px_60px_rgba(0,0,0,0.65)] rounded-[32px]">
       {/* Header */}
       <div className="mb-8 md:mb-12">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-white mb-4">
@@ -137,14 +137,22 @@ export function ExpertisesCarousel({
                 >
                   {/* Image */}
                   <div className="relative aspect-[4/3] overflow-hidden flex-shrink-0">
-                    <Image
-                      src={expertise.imgHome}
-                      alt={expertise.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    {expertise.imgHome ? (
+                      <>
+                        <Image
+                          src={expertise.imgHome}
+                          alt={expertise.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </>
+                    ) : (
+                      <div className="w-full h-full bg-neutral-800 flex items-center justify-center text-neutral-500">
+                        No Image
+                      </div>
+                    )}
                   </div>
 
                   {/* Content */}

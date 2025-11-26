@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export type ParallaxSectionProps = {
@@ -48,21 +48,7 @@ export function ParallaxSection({
   accentColor = "lime",
 }: ParallaxSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-
-  // Parallax effect for image
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  // Parallax transforms
-  const imageY = useTransform(scrollYProgress, [0, 1], [60, -60]);
-  const imageScale = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    [0.95, 1.02, 0.95],
-  );
+  const isInView = useInView(sectionRef, { once: true, margin: "-50px" });
 
   // Determine actual position
   const position =
@@ -77,144 +63,107 @@ export function ParallaxSection({
 
   // Animation variants
   const contentVariants = {
-    hidden: {
-      opacity: 0,
-      x: isImageLeft ? 30 : -30,
-    },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
-      x: 0,
+      y: 0,
       transition: {
-        duration: 0.6,
-        delay: 0.2,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  } as const;
-
-  const imageVariants = {
-    hidden: {
-      opacity: 0,
-      x: isImageLeft ? -50 : 50,
-    },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.7,
+        duration: 0.5,
         ease: [0.22, 1, 0.36, 1],
       },
     },
   } as const;
 
   return (
-    <motion.section
+    <motion.div
       ref={sectionRef}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      className={cn("relative", isLast ? "" : "mb-16 md:mb-20 lg:mb-24")}
+      variants={contentVariants}
+      className={cn(
+        "clearfix relative mb-8 rounded-[24px] border border-white/5 bg-white/[0.02] p-6 sm:p-8",
+        isLast ? "" : "mb-8",
+      )}
     >
-      <div
-        className={cn(
-          "flex flex-col gap-8",
-          image && "lg:flex-row lg:items-start lg:gap-12",
-          isImageLeft && image && "lg:flex-row-reverse",
-        )}
-      >
-        {/* Content */}
-        <motion.div
-          variants={contentVariants}
-          className={cn("flex-1", image && "lg:max-w-[55%]")}
+      {/* Floating Image */}
+      {image && (
+        <div
+          className={cn(
+            "mb-6 w-full sm:w-[40%] lg:w-[35%]",
+            isImageLeft
+              ? "sm:float-left sm:mr-8 lg:mr-10"
+              : "sm:float-right sm:ml-8 lg:ml-10",
+          )}
         >
-          <div className="prose prose-invert max-w-none">
-            <ReactMarkdown
-              components={{
-                h3: ({ children }) => (
-                  <h3 className="mb-6 text-2xl font-bold uppercase tracking-tight text-white md:text-3xl lg:text-4xl">
-                    {children}
-                  </h3>
-                ),
-                h4: ({ children }) => (
-                  <h4
-                    className={cn(
-                      "mb-4 text-xl font-bold uppercase md:text-2xl",
-                      colors.heading,
-                    )}
-                  >
-                    {children}
-                  </h4>
-                ),
-                p: ({ children }) => (
-                  <p className="mb-6 text-base leading-relaxed text-gray-300 md:text-lg">
-                    {children}
-                  </p>
-                ),
-                ul: ({ children }) => (
-                  <ul className="mb-6 list-none space-y-3">{children}</ul>
-                ),
-                li: ({ children }) => (
-                  <li className="flex items-start gap-3 text-base text-gray-300 md:text-lg">
-                    <span className={cn("shrink-0 font-bold", colors.bullet)}>
-                      &rarr;
-                    </span>
-                    <span className="flex-1">{children}</span>
-                  </li>
-                ),
-                strong: ({ children }) => (
-                  <strong className="font-bold text-white">{children}</strong>
-                ),
-                blockquote: ({ children }) => (
-                  <blockquote className="my-6 flex items-start gap-4">
-                    <span
-                      className={cn(
-                        "w-1 shrink-0 self-stretch",
-                        colors.blockquote,
-                      )}
-                    />
-                    <span className="flex-1 italic text-gray-400">
-                      {children}
-                    </span>
-                  </blockquote>
-                ),
-              }}
-            >
-              {content}
-            </ReactMarkdown>
+          <div className="relative overflow-hidden rounded-[16px] border-2 border-white/10 shadow-lg">
+            <Image
+              src={image}
+              alt="Illustration"
+              width={500}
+              height={375}
+              className="h-auto w-full object-cover"
+              sizes="(max-width: 1024px) 100vw, 35vw"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/30 to-transparent" />
           </div>
-        </motion.div>
+        </div>
+      )}
 
-        {/* Parallax Image */}
-        {image && (
-          <motion.div
-            variants={imageVariants}
-            className="relative lg:w-[40%] lg:sticky lg:top-32"
-          >
-            <motion.div
-              style={{
-                y: imageY,
-                scale: imageScale,
-              }}
-              className="relative overflow-hidden rounded-[20px] border-4 border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.5)]"
-            >
-              <Image
-                src={image}
-                alt="Illustration"
-                width={600}
-                height={450}
-                className="h-auto w-full object-cover"
-                sizes="(max-width: 1024px) 100vw, 40vw"
-              />
-
-              {/* Gradient overlay */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/30 to-transparent" />
-            </motion.div>
-
-            {/* Glow effect */}
-            <div className="pointer-events-none absolute -inset-4 -z-10 rounded-[28px] bg-[#d5ff0a]/5 blur-2xl" />
-          </motion.div>
-        )}
+      {/* Content */}
+      <div className="prose prose-invert max-w-none">
+        <ReactMarkdown
+          components={{
+            h3: ({ children }) => (
+              <h3 className="mb-6 text-2xl font-bold uppercase tracking-tight text-white md:text-3xl">
+                {children}
+              </h3>
+            ),
+            h4: ({ children }) => (
+              <h4
+                className={cn(
+                  "mb-4 text-xl font-bold uppercase",
+                  colors.heading,
+                )}
+              >
+                {children}
+              </h4>
+            ),
+            p: ({ children }) => (
+              <p className="mb-4 text-base leading-relaxed text-gray-300/90">
+                {children}
+              </p>
+            ),
+            ul: ({ children }) => (
+              <ul className="mb-6 list-none space-y-2 pl-2">{children}</ul>
+            ),
+            li: ({ children }) => (
+              <li className="flex items-start gap-3 text-base text-gray-300/90">
+                <span className={cn("mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-60", colors.bullet)} />
+                <span className="flex-1">{children}</span>
+              </li>
+            ),
+            strong: ({ children }) => (
+              <strong className="font-bold text-white">{children}</strong>
+            ),
+            blockquote: ({ children }) => (
+              <blockquote className="my-6 flex items-start gap-4 border-l-2 border-white/10 bg-white/5 p-4 rounded-r-lg">
+                <span
+                  className={cn(
+                    "w-1 shrink-0 self-stretch rounded-full",
+                    colors.blockquote,
+                  )}
+                />
+                <span className="flex-1 italic text-gray-400">
+                  {children}
+                </span>
+              </blockquote>
+            ),
+          }}
+        >
+          {content}
+        </ReactMarkdown>
       </div>
-    </motion.section>
+    </motion.div>
   );
 }
 
@@ -231,33 +180,33 @@ export function ContentSection({
   accentColor?: "lime" | "cyan" | "purple" | "orange";
 }) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-50px" });
   const colors = accentColors[accentColor];
 
   return (
-    <motion.section
+    <motion.div
       ref={sectionRef}
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{
-        duration: 0.6,
+        duration: 0.5,
         delay: index * 0.1,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={cn("relative", isLast ? "" : "mb-16 md:mb-20 lg:mb-24")}
+      className={cn("relative mb-8 rounded-[24px] border border-white/5 bg-white/[0.02] p-6 sm:p-8", isLast ? "" : "mb-8")}
     >
       <div className="prose prose-invert max-w-none">
         <ReactMarkdown
           components={{
             h3: ({ children }) => (
-              <h3 className="mb-6 text-2xl font-bold uppercase tracking-tight text-white md:text-3xl lg:text-4xl">
+              <h3 className="mb-6 text-2xl font-bold uppercase tracking-tight text-white md:text-3xl">
                 {children}
               </h3>
             ),
             h4: ({ children }) => (
               <h4
                 className={cn(
-                  "mb-4 text-xl font-bold uppercase md:text-2xl",
+                  "mb-4 text-xl font-bold uppercase",
                   colors.heading,
                 )}
               >
@@ -265,18 +214,16 @@ export function ContentSection({
               </h4>
             ),
             p: ({ children }) => (
-              <p className="mb-6 text-base leading-relaxed text-gray-300 md:text-lg">
+              <p className="mb-4 text-base leading-relaxed text-gray-300/90">
                 {children}
               </p>
             ),
             ul: ({ children }) => (
-              <ul className="mb-6 list-none space-y-3">{children}</ul>
+              <ul className="mb-6 list-none space-y-2 pl-2">{children}</ul>
             ),
             li: ({ children }) => (
-              <li className="flex items-start gap-3 text-base text-gray-300 md:text-lg">
-                <span className={cn("shrink-0 font-bold", colors.bullet)}>
-                  &rarr;
-                </span>
+              <li className="flex items-start gap-3 text-base text-gray-300/90">
+                <span className={cn("mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-60", colors.bullet)} />
                 <span className="flex-1">{children}</span>
               </li>
             ),
@@ -284,9 +231,12 @@ export function ContentSection({
               <strong className="font-bold text-white">{children}</strong>
             ),
             blockquote: ({ children }) => (
-              <blockquote className="my-6 flex items-start gap-4">
+              <blockquote className="my-6 flex items-start gap-4 border-l-2 border-white/10 bg-white/5 p-4 rounded-r-lg">
                 <span
-                  className={cn("w-1 shrink-0 self-stretch", colors.blockquote)}
+                  className={cn(
+                    "w-1 shrink-0 self-stretch rounded-full",
+                    colors.blockquote,
+                  )}
                 />
                 <span className="flex-1 italic text-gray-400">{children}</span>
               </blockquote>
@@ -296,6 +246,6 @@ export function ContentSection({
           {content}
         </ReactMarkdown>
       </div>
-    </motion.section>
+    </motion.div>
   );
 }

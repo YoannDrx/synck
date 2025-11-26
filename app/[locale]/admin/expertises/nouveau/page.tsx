@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { ExpertiseForm } from "@/components/admin/expertises/expertise-form";
+import { ExpertiseFormAdvanced } from "@/components/admin/expertises/expertise-form-advanced";
 
 export default function NewExpertisePage() {
   const params = useParams();
@@ -14,7 +14,7 @@ export default function NewExpertisePage() {
         <p className="text-white/70">Créer une nouvelle page d'expertise</p>
       </div>
 
-      <ExpertiseForm locale={locale} />
+      <ExpertiseFormAdvanced locale={locale} />
     </div>
   );
 }
