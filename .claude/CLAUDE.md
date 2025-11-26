@@ -11,6 +11,7 @@ Portfolio professionnel multilingue (FR/EN) pour Caroline Senyk, gestionnaire de
 ### Développement
 ```bash
 pnpm dev              # Serveur développement (http://localhost:3000)
+pnpm dev:fresh        # Reset DB + lance serveur (données fraîches)
 pnpm build            # Build production
 pnpm start            # Serveur production
 pnpm lint             # ESLint
@@ -18,37 +19,56 @@ pnpm lint             # ESLint
 
 ### Base de données (Prisma)
 
-**Development** (utilise `.env.local` → Neon dev branch) :
+**Commandes principales** (utilise `.env.local` → Neon dev branch) :
 ```bash
-pnpm db:reset         # Reset sans seed
+pnpm db:setup         # Reset + seed (alias de db:reset:seed) - LE PLUS UTILISÉ
+pnpm db:clear         # Reset sans seed (alias de db:reset)
 pnpm db:seed          # Seed uniquement
-pnpm db:reset:seed    # Reset + seed (le plus utilisé)
+pnpm db:view          # Interface Prisma Studio (alias de db:studio)
+pnpm db:status        # État des migrations
 ```
 
-**Production** (utilise `.env` uniquement) :
+**Migrations** :
 ```bash
-pnpm db:seed:prod     # Seed production
-pnpm db:reset:prod    # Reset production (danger!)
-pnpm db:migrate:prod  # Appliquer migrations en prod
-```
-
-**Autres** :
-```bash
-pnpm db:migrate       # Créer et appliquer migration
+pnpm db:migrate       # Créer et appliquer migration (après modif schema.prisma)
+pnpm db:check         # Vérifier schema drift (avant commit)
 pnpm db:generate      # Générer Prisma Client
-pnpm db:studio        # Interface Prisma Studio
-pnpm db:migrate:check # Vérifier état migrations (CI)
+```
+
+**PostgreSQL local** (optionnel - plus rapide, hors-ligne) :
+```bash
+pnpm db:local:setup   # Crée la DB locale + reset + seed (tout en un)
+```
+
+Pour switcher entre local et Neon, modifie simplement ces 2 lignes dans `.env.local` :
+```bash
+# Neon DEV (par défaut)
+DATABASE_URL="postgresql://...@ep-royal-breeze-xxx.neon.tech/..."
+DIRECT_URL="postgresql://...@ep-royal-breeze-xxx.neon.tech/..."
+
+# OU PostgreSQL local
+DATABASE_URL="postgresql://localhost:5432/synck"
+DIRECT_URL="postgresql://localhost:5432/synck"
+```
+
+**Production** (utilise `.env` uniquement - ⚠️ ATTENTION !) :
+```bash
+pnpm db:seed:prod     # Seed production (Vercel le fait auto)
+pnpm db:migrate:prod  # Appliquer migrations en prod (Vercel le fait auto)
+pnpm db:reset:prod    # Reset production (DANGER - perte de données!)
 ```
 
 ### Tests (Playwright)
 ```bash
-pnpm test             # Tous les tests E2E
+pnpm test             # Tests E2E (serveur doit tourner!)
+pnpm test:full        # Lance serveur + tests automatiquement
+pnpm test:fresh       # Reset DB + serveur + tests
+pnpm test:headed      # Tests visibles dans navigateur
 pnpm test:ui          # Interface UI Playwright
-pnpm test:headed      # Mode headed (navigateur visible)
 pnpm test:debug       # Mode debug
 ```
 
-**Note importante** : Les tests E2E s'exécutent sur `http://localhost:3000`. Le serveur Next.js doit être démarré avant de lancer les tests.
+**Note importante** : `pnpm test` nécessite que le serveur Next.js tourne. Utilisez `pnpm test:full` pour lancer les deux automatiquement.
 
 ## Architecture
 
