@@ -2,14 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState, useMemo } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion, useInView } from "framer-motion";
 
 import { Breadcrumb } from "@/components/breadcrumb";
+import { GalleryShell } from "@/components/galleries/gallery-shell";
 import { PageLayout } from "@/components/layout/page-layout";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/lib/i18n-config";
 import type { GalleryComposer } from "@/lib/prismaProjetsUtils";
+import type { ComposersPageDictionary } from "@/types/dictionary";
 
 type ComposersPageClientProps = {
   locale: Locale;
@@ -18,16 +21,7 @@ type ComposersPageClientProps = {
     home: string;
     composers: string;
   };
-  copy: {
-    description: string;
-    worksPlural: string;
-    worksSingular: string;
-    statsArtists: string;
-    statsProjects: string;
-    ctaTitle: string;
-    ctaDescription: string;
-    ctaButton: string;
-  };
+  copy: ComposersPageDictionary;
 };
 
 /** Accent color for artist cards - Neon lime */
@@ -150,11 +144,67 @@ export function CompositeursPageClient({
   nav,
   copy,
 }: ComposersPageClientProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
+  // State for search and sort
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [sortBy, setSortBy] = useState<"date" | "title">(
+    (searchParams.get("sortBy") as "date" | "title") ?? "title",
+  );
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">(
+    (searchParams.get("sortOrder") as "asc" | "desc") ?? "asc",
+  );
+
   // Calculate total works
   const totalWorks = composers.reduce((sum, c) => sum + c.worksCount, 0);
+
+  // Handle sort change with URL update
+  const handleSortChange = (newSortBy?: string, newSortOrder?: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (newSortBy) {
+      setSortBy(newSortBy as "date" | "title");
+      params.set("sortBy", newSortBy);
+    }
+    if (newSortOrder) {
+      setSortOrder(newSortOrder as "asc" | "desc");
+      params.set("sortOrder", newSortOrder);
+    }
+
+    const newUrl = `/${locale}/compositeurs?${params.toString()}`;
+    router.push(newUrl, { scroll: false });
+  };
+
+  // Get toggle options based on current sortBy
+  const getToggleOptions = (): [string, string] => {
+    if (sortBy === "title") {
+      return [copy.sortOrderTitleAsc, copy.sortOrderTitleDesc];
+    } else {
+      return [copy.sortOrderDateAsc, copy.sortOrderDateDesc];
+    }
+  };
+
+  // Filter and sort composers
+  const filteredComposers = useMemo(() => {
+    return composers
+      .filter((composer) =>
+        composer.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
+      .sort((a, b) => {
+        let comparison = 0;
+        if (sortBy === "date") {
+          // Sort by works count
+          comparison = a.worksCount - b.worksCount;
+        } else {
+          // Sort by name
+          comparison = a.name.localeCompare(b.name, locale);
+        }
+        return sortOrder === "asc" ? comparison : -comparison;
+      });
+  }, [composers, searchQuery, sortBy, sortOrder, locale]);
 
   return (
     <PageLayout orbsConfig="subtle" className="mx-auto max-w-[1600px]">
@@ -165,58 +215,83 @@ export function CompositeursPageClient({
         ]}
       />
 
-      {/* Main Bento Container */}
-      <motion.section
-        ref={sectionRef}
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="rounded-[32px] border-4 border-white/10 bg-[#0a0a0f]/90 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.5)] backdrop-blur-sm sm:p-6 lg:p-8"
+      <GalleryShell
+        title={nav.composers}
+        description={copy.description}
+        titleVariant="large"
+        highlightColor="#d5ff0a"
+        containerRef={sectionRef}
+        isInView={isInView}
+        stats={[
+          { value: composers.length, label: copy.statsArtists },
+          {
+            value: totalWorks,
+            label: copy.statsProjects,
+            valueClassName: "text-[#d5ff0a]",
+          },
+        ]}
+        search={{
+          value: searchQuery,
+          onChange: (value) => {
+            setSearchQuery(value);
+          },
+          onClear: () => {
+            setSearchQuery("");
+          },
+          placeholder: copy.searchPlaceholder,
+          inputAccentClassName: "focus:border-[#d5ff0a]/50",
+          clearButtonAccentClassName: "hover:text-[#d5ff0a]",
+          inputTestId: "composers-search",
+        }}
+        sort={{
+          sortBy,
+          sortByOptions: [
+            { value: "title", label: copy.sortByTitle },
+            { value: "date", label: copy.sortByDate },
+          ],
+          onSortByChange: (value) => {
+            handleSortChange(value, undefined);
+          },
+          sortOrder,
+          sortOrderLabels: getToggleOptions(),
+          onSortOrderChange: (value) => {
+            handleSortChange(undefined, value);
+          },
+        }}
+        hasItems={filteredComposers.length > 0}
+        emptyContent={
+          <p className="text-white/40">
+            {searchQuery ? copy.noResults : copy.empty}
+          </p>
+        }
+        afterContent={
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-8 rounded-[24px] border-2 border-[#d5ff0a]/40 bg-gradient-to-br from-[#d5ff0a]/10 via-[#9eff00]/5 to-transparent p-6 sm:p-8"
+          >
+            <div className="flex flex-col items-center gap-4 text-center lg:flex-row lg:justify-between lg:text-left">
+              <div>
+                <h2 className="mb-2 text-xl font-bold text-white sm:text-2xl">
+                  {copy.ctaTitle}
+                </h2>
+                <p className="text-sm text-white/60">{copy.ctaDescription}</p>
+              </div>
+              <Link
+                href={`/${locale}/contact`}
+                className="inline-flex items-center gap-2 rounded-full border-2 border-[#d5ff0a] bg-[#d5ff0a] px-6 py-3 text-sm font-bold uppercase tracking-wider text-[#050505] transition-all hover:bg-transparent hover:text-[#d5ff0a]"
+              >
+                {copy.ctaButton}
+                <span>→</span>
+              </Link>
+            </div>
+          </motion.div>
+        }
       >
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between"
-        >
-          <div>
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-              <span className="text-[#d5ff0a]">{nav.composers.charAt(0)}</span>
-              {nav.composers.slice(1)}
-            </h1>
-            <p className="mt-3 max-w-2xl text-base text-white/50">
-              {copy.description}
-            </p>
-          </div>
-
-          {/* Stats */}
-          <div className="flex gap-8">
-            <div className="text-right">
-              <p className="text-3xl font-black text-white">
-                {composers.length}
-              </p>
-              <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
-                {copy.statsArtists}
-              </p>
-            </div>
-            <div className="text-right">
-              <p className="text-3xl font-black text-[#d5ff0a]">{totalWorks}</p>
-              <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
-                {copy.statsProjects}
-              </p>
-            </div>
-          </div>
-        </motion.div>
-
         {/* Artists Grid */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="grid gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
-        >
-          {composers.map((composer, index) => (
+        <div className="grid gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          {filteredComposers.map((composer, index) => (
             <ArtistCard
               key={composer.id}
               composer={composer}
@@ -225,32 +300,8 @@ export function CompositeursPageClient({
               copy={copy}
             />
           ))}
-        </motion.div>
-
-        {/* CTA Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-8 rounded-[24px] border-2 border-[#d5ff0a]/40 bg-gradient-to-br from-[#d5ff0a]/10 via-[#9eff00]/5 to-transparent p-6 sm:p-8"
-        >
-          <div className="flex flex-col items-center gap-4 text-center lg:flex-row lg:justify-between lg:text-left">
-            <div>
-              <h2 className="mb-2 text-xl font-bold text-white sm:text-2xl">
-                {copy.ctaTitle}
-              </h2>
-              <p className="text-sm text-white/60">{copy.ctaDescription}</p>
-            </div>
-            <Link
-              href={`/${locale}/contact`}
-              className="inline-flex items-center gap-2 rounded-full border-2 border-[#d5ff0a] bg-[#d5ff0a] px-6 py-3 text-sm font-bold uppercase tracking-wider text-[#050505] transition-all hover:bg-transparent hover:text-[#d5ff0a]"
-            >
-              {copy.ctaButton}
-              <span>→</span>
-            </Link>
-          </div>
-        </motion.div>
-      </motion.section>
+        </div>
+      </GalleryShell>
     </PageLayout>
   );
 }

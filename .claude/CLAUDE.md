@@ -17,12 +17,27 @@ pnpm lint             # ESLint
 ```
 
 ### Base de données (Prisma)
+
+**Development** (utilise `.env.local` → Neon dev branch) :
+```bash
+pnpm db:reset         # Reset sans seed
+pnpm db:seed          # Seed uniquement
+pnpm db:reset:seed    # Reset + seed (le plus utilisé)
+```
+
+**Production** (utilise `.env` uniquement) :
+```bash
+pnpm db:seed:prod     # Seed production
+pnpm db:reset:prod    # Reset production (danger!)
+pnpm db:migrate:prod  # Appliquer migrations en prod
+```
+
+**Autres** :
 ```bash
 pnpm db:migrate       # Créer et appliquer migration
 pnpm db:generate      # Générer Prisma Client
 pnpm db:studio        # Interface Prisma Studio
-pnpm db:seed          # Seeder la base avec données initiales
-pnpm db:migrate:check # Vérifier état migrations (utilisé en CI)
+pnpm db:migrate:check # Vérifier état migrations (CI)
 ```
 
 ### Tests (Playwright)
@@ -330,20 +345,27 @@ test('should display works gallery', async ({ page }) => {
 
 ### Variables d'environnement
 
+**3 environnements** :
+| Environnement | Base de données | Config | Usage |
+|---------------|-----------------|--------|-------|
+| **Development** | Neon dev branch | `.env.local` | `pnpm dev`, `pnpm db:seed` |
+| **CI** | PostgreSQL Docker | Variables GitHub | Tests E2E |
+| **Production** | Neon main branch | Secrets Vercel | Déploiement |
+
+**Variables requises** :
 ```bash
-# Base de données (Neon PostgreSQL)
 DATABASE_URL="postgresql://..."        # Connection pooling
 DIRECT_URL="postgresql://..."          # Direct connection (migrations)
-
-# Site
-NEXT_PUBLIC_SITE_URL="https://carolinesenyk.fr"
-
-# Email (Resend)
-RESEND_API_KEY="re_..."
-
-# Stockage images (optionnel, local en dev)
-BLOB_READ_WRITE_TOKEN="vercel_blob_..."
+NEXT_PUBLIC_SITE_URL="https://..."     # URL du site
+RESEND_API_KEY="re_..."                # Email (Resend)
+BLOB_READ_WRITE_TOKEN="vercel_blob_..." # Stockage images (optionnel)
+BETTER_AUTH_SECRET="..."               # Authentification
 ```
+
+**Fichiers** :
+- `.env.local` : Development (gitignored) → Neon dev branch
+- `.env` : Production → Neon main branch
+- `.env.example` : Template avec instructions
 
 ### Conventions de code
 

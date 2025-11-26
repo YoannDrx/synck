@@ -1,46 +1,22 @@
 /**
- * Seed development database (uses .env.local)
+ * Seed DEVELOPMENT database (no reset)
+ * Uses .env.local (Neon dev branch)
  */
 
-import { config } from "dotenv";
-import { resolve } from "path";
-import { execSync } from "child_process";
+import { log, loadEnv, validateEnv, runPrismaSeed, runScript } from "./utils";
 
-console.log("\n🌱 Seeding DEVELOPMENT database...");
-console.log("📄 Using: .env.local (local development)\n");
+runScript("seed-dev", () => {
+  log.header("Seed DEVELOPMENT Database");
 
-// Load .env.local first (dev environment)
-const result = config({ path: resolve(process.cwd(), ".env.local") });
+  // Step 1: Load environment
+  log.step(1, 2, "Loading environment...");
+  loadEnv("development");
+  validateEnv();
+  log.db(process.env.DATABASE_URL!);
+  log.separator();
 
-if (result.error) {
-  console.error("❌ Error loading .env.local:", result.error.message);
-  console.log("⚠️  Falling back to .env");
-  config({ path: resolve(process.cwd(), ".env") });
-}
-
-// Verify required variables
-if (!process.env.DATABASE_URL || !process.env.DIRECT_URL) {
-  console.error("❌ Missing DATABASE_URL or DIRECT_URL");
-  process.exit(1);
-}
-
-console.log(`✅ Environment loaded: development`);
-console.log(
-  `📊 DATABASE_URL: ${process.env.DATABASE_URL?.substring(0, 50)}...`,
-);
-console.log(`📊 DIRECT_URL: ${process.env.DIRECT_URL?.substring(0, 50)}...\n`);
-
-// Run seed
-try {
-  console.log("🌱 Seeding database...\n");
-
-  execSync("node scripts/run-ts.cjs prisma/seed.ts", {
-    stdio: "inherit",
-    env: process.env,
-  });
-
-  console.log("\n✅ Development seed completed! 🎉\n");
-} catch (error) {
-  console.error("\n❌ Development seed failed\n");
-  process.exit(1);
-}
+  // Step 2: Seed database
+  log.step(2, 2, "Seeding database...");
+  runPrismaSeed();
+  log.success("Development database seeded!");
+});

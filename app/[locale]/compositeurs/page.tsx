@@ -24,16 +24,7 @@ export default async function ComposeursPage({ params }: ComposersPageParams) {
         home: dictionary.nav.home,
         composers: dictionary.nav.composers,
       }}
-      copy={{
-        description: copy.description,
-        worksPlural: copy.worksPlural,
-        worksSingular: copy.worksSingular,
-        statsArtists: copy.statsArtists,
-        statsProjects: copy.statsProjects,
-        ctaTitle: copy.ctaTitle,
-        ctaDescription: copy.ctaDescription,
-        ctaButton: copy.ctaButton,
-      }}
+      copy={copy}
     />
   );
 }

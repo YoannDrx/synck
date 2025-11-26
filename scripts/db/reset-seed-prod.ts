@@ -1,54 +1,43 @@
 /**
- * Reset + seed production database (ignores .env.local)
- * Uses only .env → production branch
+ * Reset + seed PRODUCTION database
+ * Uses .env only (ignores .env.local)
+ * DANGER: This will delete all production data!
  */
 
-import { config } from "dotenv";
-import { resolve } from "path";
-import { execSync } from "child_process";
+import {
+  log,
+  loadEnv,
+  validateEnv,
+  runPrismaReset,
+  runPrismaSeed,
+  runScript,
+} from "./utils";
 
-console.log("\n⚠️  Resetting PRODUCTION database...");
-console.log("📄 Using: .env (ignoring .env.local)\n");
+runScript("reset-seed-prod", () => {
+  log.header("Reset + Seed PRODUCTION Database");
+  log.warning("DANGER: This will DELETE ALL PRODUCTION DATA!");
+  log.separator();
 
-// Load ONLY .env (ignore .env.local)
-const result = config({ path: resolve(process.cwd(), ".env") });
+  // Step 1: Load environment
+  log.step(1, 4, "Loading environment...");
+  loadEnv("production");
+  validateEnv();
+  log.db(process.env.DATABASE_URL!);
+  log.separator();
 
-if (result.error) {
-  console.error("❌ Error loading .env:", result.error.message);
-  process.exit(1);
-}
+  // Step 2: Reset database
+  log.step(2, 4, "Resetting database...");
+  runPrismaReset();
+  log.success("Database reset complete");
+  log.separator();
 
-// Verify required variables
-if (!process.env.DATABASE_URL || !process.env.DIRECT_URL) {
-  console.error("❌ Missing DATABASE_URL or DIRECT_URL in .env");
-  process.exit(1);
-}
+  // Step 3: Seed database
+  log.step(3, 4, "Seeding database...");
+  runPrismaSeed();
+  log.success("Database seeded");
+  log.separator();
 
-console.log(`✅ Environment loaded: production`);
-console.log(`📊 DATABASE_URL: ${process.env.DATABASE_URL?.substring(0, 50)}...`);
-console.log(`📊 DIRECT_URL: ${process.env.DIRECT_URL?.substring(0, 50)}...\n`);
-
-// Run reset + seed
-try {
-  console.log("🔄 Resetting database...\n");
-
-  execSync("prisma migrate reset --force --skip-seed", {
-    stdio: "inherit",
-    env: {
-      ...process.env,
-      PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION: "ok",
-    },
-  });
-
-  console.log("\n🌱 Seeding database...\n");
-
-  execSync("node scripts/run-ts.cjs prisma/seed.ts", {
-    stdio: "inherit",
-    env: process.env,
-  });
-
-  console.log("\n✅ Production reset + seed completed! 🎉\n");
-} catch (error) {
-  console.error("\n❌ Production reset + seed failed\n");
-  process.exit(1);
-}
+  // Step 4: Done
+  log.step(4, 4, "Complete!");
+  log.success("Production database ready!");
+});

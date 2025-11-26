@@ -26,7 +26,7 @@ type GalleryShellProps = {
   };
   sort: {
     sortBy: "date" | "title";
-    sortByOptions: SortOption[];
+    sortByOptions: [SortOption, SortOption];
     onSortByChange: (value: "date" | "title") => void;
     sortOrder: "asc" | "desc";
     sortOrderLabels: [string, string];
@@ -95,7 +95,7 @@ export function GalleryShell({
 
         <div className="flex gap-8">
           {stats.map((stat, index) => (
-            <Fragment key={`${stat.label}-${index}`}>
+            <Fragment key={`${stat.label}-${String(index)}`}>
               {index > 0 && <div className="h-12 w-px bg-white/10" />}
               <div className="text-right">
                 <p

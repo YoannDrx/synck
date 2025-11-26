@@ -212,6 +212,16 @@ export type ComposersPageDictionary = {
   worksPlural: string;
   statsArtists: string;
   statsProjects: string;
+  searchPlaceholder: string;
+  sortByDate: string;
+  sortByTitle: string;
+  sortOrderTitleAsc: string;
+  sortOrderTitleDesc: string;
+  sortOrderDateAsc: string;
+  sortOrderDateDesc: string;
+  loading: string;
+  empty: string;
+  noResults: string;
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
