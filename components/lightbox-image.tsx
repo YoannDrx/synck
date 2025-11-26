@@ -12,7 +12,7 @@ type LightboxImageProps = {
   width?: number;
   height?: number;
   radius?: string;
-}
+};
 
 export function LightboxImage({
   src,
@@ -59,7 +59,9 @@ export function LightboxImage({
         >
           <div
             className="relative max-h-[90vh] max-w-[90vw] w-full md:w-auto rounded-[24px] border border-white/10 bg-[#0b0b0f]/80 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.6)]"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
           >
             <button
               type="button"

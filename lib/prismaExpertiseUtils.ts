@@ -163,6 +163,44 @@ function parseExpertiseMetadataFromContent(content: string): {
     // Use gray-matter to parse the frontmatter
     const { data } = matter(content);
 
+    // Type for raw frontmatter data from gray-matter
+    type RawLabel = { name: string; src: string; href?: string };
+    type RawDocumentaire = {
+      title: string;
+      subtitle: string;
+      href: string;
+      src: string;
+      srcLg: string;
+      link: string;
+      category: string;
+      height?: string | number;
+    };
+    type RawSupport = {
+      name: string;
+      logo: string;
+      description: string;
+      links?: SupportLink[];
+    };
+    type RawProductionCompany = {
+      name: string;
+      logo: string;
+      description: string;
+      website?: string;
+    };
+    type FrontmatterData = {
+      labels?: RawLabel[];
+      documentaires?: RawDocumentaire[];
+      supports?: RawSupport[];
+      productionCompanies?: RawProductionCompany[];
+      img2Link?: string;
+      img3Link?: string;
+      img4Link?: string;
+      img5Link?: string;
+      imgFooter?: string;
+    };
+
+    const frontmatter = data as FrontmatterData;
+
     // Map data to expected types
     const result: {
       labels?: Label[];
@@ -175,23 +213,23 @@ function parseExpertiseMetadataFromContent(content: string): {
       img5Link?: string;
       imgFooter?: string;
     } = {
-      img2Link: data.img2Link,
-      img3Link: data.img3Link,
-      img4Link: data.img4Link,
-      img5Link: data.img5Link,
-      imgFooter: data.imgFooter,
+      img2Link: frontmatter.img2Link,
+      img3Link: frontmatter.img3Link,
+      img4Link: frontmatter.img4Link,
+      img5Link: frontmatter.img5Link,
+      imgFooter: frontmatter.imgFooter,
     };
 
-    if (data.labels && Array.isArray(data.labels)) {
-      result.labels = data.labels.map((l: any) => ({
+    if (frontmatter.labels && Array.isArray(frontmatter.labels)) {
+      result.labels = frontmatter.labels.map((l) => ({
         name: l.name,
         src: l.src,
-        href: l.href || "",
+        href: l.href ?? "",
       }));
     }
 
-    if (data.documentaires && Array.isArray(data.documentaires)) {
-      result.documentaires = data.documentaires.map((d: any) => ({
+    if (frontmatter.documentaires && Array.isArray(frontmatter.documentaires)) {
+      result.documentaires = frontmatter.documentaires.map((d) => ({
         title: d.title,
         subtitle: d.subtitle,
         href: d.href,
@@ -203,8 +241,8 @@ function parseExpertiseMetadataFromContent(content: string): {
       }));
     }
 
-    if (data.supports && Array.isArray(data.supports)) {
-      result.supports = data.supports.map((s: any) => ({
+    if (frontmatter.supports && Array.isArray(frontmatter.supports)) {
+      result.supports = frontmatter.supports.map((s) => ({
         name: s.name,
         logo: s.logo,
         description: s.description,
@@ -212,8 +250,11 @@ function parseExpertiseMetadataFromContent(content: string): {
       }));
     }
 
-    if (data.productionCompanies && Array.isArray(data.productionCompanies)) {
-      result.productionCompanies = data.productionCompanies.map((c: any) => ({
+    if (
+      frontmatter.productionCompanies &&
+      Array.isArray(frontmatter.productionCompanies)
+    ) {
+      result.productionCompanies = frontmatter.productionCompanies.map((c) => ({
         name: c.name,
         logo: c.logo,
         description: c.description,
@@ -279,7 +320,7 @@ async function getDocumentairesFromPrisma(
       const category =
         productionCompanies && productionCompanies.length > 0
           ? productionCompanies[0]
-          : categoryTranslation?.name ?? "Documentaire";
+          : (categoryTranslation?.name ?? "Documentaire");
 
       return {
         title: translation?.title ?? work.slug,
@@ -332,7 +373,10 @@ export const getExpertise = cache(
       }
 
       // Strip frontmatter if present (since it's stored in the content)
-      const contentWithoutFrontmatter = translation.content.replace(/^---\n[\s\S]*?\n---\n/, "");
+      const contentWithoutFrontmatter = translation.content.replace(
+        /^---\n[\s\S]*?\n---\n/,
+        "",
+      );
 
       // Split markdown content into sections
       const sections = splitMarkdownIntoSections(contentWithoutFrontmatter);

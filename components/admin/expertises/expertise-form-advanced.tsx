@@ -10,15 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import {
-  ImageIcon,
-  SaveIcon,
-  RefreshCw,
-  Plus,
-  Trash,
-  MoveUp,
-  MoveDown,
-} from "lucide-react";
+import { SaveIcon, RefreshCw } from "lucide-react";
 import { fetchWithAuth } from "@/lib/fetch-with-auth";
 import { MarkdownEditor } from "@/components/admin/markdown-editor";
 import { ParallaxSection } from "@/components/parallax-section";
@@ -54,30 +46,58 @@ type ExpertiseFormProps = {
   isEdit?: boolean;
 };
 
-type MetadataItem = {
-  id: string; // Internal ID for keys
-  [key: string]: any;
+// Types for frontmatter metadata
+type SupportItem = {
+  name: string;
+  logo: string;
+  description?: string;
+  links?: { title: string; url: string }[];
+};
+
+type LabelItem = {
+  name: string;
+  src: string;
+  href?: string;
+};
+
+type CompanyItem = {
+  name: string;
+  logo: string;
+  description?: string;
+  website?: string;
+};
+
+type FrontmatterData = {
+  supports?: SupportItem[];
+  labels?: LabelItem[];
+  productionCompanies?: CompanyItem[];
+  img1?: string;
+  img2?: string;
+  img3?: string;
+  img4?: string;
+  img5?: string;
+  [key: string]: unknown;
 };
 
 // --- Helpers ---
 
-const generateId = () => Math.random().toString(36).substr(2, 9);
-
 // Helper to parse content into body + metadata
-const parseContent = (fullContent: string) => {
+const parseContent = (
+  fullContent: string,
+): { body: string; frontmatter: FrontmatterData } => {
   try {
     const { content, data } = matter(fullContent);
-    return { body: content, frontmatter: data };
-  } catch (e) {
+    return { body: content, frontmatter: data as FrontmatterData };
+  } catch {
     return { body: fullContent, frontmatter: {} };
   }
 };
 
 // Helper to reconstruct content from body + metadata
-const stringifyContent = (body: string, frontmatter: any) => {
+const stringifyContent = (body: string, frontmatter: FrontmatterData) => {
   try {
     return matter.stringify(body, frontmatter);
-  } catch (e) {
+  } catch {
     return body;
   }
 };
@@ -119,8 +139,8 @@ export function ExpertiseFormAdvanced({
   // We only sync when explicitly opening the Metadata tab or on init to avoid loop
   // But for simplicity, we'll parse on render or use specific handlers
   const [metadata, setMetadata] = useState<{
-    fr: any;
-    en: any;
+    fr: FrontmatterData;
+    en: FrontmatterData;
   }>({ fr: {}, en: {} });
 
   // Parse initial metadata
@@ -150,7 +170,7 @@ export function ExpertiseFormAdvanced({
 
   // Update content when metadata changes
   const updateContentWithMetadata = useCallback(
-    (lang: "fr" | "en", newMetadata: any) => {
+    (lang: "fr" | "en", newMetadata: FrontmatterData) => {
       setMetadata((prev) => ({ ...prev, [lang]: newMetadata }));
 
       const currentContent = formData.translations[lang].content;
@@ -196,6 +216,7 @@ export function ExpertiseFormAdvanced({
         toast.error(error.error ?? "Erreur lors de l'enregistrement");
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Error saving expertise:", error);
       toast.error("Erreur lors de l'enregistrement");
     } finally {
@@ -221,7 +242,7 @@ export function ExpertiseFormAdvanced({
 
     // Map metadata to LogoGrid items
     const supportItems: LogoGridItem[] =
-      frontmatter.supports?.map((s: any) => ({
+      frontmatter.supports?.map((s: SupportItem) => ({
         name: s.name,
         logo: s.logo,
         description: s.description,
@@ -229,14 +250,14 @@ export function ExpertiseFormAdvanced({
       })) ?? [];
 
     const labelItems: LogoGridItem[] =
-      frontmatter.labels?.map((l: any) => ({
+      frontmatter.labels?.map((l: LabelItem) => ({
         name: l.name,
         logo: l.src,
         href: l.href,
       })) ?? [];
 
     const companyItems: LogoGridItem[] =
-      frontmatter.productionCompanies?.map((c: any) => ({
+      frontmatter.productionCompanies?.map((c: CompanyItem) => ({
         name: c.name,
         logo: c.logo,
         description: c.description,
@@ -259,11 +280,15 @@ export function ExpertiseFormAdvanced({
         <div className="space-y-12">
           {sections.map((section, idx) => {
             // Mock image logic
-            const imageKey = `img${idx + 1}`;
-            const image = frontmatter[imageKey] || "/images/placeholder.jpg";
+            const imageKey = `img${String(idx + 1)}` as keyof FrontmatterData;
+            const imageValue = frontmatter[imageKey];
+            const image =
+              (typeof imageValue === "string" ? imageValue : null) ??
+              "/images/placeholder.jpg";
             return (
               <ParallaxSection
                 key={idx}
+                index={idx}
                 content={section}
                 image={image}
                 imagePosition={idx % 2 === 0 ? "right" : "left"}
@@ -317,7 +342,13 @@ export function ExpertiseFormAdvanced({
           {isEdit ? "Modifier l'Expertise" : "Nouvelle Expertise"}
         </h2>
         <div className="flex gap-2">
-          <Button type="button" variant="outline" onClick={() => { router.back(); }}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => {
+              router.back();
+            }}
+          >
             Annuler
           </Button>
           <Button
@@ -344,9 +375,9 @@ export function ExpertiseFormAdvanced({
                   <Label className="text-white">Slug</Label>
                   <Input
                     value={formData.slug}
-                    onChange={(e) =>
-                      { setFormData({ ...formData, slug: e.target.value }); }
-                    }
+                    onChange={(e) => {
+                      setFormData({ ...formData, slug: e.target.value });
+                    }}
                     className="bg-white/5 border-white/20 text-white"
                   />
                 </div>
@@ -355,12 +386,12 @@ export function ExpertiseFormAdvanced({
                   <Input
                     type="number"
                     value={formData.order}
-                    onChange={(e) =>
-                      { setFormData({
+                    onChange={(e) => {
+                      setFormData({
                         ...formData,
                         order: parseInt(e.target.value),
-                      }); }
-                    }
+                      });
+                    }}
                     className="bg-white/5 border-white/20 text-white"
                   />
                 </div>
@@ -368,9 +399,9 @@ export function ExpertiseFormAdvanced({
               <div className="flex items-center gap-2">
                 <Switch
                   checked={formData.isActive}
-                  onCheckedChange={(c) =>
-                    { setFormData({ ...formData, isActive: c }); }
-                  }
+                  onCheckedChange={(c) => {
+                    setFormData({ ...formData, isActive: c });
+                  }}
                 />
                 <Label className="text-white">Actif</Label>
               </div>
@@ -379,7 +410,9 @@ export function ExpertiseFormAdvanced({
 
           <Tabs
             value={activeLocale}
-            onValueChange={(v) => { setActiveLocale(v as "fr" | "en"); }}
+            onValueChange={(v) => {
+              setActiveLocale(v as "fr" | "en");
+            }}
           >
             <TabsList className="bg-white/5 w-full">
               <TabsTrigger value="fr" className="flex-1">
@@ -400,8 +433,8 @@ export function ExpertiseFormAdvanced({
                     </Label>
                     <Input
                       value={formData.translations[lang].title}
-                      onChange={(e) =>
-                        { setFormData({
+                      onChange={(e) => {
+                        setFormData({
                           ...formData,
                           translations: {
                             ...formData.translations,
@@ -410,8 +443,8 @@ export function ExpertiseFormAdvanced({
                               title: e.target.value,
                             },
                           },
-                        }); }
-                      }
+                        });
+                      }}
                       className="bg-white/5 border-white/20 text-white"
                     />
                   </div>
@@ -421,8 +454,8 @@ export function ExpertiseFormAdvanced({
                     </Label>
                     <Textarea
                       value={formData.translations[lang].description}
-                      onChange={(e) =>
-                        { setFormData({
+                      onChange={(e) => {
+                        setFormData({
                           ...formData,
                           translations: {
                             ...formData.translations,
@@ -431,8 +464,8 @@ export function ExpertiseFormAdvanced({
                               description: e.target.value,
                             },
                           },
-                        }); }
-                      }
+                        });
+                      }}
                       className="bg-white/5 border-white/20 text-white"
                       rows={3}
                     />
@@ -526,7 +559,13 @@ export function ExpertiseFormAdvanced({
             <h3 className="text-xl font-bold text-white">
               Aperçu ({activeLocale.toUpperCase()})
             </h3>
-            <Button size="sm" variant="ghost" onClick={() => { router.refresh(); }}>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => {
+                router.refresh();
+              }}
+            >
               <RefreshCw className="h-4 w-4" />
             </Button>
           </div>

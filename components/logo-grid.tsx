@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
@@ -152,7 +153,9 @@ export function LogoGrid({
         <LogoModal
           item={selectedItem}
           accentColor={accentColor}
-          onClose={() => { setSelectedItem(null); }}
+          onClose={() => {
+            setSelectedItem(null);
+          }}
         />
       )}
     </motion.div>
@@ -374,103 +377,72 @@ function LogoModal({
   // Use createPortal to render at the root of the document body
   // This ensures fixed positioning works relative to viewport, not closest transformed ancestor
   return typeof document !== "undefined"
-    ? (
-        // @ts-ignore - createPortal types might need explicit import in some setups but standard React handles it
-        // Using standard import 'react-dom' which is available in client components
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        require("react-dom").createPortal(
-          <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
-            onClick={onClose}
+    ? createPortal(
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className={cn(
+              "relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[24px] border-4 bg-[#0a0a0f] p-6 sm:p-8",
+              colors.border,
+            )}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
+            {/* Close button */}
+            <button
+              onClick={onClose}
               className={cn(
-                "relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[24px] border-4 bg-[#0a0a0f] p-6 sm:p-8",
-                colors.border,
+                "absolute right-4 top-4 p-2 text-white/70 transition-colors",
+                `hover:${colors.text}`,
               )}
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
+              aria-label="Fermer"
             >
-              {/* Close button */}
-              <button
-                onClick={onClose}
-                className={cn(
-                  "absolute right-4 top-4 p-2 text-white/70 transition-colors",
-                  `hover:${colors.text}`,
-                )}
-                aria-label="Fermer"
-              >
-                <X className="h-6 w-6" />
-              </button>
+              <X className="h-6 w-6" />
+            </button>
 
-              {/* Logo */}
-              {item.logo && (
-                <div className="mb-6 flex h-24 items-center justify-center rounded-[16px] bg-white/5">
-                  <Image
-                    src={item.logo}
-                    alt={item.name}
-                    width={200}
-                    height={80}
-                    className="h-auto w-full max-h-20 object-contain p-2"
-                  />
-                </div>
-              )}
+            {/* Logo */}
+            {item.logo && (
+              <div className="mb-6 flex h-24 items-center justify-center rounded-[16px] bg-white/5">
+                <Image
+                  src={item.logo}
+                  alt={item.name}
+                  width={200}
+                  height={80}
+                  className="h-auto w-full max-h-20 object-contain p-2"
+                />
+              </div>
+            )}
 
-              {/* Title */}
-              <h3
-                className={cn(
-                  "mb-4 text-2xl font-bold sm:text-3xl",
-                  colors.text,
-                )}
-              >
-                {item.name}
-              </h3>
+            {/* Title */}
+            <h3
+              className={cn("mb-4 text-2xl font-bold sm:text-3xl", colors.text)}
+            >
+              {item.name}
+            </h3>
 
-              {/* Full Description */}
-              {item.description && (
-                <p className="mb-6 text-base leading-relaxed text-white/80">
-                  {item.description}
-                </p>
-              )}
+            {/* Full Description */}
+            {item.description && (
+              <p className="mb-6 text-base leading-relaxed text-white/80">
+                {item.description}
+              </p>
+            )}
 
-              {/* Links */}
-              {item.links && item.links.length > 0 && (
-                <div className="space-y-3 border-t border-white/10 pt-4">
-                  <h4 className="text-sm font-bold uppercase text-white/70">
-                    Liens utiles :
-                  </h4>
-                  {item.links.map((link, linkIndex) => (
-                    <Link
-                      key={linkIndex}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={cn(
-                        "group/link flex items-start gap-2 text-sm transition-colors",
-                        colors.text,
-                      )}
-                    >
-                      <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
-                      <span className="underline decoration-current/30 group-hover/link:decoration-current">
-                        {link.title}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              )}
-
-              {/* Website Link */}
-              {item.website && (
-                <div className="mt-4 border-t border-white/10 pt-4">
-                  <h4 className="mb-3 text-sm font-bold uppercase text-white/70">
-                    Site web :
-                  </h4>
+            {/* Links */}
+            {item.links && item.links.length > 0 && (
+              <div className="space-y-3 border-t border-white/10 pt-4">
+                <h4 className="text-sm font-bold uppercase text-white/70">
+                  Liens utiles :
+                </h4>
+                {item.links.map((link, linkIndex) => (
                   <Link
-                    href={item.website}
+                    key={linkIndex}
+                    href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
@@ -480,15 +452,38 @@ function LogoModal({
                   >
                     <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
                     <span className="underline decoration-current/30 group-hover/link:decoration-current">
-                      {item.website}
+                      {link.title}
                     </span>
                   </Link>
-                </div>
-              )}
-            </motion.div>
-          </div>,
-          document.body,
-        )
+                ))}
+              </div>
+            )}
+
+            {/* Website Link */}
+            {item.website && (
+              <div className="mt-4 border-t border-white/10 pt-4">
+                <h4 className="mb-3 text-sm font-bold uppercase text-white/70">
+                  Site web :
+                </h4>
+                <Link
+                  href={item.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    "group/link flex items-start gap-2 text-sm transition-colors",
+                    colors.text,
+                  )}
+                >
+                  <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+                  <span className="underline decoration-current/30 group-hover/link:decoration-current">
+                    {item.website}
+                  </span>
+                </Link>
+              </div>
+            )}
+          </motion.div>
+        </div>,
+        document.body,
       )
     : null;
 }

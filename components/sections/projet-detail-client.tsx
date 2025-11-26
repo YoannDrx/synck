@@ -166,20 +166,10 @@ export function ProjetDetailClient({
   const heroRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
-  const youtubeRef = useRef<HTMLDivElement>(null);
-  const spotifyRef = useRef<HTMLDivElement>(null);
 
   const isHeroInView = useInView(heroRef, { once: true, margin: "-50px" });
   const isInfoInView = useInView(infoRef, { once: true, margin: "-50px" });
   const isGalleryInView = useInView(galleryRef, {
-    once: true,
-    margin: "-50px",
-  });
-  const isYoutubeInView = useInView(youtubeRef, {
-    once: true,
-    margin: "-50px",
-  });
-  const isSpotifyInView = useInView(spotifyRef, {
     once: true,
     margin: "-50px",
   });
@@ -199,6 +189,7 @@ export function ProjetDetailClient({
   const hasGallery = gallery.length > 0;
   const hasYoutube = Boolean(project.youtubeUrl);
   const hasSpotify = Boolean(project.spotifyEmbedUrl);
+  const hasPrimaryMedia = hasYoutube || hasSpotify;
   const hasExternalLink = Boolean(project.externalUrl) && !hasYoutube;
   const hasCoverImage = Boolean(project.coverImage);
   const isClipCategory = (() => {
@@ -218,8 +209,7 @@ export function ProjetDetailClient({
     isClipCategory && relatedProjectArtists.length > 0;
 
   const closeLabel = locale === "fr" ? "Fermer" : "Close";
-  const enlargeLabel =
-    locale === "fr" ? "Agrandir l'image" : "Enlarge image";
+  const enlargeLabel = locale === "fr" ? "Agrandir l'image" : "Enlarge image";
 
   // Extract YouTube video ID
   const youtubeVideoId = project.youtubeUrl
@@ -269,122 +259,172 @@ export function ProjetDetailClient({
           accent.glow,
         )}
       >
-        <div className="flex flex-col gap-8 lg:flex-row">
-          {/* Cover Image */}
-          {project.coverImage && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex-shrink-0 lg:w-[320px]"
-            >
-              <button
-                type="button"
-                aria-label={enlargeLabel}
-                className={cn(
-                  "relative block overflow-hidden rounded-[20px] border-2 border-white/10 transition-all duration-300 focus:outline-none focus:ring-4",
-                  hasCoverImage && "cursor-zoom-in hover:scale-105",
-                  hasCoverImage && accent.activeBorder,
-                )}
-                onClick={() => {
-                  if (hasCoverImage) setIsCoverOpen(true);
-                }}
-                disabled={!hasCoverImage}
-              >
-                <Image
-                  src={project.coverImage}
-                  alt={project.coverImageAlt ?? project.title}
-                  width={800}
-                  height={800}
-                  className="h-full w-full object-cover"
-                />
-              </button>
-            </motion.div>
+        <div
+          className={cn(
+            "flex flex-col gap-8",
+            hasPrimaryMedia
+              ? "lg:grid lg:grid-cols-[1.05fr_0.95fr]"
+              : "lg:flex-row",
           )}
-
-          {/* Project Info */}
-          <div className="flex-1 space-y-4">
-            {/* Category Badge */}
-            {project.category && (
+        >
+          <div className="flex flex-col gap-6 order-1 lg:order-1">
+            {/* Cover Image */}
+            {project.coverImage && (
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={isHeroInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.15 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="flex-shrink-0 lg:w-[340px]"
               >
-                <span
+                <button
+                  type="button"
+                  aria-label={enlargeLabel}
                   className={cn(
-                    "inline-block rounded-full border-2 px-4 py-1.5 text-xs font-bold uppercase tracking-wider",
-                    accent.badge,
+                    "relative block overflow-hidden rounded-[20px] border-2 border-white/10 transition-all duration-300 focus:outline-none focus:ring-4",
+                    hasCoverImage && "cursor-zoom-in hover:scale-105",
+                    hasCoverImage && accent.activeBorder,
                   )}
+                  onClick={() => {
+                    if (hasCoverImage) setIsCoverOpen(true);
+                  }}
+                  disabled={!hasCoverImage}
                 >
-                  {project.category}
+                  <Image
+                    src={project.coverImage}
+                    alt={project.coverImageAlt ?? project.title}
+                    width={800}
+                    height={800}
+                    className="h-full w-full object-cover"
+                  />
+                </button>
+              </motion.div>
+            )}
+
+            {/* Project Info */}
+            <div className="flex-1 space-y-4">
+              {/* Category Badge */}
+              {project.category && (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isHeroInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.15 }}
+                >
+                  <span
+                    className={cn(
+                      "inline-block rounded-full border-2 px-4 py-1.5 text-xs font-bold uppercase tracking-wider",
+                      accent.badge,
+                    )}
+                  >
+                    {project.category}
+                  </span>
+                </motion.div>
+              )}
+
+              {/* Title */}
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="text-3xl font-black uppercase tracking-tight sm:text-4xl lg:text-5xl"
+              >
+                <span style={{ color: accent.primary }}>
+                  {project.title.charAt(0)}
                 </span>
-              </motion.div>
-            )}
+                {project.title.slice(1)}
+              </motion.h1>
 
-            {/* Title */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-3xl font-black uppercase tracking-tight sm:text-4xl lg:text-5xl"
-            >
-              <span style={{ color: accent.primary }}>
-                {project.title.charAt(0)}
-              </span>
-              {project.title.slice(1)}
-            </motion.h1>
-
-            {/* Subtitle */}
-            {project.subtitle && (
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.25 }}
-                className="text-lg text-white/70 sm:text-xl"
-              >
-                {project.subtitle}
-              </motion.p>
-            )}
-
-            {/* Description */}
-            {project.description && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="prose prose-invert prose-sm max-w-none text-white/70"
-              >
-                <ReactMarkdown>{project.description}</ReactMarkdown>
-              </motion.div>
-            )}
-
-            {/* External Link Button */}
-            {hasExternalLink && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.35 }}
-              >
-                <a
-                  href={project.externalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    "inline-flex items-center gap-2 rounded-full border-2 px-5 py-2",
-                    "text-xs font-bold uppercase tracking-wider",
-                    "transition-all duration-300",
-                    accent.border,
-                    accent.text,
-                    "hover:bg-white/5",
-                  )}
+              {/* Subtitle */}
+              {project.subtitle && (
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.25 }}
+                  className="text-lg text-white/70 sm:text-xl"
                 >
-                  {copy.externalResourcesButton}
-                  <span>↗</span>
-                </a>
-              </motion.div>
-            )}
+                  {project.subtitle}
+                </motion.p>
+              )}
+
+              {/* Description */}
+              {project.description && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="prose prose-invert prose-sm max-w-none text-white/70"
+                >
+                  <ReactMarkdown>{project.description}</ReactMarkdown>
+                </motion.div>
+              )}
+
+              {/* External Link Button */}
+              {hasExternalLink && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.35 }}
+                >
+                  <a
+                    href={project.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(
+                      "inline-flex items-center gap-2 rounded-full border-2 px-5 py-2",
+                      "text-xs font-bold uppercase tracking-wider",
+                      "transition-all duration-300",
+                      accent.border,
+                      accent.text,
+                      "hover:bg-white/5",
+                    )}
+                  >
+                    {copy.externalResourcesButton}
+                    <span>↗</span>
+                  </a>
+                </motion.div>
+              )}
+            </div>
           </div>
+
+          {/* Media column */}
+          {hasPrimaryMedia && (
+            <div className="grid gap-4 order-2 lg:order-2 w-full lg:self-start">
+              {hasYoutube && youtubeVideoId && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="overflow-hidden rounded-[20px] border-2 border-white/10 bg-black"
+                >
+                  <iframe
+                    src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    loading="lazy"
+                    className="aspect-video w-full"
+                  />
+                </motion.div>
+              )}
+
+              {hasSpotify && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.25 }}
+                  className="overflow-hidden rounded-[20px] border-2 border-white/10 bg-white/[0.02]"
+                >
+                  <iframe
+                    src={project.spotifyEmbedUrl}
+                    width="100%"
+                    height="352"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    className="h-[352px] w-full sm:h-[352px] lg:h-full"
+                    style={{ minHeight: 240 }}
+                  />
+                </motion.div>
+              )}
+            </div>
+          )}
         </div>
       </motion.section>
 
@@ -447,37 +487,6 @@ export function ProjetDetailClient({
         </div>
       </motion.section>
 
-      {/* YouTube Embed */}
-      {hasYoutube && youtubeVideoId && (
-        <motion.section
-          ref={youtubeRef}
-          initial={{ opacity: 0, y: 40 }}
-          animate={isYoutubeInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-8 rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm"
-        >
-          <h2
-            className={cn(
-              "mb-5 text-lg font-bold uppercase tracking-wider",
-              accent.text,
-            )}
-          >
-            {copy.videoTitle}
-          </h2>
-          <div className="aspect-video overflow-hidden rounded-[16px] border-2 border-white/10">
-            <iframe
-              src={`https://www.youtube.com/embed/${youtubeVideoId}`}
-              width="100%"
-              height="100%"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              loading="lazy"
-              className="h-full w-full"
-            />
-          </div>
-        </motion.section>
-      )}
-
       {(hasRelatedClips || hasRelatedProjects) && (
         <motion.section
           initial={{ opacity: 0, y: 40 }}
@@ -496,56 +505,22 @@ export function ProjetDetailClient({
               : copy.relatedClipsTitle}
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {(isClipCategory
-              ? relatedProjects
-              : relatedClips
-            ).map((item, index) => (
-              <motion.div
-                key={item.slug}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-              >
-                <RelatedWorkCard
-                  locale={locale}
-                  work={item}
-                  accent={getCategoryAccent(item.categorySlug)}
-                />
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-      )}
-
-      {/* Spotify Embed */}
-      {hasSpotify && (
-        <motion.section
-          ref={spotifyRef}
-          initial={{ opacity: 0, y: 40 }}
-          animate={isSpotifyInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-8 rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm"
-        >
-          <h2
-            className={cn(
-              "mb-5 text-lg font-bold uppercase tracking-wider",
-              accent.text,
+            {(isClipCategory ? relatedProjects : relatedClips).map(
+              (item, index) => (
+                <motion.div
+                  key={item.slug}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                >
+                  <RelatedWorkCard
+                    locale={locale}
+                    work={item}
+                    accent={getCategoryAccent(item.categorySlug)}
+                  />
+                </motion.div>
+              ),
             )}
-          >
-            {copy.spotifyTitle}
-          </h2>
-          <div className="w-full">
-            <div className="overflow-hidden rounded-[16px] border border-white/10 lg:aspect-[4/3]">
-              <iframe
-                src={project.spotifyEmbedUrl}
-                width="100%"
-                height="352"
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-                className="h-[352px] w-full sm:h-[352px] lg:h-full"
-                style={{ minHeight: 240 }}
-              />
-            </div>
           </div>
         </motion.section>
       )}
@@ -725,43 +700,46 @@ export function ProjetDetailClient({
       )}
 
       {/* Cover Image Lightbox Portal */}
-      {mounted && isCoverOpen && project.coverImage && createPortal(
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md"
-          onClick={() => {
-            setIsCoverOpen(false);
-          }}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-2xl"
-            onClick={(e) => {
-              e.stopPropagation();
+      {mounted &&
+        isCoverOpen &&
+        project.coverImage &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md"
+            onClick={() => {
+              setIsCoverOpen(false);
             }}
           >
-            <button
-              onClick={() => {
-                setIsCoverOpen(false);
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-2xl"
+              onClick={(e) => {
+                e.stopPropagation();
               }}
-              aria-label={closeLabel}
-              className="absolute top-4 right-4 z-50 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white/50"
             >
-              <X size={24} />
-            </button>
-            <Image
-              src={project.coverImage}
-              alt={project.coverImageAlt ?? project.title}
-              width={1200}
-              height={1200}
-              className="h-auto max-h-[85vh] w-auto object-contain"
-              quality={90}
-            />
-          </motion.div>
-        </div>,
-        document.body
-      )}
+              <button
+                onClick={() => {
+                  setIsCoverOpen(false);
+                }}
+                aria-label={closeLabel}
+                className="absolute top-4 right-4 z-50 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white/50"
+              >
+                <X size={24} />
+              </button>
+              <Image
+                src={project.coverImage}
+                alt={project.coverImageAlt ?? project.title}
+                width={1200}
+                height={1200}
+                className="h-auto max-h-[85vh] w-auto object-contain"
+                quality={90}
+              />
+            </motion.div>
+          </div>,
+          document.body,
+        )}
     </PageLayout>
   );
 }
@@ -847,14 +825,16 @@ function ArtistListCard({
         {title}
       </h2>
       <div
-        className={artists.length > 3 ? "grid gap-3 sm:grid-cols-2" : "space-y-3"}
+        className={
+          artists.length > 3 ? "grid gap-3 sm:grid-cols-2" : "space-y-3"
+        }
       >
-            {artists.map((artist, index) => (
-              <motion.div
-                key={`${title}-${artist.id}`}
-                initial={{ opacity: 0, x: -20 }}
-                animate={isInfoInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
+        {artists.map((artist, index) => (
+          <motion.div
+            key={`${title}-${artist.id}`}
+            initial={{ opacity: 0, x: -20 }}
+            animate={isInfoInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
           >
             <Link
               href={`/${locale}/artistes/${artist.slug}`}
@@ -889,14 +869,14 @@ function ArtistListCard({
                   </div>
                 )}
               </div>
-                <div className="min-w-0 flex-1">
-                  <div className="font-bold text-white transition-colors group-hover:text-white">
-                    {artist.name}
-                  </div>
+              <div className="min-w-0 flex-1">
+                <div className="font-bold text-white transition-colors group-hover:text-white">
+                  {artist.name}
                 </div>
-                <span
-                  className={cn(
-                    "text-sm opacity-0 transition-all duration-300",
+              </div>
+              <span
+                className={cn(
+                  "text-sm opacity-0 transition-all duration-300",
                   "group-hover:opacity-100 group-hover:translate-x-1",
                   accent.text,
                 )}
