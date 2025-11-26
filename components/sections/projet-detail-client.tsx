@@ -1,0 +1,695 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+
+import { Breadcrumb } from "@/components/breadcrumb";
+import { PageLayout } from "@/components/layout/page-layout";
+import { LightboxImage } from "@/components/lightbox-image";
+import { cn } from "@/lib/utils";
+import type { Locale } from "@/lib/i18n-config";
+import type { ProjetDetailDictionary } from "@/types/dictionary";
+
+// Couleurs par catégorie (cohérent avec projets-page-client.tsx)
+const categoryAccents: Record<
+  string,
+  {
+    primary: string;
+    glow: string;
+    border: string;
+    badge: string;
+    text: string;
+  }
+> = {
+  "album-de-librairie-musicale": {
+    primary: "#a3e635",
+    glow: "shadow-[0_0_30px_rgba(163,230,53,0.2)]",
+    border: "border-lime-400/30 hover:border-lime-400",
+    badge: "bg-lime-400/15 text-lime-400 border-lime-400/30",
+    text: "text-lime-400",
+  },
+  documentaire: {
+    primary: "#4ecdc4",
+    glow: "shadow-[0_0_30px_rgba(78,205,196,0.2)]",
+    border: "border-cyan-400/30 hover:border-cyan-400",
+    badge: "bg-cyan-400/15 text-cyan-400 border-cyan-400/30",
+    text: "text-cyan-400",
+  },
+  synchro: {
+    primary: "#a855f7",
+    glow: "shadow-[0_0_30px_rgba(168,85,247,0.2)]",
+    border: "border-purple-400/30 hover:border-purple-400",
+    badge: "bg-purple-400/15 text-purple-400 border-purple-400/30",
+    text: "text-purple-400",
+  },
+  vinyle: {
+    primary: "#fb923c",
+    glow: "shadow-[0_0_30px_rgba(251,146,60,0.2)]",
+    border: "border-orange-400/30 hover:border-orange-400",
+    badge: "bg-orange-400/15 text-orange-400 border-orange-400/30",
+    text: "text-orange-400",
+  },
+  clip: {
+    primary: "#f472b6",
+    glow: "shadow-[0_0_30px_rgba(244,114,182,0.2)]",
+    border: "border-pink-400/30 hover:border-pink-400",
+    badge: "bg-pink-400/15 text-pink-400 border-pink-400/30",
+    text: "text-pink-400",
+  },
+  default: {
+    primary: "#d5ff0a",
+    glow: "shadow-[0_0_30px_rgba(213,255,10,0.2)]",
+    border: "border-[#d5ff0a]/30 hover:border-[#d5ff0a]",
+    badge: "bg-[#d5ff0a]/15 text-[#d5ff0a] border-[#d5ff0a]/30",
+    text: "text-[#d5ff0a]",
+  },
+};
+
+const getCategoryAccent = (categorySlug?: string) => {
+  if (!categorySlug) return categoryAccents.default;
+  return categoryAccents[categorySlug] ?? categoryAccents.default;
+};
+
+type Artist = {
+  id: string;
+  slug: string;
+  name: string;
+  bio?: string;
+  image?: string;
+  imageAlt?: string;
+};
+
+type GalleryImage = {
+  id: string;
+  path: string;
+  alt?: string;
+};
+
+type NavWork = {
+  slug: string;
+  title: string;
+} | null;
+
+type ProjetDetailClientProps = {
+  locale: Locale;
+  project: {
+    slug: string;
+    title: string;
+    subtitle?: string;
+    description?: string;
+    coverImage?: string;
+    coverImageAlt?: string;
+    category?: string;
+    categorySlug?: string;
+    label?: string;
+    genre?: string;
+    releaseDate?: string;
+    externalUrl?: string;
+    youtubeUrl?: string;
+    spotifyEmbedUrl?: string;
+  };
+  artists: Artist[];
+  gallery: GalleryImage[];
+  prevWork: NavWork;
+  nextWork: NavWork;
+  nav: {
+    home: string;
+    projets: string;
+  };
+  copy: ProjetDetailDictionary;
+  categoryParam?: string;
+};
+
+export function ProjetDetailClient({
+  locale,
+  project,
+  artists,
+  gallery,
+  prevWork,
+  nextWork,
+  nav,
+  copy,
+  categoryParam,
+}: ProjetDetailClientProps) {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
+  const youtubeRef = useRef<HTMLDivElement>(null);
+  const spotifyRef = useRef<HTMLDivElement>(null);
+
+  const isHeroInView = useInView(heroRef, { once: true, margin: "-50px" });
+  const isInfoInView = useInView(infoRef, { once: true, margin: "-50px" });
+  const isGalleryInView = useInView(galleryRef, {
+    once: true,
+    margin: "-50px",
+  });
+  const isYoutubeInView = useInView(youtubeRef, {
+    once: true,
+    margin: "-50px",
+  });
+  const isSpotifyInView = useInView(spotifyRef, {
+    once: true,
+    margin: "-50px",
+  });
+
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+
+  const accent = getCategoryAccent(project.categorySlug);
+  const hasArtists = artists.length > 0;
+  const hasGallery = gallery.length > 0;
+  const hasYoutube = Boolean(project.youtubeUrl);
+  const hasSpotify = Boolean(project.spotifyEmbedUrl);
+  const hasExternalLink = Boolean(project.externalUrl) && !hasYoutube;
+
+  // Extract YouTube video ID
+  const youtubeVideoId = project.youtubeUrl
+    ? (() => {
+        try {
+          const url = new URL(project.youtubeUrl);
+          if (
+            url.hostname.includes("youtube.com") &&
+            url.searchParams.has("v")
+          ) {
+            return url.searchParams.get("v");
+          }
+          if (url.hostname === "youtu.be") {
+            return url.pathname.slice(1);
+          }
+          return null;
+        } catch {
+          return null;
+        }
+      })()
+    : null;
+
+  return (
+    <PageLayout orbsConfig="subtle" className="mx-auto max-w-[1400px]">
+      {/* Breadcrumb */}
+      <Breadcrumb
+        items={[
+          { label: nav.home, href: `/${locale}` },
+          {
+            label: nav.projets,
+            href: categoryParam
+              ? `/${locale}/projets?category=${categoryParam}`
+              : `/${locale}/projets`,
+          },
+          { label: project.title },
+        ]}
+      />
+
+      {/* Hero Section */}
+      <motion.section
+        ref={heroRef}
+        initial={{ opacity: 0, y: 40 }}
+        animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className={cn(
+          "mb-8 rounded-[32px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm sm:p-8 lg:p-10",
+          accent.glow,
+        )}
+      >
+        <div className="flex flex-col gap-8 lg:flex-row">
+          {/* Cover Image */}
+          {project.coverImage && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex-shrink-0"
+            >
+              <LightboxImage
+                src={project.coverImage}
+                alt={project.coverImageAlt ?? project.title}
+                fullSrc={project.coverImage}
+                width={280}
+                height={280}
+                radius="rounded-[20px]"
+                className={cn(
+                  "overflow-hidden rounded-[20px] border-2 transition-all duration-300",
+                  accent.border,
+                )}
+              />
+            </motion.div>
+          )}
+
+          {/* Project Info */}
+          <div className="flex-1 space-y-4">
+            {/* Category Badge */}
+            {project.category && (
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={isHeroInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.4, delay: 0.15 }}
+              >
+                <span
+                  className={cn(
+                    "inline-block rounded-full border-2 px-4 py-1.5 text-xs font-bold uppercase tracking-wider",
+                    accent.badge,
+                  )}
+                >
+                  {project.category}
+                </span>
+              </motion.div>
+            )}
+
+            {/* Title */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-3xl font-black uppercase tracking-tight sm:text-4xl lg:text-5xl"
+            >
+              <span style={{ color: accent.primary }}>
+                {project.title.charAt(0)}
+              </span>
+              {project.title.slice(1)}
+            </motion.h1>
+
+            {/* Subtitle */}
+            {project.subtitle && (
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.25 }}
+                className="text-lg text-white/70 sm:text-xl"
+              >
+                {project.subtitle}
+              </motion.p>
+            )}
+
+            {/* Description */}
+            {project.description && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="prose prose-invert prose-sm max-w-none text-white/70"
+              >
+                <ReactMarkdown>{project.description}</ReactMarkdown>
+              </motion.div>
+            )}
+
+            {/* External Link Button */}
+            {hasExternalLink && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.35 }}
+              >
+                <a
+                  href={project.externalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    "inline-flex items-center gap-2 rounded-full border-2 px-5 py-2",
+                    "text-xs font-bold uppercase tracking-wider",
+                    "transition-all duration-300",
+                    accent.border,
+                    accent.text,
+                    "hover:bg-white/5",
+                  )}
+                >
+                  {copy.externalResourcesButton}
+                  <span>↗</span>
+                </a>
+              </motion.div>
+            )}
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Info Grid: Artists + Details */}
+      <motion.section
+        ref={infoRef}
+        initial={{ opacity: 0, y: 40 }}
+        animate={isInfoInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        className="mb-8 grid gap-6 lg:grid-cols-2"
+      >
+        {/* Artists */}
+        {hasArtists && (
+          <div className="rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm">
+            <h2
+              className={cn(
+                "mb-5 text-lg font-bold uppercase tracking-wider",
+                accent.text,
+              )}
+            >
+              {copy.artistsTitle}
+            </h2>
+            <div
+              className={
+                artists.length > 3 ? "grid gap-3 sm:grid-cols-2" : "space-y-3"
+              }
+            >
+              {artists.map((artist, index) => (
+                <motion.div
+                  key={artist.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isInfoInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
+                >
+                  <Link
+                    href={`/${locale}/artistes/${artist.slug}`}
+                    className={cn(
+                      "group flex items-center gap-3 rounded-[12px] p-3",
+                      "border-2 border-transparent bg-white/[0.02]",
+                      "transition-all duration-300",
+                      "hover:border-white/10 hover:bg-white/5",
+                    )}
+                  >
+                    {/* Avatar */}
+                    <div
+                      className={cn(
+                        "relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full",
+                        "ring-2 ring-white/10 transition-all duration-300",
+                        "group-hover:ring-4",
+                        `group-hover:ring-[${accent.primary}]/30`,
+                      )}
+                    >
+                      {artist.image ? (
+                        <Image
+                          src={artist.image}
+                          alt={artist.imageAlt ?? artist.name}
+                          fill
+                          sizes="48px"
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
+                          <span className="text-lg font-black text-white/40">
+                            {artist.name.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    {/* Name */}
+                    <div className="min-w-0 flex-1">
+                      <div className="font-bold text-white transition-colors group-hover:text-white">
+                        {artist.name}
+                      </div>
+                      {artist.bio && (
+                        <div className="text-xs text-white/50 line-clamp-1">
+                          {artist.bio}
+                        </div>
+                      )}
+                    </div>
+                    {/* Arrow */}
+                    <span
+                      className={cn(
+                        "text-sm opacity-0 transition-all duration-300",
+                        "group-hover:opacity-100 group-hover:translate-x-1",
+                        accent.text,
+                      )}
+                    >
+                      →
+                    </span>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Project Details */}
+        <div className="rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm">
+          <h2
+            className={cn(
+              "mb-5 text-lg font-bold uppercase tracking-wider",
+              accent.text,
+            )}
+          >
+            {copy.infoTitle}
+          </h2>
+          <div className="space-y-3">
+            {project.releaseDate && (
+              <InfoRow label={copy.releaseDate} value={project.releaseDate} />
+            )}
+            {project.category && (
+              <InfoRow label={copy.category} value={project.category} />
+            )}
+            {project.genre && (
+              <InfoRow label={copy.genre} value={project.genre} />
+            )}
+            {project.label && (
+              <InfoRow label={copy.label} value={project.label} />
+            )}
+          </div>
+        </div>
+      </motion.section>
+
+      {/* YouTube Embed */}
+      {hasYoutube && youtubeVideoId && (
+        <motion.section
+          ref={youtubeRef}
+          initial={{ opacity: 0, y: 40 }}
+          animate={isYoutubeInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-8 rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm"
+        >
+          <h2
+            className={cn(
+              "mb-5 text-lg font-bold uppercase tracking-wider",
+              accent.text,
+            )}
+          >
+            {copy.videoTitle}
+          </h2>
+          <div className="aspect-video overflow-hidden rounded-[16px] border-2 border-white/10">
+            <iframe
+              src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+              width="100%"
+              height="100%"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              loading="lazy"
+              className="h-full w-full"
+            />
+          </div>
+        </motion.section>
+      )}
+
+      {/* Spotify Embed */}
+      {hasSpotify && (
+        <motion.section
+          ref={spotifyRef}
+          initial={{ opacity: 0, y: 40 }}
+          animate={isSpotifyInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-8 rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm"
+        >
+          <h2
+            className={cn(
+              "mb-5 text-lg font-bold uppercase tracking-wider",
+              accent.text,
+            )}
+          >
+            {copy.spotifyTitle}
+          </h2>
+          <div className="aspect-[4/3] overflow-hidden rounded-[16px]">
+            <iframe
+              src={project.spotifyEmbedUrl}
+              width="100%"
+              height="100%"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              className="h-full w-full"
+            />
+          </div>
+        </motion.section>
+      )}
+
+      {/* Gallery */}
+      {hasGallery && (
+        <motion.section
+          ref={galleryRef}
+          initial={{ opacity: 0, y: 40 }}
+          animate={isGalleryInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-8 rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm"
+        >
+          <h2
+            className={cn(
+              "mb-5 text-lg font-bold uppercase tracking-wider",
+              accent.text,
+            )}
+          >
+            {copy.galleryTitle}
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {gallery.map((image, index) => (
+              <motion.button
+                key={image.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={isGalleryInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                onClick={() => {
+                  setLightboxImage(image.path);
+                }}
+                className={cn(
+                  "group relative overflow-hidden rounded-[16px] border-2",
+                  "transition-all duration-300",
+                  accent.border,
+                )}
+              >
+                <Image
+                  src={image.path}
+                  alt={image.alt ?? "Gallery image"}
+                  width={400}
+                  height={300}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
+              </motion.button>
+            ))}
+          </div>
+        </motion.section>
+      )}
+
+      {/* Prev/Next Navigation */}
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="mb-8 grid gap-4 sm:grid-cols-2"
+      >
+        {prevWork ? (
+          <Link
+            href={`/${locale}/projets/${prevWork.slug}`}
+            className={cn(
+              "group rounded-[20px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6",
+              "transition-all duration-300",
+              "hover:border-white/20 hover:bg-white/[0.02]",
+            )}
+          >
+            <div
+              className={cn(
+                "mb-2 text-xs font-bold uppercase tracking-wider",
+                accent.text,
+              )}
+            >
+              {copy.previousLabel}
+            </div>
+            <div className="text-lg font-bold uppercase text-white/80 transition-colors group-hover:text-white line-clamp-1">
+              {prevWork.title}
+            </div>
+          </Link>
+        ) : (
+          <div />
+        )}
+
+        {nextWork ? (
+          <Link
+            href={`/${locale}/projets/${nextWork.slug}`}
+            className={cn(
+              "group rounded-[20px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 text-right",
+              "transition-all duration-300",
+              "hover:border-white/20 hover:bg-white/[0.02]",
+            )}
+          >
+            <div
+              className={cn(
+                "mb-2 text-xs font-bold uppercase tracking-wider",
+                accent.text,
+              )}
+            >
+              {copy.nextLabel}
+            </div>
+            <div className="text-lg font-bold uppercase text-white/80 transition-colors group-hover:text-white line-clamp-1">
+              {nextWork.title}
+            </div>
+          </Link>
+        ) : (
+          <div />
+        )}
+      </motion.section>
+
+      {/* CTA */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="rounded-[24px] border-2 border-[#d5ff0a]/40 bg-gradient-to-br from-[#d5ff0a]/10 via-[#9eff00]/5 to-transparent p-6 sm:p-8"
+      >
+        <div className="flex flex-col items-center gap-4 text-center lg:flex-row lg:justify-between lg:text-left">
+          <div>
+            <h2 className="mb-2 text-xl font-bold text-white sm:text-2xl">
+              {copy.ctaTitle}
+            </h2>
+            <p className="text-sm text-white/60">{copy.ctaDescription}</p>
+          </div>
+          <Link
+            href={`/${locale}/contact`}
+            className={cn(
+              "inline-flex items-center gap-2 rounded-full px-6 py-3",
+              "border-2 border-[#d5ff0a] bg-[#d5ff0a]",
+              "text-sm font-bold uppercase tracking-wider text-[#050505]",
+              "transition-all duration-300",
+              "hover:bg-transparent hover:text-[#d5ff0a]",
+              "hover:shadow-[0_0_25px_rgba(213,255,10,0.3)]",
+            )}
+          >
+            {copy.ctaButton}
+            <span>→</span>
+          </Link>
+        </div>
+      </motion.div>
+
+      {/* Lightbox */}
+      {lightboxImage && (
+        <button
+          type="button"
+          onClick={() => {
+            setLightboxImage(null);
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-6 backdrop-blur-sm"
+          aria-label="Fermer la galerie"
+        >
+          <div className="relative max-h-[90vh] max-w-[90vw]">
+            <Image
+              src={lightboxImage}
+              alt="Gallery image"
+              width={1200}
+              height={900}
+              className="h-auto max-h-[85vh] w-auto rounded-[20px] object-contain"
+            />
+            <button
+              onClick={() => {
+                setLightboxImage(null);
+              }}
+              className="absolute -right-4 -top-12 text-white hover:text-[#d5ff0a] transition-colors"
+            >
+              <svg
+                className="h-10 w-10"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </button>
+      )}
+    </PageLayout>
+  );
+}
+
+/** Info row component */
+function InfoRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between border-b border-dashed border-white/10 pb-3 last:border-0">
+      <span className="text-sm text-white/50">{label}</span>
+      <span className="text-sm font-bold text-white">{value}</span>
+    </div>
+  );
+}
