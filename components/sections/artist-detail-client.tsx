@@ -26,7 +26,7 @@ const clipAccent = {
   border: "border-[#f472b6]/30",
   borderHover: "hover:border-[#f472b6]",
   glow: "hover:shadow-[0_0_25px_rgba(244,114,182,0.25)]",
-  badge: "bg-[#f472b6]/10 text-[#f472b6] border-[#f472b6]/30",
+  badge: "bg-[#f472b6] text-white border-[#f472b6]",
   ring: "ring-[#f472b6]/50",
   gradient: "from-[#f472b6] via-[#fb8fbf] to-[#ffd1e8]",
 };
@@ -44,6 +44,7 @@ type ArtistWork = {
   coverImageAlt: string;
   category: string;
   categorySlug?: string;
+  subtitle?: string;
 };
 
 type AdjacentArtist = {
@@ -77,11 +78,13 @@ function WorkCard({
   index,
   locale,
   accent = artistAccent,
+  isClip = false,
 }: {
   work: ArtistWork;
   index: number;
   locale: Locale;
   accent?: typeof artistAccent;
+  isClip?: boolean;
 }) {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const isInView = useInView(cardRef, {
@@ -119,11 +122,22 @@ function WorkCard({
           className={cn(
             "absolute inset-0 z-10 pointer-events-none opacity-0 transition-opacity duration-300 group-hover:opacity-50",
             "bg-gradient-to-br",
-            accent.gradient,
-          )}
-        />
+          accent.gradient,
+        )}
+      />
 
         <div className="relative aspect-square overflow-hidden">
+          {isClip && (
+            <span
+              className={cn(
+                "absolute right-2 top-2 z-20 rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wider",
+                clipAccent.badge,
+                "border",
+              )}
+            >
+              Clips
+            </span>
+          )}
           <Image
             src={work.coverImage}
             alt={work.coverImageAlt}
@@ -205,14 +219,26 @@ export function ArtistDetailClient({
   }, []);
 
   const hasValidImage = Boolean(artist.image && artist.image.trim() !== "");
-  const worksCount = projects.length + clips.length;
+  const allWorks = [...projects, ...clips];
+  const worksCount = allWorks.length;
   const worksLabel = worksCount > 1 ? copy.worksPlural : copy.worksSingular;
   const closeLabel = locale === "fr" ? "Fermer" : "Close";
   const enlargeLabel =
     locale === "fr" ? "Agrandir l'image" : "Enlarge image";
-  const hasProjects = projects.length > 0;
-  const hasClips = clips.length > 0;
-  const worksInView = hasProjects || hasClips ? isWorksInView : true;
+  const hasWorks = allWorks.length > 0;
+  const worksInView = hasWorks ? isWorksInView : true;
+
+  const isClipWork = (work: ArtistWork) => {
+    const slug = (work.categorySlug ?? "").toLowerCase();
+    const name = (work.category ?? "").toLowerCase();
+    return (
+      slug === "clip" ||
+      slug === "music-video" ||
+      name.includes("clip") ||
+      name.includes("music video") ||
+      name.includes("video")
+    );
+  };
 
   return (
     <PageLayout orbsConfig="subtle" className="mx-auto max-w-[1400px]">
@@ -336,7 +362,7 @@ export function ArtistDetailClient({
         </div>
       </motion.section>
 
-      {(hasProjects || hasClips) && (
+      {hasWorks && (
         <motion.section
           ref={worksRef}
           initial={{ opacity: 0, y: 40 }}
@@ -359,62 +385,21 @@ export function ArtistDetailClient({
             </div>
           </div>
 
-          {hasProjects && (
-            <div className={hasClips ? "mb-10" : undefined}>
-              <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-lg font-bold uppercase tracking-wider text-white">
-                  {copy.projectsTitle}
-                </h3>
-                <span className="text-xs font-semibold text-white/60">
-                  {projects.length}{" "}
-                  {projects.length > 1 ? copy.worksPlural : copy.worksSingular}
-                </span>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {projects.map((work, index) => (
-                  <WorkCard
-                    key={work.id}
-                    work={work}
-                    index={index}
-                    locale={locale}
-                    accent={artistAccent}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {hasClips && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div
-                  className={cn(
-                    "inline-flex items-center gap-2 rounded-full px-4 py-1.5",
-                    "border-2 text-xs font-bold uppercase tracking-wider",
-                    clipAccent.badge,
-                  )}
-                >
-                  <span>🎬</span>
-                  <span>{copy.clipsTitle}</span>
-                </div>
-                <span className="text-xs font-semibold text-white/60">
-                  {clips.length}{" "}
-                  {clips.length > 1 ? copy.worksPlural : copy.worksSingular}
-                </span>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {clips.map((work, index) => (
-                  <WorkCard
-                    key={work.id}
-                    work={work}
-                    index={index}
-                    locale={locale}
-                    accent={clipAccent}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {allWorks.map((work, index) => {
+              const clip = isClipWork(work);
+              return (
+                <WorkCard
+                  key={work.id}
+                  work={work}
+                  index={index}
+                  locale={locale}
+                  accent={clip ? clipAccent : artistAccent}
+                  isClip={clip}
+                />
+              );
+            })}
+          </div>
         </motion.section>
       )}
 

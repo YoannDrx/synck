@@ -234,8 +234,6 @@ export type ArtistDetailDictionary = {
   worksTitle: string;
   worksSingular: string;
   worksPlural: string;
-  projectsTitle: string;
-  clipsTitle: string;
   previousArtistLabel: string;
   nextArtistLabel: string;
   ctaTitle: string;

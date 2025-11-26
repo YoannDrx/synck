@@ -91,7 +91,6 @@ type Artist = {
   id: string;
   slug: string;
   name: string;
-  bio?: string;
   image?: string;
   imageAlt?: string;
 };
@@ -847,12 +846,12 @@ function ArtistListCard({
       <div
         className={artists.length > 3 ? "grid gap-3 sm:grid-cols-2" : "space-y-3"}
       >
-        {artists.map((artist, index) => (
-          <motion.div
-            key={`${title}-${artist.id}`}
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInfoInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
+            {artists.map((artist, index) => (
+              <motion.div
+                key={`${title}-${artist.id}`}
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInfoInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
           >
             <Link
               href={`/${locale}/artistes/${artist.slug}`}
@@ -887,19 +886,14 @@ function ArtistListCard({
                   </div>
                 )}
               </div>
-              <div className="min-w-0 flex-1">
-                <div className="font-bold text-white transition-colors group-hover:text-white">
-                  {artist.name}
-                </div>
-                {artist.bio && (
-                  <div className="text-xs text-white/50 line-clamp-1">
-                    {artist.bio}
+                <div className="min-w-0 flex-1">
+                  <div className="font-bold text-white transition-colors group-hover:text-white">
+                    {artist.name}
                   </div>
-                )}
-              </div>
-              <span
-                className={cn(
-                  "text-sm opacity-0 transition-all duration-300",
+                </div>
+                <span
+                  className={cn(
+                    "text-sm opacity-0 transition-all duration-300",
                   "group-hover:opacity-100 group-hover:translate-x-1",
                   accent.text,
                 )}

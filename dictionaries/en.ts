@@ -365,8 +365,6 @@ const dictionary: Dictionary = {
     worksTitle: "Collaborative projects",
     worksSingular: "project",
     worksPlural: "projects",
-    projectsTitle: "Projects",
-    clipsTitle: "Clips",
     previousArtistLabel: "← Previous artist",
     nextArtistLabel: "Next artist →",
     ctaTitle: "Are you an artist?",

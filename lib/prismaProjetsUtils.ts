@@ -402,6 +402,9 @@ export const getArtistsFromPrisma = cache(
 
       return artists.map((artist) => {
         const translation = artist.translations[0];
+        const uniqueWorkIds = new Set(
+          (artist.contributions ?? []).map((contribution) => contribution.workId),
+        );
         return {
           id: artist.id,
           slug: artist.slug,
@@ -410,7 +413,7 @@ export const getArtistsFromPrisma = cache(
           image: assetPathToUrl(artist.image?.path),
           imageAlt: artist.image?.alt ?? translation?.name ?? artist.slug,
           externalUrl: artist.externalUrl ?? undefined,
-          worksCount: artist.contributions.length,
+          worksCount: uniqueWorkIds.size,
         };
       });
     } catch {

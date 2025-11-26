@@ -140,7 +140,6 @@ export default async function WorkDetailPage({
       id: idPrefix ? `${idPrefix}-${slug}` : contribution.id,
       slug,
       name: artistTranslation?.name ?? "Unknown Artist",
-      bio: artistTranslation?.bio ?? undefined,
       image: assetPathToUrl(contribution.artist.image?.path),
       imageAlt:
         contribution.artist.image?.alt ?? artistTranslation?.name ?? "Artist",
