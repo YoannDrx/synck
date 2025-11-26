@@ -305,6 +305,7 @@ jobs:
         env:
           DATABASE_URL: ${{ env.DATABASE_URL }}
           DIRECT_URL: ${{ env.DIRECT_URL }}
+          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
           PORT: 3000
 
       - name: Run Playwright tests
@@ -312,6 +313,7 @@ jobs:
         env:
           PLAYWRIGHT_TEST_BASE_URL: http://localhost:3000
           DATABASE_URL: ${{ env.DATABASE_URL }}
+          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
 
       - name: Upload test results
         if: always()
