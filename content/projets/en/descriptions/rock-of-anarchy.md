@@ -1,1 +1,1 @@
-This project is the result of the meeting between PARIGO and brilliant, renowned composers all recognized in the world of experimental music, between rock, punk and electro. 
+This project is the result of the meeting between PARIGO and brilliant, renowned composers all recognized in the world of experimental music, between rock, punk and electro.

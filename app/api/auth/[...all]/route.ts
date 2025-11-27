@@ -1,96 +1,98 @@
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
-import { toNextJsHandler } from "better-auth/next-js";
-import { createAuditLog } from "@/lib/audit-log";
-import { logger } from "@/lib/logger";
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
-const baseHandler = toNextJsHandler(auth);
+import { toNextJsHandler } from 'better-auth/next-js'
+
+import { createAuditLog } from '@/lib/audit-log'
+import { auth } from '@/lib/auth'
+import { logger } from '@/lib/logger'
+
+const baseHandler = toNextJsHandler(auth)
 
 async function handleAuthRequest(request: NextRequest) {
-  const method = request.method.toUpperCase();
+  const method = request.method.toUpperCase()
   const handler =
     baseHandler[method as keyof typeof baseHandler] ??
-    baseHandler[method.toLowerCase() as keyof typeof baseHandler];
+    baseHandler[method.toLowerCase() as keyof typeof baseHandler]
 
   if (!handler) {
-    return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
+    return NextResponse.json({ error: 'Method not allowed' }, { status: 405 })
   }
 
-  const path = request.nextUrl.pathname.replace(/^\/api\/auth/, "") || "/";
+  const path = request.nextUrl.pathname.replace(/^\/api\/auth/, '') || '/'
 
   // Capture session before logout clears it
-  let sessionUserId: string | undefined;
-  let sessionUserEmail: string | undefined;
-  if (path === "/sign-out") {
+  let sessionUserId: string | undefined
+  let sessionUserEmail: string | undefined
+  if (path === '/sign-out') {
     try {
-      const session = await auth.api.getSession({ headers: request.headers });
+      const session = await auth.api.getSession({ headers: request.headers })
       if (session?.user) {
-        sessionUserId = session.user.id;
-        sessionUserEmail = session.user.email;
+        sessionUserId = session.user.id
+        sessionUserEmail = session.user.email
       }
     } catch (error) {
-      logger.warn("Failed to fetch session before sign-out", error);
+      logger.warn('Failed to fetch session before sign-out', error)
     }
   }
 
-  const response = await handler(request);
+  const response = await handler(request)
 
   // Audit login success (email/password flow)
-  if (response.ok && path === "/sign-in/email") {
+  if (response.ok && path === '/sign-in/email') {
     try {
       const data = (await response.clone().json()) as {
-        user?: { id: string; email?: string | null };
-      };
+        user?: { id: string; email?: string | null }
+      }
 
       if (data?.user?.id) {
         await createAuditLog({
           userId: data.user.id,
-          action: "LOGIN",
+          action: 'LOGIN',
           metadata: data.user.email ? { email: data.user.email } : undefined,
-          ipAddress: request.headers.get("x-forwarded-for") ?? undefined,
-          userAgent: request.headers.get("user-agent") ?? undefined,
-        });
+          ipAddress: request.headers.get('x-forwarded-for') ?? undefined,
+          userAgent: request.headers.get('user-agent') ?? undefined,
+        })
       }
     } catch (error) {
-      logger.error("Failed to record login audit log", error);
+      logger.error('Failed to record login audit log', error)
     }
   }
 
   // Audit logout success
-  if (response.ok && path === "/sign-out" && sessionUserId) {
+  if (response.ok && path === '/sign-out' && sessionUserId) {
     try {
       await createAuditLog({
         userId: sessionUserId,
-        action: "LOGOUT",
+        action: 'LOGOUT',
         metadata: sessionUserEmail ? { email: sessionUserEmail } : undefined,
-        ipAddress: request.headers.get("x-forwarded-for") ?? undefined,
-        userAgent: request.headers.get("user-agent") ?? undefined,
-      });
+        ipAddress: request.headers.get('x-forwarded-for') ?? undefined,
+        userAgent: request.headers.get('user-agent') ?? undefined,
+      })
     } catch (error) {
-      logger.error("Failed to record logout audit log", error);
+      logger.error('Failed to record logout audit log', error)
     }
   }
 
-  return response;
+  return response
 }
 
 export function GET(request: NextRequest) {
-  return handleAuthRequest(request);
+  return handleAuthRequest(request)
 }
 
 export function POST(request: NextRequest) {
-  return handleAuthRequest(request);
+  return handleAuthRequest(request)
 }
 
 export function PUT(request: NextRequest) {
-  return handleAuthRequest(request);
+  return handleAuthRequest(request)
 }
 
 export function PATCH(request: NextRequest) {
-  return handleAuthRequest(request);
+  return handleAuthRequest(request)
 }
 
 export function DELETE(request: NextRequest) {
-  return handleAuthRequest(request);
+  return handleAuthRequest(request)
 }

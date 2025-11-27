@@ -1,18 +1,19 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
+import Image from 'next/image'
+import { useState } from 'react'
+
+import { cn } from '@/lib/utils'
 
 type LightboxImageProps = {
-  src: string;
-  alt: string;
-  className?: string;
-  fullSrc?: string;
-  width?: number;
-  height?: number;
-  radius?: string;
-};
+  src: string
+  alt: string
+  className?: string
+  fullSrc?: string
+  width?: number
+  height?: number
+  radius?: string
+}
 
 export function LightboxImage({
   src,
@@ -21,18 +22,18 @@ export function LightboxImage({
   fullSrc,
   width = 200,
   height = 200,
-  radius = "rounded-xl",
+  radius = 'rounded-xl',
 }: LightboxImageProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return (
     <>
       <button
         type="button"
         onClick={() => {
-          setOpen(true);
+          setOpen(true)
         }}
-        className={cn("group relative block focus:outline-none", className)}
+        className={cn('group relative block focus:outline-none', className)}
         aria-label={`Agrandir ${alt}`}
       >
         <Image
@@ -40,10 +41,7 @@ export function LightboxImage({
           alt={alt}
           width={width}
           height={height}
-          className={cn(
-            "object-cover transition-transform group-hover:scale-[1.02]",
-            radius,
-          )}
+          className={cn('object-cover transition-transform group-hover:scale-[1.02]', radius)}
         />
         <span className="pointer-events-none absolute inset-0 rounded-xl bg-black/20 opacity-0 transition-opacity group-hover:opacity-100" />
       </button>
@@ -54,21 +52,21 @@ export function LightboxImage({
           aria-modal="true"
           aria-label={alt}
           onClick={() => {
-            setOpen(false);
+            setOpen(false)
           }}
         >
           <div
-            className="relative max-h-[90vh] max-w-[90vw] w-full md:w-auto rounded-[24px] border border-white/10 bg-[#0b0b0f]/80 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.6)]"
+            className="relative max-h-[90vh] w-full max-w-[90vw] rounded-[24px] border border-white/10 bg-[#0b0b0f]/80 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.6)] md:w-auto"
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation()
             }}
           >
             <button
               type="button"
               onClick={() => {
-                setOpen(false);
+                setOpen(false)
               }}
-              className="absolute right-3 top-3 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40"
+              className="absolute top-3 right-3 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20 focus:ring-2 focus:ring-white/40 focus:outline-none"
               aria-label="Fermer l'image"
             >
               <svg
@@ -97,5 +95,5 @@ export function LightboxImage({
         </div>
       )}
     </>
-  );
+  )
 }

@@ -1012,9 +1012,7 @@
     "artists": [],
     "isActive": true,
     "order": 31,
-    "relatedProjectSlugs": [
-      "acid-body-music"
-    ]
+    "relatedProjectSlugs": ["acid-body-music"]
   },
   {
     "slug": "ailleurs",
@@ -1034,9 +1032,7 @@
     "isActive": true,
     "order": 32,
     "youtubeUrl": "https://www.youtube.com/watch?v=7JLe1hLIu_U",
-    "relatedProjectSlugs": [
-      "trap-in-the-cloud"
-    ]
+    "relatedProjectSlugs": ["trap-in-the-cloud"]
   },
   {
     "slug": "alien-suites-remixes",
@@ -1056,9 +1052,7 @@
     "isActive": true,
     "order": 33,
     "youtubeUrl": "https://www.youtube.com/watch?v=Xc5-EKeDO6Y",
-    "relatedProjectSlugs": [
-      "odissey-suites-remix"
-    ]
+    "relatedProjectSlugs": ["odissey-suites-remix"]
   },
   {
     "slug": "bad-boys",
@@ -1173,9 +1167,7 @@
     "isActive": true,
     "order": 39,
     "youtubeUrl": "https://www.youtube.com/watch?v=NI04hAc0SW4",
-    "relatedProjectSlugs": [
-      "dark-ambient-vol-2"
-    ]
+    "relatedProjectSlugs": ["dark-ambient-vol-2"]
   },
   {
     "slug": "dark-ambient-vol-2-2",
@@ -1195,9 +1187,7 @@
     "isActive": true,
     "order": 40,
     "youtubeUrl": "https://www.youtube.com/watch?v=E3O5PfylPxs",
-    "relatedProjectSlugs": [
-      "dark-ambient-vol-2"
-    ]
+    "relatedProjectSlugs": ["dark-ambient-vol-2"]
   },
   {
     "slug": "des-preuves-damour",
@@ -1236,9 +1226,7 @@
     "isActive": true,
     "order": 42,
     "youtubeUrl": "https://www.youtube.com/watch?v=10LSc8MjTmM",
-    "relatedProjectSlugs": [
-      "egocentric-visuo-spatial-perspective"
-    ]
+    "relatedProjectSlugs": ["egocentric-visuo-spatial-perspective"]
   },
   {
     "slug": "emily-in-paris",
@@ -1296,9 +1284,7 @@
     "isActive": true,
     "order": 45,
     "youtubeUrl": "https://www.youtube.com/watch?v=6JYSP7NekGo",
-    "relatedProjectSlugs": [
-      "the-trip"
-    ]
+    "relatedProjectSlugs": ["the-trip"]
   },
   {
     "slug": "get-millie-back",
@@ -1337,9 +1323,7 @@
     "isActive": true,
     "order": 47,
     "youtubeUrl": "https://www.youtube.com/watch?v=ugsBtjXVgN0",
-    "relatedProjectSlugs": [
-      "brand-content"
-    ]
+    "relatedProjectSlugs": ["brand-content"]
   },
   {
     "slug": "i-am-georgina",
@@ -1378,10 +1362,7 @@
     "isActive": true,
     "order": 49,
     "youtubeUrl": "https://www.youtube.com/watch?v=FPhmJMAzsQ4",
-    "relatedProjectSlugs": [
-      "velodrome",
-      "acid"
-    ]
+    "relatedProjectSlugs": ["velodrome", "acid"]
   },
   {
     "slug": "klarna-apple-campaign",
@@ -1572,9 +1553,7 @@
     "isActive": true,
     "order": 59,
     "youtubeUrl": "https://www.youtube.com/watch?v=lsXj6hGHM-Q",
-    "relatedProjectSlugs": [
-      "lofi-hip-hop"
-    ]
+    "relatedProjectSlugs": ["lofi-hip-hop"]
   },
   {
     "slug": "monkey-man",
@@ -1613,9 +1592,7 @@
     "isActive": true,
     "order": 61,
     "youtubeUrl": "https://www.youtube.com/watch?v=jfTecY6qM2Q",
-    "relatedProjectSlugs": [
-      "ny-parigo"
-    ]
+    "relatedProjectSlugs": ["ny-parigo"]
   },
   {
     "slug": "ovm-petrom",
@@ -1673,9 +1650,7 @@
     "isActive": true,
     "order": 64,
     "youtubeUrl": "https://www.youtube.com/watch?v=RewFfsLHZSc",
-    "relatedProjectSlugs": [
-      "pixel-fiction"
-    ]
+    "relatedProjectSlugs": ["pixel-fiction"]
   },
   {
     "slug": "riviera-bizarre-2",
@@ -1695,9 +1670,7 @@
     "isActive": true,
     "order": 65,
     "youtubeUrl": "https://www.youtube.com/watch?v=wrO96WV69aY",
-    "relatedProjectSlugs": [
-      "riviera-bizarre"
-    ]
+    "relatedProjectSlugs": ["riviera-bizarre"]
   },
   {
     "slug": "somebody",
@@ -1812,9 +1785,7 @@
     "isActive": true,
     "order": 71,
     "youtubeUrl": "https://www.youtube.com/watch?v=EPnfDdfOx94",
-    "relatedProjectSlugs": [
-      "une-derniere-fois"
-    ]
+    "relatedProjectSlugs": ["une-derniere-fois"]
   },
   {
     "slug": "vengeances",
@@ -1853,9 +1824,7 @@
     "isActive": true,
     "order": 73,
     "youtubeUrl": "https://www.youtube.com/watch?v=anT5ocBumDk",
-    "relatedProjectSlugs": [
-      "videoclub"
-    ]
+    "relatedProjectSlugs": ["videoclub"]
   },
   {
     "slug": "yongman-pizza",
@@ -2182,9 +2151,7 @@
     "artists": [],
     "isActive": true,
     "order": 86,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "a-vous-de-juger",
@@ -2203,9 +2170,7 @@
     "artists": [],
     "isActive": true,
     "order": 87,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -2225,9 +2190,7 @@
     "artists": [],
     "isActive": true,
     "order": 88,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -2247,9 +2210,7 @@
     "artists": [],
     "isActive": true,
     "order": 89,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "andre-mailfert-l-epopee-d-un-faussaire-industriel",
@@ -2268,9 +2229,7 @@
     "artists": [],
     "isActive": true,
     "order": 90,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2290,9 +2249,7 @@
     "artists": [],
     "isActive": true,
     "order": 91,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -2312,9 +2269,7 @@
     "artists": [],
     "isActive": true,
     "order": 92,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -2334,9 +2289,7 @@
     "artists": [],
     "isActive": true,
     "order": 93,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -2356,9 +2309,7 @@
     "artists": [],
     "isActive": true,
     "order": 94,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "cahier-d-un-retour-en-langue-natale",
@@ -2377,9 +2328,7 @@
     "artists": [],
     "isActive": true,
     "order": 95,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -2399,9 +2348,7 @@
     "artists": [],
     "isActive": true,
     "order": 96,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "cancre",
@@ -2420,9 +2367,7 @@
     "artists": [],
     "isActive": true,
     "order": 97,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2017
   },
   {
@@ -2442,9 +2387,7 @@
     "artists": [],
     "isActive": true,
     "order": 98,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2464,9 +2407,7 @@
     "artists": [],
     "isActive": true,
     "order": 99,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -2486,9 +2427,7 @@
     "artists": [],
     "isActive": true,
     "order": 100,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2508,9 +2447,7 @@
     "artists": [],
     "isActive": true,
     "order": 101,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "comment-te-dire-adieu",
@@ -2529,9 +2466,7 @@
     "artists": [],
     "isActive": true,
     "order": 102,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -2551,9 +2486,7 @@
     "artists": [],
     "isActive": true,
     "order": 103,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2573,9 +2506,7 @@
     "artists": [],
     "isActive": true,
     "order": 104,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "d-iam-a-jul-marseille-capitale-rap",
@@ -2594,9 +2525,7 @@
     "artists": [],
     "isActive": true,
     "order": 105,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2616,9 +2545,7 @@
     "artists": [],
     "isActive": true,
     "order": 106,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "de-gerard-a-monsieur-collomb-itineraire-d-un-baron",
@@ -2637,9 +2564,7 @@
     "artists": [],
     "isActive": true,
     "order": 107,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "deconfines-en-re",
@@ -2658,9 +2583,7 @@
     "artists": [],
     "isActive": true,
     "order": 108,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2680,9 +2603,7 @@
     "artists": [],
     "isActive": true,
     "order": 109,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -2702,9 +2623,7 @@
     "artists": [],
     "isActive": true,
     "order": 110,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -2724,9 +2643,7 @@
     "artists": [],
     "isActive": true,
     "order": 111,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "des-joujoux-par-milliers",
@@ -2745,9 +2662,7 @@
     "artists": [],
     "isActive": true,
     "order": 112,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -2767,9 +2682,7 @@
     "artists": [],
     "isActive": true,
     "order": 113,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "en-jachere",
@@ -2788,9 +2701,7 @@
     "artists": [],
     "isActive": true,
     "order": 114,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -2810,9 +2721,7 @@
     "artists": [],
     "isActive": true,
     "order": 115,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "eric-piolle-le-pelerin-vert",
@@ -2831,9 +2740,7 @@
     "artists": [],
     "isActive": true,
     "order": 116,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "filles-de-harkis",
@@ -2852,9 +2759,7 @@
     "artists": [],
     "isActive": true,
     "order": 117,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -2874,9 +2779,7 @@
     "artists": [],
     "isActive": true,
     "order": 118,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -2896,9 +2799,7 @@
     "artists": [],
     "isActive": true,
     "order": 119,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -2918,9 +2819,7 @@
     "artists": [],
     "isActive": true,
     "order": 120,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -2940,9 +2839,7 @@
     "artists": [],
     "isActive": true,
     "order": 121,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "generation-grand-bleu",
@@ -2961,9 +2858,7 @@
     "artists": [],
     "isActive": true,
     "order": 122,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2017
   },
   {
@@ -2983,9 +2878,7 @@
     "artists": [],
     "isActive": true,
     "order": 123,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "georges-perec-l-homme-qui-ne-voulait-pas-oublier",
@@ -3004,9 +2897,7 @@
     "artists": [],
     "isActive": true,
     "order": 124,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -3026,9 +2917,7 @@
     "artists": [],
     "isActive": true,
     "order": 125,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -3048,9 +2937,7 @@
     "artists": [],
     "isActive": true,
     "order": 126,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "guyane-vivre-avec-le-jaguar",
@@ -3069,9 +2956,7 @@
     "artists": [],
     "isActive": true,
     "order": 127,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -3091,9 +2976,7 @@
     "artists": [],
     "isActive": true,
     "order": 128,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -3113,9 +2996,7 @@
     "artists": [],
     "isActive": true,
     "order": 129,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3135,9 +3016,7 @@
     "artists": [],
     "isActive": true,
     "order": 130,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3157,9 +3036,7 @@
     "artists": [],
     "isActive": true,
     "order": 131,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -3179,9 +3056,7 @@
     "artists": [],
     "isActive": true,
     "order": 132,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "jean-jouzel-dans-la-bataille-du-siecle",
@@ -3200,9 +3075,7 @@
     "artists": [],
     "isActive": true,
     "order": 133,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -3222,9 +3095,7 @@
     "artists": [],
     "isActive": true,
     "order": 134,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3244,9 +3115,7 @@
     "artists": [],
     "isActive": true,
     "order": 135,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3266,9 +3135,7 @@
     "artists": [],
     "isActive": true,
     "order": 136,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "karim-contre-mittal",
@@ -3287,9 +3154,7 @@
     "artists": [],
     "isActive": true,
     "order": 137,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -3309,9 +3174,7 @@
     "artists": [],
     "isActive": true,
     "order": 138,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3331,9 +3194,7 @@
     "artists": [],
     "isActive": true,
     "order": 139,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -3353,9 +3214,7 @@
     "artists": [],
     "isActive": true,
     "order": 140,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "la-brousse-une-terre-en-partage",
@@ -3374,9 +3233,7 @@
     "artists": [],
     "isActive": true,
     "order": 141,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "la-clinique-de-l-amour",
@@ -3395,9 +3252,7 @@
     "artists": [],
     "isActive": true,
     "order": 142,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -3417,9 +3272,7 @@
     "artists": [],
     "isActive": true,
     "order": 143,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3439,9 +3292,7 @@
     "artists": [],
     "isActive": true,
     "order": 144,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -3461,9 +3312,7 @@
     "artists": [],
     "isActive": true,
     "order": 145,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2018
   },
   {
@@ -3483,9 +3332,7 @@
     "artists": [],
     "isActive": true,
     "order": 146,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -3505,9 +3352,7 @@
     "artists": [],
     "isActive": true,
     "order": 147,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -3527,9 +3372,7 @@
     "artists": [],
     "isActive": true,
     "order": 148,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "la-tragique-histoire-de-fritz-l-elephant",
@@ -3548,9 +3391,7 @@
     "artists": [],
     "isActive": true,
     "order": 149,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -3570,9 +3411,7 @@
     "artists": [],
     "isActive": true,
     "order": 150,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -3592,9 +3431,7 @@
     "artists": [],
     "isActive": true,
     "order": 151,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -3614,9 +3451,7 @@
     "artists": [],
     "isActive": true,
     "order": 152,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -3636,9 +3471,7 @@
     "artists": [],
     "isActive": true,
     "order": 153,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -3658,9 +3491,7 @@
     "artists": [],
     "isActive": true,
     "order": 154,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "le-temps-d-aimer",
@@ -3679,9 +3510,7 @@
     "artists": [],
     "isActive": true,
     "order": 155,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -3701,9 +3530,7 @@
     "artists": [],
     "isActive": true,
     "order": 156,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "le-troisieme-reich-naura-pas-la-bombe",
@@ -3722,9 +3549,7 @@
     "artists": [],
     "isActive": true,
     "order": 157,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "leila-une-vie-a-miquelon",
@@ -3743,10 +3568,7 @@
     "artists": [],
     "isActive": true,
     "order": 158,
-    "productionCompanySlug": [
-      "13prods",
-      "via-decouvertes-films"
-    ],
+    "productionCompanySlug": ["13prods", "via-decouvertes-films"],
     "year": 2023
   },
   {
@@ -3766,10 +3588,7 @@
     "artists": [],
     "isActive": true,
     "order": 159,
-    "productionCompanySlug": [
-      "13prods",
-      "via-decouvertes-films"
-    ],
+    "productionCompanySlug": ["13prods", "via-decouvertes-films"],
     "year": 2021
   },
   {
@@ -3789,9 +3608,7 @@
     "artists": [],
     "isActive": true,
     "order": 160,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -3811,9 +3628,7 @@
     "artists": [],
     "isActive": true,
     "order": 161,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -3833,9 +3648,7 @@
     "artists": [],
     "isActive": true,
     "order": 162,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -3855,9 +3668,7 @@
     "artists": [],
     "isActive": true,
     "order": 163,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "les-enfants-de-madame-massu",
@@ -3876,9 +3687,7 @@
     "artists": [],
     "isActive": true,
     "order": 164,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3898,9 +3707,7 @@
     "artists": [],
     "isActive": true,
     "order": 165,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2018
   },
   {
@@ -3920,9 +3727,7 @@
     "artists": [],
     "isActive": true,
     "order": 166,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "les-freres-verges",
@@ -3941,9 +3746,7 @@
     "artists": [],
     "isActive": true,
     "order": 167,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -3963,9 +3766,7 @@
     "artists": [],
     "isActive": true,
     "order": 168,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -3985,9 +3786,7 @@
     "artists": [],
     "isActive": true,
     "order": 169,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -4007,9 +3806,7 @@
     "artists": [],
     "isActive": true,
     "order": 170,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -4029,9 +3826,7 @@
     "artists": [],
     "isActive": true,
     "order": 171,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2018
   },
   {
@@ -4051,9 +3846,7 @@
     "artists": [],
     "isActive": true,
     "order": 172,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -4073,9 +3866,7 @@
     "artists": [],
     "isActive": true,
     "order": 173,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -4095,9 +3886,7 @@
     "artists": [],
     "isActive": true,
     "order": 174,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -4117,9 +3906,7 @@
     "artists": [],
     "isActive": true,
     "order": 175,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -4139,9 +3926,7 @@
     "artists": [],
     "isActive": true,
     "order": 176,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -4161,9 +3946,7 @@
     "artists": [],
     "isActive": true,
     "order": 177,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2018
   },
   {
@@ -4183,9 +3966,7 @@
     "artists": [],
     "isActive": true,
     "order": 178,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "makatea-la-terre-convoitee",
@@ -4204,9 +3985,7 @@
     "artists": [],
     "isActive": true,
     "order": 179,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "mangas-une-revolution-francaise",
@@ -4225,9 +4004,7 @@
     "artists": [],
     "isActive": true,
     "order": 180,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "marcus-klingberg-un-pur-espion",
@@ -4246,9 +4023,7 @@
     "artists": [],
     "isActive": true,
     "order": 181,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -4268,9 +4043,7 @@
     "artists": [],
     "isActive": true,
     "order": 182,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -4290,9 +4063,7 @@
     "artists": [],
     "isActive": true,
     "order": 183,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "masque-de-fer",
@@ -4311,9 +4082,7 @@
     "artists": [],
     "isActive": true,
     "order": 184,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "matrine-aubry-la-dame-de-lille",
@@ -4332,9 +4101,7 @@
     "artists": [],
     "isActive": true,
     "order": 185,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -4354,9 +4121,7 @@
     "artists": [],
     "isActive": true,
     "order": 186,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -4376,9 +4141,7 @@
     "artists": [],
     "isActive": true,
     "order": 187,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "mayotte-les-combattantes",
@@ -4397,9 +4160,7 @@
     "artists": [],
     "isActive": true,
     "order": 188,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "mes-parents-ces-heros-ordinaires",
@@ -4418,9 +4179,7 @@
     "artists": [],
     "isActive": true,
     "order": 189,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -4440,9 +4199,7 @@
     "artists": [],
     "isActive": true,
     "order": 190,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "miquelon-entre-deux-eaux",
@@ -4461,9 +4218,7 @@
     "artists": [],
     "isActive": true,
     "order": 191,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "montmartre-est-une-fete",
@@ -4482,9 +4237,7 @@
     "artists": [],
     "isActive": true,
     "order": 192,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -4504,9 +4257,7 @@
     "artists": [],
     "isActive": true,
     "order": 193,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -4526,9 +4277,7 @@
     "artists": [],
     "isActive": true,
     "order": 194,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -4548,9 +4297,7 @@
     "artists": [],
     "isActive": true,
     "order": 195,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -4570,9 +4317,7 @@
     "artists": [],
     "isActive": true,
     "order": 196,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "par-nos-yeux",
@@ -4591,9 +4336,7 @@
     "artists": [],
     "isActive": true,
     "order": 197,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2018
   },
   {
@@ -4613,9 +4356,7 @@
     "artists": [],
     "isActive": true,
     "order": 198,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -4635,9 +4376,7 @@
     "artists": [],
     "isActive": true,
     "order": 199,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "petit-pays-je-t-aime-beaucoup",
@@ -4656,9 +4395,7 @@
     "artists": [],
     "isActive": true,
     "order": 200,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "plonger-pour-guerir",
@@ -4677,10 +4414,7 @@
     "artists": [],
     "isActive": true,
     "order": 201,
-    "productionCompanySlug": [
-      "13prods",
-      "via-decouvertes-films"
-    ],
+    "productionCompanySlug": ["13prods", "via-decouvertes-films"],
     "year": 2022
   },
   {
@@ -4700,9 +4434,7 @@
     "artists": [],
     "isActive": true,
     "order": 202,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -4722,9 +4454,7 @@
     "artists": [],
     "isActive": true,
     "order": 203,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "reves-de-princesses",
@@ -4743,9 +4473,7 @@
     "artists": [],
     "isActive": true,
     "order": 204,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2018
   },
   {
@@ -4765,9 +4493,7 @@
     "artists": [],
     "isActive": true,
     "order": 205,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "si-loin-de-la-polynesie",
@@ -4786,9 +4512,7 @@
     "artists": [],
     "isActive": true,
     "order": 206,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -4808,9 +4532,7 @@
     "artists": [],
     "isActive": true,
     "order": 207,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2020
   },
   {
@@ -4830,9 +4552,7 @@
     "artists": [],
     "isActive": true,
     "order": 208,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -4852,9 +4572,7 @@
     "artists": [],
     "isActive": true,
     "order": 209,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -4874,9 +4592,7 @@
     "artists": [],
     "isActive": true,
     "order": 210,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2019
   },
   {
@@ -4896,9 +4612,7 @@
     "artists": [],
     "isActive": true,
     "order": 211,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -4918,9 +4632,7 @@
     "artists": [],
     "isActive": true,
     "order": 212,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "une-deuxieme-chance",
@@ -4939,9 +4651,7 @@
     "artists": [],
     "isActive": true,
     "order": 213,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2023
   },
   {
@@ -4961,9 +4671,7 @@
     "artists": [],
     "isActive": true,
     "order": 214,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2021
   },
   {
@@ -4983,9 +4691,7 @@
     "artists": [],
     "isActive": true,
     "order": 215,
-    "productionCompanySlug": [
-      "13prods"
-    ]
+    "productionCompanySlug": ["13prods"]
   },
   {
     "slug": "veilleur-de-nuit",
@@ -5004,9 +4710,7 @@
     "artists": [],
     "isActive": true,
     "order": 216,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2025
   },
   {
@@ -5026,9 +4730,7 @@
     "artists": [],
     "isActive": true,
     "order": 217,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2022
   },
   {
@@ -5048,9 +4750,7 @@
     "artists": [],
     "isActive": true,
     "order": 218,
-    "productionCompanySlug": [
-      "13prods"
-    ],
+    "productionCompanySlug": ["13prods"],
     "year": 2024
   },
   {
@@ -5070,9 +4770,7 @@
     "artists": [],
     "isActive": true,
     "order": 219,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "dans-les-eaux-troubles-de-la-plus-grande-banque-europeenne",
@@ -5091,9 +4789,7 @@
     "artists": [],
     "isActive": true,
     "order": 220,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "inde-les-paysans",
@@ -5112,9 +4808,7 @@
     "artists": [],
     "isActive": true,
     "order": 221,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2024
   },
   {
@@ -5134,9 +4828,7 @@
     "artists": [],
     "isActive": true,
     "order": 222,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2017
   },
   {
@@ -5156,9 +4848,7 @@
     "artists": [],
     "isActive": true,
     "order": 223,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "la-democratie-du-dollar",
@@ -5177,9 +4867,7 @@
     "artists": [],
     "isActive": true,
     "order": 224,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2020
   },
   {
@@ -5199,9 +4887,7 @@
     "artists": [],
     "isActive": true,
     "order": 225,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "les-oublies-de-l-atome",
@@ -5220,9 +4906,7 @@
     "artists": [],
     "isActive": true,
     "order": 226,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2023
   },
   {
@@ -5242,9 +4926,7 @@
     "artists": [],
     "isActive": true,
     "order": 227,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "numero-387-disparu-en-mediterranee",
@@ -5263,9 +4945,7 @@
     "artists": [],
     "isActive": true,
     "order": 228,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2020
   },
   {
@@ -5285,9 +4965,7 @@
     "artists": [],
     "isActive": true,
     "order": 229,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2025
   },
   {
@@ -5307,9 +4985,7 @@
     "artists": [],
     "isActive": true,
     "order": 230,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2024
   },
   {
@@ -5329,9 +5005,7 @@
     "artists": [],
     "isActive": true,
     "order": 231,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "taiwan-une-democratie-a-l-ombre-de-la-chine",
@@ -5350,9 +5024,7 @@
     "artists": [],
     "isActive": true,
     "order": 232,
-    "productionCompanySlug": [
-      "little-big-story"
-    ]
+    "productionCompanySlug": ["little-big-story"]
   },
   {
     "slug": "un-pasteur",
@@ -5371,9 +5043,7 @@
     "artists": [],
     "isActive": true,
     "order": 233,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2024
   },
   {
@@ -5393,9 +5063,7 @@
     "artists": [],
     "isActive": true,
     "order": 234,
-    "productionCompanySlug": [
-      "little-big-story"
-    ],
+    "productionCompanySlug": ["little-big-story"],
     "year": 2025
   },
   {
@@ -5415,9 +5083,7 @@
     "artists": [],
     "isActive": true,
     "order": 235,
-    "productionCompanySlug": [
-      "pop-films"
-    ]
+    "productionCompanySlug": ["pop-films"]
   },
   {
     "slug": "chants-gregoriens-20",
@@ -5436,9 +5102,7 @@
     "artists": [],
     "isActive": true,
     "order": 236,
-    "productionCompanySlug": [
-      "pop-films"
-    ]
+    "productionCompanySlug": ["pop-films"]
   },
   {
     "slug": "gorongosa-le-parc-de-la-reconciliation",
@@ -5457,10 +5121,7 @@
     "artists": [],
     "isActive": true,
     "order": 237,
-    "productionCompanySlug": [
-      "pop-films",
-      "via-decouvertes-films"
-    ]
+    "productionCompanySlug": ["pop-films", "via-decouvertes-films"]
   },
   {
     "slug": "jamie-lee-curtis-un-cri-de-liberte-a-hollywood",
@@ -5479,9 +5140,7 @@
     "artists": [],
     "isActive": true,
     "order": 238,
-    "productionCompanySlug": [
-      "pop-films"
-    ],
+    "productionCompanySlug": ["pop-films"],
     "year": 2022
   },
   {
@@ -5501,9 +5160,7 @@
     "artists": [],
     "isActive": true,
     "order": 239,
-    "productionCompanySlug": [
-      "pop-films"
-    ],
+    "productionCompanySlug": ["pop-films"],
     "year": 2022
   },
   {
@@ -5523,9 +5180,7 @@
     "artists": [],
     "isActive": true,
     "order": 240,
-    "productionCompanySlug": [
-      "pop-films"
-    ]
+    "productionCompanySlug": ["pop-films"]
   },
   {
     "slug": "naissance-d-un-hero-noir-au-cinema-sweet-sweetback",
@@ -5544,9 +5199,7 @@
     "artists": [],
     "isActive": true,
     "order": 241,
-    "productionCompanySlug": [
-      "pop-films"
-    ]
+    "productionCompanySlug": ["pop-films"]
   },
   {
     "slug": "naissance-d-un-hero-noir-au-cinema-sweet-sweetback-2",
@@ -5565,9 +5218,7 @@
     "artists": [],
     "isActive": true,
     "order": 242,
-    "productionCompanySlug": [
-      "pop-films"
-    ]
+    "productionCompanySlug": ["pop-films"]
   },
   {
     "slug": "naissance-dun-heros-noir-au-cinema-sweet-sweetback",
@@ -5586,9 +5237,7 @@
     "artists": [],
     "isActive": true,
     "order": 243,
-    "productionCompanySlug": [
-      "pop-films"
-    ]
+    "productionCompanySlug": ["pop-films"]
   },
   {
     "slug": "au-nom-de-la-mer",
@@ -5607,10 +5256,7 @@
     "artists": [],
     "isActive": true,
     "order": 244,
-    "productionCompanySlug": [
-      "via-decouvertes-films",
-      "13prods"
-    ],
+    "productionCompanySlug": ["via-decouvertes-films", "13prods"],
     "year": 2021
   },
   {
@@ -5630,9 +5276,7 @@
     "artists": [],
     "isActive": true,
     "order": 245,
-    "productionCompanySlug": [
-      "via-decouvertes-films"
-    ]
+    "productionCompanySlug": ["via-decouvertes-films"]
   },
   {
     "slug": "operation-biodiversite",
@@ -5651,9 +5295,7 @@
     "artists": [],
     "isActive": true,
     "order": 246,
-    "productionCompanySlug": [
-      "via-decouvertes-films"
-    ],
+    "productionCompanySlug": ["via-decouvertes-films"],
     "year": 2019
   },
   {

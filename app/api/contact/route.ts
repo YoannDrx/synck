@@ -1,53 +1,49 @@
 /* eslint-disable no-console */
+import { NextResponse } from 'next/server'
 
-import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import { Resend } from 'resend'
 
-let resendClient: Resend | null = null;
+let resendClient: Resend | null = null
 
 function getResendClient() {
   if (resendClient) {
-    return resendClient;
+    return resendClient
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) {
-    return null;
+    return null
   }
 
-  resendClient = new Resend(apiKey);
-  return resendClient;
+  resendClient = new Resend(apiKey)
+  return resendClient
 }
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json() as { name: string; email: string; subject: string; message: string };
-    const { name, email, subject, message } = body;
+    const body = (await request.json()) as {
+      name: string
+      email: string
+      subject: string
+      message: string
+    }
+    const { name, email, subject, message } = body
 
     // Validation
     if (!name || !email || !subject || !message) {
-      return NextResponse.json(
-        { error: 'Tous les champs sont requis' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Tous les champs sont requis' }, { status: 400 })
     }
 
     // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Email invalide' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Email invalide' }, { status: 400 })
     }
 
-    const resend = getResendClient();
+    const resend = getResendClient()
     if (!resend) {
-      console.warn('RESEND_API_KEY is not configured. Contact form submission cannot be sent.');
-      return NextResponse.json(
-        { error: 'Service de messagerie non configuré' },
-        { status: 503 }
-      );
+      console.warn('RESEND_API_KEY is not configured. Contact form submission cannot be sent.')
+      return NextResponse.json({ error: 'Service de messagerie non configuré' }, { status: 503 })
     }
 
     // Send email with Resend
@@ -76,14 +72,11 @@ export async function POST(request: Request) {
           </p>
         </div>
       `,
-    });
+    })
 
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json({ success: true, data })
   } catch (error) {
-    console.error('Error sending email:', error);
-    return NextResponse.json(
-      { error: 'Erreur lors de l\'envoi du message' },
-      { status: 500 }
-    );
+    console.error('Error sending email:', error)
+    return NextResponse.json({ error: "Erreur lors de l'envoi du message" }, { status: 500 })
   }
 }

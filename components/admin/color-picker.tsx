@@ -1,20 +1,17 @@
-"use client";
+'use client'
 
-import { HexColorPicker } from "react-colorful";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { HexColorPicker } from 'react-colorful'
+
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 export function ColorPicker({
   value,
   onChange,
 }: {
-  value: string;
-  onChange: (color: string) => void;
+  value: string
+  onChange: (color: string) => void
 }) {
   return (
     <div className="flex gap-2">
@@ -22,7 +19,7 @@ export function ColorPicker({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="w-12 h-12 p-0 border-2"
+            className="h-12 w-12 border-2 p-0"
             style={{ backgroundColor: value }}
           />
         </PopoverTrigger>
@@ -33,10 +30,12 @@ export function ColorPicker({
       <Input
         type="text"
         value={value}
-        onChange={(e) => { onChange(e.target.value); }}
+        onChange={(e) => {
+          onChange(e.target.value)
+        }}
         className="flex-1"
         placeholder="#000000"
       />
     </div>
-  );
+  )
 }

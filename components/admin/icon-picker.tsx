@@ -1,7 +1,10 @@
-"use client";
+'use client'
 
-import * as Icons from "lucide-react";
-import { useState } from "react";
+import { useState } from 'react'
+
+import * as Icons from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -9,38 +12,33 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 const iconNames = Object.keys(Icons).filter(
-  (key) => key !== "createLucideIcon" && key !== "default",
-);
+  (key) => key !== 'createLucideIcon' && key !== 'default'
+)
 
 export function IconPicker({
   value,
   onChange,
 }: {
-  value: string;
-  onChange: (icon: string) => void;
+  value: string
+  onChange: (icon: string) => void
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const IconComponent =
     value && (Icons as unknown as Record<string, React.ElementType>)[value]
       ? (Icons as unknown as Record<string, React.ElementType>)[value]
-      : Icons.HelpCircle;
+      : Icons.HelpCircle
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="outline" className="w-full justify-start gap-2">
           <IconComponent className="h-4 w-4" />
-          {value || "Sélectionner une icône"}
+          {value || 'Sélectionner une icône'}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80 p-0">
@@ -50,27 +48,25 @@ export function IconPicker({
           <CommandList className="max-h-64">
             <CommandGroup>
               {iconNames.slice(0, 100).map((iconName) => {
-                const Icon = (Icons as unknown as Record<string, React.ElementType>)[
-                  iconName
-                ];
+                const Icon = (Icons as unknown as Record<string, React.ElementType>)[iconName]
                 return (
                   <CommandItem
                     key={iconName}
                     value={iconName}
                     onSelect={() => {
-                      onChange(iconName);
-                      setOpen(false);
+                      onChange(iconName)
+                      setOpen(false)
                     }}
                   >
                     <Icon className="mr-2 h-4 w-4" />
                     {iconName}
                   </CommandItem>
-                );
+                )
               })}
             </CommandGroup>
           </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
-  );
+  )
 }

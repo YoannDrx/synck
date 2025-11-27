@@ -1,1 +1,1 @@
-Passionate about Jamaican music and its rhythms which they have been practicing for around twenty years, initiated and supported by the masters of Rasta drums, Nicolas Belouet (Nicodrum), Thomas Cirade, Yann Jaffré (Dub music specialist) and Jimmy Zaccardelli 
+Passionate about Jamaican music and its rhythms which they have been practicing for around twenty years, initiated and supported by the masters of Rasta drums, Nicolas Belouet (Nicodrum), Thomas Cirade, Yann Jaffré (Dub music specialist) and Jimmy Zaccardelli

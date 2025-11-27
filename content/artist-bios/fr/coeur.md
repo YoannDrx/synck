@@ -1,4 +1,4 @@
-https://www.instagram.com/coeurkokoro/?hl=fr 
+https://www.instagram.com/coeurkokoro/?hl=fr
 
 Cœur est une chanteuse et productrice française liée à la scène Mutant Ninja. Sa musique mêle influences pop, hip-hop et électroniques dans une esthétique sombre et introspective, portée par une écriture très personnelle.
 Charlie Duran, connue sous le nom de Cœur, est une artiste, rappeuse, chanteuse française. Elle est originaire de Lyon et a commencé sa carrière musicale en tant que membre du duo Schlaasss.

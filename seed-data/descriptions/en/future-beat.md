@@ -1,1 +1,1 @@
-After three consecutive titles as DMC world team champion, 9 O'Clock lets the technical spectrum evaporate to better assert its deep identity with the release of this album. 
+After three consecutive titles as DMC world team champion, 9 O'Clock lets the technical spectrum evaporate to better assert its deep identity with the release of this album.

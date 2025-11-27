@@ -1,11 +1,9 @@
-import { NextResponse } from "next/server";
-import { withAuth } from "@/lib/api/with-auth";
-import { prisma } from "@/lib/prisma";
-import {
-  recordSuccessfulExport,
-  recordFailedExport,
-} from "@/lib/export-history";
-import { createAuditLog } from "@/lib/audit-log";
+import { NextResponse } from 'next/server'
+
+import { withAuth } from '@/lib/api/with-auth'
+import { createAuditLog } from '@/lib/audit-log'
+import { recordFailedExport, recordSuccessfulExport } from '@/lib/export-history'
+import { prisma } from '@/lib/prisma'
 
 // GET /api/admin/exports/assets - Export assets
 export const GET = withAuth(async (request, _context, user) => {
@@ -20,48 +18,45 @@ export const GET = withAuth(async (request, _context, user) => {
         expertiseImages: { select: { id: true, slug: true } },
         expertiseCover: { select: { id: true, slug: true } },
       },
-    });
+    })
 
     const data = {
       assets,
       exportedAt: new Date().toISOString(),
       count: assets.length,
-    };
+    }
 
     await recordSuccessfulExport({
       userId: user.id,
-      type: "ASSETS",
-      format: "JSON",
+      type: 'ASSETS',
+      format: 'JSON',
       entityCount: assets.length,
       data,
-    });
+    })
 
     // Audit log
     await createAuditLog({
       userId: user.id,
-      action: "EXPORT",
-      entityType: "Asset",
+      action: 'EXPORT',
+      entityType: 'Asset',
       metadata: {
-        type: "ASSETS",
-        format: "JSON",
+        type: 'ASSETS',
+        format: 'JSON',
         entityCount: assets.length,
       },
-      ipAddress: request.headers.get("x-forwarded-for") ?? undefined,
-      userAgent: request.headers.get("user-agent") ?? undefined,
-    });
+      ipAddress: request.headers.get('x-forwarded-for') ?? undefined,
+      userAgent: request.headers.get('user-agent') ?? undefined,
+    })
 
-    return NextResponse.json(data);
+    return NextResponse.json(data)
   } catch (error) {
     await recordFailedExport({
       userId: user.id,
-      type: "ASSETS",
-      format: "JSON",
-      error: error instanceof Error ? error.message : "Unknown error",
-    });
+      type: 'ASSETS',
+      format: 'JSON',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
 
-    return NextResponse.json(
-      { error: "Failed to export assets" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: 'Failed to export assets' }, { status: 500 })
   }
-});
+})

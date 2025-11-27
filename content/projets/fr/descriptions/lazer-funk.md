@@ -1,3 +1,3 @@
 LAZER FUNK est une invitation au funk électro aussi rétro que futuriste. Branchez la pédale wah, c'est l'heure du Lazer Funk. 14 titres rétro et cinématiques qui abordent tous les genres, du funk pur et dur, au breakbeat et à l'electronica, en passant par le trip- et le hip-hop refroidis.
 
- Composé par Aeon Seven, ancien membre du duo français <a href= "ttps://www.youtube.com/sheischristine" target="_blank" className="link"}>Christine</a> et récent collaborateur du collectif britannique 45 Live.
+Composé par Aeon Seven, ancien membre du duo français <a href= "ttps://www.youtube.com/sheischristine" target="\_blank" className="link"}>Christine</a> et récent collaborateur du collectif britannique 45 Live.

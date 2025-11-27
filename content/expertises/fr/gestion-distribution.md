@@ -1,16 +1,16 @@
 ---
-id: "4"
-title: "Gestion de la distribution physique et digitale"
-description: "description de la gestion de la distribution physique et digitale"
+id: '4'
+title: 'Gestion de la distribution physique et digitale'
+description: 'description de la gestion de la distribution physique et digitale'
 intro: 'Le terme "distribution" fait référence à la troisième phase de production d''un enregistrement, qu''il s''agisse d''un album, d''un Ep ou d''un maxi. Cette phase englobe la commercialisation du produit à l''intention des consommateurs potentiels.'
-slug: "gestion-distribution"
+slug: 'gestion-distribution'
 imgHome: /images/projets/expertises/gestion-distribution/gestion-distribution-home.jpg
 img1: /images/projets/expertises/gestion-distribution/gestion-distribution-section-1.jpg
 img2: /images/projets/expertises/gestion-distribution/gestion-distribution-section-2.jpg
 img3: /images/projets/expertises/gestion-distribution/gestion-distribution-section-3.jpg
 img4: /images/projets/expertises/gestion-distribution/gestion-distribution-section-4.jpg
 img5: /images/projets/expertises/gestion-distribution/photo5-gestiondistrib.GIF
-imgFooter: ""
+imgFooter: ''
 sectionsLayout:
   - image: img1
     position: right

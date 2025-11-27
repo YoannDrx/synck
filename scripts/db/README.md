@@ -21,29 +21,29 @@ scripts/db/
 
 ### Development (uses `.env.local` → Neon dev branch)
 
-| Command | Description |
-|---------|-------------|
-| `pnpm db:reset` | Reset without seed |
-| `pnpm db:seed` | Seed only |
+| Command              | Description                |
+| -------------------- | -------------------------- |
+| `pnpm db:reset`      | Reset without seed         |
+| `pnpm db:seed`       | Seed only                  |
 | `pnpm db:reset:seed` | Reset + seed (most common) |
 
 ### Production (uses `.env` only, ignores `.env.local`)
 
-| Command | Description |
-|---------|-------------|
-| `pnpm db:reset:prod` | Reset prod without seed |
-| `pnpm db:seed:prod` | Seed prod only |
-| `pnpm db:reset:seed:prod` | Reset + seed prod |
-| `pnpm db:migrate:prod` | Apply migrations to prod |
+| Command                   | Description              |
+| ------------------------- | ------------------------ |
+| `pnpm db:reset:prod`      | Reset prod without seed  |
+| `pnpm db:seed:prod`       | Seed prod only           |
+| `pnpm db:reset:seed:prod` | Reset + seed prod        |
+| `pnpm db:migrate:prod`    | Apply migrations to prod |
 
 ### Other DB commands
 
-| Command | Description |
-|---------|-------------|
-| `pnpm db:migrate` | Create and apply a migration |
-| `pnpm db:generate` | Generate Prisma Client |
-| `pnpm db:studio` | Open Prisma Studio |
-| `pnpm db:migrate:check` | Check migration status (CI) |
+| Command                 | Description                  |
+| ----------------------- | ---------------------------- |
+| `pnpm db:migrate`       | Create and apply a migration |
+| `pnpm db:generate`      | Generate Prisma Client       |
+| `pnpm db:studio`        | Open Prisma Studio           |
+| `pnpm db:migrate:check` | Check migration status (CI)  |
 
 ## Environment Files
 
@@ -117,14 +117,14 @@ This ensures you can't accidentally affect production from local.
 All scripts use shared utilities:
 
 ```typescript
-import { log, loadEnv, validateEnv, runPrismaReset, runPrismaSeed } from "./utils";
+import { loadEnv, log, runPrismaReset, runPrismaSeed, validateEnv } from './utils'
 
-runScript("seed-dev", () => {
-  log.header("Seed DEVELOPMENT Database");
-  loadEnv("development");
-  validateEnv();
-  runPrismaSeed();
-});
+runScript('seed-dev', () => {
+  log.header('Seed DEVELOPMENT Database')
+  loadEnv('development')
+  validateEnv()
+  runPrismaSeed()
+})
 ```
 
 ## Output Example

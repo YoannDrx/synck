@@ -1,10 +1,11 @@
-import { betterAuth } from "better-auth";
-import { prismaAdapter } from "better-auth/adapters/prisma";
-import { prisma } from "./prisma";
+import { betterAuth } from 'better-auth'
+import { prismaAdapter } from 'better-auth/adapters/prisma'
+
+import { prisma } from './prisma'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
-    provider: "postgresql",
+    provider: 'postgresql',
   }),
   emailAndPassword: {
     enabled: true,
@@ -17,21 +18,21 @@ export const auth = betterAuth({
   user: {
     additionalFields: {
       role: {
-        type: "string",
+        type: 'string',
         required: false,
       },
       isActive: {
-        type: "boolean",
+        type: 'boolean',
         defaultValue: true,
         required: false,
       },
       lastLoginAt: {
-        type: "date",
+        type: 'date',
         required: false,
       },
     },
   },
-  trustedOrigins: [process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"],
-});
+  trustedOrigins: [process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'],
+})
 
-export type Session = typeof auth.$Infer.Session;
+export type Session = typeof auth.$Infer.Session

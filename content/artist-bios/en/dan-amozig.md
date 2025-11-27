@@ -2,8 +2,8 @@ Dan Amozig is a multi-instrumentalist from Amiens, known for his mastery of guit
 In the early 2000s, he began immersing himself in the music scene, exploring both jazz and hip-hop. His talent and versatility led him to Paris in 2010, where he quickly joined various projects, in hip-hop (Billie Brelok, JP Manova live band, Blanka Flares trio) as well as in jazz (Forswing quartet, Awa, BAP Trio, Double Jack guitar duo). These groups have performed at major festivals such as Rock en Seine, Les Transmusicales and Les Francofolies de La Rochelle.
 Alongside his live performances and studio work, Dan has hosted the radio show Fine Cuts on Radio Campus Paris 93.9 FM since 2011, a platform through which he has met and interviewed numerous influential artists. A graduate of the CIM in 2014, he also shares his passion for music as a guitar teacher at the conservatory of Épinay-sur-Seine, where he teaches contemporary music.
 Dan continues to enrich the music scene with notable contributions to various albums. In 2024, he appeared on four very different records, reflecting his artistic eclecticism:
-	•	Awon & Parental – Sublime (rap)
-	•	Principles of Joy – It’s Soul That Counts (soul)
-	•	N’Zeng – The Trip (trip-hop)
-	•	Yann Kornowicz & Dan Amozig – VIDEOCLUB 2 (original soundtrack)
+• Awon & Parental – Sublime (rap)
+• Principles of Joy – It’s Soul That Counts (soul)
+• N’Zeng – The Trip (trip-hop)
+• Yann Kornowicz & Dan Amozig – VIDEOCLUB 2 (original soundtrack)
 With one foot firmly rooted in jazz and the other venturing into hip-hop and beyond, Dan Amozig is a true musical pioneer. His ability to weave together diverse influences makes him a standout figure on the contemporary French music scene.

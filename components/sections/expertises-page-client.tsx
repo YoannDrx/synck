@@ -1,96 +1,88 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import Link from 'next/link'
+import { useRef } from 'react'
 
-import { Breadcrumb } from "@/components/breadcrumb";
-import { PageLayout } from "@/components/layout/page-layout";
-import { cn } from "@/lib/utils";
-import type { Locale } from "@/lib/i18n-config";
+import { motion, useInView } from 'framer-motion'
+
+import type { Locale } from '@/lib/i18n-config'
+import { cn } from '@/lib/utils'
+
+import { Breadcrumb } from '@/components/breadcrumb'
+import { PageLayout } from '@/components/layout/page-layout'
 
 type Expertise = {
-  slug: string;
-  title: string;
-  description: string;
-  imgHome: string;
-};
+  slug: string
+  title: string
+  description: string
+  imgHome: string
+}
 
 type ExpertisesPageClientProps = {
-  locale: Locale;
-  expertises: Expertise[];
+  locale: Locale
+  expertises: Expertise[]
   nav: {
-    home: string;
-    expertises: string;
-  };
+    home: string
+    expertises: string
+  }
   copy: {
-    description: string;
-    cardCta: string;
-  };
-};
+    description: string
+    cardCta: string
+  }
+}
 
 const expertiseAccents = [
   {
-    border: "border-[#d5ff0a]/30",
-    glow: "group-hover:shadow-[0_0_30px_rgba(213,255,10,0.15)]",
-    focusColor: "text-[#d5ff0a]",
-    bg: "bg-[#d5ff0a]/5",
-    badge: "bg-[#d5ff0a]/20 text-[#d5ff0a]",
+    border: 'border-[#d5ff0a]/30',
+    glow: 'group-hover:shadow-[0_0_30px_rgba(213,255,10,0.15)]',
+    focusColor: 'text-[#d5ff0a]',
+    bg: 'bg-[#d5ff0a]/5',
+    badge: 'bg-[#d5ff0a]/20 text-[#d5ff0a]',
   },
   {
-    border: "border-[#4ecdc4]/30",
-    glow: "group-hover:shadow-[0_0_30px_rgba(78,205,196,0.15)]",
-    focusColor: "text-[#4ecdc4]",
-    bg: "bg-[#4ecdc4]/5",
-    badge: "bg-[#4ecdc4]/20 text-[#4ecdc4]",
+    border: 'border-[#4ecdc4]/30',
+    glow: 'group-hover:shadow-[0_0_30px_rgba(78,205,196,0.15)]',
+    focusColor: 'text-[#4ecdc4]',
+    bg: 'bg-[#4ecdc4]/5',
+    badge: 'bg-[#4ecdc4]/20 text-[#4ecdc4]',
   },
   {
-    border: "border-[#a855f7]/30",
-    glow: "group-hover:shadow-[0_0_30px_rgba(168,85,247,0.15)]",
-    focusColor: "text-[#a855f7]",
-    bg: "bg-[#a855f7]/5",
-    badge: "bg-[#a855f7]/20 text-[#a855f7]",
+    border: 'border-[#a855f7]/30',
+    glow: 'group-hover:shadow-[0_0_30px_rgba(168,85,247,0.15)]',
+    focusColor: 'text-[#a855f7]',
+    bg: 'bg-[#a855f7]/5',
+    badge: 'bg-[#a855f7]/20 text-[#a855f7]',
   },
   {
-    border: "border-[#ff6b6b]/30",
-    glow: "group-hover:shadow-[0_0_30px_rgba(255,107,107,0.15)]",
-    focusColor: "text-[#ff6b6b]",
-    bg: "bg-[#ff6b6b]/5",
-    badge: "bg-[#ff6b6b]/20 text-[#ff6b6b]",
+    border: 'border-[#ff6b6b]/30',
+    glow: 'group-hover:shadow-[0_0_30px_rgba(255,107,107,0.15)]',
+    focusColor: 'text-[#ff6b6b]',
+    bg: 'bg-[#ff6b6b]/5',
+    badge: 'bg-[#ff6b6b]/20 text-[#ff6b6b]',
   },
   {
-    border: "border-[#f472b6]/30",
-    glow: "group-hover:shadow-[0_0_30px_rgba(244,114,182,0.15)]",
-    focusColor: "text-[#f472b6]",
-    bg: "bg-[#f472b6]/5",
-    badge: "bg-[#f472b6]/20 text-[#f472b6]",
+    border: 'border-[#f472b6]/30',
+    glow: 'group-hover:shadow-[0_0_30px_rgba(244,114,182,0.15)]',
+    focusColor: 'text-[#f472b6]',
+    bg: 'bg-[#f472b6]/5',
+    badge: 'bg-[#f472b6]/20 text-[#f472b6]',
   },
   {
-    border: "border-[#fb923c]/30",
-    glow: "group-hover:shadow-[0_0_30px_rgba(251,146,60,0.15)]",
-    focusColor: "text-[#fb923c]",
-    bg: "bg-[#fb923c]/5",
-    badge: "bg-[#fb923c]/20 text-[#fb923c]",
+    border: 'border-[#fb923c]/30',
+    glow: 'group-hover:shadow-[0_0_30px_rgba(251,146,60,0.15)]',
+    focusColor: 'text-[#fb923c]',
+    bg: 'bg-[#fb923c]/5',
+    badge: 'bg-[#fb923c]/20 text-[#fb923c]',
   },
-];
+]
 
-export function ExpertisesPageClient({
-  locale,
-  expertises,
-  nav,
-  copy,
-}: ExpertisesPageClientProps) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+export function ExpertisesPageClient({ locale, expertises, nav, copy }: ExpertisesPageClientProps) {
+  const sectionRef = useRef<HTMLElement>(null)
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
 
   return (
     <PageLayout orbsConfig="subtle" className="mx-auto max-w-[1600px]">
-      <Breadcrumb
-        items={[
-          { label: nav.home, href: `/${locale}` },
-          { label: nav.expertises },
-        ]}
-      />
+      <Breadcrumb items={[{ label: nav.home, href: `/${locale}` }, { label: nav.expertises }]} />
 
       {/* Main Bento Container */}
       <motion.section
@@ -111,9 +103,7 @@ export function ExpertisesPageClient({
             <span className="text-[#d5ff0a]">{nav.expertises.charAt(0)}</span>
             {nav.expertises.slice(1)}
           </h1>
-          <p className="mt-3 max-w-2xl text-base text-white/50">
-            {copy.description}
-          </p>
+          <p className="mt-3 max-w-2xl text-base text-white/50">{copy.description}</p>
         </motion.div>
 
         {/* Expertises Grid */}
@@ -136,7 +126,7 @@ export function ExpertisesPageClient({
         </div>
       </motion.section>
     </PageLayout>
-  );
+  )
 }
 
 /** Expertise Card Component */
@@ -146,23 +136,23 @@ function ExpertiseCard({
   locale,
   cardCta,
 }: {
-  expertise: Expertise;
-  index: number;
-  locale: Locale;
-  cardCta: string;
+  expertise: Expertise
+  index: number
+  locale: Locale
+  cardCta: string
 }) {
-  const accent = expertiseAccents[index % expertiseAccents.length];
+  const accent = expertiseAccents[index % expertiseAccents.length]
 
   return (
     <Link
       data-testid="expertise-card"
       href={`/${locale}/expertises/${expertise.slug}`}
       className={cn(
-        "group relative flex h-full flex-col overflow-hidden",
-        "rounded-[24px] border-2 border-white/10 bg-white/[0.02]",
-        "transition-all duration-300",
-        "hover:-translate-y-1 hover:border-white/20",
-        accent.glow,
+        'group relative flex h-full flex-col overflow-hidden',
+        'rounded-[24px] border-2 border-white/10 bg-white/[0.02]',
+        'transition-all duration-300',
+        'hover:-translate-y-1 hover:border-white/20',
+        accent.glow
       )}
     >
       {/* Image */}
@@ -176,9 +166,9 @@ function ExpertiseCard({
         {/* Badge */}
         <div
           className={cn(
-            "absolute right-3 top-3 rounded-full px-2.5 py-1",
-            "text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm",
-            accent.badge,
+            'absolute top-3 right-3 rounded-full px-2.5 py-1',
+            'text-[10px] font-bold tracking-wider uppercase backdrop-blur-sm',
+            accent.badge
           )}
         >
           0{index + 1}
@@ -191,14 +181,14 @@ function ExpertiseCard({
           {expertise.title}
         </h3>
 
-        <p className="line-clamp-2 text-sm text-white/50 leading-relaxed">
+        <p className="line-clamp-2 text-sm leading-relaxed text-white/50">
           {expertise.description}
         </p>
 
         <div
           className={cn(
-            "mt-auto flex items-center gap-2 text-sm font-semibold transition-colors duration-300",
-            accent.focusColor,
+            'mt-auto flex items-center gap-2 text-sm font-semibold transition-colors duration-300',
+            accent.focusColor
           )}
         >
           {cardCta}
@@ -208,5 +198,5 @@ function ExpertiseCard({
         </div>
       </div>
     </Link>
-  );
+  )
 }

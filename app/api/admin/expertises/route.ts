@@ -1,8 +1,10 @@
-import { NextResponse } from "next/server";
-import { z } from "zod";
-import { prisma } from "@/lib/prisma";
-import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
-import { createAuditLog } from "@/lib/audit-log";
+import { NextResponse } from 'next/server'
+
+import { z } from 'zod'
+
+import { withAuth, withAuthAndValidation } from '@/lib/api/with-auth'
+import { createAuditLog } from '@/lib/audit-log'
+import { prisma } from '@/lib/prisma'
 
 const expertiseSchema = z.object({
   slug: z.string().min(1),
@@ -24,11 +26,11 @@ const expertiseSchema = z.object({
     }),
   }),
   imageIds: z.array(z.string()).optional(),
-});
+})
 
 export const GET = withAuth(async (req) => {
-  const { searchParams } = new URL(req.url);
-  const search = searchParams.get("search");
+  const { searchParams } = new URL(req.url)
+  const search = searchParams.get('search')
 
   // If search param exists, return simplified results for search
   if (search) {
@@ -38,7 +40,7 @@ export const GET = withAuth(async (req) => {
           some: {
             title: {
               contains: search,
-              mode: "insensitive",
+              mode: 'insensitive',
             },
           },
         },
@@ -52,19 +54,17 @@ export const GET = withAuth(async (req) => {
         },
       },
       take: 10,
-      orderBy: { updatedAt: "desc" },
-    });
+      orderBy: { updatedAt: 'desc' },
+    })
 
     // Transform to flat structure for search results
     const searchResults = expertises.map((expertise) => ({
       id: expertise.id,
-      titleFr:
-        expertise.translations.find((t) => t.locale === "fr")?.title ?? "",
-      titleEn:
-        expertise.translations.find((t) => t.locale === "en")?.title ?? "",
-    }));
+      titleFr: expertise.translations.find((t) => t.locale === 'fr')?.title ?? '',
+      titleEn: expertise.translations.find((t) => t.locale === 'en')?.title ?? '',
+    }))
 
-    return NextResponse.json(searchResults);
+    return NextResponse.json(searchResults)
   }
 
   // Default: return full expertises data
@@ -74,69 +74,66 @@ export const GET = withAuth(async (req) => {
       translations: true,
       images: true,
     },
-    orderBy: [{ order: "asc" }, { createdAt: "desc" }],
-  });
+    orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
+  })
 
-  return NextResponse.json(expertises);
-});
+  return NextResponse.json(expertises)
+})
 
-export const POST = withAuthAndValidation(
-  expertiseSchema,
-  async (req, _context, user, data) => {
-    // Create expertise with translations
-    const expertise = await prisma.expertise.create({
-      data: {
-        slug: data.slug,
-        coverImageId: data.coverImageId,
-        order: data.order,
-        isActive: data.isActive,
-        translations: {
-          create: [
-            {
-              locale: "fr",
-              title: data.translations.fr.title,
-              subtitle: data.translations.fr.subtitle ?? null,
-              description: data.translations.fr.description ?? null,
-              content: data.translations.fr.content,
-            },
-            {
-              locale: "en",
-              title: data.translations.en.title,
-              subtitle: data.translations.en.subtitle ?? null,
-              description: data.translations.en.description ?? null,
-              content: data.translations.en.content,
-            },
-          ],
-        },
-        ...(data.imageIds &&
-          data.imageIds.length > 0 && {
-            images: {
-              connect: data.imageIds.map((id) => ({ id })),
-            },
-          }),
+export const POST = withAuthAndValidation(expertiseSchema, async (req, _context, user, data) => {
+  // Create expertise with translations
+  const expertise = await prisma.expertise.create({
+    data: {
+      slug: data.slug,
+      coverImageId: data.coverImageId,
+      order: data.order,
+      isActive: data.isActive,
+      translations: {
+        create: [
+          {
+            locale: 'fr',
+            title: data.translations.fr.title,
+            subtitle: data.translations.fr.subtitle ?? null,
+            description: data.translations.fr.description ?? null,
+            content: data.translations.fr.content,
+          },
+          {
+            locale: 'en',
+            title: data.translations.en.title,
+            subtitle: data.translations.en.subtitle ?? null,
+            description: data.translations.en.description ?? null,
+            content: data.translations.en.content,
+          },
+        ],
       },
-      include: {
-        translations: true,
-        coverImage: true,
-        images: true,
-      },
-    });
+      ...(data.imageIds &&
+        data.imageIds.length > 0 && {
+          images: {
+            connect: data.imageIds.map((id) => ({ id })),
+          },
+        }),
+    },
+    include: {
+      translations: true,
+      coverImage: true,
+      images: true,
+    },
+  })
 
-    // Audit log
-    await createAuditLog({
-      userId: user.id,
-      action: "CREATE",
-      entityType: "Expertise",
-      entityId: expertise.id,
-      metadata: {
-        slug: expertise.slug,
-        titleFr: data.translations.fr.title,
-        titleEn: data.translations.en.title,
-      },
-      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
-      userAgent: req.headers.get("user-agent") ?? undefined,
-    });
+  // Audit log
+  await createAuditLog({
+    userId: user.id,
+    action: 'CREATE',
+    entityType: 'Expertise',
+    entityId: expertise.id,
+    metadata: {
+      slug: expertise.slug,
+      titleFr: data.translations.fr.title,
+      titleEn: data.translations.en.title,
+    },
+    ipAddress: req.headers.get('x-forwarded-for') ?? undefined,
+    userAgent: req.headers.get('user-agent') ?? undefined,
+  })
 
-    return NextResponse.json(expertise, { status: 201 });
-  },
-);
+  return NextResponse.json(expertise, { status: 201 })
+})

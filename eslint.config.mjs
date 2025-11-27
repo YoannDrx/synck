@@ -1,15 +1,13 @@
-import { fixupConfigRules } from "@eslint/compat";
-import { FlatCompat } from "@eslint/eslintrc";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import tseslint from "typescript-eslint";
-
-const compat = new FlatCompat();
 
 export default [
   // Next.js base config
   ...nextVitals,
   ...nextTs,
+
+  // Note: eslint-plugin-tailwindcss désactivé - pas encore stable avec Tailwind CSS v4
 
   // TypeScript strict
   ...tseslint.configs.strictTypeChecked,

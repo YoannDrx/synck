@@ -16,31 +16,37 @@ e2e/
 ## Lancer les tests
 
 ### En mode headless (CI)
+
 ```bash
 npm run test
 ```
 
 ### En mode UI (interactif)
+
 ```bash
 npm run test:ui
 ```
 
 ### En mode headed (navigateur visible)
+
 ```bash
 npm run test:headed
 ```
 
 ### En mode debug
+
 ```bash
 npm run test:debug
 ```
 
 ### Lancer un test spécifique
+
 ```bash
 npm run test -- home.spec.ts
 ```
 
 ### Lancer les tests d'un fichier en mode watch
+
 ```bash
 npm run test -- --watch home.spec.ts
 ```
@@ -59,6 +65,7 @@ La configuration Playwright se trouve dans `playwright.config.ts` à la racine d
 Après l'exécution des tests, un rapport HTML est généré dans `playwright-report/`.
 
 Pour visualiser le rapport:
+
 ```bash
 npx playwright show-report
 ```
@@ -66,16 +73,19 @@ npx playwright show-report
 ## Screenshots et traces
 
 En cas d'échec:
+
 - Screenshots: `test-results/`
 - Traces: disponibles dans le rapport HTML
 
 ## CI/CD
 
 Les tests sont automatiquement exécutés sur GitHub Actions lors:
+
 - Des push sur les branches `main`, `master`, ou `layout-expertise`
 - Des pull requests vers ces branches
 
 Le workflow vérifie également:
+
 1. Le linting du code
 2. Les migrations Prisma
 3. La compilation de l'application
@@ -86,20 +96,20 @@ Le workflow vérifie également:
 ### Structure d'un test
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test'
 
 test.describe('Ma fonctionnalité', () => {
   test('devrait faire quelque chose', async ({ page }) => {
     // 1. Navigation
-    await page.goto('/ma-page');
+    await page.goto('/ma-page')
 
     // 2. Actions
-    await page.click('button');
+    await page.click('button')
 
     // 3. Assertions
-    await expect(page.locator('h1')).toHaveText('Titre attendu');
-  });
-});
+    await expect(page.locator('h1')).toHaveText('Titre attendu')
+  })
+})
 ```
 
 ### Bonnes pratiques
@@ -113,30 +123,33 @@ test.describe('Ma fonctionnalité', () => {
 
 ```typescript
 // ✅ Bon: sémantique
-await page.getByRole('button', { name: 'Envoyer' }).click();
-await page.getByLabel('Email').fill('test@example.com');
+await page.getByRole('button', { name: 'Envoyer' }).click()
+await page.getByLabel('Email').fill('test@example.com')
 
 // ❌ Éviter: sélecteurs CSS fragiles
-await page.locator('.btn-primary').click();
-await page.locator('#email-input').fill('test@example.com');
+await page.locator('.btn-primary').click()
+await page.locator('#email-input').fill('test@example.com')
 ```
 
 ## Debugging
 
 ### Mode debug complet
+
 ```bash
 npm run test:debug
 ```
 
 ### Pause dans un test
+
 ```typescript
 test('mon test', async ({ page }) => {
-  await page.goto('/');
-  await page.pause(); // Ouvre le debugger
-});
+  await page.goto('/')
+  await page.pause() // Ouvre le debugger
+})
 ```
 
 ### Voir les traces d'un test échoué
+
 ```bash
 npx playwright show-trace test-results/.../trace.zip
 ```

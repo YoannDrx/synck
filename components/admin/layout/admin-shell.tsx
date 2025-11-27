@@ -1,21 +1,24 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import type { AdminDictionary } from "@/types/dictionary";
-import { AdminSidebar } from "@/components/admin/layout/admin-sidebar";
-import { AdminTopBar } from "@/components/admin/layout/admin-topbar";
-import { GlobalSearch } from "@/components/admin/global-search";
-import { Toaster } from "@/components/ui/sonner";
-import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
+import { useState } from 'react'
+
+import { Toaster } from '@/components/ui/sonner'
+
+import { GlobalSearch } from '@/components/admin/global-search'
+import { AdminSidebar } from '@/components/admin/layout/admin-sidebar'
+import { AdminTopBar } from '@/components/admin/layout/admin-topbar'
+
+import { useKeyboardShortcuts } from '@/hooks/use-keyboard-shortcuts'
+import type { AdminDictionary } from '@/types/dictionary'
 
 type AdminShellProps = {
-  locale: string;
-  dict: AdminDictionary;
-  userEmail: string;
-  userName?: string | null;
-  avatarUrl?: string | null;
-  children: React.ReactNode;
-};
+  locale: string
+  dict: AdminDictionary
+  userEmail: string
+  userName?: string | null
+  avatarUrl?: string | null
+  children: React.ReactNode
+}
 
 export function AdminShell({
   locale,
@@ -25,11 +28,11 @@ export function AdminShell({
   avatarUrl,
   children,
 }: AdminShellProps) {
-  const [collapsed, setCollapsed] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   // Enable keyboard shortcuts
-  useKeyboardShortcuts(locale);
+  useKeyboardShortcuts(locale)
 
   return (
     <div className="min-h-screen bg-black">
@@ -42,10 +45,10 @@ export function AdminShell({
         collapsed={collapsed}
         mobileOpen={mobileOpen}
         onToggleCollapse={() => {
-          setCollapsed((prev) => !prev);
+          setCollapsed((prev) => !prev)
         }}
         onCloseMobile={() => {
-          setMobileOpen(false);
+          setMobileOpen(false)
         }}
       />
 
@@ -54,7 +57,7 @@ export function AdminShell({
           locale={locale}
           dict={dict}
           onToggleSidebar={() => {
-            setMobileOpen((prev) => !prev);
+            setMobileOpen((prev) => !prev)
           }}
         />
         <main className="p-4 md:p-6">{children}</main>
@@ -63,5 +66,5 @@ export function AdminShell({
       <GlobalSearch locale={locale} />
       <Toaster />
     </div>
-  );
+  )
 }

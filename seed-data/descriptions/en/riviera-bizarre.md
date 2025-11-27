@@ -1,3 +1,1 @@
 Fatal love for easy-listening and its chiseled arrangements, against a dangerous enticement for a dark and sad pop tradition, all sprinkled with an unconditional passion for initial soul, Minimatic created this album.
-
- 

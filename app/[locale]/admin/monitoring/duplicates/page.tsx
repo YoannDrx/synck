@@ -1,275 +1,273 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import Image from 'next/image'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
 import {
   AlertTriangleIcon,
-  ImageIcon,
-  MusicIcon,
-  UsersIcon,
+  CameraIcon,
+  ExternalLinkIcon,
+  FileTextIcon,
+  FilterIcon,
   FolderIcon,
+  ImageIcon,
+  LinkIcon,
+  MusicIcon,
   TagIcon,
   TrashIcon,
-  ExternalLinkIcon,
-  FilterIcon,
-  FileTextIcon,
-  CameraIcon,
-  LinkIcon,
-} from "lucide-react";
-import { toast } from "sonner";
-import { fetchWithAuth } from "@/lib/fetch-with-auth";
-import Image from "next/image";
+  UsersIcon,
+} from 'lucide-react'
+import { toast } from 'sonner'
+
+import { fetchWithAuth } from '@/lib/fetch-with-auth'
 import {
   type Severity,
   getSeverityBadgeColor,
   getSeverityBorderColor,
   getSeverityIconColor,
   getSeverityLabel,
-} from "@/lib/severity-helpers";
+} from '@/lib/severity-helpers'
+
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 type DuplicatesData = {
   assets: {
     duplicatesByPath: {
-      path: string;
-      count: number;
-      severity: Severity;
-      reason: string;
+      path: string
+      count: number
+      severity: Severity
+      reason: string
       assets: {
-        id: string;
-        path: string;
-        alt: string | null;
-        width: number | null;
-        height: number | null;
-        createdAt: Date;
-        usageCount: number;
-      }[];
-    }[];
+        id: string
+        path: string
+        alt: string | null
+        width: number | null
+        height: number | null
+        createdAt: Date
+        usageCount: number
+      }[]
+    }[]
     unusedAssets: {
-      id: string;
-      path: string;
-      alt: string | null;
-      width: number | null;
-      height: number | null;
-      createdAt: Date;
-    }[];
-    totalDuplicates: number;
-    totalUnused: number;
-    totalErrors: number;
-    totalWarnings: number;
-    totalInfo: number;
-  };
+      id: string
+      path: string
+      alt: string | null
+      width: number | null
+      height: number | null
+      createdAt: Date
+    }[]
+    totalDuplicates: number
+    totalUnused: number
+    totalErrors: number
+    totalWarnings: number
+    totalInfo: number
+  }
   works: {
     duplicatesBySlug: {
-      identifier: string;
-      type: "slug" | "title";
-      count: number;
-      severity: Severity;
-      reason: string;
+      identifier: string
+      type: 'slug' | 'title'
+      count: number
+      severity: Severity
+      reason: string
       works: {
-        id: string;
-        slug: string;
-        translations: { locale: string; title: string }[];
+        id: string
+        slug: string
+        translations: { locale: string; title: string }[]
         category: {
-          id: string;
-          slug: string;
-          translations: { locale: string; name: string }[];
-        };
-        year: number | null;
-        createdAt: Date;
-      }[];
-    }[];
+          id: string
+          slug: string
+          translations: { locale: string; name: string }[]
+        }
+        year: number | null
+        createdAt: Date
+      }[]
+    }[]
     duplicatesByTitle: {
-      identifier: string;
-      type: "slug" | "title";
-      count: number;
-      severity: Severity;
-      reason: string;
+      identifier: string
+      type: 'slug' | 'title'
+      count: number
+      severity: Severity
+      reason: string
       works: {
-        id: string;
-        slug: string;
-        translations: { locale: string; title: string }[];
+        id: string
+        slug: string
+        translations: { locale: string; title: string }[]
         category: {
-          id: string;
-          slug: string;
-          translations: { locale: string; name: string }[];
-        };
-        year: number | null;
-        createdAt: Date;
-      }[];
-    }[];
-    totalDuplicates: number;
-    totalErrors: number;
-    totalWarnings: number;
-    totalInfo: number;
-  };
+          id: string
+          slug: string
+          translations: { locale: string; name: string }[]
+        }
+        year: number | null
+        createdAt: Date
+      }[]
+    }[]
+    totalDuplicates: number
+    totalErrors: number
+    totalWarnings: number
+    totalInfo: number
+  }
   artists: {
     duplicatesBySlug: {
-      identifier: string;
-      type: "slug" | "name" | "similar";
-      count: number;
-      severity: Severity;
-      reason: string;
+      identifier: string
+      type: 'slug' | 'name' | 'similar'
+      count: number
+      severity: Severity
+      reason: string
       artists: {
-        id: string;
-        slug: string;
-        translations: { locale: string; name: string }[];
-        createdAt: Date;
-      }[];
-    }[];
+        id: string
+        slug: string
+        translations: { locale: string; name: string }[]
+        createdAt: Date
+      }[]
+    }[]
     duplicatesByName: {
-      identifier: string;
-      type: "slug" | "name" | "similar";
-      count: number;
-      severity: Severity;
-      reason: string;
+      identifier: string
+      type: 'slug' | 'name' | 'similar'
+      count: number
+      severity: Severity
+      reason: string
       artists: {
-        id: string;
-        slug: string;
-        translations: { locale: string; name: string }[];
-        createdAt: Date;
-      }[];
-    }[];
+        id: string
+        slug: string
+        translations: { locale: string; name: string }[]
+        createdAt: Date
+      }[]
+    }[]
     duplicatesBySimilarName: {
-      identifier: string;
-      type: "slug" | "name" | "similar";
-      count: number;
-      severity: Severity;
-      reason: string;
+      identifier: string
+      type: 'slug' | 'name' | 'similar'
+      count: number
+      severity: Severity
+      reason: string
       artists: {
-        id: string;
-        slug: string;
-        translations: { locale: string; name: string }[];
-        createdAt: Date;
-      }[];
-    }[];
+        id: string
+        slug: string
+        translations: { locale: string; name: string }[]
+        createdAt: Date
+      }[]
+    }[]
     integrityIssues: {
-      id: string;
-      slug: string;
-      name: string;
-      issue:
-        | "no_bio_fr"
-        | "no_bio_en"
-        | "no_bio_both"
-        | "no_photo"
-        | "no_links";
-      severity: Severity;
-      reason: string;
-      createdAt: Date;
-    }[];
-    totalDuplicates: number;
-    totalIntegrityIssues: number;
-    totalErrors: number;
-    totalWarnings: number;
-    totalInfo: number;
-  };
+      id: string
+      slug: string
+      name: string
+      issue: 'no_bio_fr' | 'no_bio_en' | 'no_bio_both' | 'no_photo' | 'no_links'
+      severity: Severity
+      reason: string
+      createdAt: Date
+    }[]
+    totalDuplicates: number
+    totalIntegrityIssues: number
+    totalErrors: number
+    totalWarnings: number
+    totalInfo: number
+  }
   categories: {
     duplicatesBySlug: {
-      slug: string;
-      count: number;
-      severity: Severity;
-      reason: string;
+      slug: string
+      count: number
+      severity: Severity
+      reason: string
       categories: {
-        id: string;
-        slug: string;
-        translations: { locale: string; name: string }[];
-        createdAt: Date;
-      }[];
-    }[];
-    totalDuplicates: number;
-    totalErrors: number;
-    totalWarnings: number;
-    totalInfo: number;
-  };
+        id: string
+        slug: string
+        translations: { locale: string; name: string }[]
+        createdAt: Date
+      }[]
+    }[]
+    totalDuplicates: number
+    totalErrors: number
+    totalWarnings: number
+    totalInfo: number
+  }
   labels: {
     duplicatesBySlug: {
-      slug: string;
-      count: number;
-      severity: Severity;
-      reason: string;
+      slug: string
+      count: number
+      severity: Severity
+      reason: string
       labels: {
-        id: string;
-        slug: string;
-        translations: { locale: string; name: string }[];
-        createdAt: Date;
-      }[];
-    }[];
-    totalDuplicates: number;
-    totalErrors: number;
-    totalWarnings: number;
-    totalInfo: number;
-  };
-};
+        id: string
+        slug: string
+        translations: { locale: string; name: string }[]
+        createdAt: Date
+      }[]
+    }[]
+    totalDuplicates: number
+    totalErrors: number
+    totalWarnings: number
+    totalInfo: number
+  }
+}
 
 export default function DuplicatesMonitoringPage() {
-  const params = useParams();
-  const locale = (params.locale as string) ?? "fr";
-  const [data, setData] = useState<DuplicatesData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("assets");
-  const [severityFilter, setSeverityFilter] = useState<Severity | "all">("all");
+  const params = useParams()
+  const locale = (params.locale as string) ?? 'fr'
+  const [data, setData] = useState<DuplicatesData | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState('assets')
+  const [severityFilter, setSeverityFilter] = useState<Severity | 'all'>('all')
 
   useEffect(() => {
     const fetchDuplicates = async () => {
       try {
-        setIsLoading(true);
-        const res = await fetchWithAuth("/api/admin/monitoring/duplicates");
+        setIsLoading(true)
+        const res = await fetchWithAuth('/api/admin/monitoring/duplicates')
 
         if (!res.ok) {
-          throw new Error("Failed to fetch duplicates");
+          throw new Error('Failed to fetch duplicates')
         }
 
-        const result = (await res.json()) as DuplicatesData;
-        setData(result);
+        const result = (await res.json()) as DuplicatesData
+        setData(result)
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error("Error fetching duplicates:", error);
-        toast.error("Erreur lors du chargement des doublons");
+        console.error('Error fetching duplicates:', error)
+        toast.error('Erreur lors du chargement des doublons')
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
+    }
 
-    void fetchDuplicates();
-  }, []);
+    void fetchDuplicates()
+  }, [])
 
   const handleDeleteAsset = async (assetId: string) => {
     try {
       const res = await fetchWithAuth(`/api/admin/assets/${assetId}`, {
-        method: "DELETE",
-      });
+        method: 'DELETE',
+      })
 
       if (!res.ok) {
-        throw new Error("Failed to delete asset");
+        throw new Error('Failed to delete asset')
       }
 
-      toast.success("Asset supprimé avec succès");
+      toast.success('Asset supprimé avec succès')
       // Refresh data
-      window.location.reload();
+      window.location.reload()
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error("Error deleting asset:", error);
-      toast.error("Erreur lors de la suppression");
+      console.error('Error deleting asset:', error)
+      toast.error('Erreur lors de la suppression')
     }
-  };
+  }
 
   const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString("fr-FR", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
+    return new Date(date).toLocaleDateString('fr-FR', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
+  }
 
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
         <p className="text-white/50">Analyse en cours...</p>
       </div>
-    );
+    )
   }
 
   if (!data) {
@@ -277,7 +275,7 @@ export default function DuplicatesMonitoringPage() {
       <div className="flex h-screen items-center justify-center">
         <p className="text-red-400">Erreur lors du chargement des données</p>
       </div>
-    );
+    )
   }
 
   const totalIssues =
@@ -287,15 +285,13 @@ export default function DuplicatesMonitoringPage() {
     data.artists.totalDuplicates +
     data.artists.totalIntegrityIssues +
     data.categories.totalDuplicates +
-    data.labels.totalDuplicates;
+    data.labels.totalDuplicates
 
   return (
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold text-white">
-          Monitoring des doublons
-        </h1>
+        <h1 className="text-3xl font-bold text-white">Monitoring des doublons</h1>
         <p className="mt-2 text-white/50">
           Détection et gestion des doublons dans la base de données
         </p>
@@ -308,9 +304,7 @@ export default function DuplicatesMonitoringPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-white/50">Total problèmes</p>
-                <p className="mt-2 text-3xl font-bold text-white">
-                  {totalIssues}
-                </p>
+                <p className="mt-2 text-3xl font-bold text-white">{totalIssues}</p>
               </div>
               <AlertTriangleIcon className="h-8 w-8 text-orange-400" />
             </div>
@@ -378,35 +372,33 @@ export default function DuplicatesMonitoringPage() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <FilterIcon className="h-4 w-4 text-white/50" />
-              <span className="text-sm font-medium text-white/70">
-                Filtrer par niveau:
-              </span>
+              <span className="text-sm font-medium text-white/70">Filtrer par niveau:</span>
             </div>
             <div className="flex gap-2">
               <Button
                 size="sm"
-                variant={severityFilter === "all" ? "default" : "outline"}
+                variant={severityFilter === 'all' ? 'default' : 'outline'}
                 onClick={() => {
-                  setSeverityFilter("all");
+                  setSeverityFilter('all')
                 }}
                 className={
-                  severityFilter === "all"
-                    ? "bg-lime-300 text-black hover:bg-lime-400"
-                    : "border-white/20 text-white/70 hover:bg-white/5"
+                  severityFilter === 'all'
+                    ? 'bg-[var(--brand-neon)] text-black hover:bg-[var(--neon-400)]'
+                    : 'border-white/20 text-white/70 hover:bg-white/5'
                 }
               >
                 Tout
               </Button>
               <Button
                 size="sm"
-                variant={severityFilter === "error" ? "default" : "outline"}
+                variant={severityFilter === 'error' ? 'default' : 'outline'}
                 onClick={() => {
-                  setSeverityFilter("error");
+                  setSeverityFilter('error')
                 }}
                 className={
-                  severityFilter === "error"
-                    ? "bg-red-500/20 text-red-400 hover:bg-red-500/30"
-                    : "border-white/20 text-white/70 hover:bg-white/5"
+                  severityFilter === 'error'
+                    ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
+                    : 'border-white/20 text-white/70 hover:bg-white/5'
                 }
               >
                 <AlertTriangleIcon className="mr-1 h-3 w-3" />
@@ -414,14 +406,14 @@ export default function DuplicatesMonitoringPage() {
               </Button>
               <Button
                 size="sm"
-                variant={severityFilter === "warning" ? "default" : "outline"}
+                variant={severityFilter === 'warning' ? 'default' : 'outline'}
                 onClick={() => {
-                  setSeverityFilter("warning");
+                  setSeverityFilter('warning')
                 }}
                 className={
-                  severityFilter === "warning"
-                    ? "bg-orange-500/20 text-orange-400 hover:bg-orange-500/30"
-                    : "border-white/20 text-white/70 hover:bg-white/5"
+                  severityFilter === 'warning'
+                    ? 'bg-orange-500/20 text-orange-400 hover:bg-orange-500/30'
+                    : 'border-white/20 text-white/70 hover:bg-white/5'
                 }
               >
                 <AlertTriangleIcon className="mr-1 h-3 w-3" />
@@ -429,14 +421,14 @@ export default function DuplicatesMonitoringPage() {
               </Button>
               <Button
                 size="sm"
-                variant={severityFilter === "info" ? "default" : "outline"}
+                variant={severityFilter === 'info' ? 'default' : 'outline'}
                 onClick={() => {
-                  setSeverityFilter("info");
+                  setSeverityFilter('info')
                 }}
                 className={
-                  severityFilter === "info"
-                    ? "bg-blue-500/20 text-blue-400 hover:bg-blue-500/30"
-                    : "border-white/20 text-white/70 hover:bg-white/5"
+                  severityFilter === 'info'
+                    ? 'bg-blue-500/20 text-blue-400 hover:bg-blue-500/30'
+                    : 'border-white/20 text-white/70 hover:bg-white/5'
                 }
               >
                 <AlertTriangleIcon className="mr-1 h-3 w-3" />
@@ -452,36 +444,35 @@ export default function DuplicatesMonitoringPage() {
         <TabsList className="border-b border-white/10 bg-transparent">
           <TabsTrigger
             value="assets"
-            className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-lime-300 data-[state=active]:bg-transparent data-[state=active]:text-lime-300"
+            className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-[var(--brand-neon)] data-[state=active]:bg-transparent data-[state=active]:text-[var(--brand-neon)]"
           >
             <ImageIcon className="mr-2 h-4 w-4" />
             Assets ({data.assets.totalDuplicates + data.assets.totalUnused})
           </TabsTrigger>
           <TabsTrigger
             value="works"
-            className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-lime-300 data-[state=active]:bg-transparent data-[state=active]:text-lime-300"
+            className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-[var(--brand-neon)] data-[state=active]:bg-transparent data-[state=active]:text-[var(--brand-neon)]"
           >
             <MusicIcon className="mr-2 h-4 w-4" />
             Projets ({data.works.totalDuplicates})
           </TabsTrigger>
           <TabsTrigger
             value="composers"
-            className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-lime-300 data-[state=active]:bg-transparent data-[state=active]:text-lime-300"
+            className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-[var(--brand-neon)] data-[state=active]:bg-transparent data-[state=active]:text-[var(--brand-neon)]"
           >
             <UsersIcon className="mr-2 h-4 w-4" />
-            Artistes (
-            {data.artists.totalDuplicates + data.artists.totalIntegrityIssues})
+            Artistes ({data.artists.totalDuplicates + data.artists.totalIntegrityIssues})
           </TabsTrigger>
           <TabsTrigger
             value="categories"
-            className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-lime-300 data-[state=active]:bg-transparent data-[state=active]:text-lime-300"
+            className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-[var(--brand-neon)] data-[state=active]:bg-transparent data-[state=active]:text-[var(--brand-neon)]"
           >
             <FolderIcon className="mr-2 h-4 w-4" />
             Catégories ({data.categories.totalDuplicates})
           </TabsTrigger>
           <TabsTrigger
             value="labels"
-            className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-lime-300 data-[state=active]:bg-transparent data-[state=active]:text-lime-300"
+            className="rounded-md border border-transparent bg-transparent text-white/70 data-[state=active]:border-[var(--brand-neon)] data-[state=active]:bg-transparent data-[state=active]:text-[var(--brand-neon)]"
           >
             <TagIcon className="mr-2 h-4 w-4" />
             Labels ({data.labels.totalDuplicates})
@@ -492,25 +483,21 @@ export default function DuplicatesMonitoringPage() {
         <TabsContent value="assets" className="space-y-6">
           {/* Duplicate Assets */}
           {data.assets.duplicatesByPath.filter(
-            (d) => severityFilter === "all" || d.severity === severityFilter,
+            (d) => severityFilter === 'all' || d.severity === severityFilter
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Assets en doublon (
                 {
                   data.assets.duplicatesByPath.filter(
-                    (d) =>
-                      severityFilter === "all" || d.severity === severityFilter,
+                    (d) => severityFilter === 'all' || d.severity === severityFilter
                   ).length
                 }
                 )
               </h2>
               <div className="space-y-4">
                 {data.assets.duplicatesByPath
-                  .filter(
-                    (d) =>
-                      severityFilter === "all" || d.severity === severityFilter,
-                  )
+                  .filter((d) => severityFilter === 'all' || d.severity === severityFilter)
                   .map((duplicate) => (
                     <Card
                       key={duplicate.path}
@@ -524,17 +511,11 @@ export default function DuplicatesMonitoringPage() {
                             />
                             {duplicate.count} doublons pour: {duplicate.path}
                           </CardTitle>
-                          <Badge
-                            className={getSeverityBadgeColor(
-                              duplicate.severity,
-                            )}
-                          >
+                          <Badge className={getSeverityBadgeColor(duplicate.severity)}>
                             {getSeverityLabel(duplicate.severity)}
                           </Badge>
                         </div>
-                        <p className="mt-2 text-sm text-white/60">
-                          {duplicate.reason}
-                        </p>
+                        <p className="mt-2 text-sm text-white/60">{duplicate.reason}</p>
                       </CardHeader>
                       <CardContent>
                         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -547,7 +528,7 @@ export default function DuplicatesMonitoringPage() {
                                 <div className="relative mb-3 aspect-video overflow-hidden rounded bg-white/10">
                                   <Image
                                     src={asset.path}
-                                    alt={asset.alt ?? "Asset"}
+                                    alt={asset.alt ?? 'Asset'}
                                     width={asset.width}
                                     height={asset.height}
                                     className="h-full w-full object-cover"
@@ -556,19 +537,15 @@ export default function DuplicatesMonitoringPage() {
                               )}
                               <div className="space-y-2 text-sm">
                                 <p className="text-white/70">
-                                  ID:{" "}
+                                  ID:{' '}
                                   <span className="font-mono text-white">
                                     {asset.id.slice(0, 8)}...
                                   </span>
                                 </p>
                                 <p className="text-white/70">
-                                  Utilisations:{" "}
+                                  Utilisations:{' '}
                                   <Badge
-                                    variant={
-                                      asset.usageCount > 0
-                                        ? "default"
-                                        : "destructive"
-                                    }
+                                    variant={asset.usageCount > 0 ? 'default' : 'destructive'}
                                     className="ml-1"
                                   >
                                     {asset.usageCount}
@@ -582,7 +559,7 @@ export default function DuplicatesMonitoringPage() {
                                     size="sm"
                                     variant="ghost"
                                     onClick={() => {
-                                      window.open(asset.path, "_blank");
+                                      window.open(asset.path, '_blank')
                                     }}
                                     className="gap-1 text-white/70 hover:text-white"
                                   >
@@ -594,7 +571,7 @@ export default function DuplicatesMonitoringPage() {
                                       size="sm"
                                       variant="ghost"
                                       onClick={() => {
-                                        void handleDeleteAsset(asset.id);
+                                        void handleDeleteAsset(asset.id)
                                       }}
                                       className="gap-1 text-red-400 hover:bg-red-500/10 hover:text-red-300"
                                     >
@@ -632,7 +609,7 @@ export default function DuplicatesMonitoringPage() {
                           <div className="relative mb-2 aspect-video overflow-hidden rounded bg-white/10">
                             <Image
                               src={asset.path}
-                              alt={asset.alt ?? "Asset"}
+                              alt={asset.alt ?? 'Asset'}
                               width={asset.width}
                               height={asset.height}
                               className="h-full w-full object-cover"
@@ -640,14 +617,14 @@ export default function DuplicatesMonitoringPage() {
                           </div>
                         )}
                         <p className="truncate text-xs text-white/70">
-                          {asset.path.split("/").pop()}
+                          {asset.path.split('/').pop()}
                         </p>
                         <div className="mt-2 flex gap-1">
                           <Button
                             size="sm"
                             variant="ghost"
                             onClick={() => {
-                              window.open(asset.path, "_blank");
+                              window.open(asset.path, '_blank')
                             }}
                             className="h-7 flex-1 gap-1 text-xs text-white/70 hover:text-white"
                           >
@@ -658,7 +635,7 @@ export default function DuplicatesMonitoringPage() {
                             size="sm"
                             variant="ghost"
                             onClick={() => {
-                              void handleDeleteAsset(asset.id);
+                              void handleDeleteAsset(asset.id)
                             }}
                             className="h-7 flex-1 gap-1 text-xs text-red-400 hover:bg-red-500/10"
                           >
@@ -678,41 +655,34 @@ export default function DuplicatesMonitoringPage() {
             </div>
           )}
 
-          {data.assets.duplicatesByPath.length === 0 &&
-            data.assets.unusedAssets.length === 0 && (
-              <Card className="border-white/10 bg-black">
-                <CardContent className="p-12 text-center">
-                  <ImageIcon className="mx-auto h-12 w-12 text-white/20" />
-                  <p className="mt-4 text-white/50">
-                    Aucun problème détecté pour les assets
-                  </p>
-                </CardContent>
-              </Card>
-            )}
+          {data.assets.duplicatesByPath.length === 0 && data.assets.unusedAssets.length === 0 && (
+            <Card className="border-white/10 bg-black">
+              <CardContent className="p-12 text-center">
+                <ImageIcon className="mx-auto h-12 w-12 text-white/20" />
+                <p className="mt-4 text-white/50">Aucun problème détecté pour les assets</p>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
 
         {/* Works Tab */}
         <TabsContent value="works" className="space-y-6">
           {data.works.duplicatesBySlug.filter(
-            (d) => severityFilter === "all" || d.severity === severityFilter,
+            (d) => severityFilter === 'all' || d.severity === severityFilter
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Doublons par slug (
                 {
                   data.works.duplicatesBySlug.filter(
-                    (d) =>
-                      severityFilter === "all" || d.severity === severityFilter,
+                    (d) => severityFilter === 'all' || d.severity === severityFilter
                   ).length
                 }
                 )
               </h2>
               <div className="space-y-4">
                 {data.works.duplicatesBySlug
-                  .filter(
-                    (d) =>
-                      severityFilter === "all" || d.severity === severityFilter,
-                  )
+                  .filter((d) => severityFilter === 'all' || d.severity === severityFilter)
                   .map((duplicate) => (
                     <Card
                       key={duplicate.identifier}
@@ -724,20 +694,13 @@ export default function DuplicatesMonitoringPage() {
                             <AlertTriangleIcon
                               className={`h-5 w-5 ${getSeverityIconColor(duplicate.severity)}`}
                             />
-                            {duplicate.count} projets avec le slug "
-                            {duplicate.identifier}"
+                            {duplicate.count} projets avec le slug "{duplicate.identifier}"
                           </CardTitle>
-                          <Badge
-                            className={getSeverityBadgeColor(
-                              duplicate.severity,
-                            )}
-                          >
+                          <Badge className={getSeverityBadgeColor(duplicate.severity)}>
                             {getSeverityLabel(duplicate.severity)}
                           </Badge>
                         </div>
-                        <p className="mt-2 text-sm text-white/60">
-                          {duplicate.reason}
-                        </p>
+                        <p className="mt-2 text-sm text-white/60">{duplicate.reason}</p>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-3">
@@ -748,16 +711,14 @@ export default function DuplicatesMonitoringPage() {
                             >
                               <div>
                                 <p className="font-medium text-white">
-                                  {work.translations.find(
-                                    (t) => t.locale === "fr",
-                                  )?.title ?? work.slug}
+                                  {work.translations.find((t) => t.locale === 'fr')?.title ??
+                                    work.slug}
                                 </p>
                                 <p className="mt-1 text-sm text-white/50">
-                                  Catégorie:{" "}
-                                  {work.category.translations.find(
-                                    (t) => t.locale === "fr",
-                                  )?.name ?? "N/A"}{" "}
-                                  • Année: {work.year ?? "N/A"} • Créé le:{" "}
+                                  Catégorie:{' '}
+                                  {work.category.translations.find((t) => t.locale === 'fr')
+                                    ?.name ?? 'N/A'}{' '}
+                                  • Année: {work.year ?? 'N/A'} • Créé le:{' '}
                                   {formatDate(work.createdAt)}
                                 </p>
                               </div>
@@ -765,10 +726,7 @@ export default function DuplicatesMonitoringPage() {
                                 size="sm"
                                 variant="ghost"
                                 onClick={() => {
-                                  window.open(
-                                    `/${locale}/admin/projets/${work.id}`,
-                                    "_blank",
-                                  );
+                                  window.open(`/${locale}/admin/projets/${work.id}`, '_blank')
                                 }}
                                 className="gap-1 text-white/70 hover:text-white"
                               >
@@ -786,25 +744,21 @@ export default function DuplicatesMonitoringPage() {
           )}
 
           {data.works.duplicatesByTitle.filter(
-            (d) => severityFilter === "all" || d.severity === severityFilter,
+            (d) => severityFilter === 'all' || d.severity === severityFilter
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Doublons par titre (
                 {
                   data.works.duplicatesByTitle.filter(
-                    (d) =>
-                      severityFilter === "all" || d.severity === severityFilter,
+                    (d) => severityFilter === 'all' || d.severity === severityFilter
                   ).length
                 }
                 )
               </h2>
               <div className="space-y-4">
                 {data.works.duplicatesByTitle
-                  .filter(
-                    (d) =>
-                      severityFilter === "all" || d.severity === severityFilter,
-                  )
+                  .filter((d) => severityFilter === 'all' || d.severity === severityFilter)
                   .map((duplicate) => (
                     <Card
                       key={duplicate.identifier}
@@ -818,17 +772,11 @@ export default function DuplicatesMonitoringPage() {
                             />
                             {duplicate.count} projets avec un titre similaire
                           </CardTitle>
-                          <Badge
-                            className={getSeverityBadgeColor(
-                              duplicate.severity,
-                            )}
-                          >
+                          <Badge className={getSeverityBadgeColor(duplicate.severity)}>
                             {getSeverityLabel(duplicate.severity)}
                           </Badge>
                         </div>
-                        <p className="mt-2 text-sm text-white/60">
-                          {duplicate.reason}
-                        </p>
+                        <p className="mt-2 text-sm text-white/60">{duplicate.reason}</p>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-3">
@@ -839,25 +787,20 @@ export default function DuplicatesMonitoringPage() {
                             >
                               <div>
                                 <p className="font-medium text-white">
-                                  {work.translations.find(
-                                    (t) => t.locale === "fr",
-                                  )?.title ?? work.slug}
+                                  {work.translations.find((t) => t.locale === 'fr')?.title ??
+                                    work.slug}
                                 </p>
                                 <p className="mt-1 text-sm text-white/50">
-                                  Slug: {work.slug} • Catégorie:{" "}
-                                  {work.category.translations.find(
-                                    (t) => t.locale === "fr",
-                                  )?.name ?? "N/A"}
+                                  Slug: {work.slug} • Catégorie:{' '}
+                                  {work.category.translations.find((t) => t.locale === 'fr')
+                                    ?.name ?? 'N/A'}
                                 </p>
                               </div>
                               <Button
                                 size="sm"
                                 variant="ghost"
                                 onClick={() => {
-                                  window.open(
-                                    `/${locale}/admin/projets/${work.id}`,
-                                    "_blank",
-                                  );
+                                  window.open(`/${locale}/admin/projets/${work.id}`, '_blank')
                                 }}
                                 className="gap-1 text-white/70 hover:text-white"
                               >
@@ -879,9 +822,7 @@ export default function DuplicatesMonitoringPage() {
               <Card className="border-white/10 bg-black">
                 <CardContent className="p-12 text-center">
                   <MusicIcon className="mx-auto h-12 w-12 text-white/20" />
-                  <p className="mt-4 text-white/50">
-                    Aucun doublon détecté pour les projets
-                  </p>
+                  <p className="mt-4 text-white/50">Aucun doublon détecté pour les projets</p>
                 </CardContent>
               </Card>
             )}
@@ -890,25 +831,21 @@ export default function DuplicatesMonitoringPage() {
         {/* Composers Tab */}
         <TabsContent value="composers" className="space-y-6">
           {data.artists.duplicatesBySlug.filter(
-            (d) => severityFilter === "all" || d.severity === severityFilter,
+            (d) => severityFilter === 'all' || d.severity === severityFilter
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Doublons par slug (
                 {
                   data.artists.duplicatesBySlug.filter(
-                    (d) =>
-                      severityFilter === "all" || d.severity === severityFilter,
+                    (d) => severityFilter === 'all' || d.severity === severityFilter
                   ).length
                 }
                 )
               </h2>
               <div className="space-y-4">
                 {data.artists.duplicatesBySlug
-                  .filter(
-                    (d) =>
-                      severityFilter === "all" || d.severity === severityFilter,
-                  )
+                  .filter((d) => severityFilter === 'all' || d.severity === severityFilter)
                   .map((duplicate) => (
                     <Card
                       key={duplicate.identifier}
@@ -920,20 +857,13 @@ export default function DuplicatesMonitoringPage() {
                             <AlertTriangleIcon
                               className={`h-5 w-5 ${getSeverityIconColor(duplicate.severity)}`}
                             />
-                            {duplicate.count} artistes avec le slug "
-                            {duplicate.identifier}"
+                            {duplicate.count} artistes avec le slug "{duplicate.identifier}"
                           </CardTitle>
-                          <Badge
-                            className={getSeverityBadgeColor(
-                              duplicate.severity,
-                            )}
-                          >
+                          <Badge className={getSeverityBadgeColor(duplicate.severity)}>
                             {getSeverityLabel(duplicate.severity)}
                           </Badge>
                         </div>
-                        <p className="mt-2 text-sm text-white/60">
-                          {duplicate.reason}
-                        </p>
+                        <p className="mt-2 text-sm text-white/60">{duplicate.reason}</p>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-3">
@@ -944,9 +874,8 @@ export default function DuplicatesMonitoringPage() {
                             >
                               <div>
                                 <p className="font-medium text-white">
-                                  {artist.translations.find(
-                                    (t) => t.locale === "fr",
-                                  )?.name ?? artist.slug}
+                                  {artist.translations.find((t) => t.locale === 'fr')?.name ??
+                                    artist.slug}
                                 </p>
                                 <p className="mt-1 text-sm text-white/50">
                                   Créé le: {formatDate(artist.createdAt)}
@@ -956,10 +885,7 @@ export default function DuplicatesMonitoringPage() {
                                 size="sm"
                                 variant="ghost"
                                 onClick={() => {
-                                  window.open(
-                                    `/${locale}/admin/artistes/${artist.id}`,
-                                    "_blank",
-                                  );
+                                  window.open(`/${locale}/admin/artistes/${artist.id}`, '_blank')
                                 }}
                                 className="gap-1 text-white/70 hover:text-white"
                               >
@@ -977,25 +903,21 @@ export default function DuplicatesMonitoringPage() {
           )}
 
           {data.artists.duplicatesByName.filter(
-            (d) => severityFilter === "all" || d.severity === severityFilter,
+            (d) => severityFilter === 'all' || d.severity === severityFilter
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Doublons par nom (
                 {
                   data.artists.duplicatesByName.filter(
-                    (d) =>
-                      severityFilter === "all" || d.severity === severityFilter,
+                    (d) => severityFilter === 'all' || d.severity === severityFilter
                   ).length
                 }
                 )
               </h2>
               <div className="space-y-4">
                 {data.artists.duplicatesByName
-                  .filter(
-                    (d) =>
-                      severityFilter === "all" || d.severity === severityFilter,
-                  )
+                  .filter((d) => severityFilter === 'all' || d.severity === severityFilter)
                   .map((duplicate) => (
                     <Card
                       key={duplicate.identifier}
@@ -1009,17 +931,11 @@ export default function DuplicatesMonitoringPage() {
                             />
                             {duplicate.count} artistes avec un nom similaire
                           </CardTitle>
-                          <Badge
-                            className={getSeverityBadgeColor(
-                              duplicate.severity,
-                            )}
-                          >
+                          <Badge className={getSeverityBadgeColor(duplicate.severity)}>
                             {getSeverityLabel(duplicate.severity)}
                           </Badge>
                         </div>
-                        <p className="mt-2 text-sm text-white/60">
-                          {duplicate.reason}
-                        </p>
+                        <p className="mt-2 text-sm text-white/60">{duplicate.reason}</p>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-3">
@@ -1030,22 +946,16 @@ export default function DuplicatesMonitoringPage() {
                             >
                               <div>
                                 <p className="font-medium text-white">
-                                  {artist.translations.find(
-                                    (t) => t.locale === "fr",
-                                  )?.name ?? artist.slug}
+                                  {artist.translations.find((t) => t.locale === 'fr')?.name ??
+                                    artist.slug}
                                 </p>
-                                <p className="mt-1 text-sm text-white/50">
-                                  Slug: {artist.slug}
-                                </p>
+                                <p className="mt-1 text-sm text-white/50">Slug: {artist.slug}</p>
                               </div>
                               <Button
                                 size="sm"
                                 variant="ghost"
                                 onClick={() => {
-                                  window.open(
-                                    `/${locale}/admin/artistes/${artist.id}`,
-                                    "_blank",
-                                  );
+                                  window.open(`/${locale}/admin/artistes/${artist.id}`, '_blank')
                                 }}
                                 className="gap-1 text-white/70 hover:text-white"
                               >
@@ -1064,25 +974,21 @@ export default function DuplicatesMonitoringPage() {
 
           {/* Similar Names (normalized) */}
           {data.artists.duplicatesBySimilarName.filter(
-            (d) => severityFilter === "all" || d.severity === severityFilter,
+            (d) => severityFilter === 'all' || d.severity === severityFilter
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Noms similaires (
                 {
                   data.artists.duplicatesBySimilarName.filter(
-                    (d) =>
-                      severityFilter === "all" || d.severity === severityFilter,
+                    (d) => severityFilter === 'all' || d.severity === severityFilter
                   ).length
                 }
                 )
               </h2>
               <div className="space-y-4">
                 {data.artists.duplicatesBySimilarName
-                  .filter(
-                    (d) =>
-                      severityFilter === "all" || d.severity === severityFilter,
-                  )
+                  .filter((d) => severityFilter === 'all' || d.severity === severityFilter)
                   .map((duplicate) => (
                     <Card
                       key={duplicate.identifier}
@@ -1096,17 +1002,11 @@ export default function DuplicatesMonitoringPage() {
                             />
                             {duplicate.count} artistes avec des noms similaires
                           </CardTitle>
-                          <Badge
-                            className={getSeverityBadgeColor(
-                              duplicate.severity,
-                            )}
-                          >
+                          <Badge className={getSeverityBadgeColor(duplicate.severity)}>
                             {getSeverityLabel(duplicate.severity)}
                           </Badge>
                         </div>
-                        <p className="mt-2 text-sm text-white/60">
-                          {duplicate.reason}
-                        </p>
+                        <p className="mt-2 text-sm text-white/60">{duplicate.reason}</p>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-3">
@@ -1117,22 +1017,16 @@ export default function DuplicatesMonitoringPage() {
                             >
                               <div>
                                 <p className="font-medium text-white">
-                                  {artist.translations.find(
-                                    (t) => t.locale === "fr",
-                                  )?.name ?? artist.slug}
+                                  {artist.translations.find((t) => t.locale === 'fr')?.name ??
+                                    artist.slug}
                                 </p>
-                                <p className="mt-1 text-sm text-white/50">
-                                  Slug: {artist.slug}
-                                </p>
+                                <p className="mt-1 text-sm text-white/50">Slug: {artist.slug}</p>
                               </div>
                               <Button
                                 size="sm"
                                 variant="ghost"
                                 onClick={() => {
-                                  window.open(
-                                    `/${locale}/admin/artistes/${artist.id}`,
-                                    "_blank",
-                                  );
+                                  window.open(`/${locale}/admin/artistes/${artist.id}`, '_blank')
                                 }}
                                 className="gap-1 text-white/70 hover:text-white"
                               >
@@ -1151,15 +1045,14 @@ export default function DuplicatesMonitoringPage() {
 
           {/* Integrity Issues */}
           {data.artists.integrityIssues.filter(
-            (i) => severityFilter === "all" || i.severity === severityFilter,
+            (i) => severityFilter === 'all' || i.severity === severityFilter
           ).length > 0 && (
             <div>
               <h2 className="mb-4 text-xl font-semibold text-white">
                 Problèmes d&apos;intégrité (
                 {
                   data.artists.integrityIssues.filter(
-                    (i) =>
-                      severityFilter === "all" || i.severity === severityFilter,
+                    (i) => severityFilter === 'all' || i.severity === severityFilter
                   ).length
                 }
                 )
@@ -1169,10 +1062,8 @@ export default function DuplicatesMonitoringPage() {
               {/* No Bio */}
               {data.artists.integrityIssues.filter(
                 (i) =>
-                  (severityFilter === "all" || i.severity === severityFilter) &&
-                  (i.issue === "no_bio_both" ||
-                    i.issue === "no_bio_fr" ||
-                    i.issue === "no_bio_en"),
+                  (severityFilter === 'all' || i.severity === severityFilter) &&
+                  (i.issue === 'no_bio_both' || i.issue === 'no_bio_fr' || i.issue === 'no_bio_en')
               ).length > 0 && (
                 <Card className="mb-4 border-orange-500/20 bg-black">
                   <CardHeader>
@@ -1182,11 +1073,10 @@ export default function DuplicatesMonitoringPage() {
                       {
                         data.artists.integrityIssues.filter(
                           (i) =>
-                            (severityFilter === "all" ||
-                              i.severity === severityFilter) &&
-                            (i.issue === "no_bio_both" ||
-                              i.issue === "no_bio_fr" ||
-                              i.issue === "no_bio_en"),
+                            (severityFilter === 'all' || i.severity === severityFilter) &&
+                            (i.issue === 'no_bio_both' ||
+                              i.issue === 'no_bio_fr' ||
+                              i.issue === 'no_bio_en')
                         ).length
                       }
                       )
@@ -1197,11 +1087,10 @@ export default function DuplicatesMonitoringPage() {
                       {data.artists.integrityIssues
                         .filter(
                           (i) =>
-                            (severityFilter === "all" ||
-                              i.severity === severityFilter) &&
-                            (i.issue === "no_bio_both" ||
-                              i.issue === "no_bio_fr" ||
-                              i.issue === "no_bio_en"),
+                            (severityFilter === 'all' || i.severity === severityFilter) &&
+                            (i.issue === 'no_bio_both' ||
+                              i.issue === 'no_bio_fr' ||
+                              i.issue === 'no_bio_en')
                         )
                         .map((issue) => (
                           <div
@@ -1209,34 +1098,23 @@ export default function DuplicatesMonitoringPage() {
                             className={`flex items-center justify-between rounded-lg border ${getSeverityBorderColor(issue.severity)} bg-white/5 p-3`}
                           >
                             <div className="flex items-center gap-3">
-                              <Badge
-                                className={getSeverityBadgeColor(
-                                  issue.severity,
-                                )}
-                              >
-                                {issue.issue === "no_bio_both"
-                                  ? "FR + EN"
-                                  : issue.issue === "no_bio_fr"
-                                    ? "FR"
-                                    : "EN"}
+                              <Badge className={getSeverityBadgeColor(issue.severity)}>
+                                {issue.issue === 'no_bio_both'
+                                  ? 'FR + EN'
+                                  : issue.issue === 'no_bio_fr'
+                                    ? 'FR'
+                                    : 'EN'}
                               </Badge>
                               <div>
-                                <p className="font-medium text-white">
-                                  {issue.name}
-                                </p>
-                                <p className="text-sm text-white/50">
-                                  {issue.reason}
-                                </p>
+                                <p className="font-medium text-white">{issue.name}</p>
+                                <p className="text-sm text-white/50">{issue.reason}</p>
                               </div>
                             </div>
                             <Button
                               size="sm"
                               variant="ghost"
                               onClick={() => {
-                                window.open(
-                                  `/${locale}/admin/artistes/${issue.id}`,
-                                  "_blank",
-                                );
+                                window.open(`/${locale}/admin/artistes/${issue.id}`, '_blank')
                               }}
                               className="gap-1 text-white/70 hover:text-white"
                             >
@@ -1253,8 +1131,8 @@ export default function DuplicatesMonitoringPage() {
               {/* No Photo */}
               {data.artists.integrityIssues.filter(
                 (i) =>
-                  (severityFilter === "all" || i.severity === severityFilter) &&
-                  i.issue === "no_photo",
+                  (severityFilter === 'all' || i.severity === severityFilter) &&
+                  i.issue === 'no_photo'
               ).length > 0 && (
                 <Card className="mb-4 border-orange-500/20 bg-black">
                   <CardHeader>
@@ -1264,9 +1142,8 @@ export default function DuplicatesMonitoringPage() {
                       {
                         data.artists.integrityIssues.filter(
                           (i) =>
-                            (severityFilter === "all" ||
-                              i.severity === severityFilter) &&
-                            i.issue === "no_photo",
+                            (severityFilter === 'all' || i.severity === severityFilter) &&
+                            i.issue === 'no_photo'
                         ).length
                       }
                       )
@@ -1277,26 +1154,20 @@ export default function DuplicatesMonitoringPage() {
                       {data.artists.integrityIssues
                         .filter(
                           (i) =>
-                            (severityFilter === "all" ||
-                              i.severity === severityFilter) &&
-                            i.issue === "no_photo",
+                            (severityFilter === 'all' || i.severity === severityFilter) &&
+                            i.issue === 'no_photo'
                         )
                         .map((issue) => (
                           <div
                             key={`${issue.id}-${issue.issue}`}
                             className="flex items-center justify-between rounded-lg border border-orange-500/20 bg-white/5 p-3"
                           >
-                            <p className="font-medium text-white">
-                              {issue.name}
-                            </p>
+                            <p className="font-medium text-white">{issue.name}</p>
                             <Button
                               size="sm"
                               variant="ghost"
                               onClick={() => {
-                                window.open(
-                                  `/${locale}/admin/artistes/${issue.id}`,
-                                  "_blank",
-                                );
+                                window.open(`/${locale}/admin/artistes/${issue.id}`, '_blank')
                               }}
                               className="gap-1 text-white/70 hover:text-white"
                             >
@@ -1312,8 +1183,8 @@ export default function DuplicatesMonitoringPage() {
               {/* No Links */}
               {data.artists.integrityIssues.filter(
                 (i) =>
-                  (severityFilter === "all" || i.severity === severityFilter) &&
-                  i.issue === "no_links",
+                  (severityFilter === 'all' || i.severity === severityFilter) &&
+                  i.issue === 'no_links'
               ).length > 0 && (
                 <Card className="mb-4 border-blue-500/20 bg-black">
                   <CardHeader>
@@ -1323,9 +1194,8 @@ export default function DuplicatesMonitoringPage() {
                       {
                         data.artists.integrityIssues.filter(
                           (i) =>
-                            (severityFilter === "all" ||
-                              i.severity === severityFilter) &&
-                            i.issue === "no_links",
+                            (severityFilter === 'all' || i.severity === severityFilter) &&
+                            i.issue === 'no_links'
                         ).length
                       }
                       )
@@ -1336,26 +1206,20 @@ export default function DuplicatesMonitoringPage() {
                       {data.artists.integrityIssues
                         .filter(
                           (i) =>
-                            (severityFilter === "all" ||
-                              i.severity === severityFilter) &&
-                            i.issue === "no_links",
+                            (severityFilter === 'all' || i.severity === severityFilter) &&
+                            i.issue === 'no_links'
                         )
                         .map((issue) => (
                           <div
                             key={`${issue.id}-${issue.issue}`}
                             className="flex items-center justify-between rounded-lg border border-blue-500/20 bg-white/5 p-3"
                           >
-                            <p className="font-medium text-white">
-                              {issue.name}
-                            </p>
+                            <p className="font-medium text-white">{issue.name}</p>
                             <Button
                               size="sm"
                               variant="ghost"
                               onClick={() => {
-                                window.open(
-                                  `/${locale}/admin/artistes/${issue.id}`,
-                                  "_blank",
-                                );
+                                window.open(`/${locale}/admin/artistes/${issue.id}`, '_blank')
                               }}
                               className="gap-1 text-white/70 hover:text-white"
                             >
@@ -1377,9 +1241,7 @@ export default function DuplicatesMonitoringPage() {
               <Card className="border-white/10 bg-black">
                 <CardContent className="p-12 text-center">
                   <UsersIcon className="mx-auto h-12 w-12 text-white/20" />
-                  <p className="mt-4 text-white/50">
-                    Aucun problème détecté pour les artistes
-                  </p>
+                  <p className="mt-4 text-white/50">Aucun problème détecté pour les artistes</p>
                 </CardContent>
               </Card>
             )}
@@ -1388,14 +1250,11 @@ export default function DuplicatesMonitoringPage() {
         {/* Categories Tab */}
         <TabsContent value="categories" className="space-y-6">
           {data.categories.duplicatesBySlug.filter(
-            (d) => severityFilter === "all" || d.severity === severityFilter,
+            (d) => severityFilter === 'all' || d.severity === severityFilter
           ).length > 0 ? (
             <div className="space-y-4">
               {data.categories.duplicatesBySlug
-                .filter(
-                  (d) =>
-                    severityFilter === "all" || d.severity === severityFilter,
-                )
+                .filter((d) => severityFilter === 'all' || d.severity === severityFilter)
                 .map((duplicate) => (
                   <Card
                     key={duplicate.slug}
@@ -1407,18 +1266,13 @@ export default function DuplicatesMonitoringPage() {
                           <AlertTriangleIcon
                             className={`h-5 w-5 ${getSeverityIconColor(duplicate.severity)}`}
                           />
-                          {duplicate.count} catégories avec le slug "
-                          {duplicate.slug}"
+                          {duplicate.count} catégories avec le slug "{duplicate.slug}"
                         </CardTitle>
-                        <Badge
-                          className={getSeverityBadgeColor(duplicate.severity)}
-                        >
+                        <Badge className={getSeverityBadgeColor(duplicate.severity)}>
                           {getSeverityLabel(duplicate.severity)}
                         </Badge>
                       </div>
-                      <p className="mt-2 text-sm text-white/60">
-                        {duplicate.reason}
-                      </p>
+                      <p className="mt-2 text-sm text-white/60">{duplicate.reason}</p>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
@@ -1429,9 +1283,8 @@ export default function DuplicatesMonitoringPage() {
                           >
                             <div>
                               <p className="font-medium text-white">
-                                {category.translations.find(
-                                  (t) => t.locale === "fr",
-                                )?.name ?? category.slug}
+                                {category.translations.find((t) => t.locale === 'fr')?.name ??
+                                  category.slug}
                               </p>
                               <p className="mt-1 text-sm text-white/50">
                                 Créé le: {formatDate(category.createdAt)}
@@ -1441,10 +1294,7 @@ export default function DuplicatesMonitoringPage() {
                               size="sm"
                               variant="ghost"
                               onClick={() => {
-                                window.open(
-                                  `/${locale}/admin/categories/${category.id}`,
-                                  "_blank",
-                                );
+                                window.open(`/${locale}/admin/categories/${category.id}`, '_blank')
                               }}
                               className="gap-1 text-white/70 hover:text-white"
                             >
@@ -1462,9 +1312,7 @@ export default function DuplicatesMonitoringPage() {
             <Card className="border-white/10 bg-black">
               <CardContent className="p-12 text-center">
                 <FolderIcon className="mx-auto h-12 w-12 text-white/20" />
-                <p className="mt-4 text-white/50">
-                  Aucun doublon détecté pour les catégories
-                </p>
+                <p className="mt-4 text-white/50">Aucun doublon détecté pour les catégories</p>
               </CardContent>
             </Card>
           )}
@@ -1473,14 +1321,11 @@ export default function DuplicatesMonitoringPage() {
         {/* Labels Tab */}
         <TabsContent value="labels" className="space-y-6">
           {data.labels.duplicatesBySlug.filter(
-            (d) => severityFilter === "all" || d.severity === severityFilter,
+            (d) => severityFilter === 'all' || d.severity === severityFilter
           ).length > 0 ? (
             <div className="space-y-4">
               {data.labels.duplicatesBySlug
-                .filter(
-                  (d) =>
-                    severityFilter === "all" || d.severity === severityFilter,
-                )
+                .filter((d) => severityFilter === 'all' || d.severity === severityFilter)
                 .map((duplicate) => (
                   <Card
                     key={duplicate.slug}
@@ -1492,18 +1337,13 @@ export default function DuplicatesMonitoringPage() {
                           <AlertTriangleIcon
                             className={`h-5 w-5 ${getSeverityIconColor(duplicate.severity)}`}
                           />
-                          {duplicate.count} labels avec le slug "
-                          {duplicate.slug}"
+                          {duplicate.count} labels avec le slug "{duplicate.slug}"
                         </CardTitle>
-                        <Badge
-                          className={getSeverityBadgeColor(duplicate.severity)}
-                        >
+                        <Badge className={getSeverityBadgeColor(duplicate.severity)}>
                           {getSeverityLabel(duplicate.severity)}
                         </Badge>
                       </div>
-                      <p className="mt-2 text-sm text-white/60">
-                        {duplicate.reason}
-                      </p>
+                      <p className="mt-2 text-sm text-white/60">{duplicate.reason}</p>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
@@ -1514,9 +1354,8 @@ export default function DuplicatesMonitoringPage() {
                           >
                             <div>
                               <p className="font-medium text-white">
-                                {label.translations.find(
-                                  (t) => t.locale === "fr",
-                                )?.name ?? label.slug}
+                                {label.translations.find((t) => t.locale === 'fr')?.name ??
+                                  label.slug}
                               </p>
                               <p className="mt-1 text-sm text-white/50">
                                 Créé le: {formatDate(label.createdAt)}
@@ -1526,10 +1365,7 @@ export default function DuplicatesMonitoringPage() {
                               size="sm"
                               variant="ghost"
                               onClick={() => {
-                                window.open(
-                                  `/${locale}/admin/labels/${label.id}`,
-                                  "_blank",
-                                );
+                                window.open(`/${locale}/admin/labels/${label.id}`, '_blank')
                               }}
                               className="gap-1 text-white/70 hover:text-white"
                             >
@@ -1547,14 +1383,12 @@ export default function DuplicatesMonitoringPage() {
             <Card className="border-white/10 bg-black">
               <CardContent className="p-12 text-center">
                 <TagIcon className="mx-auto h-12 w-12 text-white/20" />
-                <p className="mt-4 text-white/50">
-                  Aucun doublon détecté pour les labels
-                </p>
+                <p className="mt-4 text-white/50">Aucun doublon détecté pour les labels</p>
               </CardContent>
             </Card>
           )}
         </TabsContent>
       </Tabs>
     </div>
-  );
+  )
 }

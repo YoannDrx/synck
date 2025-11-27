@@ -1,56 +1,57 @@
-"use client";
+'use client'
 
 import {
-  useState,
+  type CSSProperties,
+  type PointerEvent,
+  type ReactNode,
   useCallback,
   useEffect,
-  type ReactNode,
-  type PointerEvent,
-  type CSSProperties,
-} from "react";
-import { cn } from "@/lib/utils";
+  useState,
+} from 'react'
+
+import { cn } from '@/lib/utils'
 
 export type GlowConfig = {
   /** Primary glow color in rgba format */
-  primaryColor?: string;
+  primaryColor?: string
   /** Secondary glow color in rgba format (optional) */
-  secondaryColor?: string;
+  secondaryColor?: string
   /** Primary glow radius percentage (default: 45) */
-  primaryRadius?: number;
+  primaryRadius?: number
   /** Secondary glow position (default: { x: 90, y: 10 }) */
-  secondaryPosition?: { x: number; y: number };
+  secondaryPosition?: { x: number; y: number }
   /** Overall opacity (default: 0.8) */
-  opacity?: number;
+  opacity?: number
   /** Transition duration in ms (default: 300) */
-  transitionDuration?: number;
-};
+  transitionDuration?: number
+}
 
 export type MotionGlowTrackerProps = {
-  children: ReactNode;
+  children: ReactNode
   /** Enable/disable glow effect */
-  enabled?: boolean;
+  enabled?: boolean
   /** Glow configuration */
-  config?: GlowConfig;
+  config?: GlowConfig
   /** Track mouse across entire viewport using window events */
-  fullscreen?: boolean;
+  fullscreen?: boolean
   /** Additional class names for the wrapper */
-  className?: string;
+  className?: string
   /** Additional class names for the glow layer */
-  glowClassName?: string;
+  glowClassName?: string
   /** Element tag to use (default: "div") */
-  as?: "div" | "section" | "article" | "main";
+  as?: 'div' | 'section' | 'article' | 'main'
   /** Additional style for the wrapper */
-  style?: CSSProperties;
-};
+  style?: CSSProperties
+}
 
 const defaultConfig: Required<GlowConfig> = {
-  primaryColor: "rgba(213,255,10,0.3)",
-  secondaryColor: "rgba(255,75,162,0.25)",
+  primaryColor: 'rgba(213,255,10,0.3)',
+  secondaryColor: 'rgba(255,75,162,0.25)',
   primaryRadius: 45,
   secondaryPosition: { x: 90, y: 10 },
   opacity: 0.8,
   transitionDuration: 300,
-};
+}
 
 export function MotionGlowTracker({
   children,
@@ -59,53 +60,55 @@ export function MotionGlowTracker({
   fullscreen = false,
   className,
   glowClassName,
-  as: Component = "div",
+  as: Component = 'div',
   style,
 }: MotionGlowTrackerProps) {
-  const [glow, setGlow] = useState({ x: 50, y: 50 });
+  const [glow, setGlow] = useState({ x: 50, y: 50 })
 
-  const mergedConfig = { ...defaultConfig, ...config };
+  const mergedConfig = { ...defaultConfig, ...config }
 
   // Fullscreen mode: track mouse across entire viewport
   useEffect(() => {
-    if (!enabled || !fullscreen) return;
+    if (!enabled || !fullscreen) return
 
     const handleMouseMove = (event: MouseEvent) => {
-      const x = (event.clientX / window.innerWidth) * 100;
-      const y = (event.clientY / window.innerHeight) * 100;
-      setGlow({ x, y });
-    };
+      const x = (event.clientX / window.innerWidth) * 100
+      const y = (event.clientY / window.innerHeight) * 100
+      setGlow({ x, y })
+    }
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => { window.removeEventListener("mousemove", handleMouseMove); };
-  }, [enabled, fullscreen]);
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+    }
+  }, [enabled, fullscreen])
 
   // Element-level tracking for non-fullscreen mode
   const handlePointerMove = useCallback(
     (event: PointerEvent<HTMLElement>) => {
-      if (!enabled || fullscreen) return;
+      if (!enabled || fullscreen) return
 
-      const rect = event.currentTarget.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
-      setGlow({ x, y });
+      const rect = event.currentTarget.getBoundingClientRect()
+      const x = ((event.clientX - rect.left) / rect.width) * 100
+      const y = ((event.clientY - rect.top) / rect.height) * 100
+      setGlow({ x, y })
     },
-    [enabled, fullscreen],
-  );
+    [enabled, fullscreen]
+  )
 
   const glowBackground = enabled
     ? `radial-gradient(circle at ${String(glow.x)}% ${String(glow.y)}%, ${mergedConfig.primaryColor}, transparent ${String(mergedConfig.primaryRadius)}%), radial-gradient(circle at ${String(mergedConfig.secondaryPosition.x)}% ${String(mergedConfig.secondaryPosition.y)}%, ${mergedConfig.secondaryColor}, transparent 45%)`
-    : undefined;
+    : undefined
 
   return (
     <Component
-      className={cn("relative", className)}
+      className={cn('relative', className)}
       onPointerMove={fullscreen ? undefined : handlePointerMove}
       style={style}
     >
       {enabled && (
         <div
-          className={cn("pointer-events-none absolute inset-0", glowClassName)}
+          className={cn('pointer-events-none absolute inset-0', glowClassName)}
           style={{
             background: glowBackground,
             opacity: mergedConfig.opacity,
@@ -115,37 +118,37 @@ export function MotionGlowTracker({
       )}
       {children}
     </Component>
-  );
+  )
 }
 
 /** Hook for custom glow tracking implementations */
 export function useGlowTracker(initialPosition = { x: 50, y: 50 }) {
-  const [position, setPosition] = useState(initialPosition);
+  const [position, setPosition] = useState(initialPosition)
 
   const handlePointerMove = useCallback((event: PointerEvent<HTMLElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
-    setPosition({ x, y });
-  }, []);
+    const rect = event.currentTarget.getBoundingClientRect()
+    const x = ((event.clientX - rect.left) / rect.width) * 100
+    const y = ((event.clientY - rect.top) / rect.height) * 100
+    setPosition({ x, y })
+  }, [])
 
   const getGradientStyle = useCallback(
     (config: GlowConfig = {}) => {
-      const merged = { ...defaultConfig, ...config };
+      const merged = { ...defaultConfig, ...config }
       return {
         background: `radial-gradient(circle at ${String(position.x)}% ${String(position.y)}%, ${merged.primaryColor}, transparent ${String(merged.primaryRadius)}%), radial-gradient(circle at ${String(merged.secondaryPosition.x)}% ${String(merged.secondaryPosition.y)}%, ${merged.secondaryColor}, transparent 45%)`,
         opacity: merged.opacity,
         transition: `all ${String(merged.transitionDuration)}ms`,
-      };
+      }
     },
-    [position],
-  );
+    [position]
+  )
 
   return {
     position,
     handlePointerMove,
     getGradientStyle,
-  };
+  }
 }
 
 /** Preset configurations for common glow styles */
@@ -155,34 +158,34 @@ export const glowPresets = {
 
   /** Neon only (no secondary) */
   neon: {
-    primaryColor: "rgba(213,255,10,0.35)",
-    secondaryColor: "transparent",
+    primaryColor: 'rgba(213,255,10,0.35)',
+    secondaryColor: 'transparent',
     primaryRadius: 50,
     opacity: 0.9,
   } as GlowConfig,
 
   /** Subtle glow for cards */
   subtle: {
-    primaryColor: "rgba(213,255,10,0.15)",
-    secondaryColor: "rgba(0,193,139,0.1)",
+    primaryColor: 'rgba(213,255,10,0.15)',
+    secondaryColor: 'rgba(0,193,139,0.1)',
     primaryRadius: 60,
     opacity: 0.7,
   } as GlowConfig,
 
   /** Intense glow for hero sections */
   intense: {
-    primaryColor: "rgba(213,255,10,0.4)",
-    secondaryColor: "rgba(255,75,162,0.3)",
+    primaryColor: 'rgba(213,255,10,0.4)',
+    secondaryColor: 'rgba(255,75,162,0.3)',
     primaryRadius: 40,
     opacity: 0.85,
   } as GlowConfig,
 
   /** Contact section style */
   contact: {
-    primaryColor: "rgba(213,255,10,0.25)",
-    secondaryColor: "rgba(217,70,239,0.2)",
+    primaryColor: 'rgba(213,255,10,0.25)',
+    secondaryColor: 'rgba(217,70,239,0.2)',
     secondaryPosition: { x: 90, y: 80 },
     primaryRadius: 50,
     opacity: 0.7,
   } as GlowConfig,
-} as const;
+} as const

@@ -1,11 +1,12 @@
-"use client";
+'use client'
 
-import { useParams } from "next/navigation";
-import { ExpertiseFormAdvanced } from "@/components/admin/expertises/expertise-form-advanced";
+import { useParams } from 'next/navigation'
+
+import { ExpertiseFormAdvanced } from '@/components/admin/expertises/expertise-form-advanced'
 
 export default function NewExpertisePage() {
-  const params = useParams();
-  const locale = params.locale as string;
+  const params = useParams()
+  const locale = params.locale as string
 
   return (
     <div className="space-y-6">
@@ -16,5 +17,5 @@ export default function NewExpertisePage() {
 
       <ExpertiseFormAdvanced locale={locale} />
     </div>
-  );
+  )
 }

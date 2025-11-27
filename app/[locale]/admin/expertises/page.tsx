@@ -1,26 +1,14 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import {
-  PlusIcon,
-  PencilIcon,
-  TrashIcon,
-  EyeIcon,
-  EyeOffIcon,
-  FileTextIcon,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+import { EyeIcon, EyeOffIcon, FileTextIcon, PencilIcon, PlusIcon, TrashIcon } from 'lucide-react'
+import { toast } from 'sonner'
+
+import { fetchWithAuth } from '@/lib/fetch-with-auth'
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,83 +18,92 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { toast } from "sonner";
-import { fetchWithAuth } from "@/lib/fetch-with-auth";
-import { ExportButton } from "@/components/admin/export-button";
+} from '@/components/ui/alert-dialog'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+
+import { ExportButton } from '@/components/admin/export-button'
 
 type ExpertiseTranslation = {
-  locale: string;
-  title: string;
-  subtitle: string | null;
-};
+  locale: string
+  title: string
+  subtitle: string | null
+}
 
 type Expertise = {
-  id: string;
-  slug: string;
-  order: number;
-  isActive: boolean;
-  translations: ExpertiseTranslation[];
-  coverImage: { url: string } | null;
-  createdAt: string;
-  updatedAt: string;
-};
+  id: string
+  slug: string
+  order: number
+  isActive: boolean
+  translations: ExpertiseTranslation[]
+  coverImage: { url: string } | null
+  createdAt: string
+  updatedAt: string
+}
 
 export default function ExpertisesPage() {
-  const params = useParams();
-  const locale = params.locale as string;
+  const params = useParams()
+  const locale = params.locale as string
 
-  const [expertises, setExpertises] = useState<Expertise[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [expertises, setExpertises] = useState<Expertise[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
 
   const fetchExpertises = async () => {
     try {
-      const res = await fetchWithAuth("/api/admin/expertises");
+      const res = await fetchWithAuth('/api/admin/expertises')
       if (res.ok) {
-        const data = (await res.json()) as Expertise[];
-        setExpertises(data);
+        const data = (await res.json()) as Expertise[]
+        setExpertises(data)
       }
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error("Error fetching expertises:", error);
-      toast.error("Erreur lors du chargement des expertises");
+      console.error('Error fetching expertises:', error)
+      toast.error('Erreur lors du chargement des expertises')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    void fetchExpertises();
-  }, []);
+    void fetchExpertises()
+  }, [])
 
   const handleDelete = async (id: string) => {
     try {
       const res = await fetchWithAuth(`/api/admin/expertises/${id}`, {
-        method: "DELETE",
-      });
+        method: 'DELETE',
+      })
 
       if (res.ok) {
-        toast.success("Expertise supprimée");
-        void fetchExpertises();
+        toast.success('Expertise supprimée')
+        void fetchExpertises()
       } else {
-        toast.error("Erreur lors de la suppression");
+        toast.error('Erreur lors de la suppression')
       }
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error("Error deleting expertise:", error);
-      toast.error("Erreur lors de la suppression");
+      console.error('Error deleting expertise:', error)
+      toast.error('Erreur lors de la suppression')
     }
-    setDeleteId(null);
-  };
+    setDeleteId(null)
+  }
 
   const getTitle = (expertise: Expertise) => {
     return (
       expertise.translations.find((t) => t.locale === locale)?.title ??
       expertise.translations[0]?.title ??
-      "Sans titre"
-    );
-  };
+      'Sans titre'
+    )
+  }
 
   if (isLoading) {
     return (
@@ -116,7 +113,7 @@ export default function ExpertisesPage() {
         </div>
         <div className="text-center text-white/70">Chargement...</div>
       </div>
-    );
+    )
   }
 
   return (
@@ -126,13 +123,13 @@ export default function ExpertisesPage() {
         <div>
           <h1 className="text-3xl font-bold text-white">Expertises</h1>
           <p className="text-white/70">
-            {expertises.length} expertise{expertises.length > 1 ? "s" : ""}
+            {expertises.length} expertise{expertises.length > 1 ? 's' : ''}
           </p>
         </div>
         <div className="flex gap-2">
           <ExportButton entity="expertises" />
           <Link href={`/${locale}/admin/expertises/nouveau`}>
-            <Button className="gap-2 bg-lime-300 text-black hover:bg-lime-400">
+            <Button className="gap-2 bg-[var(--brand-neon)] text-black hover:bg-[var(--neon-400)]">
               <PlusIcon className="h-4 w-4" />
               Nouvelle expertise
             </Button>
@@ -144,14 +141,12 @@ export default function ExpertisesPage() {
       {expertises.length === 0 ? (
         <div className="rounded-lg border border-white/10 bg-black p-12 text-center">
           <FileTextIcon className="mx-auto h-12 w-12 text-white/30" />
-          <h3 className="mt-4 text-lg font-semibold text-white">
-            Aucune expertise
-          </h3>
+          <h3 className="mt-4 text-lg font-semibold text-white">Aucune expertise</h3>
           <p className="mt-2 text-sm text-white/70">
             Commencez par créer votre première expertise.
           </p>
           <Link href={`/${locale}/admin/expertises/nouveau`}>
-            <Button className="mt-4 gap-2 bg-lime-300 text-black hover:bg-lime-400">
+            <Button className="mt-4 gap-2 bg-[var(--brand-neon)] text-black hover:bg-[var(--neon-400)]">
               <PlusIcon className="h-4 w-4" />
               Nouvelle expertise
             </Button>
@@ -166,40 +161,28 @@ export default function ExpertisesPage() {
                 <TableHead className="text-white/70">Slug</TableHead>
                 <TableHead className="text-white/70">Ordre</TableHead>
                 <TableHead className="text-white/70">Statut</TableHead>
-                <TableHead className="text-right text-white/70">
-                  Actions
-                </TableHead>
+                <TableHead className="text-right text-white/70">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {expertises.map((expertise) => (
-                <TableRow
-                  key={expertise.id}
-                  className="border-white/10 hover:bg-white/5"
-                >
-                  <TableCell className="font-medium text-white">
-                    {getTitle(expertise)}
-                  </TableCell>
+                <TableRow key={expertise.id} className="border-white/10 hover:bg-white/5">
+                  <TableCell className="font-medium text-white">{getTitle(expertise)}</TableCell>
                   <TableCell className="font-mono text-sm text-white/70">
                     {expertise.slug}
                   </TableCell>
-                  <TableCell className="text-white/70">
-                    {expertise.order}
-                  </TableCell>
+                  <TableCell className="text-white/70">{expertise.order}</TableCell>
                   <TableCell>
                     {expertise.isActive ? (
                       <Badge
                         variant="outline"
-                        className="gap-1 border-lime-300/30 text-lime-300"
+                        className="gap-1 border-[var(--brand-neon)]/30 text-[var(--brand-neon)]"
                       >
                         <EyeIcon className="h-3 w-3" />
                         Actif
                       </Badge>
                     ) : (
-                      <Badge
-                        variant="outline"
-                        className="gap-1 border-white/30 text-white/50"
-                      >
+                      <Badge variant="outline" className="gap-1 border-white/30 text-white/50">
                         <EyeOffIcon className="h-3 w-3" />
                         Inactif
                       </Badge>
@@ -207,9 +190,7 @@ export default function ExpertisesPage() {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <Link
-                        href={`/${locale}/admin/expertises/${expertise.id}`}
-                      >
+                      <Link href={`/${locale}/admin/expertises/${expertise.id}`}>
                         <Button
                           variant="ghost"
                           size="sm"
@@ -223,7 +204,7 @@ export default function ExpertisesPage() {
                         variant="ghost"
                         size="sm"
                         onClick={() => {
-                          setDeleteId(expertise.id);
+                          setDeleteId(expertise.id)
                         }}
                         className="gap-2 text-red-400 hover:bg-red-500/10 hover:text-red-400"
                       >
@@ -243,17 +224,14 @@ export default function ExpertisesPage() {
       <AlertDialog
         open={deleteId !== null}
         onOpenChange={() => {
-          setDeleteId(null);
+          setDeleteId(null)
         }}
       >
         <AlertDialogContent className="border-white/10 bg-black">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-white">
-              Confirmer la suppression
-            </AlertDialogTitle>
+            <AlertDialogTitle className="text-white">Confirmer la suppression</AlertDialogTitle>
             <AlertDialogDescription className="text-white/70">
-              Êtes-vous sûr de vouloir supprimer cette expertise ? Cette action
-              est irréversible.
+              Êtes-vous sûr de vouloir supprimer cette expertise ? Cette action est irréversible.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -262,7 +240,7 @@ export default function ExpertisesPage() {
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
-                if (deleteId) void handleDelete(deleteId);
+                if (deleteId) void handleDelete(deleteId)
               }}
               className="bg-red-500 text-white hover:bg-red-600"
             >
@@ -272,5 +250,5 @@ export default function ExpertisesPage() {
         </AlertDialogContent>
       </AlertDialog>
     </div>
-  );
+  )
 }

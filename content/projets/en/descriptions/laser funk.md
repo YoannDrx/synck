@@ -1,1 +1,1 @@
-LAZER FUNK is an invitation to electro funk that is as retro as it is futuristic.  <a href= "ttps://www.youtube.com/sheischristine" target="_blank" className="link"}>Christina</a> and recent collaborator with the British collective 45 Live.
+LAZER FUNK is an invitation to electro funk that is as retro as it is futuristic. <a href= "ttps://www.youtube.com/sheischristine" target="\_blank" className="link"}>Christina</a> and recent collaborator with the British collective 45 Live.

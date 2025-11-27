@@ -1,52 +1,50 @@
-"use client";
+'use client'
 
-import { useTheme } from "next-themes";
-import { useSyncExternalStore } from "react";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { useTheme } from 'next-themes'
+import { useSyncExternalStore } from 'react'
+
+import { motion } from 'framer-motion'
+
+import { cn } from '@/lib/utils'
 
 // Hook to safely check if we're on the client
-const emptySubscribe = () => () => undefined;
+const emptySubscribe = () => () => undefined
 function useIsMounted() {
   return useSyncExternalStore(
     emptySubscribe,
     () => true,
-    () => false,
-  );
+    () => false
+  )
 }
 
 type ThemeToggleProps = {
-  className?: string;
-};
+  className?: string
+}
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const { theme, setTheme } = useTheme();
-  const isMounted = useIsMounted();
+  const { theme, setTheme } = useTheme()
+  const isMounted = useIsMounted()
 
   if (!isMounted) {
-    return (
-      <div
-        className={cn("h-10 w-10 rounded-md bg-neutral-800/50", className)}
-      />
-    );
+    return <div className={cn('h-10 w-10 rounded-md bg-neutral-800/50', className)} />
   }
 
-  const isDark = theme === "dark";
+  const isDark = theme === 'dark'
 
   return (
     <button
       onClick={() => {
-        setTheme(isDark ? "light" : "dark");
+        setTheme(isDark ? 'light' : 'dark')
       }}
       className={cn(
-        "relative flex h-10 w-10 items-center justify-center rounded-md",
-        "bg-neutral-800/50 hover:bg-neutral-700/50",
-        "border border-neutral-700/50 hover:border-neutral-600/50",
-        "transition-colors duration-200",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-neon)]/50",
-        className,
+        'relative flex h-10 w-10 items-center justify-center rounded-md',
+        'bg-neutral-800/50 hover:bg-neutral-700/50',
+        'border border-neutral-700/50 hover:border-neutral-600/50',
+        'transition-colors duration-200',
+        'focus-visible:ring-2 focus-visible:ring-[var(--brand-neon)]/50 focus-visible:outline-none',
+        className
       )}
-      aria-label={isDark ? "Activer le mode clair" : "Activer le mode sombre"}
+      aria-label={isDark ? 'Activer le mode clair' : 'Activer le mode sombre'}
     >
       {/* Sun icon */}
       <motion.svg
@@ -98,38 +96,34 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
         <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
       </motion.svg>
     </button>
-  );
+  )
 }
 
 /**
  * Compact version for mobile or tight spaces
  */
 export function ThemeToggleCompact({ className }: ThemeToggleProps) {
-  const { theme, setTheme } = useTheme();
-  const isMounted = useIsMounted();
+  const { theme, setTheme } = useTheme()
+  const isMounted = useIsMounted()
 
   if (!isMounted) {
-    return (
-      <div
-        className={cn("h-8 w-8 rounded-full bg-neutral-800/50", className)}
-      />
-    );
+    return <div className={cn('h-8 w-8 rounded-full bg-neutral-800/50', className)} />
   }
 
-  const isDark = theme === "dark";
+  const isDark = theme === 'dark'
 
   return (
     <button
       onClick={() => {
-        setTheme(isDark ? "light" : "dark");
+        setTheme(isDark ? 'light' : 'dark')
       }}
       className={cn(
-        "relative flex h-8 w-8 items-center justify-center rounded-full",
-        "bg-neutral-800/50 hover:bg-neutral-700/50",
-        "transition-colors duration-200",
-        className,
+        'relative flex h-8 w-8 items-center justify-center rounded-full',
+        'bg-neutral-800/50 hover:bg-neutral-700/50',
+        'transition-colors duration-200',
+        className
       )}
-      aria-label={isDark ? "Activer le mode clair" : "Activer le mode sombre"}
+      aria-label={isDark ? 'Activer le mode clair' : 'Activer le mode sombre'}
     >
       <motion.div
         initial={false}
@@ -162,5 +156,5 @@ export function ThemeToggleCompact({ className }: ThemeToggleProps) {
         )}
       </motion.div>
     </button>
-  );
+  )
 }

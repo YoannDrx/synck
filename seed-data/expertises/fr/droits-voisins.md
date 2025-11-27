@@ -1,8 +1,8 @@
 ---
-id: "2"
-title: "Gestion des droits voisins"
-description: "Descritpion droits voisins"
-slug: "droits-voisins"
+id: '2'
+title: 'Gestion des droits voisins'
+description: 'Descritpion droits voisins'
+slug: 'droits-voisins'
 imgHome: /images/projets/expertises/droits-voisins/droits-voisins-home.jpg
 img1: /images/projets/expertises/droits-voisins/droits-voisins-section-1.jpg
 img2: /images/projets/expertises/droits-voisins/droits-voisins-section-2.jpg

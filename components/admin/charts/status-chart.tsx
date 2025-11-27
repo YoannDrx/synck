@@ -1,16 +1,16 @@
-"use client";
+'use client'
 
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 type StatusData = {
-  name: string;
-  value: number;
-  color: string;
-};
+  name: string
+  value: number
+  color: string
+}
 
 type StatusChartProps = {
-  data: StatusData[];
-};
+  data: StatusData[]
+}
 
 export function StatusChart({ data }: StatusChartProps) {
   return (
@@ -22,7 +22,7 @@ export function StatusChart({ data }: StatusChartProps) {
           cy="50%"
           labelLine={false}
           label={({ name, percent }) =>
-            `${String(name)}: ${percent ? (percent * 100).toFixed(0) : "0"}%`
+            `${String(name)}: ${percent ? (percent * 100).toFixed(0) : '0'}%`
           }
           outerRadius={80}
           fill="#8884d8"
@@ -34,13 +34,13 @@ export function StatusChart({ data }: StatusChartProps) {
         </Pie>
         <Tooltip
           contentStyle={{
-            backgroundColor: "#000",
-            border: "1px solid #d5ff0a",
-            borderRadius: "8px",
-            color: "#fff",
+            backgroundColor: '#000',
+            border: '1px solid #d5ff0a',
+            borderRadius: '8px',
+            color: '#fff',
           }}
         />
       </PieChart>
     </ResponsiveContainer>
-  );
+  )
 }

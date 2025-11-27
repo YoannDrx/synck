@@ -1,36 +1,36 @@
-"use client";
+'use client'
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { smoothTransition } from "@/lib/animations";
+import { useRef } from 'react'
+
+import { motion, useInView } from 'framer-motion'
+
+import { smoothTransition } from '@/lib/animations'
+import { cn } from '@/lib/utils'
 
 export type PageHeaderProps = {
   /** Page title (H1) */
-  title: string;
+  title: string
   /** Highlight the first letter with gradient */
-  highlightFirstLetter?: boolean;
+  highlightFirstLetter?: boolean
   /** Optional description below the title */
-  description?: string;
+  description?: string
   /** Optional eyebrow text above the title */
-  eyebrow?: string;
+  eyebrow?: string
   /** Additional class names */
-  className?: string;
+  className?: string
   /** Custom title class names (overrides default) */
-  titleClassName?: string;
+  titleClassName?: string
   /** Animate on scroll into view */
-  animate?: boolean;
+  animate?: boolean
   /** Center alignment */
-  centered?: boolean;
-};
+  centered?: boolean
+}
 
 /** Standardized H1 typography */
-const H1_CLASSES =
-  "text-4xl sm:text-8xl lg:text-9xl font-black uppercase tracking-tighter";
+const H1_CLASSES = 'text-4xl sm:text-8xl lg:text-9xl font-black uppercase tracking-tighter'
 
 /** Gradient for first letter */
-const GRADIENT_CLASSES =
-  "bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent";
+const GRADIENT_CLASSES = 'bg-[var(--gradient-brand-short)] bg-clip-text text-transparent'
 
 export function PageHeader({
   title,
@@ -42,14 +42,14 @@ export function PageHeader({
   animate = true,
   centered = false,
 }: PageHeaderProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
 
-  const shouldAnimate = animate && isInView;
+  const shouldAnimate = animate && isInView
 
   // Split title for first letter highlight
-  const firstLetter = title.charAt(0);
-  const restOfTitle = title.slice(1);
+  const firstLetter = title.charAt(0)
+  const restOfTitle = title.slice(1)
 
   const containerVariants = {
     hidden: {},
@@ -59,7 +59,7 @@ export function PageHeader({
         delayChildren: 0.1,
       },
     },
-  };
+  }
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -68,31 +68,28 @@ export function PageHeader({
       y: 0,
       transition: smoothTransition,
     },
-  };
+  }
 
   return (
     <motion.div
       ref={ref}
-      className={cn("mb-8 sm:mb-12", centered && "text-center", className)}
+      className={cn('mb-8 sm:mb-12', centered && 'text-center', className)}
       variants={containerVariants}
       initial="hidden"
-      animate={shouldAnimate ? "visible" : "hidden"}
+      animate={shouldAnimate ? 'visible' : 'hidden'}
     >
       {/* Eyebrow */}
       {eyebrow && (
         <motion.p
           variants={itemVariants}
-          className="mb-4 text-xs uppercase tracking-[0.5em] text-white/50"
+          className="mb-4 text-xs tracking-[0.5em] text-white/50 uppercase"
         >
           {eyebrow}
         </motion.p>
       )}
 
       {/* Title */}
-      <motion.h1
-        variants={itemVariants}
-        className={cn(H1_CLASSES, titleClassName)}
-      >
+      <motion.h1 variants={itemVariants} className={cn(H1_CLASSES, titleClassName)}>
         {highlightFirstLetter ? (
           <>
             <span className={GRADIENT_CLASSES}>{firstLetter}</span>
@@ -107,28 +104,25 @@ export function PageHeader({
       {description && (
         <motion.p
           variants={itemVariants}
-          className={cn(
-            "mt-4 max-w-2xl text-lg text-white/70",
-            centered && "mx-auto",
-          )}
+          className={cn('mt-4 max-w-2xl text-lg text-white/70', centered && 'mx-auto')}
         >
           {description}
         </motion.p>
       )}
     </motion.div>
-  );
+  )
 }
 
 /** Section header (H2) with same styling patterns */
 export type SectionHeaderProps = {
-  title: string;
-  highlightFirstLetter?: boolean;
-  description?: string;
-  eyebrow?: string;
-  className?: string;
-  animate?: boolean;
-  centered?: boolean;
-};
+  title: string
+  highlightFirstLetter?: boolean
+  description?: string
+  eyebrow?: string
+  className?: string
+  animate?: boolean
+  centered?: boolean
+}
 
 export function SectionHeader({
   title,
@@ -139,29 +133,27 @@ export function SectionHeader({
   animate = true,
   centered = false,
 }: SectionHeaderProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
 
-  const shouldAnimate = animate && isInView;
+  const shouldAnimate = animate && isInView
 
-  const firstLetter = title.charAt(0);
-  const restOfTitle = title.slice(1);
+  const firstLetter = title.charAt(0)
+  const restOfTitle = title.slice(1)
 
   return (
     <motion.div
       ref={ref}
-      className={cn("mb-6 sm:mb-8", centered && "text-center", className)}
+      className={cn('mb-6 sm:mb-8', centered && 'text-center', className)}
       initial={{ opacity: 0, y: 20 }}
       animate={shouldAnimate ? { opacity: 1, y: 0 } : {}}
       transition={smoothTransition}
     >
       {eyebrow && (
-        <p className="mb-2 text-xs uppercase tracking-[0.4em] text-white/50">
-          {eyebrow}
-        </p>
+        <p className="mb-2 text-xs tracking-[0.4em] text-white/50 uppercase">{eyebrow}</p>
       )}
 
-      <h2 className="text-3xl sm:text-4xl font-black">
+      <h2 className="text-3xl font-black sm:text-4xl">
         {highlightFirstLetter ? (
           <>
             <span className={GRADIENT_CLASSES}>{firstLetter}</span>
@@ -173,15 +165,10 @@ export function SectionHeader({
       </h2>
 
       {description && (
-        <p
-          className={cn(
-            "mt-3 max-w-xl text-base text-white/60",
-            centered && "mx-auto",
-          )}
-        >
+        <p className={cn('mt-3 max-w-xl text-base text-white/60', centered && 'mx-auto')}>
           {description}
         </p>
       )}
     </motion.div>
-  );
+  )
 }

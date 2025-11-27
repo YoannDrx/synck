@@ -1,24 +1,28 @@
-"use client";
+'use client'
 
-import { useRef, useState, type PointerEvent } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { InfoCard } from "@/components/cards/info-card";
-import { Button } from "@/components/ui/button";
-import type { HomeDictionary } from "@/types/dictionary";
+import { type PointerEvent, useRef, useState } from 'react'
+
+import { motion, useInView, useScroll, useTransform } from 'framer-motion'
+
+import { Button } from '@/components/ui/button'
+
+import { InfoCard } from '@/components/cards/info-card'
+
+import type { HomeDictionary } from '@/types/dictionary'
 
 type ContactSectionProps = {
-  copy: HomeDictionary["contactSection"];
-};
+  copy: HomeDictionary['contactSection']
+}
 
 function AnimatedInfoCard({
   card,
   index,
 }: {
-  card: { label: string; content: string; href?: string };
-  index: number;
+  card: { label: string; content: string; href?: string }
+  index: number
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-30px" });
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-30px' })
 
   return (
     <motion.div
@@ -35,48 +39,40 @@ function AnimatedInfoCard({
     >
       <InfoCard label={card.label} content={card.content} href={card.href} />
     </motion.div>
-  );
+  )
 }
 
 export function ContactSection({ copy }: ContactSectionProps) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-  const [glow, setGlow] = useState({ x: 50, y: 50 });
+  const sectionRef = useRef<HTMLElement>(null)
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
+  const [glow, setGlow] = useState({ x: 50, y: 50 })
 
   const handleGlow = (event: PointerEvent<HTMLElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
-    setGlow({ x, y });
-  };
+    const rect = event.currentTarget.getBoundingClientRect()
+    const x = ((event.clientX - rect.left) / rect.width) * 100
+    const y = ((event.clientY - rect.top) / rect.height) * 100
+    setGlow({ x, y })
+  }
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start end", "end start"],
-  });
+    offset: ['start end', 'end start'],
+  })
 
-  const opacity = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.85, 1],
-    [0, 1, 1, 0.5],
-  );
-  const y = useTransform(scrollYProgress, [0, 0.2, 0.85, 1], [80, 0, 0, -20]);
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.85, 1],
-    [0.92, 1, 1, 0.98],
-  );
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.85, 1], [0, 1, 1, 0.5])
+  const y = useTransform(scrollYProgress, [0, 0.2, 0.85, 1], [80, 0, 0, -20])
+  const scale = useTransform(scrollYProgress, [0, 0.2, 0.85, 1], [0.92, 1, 1, 0.98])
 
   // Parallax for decorative elements
-  const orbY1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const orbY2 = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const orbY1 = useTransform(scrollYProgress, [0, 1], [0, -100])
+  const orbY2 = useTransform(scrollYProgress, [0, 1], [0, -60])
 
   return (
     <motion.section
       ref={sectionRef}
       id="contact"
       style={{ opacity, y, scale }}
-      className="relative overflow-hidden rounded-[32px] border-4 border-white/15 bg-gradient-to-br from-[#151515] via-[#0b0b0f] to-[#1a021d] p-6 sm:p-10 will-change-transform"
+      className="relative overflow-hidden rounded-[32px] border-4 border-white/15 bg-gradient-to-br from-[#151515] via-[#0b0b0f] to-[#1a021d] p-6 will-change-transform sm:p-10"
       onPointerMove={handleGlow}
     >
       {/* Mouse-following glow effect */}
@@ -91,7 +87,7 @@ export function ContactSection({ copy }: ContactSectionProps) {
       <div className="pointer-events-none absolute inset-0">
         <motion.div
           style={{ y: orbY1 }}
-          className="absolute left-10 top-6 h-52 w-52 rounded-full bg-lime-300/30 blur-[120px]"
+          className="absolute top-6 left-10 h-52 w-52 rounded-full bg-[var(--brand-neon)]/30 blur-[120px]"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3],
@@ -99,12 +95,12 @@ export function ContactSection({ copy }: ContactSectionProps) {
           transition={{
             duration: 8,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: 'easeInOut',
           }}
         />
         <motion.div
           style={{ y: orbY2 }}
-          className="absolute bottom-10 right-20 h-40 w-40 rounded-full bg-fuchsia-500/25 blur-[120px]"
+          className="absolute right-20 bottom-10 h-40 w-40 rounded-full bg-fuchsia-500/25 blur-[120px]"
           animate={{
             scale: [1, 1.15, 1],
             opacity: [0.25, 0.4, 0.25],
@@ -112,7 +108,7 @@ export function ContactSection({ copy }: ContactSectionProps) {
           transition={{
             duration: 10,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: 'easeInOut',
             delay: 1,
           }}
         />
@@ -125,7 +121,7 @@ export function ContactSection({ copy }: ContactSectionProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="text-xs uppercase tracking-[0.5em] text-white/55"
+            className="text-xs tracking-[0.5em] text-white/55 uppercase"
           >
             {copy.eyebrow}
           </motion.p>
@@ -152,7 +148,7 @@ export function ContactSection({ copy }: ContactSectionProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-wrap gap-4 text-xs font-semibold uppercase tracking-[0.4em]"
+            className="flex flex-wrap gap-4 text-xs font-semibold tracking-[0.4em] uppercase"
           >
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
               <Button asChild size="lg" className="rounded-full">
@@ -180,5 +176,5 @@ export function ContactSection({ copy }: ContactSectionProps) {
         </div>
       </div>
     </motion.section>
-  );
+  )
 }

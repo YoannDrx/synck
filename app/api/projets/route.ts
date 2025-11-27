@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-
 import { NextResponse } from 'next/server'
+
 import { getProjetsFromPrisma } from '@/lib/prismaProjetsUtils'
 
 export async function GET(request: Request) {

@@ -1,8 +1,8 @@
 ---
-id: "1"
-title: "Gestion des droits d’auteur"
+id: '1'
+title: 'Gestion des droits d’auteur'
 description: "Le terme auteur désigne l'individu qui rédige les paroles d'une chanson"
-slug: "droits-auteur"
+slug: 'droits-auteur'
 imgHome: /images/projets/expertises/droits-auteur/droits-auteur-home.jpg
 img1: /images/projets/expertises/droits-auteur/droits-auteur-section-1.jpg
 img2: /images/projets/expertises/droits-auteur/droits-auteur-section-2.jpg

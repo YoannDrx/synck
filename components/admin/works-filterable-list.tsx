@@ -1,103 +1,97 @@
-"use client";
+'use client'
 
-import { useState, useMemo } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { DeleteWorkButton } from "./delete-work-button";
-import type { AdminDictionary } from "@/types/dictionary";
+import Image from 'next/image'
+import Link from 'next/link'
+import { useMemo, useState } from 'react'
+
 import type {
-  Work,
-  WorkTranslation,
-  Category,
-  CategoryTranslation,
-  Label,
-  LabelTranslation,
-  Contribution,
   Artist,
   ArtistTranslation,
   Asset,
-} from "@prisma/client";
+  Category,
+  CategoryTranslation,
+  Contribution,
+  Label,
+  LabelTranslation,
+  Work,
+  WorkTranslation,
+} from '@prisma/client'
+
+import type { AdminDictionary } from '@/types/dictionary'
+
+import { DeleteWorkButton } from './delete-work-button'
 
 type WorkWithRelations = Work & {
-  translations: WorkTranslation[];
+  translations: WorkTranslation[]
   category: Category & {
-    translations: CategoryTranslation[];
-  };
-  label: (Label & { translations: LabelTranslation[] }) | null;
-  coverImage: Asset | null;
+    translations: CategoryTranslation[]
+  }
+  label: (Label & { translations: LabelTranslation[] }) | null
+  coverImage: Asset | null
   contributions: (Contribution & {
     artist: Artist & {
-      translations: ArtistTranslation[];
-    };
-  })[];
-};
+      translations: ArtistTranslation[]
+    }
+  })[]
+}
 
 type CategoryWithTranslations = Category & {
-  translations: CategoryTranslation[];
-};
+  translations: CategoryTranslation[]
+}
 
 type WorksFilterableListProps = {
-  works: WorkWithRelations[];
-  categories: CategoryWithTranslations[];
-  dictionary: AdminDictionary["common"];
-};
+  works: WorkWithRelations[]
+  categories: CategoryWithTranslations[]
+  dictionary: AdminDictionary['common']
+}
 
-export function WorksFilterableList({
-  works,
-  categories,
-  dictionary,
-}: WorksFilterableListProps) {
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null,
-  );
+export function WorksFilterableList({ works, categories, dictionary }: WorksFilterableListProps) {
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
 
   // Filter works based on selected category
   const filteredWorks = useMemo(() => {
-    if (!selectedCategoryId) return works;
-    return works.filter((work) => work.categoryId === selectedCategoryId);
-  }, [works, selectedCategoryId]);
+    if (!selectedCategoryId) return works
+    return works.filter((work) => work.categoryId === selectedCategoryId)
+  }, [works, selectedCategoryId])
 
   return (
     <>
       {/* Category Filters */}
-      <div className="border-2 border-white/20 bg-white/5 p-4 mb-8">
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-sm text-white/60 mr-2">Filtrer par type :</span>
+      <div className="mb-8 border-2 border-white/20 bg-white/5 p-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="mr-2 text-sm text-white/60">Filtrer par type :</span>
           <button
             onClick={() => {
-              setSelectedCategoryId(null);
+              setSelectedCategoryId(null)
             }}
-            className={`px-4 py-2 text-sm border-2 transition-colors ${
+            className={`border-2 px-4 py-2 text-sm transition-colors ${
               selectedCategoryId === null
-                ? "border-[#d5ff0a] bg-[#d5ff0a] text-black font-bold"
-                : "border-white/20 hover:border-[#d5ff0a]"
+                ? 'border-[#d5ff0a] bg-[#d5ff0a] font-bold text-black'
+                : 'border-white/20 hover:border-[#d5ff0a]'
             }`}
           >
             Tous ({works.length})
           </button>
           {categories.map((category) => {
             const categoryName =
-              category.translations.find((t) => t.locale === "fr")?.name ??
-              "Sans nom";
-            const count = works.filter(
-              (w) => w.categoryId === category.id,
-            ).length;
+              category.translations.find((t) => t.locale === 'fr')?.name ?? 'Sans nom'
+            const count = works.filter((w) => w.categoryId === category.id).length
 
             return (
               <button
                 key={category.id}
                 onClick={() => {
-                  setSelectedCategoryId(category.id);
+                  setSelectedCategoryId(category.id)
                 }}
-                className={`px-4 py-2 text-sm border-2 transition-colors ${
+                className={`border-2 px-4 py-2 text-sm transition-colors ${
                   selectedCategoryId === category.id
-                    ? "border-[#d5ff0a] bg-[#d5ff0a] text-black font-bold"
-                    : "border-white/20 hover:border-[#d5ff0a]"
+                    ? 'border-[#d5ff0a] bg-[#d5ff0a] font-bold text-black'
+                    : 'border-white/20 hover:border-[#d5ff0a]'
                 }`}
               >
                 {categoryName} ({count})
               </button>
-            );
+            )
           })}
         </div>
       </div>
@@ -106,46 +100,39 @@ export function WorksFilterableList({
       <div className="mb-6">
         <p className="text-white/60">
           {filteredWorks.length} projet(s)
-          {selectedCategoryId && " dans cette catégorie"}
+          {selectedCategoryId && ' dans cette catégorie'}
         </p>
       </div>
 
       {/* Works Grid */}
       {filteredWorks.length === 0 ? (
         <div className="border-2 border-white/20 bg-white/5 p-12 text-center">
-          <p className="text-white/60 mb-4">
+          <p className="mb-4 text-white/60">
             {selectedCategoryId
-              ? "Aucun projet dans cette catégorie"
-              : "Aucun projet pour le moment"}
+              ? 'Aucun projet dans cette catégorie'
+              : 'Aucun projet pour le moment'}
           </p>
           <Link
             href="/admin/projets/new"
-            className="inline-block bg-[#d5ff0a] text-black font-bold px-6 py-3 hover:bg-[#c5ef00] transition-colors"
+            className="inline-block bg-[#d5ff0a] px-6 py-3 font-bold text-black transition-colors hover:bg-[#c5ef00]"
           >
             + Ajouter un projet
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredWorks.map((work) => {
-            const frTitle =
-              work.translations.find((t) => t.locale === "fr")?.title ??
-              "Sans titre";
-            const category = work.category?.translations.find(
-              (t) => t.locale === "fr",
-            )?.name;
+            const frTitle = work.translations.find((t) => t.locale === 'fr')?.title ?? 'Sans titre'
+            const category = work.category?.translations.find((t) => t.locale === 'fr')?.name
             const artists = work.contributions
-              .map(
-                (c) =>
-                  c.artist.translations.find((t) => t.locale === "fr")?.name,
-              )
+              .map((c) => c.artist.translations.find((t) => t.locale === 'fr')?.name)
               .filter(Boolean)
-              .join(", ");
+              .join(', ')
 
             return (
               <div
                 key={work.id}
-                className="border-2 border-white/20 bg-white/5 hover:border-[#d5ff0a] transition-all group"
+                className="group border-2 border-white/20 bg-white/5 transition-all hover:border-[#d5ff0a]"
               >
                 {/* Cover Image */}
                 {work.coverImage && (
@@ -155,9 +142,7 @@ export function WorksFilterableList({
                       alt={work.coverImage.alt ?? frTitle}
                       fill
                       className="object-cover"
-                      placeholder={
-                        work.coverImage.blurDataUrl ? "blur" : "empty"
-                      }
+                      placeholder={work.coverImage.blurDataUrl ? 'blur' : 'empty'}
                       blurDataURL={work.coverImage.blurDataUrl ?? undefined}
                     />
                   </div>
@@ -165,30 +150,20 @@ export function WorksFilterableList({
 
                 {/* Content */}
                 <div className="p-4">
-                  <div className="flex items-start justify-between mb-2">
+                  <div className="mb-2 flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-bold text-lg mb-1 line-clamp-2">
-                        {frTitle}
-                      </h3>
-                      {category && (
-                        <p className="text-sm text-[#d5ff0a] mb-1">
-                          {category}
-                        </p>
-                      )}
-                      {artists && (
-                        <p className="text-xs text-white/60 line-clamp-1">
-                          {artists}
-                        </p>
-                      )}
+                      <h3 className="mb-1 line-clamp-2 text-lg font-bold">{frTitle}</h3>
+                      {category && <p className="mb-1 text-sm text-[#d5ff0a]">{category}</p>}
+                      {artists && <p className="line-clamp-1 text-xs text-white/60">{artists}</p>}
                     </div>
                     {!work.isActive && (
-                      <span className="text-xs border border-white/30 px-2 py-1 text-white/50">
+                      <span className="border border-white/30 px-2 py-1 text-xs text-white/50">
                         {dictionary.inactive}
                       </span>
                     )}
                   </div>
 
-                  <div className="text-sm text-white/50 mb-4">
+                  <div className="mb-4 text-sm text-white/50">
                     {work.year && <span>{work.year}</span>}
                   </div>
 
@@ -196,7 +171,7 @@ export function WorksFilterableList({
                   <div className="flex items-center space-x-2">
                     <Link
                       href={`/admin/projets/${work.id}`}
-                      className="flex-1 text-center border-2 border-white/20 hover:border-[#d5ff0a] px-3 py-2 text-sm transition-colors"
+                      className="flex-1 border-2 border-white/20 px-3 py-2 text-center text-sm transition-colors hover:border-[#d5ff0a]"
                     >
                       {dictionary.edit}
                     </Link>
@@ -208,10 +183,10 @@ export function WorksFilterableList({
                   </div>
                 </div>
               </div>
-            );
+            )
           })}
         </div>
       )}
     </>
-  );
+  )
 }

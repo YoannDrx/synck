@@ -1,60 +1,65 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { toast } from "sonner";
-import type { Category, CategoryTranslation } from "@prisma/client";
-import { fetchWithAuth } from "@/lib/fetch-with-auth";
-import { ColorPicker } from "@/components/admin/color-picker";
-import { IconPicker } from "@/components/admin/icon-picker";
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+
+import type { Category, CategoryTranslation } from '@prisma/client'
+
+import { toast } from 'sonner'
+
+import { fetchWithAuth } from '@/lib/fetch-with-auth'
+
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+
+import { ColorPicker } from '@/components/admin/color-picker'
+import { IconPicker } from '@/components/admin/icon-picker'
 
 type CategoryWithTranslations = Category & {
-  translations: CategoryTranslation[];
-};
+  translations: CategoryTranslation[]
+}
 
 type CategoryFormProps = {
-  category?: CategoryWithTranslations;
-  mode: "create" | "edit";
-};
+  category?: CategoryWithTranslations
+  mode: 'create' | 'edit'
+}
 
 export function CategoryForm({ category, mode }: CategoryFormProps) {
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Get translations by locale
-  const frTranslation = category?.translations.find((t) => t.locale === "fr");
-  const enTranslation = category?.translations.find((t) => t.locale === "en");
+  const frTranslation = category?.translations.find((t) => t.locale === 'fr')
+  const enTranslation = category?.translations.find((t) => t.locale === 'en')
 
   // Form state
   const [formData, setFormData] = useState({
-    nameFr: frTranslation?.name ?? "",
-    nameEn: enTranslation?.name ?? "",
-    color: category?.color ?? "#d5ff0a",
-    icon: category?.icon ?? "",
+    nameFr: frTranslation?.name ?? '',
+    nameEn: enTranslation?.name ?? '',
+    color: category?.color ?? '#d5ff0a',
+    icon: category?.icon ?? '',
     order: category?.order ?? 0,
     isActive: category?.isActive ?? true,
-  });
+  })
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // Validation
     if (!formData.nameFr.trim() || !formData.nameEn.trim()) {
-      toast.error("Les noms français et anglais sont requis");
-      return;
+      toast.error('Les noms français et anglais sont requis')
+      return
     }
 
     if (!/^#[0-9A-Fa-f]{6}$/.exec(formData.color)) {
-      toast.error("La couleur doit être au format hexadécimal (#RRGGBB)");
-      return;
+      toast.error('La couleur doit être au format hexadécimal (#RRGGBB)')
+      return
     }
 
     try {
-      setIsSubmitting(true);
+      setIsSubmitting(true)
 
       const payload = {
         color: formData.color,
@@ -69,54 +74,47 @@ export function CategoryForm({ category, mode }: CategoryFormProps) {
             name: formData.nameEn,
           },
         },
-      };
+      }
 
-      let res;
-      if (mode === "create") {
-        res = await fetchWithAuth("/api/admin/categories", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+      let res
+      if (mode === 'create') {
+        res = await fetchWithAuth('/api/admin/categories', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
-        });
+        })
       } else {
-        res = await fetchWithAuth(
-          `/api/admin/categories/${category?.id ?? ""}`,
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          },
-        );
+        res = await fetchWithAuth(`/api/admin/categories/${category?.id ?? ''}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
       }
 
       if (!res.ok) {
-        const errorData = (await res.json()) as { error: string };
-        throw new Error(errorData.error ?? "Failed to save category");
+        const errorData = (await res.json()) as { error: string }
+        throw new Error(errorData.error ?? 'Failed to save category')
       }
 
       toast.success(
-        mode === "create"
-          ? "Catégorie créée avec succès"
-          : "Catégorie mise à jour avec succès",
-      );
+        mode === 'create' ? 'Catégorie créée avec succès' : 'Catégorie mise à jour avec succès'
+      )
 
-      router.push("/fr/admin/categories");
-      router.refresh();
+      router.push('/fr/admin/categories')
+      router.refresh()
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error("Error saving category:", error);
-      toast.error(
-        error instanceof Error ? error.message : "Erreur lors de la sauvegarde",
-      );
+      console.error('Error saving category:', error)
+      toast.error(error instanceof Error ? error.message : 'Erreur lors de la sauvegarde')
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <form
       onSubmit={(e) => {
-        void handleSubmit(e);
+        void handleSubmit(e)
       }}
       className="space-y-8"
     >
@@ -135,7 +133,7 @@ export function CategoryForm({ category, mode }: CategoryFormProps) {
               id="nameFr"
               value={formData.nameFr}
               onChange={(e) => {
-                setFormData({ ...formData, nameFr: e.target.value });
+                setFormData({ ...formData, nameFr: e.target.value })
               }}
               placeholder="Musique de film"
               required
@@ -155,7 +153,7 @@ export function CategoryForm({ category, mode }: CategoryFormProps) {
               id="nameEn"
               value={formData.nameEn}
               onChange={(e) => {
-                setFormData({ ...formData, nameEn: e.target.value });
+                setFormData({ ...formData, nameEn: e.target.value })
               }}
               placeholder="Film Music"
               required
@@ -178,12 +176,10 @@ export function CategoryForm({ category, mode }: CategoryFormProps) {
             <ColorPicker
               value={formData.color}
               onChange={(color) => {
-                setFormData({ ...formData, color });
+                setFormData({ ...formData, color })
               }}
             />
-            <p className="text-xs text-white/50">
-              Format hexadécimal (#RRGGBB)
-            </p>
+            <p className="text-xs text-white/50">Format hexadécimal (#RRGGBB)</p>
           </div>
 
           {/* Icon */}
@@ -194,12 +190,10 @@ export function CategoryForm({ category, mode }: CategoryFormProps) {
             <IconPicker
               value={formData.icon}
               onChange={(icon) => {
-                setFormData({ ...formData, icon });
+                setFormData({ ...formData, icon })
               }}
             />
-            <p className="text-xs text-white/50">
-              Sélectionnez une icône Lucide
-            </p>
+            <p className="text-xs text-white/50">Sélectionnez une icône Lucide</p>
           </div>
         </div>
 
@@ -213,7 +207,7 @@ export function CategoryForm({ category, mode }: CategoryFormProps) {
             type="number"
             value={formData.order}
             onChange={(e) => {
-              setFormData({ ...formData, order: Number(e.target.value) });
+              setFormData({ ...formData, order: Number(e.target.value) })
             }}
             min={0}
             className="border-white/20 bg-black text-white"
@@ -240,7 +234,7 @@ export function CategoryForm({ category, mode }: CategoryFormProps) {
             id="isActive"
             checked={formData.isActive}
             onCheckedChange={(checked) => {
-              setFormData({ ...formData, isActive: checked });
+              setFormData({ ...formData, isActive: checked })
             }}
           />
         </div>
@@ -252,7 +246,7 @@ export function CategoryForm({ category, mode }: CategoryFormProps) {
           type="button"
           variant="outline"
           onClick={() => {
-            router.back();
+            router.back()
           }}
           disabled={isSubmitting}
           className="border-white/20 text-white hover:bg-white/5"
@@ -262,17 +256,17 @@ export function CategoryForm({ category, mode }: CategoryFormProps) {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="bg-lime-300 text-black hover:bg-lime-400"
+          className="[background-color:var(--brand-neon)] text-black hover:[background-color:var(--neon-400)]"
         >
           {isSubmitting
-            ? mode === "create"
-              ? "Création..."
-              : "Mise à jour..."
-            : mode === "create"
-              ? "Créer la catégorie"
-              : "Mettre à jour"}
+            ? mode === 'create'
+              ? 'Création...'
+              : 'Mise à jour...'
+            : mode === 'create'
+              ? 'Créer la catégorie'
+              : 'Mettre à jour'}
         </Button>
       </div>
     </form>
-  );
+  )
 }

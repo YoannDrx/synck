@@ -1,39 +1,42 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import Link from "next/link";
-import { useRef, useState, useMemo } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { motion, useInView } from "framer-motion";
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useMemo, useRef, useState } from 'react'
 
-import { Breadcrumb } from "@/components/breadcrumb";
-import { GalleryShell } from "@/components/galleries/gallery-shell";
-import { PageLayout } from "@/components/layout/page-layout";
-import { cn } from "@/lib/utils";
-import type { Locale } from "@/lib/i18n-config";
-import type { GalleryArtist } from "@/lib/prismaProjetsUtils";
-import type { ArtistsPageDictionary } from "@/types/dictionary";
+import { motion, useInView } from 'framer-motion'
+
+import type { Locale } from '@/lib/i18n-config'
+import type { GalleryArtist } from '@/lib/prismaProjetsUtils'
+import { cn } from '@/lib/utils'
+
+import { Breadcrumb } from '@/components/breadcrumb'
+import { GalleryShell } from '@/components/galleries/gallery-shell'
+import { PageLayout } from '@/components/layout/page-layout'
+
+import type { ArtistsPageDictionary } from '@/types/dictionary'
 
 type ArtistsPageClientProps = {
-  locale: Locale;
-  artists: GalleryArtist[];
-  totalProjects: number;
+  locale: Locale
+  artists: GalleryArtist[]
+  totalProjects: number
   nav: {
-    home: string;
-    artists: string;
-  };
-  copy: ArtistsPageDictionary;
-};
+    home: string
+    artists: string
+  }
+  copy: ArtistsPageDictionary
+}
 
 /** Accent color for artist cards - Neon lime */
 const artistAccent = {
-  border: "border-[#d5ff0a]/30",
-  borderHover: "hover:border-[#d5ff0a]",
-  glow: "hover:shadow-[0_0_25px_rgba(213,255,10,0.2)]",
-  badge: "bg-[#d5ff0a]/10 text-[#d5ff0a]",
-  ring: "ring-[#d5ff0a]/50",
-  gradient: "from-[#d5ff0a] via-[#9eff00] to-[#00d9ff]",
-};
+  border: 'border-[#d5ff0a]/30',
+  borderHover: 'hover:border-[#d5ff0a]',
+  glow: 'hover:shadow-[0_0_25px_rgba(213,255,10,0.2)]',
+  badge: 'bg-[#d5ff0a]/10 text-[#d5ff0a]',
+  ring: 'ring-[#d5ff0a]/50',
+  gradient: 'from-[#d5ff0a] via-[#9eff00] to-[#00d9ff]',
+}
 
 /** Artist card component */
 function ArtistCard({
@@ -42,24 +45,24 @@ function ArtistCard({
   locale,
   copy,
 }: {
-  artist: GalleryArtist;
-  index: number;
-  locale: Locale;
-  copy: { worksPlural: string; worksSingular: string };
+  artist: GalleryArtist
+  index: number
+  locale: Locale
+  copy: { worksPlural: string; worksSingular: string }
 }) {
-  const cardRef = useRef<HTMLAnchorElement>(null);
+  const cardRef = useRef<HTMLAnchorElement>(null)
   // Trigger when card is 30px inside the viewport (just after crossing bottom edge)
   const isInView = useInView(cardRef, {
     once: true,
-    margin: "0px 0px -30px 0px",
-  });
+    margin: '0px 0px -30px 0px',
+  })
 
   const renderWorksCount = (count: number) =>
-    `${String(count)} ${count > 1 ? copy.worksPlural : copy.worksSingular}`;
+    `${String(count)} ${count > 1 ? copy.worksPlural : copy.worksSingular}`
 
   // Stagger delay based on column position (0-5) for wave effect per row
-  const columnPosition = index % 6;
-  const staggerDelay = columnPosition * 0.03;
+  const columnPosition = index % 6
+  const staggerDelay = columnPosition * 0.03
 
   return (
     <motion.div
@@ -76,24 +79,24 @@ function ArtistCard({
         data-testid="artist-card"
         href={`/${locale}/artistes/${artist.slug}`}
         className={cn(
-          "group relative flex flex-col items-center gap-4 p-5",
-          "rounded-[20px] border-2 bg-white/[0.02]",
-          "transition-all duration-300",
-          "hover:-translate-y-1",
+          'group relative flex flex-col items-center gap-4 p-5',
+          'rounded-[20px] border-2 bg-white/[0.02]',
+          'transition-all duration-300',
+          'hover:-translate-y-1',
           artistAccent.border,
           artistAccent.borderHover,
-          artistAccent.glow,
+          artistAccent.glow
         )}
       >
         {/* Avatar */}
         <div className="relative">
           <div
             className={cn(
-              "relative h-20 w-20 overflow-hidden rounded-full",
-              "ring-2 ring-white/10",
-              "transition-all duration-300",
-              "group-hover:ring-4",
-              `group-hover:${artistAccent.ring}`,
+              'relative h-20 w-20 overflow-hidden rounded-full',
+              'ring-2 ring-white/10',
+              'transition-all duration-300',
+              'group-hover:ring-4',
+              `group-hover:${artistAccent.ring}`
             )}
           >
             {artist.image ? (
@@ -107,9 +110,9 @@ function ArtistCard({
             ) : (
               <div
                 className={cn(
-                  "flex h-full w-full items-center justify-center",
-                  "bg-gradient-to-br",
-                  artistAccent.gradient,
+                  'flex h-full w-full items-center justify-center',
+                  'bg-gradient-to-br',
+                  artistAccent.gradient
                 )}
               >
                 <span className="text-2xl font-black text-white">
@@ -128,15 +131,15 @@ function ArtistCard({
         {/* Works count badge */}
         <div
           className={cn(
-            "rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider",
-            artistAccent.badge,
+            'rounded-full px-3 py-1 text-[10px] font-bold tracking-wider uppercase',
+            artistAccent.badge
           )}
         >
           {renderWorksCount(artist.worksCount)}
         </div>
       </Link>
     </motion.div>
-  );
+  )
 }
 
 export function ArtistesPageClient({
@@ -146,73 +149,66 @@ export function ArtistesPageClient({
   nav,
   copy,
 }: ArtistsPageClientProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const sectionRef = useRef<HTMLElement>(null)
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
 
   // State for search and sort
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [sortBy, setSortBy] = useState<"date" | "title">(
-    (searchParams.get("sortBy") as "date" | "title") ?? "title",
-  );
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">(
-    (searchParams.get("sortOrder") as "asc" | "desc") ?? "asc",
-  );
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [sortBy, setSortBy] = useState<'date' | 'title'>(
+    (searchParams.get('sortBy') as 'date' | 'title') ?? 'title'
+  )
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>(
+    (searchParams.get('sortOrder') as 'asc' | 'desc') ?? 'asc'
+  )
 
   // Handle sort change with URL update
   const handleSortChange = (newSortBy?: string, newSortOrder?: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams.toString())
 
     if (newSortBy) {
-      setSortBy(newSortBy as "date" | "title");
-      params.set("sortBy", newSortBy);
+      setSortBy(newSortBy as 'date' | 'title')
+      params.set('sortBy', newSortBy)
     }
     if (newSortOrder) {
-      setSortOrder(newSortOrder as "asc" | "desc");
-      params.set("sortOrder", newSortOrder);
+      setSortOrder(newSortOrder as 'asc' | 'desc')
+      params.set('sortOrder', newSortOrder)
     }
 
-    const newUrl = `/${locale}/artistes?${params.toString()}`;
-    router.push(newUrl, { scroll: false });
-  };
+    const newUrl = `/${locale}/artistes?${params.toString()}`
+    router.push(newUrl, { scroll: false })
+  }
 
   // Get toggle options based on current sortBy
   const getToggleOptions = (): [string, string] => {
-    if (sortBy === "title") {
-      return [copy.sortOrderTitleAsc, copy.sortOrderTitleDesc];
+    if (sortBy === 'title') {
+      return [copy.sortOrderTitleAsc, copy.sortOrderTitleDesc]
     } else {
-      return [copy.sortOrderDateAsc, copy.sortOrderDateDesc];
+      return [copy.sortOrderDateAsc, copy.sortOrderDateDesc]
     }
-  };
+  }
 
   // Filter and sort artists
   const filteredArtists = useMemo(() => {
     return artists
-      .filter((artist) =>
-        artist.name.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
+      .filter((artist) => artist.name.toLowerCase().includes(searchQuery.toLowerCase()))
       .sort((a, b) => {
-        let comparison = 0;
-        if (sortBy === "date") {
+        let comparison = 0
+        if (sortBy === 'date') {
           // Sort by works count
-          comparison = a.worksCount - b.worksCount;
+          comparison = a.worksCount - b.worksCount
         } else {
           // Sort by name
-          comparison = a.name.localeCompare(b.name, locale);
+          comparison = a.name.localeCompare(b.name, locale)
         }
-        return sortOrder === "asc" ? comparison : -comparison;
-      });
-  }, [artists, searchQuery, sortBy, sortOrder, locale]);
+        return sortOrder === 'asc' ? comparison : -comparison
+      })
+  }, [artists, searchQuery, sortBy, sortOrder, locale])
 
   return (
     <PageLayout orbsConfig="subtle" className="mx-auto max-w-[1600px]">
-      <Breadcrumb
-        items={[
-          { label: nav.home, href: `/${locale}` },
-          { label: nav.artists },
-        ]}
-      />
+      <Breadcrumb items={[{ label: nav.home, href: `/${locale}` }, { label: nav.artists }]} />
 
       <GalleryShell
         title={nav.artists}
@@ -226,43 +222,39 @@ export function ArtistesPageClient({
           {
             value: totalProjects,
             label: copy.statsProjects,
-            valueClassName: "text-[#d5ff0a]",
+            valueClassName: 'text-[#d5ff0a]',
           },
         ]}
         search={{
           value: searchQuery,
           onChange: (value) => {
-            setSearchQuery(value);
+            setSearchQuery(value)
           },
           onClear: () => {
-            setSearchQuery("");
+            setSearchQuery('')
           },
           placeholder: copy.searchPlaceholder,
-          inputAccentClassName: "focus:border-[#d5ff0a]/50",
-          clearButtonAccentClassName: "hover:text-[#d5ff0a]",
-          inputTestId: "artists-search",
+          inputAccentClassName: 'focus:border-[#d5ff0a]/50',
+          clearButtonAccentClassName: 'hover:text-[#d5ff0a]',
+          inputTestId: 'artists-search',
         }}
         sort={{
           sortBy,
           sortByOptions: [
-            { value: "title", label: copy.sortByTitle },
-            { value: "date", label: copy.sortByDate },
+            { value: 'title', label: copy.sortByTitle },
+            { value: 'date', label: copy.sortByDate },
           ],
           onSortByChange: (value) => {
-            handleSortChange(value, undefined);
+            handleSortChange(value, undefined)
           },
           sortOrder,
           sortOrderLabels: getToggleOptions(),
           onSortOrderChange: (value) => {
-            handleSortChange(undefined, value);
+            handleSortChange(undefined, value)
           },
         }}
         hasItems={filteredArtists.length > 0}
-        emptyContent={
-          <p className="text-white/40">
-            {searchQuery ? copy.noResults : copy.empty}
-          </p>
-        }
+        emptyContent={<p className="text-white/40">{searchQuery ? copy.noResults : copy.empty}</p>}
         afterContent={
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -272,14 +264,12 @@ export function ArtistesPageClient({
           >
             <div className="flex flex-col items-center gap-4 text-center lg:flex-row lg:justify-between lg:text-left">
               <div>
-                <h2 className="mb-2 text-xl font-bold text-white sm:text-2xl">
-                  {copy.ctaTitle}
-                </h2>
+                <h2 className="mb-2 text-xl font-bold text-white sm:text-2xl">{copy.ctaTitle}</h2>
                 <p className="text-sm text-white/60">{copy.ctaDescription}</p>
               </div>
               <Link
                 href={`/${locale}/contact`}
-                className="inline-flex items-center gap-2 rounded-full border-2 border-[#d5ff0a] bg-[#d5ff0a] px-6 py-3 text-sm font-bold uppercase tracking-wider text-[#050505] transition-all hover:bg-transparent hover:text-[#d5ff0a]"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-[#d5ff0a] bg-[#d5ff0a] px-6 py-3 text-sm font-bold tracking-wider text-[#050505] uppercase transition-all hover:bg-transparent hover:text-[#d5ff0a]"
               >
                 {copy.ctaButton}
                 <span>→</span>
@@ -291,16 +281,10 @@ export function ArtistesPageClient({
         {/* Artists Grid */}
         <div className="grid gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {filteredArtists.map((artist, index) => (
-            <ArtistCard
-              key={artist.id}
-              artist={artist}
-              index={index}
-              locale={locale}
-              copy={copy}
-            />
+            <ArtistCard key={artist.id} artist={artist} index={index} locale={locale} copy={copy} />
           ))}
         </div>
       </GalleryShell>
     </PageLayout>
-  );
+  )
 }

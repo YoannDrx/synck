@@ -1,5 +1,8 @@
-"use client";
+'use client'
 
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -7,31 +10,29 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+} from '@/components/ui/table'
 
 export type Column<T> = {
-  key: string;
-  label: string | React.ReactNode;
-  sortable?: boolean;
-  render?: (item: T) => React.ReactNode;
-};
+  key: string
+  label: string | React.ReactNode
+  sortable?: boolean
+  render?: (item: T) => React.ReactNode
+}
 
 type DataTableProps<T> = {
-  columns: Column<T>[];
-  data: T[];
+  columns: Column<T>[]
+  data: T[]
   pagination?: {
-    page: number;
-    totalPages: number;
-    onPageChange: (page: number) => void;
-  };
-  sortBy?: string;
-  sortOrder?: "asc" | "desc";
-  onSort?: (column: string) => void;
-  isLoading?: boolean;
-  emptyMessage?: string;
-};
+    page: number
+    totalPages: number
+    onPageChange: (page: number) => void
+  }
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
+  onSort?: (column: string) => void
+  isLoading?: boolean
+  emptyMessage?: string
+}
 
 export function DataTable<T extends { id: string }>({
   columns,
@@ -41,15 +42,15 @@ export function DataTable<T extends { id: string }>({
   sortOrder,
   onSort,
   isLoading = false,
-  emptyMessage = "Aucune donnée disponible",
+  emptyMessage = 'Aucune donnée disponible',
 }: DataTableProps<T>) {
   return (
     <div className="space-y-4">
       {/* Table */}
-      <div className="rounded-lg border border-lime-300/20 bg-black">
+      <div className="rounded-lg border border-[var(--brand-neon)]/20 bg-black">
         <Table>
           <TableHeader>
-            <TableRow className="border-b border-lime-300/20 hover:bg-transparent">
+            <TableRow className="border-b border-[var(--brand-neon)]/20 hover:bg-transparent">
               {columns.map((column) => (
                 <TableHead
                   key={column.key}
@@ -57,7 +58,7 @@ export function DataTable<T extends { id: string }>({
                   onClick={
                     column.sortable && onSort
                       ? () => {
-                          onSort(column.key);
+                          onSort(column.key)
                         }
                       : undefined
                   }
@@ -65,14 +66,14 @@ export function DataTable<T extends { id: string }>({
                   <div
                     className={
                       column.sortable
-                        ? "flex cursor-pointer items-center gap-2 hover:text-white"
-                        : ""
+                        ? 'flex cursor-pointer items-center gap-2 hover:text-white'
+                        : ''
                     }
                   >
                     {column.label}
                     {column.sortable && sortBy === column.key && (
-                      <span className="text-lime-300">
-                        {sortOrder === "asc" ? "↑" : "↓"}
+                      <span className="text-[var(--brand-neon)]">
+                        {sortOrder === 'asc' ? '↑' : '↓'}
                       </span>
                     )}
                   </div>
@@ -83,35 +84,24 @@ export function DataTable<T extends { id: string }>({
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-32 text-center text-white/50"
-                >
+                <TableCell colSpan={columns.length} className="h-32 text-center text-white/50">
                   Chargement...
                 </TableCell>
               </TableRow>
             ) : data.length === 0 ? (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-32 text-center text-white/50"
-                >
+                <TableCell colSpan={columns.length} className="h-32 text-center text-white/50">
                   {emptyMessage}
                 </TableCell>
               </TableRow>
             ) : (
               data.map((item) => (
-                <TableRow
-                  key={item.id}
-                  className="border-b border-white/5 hover:bg-white/5"
-                >
+                <TableRow key={item.id} className="border-b border-white/5 hover:bg-white/5">
                   {columns.map((column) => (
                     <TableCell key={column.key} className="text-white/80">
                       {column.render
                         ? column.render(item)
-                        : ((item as Record<string, unknown>)[
-                            column.key
-                          ]?.toString() ?? "-")}
+                        : ((item as Record<string, unknown>)[column.key]?.toString() ?? '-')}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -132,7 +122,7 @@ export function DataTable<T extends { id: string }>({
               variant="outline"
               size="sm"
               onClick={() => {
-                pagination.onPageChange(pagination.page - 1);
+                pagination.onPageChange(pagination.page - 1)
               }}
               disabled={pagination.page === 0}
               className="border-white/20 text-white hover:bg-white/5"
@@ -144,7 +134,7 @@ export function DataTable<T extends { id: string }>({
               variant="outline"
               size="sm"
               onClick={() => {
-                pagination.onPageChange(pagination.page + 1);
+                pagination.onPageChange(pagination.page + 1)
               }}
               disabled={pagination.page >= pagination.totalPages - 1}
               className="border-white/20 text-white hover:bg-white/5"
@@ -156,5 +146,5 @@ export function DataTable<T extends { id: string }>({
         </div>
       )}
     </div>
-  );
+  )
 }

@@ -1,20 +1,21 @@
-import { getDictionary } from "@/lib/dictionaries";
-import { getAllExpertises } from "@/lib/prismaExpertiseUtils";
-import type { Locale } from "@/lib/i18n-config";
-import { ExpertisesPageClient } from "@/components/sections/expertises-page-client";
+import { getDictionary } from '@/lib/dictionaries'
+import type { Locale } from '@/lib/i18n-config'
+import { getAllExpertises } from '@/lib/prismaExpertiseUtils'
+
+import { ExpertisesPageClient } from '@/components/sections/expertises-page-client'
 
 type ExpertisesPageParams = {
   params: Promise<{
-    locale: Locale;
-  }>;
-};
+    locale: Locale
+  }>
+}
 
 export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
-  const { locale } = await params;
-  const safeLocale = locale === "en" ? "en" : "fr";
-  const dictionary = await getDictionary(safeLocale);
-  const expertises = await getAllExpertises(safeLocale);
-  const copy = dictionary.expertisesPage;
+  const { locale } = await params
+  const safeLocale = locale === 'en' ? 'en' : 'fr'
+  const dictionary = await getDictionary(safeLocale)
+  const expertises = await getAllExpertises(safeLocale)
+  const copy = dictionary.expertisesPage
 
   return (
     <ExpertisesPageClient
@@ -29,5 +30,5 @@ export default async function ExpertisesPage({ params }: ExpertisesPageParams) {
         cardCta: copy.cardCta,
       }}
     />
-  );
+  )
 }

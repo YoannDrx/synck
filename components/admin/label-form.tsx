@@ -1,49 +1,53 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { toast } from "sonner";
-import type { Label as LabelType, LabelTranslation } from "@prisma/client";
-import { fetchWithAuth } from "@/lib/fetch-with-auth";
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+
+import type { LabelTranslation, Label as LabelType } from '@prisma/client'
+
+import { toast } from 'sonner'
+
+import { fetchWithAuth } from '@/lib/fetch-with-auth'
+
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
 
 type LabelWithTranslations = LabelType & {
-  translations: LabelTranslation[];
-};
+  translations: LabelTranslation[]
+}
 
 type LabelFormProps = {
-  label?: LabelWithTranslations;
-  mode: "create" | "edit";
-};
+  label?: LabelWithTranslations
+  mode: 'create' | 'edit'
+}
 
 export function LabelForm({ label, mode }: LabelFormProps) {
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const frTranslation = label?.translations.find((t) => t.locale === "fr");
-  const enTranslation = label?.translations.find((t) => t.locale === "en");
+  const frTranslation = label?.translations.find((t) => t.locale === 'fr')
+  const enTranslation = label?.translations.find((t) => t.locale === 'en')
 
   const [formData, setFormData] = useState({
-    nameFr: frTranslation?.name ?? "",
-    nameEn: enTranslation?.name ?? "",
-    website: label?.website ?? "",
+    nameFr: frTranslation?.name ?? '',
+    nameEn: enTranslation?.name ?? '',
+    website: label?.website ?? '',
     order: label?.order ?? 0,
     isActive: label?.isActive ?? true,
-  });
+  })
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!formData.nameFr.trim() || !formData.nameEn.trim()) {
-      toast.error("Les noms français et anglais sont requis");
-      return;
+      toast.error('Les noms français et anglais sont requis')
+      return
     }
 
     try {
-      setIsSubmitting(true);
+      setIsSubmitting(true)
 
       const payload = {
         website: formData.website || null,
@@ -53,51 +57,45 @@ export function LabelForm({ label, mode }: LabelFormProps) {
           fr: { name: formData.nameFr },
           en: { name: formData.nameEn },
         },
-      };
+      }
 
-      let res;
-      if (mode === "create") {
-        res = await fetchWithAuth("/api/admin/labels", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+      let res
+      if (mode === 'create') {
+        res = await fetchWithAuth('/api/admin/labels', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
-        });
+        })
       } else {
-        res = await fetchWithAuth(`/api/admin/labels/${label?.id ?? ""}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
+        res = await fetchWithAuth(`/api/admin/labels/${label?.id ?? ''}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
-        });
+        })
       }
 
       if (!res.ok) {
-        const errorData = (await res.json()) as { error: string };
-        throw new Error(errorData.error ?? "Failed to save label");
+        const errorData = (await res.json()) as { error: string }
+        throw new Error(errorData.error ?? 'Failed to save label')
       }
 
-      toast.success(
-        mode === "create"
-          ? "Label créé avec succès"
-          : "Label mis à jour avec succès",
-      );
+      toast.success(mode === 'create' ? 'Label créé avec succès' : 'Label mis à jour avec succès')
 
-      router.push("/fr/admin/labels");
-      router.refresh();
+      router.push('/fr/admin/labels')
+      router.refresh()
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error("Error saving label:", error);
-      toast.error(
-        error instanceof Error ? error.message : "Erreur lors de la sauvegarde",
-      );
+      console.error('Error saving label:', error)
+      toast.error(error instanceof Error ? error.message : 'Erreur lors de la sauvegarde')
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <form
       onSubmit={(e) => {
-        void handleSubmit(e);
+        void handleSubmit(e)
       }}
       className="space-y-8"
     >
@@ -115,7 +113,7 @@ export function LabelForm({ label, mode }: LabelFormProps) {
               id="nameFr"
               value={formData.nameFr}
               onChange={(e) => {
-                setFormData({ ...formData, nameFr: e.target.value });
+                setFormData({ ...formData, nameFr: e.target.value })
               }}
               placeholder="Arte France"
               required
@@ -134,7 +132,7 @@ export function LabelForm({ label, mode }: LabelFormProps) {
               id="nameEn"
               value={formData.nameEn}
               onChange={(e) => {
-                setFormData({ ...formData, nameEn: e.target.value });
+                setFormData({ ...formData, nameEn: e.target.value })
               }}
               placeholder="Arte France"
               required
@@ -158,7 +156,7 @@ export function LabelForm({ label, mode }: LabelFormProps) {
               type="url"
               value={formData.website}
               onChange={(e) => {
-                setFormData({ ...formData, website: e.target.value });
+                setFormData({ ...formData, website: e.target.value })
               }}
               placeholder="https://www.arte.tv"
               className="border-white/20 bg-black text-white"
@@ -174,7 +172,7 @@ export function LabelForm({ label, mode }: LabelFormProps) {
               type="number"
               value={formData.order}
               onChange={(e) => {
-                setFormData({ ...formData, order: Number(e.target.value) });
+                setFormData({ ...formData, order: Number(e.target.value) })
               }}
               min={0}
               className="border-white/20 bg-black text-white"
@@ -199,7 +197,7 @@ export function LabelForm({ label, mode }: LabelFormProps) {
             id="isActive"
             checked={formData.isActive}
             onCheckedChange={(checked) => {
-              setFormData({ ...formData, isActive: checked });
+              setFormData({ ...formData, isActive: checked })
             }}
           />
         </div>
@@ -211,7 +209,7 @@ export function LabelForm({ label, mode }: LabelFormProps) {
           type="button"
           variant="outline"
           onClick={() => {
-            router.back();
+            router.back()
           }}
           disabled={isSubmitting}
           className="border-white/20 text-white hover:bg-white/5"
@@ -221,17 +219,17 @@ export function LabelForm({ label, mode }: LabelFormProps) {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="bg-lime-300 text-black hover:bg-lime-400"
+          className="[background-color:var(--brand-neon)] text-black hover:[background-color:var(--neon-400)]"
         >
           {isSubmitting
-            ? mode === "create"
-              ? "Création..."
-              : "Mise à jour..."
-            : mode === "create"
-              ? "Créer le label"
-              : "Mettre à jour"}
+            ? mode === 'create'
+              ? 'Création...'
+              : 'Mise à jour...'
+            : mode === 'create'
+              ? 'Créer le label'
+              : 'Mettre à jour'}
         </Button>
       </div>
     </form>
-  );
+  )
 }

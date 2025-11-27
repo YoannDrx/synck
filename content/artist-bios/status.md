@@ -3,6 +3,7 @@
 Ce fichier récapitule la couverture des biographies par rapport aux compositeurs et projets actuellement présents dans les données seed (`seed-data/composers.json` et `seed-data/works.json`).
 
 ## Avec projet ET bio disponible (17)
+
 - 2080 (2080)
 - Aeon Seven (aeon-seven)
 - After In Paris (after-in-paris)
@@ -22,6 +23,7 @@ Ce fichier récapitule la couverture des biographies par rapport aux compositeur
 - Yann Kornowicz (yann-kornowicz)
 
 ## Avec projet MAIS sans bio (42)
+
 - 9 O'Clock (9-o-clock)
 - Alexis Molenat (Les Cavaliers) (alexis-molenat-les-cavaliers)
 - Ana Kap (ana-kap)
@@ -66,6 +68,7 @@ Ce fichier récapitule la couverture des biographies par rapport aux compositeur
 - The Real Fake MC (the-real-fake-mc)
 
 ## Compositeurs sans projet (10)
+
 - Amaury Messelier (amaury-messelier)
 - Cyril Laurent (cyril-laurent)
 - Fabien Girard (fabien-girard)
@@ -78,4 +81,5 @@ Ce fichier récapitule la couverture des biographies par rapport aux compositeur
 - Yann Jankielewicz (yann-jankielewicz)
 
 ## Bios présentes mais sans compositeur correspondant (0)
+
 Toutes les bios dépositaires ont désormais un compositeur associé (mais certains restent sans projet ni image).

@@ -1,115 +1,112 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { fetchWithAuth } from "@/lib/fetch-with-auth";
-import { ImageIcon, UploadIcon, XIcon } from "lucide-react";
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+import { ImageIcon, UploadIcon, XIcon } from 'lucide-react'
+import { toast } from 'sonner'
+
+import { fetchWithAuth } from '@/lib/fetch-with-auth'
+
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 type Profile = {
-  email: string;
-  name: string | null;
-  image: string | null;
-  role: string;
-};
+  email: string
+  name: string | null
+  image: string | null
+  role: string
+}
 
 export function ProfileSettings() {
-  const router = useRouter();
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [original, setOriginal] = useState<Profile | null>(null);
+  const router = useRouter()
+  const [profile, setProfile] = useState<Profile | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [original, setOriginal] = useState<Profile | null>(null)
 
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetchWithAuth("/api/admin/settings");
+        const res = await fetchWithAuth('/api/admin/settings')
         if (!res.ok) {
-          throw new Error("Impossible de charger le profil");
+          throw new Error('Impossible de charger le profil')
         }
-        const data = (await res.json()) as Profile;
-        setProfile(data);
-        setOriginal(data);
+        const data = (await res.json()) as Profile
+        setProfile(data)
+        setOriginal(data)
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error(error);
-        toast.error("Erreur lors du chargement du profil");
+        console.error(error)
+        toast.error('Erreur lors du chargement du profil')
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
-    void load();
-  }, []);
+    }
+    void load()
+  }, [])
 
   const persistProfile = async (next: Profile) => {
-    const res = await fetchWithAuth("/api/admin/settings", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetchWithAuth('/api/admin/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: next.email,
-        name: next.name ?? "",
+        name: next.name ?? '',
         image: next.image ?? null,
       }),
-    });
+    })
     if (!res.ok) {
-      const data = (await res.json()) as { error?: string };
-      throw new Error(data.error ?? "Erreur lors de la mise à jour");
+      const data = (await res.json()) as { error?: string }
+      throw new Error(data.error ?? 'Erreur lors de la mise à jour')
     }
-    setOriginal(next);
-    router.refresh();
-  };
+    setOriginal(next)
+    router.refresh()
+  }
 
   const handleSave = async () => {
-    if (!profile) return;
+    if (!profile) return
     try {
-      setSaving(true);
-      await persistProfile(profile);
-      toast.success("Profil mis à jour");
+      setSaving(true)
+      await persistProfile(profile)
+      toast.success('Profil mis à jour')
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(error);
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Erreur lors de la mise à jour",
-      );
+      console.error(error)
+      toast.error(error instanceof Error ? error.message : 'Erreur lors de la mise à jour')
     } finally {
-      setSaving(false);
+      setSaving(false)
     }
-  };
+  }
 
   const handleUpload = async (file: File) => {
     try {
-      setUploading(true);
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await fetchWithAuth("/api/admin/upload", {
-        method: "POST",
+      setUploading(true)
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await fetchWithAuth('/api/admin/upload', {
+        method: 'POST',
         body: formData,
-      });
+      })
       if (!res.ok) {
-        const data = (await res.json()) as { error?: string };
-        throw new Error(data.error ?? "Erreur lors de l'upload");
+        const data = (await res.json()) as { error?: string }
+        throw new Error(data.error ?? "Erreur lors de l'upload")
       }
-      const uploaded = (await res.json()) as { url: string };
+      const uploaded = (await res.json()) as { url: string }
       if (profile) {
-        const next = { ...profile, image: uploaded.url };
-        setProfile(next);
-        await persistProfile(next);
+        const next = { ...profile, image: uploaded.url }
+        setProfile(next)
+        await persistProfile(next)
       }
-      toast.success("Avatar mis à jour");
+      toast.success('Avatar mis à jour')
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Erreur lors de l'upload",
-      );
+      toast.error(error instanceof Error ? error.message : "Erreur lors de l'upload")
     } finally {
-      setUploading(false);
+      setUploading(false)
     }
-  };
+  }
 
   if (isLoading) {
     return (
@@ -118,15 +115,11 @@ export function ProfileSettings() {
         <div className="h-10 w-full animate-pulse rounded bg-white/5" />
         <div className="h-10 w-full animate-pulse rounded bg-white/5" />
       </div>
-    );
+    )
   }
 
   if (!profile) {
-    return (
-      <div className="text-sm text-white/60">
-        Impossible de charger les informations.
-      </div>
-    );
+    return <div className="text-sm text-white/60">Impossible de charger les informations.</div>
   }
 
   return (
@@ -138,7 +131,7 @@ export function ProfileSettings() {
             type="email"
             value={profile.email}
             onChange={(e) => {
-              setProfile({ ...profile, email: e.target.value });
+              setProfile({ ...profile, email: e.target.value })
             }}
           />
         </div>
@@ -146,9 +139,9 @@ export function ProfileSettings() {
           <Label>Nom</Label>
           <Input
             type="text"
-            value={profile.name ?? ""}
+            value={profile.name ?? ''}
             onChange={(e) => {
-              setProfile({ ...profile, name: e.target.value });
+              setProfile({ ...profile, name: e.target.value })
             }}
           />
         </div>
@@ -173,45 +166,45 @@ export function ProfileSettings() {
                 className="hidden"
                 id="avatar-upload"
                 onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) void handleUpload(file);
+                  const file = e.target.files?.[0]
+                  if (file) void handleUpload(file)
                 }}
               />
               <Button
                 type="button"
                 onClick={() => {
-                  document.getElementById("avatar-upload")?.click();
+                  document.getElementById('avatar-upload')?.click()
                 }}
                 disabled={uploading}
                 variant="outline"
-                className="gap-2 border-lime-300/60 text-lime-300 hover:bg-lime-300/10"
+                className="gap-2 [border-color:var(--brand-neon,_#d5ff0a)]/60 [color:var(--brand-neon)] hover:[background-color:var(--brand-neon,_#d5ff0a)]/10"
               >
                 <UploadIcon className="h-4 w-4" />
-                {uploading ? "Upload..." : "Uploader"}
+                {uploading ? 'Upload...' : 'Uploader'}
               </Button>
               {profile.image && (
-              <Button
-                type="button"
-                variant="outline"
-                className="border-white/20 text-white hover:bg-white/5"
-                onClick={() => {
-                    const next = { ...profile, image: null };
-                    setProfile(next);
-                    void persistProfile(next);
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="border-white/20 text-white hover:bg-white/5"
+                  onClick={() => {
+                    const next = { ...profile, image: null }
+                    setProfile(next)
+                    void persistProfile(next)
                   }}
-              >
-                <XIcon className="mr-2 h-4 w-4" />
-                Supprimer
-              </Button>
+                >
+                  <XIcon className="mr-2 h-4 w-4" />
+                  Supprimer
+                </Button>
               )}
             </div>
           </div>
           <Label>Avatar (URL)</Label>
           <Input
             type="url"
-            value={profile.image ?? ""}
+            value={profile.image ?? ''}
             onChange={(e) => {
-              setProfile({ ...profile, image: e.target.value });
+              setProfile({ ...profile, image: e.target.value })
             }}
             placeholder="https://..."
           />
@@ -220,23 +213,23 @@ export function ProfileSettings() {
       <div className="flex flex-wrap gap-2">
         <Button
           onClick={() => {
-            void handleSave();
+            void handleSave()
           }}
           disabled={saving}
-          className="bg-lime-300 text-black hover:bg-lime-400"
+          className="[background-color:var(--brand-neon)] text-black hover:[background-color:var(--neon-400)]"
         >
-          {saving ? "Sauvegarde..." : "Sauvegarder"}
+          {saving ? 'Sauvegarde...' : 'Sauvegarder'}
         </Button>
         <Button
           variant="outline"
           className="border-white/20 text-white hover:bg-white/5"
           onClick={() => {
-            if (original) setProfile(original);
+            if (original) setProfile(original)
           }}
         >
           Annuler
         </Button>
       </div>
     </div>
-  );
+  )
 }

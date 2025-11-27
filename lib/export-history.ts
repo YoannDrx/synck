@@ -1,26 +1,22 @@
-import { prisma } from "@/lib/prisma";
-import type {
-  ExportType,
-  ExportFormat,
-  ExportStatus,
-  Prisma,
-} from "@prisma/client";
+import type { ExportFormat, ExportStatus, ExportType, Prisma } from '@prisma/client'
+
+import { prisma } from '@/lib/prisma'
 
 type CreateExportHistoryParams = {
-  userId: string;
-  type: ExportType;
-  format: ExportFormat;
-  entityCount?: number;
-  fileSize?: number;
-};
+  userId: string
+  type: ExportType
+  format: ExportFormat
+  entityCount?: number
+  fileSize?: number
+}
 
 type UpdateExportHistoryParams = {
-  status: ExportStatus;
-  entityCount?: number;
-  fileSize?: number;
-  errorMessage?: string;
-  downloadUrl?: string;
-};
+  status: ExportStatus
+  entityCount?: number
+  fileSize?: number
+  errorMessage?: string
+  downloadUrl?: string
+}
 
 /**
  * Crée une entrée dans l'historique des exports
@@ -33,18 +29,15 @@ export async function createExportHistory(params: CreateExportHistoryParams) {
       format: params.format,
       entityCount: params.entityCount,
       fileSize: params.fileSize,
-      status: "PENDING",
+      status: 'PENDING',
     },
-  });
+  })
 }
 
 /**
  * Met à jour une entrée dans l'historique des exports
  */
-export async function updateExportHistory(
-  id: string,
-  params: UpdateExportHistoryParams,
-) {
+export async function updateExportHistory(id: string, params: UpdateExportHistoryParams) {
   return prisma.exportHistory.update({
     where: { id },
     data: {
@@ -53,19 +46,19 @@ export async function updateExportHistory(
       fileSize: params.fileSize,
       errorMessage: params.errorMessage,
       downloadUrl: params.downloadUrl,
-      completedAt: params.status === "COMPLETED" ? new Date() : undefined,
+      completedAt: params.status === 'COMPLETED' ? new Date() : undefined,
     },
-  });
+  })
 }
 
 /**
  * Enregistre un export réussi directement (pour les exports simples)
  */
 export async function recordSuccessfulExport(
-  params: CreateExportHistoryParams & { data: unknown },
+  params: CreateExportHistoryParams & { data: unknown }
 ) {
-  const dataStr = JSON.stringify(params.data);
-  const fileSize = Buffer.byteLength(dataStr, "utf8");
+  const dataStr = JSON.stringify(params.data)
+  const fileSize = Buffer.byteLength(dataStr, 'utf8')
 
   return prisma.exportHistory.create({
     data: {
@@ -75,26 +68,24 @@ export async function recordSuccessfulExport(
       entityCount: params.entityCount,
       fileSize,
       data: params.data as Prisma.InputJsonValue,
-      status: "COMPLETED",
+      status: 'COMPLETED',
       completedAt: new Date(),
     },
-  });
+  })
 }
 
 /**
  * Enregistre un export échoué
  */
-export async function recordFailedExport(
-  params: CreateExportHistoryParams & { error: string },
-) {
+export async function recordFailedExport(params: CreateExportHistoryParams & { error: string }) {
   return prisma.exportHistory.create({
     data: {
       userId: params.userId,
       type: params.type,
       format: params.format,
-      status: "FAILED",
+      status: 'FAILED',
       errorMessage: params.error,
       completedAt: new Date(),
     },
-  });
+  })
 }

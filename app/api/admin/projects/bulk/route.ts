@@ -1,68 +1,67 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { withAuth } from "@/lib/api/with-auth";
-import { z } from "zod";
+import { NextResponse } from 'next/server'
+
+import { z } from 'zod'
+
+import { withAuth } from '@/lib/api/with-auth'
+import { prisma } from '@/lib/prisma'
 
 const bulkSchema = z.object({
   ids: z.array(z.string()).min(1),
-  action: z.enum(["delete", "publish", "archive", "activate", "deactivate"]),
-});
+  action: z.enum(['delete', 'publish', 'archive', 'activate', 'deactivate']),
+})
 
 export const POST = withAuth(async (req) => {
   try {
-    const body = (await req.json()) as unknown;
-    const { ids, action } = bulkSchema.parse(body);
+    const body = (await req.json()) as unknown
+    const { ids, action } = bulkSchema.parse(body)
 
-    let result;
+    let result
 
     switch (action) {
-      case "delete":
+      case 'delete':
         result = await prisma.work.deleteMany({
           where: { id: { in: ids } },
-        });
-        break;
+        })
+        break
 
-      case "publish":
+      case 'publish':
         result = await prisma.work.updateMany({
           where: { id: { in: ids } },
-          data: { status: "PUBLISHED", isActive: true },
-        });
-        break;
+          data: { status: 'PUBLISHED', isActive: true },
+        })
+        break
 
-      case "archive":
+      case 'archive':
         result = await prisma.work.updateMany({
           where: { id: { in: ids } },
-          data: { status: "ARCHIVED", isActive: false },
-        });
-        break;
+          data: { status: 'ARCHIVED', isActive: false },
+        })
+        break
 
-      case "activate":
+      case 'activate':
         result = await prisma.work.updateMany({
           where: { id: { in: ids } },
           data: { isActive: true },
-        });
-        break;
+        })
+        break
 
-      case "deactivate":
+      case 'deactivate':
         result = await prisma.work.updateMany({
           where: { id: { in: ids } },
           data: { isActive: false },
-        });
-        break;
+        })
+        break
     }
 
     return NextResponse.json({
       success: true,
       count: result.count,
       action,
-    });
+    })
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues }, { status: 400 });
+      return NextResponse.json({ error: error.issues }, { status: 400 })
     }
-    return NextResponse.json(
-      { error: "Erreur lors de l'opération" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Erreur lors de l'opération" }, { status: 500 })
   }
-});
+})

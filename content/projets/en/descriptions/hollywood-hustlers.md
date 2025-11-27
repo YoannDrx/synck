@@ -1,1 +1,1 @@
-This project comes from the meeting between PARIGO and the duo of musicians Sébastien Blanchon (trumpeter, keyboardist) - Emmanuel Marée (drummer, guitarist, bassist) having co-written this album with Ugly Mac Beer, artistic director on the project. 
+This project comes from the meeting between PARIGO and the duo of musicians Sébastien Blanchon (trumpeter, keyboardist) - Emmanuel Marée (drummer, guitarist, bassist) having co-written this album with Ugly Mac Beer, artistic director on the project.

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ============================================
    DESIGN SYSTEM TOKENS
@@ -6,19 +6,19 @@
 
 :root {
   /* === BRAND GRADIENT === */
-  --brand-neon: #D5FF0A;
-  --brand-green: #5CE462;
-  --brand-emerald: #00C18B;
+  --brand-neon: #d5ff0a;
+  --brand-green: #5ce462;
+  --brand-emerald: #00c18b;
   --brand-teal: #009998;
-  --brand-ocean: #006F84;
-  --brand-slate: #2F4858;
+  --brand-ocean: #006f84;
+  --brand-slate: #2f4858;
 
   /* === NEON YELLOW SCALE === */
   --neon-50: #fdfff0;
   --neon-100: #f9ffd6;
   --neon-200: #f2ffab;
   --neon-300: #e8ff75;
-  --neon-400: #D5FF0A;
+  --neon-400: #d5ff0a;
   --neon-500: #c2e600;
   --neon-600: #9ab800;
   --neon-700: #748a00;
@@ -31,12 +31,12 @@
   --teal-100: #b3f0eb;
   --teal-200: #80e6dd;
   --teal-300: #4ddcd0;
-  --teal-400: #00C18B;
+  --teal-400: #00c18b;
   --teal-500: #009998;
-  --teal-600: #006F84;
+  --teal-600: #006f84;
   --teal-700: #005868;
   --teal-800: #00414d;
-  --teal-900: #2F4858;
+  --teal-900: #2f4858;
   --teal-950: #1a2a33;
 
   /* === NEUTRALS === */
@@ -136,19 +136,46 @@
   --shadow-glow-teal-lg: 0 0 30px -6px rgba(0, 193, 139, 0.5);
 
   /* === GRADIENTS === */
-  --gradient-brand: linear-gradient(135deg, #D5FF0A 0%, #5CE462 25%, #00C18B 50%, #009998 75%, #006F84 100%);
-  --gradient-brand-short: linear-gradient(135deg, #D5FF0A 0%, #00C18B 100%);
-  --gradient-neon: linear-gradient(135deg, #D5FF0A 0%, #5CE462 100%);
-  --gradient-neon-teal: linear-gradient(135deg, #D5FF0A 0%, #009998 100%);
-  --gradient-teal: linear-gradient(135deg, #00C18B 0%, #006F84 100%);
-  --gradient-ocean: linear-gradient(135deg, #009998 0%, #2F4858 100%);
+  --gradient-brand: linear-gradient(
+    135deg,
+    #d5ff0a 0%,
+    #5ce462 25%,
+    #00c18b 50%,
+    #009998 75%,
+    #006f84 100%
+  );
+  --gradient-brand-short: linear-gradient(135deg, #d5ff0a 0%, #00c18b 100%);
+  --gradient-neon: linear-gradient(135deg, #d5ff0a 0%, #5ce462 100%);
+  --gradient-neon-teal: linear-gradient(135deg, #d5ff0a 0%, #009998 100%);
+  --gradient-teal: linear-gradient(135deg, #00c18b 0%, #006f84 100%);
+  --gradient-ocean: linear-gradient(135deg, #009998 0%, #2f4858 100%);
   --gradient-surface: linear-gradient(180deg, var(--neutral-900) 0%, var(--neutral-950) 100%);
-  --gradient-glow-neon: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(213, 255, 10, 0.15), transparent);
-  --gradient-glow-teal: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 193, 139, 0.12), transparent);
-  --gradient-glow-center: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(213, 255, 10, 0.08), transparent);
-  --gradient-text-brand: linear-gradient(135deg, #D5FF0A 0%, #00C18B 100%);
-  --gradient-border-neon: linear-gradient(135deg, rgba(213, 255, 10, 0.5) 0%, rgba(213, 255, 10, 0.1) 100%);
-  --gradient-border-teal: linear-gradient(135deg, rgba(0, 193, 139, 0.5) 0%, rgba(0, 153, 152, 0.1) 100%);
+  --gradient-glow-neon: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    rgba(213, 255, 10, 0.15),
+    transparent
+  );
+  --gradient-glow-teal: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    rgba(0, 193, 139, 0.12),
+    transparent
+  );
+  --gradient-glow-center: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    rgba(213, 255, 10, 0.08),
+    transparent
+  );
+  --gradient-text-brand: linear-gradient(135deg, #d5ff0a 0%, #00c18b 100%);
+  --gradient-border-neon: linear-gradient(
+    135deg,
+    rgba(213, 255, 10, 0.5) 0%,
+    rgba(213, 255, 10, 0.1) 100%
+  );
+  --gradient-border-teal: linear-gradient(
+    135deg,
+    rgba(0, 193, 139, 0.5) 0%,
+    rgba(0, 153, 152, 0.1) 100%
+  );
 }
 
 /* ============================================
@@ -156,7 +183,7 @@
    ============================================ */
 
 :root,
-[data-theme="dark"] {
+[data-theme='dark'] {
   /* === SEMANTIC COLORS === */
   --color-background: var(--neutral-950);
   --color-surface: var(--neutral-900);
@@ -211,7 +238,7 @@
    LIGHT THEME
    ============================================ */
 
-[data-theme="light"] {
+[data-theme='light'] {
   /* === SEMANTIC COLORS === */
   --color-background: var(--neutral-50);
   --color-surface: var(--neutral-0);
@@ -293,8 +320,9 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   min-height: 100vh;
   position: relative;
-  transition: background-color var(--duration-normal) var(--ease-in-out),
-              color var(--duration-normal) var(--ease-in-out);
+  transition:
+    background-color var(--duration-normal) var(--ease-in-out),
+    color var(--duration-normal) var(--ease-in-out);
 }
 
 ::selection {
@@ -303,9 +331,9 @@ body {
 }
 
 /* === BACKGROUND PATTERN (DARK MODE ONLY) === */
-[data-theme="dark"] body::after,
-:root:not([data-theme="light"]) body::after {
-  content: "";
+[data-theme='dark'] body::after,
+:root:not([data-theme='light']) body::after {
+  content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -313,19 +341,21 @@ body {
     radial-gradient(circle at center, rgba(255, 255, 255, 0.06), transparent 55%),
     linear-gradient(120deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(300deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 320px 320px, 160px 160px, 200px 200px;
+  background-size:
+    320px 320px,
+    160px 160px,
+    200px 200px;
   opacity: 0.4;
   z-index: var(--z-behind);
 }
 
 /* === LIGHT MODE PATTERN === */
-[data-theme="light"] body::after {
-  content: "";
+[data-theme='light'] body::after {
+  content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image:
-    radial-gradient(circle at center, rgba(0, 0, 0, 0.02), transparent 55%);
+  background-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.02), transparent 55%);
   background-size: 320px 320px;
   opacity: 0.5;
   z-index: var(--z-behind);
@@ -444,7 +474,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.4;
   }
   50% {
@@ -524,7 +555,7 @@ body {
   outline-offset: 2px;
 }
 
-[data-theme="light"] :focus-visible {
+[data-theme='light'] :focus-visible {
   outline-color: var(--neon-600);
 }
 
@@ -533,7 +564,7 @@ body {
    ============================================ */
 
 .clearfix::after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }

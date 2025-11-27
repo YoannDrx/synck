@@ -1,34 +1,31 @@
-import { prisma } from "@/lib/prisma";
-import { CVEditor } from "@/components/admin/cv/cv-editor";
+import { prisma } from '@/lib/prisma'
+
+import { CVEditor } from '@/components/admin/cv/cv-editor'
 
 type CVTheme = {
-  primary: string;
-  secondary: string;
-  header: string;
-  sidebar: string;
-  surface: string;
-  text: string;
-  muted: string;
-  border: string;
-  badge: string;
-};
+  primary: string
+  secondary: string
+  header: string
+  sidebar: string
+  surface: string
+  text: string
+  muted: string
+  border: string
+  badge: string
+}
 
-export default async function CVAdminPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
+export default async function CVAdminPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
 
   const cv = await prisma.cV.findFirst({
     include: {
       photoAsset: true,
       sections: {
-        orderBy: { order: "asc" },
+        orderBy: { order: 'asc' },
         include: {
           translations: true,
           items: {
-            orderBy: { order: "asc" },
+            orderBy: { order: 'asc' },
             include: {
               translations: true,
             },
@@ -36,34 +33,30 @@ export default async function CVAdminPage({
         },
       },
       skills: {
-        orderBy: { order: "asc" },
+        orderBy: { order: 'asc' },
         include: {
           translations: true,
         },
       },
       socialLinks: {
-        orderBy: { order: "asc" },
+        orderBy: { order: 'asc' },
       },
     },
-  });
+  })
 
   const transformedCV = cv
     ? (() => {
         // Validate theme is a proper CVTheme object
-        const rawTheme = cv.theme as Record<string, unknown> | null;
+        const rawTheme = cv.theme as Record<string, unknown> | null
         const isValidTheme =
           rawTheme &&
-          typeof rawTheme === "object" &&
-          "primary" in rawTheme &&
-          "secondary" in rawTheme &&
-          "header" in rawTheme;
-        const theme: CVTheme | null = isValidTheme
-          ? (rawTheme as CVTheme)
-          : null;
+          typeof rawTheme === 'object' &&
+          'primary' in rawTheme &&
+          'secondary' in rawTheme &&
+          'header' in rawTheme
+        const theme: CVTheme | null = isValidTheme ? (rawTheme as CVTheme) : null
         const accentColor =
-          cv.accentColor ??
-          (theme as { primary?: string } | null)?.primary ??
-          undefined;
+          cv.accentColor ?? (theme as { primary?: string } | null)?.primary ?? undefined
 
         return {
           id: cv.id,
@@ -125,9 +118,9 @@ export default async function CVAdminPage({
             label: link.label,
             order: link.order,
           })),
-        };
+        }
       })()
-    : null;
+    : null
 
   return (
     <div className="space-y-6 pb-10">
@@ -139,5 +132,5 @@ export default async function CVAdminPage({
       </div>
       <CVEditor initialData={transformedCV} locale={locale} />
     </div>
-  );
+  )
 }

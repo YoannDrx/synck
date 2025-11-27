@@ -1,1 +1,1 @@
-THE PROJECTIONIST is a hymn to contemplative and cinematic music. 
+THE PROJECTIONIST is a hymn to contemplative and cinematic music.

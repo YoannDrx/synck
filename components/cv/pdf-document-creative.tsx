@@ -1,1 +1,1 @@
-export { CVDocument as CVDocumentCreative } from "./pdf-document";
+export { CVDocument as CVDocumentCreative } from './pdf-document'

@@ -1,1 +1,1 @@
-A demonstration of modern minimalism with a twist, MINIMAL STORIES is an array of titles for human drama, art, documentary, film and history, composed and performed by multi-award-winning French composer Laurent Dury 
+A demonstration of modern minimalism with a twist, MINIMAL STORIES is an array of titles for human drama, art, documentary, film and history, composed and performed by multi-award-winning French composer Laurent Dury

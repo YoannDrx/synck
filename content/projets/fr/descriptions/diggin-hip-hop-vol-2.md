@@ -1,5 +1,5 @@
 DIGGIN HIP HOP Vol.2 est la consécration de plusieurs producteurs français et américains les plus talentueux de leur génération. Avec cet album, Liqid, Bonetrips, Arom, Tcheep (tous issus du collectif Mutant Ninja), Ugly Mac Beer, Blanka (La Fine Equipe) et Drixxxé nous livrent un subtil mélange rap et hip hop servi sur un beat hip-hop entêtant et terriblement efficace.
 
-Cet album fera découvrir un mélange savoureux et trépidant où rap, électro, scratch et collaborations s'entremêlent pour un résultat irrésistiblement unique : Un deuxième hommage au vrai Hip-Hop après <a href= "https://open.spotify.com/intl-fr/album/6cTvm6NmKxk036ENLdhj4o" target="_blank" className="link"}>Diggin Hip-Hop Vol.1.</a>
+Cet album fera découvrir un mélange savoureux et trépidant où rap, électro, scratch et collaborations s'entremêlent pour un résultat irrésistiblement unique : Un deuxième hommage au vrai Hip-Hop après <a href= "https://open.spotify.com/intl-fr/album/6cTvm6NmKxk036ENLdhj4o" target="\_blank" className="link"}>Diggin Hip-Hop Vol.1.</a>
 
 Des breaks, beat, boucles et scratches hip-hop dans une large gamme d'ambiances et de styles incluant boombap, eastcoast, westcoast, jazz, electro gangsta et abstract signés Ugly Mac Beer, Liqid, Drixxxé, Kokane, Arom, Bonetrips, Blanka, Fat Hed, Tcheep, Ducer, F.Stokes et Schérazade.

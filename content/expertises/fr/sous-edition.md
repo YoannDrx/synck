@@ -1,13 +1,13 @@
 ---
-id: "5"
-title: "Gestion des oeuvres en sous-édition"
-description: "description de la sous édition"
-slug: "sous-edition"
+id: '5'
+title: 'Gestion des oeuvres en sous-édition'
+description: 'description de la sous édition'
+slug: 'sous-edition'
 imgHome: /images/projets/expertises/sous-edition/sous-edition-home.jpg
 img1: /images/projets/expertises/sous-edition/sous-edition-section-1.jpg
 img2: /images/projets/expertises/sous-edition/sous-edition-section-2.jpg
 img3: /images/projets/expertises/sous-edition/sous-edition-section-3.jpg
-imgFooter: ""
+imgFooter: ''
 sectionsLayout:
   - image: img1
     position: right
@@ -16,65 +16,301 @@ sectionsLayout:
   - image: img3
     position: right
 labels:
-  - { name: "label-2", src: "/images/projets/expertises/sous-edition/logo-label-soused/2.png", href: "" }
-  - { name: "label-3", src: "/images/projets/expertises/sous-edition/logo-label-soused/3.png", href: "" }
-  - { name: "label-4", src: "/images/projets/expertises/sous-edition/logo-label-soused/4.png", href: "" }
-  - { name: "label-5", src: "/images/projets/expertises/sous-edition/logo-label-soused/5.png", href: "" }
-  - { name: "label-6", src: "/images/projets/expertises/sous-edition/logo-label-soused/6.png", href: "" }
-  - { name: "label-7", src: "/images/projets/expertises/sous-edition/logo-label-soused/7.png", href: "" }
-  - { name: "label-8", src: "/images/projets/expertises/sous-edition/logo-label-soused/8.png", href: "" }
-  - { name: "label-9", src: "/images/projets/expertises/sous-edition/logo-label-soused/9.png", href: "" }
-  - { name: "label-10", src: "/images/projets/expertises/sous-edition/logo-label-soused/10.png", href: "" }
-  - { name: "label-11", src: "/images/projets/expertises/sous-edition/logo-label-soused/11.png", href: "" }
-  - { name: "label-12", src: "/images/projets/expertises/sous-edition/logo-label-soused/12.png", href: "" }
-  - { name: "label-13", src: "/images/projets/expertises/sous-edition/logo-label-soused/13.png", href: "" }
-  - { name: "label-14", src: "/images/projets/expertises/sous-edition/logo-label-soused/14.png", href: "" }
-  - { name: "label-15", src: "/images/projets/expertises/sous-edition/logo-label-soused/15.png", href: "" }
-  - { name: "label-16", src: "/images/projets/expertises/sous-edition/logo-label-soused/16.png", href: "" }
-  - { name: "label-18", src: "/images/projets/expertises/sous-edition/logo-label-soused/18.png", href: "" }
-  - { name: "label-19", src: "/images/projets/expertises/sous-edition/logo-label-soused/19.png", href: "" }
-  - { name: "label-20", src: "/images/projets/expertises/sous-edition/logo-label-soused/20.png", href: "" }
-  - { name: "label-21", src: "/images/projets/expertises/sous-edition/logo-label-soused/21.png", href: "" }
-  - { name: "label-22", src: "/images/projets/expertises/sous-edition/logo-label-soused/22.png", href: "" }
-  - { name: "label-23", src: "/images/projets/expertises/sous-edition/logo-label-soused/23.png", href: "" }
-  - { name: "label-24", src: "/images/projets/expertises/sous-edition/logo-label-soused/24.png", href: "" }
-  - { name: "label-25", src: "/images/projets/expertises/sous-edition/logo-label-soused/25.png", href: "" }
-  - { name: "label-26", src: "/images/projets/expertises/sous-edition/logo-label-soused/26.png", href: "" }
-  - { name: "label-27", src: "/images/projets/expertises/sous-edition/logo-label-soused/27.png", href: "" }
-  - { name: "label-28", src: "/images/projets/expertises/sous-edition/logo-label-soused/28.png", href: "" }
-  - { name: "label-29", src: "/images/projets/expertises/sous-edition/logo-label-soused/29.png", href: "" }
-  - { name: "label-30", src: "/images/projets/expertises/sous-edition/logo-label-soused/30.png", href: "" }
-  - { name: "label-31", src: "/images/projets/expertises/sous-edition/logo-label-soused/31.png", href: "" }
-  - { name: "label-32", src: "/images/projets/expertises/sous-edition/logo-label-soused/32.png", href: "" }
-  - { name: "label-33", src: "/images/projets/expertises/sous-edition/logo-label-soused/33.png", href: "" }
-  - { name: "label-34", src: "/images/projets/expertises/sous-edition/logo-label-soused/34.png", href: "" }
-  - { name: "label-35", src: "/images/projets/expertises/sous-edition/logo-label-soused/35.png", href: "" }
-  - { name: "label-36", src: "/images/projets/expertises/sous-edition/logo-label-soused/36.png", href: "" }
-  - { name: "label-37", src: "/images/projets/expertises/sous-edition/logo-label-soused/37.png", href: "" }
-  - { name: "label-38", src: "/images/projets/expertises/sous-edition/logo-label-soused/38.png", href: "" }
-  - { name: "label-39", src: "/images/projets/expertises/sous-edition/logo-label-soused/39.png", href: "" }
-  - { name: "label-40", src: "/images/projets/expertises/sous-edition/logo-label-soused/40.png", href: "" }
-  - { name: "label-41", src: "/images/projets/expertises/sous-edition/logo-label-soused/41.png", href: "" }
-  - { name: "label-42", src: "/images/projets/expertises/sous-edition/logo-label-soused/42.png", href: "" }
-  - { name: "label-43", src: "/images/projets/expertises/sous-edition/logo-label-soused/43.png", href: "" }
-  - { name: "label-44", src: "/images/projets/expertises/sous-edition/logo-label-soused/44.png", href: "" }
-  - { name: "label-46", src: "/images/projets/expertises/sous-edition/logo-label-soused/46.png", href: "" }
-  - { name: "label-47", src: "/images/projets/expertises/sous-edition/logo-label-soused/47.png", href: "" }
-  - { name: "label-48", src: "/images/projets/expertises/sous-edition/logo-label-soused/48.png", href: "" }
-  - { name: "label-49", src: "/images/projets/expertises/sous-edition/logo-label-soused/49.png", href: "" }
-  - { name: "label-50", src: "/images/projets/expertises/sous-edition/logo-label-soused/50.png", href: "" }
-  - { name: "label-51", src: "/images/projets/expertises/sous-edition/logo-label-soused/51.png", href: "" }
-  - { name: "label-52", src: "/images/projets/expertises/sous-edition/logo-label-soused/52.png", href: "" }
-  - { name: "label-53", src: "/images/projets/expertises/sous-edition/logo-label-soused/53.png", href: "" }
-  - { name: "label-54", src: "/images/projets/expertises/sous-edition/logo-label-soused/54.png", href: "" }
-  - { name: "label-55", src: "/images/projets/expertises/sous-edition/logo-label-soused/55.png", href: "" }
-  - { name: "label-57", src: "/images/projets/expertises/sous-edition/logo-label-soused/57.png", href: "" }
-  - { name: "label-58", src: "/images/projets/expertises/sous-edition/logo-label-soused/58.png", href: "" }
-  - { name: "label-59", src: "/images/projets/expertises/sous-edition/logo-label-soused/59.png", href: "" }
-  - { name: "label-60", src: "/images/projets/expertises/sous-edition/logo-label-soused/60.png", href: "" }
-  - { name: "label-61", src: "/images/projets/expertises/sous-edition/logo-label-soused/61.png", href: "" }
-  - { name: "label-62", src: "/images/projets/expertises/sous-edition/logo-label-soused/62.png", href: "" }
-  - { name: "label-63", src: "/images/projets/expertises/sous-edition/logo-label-soused/63.png", href: "" }
+  - {
+      name: 'label-2',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/2.png',
+      href: '',
+    }
+  - {
+      name: 'label-3',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/3.png',
+      href: '',
+    }
+  - {
+      name: 'label-4',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/4.png',
+      href: '',
+    }
+  - {
+      name: 'label-5',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/5.png',
+      href: '',
+    }
+  - {
+      name: 'label-6',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/6.png',
+      href: '',
+    }
+  - {
+      name: 'label-7',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/7.png',
+      href: '',
+    }
+  - {
+      name: 'label-8',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/8.png',
+      href: '',
+    }
+  - {
+      name: 'label-9',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/9.png',
+      href: '',
+    }
+  - {
+      name: 'label-10',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/10.png',
+      href: '',
+    }
+  - {
+      name: 'label-11',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/11.png',
+      href: '',
+    }
+  - {
+      name: 'label-12',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/12.png',
+      href: '',
+    }
+  - {
+      name: 'label-13',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/13.png',
+      href: '',
+    }
+  - {
+      name: 'label-14',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/14.png',
+      href: '',
+    }
+  - {
+      name: 'label-15',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/15.png',
+      href: '',
+    }
+  - {
+      name: 'label-16',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/16.png',
+      href: '',
+    }
+  - {
+      name: 'label-18',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/18.png',
+      href: '',
+    }
+  - {
+      name: 'label-19',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/19.png',
+      href: '',
+    }
+  - {
+      name: 'label-20',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/20.png',
+      href: '',
+    }
+  - {
+      name: 'label-21',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/21.png',
+      href: '',
+    }
+  - {
+      name: 'label-22',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/22.png',
+      href: '',
+    }
+  - {
+      name: 'label-23',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/23.png',
+      href: '',
+    }
+  - {
+      name: 'label-24',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/24.png',
+      href: '',
+    }
+  - {
+      name: 'label-25',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/25.png',
+      href: '',
+    }
+  - {
+      name: 'label-26',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/26.png',
+      href: '',
+    }
+  - {
+      name: 'label-27',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/27.png',
+      href: '',
+    }
+  - {
+      name: 'label-28',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/28.png',
+      href: '',
+    }
+  - {
+      name: 'label-29',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/29.png',
+      href: '',
+    }
+  - {
+      name: 'label-30',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/30.png',
+      href: '',
+    }
+  - {
+      name: 'label-31',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/31.png',
+      href: '',
+    }
+  - {
+      name: 'label-32',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/32.png',
+      href: '',
+    }
+  - {
+      name: 'label-33',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/33.png',
+      href: '',
+    }
+  - {
+      name: 'label-34',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/34.png',
+      href: '',
+    }
+  - {
+      name: 'label-35',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/35.png',
+      href: '',
+    }
+  - {
+      name: 'label-36',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/36.png',
+      href: '',
+    }
+  - {
+      name: 'label-37',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/37.png',
+      href: '',
+    }
+  - {
+      name: 'label-38',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/38.png',
+      href: '',
+    }
+  - {
+      name: 'label-39',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/39.png',
+      href: '',
+    }
+  - {
+      name: 'label-40',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/40.png',
+      href: '',
+    }
+  - {
+      name: 'label-41',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/41.png',
+      href: '',
+    }
+  - {
+      name: 'label-42',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/42.png',
+      href: '',
+    }
+  - {
+      name: 'label-43',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/43.png',
+      href: '',
+    }
+  - {
+      name: 'label-44',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/44.png',
+      href: '',
+    }
+  - {
+      name: 'label-46',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/46.png',
+      href: '',
+    }
+  - {
+      name: 'label-47',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/47.png',
+      href: '',
+    }
+  - {
+      name: 'label-48',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/48.png',
+      href: '',
+    }
+  - {
+      name: 'label-49',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/49.png',
+      href: '',
+    }
+  - {
+      name: 'label-50',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/50.png',
+      href: '',
+    }
+  - {
+      name: 'label-51',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/51.png',
+      href: '',
+    }
+  - {
+      name: 'label-52',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/52.png',
+      href: '',
+    }
+  - {
+      name: 'label-53',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/53.png',
+      href: '',
+    }
+  - {
+      name: 'label-54',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/54.png',
+      href: '',
+    }
+  - {
+      name: 'label-55',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/55.png',
+      href: '',
+    }
+  - {
+      name: 'label-57',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/57.png',
+      href: '',
+    }
+  - {
+      name: 'label-58',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/58.png',
+      href: '',
+    }
+  - {
+      name: 'label-59',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/59.png',
+      href: '',
+    }
+  - {
+      name: 'label-60',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/60.png',
+      href: '',
+    }
+  - {
+      name: 'label-61',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/61.png',
+      href: '',
+    }
+  - {
+      name: 'label-62',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/62.png',
+      href: '',
+    }
+  - {
+      name: 'label-63',
+      src: '/images/projets/expertises/sous-edition/logo-label-soused/63.png',
+      href: '',
+    }
 ---
 
 <!-- section:start -->

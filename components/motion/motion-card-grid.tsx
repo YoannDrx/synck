@@ -1,73 +1,76 @@
-"use client";
+'use client'
 
-import { Children, type ReactNode } from "react";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { ParallaxCard } from "./parallax-card";
+import { Children, type ReactNode } from 'react'
+
+import { motion } from 'framer-motion'
+
 import {
   staggerContainer,
   staggerContainerFast,
   staggerContainerSlow,
   staggerItem,
-} from "@/lib/animations";
+} from '@/lib/animations'
+import { cn } from '@/lib/utils'
+
+import { ParallaxCard } from './parallax-card'
 
 export type GridColumns = {
-  sm?: number;
-  md?: number;
-  lg?: number;
-  xl?: number;
-};
+  sm?: number
+  md?: number
+  lg?: number
+  xl?: number
+}
 
 export type MotionCardGridProps = {
-  children: ReactNode;
+  children: ReactNode
   /** Grid columns configuration */
-  columns?: GridColumns;
+  columns?: GridColumns
   /** Gap between items (Tailwind spacing unit, default: 8) */
-  gap?: number;
+  gap?: number
   /** Stagger speed: "fast" | "normal" | "slow" */
-  staggerSpeed?: "fast" | "normal" | "slow";
+  staggerSpeed?: 'fast' | 'normal' | 'slow'
   /** Enable parallax on cards */
-  enableParallax?: boolean;
+  enableParallax?: boolean
   /** Parallax speed multiplier */
-  parallaxSpeed?: number;
+  parallaxSpeed?: number
   /** Enable scale on scroll */
-  scaleOnScroll?: boolean;
+  scaleOnScroll?: boolean
   /** Additional class names */
-  className?: string;
+  className?: string
   /** Animate once or on every scroll */
-  once?: boolean;
+  once?: boolean
   /** Viewport amount for triggering animation */
-  amount?: number;
-};
+  amount?: number
+}
 
 const defaultColumns: GridColumns = {
   sm: 2,
   lg: 3,
   xl: 4,
-};
+}
 
 const staggerVariants = {
   fast: staggerContainerFast,
   normal: staggerContainer,
   slow: staggerContainerSlow,
-};
+}
 
 function getGridClasses(columns: GridColumns, gap: number): string {
-  const classes = ["grid", `gap-${String(gap)}`];
+  const classes = ['grid', `gap-${String(gap)}`]
 
-  if (columns.sm) classes.push(`sm:grid-cols-${String(columns.sm)}`);
-  if (columns.md) classes.push(`md:grid-cols-${String(columns.md)}`);
-  if (columns.lg) classes.push(`lg:grid-cols-${String(columns.lg)}`);
-  if (columns.xl) classes.push(`xl:grid-cols-${String(columns.xl)}`);
+  if (columns.sm) classes.push(`sm:grid-cols-${String(columns.sm)}`)
+  if (columns.md) classes.push(`md:grid-cols-${String(columns.md)}`)
+  if (columns.lg) classes.push(`lg:grid-cols-${String(columns.lg)}`)
+  if (columns.xl) classes.push(`xl:grid-cols-${String(columns.xl)}`)
 
-  return classes.join(" ");
+  return classes.join(' ')
 }
 
 export function MotionCardGrid({
   children,
   columns = defaultColumns,
   gap = 8,
-  staggerSpeed = "normal",
+  staggerSpeed = 'normal',
   enableParallax = true,
   parallaxSpeed = 0.15,
   scaleOnScroll = true,
@@ -75,10 +78,10 @@ export function MotionCardGrid({
   once = true,
   amount = 0.1,
 }: MotionCardGridProps) {
-  const containerVariants = staggerVariants[staggerSpeed];
-  const gridClasses = getGridClasses(columns, gap);
+  const containerVariants = staggerVariants[staggerSpeed]
+  const gridClasses = getGridClasses(columns, gap)
 
-  const childrenArray = Children.toArray(children);
+  const childrenArray = Children.toArray(children)
 
   return (
     <motion.div
@@ -99,17 +102,17 @@ export function MotionCardGrid({
             >
               <motion.div variants={staggerItem}>{child}</motion.div>
             </ParallaxCard>
-          );
+          )
         }
 
         return (
           <motion.div key={index} variants={staggerItem}>
             {child}
           </motion.div>
-        );
+        )
       })}
     </motion.div>
-  );
+  )
 }
 
 /** Simple stagger grid without parallax (lighter) */
@@ -117,16 +120,13 @@ export function MotionStaggerGrid({
   children,
   columns = defaultColumns,
   gap = 8,
-  staggerSpeed = "normal",
+  staggerSpeed = 'normal',
   className,
   once = true,
   amount = 0.1,
-}: Omit<
-  MotionCardGridProps,
-  "enableParallax" | "parallaxSpeed" | "scaleOnScroll"
->) {
-  const containerVariants = staggerVariants[staggerSpeed];
-  const gridClasses = getGridClasses(columns, gap);
+}: Omit<MotionCardGridProps, 'enableParallax' | 'parallaxSpeed' | 'scaleOnScroll'>) {
+  const containerVariants = staggerVariants[staggerSpeed]
+  const gridClasses = getGridClasses(columns, gap)
 
   return (
     <motion.div
@@ -142,18 +142,18 @@ export function MotionStaggerGrid({
         </motion.div>
       ))}
     </motion.div>
-  );
+  )
 }
 
 /** Grid item with custom animation control */
 export type MotionGridItemProps = {
-  children: ReactNode;
-  className?: string;
+  children: ReactNode
+  className?: string
   /** Custom delay override */
-  delay?: number;
+  delay?: number
   /** Enable hover effects */
-  hoverEffect?: boolean;
-};
+  hoverEffect?: boolean
+}
 
 export function MotionGridItem({
   children,
@@ -163,14 +163,12 @@ export function MotionGridItem({
 }: MotionGridItemProps) {
   return (
     <motion.div
-      className={cn("will-change-transform", className)}
+      className={cn('will-change-transform', className)}
       variants={staggerItem}
       custom={delay}
-      whileHover={
-        hoverEffect ? { y: -8, transition: { duration: 0.3 } } : undefined
-      }
+      whileHover={hoverEffect ? { y: -8, transition: { duration: 0.3 } } : undefined}
     >
       {children}
     </motion.div>
-  );
+  )
 }

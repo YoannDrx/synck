@@ -1,1 +1,1 @@
-Dominated by percussion and drums with a jam character, GO-GO FUNK features spare keyboard parts, sampling, vocals and call-and-response rapping. 
+Dominated by percussion and drums with a jam character, GO-GO FUNK features spare keyboard parts, sampling, vocals and call-and-response rapping.

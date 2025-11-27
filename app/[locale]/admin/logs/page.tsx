@@ -1,184 +1,179 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import {
-  DataTable,
-  type Column,
-} from "@/components/admin/data-table/data-table";
-import { SearchBar } from "@/components/admin/data-table/search-bar";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from 'react'
+
+import { FilterIcon, XIcon } from 'lucide-react'
+import { toast } from 'sonner'
+
+import { fetchWithAuth } from '@/lib/fetch-with-auth'
+import { logger } from '@/lib/logger'
+
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { FilterIcon, XIcon } from "lucide-react";
-import { toast } from "sonner";
-import { fetchWithAuth } from "@/lib/fetch-with-auth";
-import { logger } from "@/lib/logger";
+} from '@/components/ui/select'
+
+import { type Column, DataTable } from '@/components/admin/data-table/data-table'
+import { SearchBar } from '@/components/admin/data-table/search-bar'
 
 type AuditLog = {
-  id: string;
-  userId: string;
-  action: string;
-  entityType: string | null;
-  entityId: string | null;
-  metadata: unknown;
-  ipAddress: string | null;
-  userAgent: string | null;
-  createdAt: string;
+  id: string
+  userId: string
+  action: string
+  entityType: string | null
+  entityId: string | null
+  metadata: unknown
+  ipAddress: string | null
+  userAgent: string | null
+  createdAt: string
   user: {
-    id: string;
-    name: string | null;
-    email: string;
-    image: string | null;
-  };
-};
+    id: string
+    name: string | null
+    email: string
+    image: string | null
+  }
+}
 
 type Pagination = {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-};
+  page: number
+  limit: number
+  total: number
+  totalPages: number
+}
 
 export default function AuditLogsPage() {
-  const [logs, setLogs] = useState<AuditLog[]>([]);
+  const [logs, setLogs] = useState<AuditLog[]>([])
   const [pagination, setPagination] = useState<Pagination>({
     page: 0,
     limit: 50,
     total: 0,
     totalPages: 0,
-  });
-  const [isLoading, setIsLoading] = useState(true);
+  })
+  const [isLoading, setIsLoading] = useState(true)
 
   // Filters state
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedAction, setSelectedAction] = useState<string>("all");
-  const [selectedEntityType, setSelectedEntityType] = useState<string>("all");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedAction, setSelectedAction] = useState<string>('all')
+  const [selectedEntityType, setSelectedEntityType] = useState<string>('all')
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
 
   // Fetch data function
   const fetchData = async (page = 0) => {
     try {
-      setIsLoading(true);
+      setIsLoading(true)
       const queryParams = new URLSearchParams({
         page: page.toString(),
         limit: pagination.limit.toString(),
-        ...(selectedAction !== "all" && { action: selectedAction }),
-        ...(selectedEntityType !== "all" && { entityType: selectedEntityType }),
+        ...(selectedAction !== 'all' && { action: selectedAction }),
+        ...(selectedEntityType !== 'all' && { entityType: selectedEntityType }),
         ...(startDate && { startDate }),
         ...(endDate && { endDate }),
-      });
+      })
 
-      const res = await fetchWithAuth(`/api/admin/logs?${queryParams}`);
+      const res = await fetchWithAuth(`/api/admin/logs?${queryParams}`)
 
       if (!res.ok) {
-        throw new Error("Failed to fetch logs");
+        throw new Error('Failed to fetch logs')
       }
 
       const data = (await res.json()) as {
-        logs: AuditLog[];
-        pagination: Pagination;
-      };
+        logs: AuditLog[]
+        pagination: Pagination
+      }
 
-      setLogs(data.logs);
-      setPagination(data.pagination);
+      setLogs(data.logs)
+      setPagination(data.pagination)
     } catch (error) {
-      logger.error("Error fetching audit logs", error);
-      toast.error("Erreur lors du chargement des logs");
+      logger.error('Error fetching audit logs', error)
+      toast.error('Erreur lors du chargement des logs')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   // Fetch initial data
   useEffect(() => {
-    void fetchData(0);
+    void fetchData(0)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedAction, selectedEntityType, startDate, endDate]);
+  }, [selectedAction, selectedEntityType, startDate, endDate])
 
   // Reset filters
   const resetFilters = () => {
-    setSearchQuery("");
-    setSelectedAction("all");
-    setSelectedEntityType("all");
-    setStartDate("");
-    setEndDate("");
-  };
+    setSearchQuery('')
+    setSelectedAction('all')
+    setSelectedEntityType('all')
+    setStartDate('')
+    setEndDate('')
+  }
 
   const hasActiveFilters =
-    searchQuery ||
-    selectedAction !== "all" ||
-    selectedEntityType !== "all" ||
-    startDate ||
-    endDate;
+    searchQuery || selectedAction !== 'all' || selectedEntityType !== 'all' || startDate || endDate
 
   // Filter logs by search query (client-side)
   const filteredLogs = logs.filter((log) => {
-    if (!searchQuery) return true;
-    const query = searchQuery.toLowerCase();
+    if (!searchQuery) return true
+    const query = searchQuery.toLowerCase()
     return (
       log.action.toLowerCase().includes(query) ||
       log.user.email.toLowerCase().includes(query) ||
       (log.user.name?.toLowerCase().includes(query) ?? false) ||
       (log.entityType?.toLowerCase().includes(query) ?? false) ||
       (log.entityId?.toLowerCase().includes(query) ?? false)
-    );
-  });
+    )
+  })
 
   // Get action badge color
   const getActionBadge = (action: string) => {
     const colors: Record<string, string> = {
-      CREATE: "bg-green-500/20 text-green-300 border-green-500/30",
-      UPDATE: "bg-blue-500/20 text-blue-300 border-blue-500/30",
-      DELETE: "bg-red-500/20 text-red-300 border-red-500/30",
-      LOGIN: "bg-purple-500/20 text-purple-300 border-purple-500/30",
-      LOGOUT: "bg-gray-500/20 text-gray-300 border-gray-500/30",
-      EXPORT: "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
-      IMPORT: "bg-orange-500/20 text-orange-300 border-orange-500/30",
-    };
-    return colors[action] ?? "bg-white/10 text-white/70 border-white/20";
-  };
+      CREATE: 'bg-green-500/20 text-green-300 border-green-500/30',
+      UPDATE: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+      DELETE: 'bg-red-500/20 text-red-300 border-red-500/30',
+      LOGIN: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+      LOGOUT: 'bg-gray-500/20 text-gray-300 border-gray-500/30',
+      EXPORT: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+      IMPORT: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
+    }
+    return colors[action] ?? 'bg-white/10 text-white/70 border-white/20'
+  }
 
   // Define columns
   const columns: Column<AuditLog>[] = [
     {
-      key: "createdAt",
-      label: "Date",
+      key: 'createdAt',
+      label: 'Date',
       sortable: true,
       render: (log) => (
         <div className="space-y-1">
           <p className="text-sm font-medium text-white">
-            {new Date(log.createdAt).toLocaleDateString("fr-FR")}
+            {new Date(log.createdAt).toLocaleDateString('fr-FR')}
           </p>
           <p className="text-xs text-white/50">
-            {new Date(log.createdAt).toLocaleTimeString("fr-FR")}
+            {new Date(log.createdAt).toLocaleTimeString('fr-FR')}
           </p>
         </div>
       ),
     },
     {
-      key: "user",
-      label: "Utilisateur",
+      key: 'user',
+      label: 'Utilisateur',
       render: (log) => (
         <div className="space-y-1">
-          <p className="text-sm font-medium text-white">
-            {log.user.name ?? "Inconnu"}
-          </p>
+          <p className="text-sm font-medium text-white">{log.user.name ?? 'Inconnu'}</p>
           <p className="text-xs text-white/50">{log.user.email}</p>
         </div>
       ),
     },
     {
-      key: "action",
-      label: "Action",
+      key: 'action',
+      label: 'Action',
       sortable: true,
       render: (log) => (
         <Badge variant="outline" className={getActionBadge(log.action)}>
@@ -187,19 +182,15 @@ export default function AuditLogsPage() {
       ),
     },
     {
-      key: "entity",
-      label: "Entité",
+      key: 'entity',
+      label: 'Entité',
       render: (log) => (
         <div className="space-y-1">
           {log.entityType ? (
             <>
-              <p className="text-sm font-medium text-white/70">
-                {log.entityType}
-              </p>
+              <p className="text-sm font-medium text-white/70">{log.entityType}</p>
               {log.entityId && (
-                <p className="font-mono text-xs text-white/50">
-                  {log.entityId.substring(0, 8)}...
-                </p>
+                <p className="font-mono text-xs text-white/50">{log.entityId.substring(0, 8)}...</p>
               )}
             </>
           ) : (
@@ -209,28 +200,22 @@ export default function AuditLogsPage() {
       ),
     },
     {
-      key: "metadata",
-      label: "Détails",
+      key: 'metadata',
+      label: 'Détails',
       render: (log) => {
-        if (!log.metadata) return <span className="text-white/30">-</span>;
-        const metadataStr = JSON.stringify(log.metadata);
-        return (
-          <p className="max-w-xs truncate font-mono text-xs text-white/50">
-            {metadataStr}
-          </p>
-        );
+        if (!log.metadata) return <span className="text-white/30">-</span>
+        const metadataStr = JSON.stringify(log.metadata)
+        return <p className="max-w-xs truncate font-mono text-xs text-white/50">{metadataStr}</p>
       },
     },
     {
-      key: "ipAddress",
-      label: "IP",
+      key: 'ipAddress',
+      label: 'IP',
       render: (log) => (
-        <span className="font-mono text-xs text-white/50">
-          {log.ipAddress ?? "-"}
-        </span>
+        <span className="font-mono text-xs text-white/50">{log.ipAddress ?? '-'}</span>
       ),
     },
-  ];
+  ]
 
   return (
     <div className="space-y-6">
@@ -239,8 +224,8 @@ export default function AuditLogsPage() {
         <div>
           <h1 className="text-3xl font-bold text-white">Audit Logs</h1>
           <p className="mt-2 text-white/50">
-            Historique complet des actions ({filteredLogs.length}{" "}
-            {filteredLogs.length > 1 ? "logs" : "log"})
+            Historique complet des actions ({filteredLogs.length}{' '}
+            {filteredLogs.length > 1 ? 'logs' : 'log'})
           </p>
         </div>
       </div>
@@ -249,9 +234,7 @@ export default function AuditLogsPage() {
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <FilterIcon className="h-5 w-5 text-white/50" />
-          <h2 className="text-sm font-semibold uppercase text-white/70">
-            Filtres
-          </h2>
+          <h2 className="text-sm font-semibold text-white/70 uppercase">Filtres</h2>
           {hasActiveFilters && (
             <Button
               variant="ghost"
@@ -293,10 +276,7 @@ export default function AuditLogsPage() {
           </Select>
 
           {/* Entity Type filter */}
-          <Select
-            value={selectedEntityType}
-            onValueChange={setSelectedEntityType}
-          >
+          <Select value={selectedEntityType} onValueChange={setSelectedEntityType}>
             <SelectTrigger className="border-white/20 bg-black text-white">
               <SelectValue placeholder="Tous les types" />
             </SelectTrigger>
@@ -323,7 +303,7 @@ export default function AuditLogsPage() {
               type="date"
               value={startDate}
               onChange={(e) => {
-                setStartDate(e.target.value);
+                setStartDate(e.target.value)
               }}
               className="border-white/20 bg-black text-white"
             />
@@ -337,7 +317,7 @@ export default function AuditLogsPage() {
               type="date"
               value={endDate}
               onChange={(e) => {
-                setEndDate(e.target.value);
+                setEndDate(e.target.value)
               }}
               className="border-white/20 bg-black text-white"
             />
@@ -353,16 +333,16 @@ export default function AuditLogsPage() {
           page: pagination.page,
           totalPages: pagination.totalPages,
           onPageChange: (page) => {
-            void fetchData(page);
+            void fetchData(page)
           },
         }}
         isLoading={isLoading}
         emptyMessage={
           hasActiveFilters
-            ? "Aucun log ne correspond aux filtres sélectionnés"
-            : "Aucun log pour le moment"
+            ? 'Aucun log ne correspond aux filtres sélectionnés'
+            : 'Aucun log pour le moment'
         }
       />
     </div>
-  );
+  )
 }

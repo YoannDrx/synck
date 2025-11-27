@@ -1,8 +1,10 @@
-import { NextResponse } from "next/server";
-import { z } from "zod";
-import { prisma } from "@/lib/prisma";
-import { withAuth, withAuthAndValidation } from "@/lib/api/with-auth";
-import { createAuditLog } from "@/lib/audit-log";
+import { NextResponse } from 'next/server'
+
+import { z } from 'zod'
+
+import { withAuth, withAuthAndValidation } from '@/lib/api/with-auth'
+import { createAuditLog } from '@/lib/audit-log'
+import { prisma } from '@/lib/prisma'
 
 const expertiseUpdateSchema = z.object({
   slug: z.string().min(1).optional(),
@@ -26,14 +28,14 @@ const expertiseUpdateSchema = z.object({
     })
     .optional(),
   imageIds: z.array(z.string()).optional(),
-});
+})
 
 export const GET = withAuth(async (_req, context) => {
-  const params = await context.params;
-  const id = params?.id;
+  const params = await context.params
+  const id = params?.id
 
   if (!id) {
-    return NextResponse.json({ error: "ID manquant" }, { status: 400 });
+    return NextResponse.json({ error: 'ID manquant' }, { status: 400 })
   }
 
   const expertise = await prisma.expertise.findUnique({
@@ -43,39 +45,33 @@ export const GET = withAuth(async (_req, context) => {
       translations: true,
       images: true,
     },
-  });
+  })
 
   if (!expertise) {
-    return NextResponse.json(
-      { error: "Expertise non trouvée" },
-      { status: 404 },
-    );
+    return NextResponse.json({ error: 'Expertise non trouvée' }, { status: 404 })
   }
 
-  return NextResponse.json(expertise);
-});
+  return NextResponse.json(expertise)
+})
 
 export const PATCH = withAuthAndValidation(
   expertiseUpdateSchema,
   async (req, context, user, data) => {
-    const params = await context.params;
-    const id = params?.id;
+    const params = await context.params
+    const id = params?.id
 
     if (!id) {
-      return NextResponse.json({ error: "ID manquant" }, { status: 400 });
+      return NextResponse.json({ error: 'ID manquant' }, { status: 400 })
     }
 
     // Check if expertise exists
     const existing = await prisma.expertise.findUnique({
       where: { id },
       include: { translations: true },
-    });
+    })
 
     if (!existing) {
-      return NextResponse.json(
-        { error: "Expertise non trouvée" },
-        { status: 404 },
-      );
+      return NextResponse.json({ error: 'Expertise non trouvée' }, { status: 404 })
     }
 
     // Update expertise
@@ -95,7 +91,7 @@ export const PATCH = withAuthAndValidation(
                 where: {
                   expertiseId_locale: {
                     expertiseId: id,
-                    locale: "fr",
+                    locale: 'fr',
                   },
                 },
                 update: {
@@ -105,7 +101,7 @@ export const PATCH = withAuthAndValidation(
                   content: data.translations.fr.content,
                 },
                 create: {
-                  locale: "fr",
+                  locale: 'fr',
                   title: data.translations.fr.title,
                   subtitle: data.translations.fr.subtitle ?? null,
                   description: data.translations.fr.description ?? null,
@@ -116,7 +112,7 @@ export const PATCH = withAuthAndValidation(
                 where: {
                   expertiseId_locale: {
                     expertiseId: id,
-                    locale: "en",
+                    locale: 'en',
                   },
                 },
                 update: {
@@ -126,7 +122,7 @@ export const PATCH = withAuthAndValidation(
                   content: data.translations.en.content,
                 },
                 create: {
-                  locale: "en",
+                  locale: 'en',
                   title: data.translations.en.title,
                   subtitle: data.translations.en.subtitle ?? null,
                   description: data.translations.en.description ?? null,
@@ -148,73 +144,70 @@ export const PATCH = withAuthAndValidation(
         coverImage: true,
         images: true,
       },
-    });
+    })
 
     // Audit log
     await createAuditLog({
       userId: user.id,
-      action: "UPDATE",
-      entityType: "Expertise",
+      action: 'UPDATE',
+      entityType: 'Expertise',
       entityId: id,
       metadata: {
         slug: existing.slug,
         before: {
-          titleFr: existing.translations.find((t) => t.locale === "fr")?.title,
-          titleEn: existing.translations.find((t) => t.locale === "en")?.title,
+          titleFr: existing.translations.find((t) => t.locale === 'fr')?.title,
+          titleEn: existing.translations.find((t) => t.locale === 'en')?.title,
         },
         after: {
           titleFr: data.translations?.fr.title,
           titleEn: data.translations?.en.title,
         },
       },
-      ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
-      userAgent: req.headers.get("user-agent") ?? undefined,
-    });
+      ipAddress: req.headers.get('x-forwarded-for') ?? undefined,
+      userAgent: req.headers.get('user-agent') ?? undefined,
+    })
 
-    return NextResponse.json(expertise);
-  },
-);
+    return NextResponse.json(expertise)
+  }
+)
 
 export const DELETE = withAuth(async (req, context, user) => {
-  const params = await context.params;
-  const id = params?.id;
+  const params = await context.params
+  const id = params?.id
 
   if (!id) {
-    return NextResponse.json({ error: "ID manquant" }, { status: 400 });
+    return NextResponse.json({ error: 'ID manquant' }, { status: 400 })
   }
 
   // Check if expertise exists
   const expertise = await prisma.expertise.findUnique({
     where: { id },
     include: { translations: true },
-  });
+  })
 
   if (!expertise) {
-    return NextResponse.json(
-      { error: "Expertise non trouvée" },
-      { status: 404 },
-    );
+    return NextResponse.json({ error: 'Expertise non trouvée' }, { status: 404 })
   }
 
   // Delete expertise (cascade will delete translations)
   await prisma.expertise.delete({
     where: { id },
-  });
+  })
 
   // Audit log
   await createAuditLog({
     userId: user.id,
-    action: "DELETE",
-    entityType: "Expertise",
+    action: 'DELETE',
+    entityType: 'Expertise',
     entityId: id,
     metadata: {
       slug: expertise.slug,
-      titleFr: expertise.translations.find((t) => t.locale === "fr")?.title,
-      titleEn: expertise.translations.find((t) => t.locale === "en")?.title,
+      titleFr: expertise.translations.find((t) => t.locale === 'fr')?.title,
+      titleEn: expertise.translations.find((t) => t.locale === 'en')?.title,
     },
-    ipAddress: req.headers.get("x-forwarded-for") ?? undefined,
-    userAgent: req.headers.get("user-agent") ?? undefined,
-  });
+    ipAddress: req.headers.get('x-forwarded-for') ?? undefined,
+    userAgent: req.headers.get('user-agent') ?? undefined,
+  })
 
-  return NextResponse.json({ success: true });
-});
+  return NextResponse.json({ success: true })
+})

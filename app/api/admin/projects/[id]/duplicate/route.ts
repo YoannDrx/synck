@@ -1,13 +1,14 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { withAuth } from "@/lib/api/with-auth";
+import { NextResponse } from 'next/server'
+
+import { withAuth } from '@/lib/api/with-auth'
+import { prisma } from '@/lib/prisma'
 
 export const POST = withAuth(async (_req, context) => {
   try {
     if (!context.params) {
-      return NextResponse.json({ error: "Missing params" }, { status: 400 });
+      return NextResponse.json({ error: 'Missing params' }, { status: 400 })
     }
-    const { id } = await context.params;
+    const { id } = await context.params
 
     const original = await prisma.work.findUnique({
       where: { id },
@@ -16,10 +17,10 @@ export const POST = withAuth(async (_req, context) => {
         contributions: true,
         images: true,
       },
-    });
+    })
 
     if (!original) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return NextResponse.json({ error: 'Not found' }, { status: 404 })
     }
 
     const duplicate = await prisma.work.create({
@@ -33,7 +34,7 @@ export const POST = withAuth(async (_req, context) => {
         spotifyUrl: original.spotifyUrl,
         youtubeUrl: original.youtubeUrl,
         externalUrl: original.externalUrl,
-        status: "DRAFT",
+        status: 'DRAFT',
         isActive: false,
         order: original.order,
         translations: {
@@ -53,10 +54,10 @@ export const POST = withAuth(async (_req, context) => {
           })),
         },
       },
-    });
+    })
 
-    return NextResponse.json({ id: duplicate.id });
+    return NextResponse.json({ id: duplicate.id })
   } catch {
-    return NextResponse.json({ error: "Duplication failed" }, { status: 500 });
+    return NextResponse.json({ error: 'Duplication failed' }, { status: 500 })
   }
-});
+})

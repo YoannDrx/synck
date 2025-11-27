@@ -1,1 +1,1 @@
-THE TRIP is the first solo album by N’ZENG, still unknown, under the name Sébastien Blanchon. 
+THE TRIP is the first solo album by N’ZENG, still unknown, under the name Sébastien Blanchon.

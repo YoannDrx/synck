@@ -1,29 +1,15 @@
-"use client";
+'use client'
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import {
-  PencilIcon,
-  PlusIcon,
-  Trash2Icon,
-  FilterIcon,
-  XIcon,
-} from "lucide-react";
-import {
-  DataTable,
-  type Column,
-} from "@/components/admin/data-table/data-table";
-import { SearchBar } from "@/components/admin/data-table/search-bar";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useRef, useState } from 'react'
+
+import { FilterIcon, PencilIcon, PlusIcon, Trash2Icon, XIcon } from 'lucide-react'
+import { toast } from 'sonner'
+
+import { fetchWithAuth } from '@/lib/fetch-with-auth'
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,130 +19,133 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Badge } from "@/components/ui/badge";
-import { toast } from "sonner";
-import { fetchWithAuth } from "@/lib/fetch-with-auth";
-import { ExportButton } from "@/components/admin/export-button";
-import { ImportDialog } from "@/components/admin/import-dialog";
-import { BulkActionsToolbar } from "@/components/admin/bulk-actions-toolbar";
-import { Checkbox } from "@/components/ui/checkbox";
+} from '@/components/ui/alert-dialog'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+
+import { BulkActionsToolbar } from '@/components/admin/bulk-actions-toolbar'
+import { type Column, DataTable } from '@/components/admin/data-table/data-table'
+import { SearchBar } from '@/components/admin/data-table/search-bar'
+import { ExportButton } from '@/components/admin/export-button'
+import { ImportDialog } from '@/components/admin/import-dialog'
 
 type WorkApi = {
-  id: string;
-  slug: string;
-  status?: string | null;
-  isActive?: boolean | null;
-  createdAt: string;
-  updatedAt: string;
-  translations?: { locale: string; title?: string | null }[];
-  coverImage?: { path?: string | null; blurDataUrl?: string | null } | null;
+  id: string
+  slug: string
+  status?: string | null
+  isActive?: boolean | null
+  createdAt: string
+  updatedAt: string
+  translations?: { locale: string; title?: string | null }[]
+  coverImage?: { path?: string | null; blurDataUrl?: string | null } | null
   category?: {
-    id: string;
-    color?: string | null;
-    translations?: { locale: string; name?: string | null }[];
-  } | null;
+    id: string
+    color?: string | null
+    translations?: { locale: string; name?: string | null }[]
+  } | null
   label?: {
-    id: string;
-    translations?: { locale: string; name?: string | null }[];
-  } | null;
-};
+    id: string
+    translations?: { locale: string; name?: string | null }[]
+  } | null
+}
 
 type Work = {
-  id: string;
-  slug: string;
-  titleFr: string;
-  titleEn: string;
-  status: "PUBLISHED" | "DRAFT" | "ARCHIVED";
-  createdAt: string;
-  updatedAt: string;
-  coverImageUrl: string | null;
-  coverImageBlur: string | null;
+  id: string
+  slug: string
+  titleFr: string
+  titleEn: string
+  status: 'PUBLISHED' | 'DRAFT' | 'ARCHIVED'
+  createdAt: string
+  updatedAt: string
+  coverImageUrl: string | null
+  coverImageBlur: string | null
   category: {
-    id: string;
-    nameFr: string;
-    nameEn: string;
-    color: string;
-  } | null;
-  label: { id: string; nameFr: string; nameEn: string } | null;
-};
+    id: string
+    nameFr: string
+    nameEn: string
+    color: string
+  } | null
+  label: { id: string; nameFr: string; nameEn: string } | null
+}
 
 type Category = {
-  id: string;
-  nameFr: string;
-  nameEn: string;
-};
+  id: string
+  nameFr: string
+  nameEn: string
+}
 
 type TaxonomyApi = {
-  id: string;
-  translations: { locale: string; name?: string | null }[];
-  color?: string | null;
-};
+  id: string
+  translations: { locale: string; name?: string | null }[]
+  color?: string | null
+}
 
 type Label = {
-  id: string;
-  nameFr: string;
-  nameEn: string;
-};
+  id: string
+  nameFr: string
+  nameEn: string
+}
 
-export default function ProjetsPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const router = useRouter();
-  const [locale, setLocale] = useState<string>("fr");
-  const [works, setWorks] = useState<Work[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [labels, setLabels] = useState<Label[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
-  const [totalCount, setTotalCount] = useState(0);
+export default function ProjetsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const router = useRouter()
+  const [locale, setLocale] = useState<string>('fr')
+  const [works, setWorks] = useState<Work[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
+  const [labels, setLabels] = useState<Label[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [page, setPage] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
+  const [totalCount, setTotalCount] = useState(0)
 
   // Filters state
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [selectedLabel, setSelectedLabel] = useState<string>("all");
-  const [selectedStatus, setSelectedStatus] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState<string>('all')
+  const [selectedLabel, setSelectedLabel] = useState<string>('all')
+  const [selectedStatus, setSelectedStatus] = useState<string>('all')
 
   // Sorting state
-  const [sortBy, setSortBy] = useState<string>("createdAt");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const [sortBy, setSortBy] = useState<string>('createdAt')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+  const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
   // Bulk selection state
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
 
   // Delete dialog state
-  const [workToDelete, setWorkToDelete] = useState<Work | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [workToDelete, setWorkToDelete] = useState<Work | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   // Fetch locale from params
   useEffect(() => {
     void params.then((p) => {
-      setLocale(p.locale);
-    });
-  }, [params]);
+      setLocale(p.locale)
+    })
+  }, [params])
 
-  const PAGE_SIZE = 20;
+  const PAGE_SIZE = 20
 
   const mapWork = (work: WorkApi): Work => {
-    const translations = work.translations ?? [];
-    const titleFr = translations.find((t) => t.locale === "fr")?.title ?? "";
-    const titleEn = translations.find((t) => t.locale === "en")?.title ?? "";
+    const translations = work.translations ?? []
+    const titleFr = translations.find((t) => t.locale === 'fr')?.title ?? ''
+    const titleEn = translations.find((t) => t.locale === 'en')?.title ?? ''
 
-    const statusCandidate = (work.status ?? "").toUpperCase();
-    const status: Work["status"] = ["PUBLISHED", "DRAFT", "ARCHIVED"].includes(
-      statusCandidate,
-    )
-      ? (statusCandidate as Work["status"])
+    const statusCandidate = (work.status ?? '').toUpperCase()
+    const status: Work['status'] = ['PUBLISHED', 'DRAFT', 'ARCHIVED'].includes(statusCandidate)
+      ? (statusCandidate as Work['status'])
       : work.isActive
-        ? "PUBLISHED"
-        : "DRAFT";
+        ? 'PUBLISHED'
+        : 'DRAFT'
 
-    const categoryTranslations = work.category?.translations ?? [];
-    const labelTranslations = work.label?.translations ?? [];
+    const categoryTranslations = work.category?.translations ?? []
+    const labelTranslations = work.label?.translations ?? []
 
     return {
       id: work.id,
@@ -171,261 +160,236 @@ export default function ProjetsPage({
       category: work.category
         ? {
             id: work.category.id,
-            nameFr:
-              categoryTranslations.find((t) => t.locale === "fr")?.name ?? "",
-            nameEn:
-              categoryTranslations.find((t) => t.locale === "en")?.name ?? "",
-            color: work.category.color ?? "#ffffff",
+            nameFr: categoryTranslations.find((t) => t.locale === 'fr')?.name ?? '',
+            nameEn: categoryTranslations.find((t) => t.locale === 'en')?.name ?? '',
+            color: work.category.color ?? '#ffffff',
           }
         : null,
       label: work.label
         ? {
             id: work.label.id,
-            nameFr:
-              labelTranslations.find((t) => t.locale === "fr")?.name ?? "",
-            nameEn:
-              labelTranslations.find((t) => t.locale === "en")?.name ?? "",
+            nameFr: labelTranslations.find((t) => t.locale === 'fr')?.name ?? '',
+            nameEn: labelTranslations.find((t) => t.locale === 'en')?.name ?? '',
           }
         : null,
-    };
-  };
+    }
+  }
 
   const fetchWorks = useCallback(
     async (pageToLoad = 0, append = false) => {
       try {
-        setIsLoading(true);
+        setIsLoading(true)
 
         const params = new URLSearchParams({
           page: pageToLoad.toString(),
           limit: PAGE_SIZE.toString(),
           sortBy,
           sortOrder,
-          full: "true",
-        });
+          full: 'true',
+        })
 
-        if (searchQuery) params.set("search", searchQuery);
-        if (selectedCategory !== "all")
-          params.set("categoryId", selectedCategory);
-        if (selectedLabel !== "all") params.set("labelId", selectedLabel);
-        if (selectedStatus !== "all") params.set("status", selectedStatus);
+        if (searchQuery) params.set('search', searchQuery)
+        if (selectedCategory !== 'all') params.set('categoryId', selectedCategory)
+        if (selectedLabel !== 'all') params.set('labelId', selectedLabel)
+        if (selectedStatus !== 'all') params.set('status', selectedStatus)
 
-        const res = await fetchWithAuth(
-          `/api/admin/projects?${params.toString()}`,
-        );
+        const res = await fetchWithAuth(`/api/admin/projects?${params.toString()}`)
 
         if (!res.ok) {
-          throw new Error("Failed to fetch data");
+          throw new Error('Failed to fetch data')
         }
 
-        const payload = (await res.json()) as unknown;
+        const payload = (await res.json()) as unknown
         if (
           !payload ||
-          typeof payload !== "object" ||
+          typeof payload !== 'object' ||
           !Array.isArray((payload as { data?: unknown }).data)
         ) {
-          throw new Error("Invalid projects payload");
+          throw new Error('Invalid projects payload')
         }
 
         const { data, pagination } = payload as {
-          data: WorkApi[];
-          pagination: { page: number; total: number; totalPages: number };
-        };
+          data: WorkApi[]
+          pagination: { page: number; total: number; totalPages: number }
+        }
 
-        const worksData = data.map(mapWork);
+        const worksData = data.map(mapWork)
 
-        setWorks((prev) => (append ? [...prev, ...worksData] : worksData));
-        setPage(pagination.page);
-        setHasMore(pagination.page < pagination.totalPages - 1);
-        setTotalCount(pagination.total);
+        setWorks((prev) => (append ? [...prev, ...worksData] : worksData))
+        setPage(pagination.page)
+        setHasMore(pagination.page < pagination.totalPages - 1)
+        setTotalCount(pagination.total)
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error("Error fetching data:", error);
-        toast.error("Erreur lors du chargement des données");
+        console.error('Error fetching data:', error)
+        toast.error('Erreur lors du chargement des données')
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     },
-    [
-      searchQuery,
-      selectedCategory,
-      selectedLabel,
-      selectedStatus,
-      sortBy,
-      sortOrder,
-    ],
-  );
+    [searchQuery, selectedCategory, selectedLabel, selectedStatus, sortBy, sortOrder]
+  )
 
   // Fetch categories and labels once
   useEffect(() => {
     const fetchTaxonomies = async () => {
       try {
         const [categoriesRes, labelsRes] = await Promise.all([
-          fetchWithAuth("/api/admin/categories"),
-          fetchWithAuth("/api/admin/labels"),
-        ]);
+          fetchWithAuth('/api/admin/categories'),
+          fetchWithAuth('/api/admin/labels'),
+        ])
 
         if (!categoriesRes.ok || !labelsRes.ok) {
-          throw new Error("Failed to fetch taxonomies");
+          throw new Error('Failed to fetch taxonomies')
         }
 
         const [categoriesRaw, labelsRaw] = (await Promise.all([
           categoriesRes.json(),
           labelsRes.json(),
-        ])) as [unknown, unknown];
+        ])) as [unknown, unknown]
 
         if (!Array.isArray(categoriesRaw) || !Array.isArray(labelsRaw)) {
-          throw new Error("Invalid taxonomies payload");
+          throw new Error('Invalid taxonomies payload')
         }
 
-        const categoriesData: Category[] = (categoriesRaw as TaxonomyApi[]).map(
-          (category) => {
-            const translations = category.translations ?? [];
-            return {
-              id: category.id,
-              nameFr: translations.find((t) => t.locale === "fr")?.name ?? "",
-              nameEn: translations.find((t) => t.locale === "en")?.name ?? "",
-              color: category.color ?? "#ffffff",
-            };
-          },
-        );
+        const categoriesData: Category[] = (categoriesRaw as TaxonomyApi[]).map((category) => {
+          const translations = category.translations ?? []
+          return {
+            id: category.id,
+            nameFr: translations.find((t) => t.locale === 'fr')?.name ?? '',
+            nameEn: translations.find((t) => t.locale === 'en')?.name ?? '',
+            color: category.color ?? '#ffffff',
+          }
+        })
 
         const labelsData: Label[] = (labelsRaw as TaxonomyApi[]).map((label) => {
-          const translations = label.translations ?? [];
+          const translations = label.translations ?? []
           return {
             id: label.id,
-            nameFr: translations.find((t) => t.locale === "fr")?.name ?? "",
-            nameEn: translations.find((t) => t.locale === "en")?.name ?? "",
-          };
-        });
+            nameFr: translations.find((t) => t.locale === 'fr')?.name ?? '',
+            nameEn: translations.find((t) => t.locale === 'en')?.name ?? '',
+          }
+        })
 
-        setCategories(categoriesData);
-        setLabels(labelsData);
+        setCategories(categoriesData)
+        setLabels(labelsData)
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error("Error fetching taxonomies:", error);
-        toast.error("Erreur lors du chargement des catégories/labels");
+        console.error('Error fetching taxonomies:', error)
+        toast.error('Erreur lors du chargement des catégories/labels')
       }
-    };
+    }
 
-    void fetchTaxonomies();
-  }, []);
+    void fetchTaxonomies()
+  }, [])
 
   // Fetch works when filters change
   useEffect(() => {
-    setSelectedIds([]);
-    setWorks([]);
-    setHasMore(true);
-    setPage(0);
-    void fetchWorks(0, false);
-  }, [fetchWorks]);
+    setSelectedIds([])
+    setWorks([])
+    setHasMore(true)
+    setPage(0)
+    void fetchWorks(0, false)
+  }, [fetchWorks])
 
   // Infinite scroll observer (server-side pagination)
   useEffect(() => {
-    if (!loadMoreRef.current) return;
+    if (!loadMoreRef.current) return
     const observer = new IntersectionObserver(
       (entries) => {
-        const first = entries[0];
+        const first = entries[0]
         if (first.isIntersecting && hasMore && !isLoading) {
-          void fetchWorks(page + 1, true);
+          void fetchWorks(page + 1, true)
         }
       },
-      { rootMargin: "200px" },
-    );
+      { rootMargin: '200px' }
+    )
 
-    observer.observe(loadMoreRef.current);
+    observer.observe(loadMoreRef.current)
     return () => {
-      observer.disconnect();
-    };
-  }, [fetchWorks, hasMore, isLoading, page]);
+      observer.disconnect()
+    }
+  }, [fetchWorks, hasMore, isLoading, page])
 
   // Handle sort
   const handleSort = (column: string) => {
     if (sortBy === column) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
     } else {
-      setSortBy(column);
-      setSortOrder("asc");
+      setSortBy(column)
+      setSortOrder('asc')
     }
-  };
+  }
 
   // Handle delete
   const handleDelete = async () => {
-    if (!workToDelete) return;
+    if (!workToDelete) return
 
     try {
-      setIsDeleting(true);
-      const res = await fetchWithAuth(
-        `/api/admin/projects/${workToDelete.id}`,
-        {
-          method: "DELETE",
-        },
-      );
+      setIsDeleting(true)
+      const res = await fetchWithAuth(`/api/admin/projects/${workToDelete.id}`, {
+        method: 'DELETE',
+      })
 
       if (!res.ok) {
-        throw new Error("Failed to delete work");
+        throw new Error('Failed to delete work')
       }
 
-      setSelectedIds([]);
-      setWorks([]);
-      setHasMore(true);
-      setPage(0);
-      void fetchWorks(0, false);
-      setTotalCount((count) => Math.max(count - 1, 0));
-      toast.success("Projet supprimé avec succès");
-      setWorkToDelete(null);
+      setSelectedIds([])
+      setWorks([])
+      setHasMore(true)
+      setPage(0)
+      void fetchWorks(0, false)
+      setTotalCount((count) => Math.max(count - 1, 0))
+      toast.success('Projet supprimé avec succès')
+      setWorkToDelete(null)
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error("Error deleting work:", error);
-      toast.error("Erreur lors de la suppression du projet");
+      console.error('Error deleting work:', error)
+      toast.error('Erreur lors de la suppression du projet')
     } finally {
-      setIsDeleting(false);
+      setIsDeleting(false)
     }
-  };
+  }
 
   // Reset filters
   const resetFilters = () => {
-    setSearchQuery("");
-    setSelectedCategory("all");
-    setSelectedLabel("all");
-    setSelectedStatus("all");
-  };
+    setSearchQuery('')
+    setSelectedCategory('all')
+    setSelectedLabel('all')
+    setSelectedStatus('all')
+  }
 
   const hasActiveFilters =
-    searchQuery ||
-    selectedCategory !== "all" ||
-    selectedLabel !== "all" ||
-    selectedStatus !== "all";
+    searchQuery || selectedCategory !== 'all' || selectedLabel !== 'all' || selectedStatus !== 'all'
 
   // Handle checkbox selection
   const handleSelectAll = () => {
     if (selectedIds.length === works.length) {
-      setSelectedIds([]);
+      setSelectedIds([])
     } else {
-      setSelectedIds(works.map((work) => work.id));
+      setSelectedIds(works.map((work) => work.id))
     }
-  };
+  }
 
   const handleSelectOne = (id: string) => {
     if (selectedIds.includes(id)) {
-      setSelectedIds(selectedIds.filter((selectedId) => selectedId !== id));
+      setSelectedIds(selectedIds.filter((selectedId) => selectedId !== id))
     } else {
-      setSelectedIds([...selectedIds, id]);
+      setSelectedIds([...selectedIds, id])
     }
-  };
+  }
 
-  const isAllSelected =
-    works.length > 0 && selectedIds.length === works.length;
-  const isSomeSelected = selectedIds.length > 0 && !isAllSelected;
+  const isAllSelected = works.length > 0 && selectedIds.length === works.length
+  const isSomeSelected = selectedIds.length > 0 && !isAllSelected
 
   // Define columns
   const columns: Column<Work>[] = [
     {
-      key: "select",
+      key: 'select',
       label: (
         <Checkbox
-          checked={
-            isSomeSelected ? "indeterminate" : isAllSelected ? true : false
-          }
+          checked={isSomeSelected ? 'indeterminate' : isAllSelected ? true : false}
           onCheckedChange={handleSelectAll}
           aria-label="Sélectionner tout"
         />
@@ -434,15 +398,15 @@ export default function ProjetsPage({
         <Checkbox
           checked={selectedIds.includes(work.id)}
           onCheckedChange={() => {
-            handleSelectOne(work.id);
+            handleSelectOne(work.id)
           }}
-          aria-label={`Sélectionner ${locale === "fr" ? work.titleFr : work.titleEn}`}
+          aria-label={`Sélectionner ${locale === 'fr' ? work.titleFr : work.titleEn}`}
         />
       ),
     },
     {
-      key: "cover",
-      label: "Visuel",
+      key: 'cover',
+      label: 'Visuel',
       render: (work) =>
         work.coverImageUrl ? (
           <div className="relative h-14 w-24 overflow-hidden rounded bg-white/5">
@@ -452,7 +416,7 @@ export default function ProjetsPage({
               fill
               sizes="96px"
               className="object-cover"
-              placeholder={work.coverImageBlur ? "blur" : "empty"}
+              placeholder={work.coverImageBlur ? 'blur' : 'empty'}
               blurDataURL={work.coverImageBlur ?? undefined}
             />
           </div>
@@ -463,21 +427,21 @@ export default function ProjetsPage({
         ),
     },
     {
-      key: "title",
-      label: "Titre",
+      key: 'title',
+      label: 'Titre',
       sortable: true,
       render: (work) => (
         <Link
           href={`/${locale}/admin/projets/${work.id}`}
-          className="font-medium text-lime-300 hover:underline"
+          className="font-medium text-[var(--brand-neon)] hover:underline"
         >
-          {locale === "fr" ? work.titleFr : work.titleEn}
+          {locale === 'fr' ? work.titleFr : work.titleEn}
         </Link>
       ),
     },
     {
-      key: "category",
-      label: "Catégorie",
+      key: 'category',
+      label: 'Catégorie',
       sortable: true,
       render: (work) =>
         work.category ? (
@@ -486,73 +450,73 @@ export default function ProjetsPage({
             className="border-white/20"
             style={{ borderColor: work.category.color }}
           >
-            {locale === "fr" ? work.category.nameFr : work.category.nameEn}
+            {locale === 'fr' ? work.category.nameFr : work.category.nameEn}
           </Badge>
         ) : (
           <span className="text-white/30">-</span>
         ),
     },
     {
-      key: "label",
-      label: "Label",
+      key: 'label',
+      label: 'Label',
       render: (work) =>
         work.label ? (
           <span className="text-white/70">
-            {locale === "fr" ? work.label.nameFr : work.label.nameEn}
+            {locale === 'fr' ? work.label.nameFr : work.label.nameEn}
           </span>
         ) : (
           <span className="text-white/30">-</span>
         ),
     },
     {
-      key: "status",
-      label: "Statut",
+      key: 'status',
+      label: 'Statut',
       sortable: true,
       render: (work) => (
         <Badge
           variant={
-            work.status === "PUBLISHED"
-              ? "default"
-              : work.status === "DRAFT"
-                ? "outline"
-                : "secondary"
+            work.status === 'PUBLISHED'
+              ? 'default'
+              : work.status === 'DRAFT'
+                ? 'outline'
+                : 'secondary'
           }
           className={
-            work.status === "PUBLISHED"
-              ? "bg-lime-300 text-black"
-              : work.status === "DRAFT"
-                ? "border-white/30 text-white/50"
-                : "border-white/20 bg-white/10 text-white/70"
+            work.status === 'PUBLISHED'
+              ? 'bg-[var(--brand-neon)] text-black'
+              : work.status === 'DRAFT'
+                ? 'border-white/30 text-white/50'
+                : 'border-white/20 bg-white/10 text-white/70'
           }
         >
-          {work.status === "PUBLISHED"
-            ? "Publié"
-            : work.status === "ARCHIVED"
-              ? "Archivé"
-              : "Brouillon"}
+          {work.status === 'PUBLISHED'
+            ? 'Publié'
+            : work.status === 'ARCHIVED'
+              ? 'Archivé'
+              : 'Brouillon'}
         </Badge>
       ),
     },
     {
-      key: "createdAt",
-      label: "Date de création",
+      key: 'createdAt',
+      label: 'Date de création',
       sortable: true,
       render: (work) => (
         <span className="text-sm text-white/50">
-          {new Date(work.createdAt).toLocaleDateString("fr-FR")}
+          {new Date(work.createdAt).toLocaleDateString('fr-FR')}
         </span>
       ),
     },
     {
-      key: "actions",
-      label: "Actions",
+      key: 'actions',
+      label: 'Actions',
       render: (work) => (
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => {
-              router.push(`/${locale}/admin/projets/${work.id}`);
+              router.push(`/${locale}/admin/projets/${work.id}`)
             }}
             className="h-8 w-8 p-0 text-white/50 hover:bg-white/10 hover:text-white"
           >
@@ -562,7 +526,7 @@ export default function ProjetsPage({
             variant="ghost"
             size="sm"
             onClick={() => {
-              setWorkToDelete(work);
+              setWorkToDelete(work)
             }}
             className="h-8 w-8 p-0 text-red-400/50 hover:bg-red-500/10 hover:text-red-400"
           >
@@ -571,7 +535,7 @@ export default function ProjetsPage({
         </div>
       ),
     },
-  ];
+  ]
 
   return (
     <div className="space-y-6">
@@ -580,34 +544,30 @@ export default function ProjetsPage({
         <div>
           <h1 className="text-3xl font-bold text-white">Projets</h1>
           <p className="mt-2 text-white/50">
-            Gérer vos œuvres musicales ({totalCount}{" "}
-            {totalCount > 1 ? "projets" : "projet"})
+            Gérer vos œuvres musicales ({totalCount} {totalCount > 1 ? 'projets' : 'projet'})
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <ImportDialog
             entity="projects"
             onSuccess={() => {
-              setHasMore(true);
-              setPage(0);
-              void fetchWorks(0, false);
+              setHasMore(true)
+              setPage(0)
+              void fetchWorks(0, false)
             }}
           />
           <ExportButton
             entity="projects"
             filters={{
-              ...(selectedCategory !== "all" && {
+              ...(selectedCategory !== 'all' && {
                 categoryId: selectedCategory,
               }),
-              ...(selectedLabel !== "all" && { labelId: selectedLabel }),
-              ...(selectedStatus !== "all" && { status: selectedStatus }),
+              ...(selectedLabel !== 'all' && { labelId: selectedLabel }),
+              ...(selectedStatus !== 'all' && { status: selectedStatus }),
             }}
           />
-          <Link
-            href={`/${locale}/admin/projets/nouveau`}
-            className="w-full sm:w-auto"
-          >
-            <Button className="w-full justify-center gap-2 bg-lime-300 text-black hover:bg-lime-400 sm:w-auto">
+          <Link href={`/${locale}/admin/projets/nouveau`} className="w-full sm:w-auto">
+            <Button className="w-full justify-center gap-2 bg-[var(--brand-neon)] text-black hover:bg-[var(--neon-400)] sm:w-auto">
               <PlusIcon className="h-4 w-4" />
               Nouveau projet
             </Button>
@@ -619,9 +579,7 @@ export default function ProjetsPage({
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <FilterIcon className="h-5 w-5 text-white/50" />
-          <h2 className="text-sm font-semibold uppercase text-white/70">
-            Filtres
-          </h2>
+          <h2 className="text-sm font-semibold text-white/70 uppercase">Filtres</h2>
           {hasActiveFilters && (
             <Button
               variant="ghost"
@@ -654,7 +612,7 @@ export default function ProjetsPage({
               <SelectItem value="all">Toutes les catégories</SelectItem>
               {categories.map((category) => (
                 <SelectItem key={category.id} value={category.id}>
-                  {locale === "fr" ? category.nameFr : category.nameEn}
+                  {locale === 'fr' ? category.nameFr : category.nameEn}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -669,7 +627,7 @@ export default function ProjetsPage({
               <SelectItem value="all">Tous les labels</SelectItem>
               {labels.map((label) => (
                 <SelectItem key={label.id} value={label.id}>
-                  {locale === "fr" ? label.nameFr : label.nameEn}
+                  {locale === 'fr' ? label.nameFr : label.nameEn}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -679,43 +637,43 @@ export default function ProjetsPage({
         {/* Status filter */}
         <div className="flex gap-2">
           <Button
-            variant={selectedStatus === "all" ? "default" : "outline"}
+            variant={selectedStatus === 'all' ? 'default' : 'outline'}
             size="sm"
             onClick={() => {
-              setSelectedStatus("all");
+              setSelectedStatus('all')
             }}
             className={
-              selectedStatus === "all"
-                ? "bg-lime-300 text-black hover:bg-lime-400"
-                : "border-white/20 text-white hover:bg-white/5"
+              selectedStatus === 'all'
+                ? 'bg-[var(--brand-neon)] text-black hover:bg-[var(--neon-400)]'
+                : 'border-white/20 text-white hover:bg-white/5'
             }
           >
             Tous
           </Button>
           <Button
-            variant={selectedStatus === "PUBLISHED" ? "default" : "outline"}
+            variant={selectedStatus === 'PUBLISHED' ? 'default' : 'outline'}
             size="sm"
             onClick={() => {
-              setSelectedStatus("PUBLISHED");
+              setSelectedStatus('PUBLISHED')
             }}
             className={
-              selectedStatus === "PUBLISHED"
-                ? "bg-lime-300 text-black hover:bg-lime-400"
-                : "border-white/20 text-white hover:bg-white/5"
+              selectedStatus === 'PUBLISHED'
+                ? 'bg-[var(--brand-neon)] text-black hover:bg-[var(--neon-400)]'
+                : 'border-white/20 text-white hover:bg-white/5'
             }
           >
             Publiés
           </Button>
           <Button
-            variant={selectedStatus === "DRAFT" ? "default" : "outline"}
+            variant={selectedStatus === 'DRAFT' ? 'default' : 'outline'}
             size="sm"
             onClick={() => {
-              setSelectedStatus("DRAFT");
+              setSelectedStatus('DRAFT')
             }}
             className={
-              selectedStatus === "DRAFT"
-                ? "bg-lime-300 text-black hover:bg-lime-400"
-                : "border-white/20 text-white hover:bg-white/5"
+              selectedStatus === 'DRAFT'
+                ? 'bg-[var(--brand-neon)] text-black hover:bg-[var(--neon-400)]'
+                : 'border-white/20 text-white hover:bg-white/5'
             }
           >
             Brouillons
@@ -733,17 +691,15 @@ export default function ProjetsPage({
         isLoading={isLoading}
         emptyMessage={
           hasActiveFilters
-            ? "Aucun projet ne correspond aux filtres sélectionnés"
-            : "Aucun projet pour le moment"
+            ? 'Aucun projet ne correspond aux filtres sélectionnés'
+            : 'Aucun projet pour le moment'
         }
       />
 
       {/* Infinite scroll sentinel */}
       <div ref={loadMoreRef} className="h-8">
         {hasMore && !isLoading && (
-          <p className="text-center text-xs text-white/40">
-            Chargement automatique...
-          </p>
+          <p className="text-center text-xs text-white/40">Chargement automatique...</p>
         )}
       </div>
 
@@ -751,22 +707,16 @@ export default function ProjetsPage({
       <AlertDialog
         open={Boolean(workToDelete)}
         onOpenChange={(open) => {
-          if (!open) setWorkToDelete(null);
+          if (!open) setWorkToDelete(null)
         }}
       >
-        <AlertDialogContent className="border-lime-300/20 bg-black">
+        <AlertDialogContent className="border-[var(--brand-neon)]/20 bg-black">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-white">
-              Confirmer la suppression
-            </AlertDialogTitle>
+            <AlertDialogTitle className="text-white">Confirmer la suppression</AlertDialogTitle>
             <AlertDialogDescription className="text-white/70">
               Êtes-vous sûr de vouloir supprimer le projet "
-              {workToDelete
-                ? locale === "fr"
-                  ? workToDelete.titleFr
-                  : workToDelete.titleEn
-                : ""}
-              " ? Cette action est irréversible.
+              {workToDelete ? (locale === 'fr' ? workToDelete.titleFr : workToDelete.titleEn) : ''}"
+              ? Cette action est irréversible.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -778,12 +728,12 @@ export default function ProjetsPage({
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
-                void handleDelete();
+                void handleDelete()
               }}
               disabled={isDeleting}
               className="bg-red-500 text-white hover:bg-red-600"
             >
-              {isDeleting ? "Suppression..." : "Supprimer"}
+              {isDeleting ? 'Suppression...' : 'Supprimer'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -794,17 +744,17 @@ export default function ProjetsPage({
         <BulkActionsToolbar
           selectedIds={selectedIds}
           onSuccess={() => {
-            setSelectedIds([]);
-            setHasMore(true);
-            setPage(0);
-            setWorks([]);
-            void fetchWorks(0, false);
+            setSelectedIds([])
+            setHasMore(true)
+            setPage(0)
+            setWorks([])
+            void fetchWorks(0, false)
           }}
           onClear={() => {
-            setSelectedIds([]);
+            setSelectedIds([])
           }}
         />
       )}
     </div>
-  );
+  )
 }

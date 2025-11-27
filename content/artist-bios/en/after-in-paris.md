@@ -1,8 +1,8 @@
 With over 1,000 compositions for production music libraries, they develop strong conceptual work tailored primarily to audiovisual needs. Their music ranges from orchestral comedy to minimalism, via jazz, soul and electro. Emotional melodies, sounds full of energy and hope, and rhythms of love all come together in the creation and production of original works — an ode to contemplative, piano-driven and cinematic music.
 They are three musicians, both programmers of musical machines and instrumentalists:
-	•	Claire Michael – saxophonist, flutist and vocalist
-	•	Jean-Michel Vallet – keyboards
-	•	Patrick Chartol – electric and double bass
+• Claire Michael – saxophonist, flutist and vocalist
+• Jean-Michel Vallet – keyboards
+• Patrick Chartol – electric and double bass
 Their music is built from samples, sound design and vocal extracts taken from the films Shadows by John Cassavetes, The Maltese Falcon by John Huston, and Citizen Kane by Orson Welles — who also appears through excerpts from his radio shows. At certain moments, Paolo Fresu (trumpet), Dave Liebman (saxophones) and Christophe Bras (drums) join this collection of mostly nocturnal atmospheres, even at faster tempos. Sometimes contemplative, sometimes driven and intense, the sound constructions of Time Cycle reveal, listen after listen, their mysteries, surprises and emotions.
 They also compose original works for theatre, cinema and radio idents. In addition, they perform their music live and travel the world, appearing on some of the most prestigious stages: Jazz in Marciac (France), Ouro Preto Jazz Festival (Brazil), Belo Horizonte (Brazil), Interart Festival de Capivara (Brazil), Baku International Jazz Festival (Azerbaijan), Festival Mimi (Arles), J&B Festival (Istanbul), Porgy & Bess (Vienna), Casino de Paris, Théâtre Dejazet, Cirque d’Hiver, New Morning, Sunset, Duc des Lombards…
 The group AFTER IN PARIS is also a trio of seasoned travellers, true globetrotters if you look at the résumés of Jean-Michel Vallet (Serge Gainsbourg, IRCAM, Paco Séry, Karl Zéro, …) and Patrick Chartol (MC Solaar, Brooklyn Funk Essentials, Nekropsi, …). And you can hear it: Claire Michael was voted “Newcomer of the Year” by the Brazilian press, a sign of the immediate connection between their musical creations and an international audience.

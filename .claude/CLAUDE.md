@@ -9,6 +9,7 @@ Portfolio professionnel multilingue (FR/EN) pour Caroline Senyk, gestionnaire de
 ## Commandes essentielles
 
 ### Développement
+
 ```bash
 pnpm dev              # Serveur développement (http://localhost:3000)
 pnpm dev:fresh        # Reset DB + lance serveur (données fraîches)
@@ -20,6 +21,7 @@ pnpm lint             # ESLint
 ### Base de données (Prisma)
 
 **Commandes principales** (utilise `.env.local` → Neon dev branch) :
+
 ```bash
 pnpm db:setup         # Reset + seed (alias de db:reset:seed) - LE PLUS UTILISÉ
 pnpm db:clear         # Reset sans seed (alias de db:reset)
@@ -29,6 +31,7 @@ pnpm db:status        # État des migrations
 ```
 
 **Migrations** :
+
 ```bash
 pnpm db:migrate       # Créer et appliquer migration (après modif schema.prisma)
 pnpm db:check         # Vérifier schema drift (avant commit)
@@ -36,11 +39,13 @@ pnpm db:generate      # Générer Prisma Client
 ```
 
 **PostgreSQL local** (optionnel - plus rapide, hors-ligne) :
+
 ```bash
 pnpm db:local:setup   # Crée la DB locale + reset + seed (tout en un)
 ```
 
 Pour switcher entre local et Neon, modifie simplement ces 2 lignes dans `.env.local` :
+
 ```bash
 # Neon DEV (par défaut)
 DATABASE_URL="postgresql://...@ep-royal-breeze-xxx.neon.tech/..."
@@ -52,6 +57,7 @@ DIRECT_URL="postgresql://localhost:5432/synck"
 ```
 
 **Production** (utilise `.env` uniquement - ⚠️ ATTENTION !) :
+
 ```bash
 pnpm db:seed:prod     # Seed production (Vercel le fait auto)
 pnpm db:migrate:prod  # Appliquer migrations en prod (Vercel le fait auto)
@@ -59,6 +65,7 @@ pnpm db:reset:prod    # Reset production (DANGER - perte de données!)
 ```
 
 ### Tests (Playwright)
+
 ```bash
 pnpm test             # Tests E2E (serveur doit tourner!)
 pnpm test:full        # Lance serveur + tests automatiquement
@@ -73,6 +80,7 @@ pnpm test:debug       # Mode debug
 ## Architecture
 
 ### Stack technique
+
 - **Framework** : Next.js 16.0.3 avec App Router
 - **Runtime** : React 19.2.0
 - **Base de données** : PostgreSQL (Neon) via Prisma 6.19
@@ -136,10 +144,12 @@ pnpm test:debug       # Mode debug
 Le site supporte FR et EN via routing basé sur locale : `/fr/projets`, `/en/projects`.
 
 **Système dual** :
+
 1. **Contenu statique** : Dictionnaires TypeScript (`/dictionaries/fr.ts`, `/dictionaries/en.ts`)
 2. **Contenu dynamique** : Champs translatables en base Prisma (`titleFr`, `titleEn`, `descriptionFr`, etc.)
 
 **Pattern utilisé** :
+
 ```tsx
 // Côté serveur (async component)
 import { getDictionary } from '@/lib/i18n'
@@ -156,7 +166,7 @@ const works = await prisma.work.findMany({
     titleFr: true,
     titleEn: true,
     // ...
-  }
+  },
 })
 
 // Affichage conditionnel
@@ -168,16 +178,19 @@ const title = locale === 'fr' ? work.titleFr : work.titleEn
 ### Patterns Next.js
 
 **Server Components par défaut** :
+
 - Toutes les pages principales sont async Server Components
 - Fetch data directement dans les composants avec Prisma
 - Utiliser `React.cache()` pour déduplication requêtes
 
 **Client Components ("use client")** :
+
 - Interactivité (filtres, modales, animations)
 - Components shadcn/ui nécessitant hooks
 - Forms avec state management
 
 **Métadonnées dynamiques** :
+
 ```tsx
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const dict = await getDictionary(params.locale)
@@ -189,12 +202,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 ```
 
 **Static Site Generation (SSG)** :
+
 ```tsx
 export async function generateStaticParams() {
   const works = await prisma.work.findMany({ where: { isPublished: true } })
-  return works.flatMap(work =>
-    LOCALES.map(locale => ({ locale, slug: work.slug }))
-  )
+  return works.flatMap((work) => LOCALES.map((locale) => ({ locale, slug: work.slug })))
 }
 ```
 
@@ -229,8 +241,10 @@ export async function generateStaticParams() {
    - Content divisé en sections délimitées par `<!-- section:end -->`
 
 **Pattern de requête recommandé** :
+
 ```tsx
 import { cache } from 'react'
+
 import { prisma } from '@/lib/prisma'
 
 // Déduplication automatique côté serveur
@@ -243,10 +257,10 @@ export const getWorks = cache(async (locale: string) => {
       label: true,
       contributions: {
         include: { composer: true },
-        orderBy: { order: 'asc' }
-      }
+        orderBy: { order: 'asc' },
+      },
     },
-    orderBy: { year: 'desc' }
+    orderBy: { year: 'desc' },
   })
 })
 ```
@@ -256,6 +270,7 @@ export const getWorks = cache(async (locale: string) => {
 ### API Routes
 
 **Routes publiques** :
+
 - `GET /api/projets?locale=fr&limit=N` : Liste works avec filtrage optionnel (category, label)
 - `GET /api/categories?locale=fr` : Catégories actives
 - `GET /api/composers?locale=fr` : Tous les compositeurs
@@ -263,6 +278,7 @@ export const getWorks = cache(async (locale: string) => {
 - `POST /api/contact` : Formulaire contact (envoie email via Resend)
 
 **Routes admin (protégées)** :
+
 - `GET/POST /api/admin/projects` : CRUD works
 - `PATCH/DELETE /api/admin/projects/[id]`
 - `GET/POST /api/admin/composers` : CRUD compositeurs
@@ -272,13 +288,14 @@ export const getWorks = cache(async (locale: string) => {
 - `POST /api/admin/upload` : Upload image vers Vercel Blob
 
 **Pattern validation** :
+
 ```tsx
 import { z } from 'zod'
 
 const contactSchema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
-  message: z.string().min(10)
+  message: z.string().min(10),
 })
 
 export async function POST(req: Request) {
@@ -291,16 +308,18 @@ export async function POST(req: Request) {
 ### Gestion des images
 
 **Flow upload** :
+
 1. Upload vers Vercel Blob via `/api/admin/upload`
 2. Génération blur placeholder avec Sharp
 3. Stockage Asset en base avec `blurDataUrl`, `width`, `height`
 4. Association à Work/Composer/Expertise via relation
 
 **Pattern d'affichage** :
+
 ```tsx
 import Image from 'next/image'
 
-<Image
+;<Image
   src={work.coverImage.url}
   alt={locale === 'fr' ? work.titleFr : work.titleEn}
   width={work.coverImage.width}
@@ -315,6 +334,7 @@ import Image from 'next/image'
 **Couleur signature** : Neon yellow `#d5ff0a` (var `--primary`)
 
 **Composants shadcn/ui** :
+
 - Style : New York
 - Icons : Lucide React
 - Aliases : `@/components/ui`, `@/lib/utils`
@@ -324,16 +344,19 @@ import Image from 'next/image'
 ### Tests E2E (Playwright)
 
 **Organisation** :
+
 - 5 spec files dans `/e2e/`
 - Config : `playwright.config.ts`
 - Base URL : `http://localhost:3000` (configurable via env)
 
 **Exécution** :
+
 - Parallélisation : 2 workers en local, sharding 2 en CI
 - Screenshots on failure, traces on retry
 - HTML reporter en local, GitHub en CI
 
 **Pattern de test** :
+
 ```tsx
 test('should display works gallery', async ({ page }) => {
   await page.goto('/fr/projets')
@@ -348,6 +371,7 @@ test('should display works gallery', async ({ page }) => {
 ### CI/CD (GitHub Actions)
 
 **Pipeline `.github/workflows/ci.yml`** :
+
 1. **Lint & Type Check** : ESLint + tsc strict
 2. **Prisma Validation** : format, validate, migrate diff
 3. **Build** : Next.js build avec cache
@@ -357,6 +381,7 @@ test('should display works gallery', async ({ page }) => {
 6. **Deploy Ready** (main/master uniquement)
 
 **Environment CI** :
+
 - Node 20, pnpm 9
 - PostgreSQL via DATABASE_URL
 - Timeout : 10-30 min par job
@@ -373,6 +398,7 @@ test('should display works gallery', async ({ page }) => {
 | **Production** | Neon main branch | Secrets Vercel | Déploiement |
 
 **Variables requises** :
+
 ```bash
 DATABASE_URL="postgresql://..."        # Connection pooling
 DIRECT_URL="postgresql://..."          # Direct connection (migrations)
@@ -383,6 +409,7 @@ BETTER_AUTH_SECRET="..."               # Authentification
 ```
 
 **Fichiers** :
+
 - `.env.local` : Development (gitignored) → Neon dev branch
 - `.env` : Production → Neon main branch
 - `.env.example` : Template avec instructions
@@ -390,11 +417,13 @@ BETTER_AUTH_SECRET="..."               # Authentification
 ### Conventions de code
 
 **TypeScript** :
+
 - Strict mode activé
 - Prefer `type` over `interface` (eslint rule)
 - Types Prisma : `WorkWithDetails = Prisma.WorkGetPayload<{ include: { ... } }>`
 
 **Nommage** :
+
 - Composants : PascalCase
 - Server components : async functions
 - Client components : prefix `"use client"`
@@ -402,17 +431,20 @@ BETTER_AUTH_SECRET="..."               # Authentification
 - Constants : UPPER_SNAKE_CASE
 
 **Imports** :
+
 - Aliases : `@/` → racine projet
 - `import type` pour imports types uniquement
 - Ordre : Next.js, React, external, internal, types
 
 **Performance** :
+
 - `React.cache()` pour déduplication requêtes serveur
 - `generateStaticParams` pour SSG
 - Image optimization avec `next/image`
 - Lazy loading composants lourds
 
 **Sécurité** :
+
 - `server-only` pour libs sensibles
 - Validation Zod sur tous POST/PATCH
 - Password hashing avec bcryptjs
@@ -443,6 +475,120 @@ BETTER_AUTH_SECRET="..."               # Authentification
 - shadcn/ui : https://ui.shadcn.com
 - Playwright : https://playwright.dev
 - Tailwind CSS 4 : https://tailwindcss.com
+
+### Documentation
+
+La documentation complète est disponible dans `/docs/` :
+
+- `architecture.md` : Vue d'ensemble technique
+- `admin-guide.md` : Guide des fonctionnalités admin
+- `design-system.md` : Tokens et règles de style
+- `deployment.md` : Guide de déploiement
+- `api-reference.md` : Référence API
+- `contributing.md` : Guide de contribution
+
+---
+
+## Design System
+
+### Tokens CSS
+
+**TOUJOURS utiliser les variables CSS** pour les couleurs :
+
+```css
+/* Couleurs brand */
+var(--brand-neon)       /* #D5FF0A - couleur principale */
+var(--brand-emerald)    /* #00C18B */
+var(--brand-teal)       /* #009998 */
+
+/* Couleurs texte */
+var(--color-text-primary)     /* Texte principal */
+var(--color-text-secondary)   /* Texte secondaire */
+var(--color-text-muted)       /* Texte atténué */
+
+/* Bordures */
+var(--color-border)           /* Bordures standard */
+var(--color-border-subtle)    /* Bordures subtiles */
+
+/* Gradients */
+var(--gradient-brand-short)   /* Neon → Emerald */
+var(--gradient-neon)          /* Neon → Green */
+
+/* Shadows */
+var(--shadow-glow-neon-sm)    /* Glow petit */
+var(--shadow-glow-neon-md)    /* Glow moyen */
+```
+
+### Règles strictes
+
+```tsx
+// BON - Utiliser les tokens
+className = 'text-[var(--brand-neon)]'
+className = 'bg-[var(--color-surface)]'
+className = 'border-[var(--color-border)]'
+
+// MAUVAIS - Ne JAMAIS utiliser les couleurs Tailwind directes
+className = 'text-lime-300' // NON
+className = 'bg-emerald-400' // NON
+className = 'border-white/25' // NON
+```
+
+Le CI vérifie automatiquement l'absence de couleurs Tailwind hardcoded.
+
+---
+
+## Admin Panel
+
+### Accès
+
+URL : `/{locale}/admin` (requiert authentification ADMIN)
+
+### Fonctionnalités
+
+- **Projets** : CRUD complet, historique versions, duplication, export/import
+- **Artistes** : Profils, bios multilingues, liens sociaux
+- **Catégories** : Couleurs, icônes, ordre
+- **Labels** : Website, logos
+- **Expertises** : Contenu markdown avec sections
+- **Médias** : Upload, métadonnées, blur placeholders
+- **Audit** : Logs de toutes les actions
+- **Export** : JSON, CSV, XLS
+
+### Authentification
+
+- Better Auth 1.4.0
+- Sessions 7 jours
+- 2FA TOTP optionnel
+- Middleware `proxy.ts` protège `/admin/*`
+
+---
+
+## Agents et Skills Claude
+
+### Agents disponibles
+
+Les agents spécialisés sont dans `.claude/agents/` :
+
+| Agent          | Usage                                       |
+| -------------- | ------------------------------------------- |
+| `synck-crud`   | Créer/modifier entités Prisma et routes API |
+| `synck-design` | Maintenir cohérence design system           |
+| `synck-tests`  | Écrire tests Playwright                     |
+| `synck-i18n`   | Gérer traductions FR/EN                     |
+
+### Skills disponibles
+
+Les skills sont dans `.claude/commands/` :
+
+| Skill                 | Usage                                 |
+| --------------------- | ------------------------------------- |
+| `/synck-status`       | État du projet (DB, migrations, logs) |
+| `/synck-seed`         | Reset et seed la base                 |
+| `/synck-deploy-check` | Vérification pré-déploiement          |
+| `/synck-add-work`     | Ajout guidé d'un work                 |
+| `/synck-design-audit` | Audit du design system                |
+
+---
 
 ### Contact
 

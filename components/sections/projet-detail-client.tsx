@@ -1,153 +1,150 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import Link from "next/link";
-import { useRef, useState, useEffect } from "react";
-import { createPortal } from "react-dom";
-import { motion, useInView } from "framer-motion";
-import ReactMarkdown from "react-markdown";
-import { X } from "lucide-react";
+import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+import ReactMarkdown from 'react-markdown'
 
-import { Breadcrumb } from "@/components/breadcrumb";
-import { PageLayout } from "@/components/layout/page-layout";
-import { cn } from "@/lib/utils";
-import type { Locale } from "@/lib/i18n-config";
-import type { ProjetDetailDictionary } from "@/types/dictionary";
+import { motion, useInView } from 'framer-motion'
+import { X } from 'lucide-react'
+
+import type { Locale } from '@/lib/i18n-config'
+import { cn } from '@/lib/utils'
+
+import { Breadcrumb } from '@/components/breadcrumb'
+import { PageLayout } from '@/components/layout/page-layout'
+
+import type { ProjetDetailDictionary } from '@/types/dictionary'
 
 // Couleurs par catégorie (cohérent avec projets-page-client.tsx)
 const categoryAccents: Record<
   string,
   {
-    primary: string;
-    glow: string;
-    border: string;
-    activeBorder: string;
-    badge: string;
-    text: string;
+    primary: string
+    glow: string
+    border: string
+    activeBorder: string
+    badge: string
+    text: string
   }
 > = {
-  "album-de-librairie-musicale": {
-    primary: "#a3e635",
-    glow: "shadow-[0_0_30px_rgba(163,230,53,0.2)]",
-    border: "border-lime-400/30 hover:border-lime-400",
-    activeBorder:
-      "hover:border-lime-400 focus:border-lime-400 focus:ring-lime-400/50",
-    badge: "bg-lime-400/15 text-lime-400 border-lime-400/30",
-    text: "text-lime-400",
+  'album-de-librairie-musicale': {
+    primary: '#a3e635',
+    glow: 'shadow-[0_0_30px_rgba(163,230,53,0.2)]',
+    border: 'border-lime-400/30 hover:border-lime-400',
+    activeBorder: 'hover:border-lime-400 focus:border-lime-400 focus:ring-lime-400/50',
+    badge: 'bg-lime-400/15 text-lime-400 border-lime-400/30',
+    text: 'text-lime-400',
   },
   documentaire: {
-    primary: "#4ecdc4",
-    glow: "shadow-[0_0_30px_rgba(78,205,196,0.2)]",
-    border: "border-cyan-400/30 hover:border-cyan-400",
-    activeBorder:
-      "hover:border-cyan-400 focus:border-cyan-400 focus:ring-cyan-400/50",
-    badge: "bg-cyan-400/15 text-cyan-400 border-cyan-400/30",
-    text: "text-cyan-400",
+    primary: '#4ecdc4',
+    glow: 'shadow-[0_0_30px_rgba(78,205,196,0.2)]',
+    border: 'border-cyan-400/30 hover:border-cyan-400',
+    activeBorder: 'hover:border-cyan-400 focus:border-cyan-400 focus:ring-cyan-400/50',
+    badge: 'bg-cyan-400/15 text-cyan-400 border-cyan-400/30',
+    text: 'text-cyan-400',
   },
   synchro: {
-    primary: "#a855f7",
-    glow: "shadow-[0_0_30px_rgba(168,85,247,0.2)]",
-    border: "border-purple-400/30 hover:border-purple-400",
-    activeBorder:
-      "hover:border-purple-400 focus:border-purple-400 focus:ring-purple-400/50",
-    badge: "bg-purple-400/15 text-purple-400 border-purple-400/30",
-    text: "text-purple-400",
+    primary: '#a855f7',
+    glow: 'shadow-[0_0_30px_rgba(168,85,247,0.2)]',
+    border: 'border-purple-400/30 hover:border-purple-400',
+    activeBorder: 'hover:border-purple-400 focus:border-purple-400 focus:ring-purple-400/50',
+    badge: 'bg-purple-400/15 text-purple-400 border-purple-400/30',
+    text: 'text-purple-400',
   },
   vinyle: {
-    primary: "#fb923c",
-    glow: "shadow-[0_0_30px_rgba(251,146,60,0.2)]",
-    border: "border-orange-400/30 hover:border-orange-400",
-    activeBorder:
-      "hover:border-orange-400 focus:border-orange-400 focus:ring-orange-400/50",
-    badge: "bg-orange-400/15 text-orange-400 border-orange-400/30",
-    text: "text-orange-400",
+    primary: '#fb923c',
+    glow: 'shadow-[0_0_30px_rgba(251,146,60,0.2)]',
+    border: 'border-orange-400/30 hover:border-orange-400',
+    activeBorder: 'hover:border-orange-400 focus:border-orange-400 focus:ring-orange-400/50',
+    badge: 'bg-orange-400/15 text-orange-400 border-orange-400/30',
+    text: 'text-orange-400',
   },
   clip: {
-    primary: "#f472b6",
-    glow: "shadow-[0_0_30px_rgba(244,114,182,0.2)]",
-    border: "border-pink-400/30 hover:border-pink-400",
-    activeBorder:
-      "hover:border-pink-400 focus:border-pink-400 focus:ring-pink-400/50",
-    badge: "bg-pink-400/15 text-pink-400 border-pink-400/30",
-    text: "text-pink-400",
+    primary: '#f472b6',
+    glow: 'shadow-[0_0_30px_rgba(244,114,182,0.2)]',
+    border: 'border-pink-400/30 hover:border-pink-400',
+    activeBorder: 'hover:border-pink-400 focus:border-pink-400 focus:ring-pink-400/50',
+    badge: 'bg-pink-400/15 text-pink-400 border-pink-400/30',
+    text: 'text-pink-400',
   },
   default: {
-    primary: "#d5ff0a",
-    glow: "shadow-[0_0_30px_rgba(213,255,10,0.2)]",
-    border: "border-[#d5ff0a]/30 hover:border-[#d5ff0a]",
-    activeBorder:
-      "hover:border-[#d5ff0a] focus:border-[#d5ff0a] focus:ring-[#d5ff0a]/50",
-    badge: "bg-[#d5ff0a]/15 text-[#d5ff0a] border-[#d5ff0a]/30",
-    text: "text-[#d5ff0a]",
+    primary: '#d5ff0a',
+    glow: 'shadow-[0_0_30px_rgba(213,255,10,0.2)]',
+    border: 'border-[#d5ff0a]/30 hover:border-[#d5ff0a]',
+    activeBorder: 'hover:border-[#d5ff0a] focus:border-[#d5ff0a] focus:ring-[#d5ff0a]/50',
+    badge: 'bg-[#d5ff0a]/15 text-[#d5ff0a] border-[#d5ff0a]/30',
+    text: 'text-[#d5ff0a]',
   },
-};
+}
 
 const getCategoryAccent = (categorySlug?: string) => {
-  if (!categorySlug) return categoryAccents.default;
-  return categoryAccents[categorySlug] ?? categoryAccents.default;
-};
+  if (!categorySlug) return categoryAccents.default
+  return categoryAccents[categorySlug] ?? categoryAccents.default
+}
 
 type Artist = {
-  id: string;
-  slug: string;
-  name: string;
-  image?: string;
-  imageAlt?: string;
-};
+  id: string
+  slug: string
+  name: string
+  image?: string
+  imageAlt?: string
+}
 
 type GalleryImage = {
-  id: string;
-  path: string;
-  alt?: string;
-};
+  id: string
+  path: string
+  alt?: string
+}
 
 type NavWork = {
-  slug: string;
-  title: string;
-} | null;
+  slug: string
+  title: string
+} | null
 
 type RelatedWork = {
-  slug: string;
-  title: string;
-  subtitle?: string;
-  category: string;
-  categorySlug?: string;
-  coverImage: string;
-  coverImageAlt: string;
-};
+  slug: string
+  title: string
+  subtitle?: string
+  category: string
+  categorySlug?: string
+  coverImage: string
+  coverImageAlt: string
+}
 
 type ProjetDetailClientProps = {
-  locale: Locale;
+  locale: Locale
   project: {
-    slug: string;
-    title: string;
-    subtitle?: string;
-    description?: string;
-    coverImage?: string;
-    coverImageAlt?: string;
-    category?: string;
-    categorySlug?: string;
-    label?: string;
-    genre?: string;
-    releaseDate?: string;
-    externalUrl?: string;
-    youtubeUrl?: string;
-    spotifyEmbedUrl?: string;
-  };
-  artists: Artist[];
-  gallery: GalleryImage[];
-  relatedClips?: RelatedWork[];
-  relatedProjects?: RelatedWork[];
-  relatedProjectArtists?: Artist[];
-  prevWork: NavWork;
-  nextWork: NavWork;
+    slug: string
+    title: string
+    subtitle?: string
+    description?: string
+    coverImage?: string
+    coverImageAlt?: string
+    category?: string
+    categorySlug?: string
+    label?: string
+    genre?: string
+    releaseDate?: string
+    externalUrl?: string
+    youtubeUrl?: string
+    spotifyEmbedUrl?: string
+  }
+  artists: Artist[]
+  gallery: GalleryImage[]
+  relatedClips?: RelatedWork[]
+  relatedProjects?: RelatedWork[]
+  relatedProjectArtists?: Artist[]
+  prevWork: NavWork
+  nextWork: NavWork
   nav: {
-    home: string;
-    projets: string;
-  };
-  copy: ProjetDetailDictionary;
-  categoryParam?: string;
-};
+    home: string
+    projets: string
+  }
+  copy: ProjetDetailDictionary
+  categoryParam?: string
+}
 
 export function ProjetDetailClient({
   locale,
@@ -163,74 +160,70 @@ export function ProjetDetailClient({
   relatedProjects = [],
   relatedProjectArtists = [],
 }: ProjetDetailClientProps) {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const infoRef = useRef<HTMLDivElement>(null);
-  const galleryRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null)
+  const infoRef = useRef<HTMLDivElement>(null)
+  const galleryRef = useRef<HTMLDivElement>(null)
 
-  const isHeroInView = useInView(heroRef, { once: true, margin: "-50px" });
-  const isInfoInView = useInView(infoRef, { once: true, margin: "-50px" });
+  const isHeroInView = useInView(heroRef, { once: true, margin: '-50px' })
+  const isInfoInView = useInView(infoRef, { once: true, margin: '-50px' })
   const isGalleryInView = useInView(galleryRef, {
     once: true,
-    margin: "-50px",
-  });
+    margin: '-50px',
+  })
 
-  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
-  const [isCoverOpen, setIsCoverOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null)
+  const [isCoverOpen, setIsCoverOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setTimeout(() => {
-      setMounted(true);
-    }, 0);
-  }, []);
+      setMounted(true)
+    }, 0)
+  }, [])
 
-  const accent = getCategoryAccent(project.categorySlug);
-  const hasArtists = artists.length > 0;
-  const hasGallery = gallery.length > 0;
-  const hasYoutube = Boolean(project.youtubeUrl);
-  const hasSpotify = Boolean(project.spotifyEmbedUrl);
-  const hasPrimaryMedia = hasYoutube || hasSpotify;
-  const hasExternalLink = Boolean(project.externalUrl) && !hasYoutube;
-  const hasCoverImage = Boolean(project.coverImage);
+  const accent = getCategoryAccent(project.categorySlug)
+  const hasArtists = artists.length > 0
+  const hasGallery = gallery.length > 0
+  const hasYoutube = Boolean(project.youtubeUrl)
+  const hasSpotify = Boolean(project.spotifyEmbedUrl)
+  const hasPrimaryMedia = hasYoutube || hasSpotify
+  const hasExternalLink = Boolean(project.externalUrl) && !hasYoutube
+  const hasCoverImage = Boolean(project.coverImage)
   const isClipCategory = (() => {
-    const slug = (project.categorySlug ?? "").toLowerCase();
-    const name = (project.category ?? "").toLowerCase();
+    const slug = (project.categorySlug ?? '').toLowerCase()
+    const name = (project.category ?? '').toLowerCase()
     return (
-      slug === "clip" ||
-      slug === "music-video" ||
-      name.includes("clip") ||
-      name.includes("music video") ||
-      name.includes("video")
-    );
-  })();
-  const hasRelatedClips = !isClipCategory && relatedClips.length > 0;
-  const hasRelatedProjects = isClipCategory && relatedProjects.length > 0;
-  const hasRelatedProjectArtists =
-    isClipCategory && relatedProjectArtists.length > 0;
+      slug === 'clip' ||
+      slug === 'music-video' ||
+      name.includes('clip') ||
+      name.includes('music video') ||
+      name.includes('video')
+    )
+  })()
+  const hasRelatedClips = !isClipCategory && relatedClips.length > 0
+  const hasRelatedProjects = isClipCategory && relatedProjects.length > 0
+  const hasRelatedProjectArtists = isClipCategory && relatedProjectArtists.length > 0
 
-  const closeLabel = locale === "fr" ? "Fermer" : "Close";
-  const enlargeLabel = locale === "fr" ? "Agrandir l'image" : "Enlarge image";
+  const closeLabel = locale === 'fr' ? 'Fermer' : 'Close'
+  const enlargeLabel = locale === 'fr' ? "Agrandir l'image" : 'Enlarge image'
 
   // Extract YouTube video ID
   const youtubeVideoId = project.youtubeUrl
     ? (() => {
         try {
-          const url = new URL(project.youtubeUrl);
-          if (
-            url.hostname.includes("youtube.com") &&
-            url.searchParams.has("v")
-          ) {
-            return url.searchParams.get("v");
+          const url = new URL(project.youtubeUrl)
+          if (url.hostname.includes('youtube.com') && url.searchParams.has('v')) {
+            return url.searchParams.get('v')
           }
-          if (url.hostname === "youtu.be") {
-            return url.pathname.slice(1);
+          if (url.hostname === 'youtu.be') {
+            return url.pathname.slice(1)
           }
-          return null;
+          return null
         } catch {
-          return null;
+          return null
         }
       })()
-    : null;
+    : null
 
   return (
     <PageLayout orbsConfig="subtle" className="mx-auto max-w-[1400px]">
@@ -255,19 +248,17 @@ export function ProjetDetailClient({
         animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
-          "mb-8 rounded-[32px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm sm:p-8 lg:p-10",
-          accent.glow,
+          'mb-8 rounded-[32px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm sm:p-8 lg:p-10',
+          accent.glow
         )}
       >
         <div
           className={cn(
-            "flex flex-col gap-8",
-            hasPrimaryMedia
-              ? "lg:grid lg:grid-cols-[1.05fr_0.95fr]"
-              : "lg:flex-row",
+            'flex flex-col gap-8',
+            hasPrimaryMedia ? 'lg:grid lg:grid-cols-[1.05fr_0.95fr]' : 'lg:flex-row'
           )}
         >
-          <div className="flex flex-col gap-6 order-1 lg:order-1">
+          <div className="order-1 flex flex-col gap-6 lg:order-1">
             {/* Cover Image */}
             {project.coverImage && (
               <motion.div
@@ -280,12 +271,12 @@ export function ProjetDetailClient({
                   type="button"
                   aria-label={enlargeLabel}
                   className={cn(
-                    "relative block overflow-hidden rounded-[20px] border-2 border-white/10 transition-all duration-300 focus:outline-none focus:ring-4",
-                    hasCoverImage && "cursor-zoom-in hover:scale-105",
-                    hasCoverImage && accent.activeBorder,
+                    'relative block overflow-hidden rounded-[20px] border-2 border-white/10 transition-all duration-300 focus:ring-4 focus:outline-none',
+                    hasCoverImage && 'cursor-zoom-in hover:scale-105',
+                    hasCoverImage && accent.activeBorder
                   )}
                   onClick={() => {
-                    if (hasCoverImage) setIsCoverOpen(true);
+                    if (hasCoverImage) setIsCoverOpen(true)
                   }}
                   disabled={!hasCoverImage}
                 >
@@ -311,8 +302,8 @@ export function ProjetDetailClient({
                 >
                   <span
                     className={cn(
-                      "inline-block rounded-full border-2 px-4 py-1.5 text-xs font-bold uppercase tracking-wider",
-                      accent.badge,
+                      'inline-block rounded-full border-2 px-4 py-1.5 text-xs font-bold tracking-wider uppercase',
+                      accent.badge
                     )}
                   >
                     {project.category}
@@ -325,11 +316,9 @@ export function ProjetDetailClient({
                 initial={{ opacity: 0, y: 20 }}
                 animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-3xl font-black uppercase tracking-tight sm:text-4xl lg:text-5xl"
+                className="text-3xl font-black tracking-tight uppercase sm:text-4xl lg:text-5xl"
               >
-                <span style={{ color: accent.primary }}>
-                  {project.title.charAt(0)}
-                </span>
+                <span style={{ color: accent.primary }}>{project.title.charAt(0)}</span>
                 {project.title.slice(1)}
               </motion.h1>
 
@@ -369,12 +358,12 @@ export function ProjetDetailClient({
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
-                      "inline-flex items-center gap-2 rounded-full border-2 px-5 py-2",
-                      "text-xs font-bold uppercase tracking-wider",
-                      "transition-all duration-300",
+                      'inline-flex items-center gap-2 rounded-full border-2 px-5 py-2',
+                      'text-xs font-bold tracking-wider uppercase',
+                      'transition-all duration-300',
                       accent.border,
                       accent.text,
-                      "hover:bg-white/5",
+                      'hover:bg-white/5'
                     )}
                   >
                     {copy.externalResourcesButton}
@@ -387,7 +376,7 @@ export function ProjetDetailClient({
 
           {/* Media column */}
           {hasPrimaryMedia && (
-            <div className="grid gap-4 order-2 lg:order-2 w-full lg:self-start">
+            <div className="order-2 grid w-full gap-4 lg:order-2 lg:self-start">
               {hasYoutube && youtubeVideoId && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -453,7 +442,7 @@ export function ProjetDetailClient({
                 locale={locale}
                 title={copy.relatedProjectArtistsTitle}
                 artists={relatedProjectArtists}
-                accent={getCategoryAccent("clip")}
+                accent={getCategoryAccent('clip')}
                 isInfoInView={isInfoInView}
               />
             )}
@@ -462,27 +451,16 @@ export function ProjetDetailClient({
 
         {/* Project Details */}
         <div className="rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm">
-          <h2
-            className={cn(
-              "mb-5 text-lg font-bold uppercase tracking-wider",
-              accent.text,
-            )}
-          >
+          <h2 className={cn('mb-5 text-lg font-bold tracking-wider uppercase', accent.text)}>
             {copy.infoTitle}
           </h2>
           <div className="space-y-3">
             {project.releaseDate && (
               <InfoRow label={copy.releaseDate} value={project.releaseDate} />
             )}
-            {project.category && (
-              <InfoRow label={copy.category} value={project.category} />
-            )}
-            {project.genre && (
-              <InfoRow label={copy.genre} value={project.genre} />
-            )}
-            {project.label && (
-              <InfoRow label={copy.label} value={project.label} />
-            )}
+            {project.category && <InfoRow label={copy.category} value={project.category} />}
+            {project.genre && <InfoRow label={copy.genre} value={project.genre} />}
+            {project.label && <InfoRow label={copy.label} value={project.label} />}
           </div>
         </div>
       </motion.section>
@@ -494,33 +472,24 @@ export function ProjetDetailClient({
           transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           className="mb-8 rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm"
         >
-          <h2
-            className={cn(
-              "mb-5 text-lg font-bold uppercase tracking-wider",
-              accent.text,
-            )}
-          >
-            {isClipCategory
-              ? copy.relatedProjectsTitle
-              : copy.relatedClipsTitle}
+          <h2 className={cn('mb-5 text-lg font-bold tracking-wider uppercase', accent.text)}>
+            {isClipCategory ? copy.relatedProjectsTitle : copy.relatedClipsTitle}
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {(isClipCategory ? relatedProjects : relatedClips).map(
-              (item, index) => (
-                <motion.div
-                  key={item.slug}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                >
-                  <RelatedWorkCard
-                    locale={locale}
-                    work={item}
-                    accent={getCategoryAccent(item.categorySlug)}
-                  />
-                </motion.div>
-              ),
-            )}
+            {(isClipCategory ? relatedProjects : relatedClips).map((item, index) => (
+              <motion.div
+                key={item.slug}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+              >
+                <RelatedWorkCard
+                  locale={locale}
+                  work={item}
+                  accent={getCategoryAccent(item.categorySlug)}
+                />
+              </motion.div>
+            ))}
           </div>
         </motion.section>
       )}
@@ -534,12 +503,7 @@ export function ProjetDetailClient({
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="mb-8 rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm"
         >
-          <h2
-            className={cn(
-              "mb-5 text-lg font-bold uppercase tracking-wider",
-              accent.text,
-            )}
-          >
+          <h2 className={cn('mb-5 text-lg font-bold tracking-wider uppercase', accent.text)}>
             {copy.galleryTitle}
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -550,20 +514,20 @@ export function ProjetDetailClient({
                 animate={isGalleryInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
                 onClick={() => {
-                  setLightboxImage(image.path);
+                  setLightboxImage(image.path)
                 }}
                 className={cn(
-                  "group relative overflow-hidden rounded-[16px] border-2",
-                  "transition-all duration-300",
-                  accent.border,
+                  'group relative overflow-hidden rounded-[16px] border-2',
+                  'transition-all duration-300',
+                  accent.border
                 )}
               >
                 <Image
                   src={image.path}
-                  alt={image.alt ?? "Gallery image"}
+                  alt={image.alt ?? 'Gallery image'}
                   width={400}
                   height={300}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="h-auto w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
               </motion.button>
@@ -583,20 +547,15 @@ export function ProjetDetailClient({
           <Link
             href={`/${locale}/projets/${prevWork.slug}`}
             className={cn(
-              "group rounded-[20px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6",
-              "transition-all duration-300",
-              "hover:border-white/20 hover:bg-white/[0.02]",
+              'group rounded-[20px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6',
+              'transition-all duration-300',
+              'hover:border-white/20 hover:bg-white/[0.02]'
             )}
           >
-            <div
-              className={cn(
-                "mb-2 text-xs font-bold uppercase tracking-wider",
-                accent.text,
-              )}
-            >
+            <div className={cn('mb-2 text-xs font-bold tracking-wider uppercase', accent.text)}>
               {copy.previousLabel}
             </div>
-            <div className="text-lg font-bold uppercase text-white/80 transition-colors group-hover:text-white line-clamp-1">
+            <div className="line-clamp-1 text-lg font-bold text-white/80 uppercase transition-colors group-hover:text-white">
               {prevWork.title}
             </div>
           </Link>
@@ -608,20 +567,15 @@ export function ProjetDetailClient({
           <Link
             href={`/${locale}/projets/${nextWork.slug}`}
             className={cn(
-              "group rounded-[20px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 text-right",
-              "transition-all duration-300",
-              "hover:border-white/20 hover:bg-white/[0.02]",
+              'group rounded-[20px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 text-right',
+              'transition-all duration-300',
+              'hover:border-white/20 hover:bg-white/[0.02]'
             )}
           >
-            <div
-              className={cn(
-                "mb-2 text-xs font-bold uppercase tracking-wider",
-                accent.text,
-              )}
-            >
+            <div className={cn('mb-2 text-xs font-bold tracking-wider uppercase', accent.text)}>
               {copy.nextLabel}
             </div>
-            <div className="text-lg font-bold uppercase text-white/80 transition-colors group-hover:text-white line-clamp-1">
+            <div className="line-clamp-1 text-lg font-bold text-white/80 uppercase transition-colors group-hover:text-white">
               {nextWork.title}
             </div>
           </Link>
@@ -639,20 +593,18 @@ export function ProjetDetailClient({
       >
         <div className="flex flex-col items-center gap-4 text-center lg:flex-row lg:justify-between lg:text-left">
           <div>
-            <h2 className="mb-2 text-xl font-bold text-white sm:text-2xl">
-              {copy.ctaTitle}
-            </h2>
+            <h2 className="mb-2 text-xl font-bold text-white sm:text-2xl">{copy.ctaTitle}</h2>
             <p className="text-sm text-white/60">{copy.ctaDescription}</p>
           </div>
           <Link
             href={`/${locale}/contact`}
             className={cn(
-              "inline-flex items-center gap-2 rounded-full px-6 py-3",
-              "border-2 border-[#d5ff0a] bg-[#d5ff0a]",
-              "text-sm font-bold uppercase tracking-wider text-[#050505]",
-              "transition-all duration-300",
-              "hover:bg-transparent hover:text-[#d5ff0a]",
-              "hover:shadow-[0_0_25px_rgba(213,255,10,0.3)]",
+              'inline-flex items-center gap-2 rounded-full px-6 py-3',
+              'border-2 border-[#d5ff0a] bg-[#d5ff0a]',
+              'text-sm font-bold tracking-wider text-[#050505] uppercase',
+              'transition-all duration-300',
+              'hover:bg-transparent hover:text-[#d5ff0a]',
+              'hover:shadow-[0_0_25px_rgba(213,255,10,0.3)]'
             )}
           >
             {copy.ctaButton}
@@ -668,20 +620,20 @@ export function ProjetDetailClient({
           role="dialog"
           aria-modal="true"
           onClick={() => {
-            setLightboxImage(null);
+            setLightboxImage(null)
           }}
         >
           <div
-            className="relative max-h-[90vh] max-w-[90vw] w-full md:w-auto rounded-[24px] border border-white/10 bg-[#0b0b0f]/80 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.6)]"
+            className="relative max-h-[90vh] w-full max-w-[90vw] rounded-[24px] border border-white/10 bg-[#0b0b0f]/80 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.6)] md:w-auto"
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation()
             }}
           >
             <button
               onClick={() => {
-                setLightboxImage(null);
+                setLightboxImage(null)
               }}
-              className="absolute right-3 top-3 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40"
+              className="absolute top-3 right-3 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20 focus:ring-2 focus:ring-white/40 focus:outline-none"
               aria-label="Fermer la galerie"
             >
               <X size={24} />
@@ -707,7 +659,7 @@ export function ProjetDetailClient({
           <div
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md"
             onClick={() => {
-              setIsCoverOpen(false);
+              setIsCoverOpen(false)
             }}
           >
             <motion.div
@@ -716,15 +668,15 @@ export function ProjetDetailClient({
               exit={{ opacity: 0, scale: 0.9 }}
               className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-2xl"
               onClick={(e) => {
-                e.stopPropagation();
+                e.stopPropagation()
               }}
             >
               <button
                 onClick={() => {
-                  setIsCoverOpen(false);
+                  setIsCoverOpen(false)
                 }}
                 aria-label={closeLabel}
-                className="absolute top-4 right-4 z-50 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white/50"
+                className="absolute top-4 right-4 z-50 rounded-full bg-black/50 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/70 focus:ring-2 focus:ring-white/50 focus:outline-none"
               >
                 <X size={24} />
               </button>
@@ -738,10 +690,10 @@ export function ProjetDetailClient({
               />
             </motion.div>
           </div>,
-          document.body,
+          document.body
         )}
     </PageLayout>
-  );
+  )
 }
 
 function RelatedWorkCard({
@@ -749,17 +701,17 @@ function RelatedWorkCard({
   work,
   accent,
 }: {
-  locale: Locale;
-  work: RelatedWork;
-  accent: ReturnType<typeof getCategoryAccent>;
+  locale: Locale
+  work: RelatedWork
+  accent: ReturnType<typeof getCategoryAccent>
 }) {
   return (
     <Link
       href={`/${locale}/projets/${work.slug}`}
       className={cn(
-        "group relative flex h-full flex-col overflow-hidden rounded-[16px] border-2 bg-white/[0.02] p-3",
+        'group relative flex h-full flex-col overflow-hidden rounded-[16px] border-2 bg-white/[0.02] p-3',
         accent.border,
-        accent.glow,
+        accent.glow
       )}
     >
       <div className="relative mb-3 aspect-[16/10] overflow-hidden rounded-[12px]">
@@ -774,8 +726,8 @@ function RelatedWorkCard({
       <div className="flex flex-1 flex-col gap-1">
         <div
           className={cn(
-            "w-fit rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wide",
-            accent.badge,
+            'w-fit rounded-full px-2 py-1 text-[10px] font-bold tracking-wide uppercase',
+            accent.badge
           )}
         >
           {work.category}
@@ -783,22 +735,18 @@ function RelatedWorkCard({
         <div className="text-base font-bold text-white transition-colors group-hover:text-white">
           {work.title}
         </div>
-        {work.subtitle && (
-          <div className="text-xs text-white/60 line-clamp-1">
-            {work.subtitle}
-          </div>
-        )}
+        {work.subtitle && <div className="line-clamp-1 text-xs text-white/60">{work.subtitle}</div>}
         <div
           className={cn(
-            "mt-auto inline-flex items-center gap-2 text-xs font-semibold",
-            accent.text,
+            'mt-auto inline-flex items-center gap-2 text-xs font-semibold',
+            accent.text
           )}
         >
-          {locale === "fr" ? "Voir le projet" : "View project"} <span>→</span>
+          {locale === 'fr' ? 'Voir le projet' : 'View project'} <span>→</span>
         </div>
       </div>
     </Link>
-  );
+  )
 }
 
 function ArtistListCard({
@@ -808,27 +756,18 @@ function ArtistListCard({
   accent,
   isInfoInView,
 }: {
-  locale: Locale;
-  title: string;
-  artists: Artist[];
-  accent: ReturnType<typeof getCategoryAccent>;
-  isInfoInView: boolean;
+  locale: Locale
+  title: string
+  artists: Artist[]
+  accent: ReturnType<typeof getCategoryAccent>
+  isInfoInView: boolean
 }) {
   return (
     <div className="rounded-[24px] border-4 border-white/10 bg-[#0a0a0f]/90 p-6 backdrop-blur-sm">
-      <h2
-        className={cn(
-          "mb-5 text-lg font-bold uppercase tracking-wider",
-          accent.text,
-        )}
-      >
+      <h2 className={cn('mb-5 text-lg font-bold tracking-wider uppercase', accent.text)}>
         {title}
       </h2>
-      <div
-        className={
-          artists.length > 3 ? "grid gap-3 sm:grid-cols-2" : "space-y-3"
-        }
-      >
+      <div className={artists.length > 3 ? 'grid gap-3 sm:grid-cols-2' : 'space-y-3'}>
         {artists.map((artist, index) => (
           <motion.div
             key={`${title}-${artist.id}`}
@@ -839,18 +778,18 @@ function ArtistListCard({
             <Link
               href={`/${locale}/artistes/${artist.slug}`}
               className={cn(
-                "group flex items-center gap-3 rounded-[12px] p-3",
-                "border-2 border-transparent bg-white/[0.02]",
-                "transition-all duration-300",
-                "hover:border-white/10 hover:bg-white/5",
+                'group flex items-center gap-3 rounded-[12px] p-3',
+                'border-2 border-transparent bg-white/[0.02]',
+                'transition-all duration-300',
+                'hover:border-white/10 hover:bg-white/5'
               )}
             >
               <div
                 className={cn(
-                  "relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full",
-                  "ring-2 ring-white/10 transition-all duration-300",
-                  "group-hover:ring-4",
-                  `group-hover:ring-[${accent.primary}]/30`,
+                  'relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full',
+                  'ring-2 ring-white/10 transition-all duration-300',
+                  'group-hover:ring-4',
+                  `group-hover:ring-[${accent.primary}]/30`
                 )}
               >
                 {artist.image ? (
@@ -876,9 +815,9 @@ function ArtistListCard({
               </div>
               <span
                 className={cn(
-                  "text-sm opacity-0 transition-all duration-300",
-                  "group-hover:opacity-100 group-hover:translate-x-1",
-                  accent.text,
+                  'text-sm opacity-0 transition-all duration-300',
+                  'group-hover:translate-x-1 group-hover:opacity-100',
+                  accent.text
                 )}
               >
                 →
@@ -888,7 +827,7 @@ function ArtistListCard({
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 /** Info row component */
@@ -898,5 +837,5 @@ function InfoRow({ label, value }: { label: string; value: string }) {
       <span className="text-sm text-white/50">{label}</span>
       <span className="text-sm font-bold text-white">{value}</span>
     </div>
-  );
+  )
 }

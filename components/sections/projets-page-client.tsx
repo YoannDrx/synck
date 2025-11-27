@@ -1,273 +1,259 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { motion, useInView } from "framer-motion";
-import Masonry from "react-masonry-css";
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
+import Masonry from 'react-masonry-css'
 
-import { Breadcrumb } from "@/components/breadcrumb";
-import { GalleryShell } from "@/components/galleries/gallery-shell";
-import { PageLayout } from "@/components/layout/page-layout";
-import { YouTubeModal } from "@/components/youtube-modal";
-import { cn } from "@/lib/utils";
-import type { ProjetsPageDictionary } from "@/types/dictionary";
-import type { Locale } from "@/lib/i18n-config";
+import { motion, useInView } from 'framer-motion'
+
+import type { Locale } from '@/lib/i18n-config'
+import { cn } from '@/lib/utils'
+
+import { Breadcrumb } from '@/components/breadcrumb'
+import { GalleryShell } from '@/components/galleries/gallery-shell'
+import { PageLayout } from '@/components/layout/page-layout'
+import { YouTubeModal } from '@/components/youtube-modal'
+
+import type { ProjetsPageDictionary } from '@/types/dictionary'
 
 type GalleryWork = {
-  id: string;
-  slug: string;
-  title: string;
-  subtitle?: string;
-  category: string;
-  categorySlug: string;
-  coverImage: string;
-  coverImageAlt: string;
-  coverImageWidth?: number;
-  coverImageHeight?: number;
-  coverImageAspectRatio?: number;
-  coverImageBlurDataUrl?: string;
-  artists: string[];
-  externalUrl?: string;
-  youtubeUrl?: string;
-  year?: number;
-};
+  id: string
+  slug: string
+  title: string
+  subtitle?: string
+  category: string
+  categorySlug: string
+  coverImage: string
+  coverImageAlt: string
+  coverImageWidth?: number
+  coverImageHeight?: number
+  coverImageAspectRatio?: number
+  coverImageBlurDataUrl?: string
+  artists: string[]
+  externalUrl?: string
+  youtubeUrl?: string
+  year?: number
+}
 
 const masonryBreakpoints = {
   default: 4,
   1280: 3,
   1024: 2,
   640: 1,
-};
+}
 
 type Category = {
-  id: string;
-  slug: string;
-  name: string;
-  color: string | null;
-};
+  id: string
+  slug: string
+  name: string
+  color: string | null
+}
 
 type ProjetsPageClientProps = {
-  locale: Locale;
+  locale: Locale
   nav: {
-    home: string;
-    projets: string;
-  };
-  copy: ProjetsPageDictionary;
-};
+    home: string
+    projets: string
+  }
+  copy: ProjetsPageDictionary
+}
 
 // Couleurs par catégorie de projet
 const categoryAccents: Record<
   string,
   {
-    glow: string;
-    borderHover: string;
-    accent: string;
-    badge: string;
-    filterActive: string;
-    filterInactive: string;
+    glow: string
+    borderHover: string
+    accent: string
+    badge: string
+    filterActive: string
+    filterInactive: string
   }
 > = {
   // Album de librairie musicale - Lime/Vert
-  "album-de-librairie-musicale": {
-    glow: "hover:shadow-[0_0_30px_rgba(163,230,53,0.3)]",
-    borderHover: "hover:border-lime-400",
-    accent: "#a3e635",
-    badge: "bg-lime-400/20 text-lime-400 border border-lime-400/30",
-    filterActive: "border-lime-400 bg-lime-400 text-[#050505]",
+  'album-de-librairie-musicale': {
+    glow: 'hover:shadow-[0_0_30px_rgba(163,230,53,0.3)]',
+    borderHover: 'hover:border-lime-400',
+    accent: '#a3e635',
+    badge: 'bg-lime-400/20 text-lime-400 border border-lime-400/30',
+    filterActive: 'border-lime-400 bg-lime-400 text-[#050505]',
     filterInactive:
-      "border-white/10 bg-black/20 text-white/60 hover:border-lime-400 hover:text-lime-400",
+      'border-white/10 bg-black/20 text-white/60 hover:border-lime-400 hover:text-lime-400',
   },
   // Documentaire - Cyan/Turquoise
   documentaire: {
-    glow: "hover:shadow-[0_0_30px_rgba(78,205,196,0.3)]",
-    borderHover: "hover:border-cyan-400",
-    accent: "#4ecdc4",
-    badge: "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30",
-    filterActive: "border-cyan-400 bg-cyan-400 text-[#050505]",
+    glow: 'hover:shadow-[0_0_30px_rgba(78,205,196,0.3)]',
+    borderHover: 'hover:border-cyan-400',
+    accent: '#4ecdc4',
+    badge: 'bg-cyan-400/20 text-cyan-400 border border-cyan-400/30',
+    filterActive: 'border-cyan-400 bg-cyan-400 text-[#050505]',
     filterInactive:
-      "border-white/10 bg-black/20 text-white/60 hover:border-cyan-400 hover:text-cyan-400",
+      'border-white/10 bg-black/20 text-white/60 hover:border-cyan-400 hover:text-cyan-400',
   },
   // Synchronisation - Violet/Purple
   synchro: {
-    glow: "hover:shadow-[0_0_30px_rgba(168,85,247,0.3)]",
-    borderHover: "hover:border-purple-400",
-    accent: "#a855f7",
-    badge: "bg-purple-400/20 text-purple-400 border border-purple-400/30",
-    filterActive: "border-purple-400 bg-purple-400 text-[#050505]",
+    glow: 'hover:shadow-[0_0_30px_rgba(168,85,247,0.3)]',
+    borderHover: 'hover:border-purple-400',
+    accent: '#a855f7',
+    badge: 'bg-purple-400/20 text-purple-400 border border-purple-400/30',
+    filterActive: 'border-purple-400 bg-purple-400 text-[#050505]',
     filterInactive:
-      "border-white/10 bg-black/20 text-white/60 hover:border-purple-400 hover:text-purple-400",
+      'border-white/10 bg-black/20 text-white/60 hover:border-purple-400 hover:text-purple-400',
   },
   // Vinyle - Orange/Ambre
   vinyle: {
-    glow: "hover:shadow-[0_0_30px_rgba(251,146,60,0.3)]",
-    borderHover: "hover:border-orange-400",
-    accent: "#fb923c",
-    badge: "bg-orange-400/20 text-orange-400 border border-orange-400/30",
-    filterActive: "border-orange-400 bg-orange-400 text-[#050505]",
+    glow: 'hover:shadow-[0_0_30px_rgba(251,146,60,0.3)]',
+    borderHover: 'hover:border-orange-400',
+    accent: '#fb923c',
+    badge: 'bg-orange-400/20 text-orange-400 border border-orange-400/30',
+    filterActive: 'border-orange-400 bg-orange-400 text-[#050505]',
     filterInactive:
-      "border-white/10 bg-black/20 text-white/60 hover:border-orange-400 hover:text-orange-400",
+      'border-white/10 bg-black/20 text-white/60 hover:border-orange-400 hover:text-orange-400',
   },
   // Clips - Rose/Pink
   clip: {
-    glow: "hover:shadow-[0_0_30px_rgba(244,114,182,0.3)]",
-    borderHover: "hover:border-pink-400",
-    accent: "#f472b6",
-    badge: "bg-pink-400/20 text-pink-400 border border-pink-400/30",
-    filterActive: "border-pink-400 bg-pink-400 text-[#050505]",
+    glow: 'hover:shadow-[0_0_30px_rgba(244,114,182,0.3)]',
+    borderHover: 'hover:border-pink-400',
+    accent: '#f472b6',
+    badge: 'bg-pink-400/20 text-pink-400 border border-pink-400/30',
+    filterActive: 'border-pink-400 bg-pink-400 text-[#050505]',
     filterInactive:
-      "border-white/10 bg-black/20 text-white/60 hover:border-pink-400 hover:text-pink-400",
+      'border-white/10 bg-black/20 text-white/60 hover:border-pink-400 hover:text-pink-400',
   },
   // Fallback/Autre - Emerald
   default: {
-    glow: "hover:shadow-[0_0_30px_rgba(52,211,153,0.3)]",
-    borderHover: "hover:border-emerald-400",
-    accent: "#34d399",
-    badge: "bg-emerald-400/20 text-emerald-400 border border-emerald-400/30",
-    filterActive: "border-emerald-400 bg-emerald-400 text-[#050505]",
+    glow: 'hover:shadow-[0_0_30px_rgba(52,211,153,0.3)]',
+    borderHover: 'hover:border-emerald-400',
+    accent: '#34d399',
+    badge: 'bg-emerald-400/20 text-emerald-400 border border-emerald-400/30',
+    filterActive: 'border-emerald-400 bg-emerald-400 text-[#050505]',
     filterInactive:
-      "border-white/10 bg-black/20 text-white/60 hover:border-emerald-400 hover:text-emerald-400",
+      'border-white/10 bg-black/20 text-white/60 hover:border-emerald-400 hover:text-emerald-400',
   },
-};
+}
 
 // Helper pour obtenir l'accent d'une catégorie
 const getCategoryAccent = (categorySlug: string) => {
-  return categoryAccents[categorySlug] ?? categoryAccents.default;
-};
+  return categoryAccents[categorySlug] ?? categoryAccents.default
+}
 
-export function ProjetsPageClient({
-  locale,
-  nav,
-  copy,
-}: ProjetsPageClientProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const categoryParam = searchParams.get("category");
+export function ProjetsPageClient({ locale, nav, copy }: ProjetsPageClientProps) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const categoryParam = searchParams.get('category')
 
-  const [works, setWorks] = useState<GalleryWork[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    categoryParam ?? "all",
-  );
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [sortBy, setSortBy] = useState<"date" | "title">("date");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  const [loading, setLoading] = useState(true);
+  const [works, setWorks] = useState<GalleryWork[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
+  const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam ?? 'all')
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [sortBy, setSortBy] = useState<'date' | 'title'>('date')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+  const [loading, setLoading] = useState(true)
   const [youtubeModal, setYoutubeModal] = useState<{
-    isOpen: boolean;
-    url: string;
-    title: string;
+    isOpen: boolean
+    url: string
+    title: string
   }>({
     isOpen: false,
-    url: "",
-    title: "",
-  });
+    url: '',
+    title: '',
+  })
 
   useEffect(() => {
     async function init() {
-      setLoading(true);
+      setLoading(true)
       try {
         const [worksRes, categoriesRes] = await Promise.all([
           fetch(`/api/projets?locale=${locale}`),
           fetch(`/api/categories?locale=${locale}`),
-        ]);
+        ])
 
         if (worksRes.ok) {
-          setWorks((await worksRes.json()) as GalleryWork[]);
+          setWorks((await worksRes.json()) as GalleryWork[])
         }
         if (categoriesRes.ok) {
-          setCategories((await categoriesRes.json()) as Category[]);
+          setCategories((await categoriesRes.json()) as Category[])
         }
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     }
 
-    void init();
-  }, [locale]);
+    void init()
+  }, [locale])
 
   useEffect(() => {
     if (categoryParam && categoryParam !== selectedCategory) {
-      setSelectedCategory(categoryParam);
+      setSelectedCategory(categoryParam)
     }
 
-    const sortByParam = searchParams.get("sortBy") as "date" | "title" | null;
-    const sortOrderParam = searchParams.get("sortOrder") as
-      | "asc"
-      | "desc"
-      | null;
+    const sortByParam = searchParams.get('sortBy') as 'date' | 'title' | null
+    const sortOrderParam = searchParams.get('sortOrder') as 'asc' | 'desc' | null
 
-    if (sortByParam && (sortByParam === "date" || sortByParam === "title")) {
-      setSortBy(sortByParam);
+    if (sortByParam && (sortByParam === 'date' || sortByParam === 'title')) {
+      setSortBy(sortByParam)
     }
-    if (
-      sortOrderParam &&
-      (sortOrderParam === "asc" || sortOrderParam === "desc")
-    ) {
-      setSortOrder(sortOrderParam);
+    if (sortOrderParam && (sortOrderParam === 'asc' || sortOrderParam === 'desc')) {
+      setSortOrder(sortOrderParam)
     }
-  }, [categoryParam, selectedCategory, searchParams]);
+  }, [categoryParam, selectedCategory, searchParams])
 
   const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-    const params = new URLSearchParams(searchParams.toString());
-    if (category === "all") {
-      params.delete("category");
+    setSelectedCategory(category)
+    const params = new URLSearchParams(searchParams.toString())
+    if (category === 'all') {
+      params.delete('category')
     } else {
-      params.set("category", category);
+      params.set('category', category)
     }
     const newUrl = params.toString()
       ? `/${locale}/projets?${params.toString()}`
-      : `/${locale}/projets`;
-    router.push(newUrl, { scroll: false });
-  };
+      : `/${locale}/projets`
+    router.push(newUrl, { scroll: false })
+  }
 
   const handleSortChange = (newSortBy?: string, newSortOrder?: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams.toString())
 
     if (newSortBy) {
-      setSortBy(newSortBy as "date" | "title");
-      params.set("sortBy", newSortBy);
+      setSortBy(newSortBy as 'date' | 'title')
+      params.set('sortBy', newSortBy)
     }
     if (newSortOrder) {
-      setSortOrder(newSortOrder as "asc" | "desc");
-      params.set("sortOrder", newSortOrder);
+      setSortOrder(newSortOrder as 'asc' | 'desc')
+      params.set('sortOrder', newSortOrder)
     }
 
-    const newUrl = `/${locale}/projets?${params.toString()}`;
-    router.push(newUrl, { scroll: false });
-  };
+    const newUrl = `/${locale}/projets?${params.toString()}`
+    router.push(newUrl, { scroll: false })
+  }
 
   const getToggleOptions = (): [string, string] => {
-    if (sortBy === "title") {
-      return [copy.sortOrderTitleAsc, copy.sortOrderTitleDesc];
+    if (sortBy === 'title') {
+      return [copy.sortOrderTitleAsc, copy.sortOrderTitleDesc]
     } else {
-      return [copy.sortOrderDateAsc, copy.sortOrderDateDesc];
+      return [copy.sortOrderDateAsc, copy.sortOrderDateDesc]
     }
-  };
+  }
 
   const filteredWorks = works
-    .filter(
-      (work) =>
-        selectedCategory === "all" || work.category === selectedCategory,
-    )
-    .filter((work) =>
-      work.title.toLowerCase().includes(searchQuery.toLowerCase()),
-    )
+    .filter((work) => selectedCategory === 'all' || work.category === selectedCategory)
+    .filter((work) => work.title.toLowerCase().includes(searchQuery.toLowerCase()))
     .sort((a, b) => {
-      let comparison = 0;
-      if (sortBy === "date") {
-        comparison = (a.year ?? 0) - (b.year ?? 0);
+      let comparison = 0
+      if (sortBy === 'date') {
+        comparison = (a.year ?? 0) - (b.year ?? 0)
       } else {
-        comparison = a.title.localeCompare(b.title, locale);
+        comparison = a.title.localeCompare(b.title, locale)
       }
-      return sortOrder === "asc" ? comparison : -comparison;
-    });
+      return sortOrder === 'asc' ? comparison : -comparison
+    })
 
   const handleClipClick = (url: string, title: string) => {
-    setYoutubeModal({ isOpen: true, url, title });
-  };
+    setYoutubeModal({ isOpen: true, url, title })
+  }
 
   if (loading) {
     return (
@@ -283,17 +269,12 @@ export function ProjetsPageClient({
           </motion.div>
         </div>
       </PageLayout>
-    );
+    )
   }
 
   return (
     <PageLayout orbsConfig="subtle" className="mx-auto max-w-[1600px]">
-      <Breadcrumb
-        items={[
-          { label: nav.home, href: `/${locale}` },
-          { label: nav.projets },
-        ]}
-      />
+      <Breadcrumb items={[{ label: nav.home, href: `/${locale}` }, { label: nav.projets }]} />
 
       <GalleryShell
         title={nav.projets}
@@ -305,35 +286,35 @@ export function ProjetsPageClient({
           {
             value: categories.length,
             label: copy.statsCategories,
-            valueClassName: "text-lime-300",
+            valueClassName: 'text-lime-300',
           },
         ]}
         search={{
           value: searchQuery,
           onChange: (value) => {
-            setSearchQuery(value);
+            setSearchQuery(value)
           },
           onClear: () => {
-            setSearchQuery("");
+            setSearchQuery('')
           },
           placeholder: copy.searchPlaceholder,
-          inputAccentClassName: "focus:border-lime-300/50",
-          clearButtonAccentClassName: "hover:text-lime-300",
-          inputTestId: "projects-search",
+          inputAccentClassName: 'focus:border-lime-300/50',
+          clearButtonAccentClassName: 'hover:text-lime-300',
+          inputTestId: 'projects-search',
         }}
         sort={{
           sortBy,
           sortByOptions: [
-            { value: "date", label: copy.sortByDate },
-            { value: "title", label: copy.sortByTitle },
+            { value: 'date', label: copy.sortByDate },
+            { value: 'title', label: copy.sortByTitle },
           ],
           onSortByChange: (value) => {
-            handleSortChange(value, undefined);
+            handleSortChange(value, undefined)
           },
           sortOrder,
           sortOrderLabels: getToggleOptions(),
           onSortOrderChange: (value) => {
-            handleSortChange(undefined, value);
+            handleSortChange(undefined, value)
           },
         }}
         filters={
@@ -341,50 +322,44 @@ export function ProjetsPageClient({
             <button
               data-testid="category-filter"
               onClick={() => {
-                handleCategoryChange("all");
+                handleCategoryChange('all')
               }}
               className={cn(
-                "px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all",
-                selectedCategory === "all"
-                  ? "border-2 border-lime-300 bg-lime-300 text-[#050505]"
-                  : "border-2 border-white/10 bg-black/20 text-white/60 hover:border-lime-300 hover:text-lime-300",
+                'px-4 py-2 text-xs font-bold tracking-wider uppercase transition-all',
+                selectedCategory === 'all'
+                  ? 'border-2 border-lime-300 bg-lime-300 text-[#050505]'
+                  : 'border-2 border-white/10 bg-black/20 text-white/60 hover:border-lime-300 hover:text-lime-300'
               )}
             >
               {copy.filterAll}
               <span className="ml-1.5 opacity-70">({works.length})</span>
             </button>
             {categories.map((category) => {
-              const count = works.filter(
-                (w) => w.category === category.name,
-              ).length;
-              const filterAccent = getCategoryAccent(category.slug);
+              const count = works.filter((w) => w.category === category.name).length
+              const filterAccent = getCategoryAccent(category.slug)
               return (
                 <button
                   key={category.id}
                   data-testid="category-filter"
                   onClick={() => {
-                    handleCategoryChange(category.name);
+                    handleCategoryChange(category.name)
                   }}
                   className={cn(
-                    "px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all border-2",
+                    'border-2 px-4 py-2 text-xs font-bold tracking-wider uppercase transition-all',
                     selectedCategory === category.name
                       ? filterAccent.filterActive
-                      : filterAccent.filterInactive,
+                      : filterAccent.filterInactive
                   )}
                 >
                   {category.name}
                   <span className="ml-1.5 opacity-70">({count})</span>
                 </button>
-              );
+              )
             })}
           </div>
         }
         hasItems={filteredWorks.length > 0}
-        emptyContent={
-          <p className="text-white/40">
-            {searchQuery ? copy.noResults : copy.empty}
-          </p>
-        }
+        emptyContent={<p className="text-white/40">{searchQuery ? copy.noResults : copy.empty}</p>}
         afterContent={
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -392,7 +367,7 @@ export function ProjetsPageClient({
             transition={{ duration: 0.5, delay: 0.5 }}
             className="mt-8 overflow-hidden rounded-[24px] border-4 border-lime-300 bg-gradient-to-r from-lime-300 to-emerald-400 p-8 text-center sm:p-10"
           >
-            <h3 className="mb-3 text-2xl font-bold uppercase text-[#050505] sm:text-3xl">
+            <h3 className="mb-3 text-2xl font-bold text-[#050505] uppercase sm:text-3xl">
               {copy.ctaTitle}
             </h3>
             <p className="mx-auto mb-6 max-w-xl text-sm text-[#050505]/70 sm:text-base">
@@ -400,7 +375,7 @@ export function ProjetsPageClient({
             </p>
             <Link
               href={`/${locale}/contact`}
-              className="inline-flex items-center gap-2 border-4 border-[#050505] bg-[#050505] px-8 py-3 text-sm font-bold uppercase tracking-wide text-white transition-transform hover:scale-105"
+              className="inline-flex items-center gap-2 border-4 border-[#050505] bg-[#050505] px-8 py-3 text-sm font-bold tracking-wide text-white uppercase transition-transform hover:scale-105"
             >
               {copy.ctaButton}
               <span>→</span>
@@ -410,7 +385,7 @@ export function ProjetsPageClient({
       >
         <Masonry
           breakpointCols={masonryBreakpoints}
-          className="flex w-auto -ml-4"
+          className="-ml-4 flex w-auto"
           columnClassName="pl-4 bg-clip-padding"
         >
           {filteredWorks.map((work, index) => (
@@ -432,11 +407,11 @@ export function ProjetsPageClient({
         title={youtubeModal.title}
         isOpen={youtubeModal.isOpen}
         onClose={() => {
-          setYoutubeModal({ isOpen: false, url: "", title: "" });
+          setYoutubeModal({ isOpen: false, url: '', title: '' })
         }}
       />
     </PageLayout>
-  );
+  )
 }
 
 /** Project Card - Style unifié */
@@ -447,56 +422,56 @@ function ProjectCard({
   onClipClick,
   index,
 }: {
-  work: GalleryWork;
-  locale: Locale;
-  selectedCategory: string;
-  onClipClick: (url: string, title: string) => void;
-  index: number;
+  work: GalleryWork
+  locale: Locale
+  selectedCategory: string
+  onClipClick: (url: string, title: string) => void
+  index: number
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null)
   // Trigger when card is 30px inside viewport (just after crossing bottom edge)
   const isInView = useInView(cardRef, {
     once: true,
-    margin: "0px 0px -30px 0px",
-  });
+    margin: '0px 0px -30px 0px',
+  })
 
-  const isClip = work.categorySlug === "clips" && work.youtubeUrl;
-  const accent = getCategoryAccent(work.categorySlug);
+  const isClip = work.categorySlug === 'clips' && work.youtubeUrl
+  const accent = getCategoryAccent(work.categorySlug)
 
   // Stagger delay based on column position (max 4 columns) for wave effect
-  const columnPosition = index % 4;
-  const staggerDelay = columnPosition * 0.03;
+  const columnPosition = index % 4
+  const staggerDelay = columnPosition * 0.03
 
   const handleClick = (e: React.MouseEvent) => {
     if (isClip) {
-      e.preventDefault();
-      onClipClick(work.youtubeUrl ?? "", work.title);
+      e.preventDefault()
+      onClipClick(work.youtubeUrl ?? '', work.title)
     }
-  };
+  }
 
   const projectUrl =
-    selectedCategory !== "all"
+    selectedCategory !== 'all'
       ? `/${locale}/projets/${work.slug}?category=${selectedCategory}`
-      : `/${locale}/projets/${work.slug}`;
+      : `/${locale}/projets/${work.slug}`
 
   const CardContent = (
     <>
       {/* Image */}
       <div className="relative overflow-hidden">
-        {work.coverImage && work.coverImage !== "/images/placeholder.jpg" ? (
+        {work.coverImage && work.coverImage !== '/images/placeholder.jpg' ? (
           <Image
             src={work.coverImage}
             alt={work.coverImageAlt}
             width={work.coverImageWidth ?? 400}
             height={work.coverImageHeight ?? 300}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-            className="w-full h-auto object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
-            placeholder={work.coverImageBlurDataUrl ? "blur" : "empty"}
+            className="h-auto w-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
+            placeholder={work.coverImageBlurDataUrl ? 'blur' : 'empty'}
             blurDataURL={work.coverImageBlurDataUrl}
           />
         ) : (
-          <div className="aspect-[4/3] flex h-full w-full items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
-            <span className="text-5xl font-black uppercase text-white/10">
+          <div className="flex aspect-[4/3] h-full w-full items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
+            <span className="text-5xl font-black text-white/10 uppercase">
               {work.title.charAt(0)}
             </span>
           </div>
@@ -506,11 +481,7 @@ function ProjectCard({
         {isClip && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-              <svg
-                className="ml-1 h-8 w-8 text-white"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="ml-1 h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>
@@ -546,8 +517,8 @@ function ProjectCard({
         <div className="mt-auto flex items-center justify-between gap-2 border-t border-white/5 pt-3">
           <div
             className={cn(
-              "rounded-sm px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider",
-              accent.badge,
+              'rounded-sm px-2.5 py-1 text-[9px] font-bold tracking-wider uppercase',
+              accent.badge
             )}
           >
             {work.category}
@@ -561,26 +532,24 @@ function ProjectCard({
 
         {/* Hover CTA */}
         <div
-          className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider opacity-0 transition-all duration-300 group-hover:opacity-100"
+          className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider uppercase opacity-0 transition-all duration-300 group-hover:opacity-100"
           style={{ color: accent.accent }}
         >
-          {isClip ? "Voir le clip" : "Voir le projet"}
-          <span className="transition-transform duration-300 group-hover:translate-x-1">
-            →
-          </span>
+          {isClip ? 'Voir le clip' : 'Voir le projet'}
+          <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
         </div>
       </div>
     </>
-  );
+  )
 
   const cardClasses = cn(
-    "group relative flex h-full flex-col overflow-hidden",
-    "border-2 border-white/10 bg-black/20",
-    "transition-all duration-300",
-    "hover:-translate-y-1",
+    'group relative flex h-full flex-col overflow-hidden',
+    'border-2 border-white/10 bg-black/20',
+    'transition-all duration-300',
+    'hover:-translate-y-1',
     accent.glow,
-    accent.borderHover,
-  );
+    accent.borderHover
+  )
 
   return (
     <motion.div
@@ -594,21 +563,14 @@ function ProjectCard({
       }}
     >
       {isClip ? (
-        <button
-          onClick={handleClick}
-          className={cn(cardClasses, "w-full text-left")}
-        >
+        <button onClick={handleClick} className={cn(cardClasses, 'w-full text-left')}>
           {CardContent}
         </button>
       ) : (
-        <Link
-          data-testid="project-card"
-          href={projectUrl}
-          className={cardClasses}
-        >
+        <Link data-testid="project-card" href={projectUrl} className={cardClasses}>
           {CardContent}
         </Link>
       )}
     </motion.div>
-  );
+  )
 }

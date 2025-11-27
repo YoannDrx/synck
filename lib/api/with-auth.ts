@@ -1,50 +1,49 @@
-import type { NextRequest, NextResponse } from "next/server";
-import { headers } from "next/headers";
-import type { z } from "zod";
-import { auth } from "@/lib/auth";
-import { ApiError, handleApiError } from "./error-handler";
+import { headers } from 'next/headers'
+import type { NextRequest, NextResponse } from 'next/server'
+
+import type { z } from 'zod'
+
+import { auth } from '@/lib/auth'
+
+import { ApiError, handleApiError } from './error-handler'
 
 /**
  * Type pour l'utilisateur authentifié avec le rôle
  */
 export type AuthenticatedUser = {
-  id: string;
-  email: string;
-  name: string | null;
-  role: "ADMIN" | "VIEWER";
-  isActive: boolean;
-};
+  id: string
+  email: string
+  name: string | null
+  role: 'ADMIN' | 'VIEWER'
+  isActive: boolean
+}
 
 /**
  * Vérifie l'authentification et retourne l'utilisateur
  * Lance une ApiError si non autorisé
  */
 export async function requireAuth(): Promise<AuthenticatedUser> {
-  const headersList = await headers();
+  const headersList = await headers()
 
   const session = await auth.api.getSession({
     headers: headersList,
-  });
+  })
 
   if (!session?.user) {
-    throw new ApiError(401, "Non authentifié", "UNAUTHORIZED");
+    throw new ApiError(401, 'Non authentifié', 'UNAUTHORIZED')
   }
 
   // Vérifier le rôle admin
-  if (session.user.role !== "ADMIN") {
-    throw new ApiError(
-      403,
-      "Accès refusé - Rôle administrateur requis",
-      "FORBIDDEN",
-    );
+  if (session.user.role !== 'ADMIN') {
+    throw new ApiError(403, 'Accès refusé - Rôle administrateur requis', 'FORBIDDEN')
   }
 
   // Vérifier si le compte est actif
   if (!session.user.isActive) {
-    throw new ApiError(403, "Compte désactivé", "ACCOUNT_DISABLED");
+    throw new ApiError(403, 'Compte désactivé', 'ACCOUNT_DISABLED')
   }
 
-  return session.user as AuthenticatedUser;
+  return session.user as AuthenticatedUser
 }
 
 /**
@@ -53,8 +52,8 @@ export async function requireAuth(): Promise<AuthenticatedUser> {
 type AuthenticatedHandler = (
   req: NextRequest,
   context: { params?: Promise<Record<string, string>> },
-  user: AuthenticatedUser,
-) => Promise<NextResponse>;
+  user: AuthenticatedUser
+) => Promise<NextResponse>
 
 /**
  * Wrapper pour protéger une route API avec authentification
@@ -66,17 +65,14 @@ type AuthenticatedHandler = (
  * });
  */
 export function withAuth(handler: AuthenticatedHandler) {
-  return async (
-    req: NextRequest,
-    context: { params?: Promise<Record<string, string>> },
-  ) => {
+  return async (req: NextRequest, context: { params?: Promise<Record<string, string>> }) => {
     try {
-      const user = await requireAuth();
-      return await handler(req, context, user);
+      const user = await requireAuth()
+      return await handler(req, context, user)
     } catch (error) {
-      return handleApiError(error);
+      return handleApiError(error)
     }
-  };
+  }
 }
 
 /**
@@ -86,8 +82,8 @@ type ValidatedHandler<T> = (
   req: NextRequest,
   context: { params?: Promise<Record<string, string>> },
   user: AuthenticatedUser,
-  validatedData: T,
-) => Promise<NextResponse>;
+  validatedData: T
+) => Promise<NextResponse>
 
 /**
  * Wrapper pour protéger une route API avec authentification ET validation Zod
@@ -109,18 +105,18 @@ type ValidatedHandler<T> = (
  */
 export function withAuthAndValidation<T extends z.ZodType>(
   schema: T,
-  handler: ValidatedHandler<z.infer<T>>,
+  handler: ValidatedHandler<z.infer<T>>
 ) {
   return withAuth(async (req, context, user) => {
     // Parser le body JSON
-    const body = (await req.json()) as unknown;
+    const body = (await req.json()) as unknown
 
     // Valider avec Zod (lance une ZodError si invalide)
-    const validatedData = schema.parse(body);
+    const validatedData = schema.parse(body)
 
     // Appeler le handler avec les données validées
-    return handler(req, context, user, validatedData);
-  });
+    return handler(req, context, user, validatedData)
+  })
 }
 
 /**
@@ -129,23 +125,23 @@ export function withAuthAndValidation<T extends z.ZodType>(
  */
 export function withAuthAndParams<T extends z.ZodType>(
   schema: T,
-  handler: ValidatedHandler<z.infer<T>>,
+  handler: ValidatedHandler<z.infer<T>>
 ) {
   return withAuth(async (req, context, user) => {
     // Extraire les query params de l'URL
-    const { searchParams } = new URL(req.url);
-    const params = Object.fromEntries(searchParams.entries());
+    const { searchParams } = new URL(req.url)
+    const params = Object.fromEntries(searchParams.entries())
 
     // Résoudre context.params si c'est une Promise
-    const resolvedParams = context.params ? await context.params : {};
+    const resolvedParams = context.params ? await context.params : {}
 
     // Merger les params
-    const allParams = { ...params, ...resolvedParams };
+    const allParams = { ...params, ...resolvedParams }
 
     // Valider avec Zod
-    const validatedData = schema.parse(allParams);
+    const validatedData = schema.parse(allParams)
 
     // Appeler le handler avec les données validées
-    return handler(req, context, user, validatedData);
-  });
+    return handler(req, context, user, validatedData)
+  })
 }

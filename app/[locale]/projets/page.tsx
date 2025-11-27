@@ -1,18 +1,20 @@
-import { Suspense } from "react";
-import { ProjetsPageClient } from "@/components/sections/projets-page-client";
-import { getDictionary } from "@/lib/dictionaries";
-import type { Locale } from "@/lib/i18n-config";
+import { Suspense } from 'react'
+
+import { getDictionary } from '@/lib/dictionaries'
+import type { Locale } from '@/lib/i18n-config'
+
+import { ProjetsPageClient } from '@/components/sections/projets-page-client'
 
 type ProjetsPageParams = {
   params: Promise<{
-    locale: Locale;
-  }>;
-};
+    locale: Locale
+  }>
+}
 
 export default async function ProjetsPage({ params }: ProjetsPageParams) {
-  const { locale } = await params;
-  const safeLocale = locale === "en" ? "en" : "fr";
-  const dictionary = await getDictionary(safeLocale);
+  const { locale } = await params
+  const safeLocale = locale === 'en' ? 'en' : 'fr'
+  const dictionary = await getDictionary(safeLocale)
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -22,5 +24,5 @@ export default async function ProjetsPage({ params }: ProjetsPageParams) {
         copy={dictionary.projetsPage}
       />
     </Suspense>
-  );
+  )
 }

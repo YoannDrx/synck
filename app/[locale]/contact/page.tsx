@@ -1,18 +1,19 @@
-import { getDictionary } from "@/lib/dictionaries";
-import type { Locale } from "@/lib/i18n-config";
-import { ContactPageClient } from "@/components/sections/contact-page-client";
+import { getDictionary } from '@/lib/dictionaries'
+import type { Locale } from '@/lib/i18n-config'
+
+import { ContactPageClient } from '@/components/sections/contact-page-client'
 
 type ContactPageParams = {
   params: Promise<{
-    locale: Locale;
-  }>;
-};
+    locale: Locale
+  }>
+}
 
 export default async function ContactPage({ params }: ContactPageParams) {
-  const { locale } = await params;
-  const safeLocale = locale === "en" ? "en" : "fr";
-  const dictionary = await getDictionary(safeLocale);
-  const copy = dictionary.contactPage;
+  const { locale } = await params
+  const safeLocale = locale === 'en' ? 'en' : 'fr'
+  const dictionary = await getDictionary(safeLocale)
+  const copy = dictionary.contactPage
 
   return (
     <ContactPageClient
@@ -42,5 +43,5 @@ export default async function ContactPage({ params }: ContactPageParams) {
       }}
       formDictionary={dictionary.contactForm}
     />
-  );
+  )
 }

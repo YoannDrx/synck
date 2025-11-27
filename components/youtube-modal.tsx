@@ -1,60 +1,60 @@
-"use client";
+'use client'
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react'
 
 type YouTubeModalProps = {
-  youtubeUrl: string;
-  title: string;
-  isOpen: boolean;
-  onClose: () => void;
+  youtubeUrl: string
+  title: string
+  isOpen: boolean
+  onClose: () => void
 }
 
 // Extrait l'ID YouTube de différents formats d'URL
 function extractYouTubeId(url: string): string | null {
-  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-  const match = regExp.exec(url);
-  return (match?.[7].length === 11) ? match[7] : null;
+  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+  const match = regExp.exec(url)
+  return match?.[7].length === 11 ? match[7] : null
 }
 
 export function YouTubeModal({ youtubeUrl, title, isOpen, onClose }: YouTubeModalProps) {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const videoId = extractYouTubeId(youtubeUrl);
+  const modalRef = useRef<HTMLDivElement>(null)
+  const videoId = extractYouTubeId(youtubeUrl)
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden'
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = 'unset'
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose();
+        onClose()
       }
-    };
+    }
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
+      document.addEventListener('keydown', handleEscape)
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen, onClose]);
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isOpen, onClose])
 
-  if (!isOpen || !videoId) return null;
+  if (!isOpen || !videoId) return null
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === modalRef.current) {
-      onClose();
+      onClose()
     }
-  };
+  }
 
   return (
     <div
@@ -69,7 +69,7 @@ export function YouTubeModal({ youtubeUrl, title, isOpen, onClose }: YouTubeModa
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute -right-4 -top-12 text-white hover:text-lime-300 transition-colors"
+          className="absolute -top-12 -right-4 text-white transition-colors hover:text-[var(--brand-neon)]"
           aria-label="Fermer"
         >
           <svg
@@ -79,7 +79,12 @@ export function YouTubeModal({ youtubeUrl, title, isOpen, onClose }: YouTubeModa
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
 
@@ -89,7 +94,10 @@ export function YouTubeModal({ youtubeUrl, title, isOpen, onClose }: YouTubeModa
         </h2>
 
         {/* YouTube player - aspect ratio 16:9 */}
-        <div className="relative overflow-hidden border-4 border-lime-300 bg-black" style={{ paddingBottom: '56.25%' }}>
+        <div
+          className="relative overflow-hidden border-4 border-[var(--brand-neon)] bg-black"
+          style={{ paddingBottom: '56.25%' }}
+        >
           <iframe
             className="absolute inset-0 h-full w-full"
             src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
@@ -100,5 +108,5 @@ export function YouTubeModal({ youtubeUrl, title, isOpen, onClose }: YouTubeModa
         </div>
       </div>
     </div>
-  );
+  )
 }

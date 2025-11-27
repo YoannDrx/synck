@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { withAuth } from "@/lib/api/with-auth";
+import { NextResponse } from 'next/server'
+
+import { withAuth } from '@/lib/api/with-auth'
+import { prisma } from '@/lib/prisma'
 
 export const GET = withAuth(async () => {
   // Fetch all stats in parallel
@@ -54,12 +55,12 @@ export const GET = withAuth(async () => {
 
     // Last activity - most recent work
     prisma.work.findFirst({
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
       select: {
         id: true,
         createdAt: true,
         translations: {
-          where: { locale: "fr" },
+          where: { locale: 'fr' },
           select: { title: true },
         },
       },
@@ -67,17 +68,17 @@ export const GET = withAuth(async () => {
 
     // Last activity - most recent artist
     prisma.artist.findFirst({
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
       select: {
         id: true,
         createdAt: true,
         translations: {
-          where: { locale: "fr" },
+          where: { locale: 'fr' },
           select: { name: true },
         },
       },
     }),
-  ]);
+  ])
 
   return NextResponse.json({
     works: {
@@ -106,17 +107,17 @@ export const GET = withAuth(async () => {
       work: lastWork
         ? {
             id: lastWork.id,
-            title: lastWork.translations[0]?.title ?? "Sans titre",
+            title: lastWork.translations[0]?.title ?? 'Sans titre',
             createdAt: lastWork.createdAt.toISOString(),
           }
         : null,
       artist: lastArtist
         ? {
             id: lastArtist.id,
-            name: lastArtist.translations[0]?.name ?? "Sans nom",
+            name: lastArtist.translations[0]?.name ?? 'Sans nom',
             createdAt: lastArtist.createdAt.toISOString(),
           }
         : null,
     },
-  });
-});
+  })
+})

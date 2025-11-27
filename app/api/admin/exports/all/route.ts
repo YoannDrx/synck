@@ -1,77 +1,74 @@
-import { NextResponse } from "next/server";
-import { withAuth } from "@/lib/api/with-auth";
-import { prisma } from "@/lib/prisma";
-import {
-  recordSuccessfulExport,
-  recordFailedExport,
-} from "@/lib/export-history";
-import { createAuditLog } from "@/lib/audit-log";
+import { NextResponse } from 'next/server'
+
+import { withAuth } from '@/lib/api/with-auth'
+import { createAuditLog } from '@/lib/audit-log'
+import { recordFailedExport, recordSuccessfulExport } from '@/lib/export-history'
+import { prisma } from '@/lib/prisma'
 
 // GET /api/admin/exports/all - Export all data
 export const GET = withAuth(async (request, _context, user) => {
   try {
     // Fetch all data
-    const [assets, works, artists, categories, labels, expertises] =
-      await Promise.all([
-        prisma.asset.findMany({
-          include: {
-            workImages: { select: { id: true, slug: true } },
-            workCover: { select: { id: true, slug: true } },
-            categoryImages: { select: { id: true, slug: true } },
-            labelImages: { select: { id: true, slug: true } },
-            artistImages: { select: { id: true, slug: true } },
-            expertiseImages: { select: { id: true, slug: true } },
-            expertiseCover: { select: { id: true, slug: true } },
+    const [assets, works, artists, categories, labels, expertises] = await Promise.all([
+      prisma.asset.findMany({
+        include: {
+          workImages: { select: { id: true, slug: true } },
+          workCover: { select: { id: true, slug: true } },
+          categoryImages: { select: { id: true, slug: true } },
+          labelImages: { select: { id: true, slug: true } },
+          artistImages: { select: { id: true, slug: true } },
+          expertiseImages: { select: { id: true, slug: true } },
+          expertiseCover: { select: { id: true, slug: true } },
+        },
+      }),
+      prisma.work.findMany({
+        include: {
+          translations: true,
+          category: { include: { translations: true } },
+          label: { include: { translations: true } },
+          coverImage: true,
+          images: true,
+          contributions: {
+            include: {
+              artist: { include: { translations: true } },
+            },
           },
-        }),
-        prisma.work.findMany({
-          include: {
-            translations: true,
-            category: { include: { translations: true } },
-            label: { include: { translations: true } },
-            coverImage: true,
-            images: true,
-            contributions: {
-              include: {
-                artist: { include: { translations: true } },
+        },
+      }),
+      prisma.artist.findMany({
+        include: {
+          translations: true,
+          image: true,
+          links: true,
+          contributions: {
+            include: {
+              work: {
+                select: { id: true, slug: true, translations: true },
               },
             },
           },
-        }),
-        prisma.artist.findMany({
-          include: {
-            translations: true,
-            image: true,
-            links: true,
-            contributions: {
-              include: {
-                work: {
-                  select: { id: true, slug: true, translations: true },
-                },
-              },
-            },
-          },
-        }),
-        prisma.category.findMany({
-          include: {
-            translations: true,
-            coverImage: true,
-          },
-        }),
-        prisma.label.findMany({
-          include: {
-            translations: true,
-            image: true,
-          },
-        }),
-        prisma.expertise.findMany({
-          include: {
-            translations: true,
-            coverImage: true,
-            images: true,
-          },
-        }),
-      ]);
+        },
+      }),
+      prisma.category.findMany({
+        include: {
+          translations: true,
+          coverImage: true,
+        },
+      }),
+      prisma.label.findMany({
+        include: {
+          translations: true,
+          image: true,
+        },
+      }),
+      prisma.expertise.findMany({
+        include: {
+          translations: true,
+          coverImage: true,
+          images: true,
+        },
+      }),
+    ])
 
     const data = {
       assets,
@@ -89,7 +86,7 @@ export const GET = withAuth(async (request, _context, user) => {
         labels: labels.length,
         expertises: expertises.length,
       },
-    };
+    }
 
     const totalCount =
       assets.length +
@@ -97,25 +94,25 @@ export const GET = withAuth(async (request, _context, user) => {
       artists.length +
       categories.length +
       labels.length +
-      expertises.length;
+      expertises.length
 
     // Record export in history
     await recordSuccessfulExport({
       userId: user.id,
-      type: "ALL",
-      format: "JSON",
+      type: 'ALL',
+      format: 'JSON',
       entityCount: totalCount,
       data,
-    });
+    })
 
     // Audit log
     await createAuditLog({
       userId: user.id,
-      action: "EXPORT",
-      entityType: "All",
+      action: 'EXPORT',
+      entityType: 'All',
       metadata: {
-        type: "ALL",
-        format: "JSON",
+        type: 'ALL',
+        format: 'JSON',
         entityCount: totalCount,
         breakdown: {
           assets: assets.length,
@@ -126,23 +123,20 @@ export const GET = withAuth(async (request, _context, user) => {
           expertises: expertises.length,
         },
       },
-      ipAddress: request.headers.get("x-forwarded-for") ?? undefined,
-      userAgent: request.headers.get("user-agent") ?? undefined,
-    });
+      ipAddress: request.headers.get('x-forwarded-for') ?? undefined,
+      userAgent: request.headers.get('user-agent') ?? undefined,
+    })
 
-    return NextResponse.json(data);
+    return NextResponse.json(data)
   } catch (error) {
     // Record failed export
     await recordFailedExport({
       userId: user.id,
-      type: "ALL",
-      format: "JSON",
-      error: error instanceof Error ? error.message : "Unknown error",
-    });
+      type: 'ALL',
+      format: 'JSON',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    })
 
-    return NextResponse.json(
-      { error: "Failed to export data" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: 'Failed to export data' }, { status: 500 })
   }
-});
+})

@@ -1,125 +1,125 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { toast } from "sonner";
-import { ImageIcon, SaveIcon } from "lucide-react";
-import { fetchWithAuth } from "@/lib/fetch-with-auth";
-import { MarkdownEditor } from "@/components/admin/markdown-editor";
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+import { ImageIcon, SaveIcon } from 'lucide-react'
+import { toast } from 'sonner'
+
+import { fetchWithAuth } from '@/lib/fetch-with-auth'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Textarea } from '@/components/ui/textarea'
+
+import { MarkdownEditor } from '@/components/admin/markdown-editor'
 
 type ExpertiseFormData = {
-  slug: string;
-  coverImageId: string | null;
-  order: number;
-  isActive: boolean;
+  slug: string
+  coverImageId: string | null
+  order: number
+  isActive: boolean
   translations: {
     fr: {
-      title: string;
-      subtitle: string;
-      description: string;
-      content: string;
-    };
+      title: string
+      subtitle: string
+      description: string
+      content: string
+    }
     en: {
-      title: string;
-      subtitle: string;
-      description: string;
-      content: string;
-    };
-  };
-};
+      title: string
+      subtitle: string
+      description: string
+      content: string
+    }
+  }
+}
 
 type ExpertiseFormProps = {
-  locale: string;
-  initialData?: ExpertiseFormData & { id: string };
-  isEdit?: boolean;
-};
+  locale: string
+  initialData?: ExpertiseFormData & { id: string }
+  isEdit?: boolean
+}
 
-export function ExpertiseForm({
-  locale,
-  initialData,
-  isEdit = false,
-}: ExpertiseFormProps) {
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+export function ExpertiseForm({ locale, initialData, isEdit = false }: ExpertiseFormProps) {
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [formData, setFormData] = useState<ExpertiseFormData>({
-    slug: initialData?.slug ?? "",
+    slug: initialData?.slug ?? '',
     coverImageId: initialData?.coverImageId ?? null,
     order: initialData?.order ?? 0,
     isActive: initialData?.isActive ?? true,
     translations: {
       fr: {
-        title: initialData?.translations.fr.title ?? "",
-        subtitle: initialData?.translations.fr.subtitle ?? "",
-        description: initialData?.translations.fr.description ?? "",
-        content: initialData?.translations.fr.content ?? "",
+        title: initialData?.translations.fr.title ?? '',
+        subtitle: initialData?.translations.fr.subtitle ?? '',
+        description: initialData?.translations.fr.description ?? '',
+        content: initialData?.translations.fr.content ?? '',
       },
       en: {
-        title: initialData?.translations.en.title ?? "",
-        subtitle: initialData?.translations.en.subtitle ?? "",
-        description: initialData?.translations.en.description ?? "",
-        content: initialData?.translations.en.content ?? "",
+        title: initialData?.translations.en.title ?? '',
+        subtitle: initialData?.translations.en.subtitle ?? '',
+        description: initialData?.translations.en.description ?? '',
+        content: initialData?.translations.en.content ?? '',
       },
     },
-  });
+  })
 
   // Auto-generate slug from French title
   useEffect(() => {
     if (!isEdit && formData.translations.fr.title) {
       const slug = formData.translations.fr.title
         .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-      setFormData((prev) => ({ ...prev, slug }));
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+      setFormData((prev) => ({ ...prev, slug }))
     }
-  }, [formData.translations.fr.title, isEdit]);
+  }, [formData.translations.fr.title, isEdit])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+    e.preventDefault()
+    setIsSubmitting(true)
 
     try {
       const url = isEdit
         ? `/api/admin/expertises/${String(initialData?.id)}`
-        : "/api/admin/expertises";
-      const method = isEdit ? "PATCH" : "POST";
+        : '/api/admin/expertises'
+      const method = isEdit ? 'PATCH' : 'POST'
 
       const res = await fetchWithAuth(url, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
-      });
+      })
 
       if (res.ok) {
-        toast.success(isEdit ? "Expertise mise à jour" : "Expertise créée");
-        router.push(`/${locale}/admin/expertises`);
-        router.refresh();
+        toast.success(isEdit ? 'Expertise mise à jour' : 'Expertise créée')
+        router.push(`/${locale}/admin/expertises`)
+        router.refresh()
       } else {
-        const error = (await res.json()) as { error?: string };
-        toast.error(error.error ?? "Erreur lors de l'enregistrement");
+        const error = (await res.json()) as { error?: string }
+        toast.error(error.error ?? "Erreur lors de l'enregistrement")
       }
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error("Error saving expertise:", error);
-      toast.error("Erreur lors de l'enregistrement");
+      console.error('Error saving expertise:', error)
+      toast.error("Erreur lors de l'enregistrement")
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <form
       onSubmit={(e) => {
-        void handleSubmit(e);
+        void handleSubmit(e)
       }}
       className="space-y-6"
     >
@@ -138,7 +138,7 @@ export function ExpertiseForm({
                 id="slug"
                 value={formData.slug}
                 onChange={(e) => {
-                  setFormData({ ...formData, slug: e.target.value });
+                  setFormData({ ...formData, slug: e.target.value })
                 }}
                 required
                 className="border-white/20 bg-white/5 text-white"
@@ -153,7 +153,7 @@ export function ExpertiseForm({
                 type="number"
                 value={formData.order}
                 onChange={(e) => {
-                  setFormData({ ...formData, order: parseInt(e.target.value) });
+                  setFormData({ ...formData, order: parseInt(e.target.value) })
                 }}
                 className="border-white/20 bg-white/5 text-white"
               />
@@ -165,7 +165,7 @@ export function ExpertiseForm({
               id="isActive"
               checked={formData.isActive}
               onCheckedChange={(checked) => {
-                setFormData({ ...formData, isActive: checked });
+                setFormData({ ...formData, isActive: checked })
               }}
             />
             <Label htmlFor="isActive" className="text-white">
@@ -180,9 +180,9 @@ export function ExpertiseForm({
             <div className="flex gap-2">
               <Input
                 id="coverImageId"
-                value={formData.coverImageId ?? ""}
+                value={formData.coverImageId ?? ''}
                 onChange={(e) => {
-                  setFormData({ ...formData, coverImageId: e.target.value });
+                  setFormData({ ...formData, coverImageId: e.target.value })
                 }}
                 placeholder="ID de l'image"
                 className="border-white/20 bg-white/5 text-white"
@@ -192,7 +192,7 @@ export function ExpertiseForm({
                 variant="outline"
                 className="border-white/20 text-white hover:bg-white/10"
                 onClick={() => {
-                  router.push(`/${locale}/admin/medias`);
+                  router.push(`/${locale}/admin/medias`)
                 }}
               >
                 <ImageIcon className="h-4 w-4" />
@@ -233,7 +233,7 @@ export function ExpertiseForm({
                           title: e.target.value,
                         },
                       },
-                    });
+                    })
                   }}
                   required
                   className="border-white/20 bg-white/5 text-white"
@@ -257,7 +257,7 @@ export function ExpertiseForm({
                           subtitle: e.target.value,
                         },
                       },
-                    });
+                    })
                   }}
                   className="border-white/20 bg-white/5 text-white"
                 />
@@ -280,7 +280,7 @@ export function ExpertiseForm({
                           description: e.target.value,
                         },
                       },
-                    });
+                    })
                   }}
                   rows={3}
                   className="border-white/20 bg-white/5 text-white"
@@ -300,10 +300,10 @@ export function ExpertiseForm({
                         ...formData.translations,
                         fr: {
                           ...formData.translations.fr,
-                          content: value ?? "",
+                          content: value ?? '',
                         },
                       },
-                    });
+                    })
                   }}
                   height={500}
                 />
@@ -329,7 +329,7 @@ export function ExpertiseForm({
                           title: e.target.value,
                         },
                       },
-                    });
+                    })
                   }}
                   required
                   className="border-white/20 bg-white/5 text-white"
@@ -353,7 +353,7 @@ export function ExpertiseForm({
                           subtitle: e.target.value,
                         },
                       },
-                    });
+                    })
                   }}
                   className="border-white/20 bg-white/5 text-white"
                 />
@@ -376,7 +376,7 @@ export function ExpertiseForm({
                           description: e.target.value,
                         },
                       },
-                    });
+                    })
                   }}
                   rows={3}
                   className="border-white/20 bg-white/5 text-white"
@@ -396,10 +396,10 @@ export function ExpertiseForm({
                         ...formData.translations,
                         en: {
                           ...formData.translations.en,
-                          content: value ?? "",
+                          content: value ?? '',
                         },
                       },
-                    });
+                    })
                   }}
                   height={500}
                 />
@@ -414,16 +414,16 @@ export function ExpertiseForm({
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="gap-2 bg-lime-300 text-black hover:bg-lime-400"
+          className="gap-2 [background-color:var(--brand-neon)] text-black hover:[background-color:var(--neon-400)]"
         >
           <SaveIcon className="h-4 w-4" />
-          {isSubmitting ? "Enregistrement..." : "Enregistrer"}
+          {isSubmitting ? 'Enregistrement...' : 'Enregistrer'}
         </Button>
         <Button
           type="button"
           variant="outline"
           onClick={() => {
-            router.back();
+            router.back()
           }}
           className="border-white/20 text-white hover:bg-white/10"
         >
@@ -431,5 +431,5 @@ export function ExpertiseForm({
         </Button>
       </div>
     </form>
-  );
+  )
 }

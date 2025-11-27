@@ -1,20 +1,19 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import type { AdminDictionary } from "@/types/dictionary"
-import { fetchWithAuth } from "@/lib/fetch-with-auth"
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+
+import { fetchWithAuth } from '@/lib/fetch-with-auth'
+
+import type { AdminDictionary } from '@/types/dictionary'
 
 type DeleteWorkButtonProps = {
   workId: string
   workTitle: string
-  dictionary: AdminDictionary["common"]
+  dictionary: AdminDictionary['common']
 }
 
-export function DeleteWorkButton({
-  workId,
-  dictionary,
-}: DeleteWorkButtonProps) {
+export function DeleteWorkButton({ workId, dictionary }: DeleteWorkButtonProps) {
   const router = useRouter()
   const [isDeleting, setIsDeleting] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
@@ -24,19 +23,19 @@ export function DeleteWorkButton({
 
     try {
       const response = await fetchWithAuth(`/api/admin/projects/${workId}`, {
-        method: "DELETE",
+        method: 'DELETE',
       })
 
       if (!response.ok) {
-        const data = await response.json() as { error?: string }
-        alert(data.error ?? "Erreur lors de la suppression")
+        const data = (await response.json()) as { error?: string }
+        alert(data.error ?? 'Erreur lors de la suppression')
         setIsDeleting(false)
         return
       }
 
       router.refresh()
     } catch {
-      alert("Erreur lors de la suppression")
+      alert('Erreur lors de la suppression')
       setIsDeleting(false)
     }
   }
@@ -46,17 +45,21 @@ export function DeleteWorkButton({
       <div className="flex items-center space-x-2">
         <button
           type="button"
-          onClick={() => { void handleDelete() }}
+          onClick={() => {
+            void handleDelete()
+          }}
           disabled={isDeleting}
-          className="border-2 border-red-500/50 text-red-400 hover:bg-red-500/10 px-3 py-2 text-sm transition-colors disabled:opacity-50"
+          className="border-2 border-red-500/50 px-3 py-2 text-sm text-red-400 transition-colors hover:bg-red-500/10 disabled:opacity-50"
         >
-          {isDeleting ? dictionary.deleting : "Confirmer"}
+          {isDeleting ? dictionary.deleting : 'Confirmer'}
         </button>
         <button
           type="button"
-          onClick={() => { setShowConfirm(false); }}
+          onClick={() => {
+            setShowConfirm(false)
+          }}
           disabled={isDeleting}
-          className="border-2 border-white/20 px-3 py-2 text-sm hover:border-white/40 transition-colors"
+          className="border-2 border-white/20 px-3 py-2 text-sm transition-colors hover:border-white/40"
         >
           Annuler
         </button>
@@ -67,8 +70,10 @@ export function DeleteWorkButton({
   return (
     <button
       type="button"
-      onClick={() => { setShowConfirm(true); }}
-      className="border-2 border-red-500/50 text-red-400 hover:bg-red-500/10 px-3 py-2 text-sm transition-colors"
+      onClick={() => {
+        setShowConfirm(true)
+      }}
+      className="border-2 border-red-500/50 px-3 py-2 text-sm text-red-400 transition-colors hover:bg-red-500/10"
     >
       {dictionary.delete}
     </button>

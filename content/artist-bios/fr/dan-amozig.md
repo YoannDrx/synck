@@ -2,8 +2,8 @@ Dan Amozig est un artiste multi-instrumentiste originaire d'Amiens, célèbre po
 Dès le début des années 2000, Dan commence à s'impliquer dans la scène musicale, explorant le jazz et le hip-hop. Son talent et sa polyvalence le mènent à Paris en 2010, où il intègre rapidement diverses formations musicales, aussi bien dans le hip-hop (Billie Brelok, JP Manova live band, Blanka Flares trio) que dans le jazz (Forswing quartet, Awa, BAP Trio, duo de guitares le Double Jack). Ces groupes se produisent dans des festivals renommés tels que Rock en Seine, les Transmusicales, et les Francofolies de La Rochelle.
 Parallèlement à ses performances scéniques et ses enregistrements en studio, Dan anime l'émission Fine Cuts sur Radio Campus Paris 93,9FM depuis 2011. Cette émission lui permet de rencontrer et d'interviewer une multitude d'artistes influents. Diplômé du CIM en 2014, il partage également sa passion pour la musique en tant que professeur de guitare au conservatoire d'Epinay-sur-Seine, où il enseigne les musiques actuelles.
 Dan continue d'enrichir la scène musicale avec des contributions notables sur plusieurs albums. En 2024, il apparaît sur quatre albums variés, reflétant son éclectisme artistique :
-	•	Awon & Parental - « Sublime » (rap)
-	•	Principles of Joy - « It's soul that counts » (soul)
-	•	N'Zeng - « The Trip » (trip-hop)
-	•	Yann Kornowicz & Dan Amozig - « VIDEOCLUB 2 » (bande originale)
+• Awon & Parental - « Sublime » (rap)
+• Principles of Joy - « It's soul that counts » (soul)
+• N'Zeng - « The Trip » (trip-hop)
+• Yann Kornowicz & Dan Amozig - « VIDEOCLUB 2 » (bande originale)
 Avec un pied fermement ancré dans le jazz et l'autre explorant les contrées du hip-hop et au-delà, Dan Amozig est un véritable pionnier musical. Sa capacité à intégrer différentes influences musicales en fait une figure marquante de la scène musicale contemporaine française.

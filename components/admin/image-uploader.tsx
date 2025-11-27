@@ -1,9 +1,11 @@
-"use client"
+'use client'
 
-import { useState, useRef } from "react"
-import Image from "next/image"
-import type { AdminDictionary } from "@/types/dictionary"
-import { fetchWithAuth } from "@/lib/fetch-with-auth"
+import Image from 'next/image'
+import { useRef, useState } from 'react'
+
+import { fetchWithAuth } from '@/lib/fetch-with-auth'
+
+import type { AdminDictionary } from '@/types/dictionary'
 
 type UploadedImage = {
   url: string
@@ -15,7 +17,7 @@ type UploadedImage = {
 }
 
 type ImageUploaderProps = {
-  dictionary: AdminDictionary["common"]
+  dictionary: AdminDictionary['common']
   currentImage?: string | null
   onImageUploaded: (image: UploadedImage) => void
   onImageRemoved?: () => void
@@ -37,8 +39,8 @@ export function ImageUploader({
     if (!file) return
 
     // Client-side validation
-    if (!file.type.startsWith("image/")) {
-      setError("Le fichier doit être une image")
+    if (!file.type.startsWith('image/')) {
+      setError('Le fichier doit être une image')
       return
     }
 
@@ -59,19 +61,19 @@ export function ImageUploader({
 
     try {
       const formData = new FormData()
-      formData.append("file", file)
+      formData.append('file', file)
 
-      const response = await fetchWithAuth("/api/admin/upload", {
-        method: "POST",
+      const response = await fetchWithAuth('/api/admin/upload', {
+        method: 'POST',
         body: formData,
       })
 
       if (!response.ok) {
-        const data = await response.json() as { error?: string }
+        const data = (await response.json()) as { error?: string }
         throw new Error(data.error ?? "Erreur lors de l'upload")
       }
 
-      const uploadedImage = await response.json() as UploadedImage
+      const uploadedImage = (await response.json()) as UploadedImage
       onImageUploaded(uploadedImage)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erreur lors de l'upload")
@@ -84,7 +86,7 @@ export function ImageUploader({
   const handleRemove = () => {
     setPreview(null)
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""
+      fileInputRef.current.value = ''
     }
     onImageRemoved?.()
   }
@@ -95,17 +97,12 @@ export function ImageUploader({
       {preview && (
         <div className="relative border-2 border-white/20 bg-white/5 p-4">
           <div className="relative aspect-video w-full max-w-md">
-            <Image
-              src={preview}
-              alt="Preview"
-              fill
-              className="object-contain"
-            />
+            <Image src={preview} alt="Preview" fill className="object-contain" />
           </div>
           <button
             type="button"
             onClick={handleRemove}
-            className="mt-4 border-2 border-red-500/50 text-red-400 hover:bg-red-500/10 px-4 py-2 text-sm transition-colors"
+            className="mt-4 border-2 border-red-500/50 px-4 py-2 text-sm text-red-400 transition-colors hover:bg-red-500/10"
           >
             {dictionary.removeImage}
           </button>
@@ -118,15 +115,17 @@ export function ImageUploader({
           ref={fileInputRef}
           type="file"
           accept="image/*"
-          onChange={(e) => { void handleFileChange(e) }}
+          onChange={(e) => {
+            void handleFileChange(e)
+          }}
           disabled={isUploading}
           className="hidden"
           id="image-upload"
         />
         <label
           htmlFor="image-upload"
-          className={`inline-block border-2 border-[#d5ff0a] bg-[#d5ff0a] text-black font-semibold hover:bg-[#c5ef00] px-6 py-3 cursor-pointer transition-colors ${
-            isUploading ? "opacity-50 cursor-not-allowed" : ""
+          className={`inline-block cursor-pointer border-2 border-[#d5ff0a] bg-[#d5ff0a] px-6 py-3 font-semibold text-black transition-colors hover:bg-[#c5ef00] ${
+            isUploading ? 'cursor-not-allowed opacity-50' : ''
           }`}
         >
           {isUploading

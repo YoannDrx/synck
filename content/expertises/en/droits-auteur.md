@@ -1,15 +1,15 @@
 ---
-id: "1"
-title: "Copyright Management"
+id: '1'
+title: 'Copyright Management'
 description: "The term 'author' refers to the individual who writes the lyrics of a song"
-slug: "droits-auteur"
+slug: 'droits-auteur'
 imgHome: /images/projets/expertises/droits-auteur/droits-auteur-home.jpg
 img1: /images/projets/expertises/droits-auteur/droits-auteur-section-1.jpg
 img2: /images/projets/expertises/droits-auteur/droits-auteur-section-2.jpg
 img3: /images/projets/expertises/droits-auteur/droits-auteur-section-3.jpg
 img4: /images/projets/expertises/droits-auteur/droits-auteur-section-4.jpg
 img5: /images/projets/expertises/droits-auteur/droits-auteur-section-5.jpg
-imgFooter: ""
+imgFooter: ''
 sectionsLayout:
   - image: img1
     position: right

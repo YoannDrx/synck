@@ -1,15 +1,17 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import type { AdminDictionary } from "@/types/dictionary"
-import { fetchWithAuth } from "@/lib/fetch-with-auth"
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+
+import { fetchWithAuth } from '@/lib/fetch-with-auth'
+
+import type { AdminDictionary } from '@/types/dictionary'
 
 type DeleteArtistButtonProps = {
   artistId: string
   artistName: string
   hasContributions: boolean
-  dictionary: AdminDictionary["common"]
+  dictionary: AdminDictionary['common']
 }
 
 export function DeleteArtistButton({
@@ -26,19 +28,19 @@ export function DeleteArtistButton({
 
     try {
       const response = await fetchWithAuth(`/api/admin/artists/${artistId}`, {
-        method: "DELETE",
+        method: 'DELETE',
       })
 
       if (!response.ok) {
-        const data = await response.json() as { error?: string }
-        alert(data.error ?? "Erreur lors de la suppression")
+        const data = (await response.json()) as { error?: string }
+        alert(data.error ?? 'Erreur lors de la suppression')
         setIsDeleting(false)
         return
       }
 
       router.refresh()
     } catch {
-      alert("Erreur lors de la suppression")
+      alert('Erreur lors de la suppression')
       setIsDeleting(false)
     }
   }
@@ -48,7 +50,7 @@ export function DeleteArtistButton({
       <button
         type="button"
         disabled
-        className="border-2 border-white/10 px-3 py-2 text-sm text-white/30 cursor-not-allowed"
+        className="cursor-not-allowed border-2 border-white/10 px-3 py-2 text-sm text-white/30"
         title="Ce artiste a des contributions"
       >
         {dictionary.delete}
@@ -61,17 +63,21 @@ export function DeleteArtistButton({
       <div className="flex items-center space-x-2">
         <button
           type="button"
-          onClick={() => { void handleDelete() }}
+          onClick={() => {
+            void handleDelete()
+          }}
           disabled={isDeleting}
-          className="border-2 border-red-500/50 text-red-400 hover:bg-red-500/10 px-3 py-2 text-sm transition-colors disabled:opacity-50"
+          className="border-2 border-red-500/50 px-3 py-2 text-sm text-red-400 transition-colors hover:bg-red-500/10 disabled:opacity-50"
         >
-          {isDeleting ? dictionary.deleting : "Confirmer"}
+          {isDeleting ? dictionary.deleting : 'Confirmer'}
         </button>
         <button
           type="button"
-          onClick={() => { setShowConfirm(false); }}
+          onClick={() => {
+            setShowConfirm(false)
+          }}
           disabled={isDeleting}
-          className="border-2 border-white/20 px-3 py-2 text-sm hover:border-white/40 transition-colors"
+          className="border-2 border-white/20 px-3 py-2 text-sm transition-colors hover:border-white/40"
         >
           Annuler
         </button>
@@ -82,8 +88,10 @@ export function DeleteArtistButton({
   return (
     <button
       type="button"
-      onClick={() => { setShowConfirm(true); }}
-      className="border-2 border-red-500/50 text-red-400 hover:bg-red-500/10 px-3 py-2 text-sm transition-colors"
+      onClick={() => {
+        setShowConfirm(true)
+      }}
+      className="border-2 border-red-500/50 px-3 py-2 text-sm text-red-400 transition-colors hover:bg-red-500/10"
     >
       {dictionary.delete}
     </button>

@@ -13,7 +13,7 @@ img4: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-ad
 img4Link: 'https://popfilms.fr'
 img5: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-5.jpg
 img5Link: 'https://www.viadecouvertes.fr/'
-imgFooter: ""
+imgFooter: ''
 sectionsLayout:
   - image: img1
     position: right
@@ -26,22 +26,22 @@ sectionsLayout:
   - image: img5
     position: right
 productionCompanies:
-  - name: "Little Big Story"
+  - name: 'Little Big Story'
     logo: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-2.jpg
-    description: "Little Big Story is a French audiovisual production company based in Paris, dedicated to documentaries, long-form content, and international productions. It aims to revisit narrative modes by blending forms, genres, and media to tell stories that lay bare the times. Little Big Story has learned from a fragmented market and an ongoing audiovisual revolution. This approach is based on the idea of a (television) viewer-citizen already steeped in images and demanding. It is a forward-looking approach, carrying ambitious projects and multiple funding sources. Through their form and substance, the projects target large audiences in France and on the international market. Little Big Story is the winner of the 2018 television producer award (documentary category)."
-    website: "https://www.film-documentaire.fr/4DACTION/w_liste_generique/S_67401_G"
-  - name: "13 Prods"
+    description: 'Little Big Story is a French audiovisual production company based in Paris, dedicated to documentaries, long-form content, and international productions. It aims to revisit narrative modes by blending forms, genres, and media to tell stories that lay bare the times. Little Big Story has learned from a fragmented market and an ongoing audiovisual revolution. This approach is based on the idea of a (television) viewer-citizen already steeped in images and demanding. It is a forward-looking approach, carrying ambitious projects and multiple funding sources. Through their form and substance, the projects target large audiences in France and on the international market. Little Big Story is the winner of the 2018 television producer award (documentary category).'
+    website: 'https://www.film-documentaire.fr/4DACTION/w_liste_generique/S_67401_G'
+  - name: '13 Prods'
     logo: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-3.jpg
     description: "13 Prods was born from the merger of two production companies, 13 Productions and 13 au Sud. Two companies with different profiles but complementary and compatible editorial approaches. Merging experience with modernity, 13 Prods explores and enriches documentary cinema, while asserting its singular presence in the field of fiction. Questioning the world, investigating its mechanisms, highlighting breaking points and lines of utopia while sharing the lives of committed men and women - this is what drives 13 Prods' enthusiasm."
-    website: "https://www.13prods.fr"
+    website: 'https://www.13prods.fr'
   - name: "Pop'films"
     logo: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-4.jpg
     description: "Pop'films is a production company created in 2021. It is built on the experience of Sylvie Gautier, producer and director, who has worked on over 250 television programs since 1997, first at Gédéon Programmes (1997-2002) then at Camera Lucida (2002-2021) for all channels including France Télévisions, Arte France, Histoire TV, Ushuaia, Voyages, LCP, Public Sénat, KTO TV, TV5 Monde as well as Planète+ and STM WEO in France and abroad for Discovery US, RTBF, RTS... Her career in audiovisual, begun in 1988 within the Gédéon agency, has shaped her conviction: to support projects by committed and passionate authors and directors to deliver quality programs, enabling the public to form their own opinion. Today pop'films wishes to collaborate with broadcasters and other producers to continue promoting culture in all its forms, with programs that help us step back from current events, whether through reflection or entertainment. Above all, pop'films wants to defend a popular and elegant culture, accessible to everyone."
-    website: "https://popfilms.fr"
-  - name: "Via Découvertes Films"
+    website: 'https://popfilms.fr'
+  - name: 'Via Découvertes Films'
     logo: /images/projets/expertises/gestion-administrative-et-editoriale/gestion-administrative-et-editoriale-section-5.jpg
-    description: "Via Découvertes Films concentrates its activity on the production of audiovisual content for television programs, institutions, and companies. Founded in 1993, Via Découvertes Films has secured the skills and loyalty of many directors, journalists, cinematographers, editors... Rich in creativity and expertise, their teams set out to discover the world, peoples, events, current affairs... Giving viewers the opportunity to gain insight into the daily and often extraordinary adventure that every human being carries within them. Favoring encounters and unusual places, Via Découvertes Films produces all of its films in High Definition. It pays extreme attention to the quality of its productions, the relevance of their content, and their cultural and informational aspects. Discovery, Environment, Science, Health, Society, Investigation, Geopolitics are some of the themes they address, not forgetting the \"sea film,\" a true specialty of the company. With 20 years of experience, Via Découvertes Films today produces documentaries for the main French public and private broadcasters (France Télévisions, Arte, Canal+...), and has in its catalog over 150 films distributed and broadcast worldwide."
-    website: "https://www.viadecouvertes.fr/"
+    description: 'Via Découvertes Films concentrates its activity on the production of audiovisual content for television programs, institutions, and companies. Founded in 1993, Via Découvertes Films has secured the skills and loyalty of many directors, journalists, cinematographers, editors... Rich in creativity and expertise, their teams set out to discover the world, peoples, events, current affairs... Giving viewers the opportunity to gain insight into the daily and often extraordinary adventure that every human being carries within them. Favoring encounters and unusual places, Via Découvertes Films produces all of its films in High Definition. It pays extreme attention to the quality of its productions, the relevance of their content, and their cultural and informational aspects. Discovery, Environment, Science, Health, Society, Investigation, Geopolitics are some of the themes they address, not forgetting the "sea film," a true specialty of the company. With 20 years of experience, Via Découvertes Films today produces documentaries for the main French public and private broadcasters (France Télévisions, Arte, Canal+...), and has in its catalog over 150 films distributed and broadcast worldwide.'
+    website: 'https://www.viadecouvertes.fr/'
 documentaires:
   - title: Numero 387 disparu en méditerranée
     subtitle: little-big-story
@@ -573,7 +573,7 @@ documentaires:
     link: 'https://www.13prods.fr/masque-de-fer/'
     category: 13-prods
     height: '150'
-  - title: "Eric Piolle, le pèlerin vert"
+  - title: 'Eric Piolle, le pèlerin vert'
     subtitle: 13-prods
     href: /images/projets/documentaires/13prods/eric-piolle.jpg
     src: /images/projets/documentaires/13prods/eric-piolle.jpg
@@ -581,7 +581,7 @@ documentaires:
     link: 'https://www.13prods.fr/eric-piolle-le-pelerin-vert/'
     category: 13-prods
     height: '150'
-  - title: "Mic Mac à Millau, les paysans face à la mondialisation"
+  - title: 'Mic Mac à Millau, les paysans face à la mondialisation'
     subtitle: 13-prods
     href: >-
       /images/projets/documentaires/13prods/micmac.jpg
@@ -714,7 +714,7 @@ documentaires:
     link: 'https://www.13prods.fr/deuxieme-chance/'
     category: 13-prods
     height: '150'
-  - title: "Patrick Edlinger, la liberté au bout des doigts"
+  - title: 'Patrick Edlinger, la liberté au bout des doigts'
     subtitle: pop-films
     href: /images/projets/documentaires/pop-films/patrick-edlinger.jpg
     src: /images/projets/documentaires/pop-films/patrick-edlinger.jpg
@@ -781,7 +781,7 @@ documentaires:
     link: 'https://www.13prods.fr/gaudin-lheure-de-linventaire/'
     category: 13-prods
     height: '200'
-  - title: "Gorongosa, le parc de la réconciliation"
+  - title: 'Gorongosa, le parc de la réconciliation'
     subtitle: pop-films
     href: /images/projets/documentaires/pop-films/gorongosa.jpg
     src: /images/projets/documentaires/pop-films/gorongosa.jpg
@@ -840,7 +840,7 @@ documentaires:
     link: 'https://www.13prods.fr/les-enfants-de-huahine-en-occitanie/'
     category: 13-prods
     height: '250'
-  - title: "Se mettre au vert, une utopie en Périgord"
+  - title: 'Se mettre au vert, une utopie en Périgord'
     subtitle: ''
     href: /images/projets/documentaires/13prods/se-mettre-au-vert-expertise.jpg
     src: /images/projets/documentaires/13prods/se-mettre-au-vert-expertise.jpg
@@ -848,7 +848,7 @@ documentaires:
     link: 'https://www.13prods.fr/se-mettre-au-vert-une-utopie-en-perigord/'
     category: 13-prods
     height: '150'
-  - title: "Mangas, une révolution française"
+  - title: 'Mangas, une révolution française'
     subtitle: ''
     href: >-
       /images/projets/documentaires/13prods/mangas.jpg
@@ -859,7 +859,7 @@ documentaires:
     link: 'https://www.13prods.fr/mangas-une-revolution-francaise-2/'
     category: 13-prods
     height: '180'
-  - title: "Entendez-nous, violences intrafamiliales en Polynésie"
+  - title: 'Entendez-nous, violences intrafamiliales en Polynésie'
     subtitle: ''
     href: /images/projets/documentaires/13prods/entendez-nous-violence-intrafamiliales-en-polynesie.jpg
     src: /images/projets/documentaires/13prods/entendez-nous-violence-intrafamiliales-en-polynesie.jpg

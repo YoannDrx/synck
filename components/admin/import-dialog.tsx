@@ -1,8 +1,13 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import { Upload, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react'
+
+import { Upload, X } from 'lucide-react'
+import { toast } from 'sonner'
+
+import { detectFormat, parseFile } from '@/lib/import'
+
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -10,75 +15,73 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
-import { parseFile, detectFormat } from "@/lib/import";
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
 
 type ImportDialogProps = {
-  entity: "projects" | "artists";
-  onSuccess?: () => void;
-};
+  entity: 'projects' | 'artists'
+  onSuccess?: () => void
+}
 
 export function ImportDialog({ entity, onSuccess }: ImportDialogProps) {
-  const [open, setOpen] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [updateExisting, setUpdateExisting] = useState(false);
-  const [isImporting, setIsImporting] = useState(false);
+  const [open, setOpen] = useState(false)
+  const [file, setFile] = useState<File | null>(null)
+  const [updateExisting, setUpdateExisting] = useState(false)
+  const [isImporting, setIsImporting] = useState(false)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) setFile(selectedFile);
-  };
+    const selectedFile = e.target.files?.[0]
+    if (selectedFile) setFile(selectedFile)
+  }
 
   const handleImport = async () => {
-    if (!file) return;
+    if (!file) return
 
-    const format = detectFormat(file.name);
+    const format = detectFormat(file.name)
     if (!format) {
-      toast.error("Format de fichier non supporté");
-      return;
+      toast.error('Format de fichier non supporté')
+      return
     }
 
-    setIsImporting(true);
+    setIsImporting(true)
 
     try {
-      const data = await parseFile(file, format);
+      const data = await parseFile(file, format)
 
       const response = await fetch(`/api/admin/import/${entity}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ data, updateExisting }),
-        credentials: "include",
-      });
+        credentials: 'include',
+      })
 
-      if (!response.ok) throw new Error("Import failed");
+      if (!response.ok) throw new Error('Import failed')
 
       const result = (await response.json()) as {
-        created: number;
-        updated: number;
-        errors: { row: number; error: string }[];
-      };
+        created: number
+        updated: number
+        errors: { row: number; error: string }[]
+      }
 
       if (result.errors.length > 0) {
         toast.error(
-          `${String(result.errors.length)} erreurs. ${String(result.created)} créés, ${String(result.updated)} mis à jour.`,
-        );
+          `${String(result.errors.length)} erreurs. ${String(result.created)} créés, ${String(result.updated)} mis à jour.`
+        )
       } else {
         toast.success(
-          `Import réussi ! ${String(result.created)} créés, ${String(result.updated)} mis à jour.`,
-        );
-        setOpen(false);
-        setFile(null);
-        onSuccess?.();
+          `Import réussi ! ${String(result.created)} créés, ${String(result.updated)} mis à jour.`
+        )
+        setOpen(false)
+        setFile(null)
+        onSuccess?.()
       }
     } catch {
-      toast.error("Erreur lors de l'import");
+      toast.error("Erreur lors de l'import")
     } finally {
-      setIsImporting(false);
+      setIsImporting(false)
     }
-  };
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -88,12 +91,12 @@ export function ImportDialog({ entity, onSuccess }: ImportDialogProps) {
           Importer
         </Button>
       </DialogTrigger>
-      <DialogContent className="border-lime-300/20 bg-black">
+      <DialogContent className="border-[var(--brand-neon)]/20 bg-black">
         <DialogHeader>
           <DialogTitle className="text-white">Importer des données</DialogTitle>
           <DialogDescription className="text-white/70">
-            Importez des {entity === "projects" ? "projets" : "artistes"}{" "}
-            depuis un fichier CSV ou JSON
+            Importez des {entity === 'projects' ? 'projets' : 'artistes'} depuis un fichier CSV ou
+            JSON
           </DialogDescription>
         </DialogHeader>
 
@@ -104,14 +107,14 @@ export function ImportDialog({ entity, onSuccess }: ImportDialogProps) {
               type="file"
               accept=".csv,.json"
               onChange={handleFileChange}
-              className="mt-2 w-full rounded border border-white/20 bg-white/5 px-3 py-2 text-sm text-white file:mr-4 file:rounded file:border-0 file:bg-lime-300 file:px-3 file:py-1 file:text-xs file:font-medium file:text-black hover:file:bg-lime-400"
+              className="mt-2 w-full rounded border border-white/20 bg-white/5 px-3 py-2 text-sm text-white file:mr-4 file:rounded file:border-0 file:bg-[var(--brand-neon)] file:px-3 file:py-1 file:text-xs file:font-medium file:text-black hover:file:bg-[var(--neon-400)]"
             />
             {file && (
               <div className="mt-2 flex items-center gap-2 text-sm text-white/70">
                 <span>{file.name}</span>
                 <button
                   onClick={() => {
-                    setFile(null);
+                    setFile(null)
                   }}
                   className="text-white/50 hover:text-white"
                   type="button"
@@ -123,11 +126,7 @@ export function ImportDialog({ entity, onSuccess }: ImportDialogProps) {
           </div>
 
           <div className="flex items-center space-x-2">
-            <Switch
-              id="update"
-              checked={updateExisting}
-              onCheckedChange={setUpdateExisting}
-            />
+            <Switch id="update" checked={updateExisting} onCheckedChange={setUpdateExisting} />
             <Label htmlFor="update" className="text-white">
               Mettre à jour si existe déjà
             </Label>
@@ -137,7 +136,7 @@ export function ImportDialog({ entity, onSuccess }: ImportDialogProps) {
             <Button
               variant="ghost"
               onClick={() => {
-                setOpen(false);
+                setOpen(false)
               }}
               className="border-white/20 text-white hover:bg-white/5"
             >
@@ -145,16 +144,16 @@ export function ImportDialog({ entity, onSuccess }: ImportDialogProps) {
             </Button>
             <Button
               onClick={() => {
-                void handleImport();
+                void handleImport()
               }}
               disabled={!file || isImporting}
-              className="bg-lime-300 text-black hover:bg-lime-400"
+              className="bg-[var(--brand-neon)] text-black hover:bg-[var(--neon-400)]"
             >
-              {isImporting ? "Import..." : "Importer"}
+              {isImporting ? 'Import...' : 'Importer'}
             </Button>
           </div>
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

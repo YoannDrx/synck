@@ -1,0 +1,23 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "app/**/*.{ts,tsx}",
+    "components/**/*.{ts,tsx}",
+    "lib/**/*.ts",
+    "prisma/seed.ts",
+    "prisma/seed-cv.ts",
+    "prisma.config.ts",
+    "postcss.config.mjs"
+  ],
+  "project": ["**/*.{ts,tsx}"],
+  "ignore": ["**/*.d.ts", "scripts/**", ".next/**", ".claude/**", "prisma/migrations/**"],
+  "ignoreDependencies": ["pg", "postcss"],
+  "ignoreBinaries": ["createdb"],
+  "ignoreExportsUsedInFile": true,
+  "next": {
+    "entry": ["app/**/*.{ts,tsx}", "middleware.ts"]
+  },
+  "playwright": {
+    "entry": ["e2e/**/*.spec.ts", "playwright.config.ts"]
+  }
+}

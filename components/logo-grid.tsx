@@ -1,93 +1,95 @@
-"use client";
+'use client'
 
-import { useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import Image from "next/image";
-import Link from "next/link";
-import { motion, useInView } from "framer-motion";
-import { ExternalLink, Info, X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+
+import { motion, useInView } from 'framer-motion'
+import { ExternalLink, Info, X } from 'lucide-react'
+
+import { cn } from '@/lib/utils'
 
 /** Link item for supports */
 export type LogoGridLink = {
-  title: string;
-  url: string;
-};
+  title: string
+  url: string
+}
 
 /** Generic item for the logo grid */
 export type LogoGridItem = {
-  name: string;
-  logo: string;
-  description?: string;
-  website?: string;
-  href?: string;
-  links?: LogoGridLink[];
-};
+  name: string
+  logo: string
+  description?: string
+  website?: string
+  href?: string
+  links?: LogoGridLink[]
+}
 
 type LogoGridProps = {
-  items: LogoGridItem[];
-  title: string;
-  statsLabel?: string;
-  accentColor?: "lime" | "cyan" | "purple" | "orange";
-  columns?: 2 | 3 | 4 | 6;
-  showModal?: boolean;
-  showStats?: boolean;
-};
+  items: LogoGridItem[]
+  title: string
+  statsLabel?: string
+  accentColor?: 'lime' | 'cyan' | 'purple' | 'orange'
+  columns?: 2 | 3 | 4 | 6
+  showModal?: boolean
+  showStats?: boolean
+}
 
 /** Accent color configurations */
 const accentColors = {
   lime: {
-    text: "text-[#d5ff0a]",
-    border: "border-[#d5ff0a]",
-    borderHover: "hover:border-[#d5ff0a]",
-    bg: "bg-[#d5ff0a]",
-    glow: "hover:shadow-[0_0_30px_rgba(213,255,10,0.2)]",
+    text: 'text-[#d5ff0a]',
+    border: 'border-[#d5ff0a]',
+    borderHover: 'hover:border-[#d5ff0a]',
+    bg: 'bg-[#d5ff0a]',
+    glow: 'hover:shadow-[0_0_30px_rgba(213,255,10,0.2)]',
   },
   cyan: {
-    text: "text-[#00d9ff]",
-    border: "border-[#00d9ff]",
-    borderHover: "hover:border-[#00d9ff]",
-    bg: "bg-[#00d9ff]",
-    glow: "hover:shadow-[0_0_30px_rgba(0,217,255,0.2)]",
+    text: 'text-[#00d9ff]',
+    border: 'border-[#00d9ff]',
+    borderHover: 'hover:border-[#00d9ff]',
+    bg: 'bg-[#00d9ff]',
+    glow: 'hover:shadow-[0_0_30px_rgba(0,217,255,0.2)]',
   },
   purple: {
-    text: "text-[#a855f7]",
-    border: "border-[#a855f7]",
-    borderHover: "hover:border-[#a855f7]",
-    bg: "bg-[#a855f7]",
-    glow: "hover:shadow-[0_0_30px_rgba(168,85,247,0.2)]",
+    text: 'text-[#a855f7]',
+    border: 'border-[#a855f7]',
+    borderHover: 'hover:border-[#a855f7]',
+    bg: 'bg-[#a855f7]',
+    glow: 'hover:shadow-[0_0_30px_rgba(168,85,247,0.2)]',
   },
   orange: {
-    text: "text-[#ff6b35]",
-    border: "border-[#ff6b35]",
-    borderHover: "hover:border-[#ff6b35]",
-    bg: "bg-[#ff6b35]",
-    glow: "hover:shadow-[0_0_30px_rgba(255,107,53,0.2)]",
+    text: 'text-[#ff6b35]',
+    border: 'border-[#ff6b35]',
+    borderHover: 'hover:border-[#ff6b35]',
+    bg: 'bg-[#ff6b35]',
+    glow: 'hover:shadow-[0_0_30px_rgba(255,107,53,0.2)]',
   },
-};
+}
 
 /** Column configurations */
 const columnClasses = {
-  2: "grid-cols-1 sm:grid-cols-2",
-  3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
-  4: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
-  6: "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6",
-};
+  2: 'grid-cols-1 sm:grid-cols-2',
+  3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+  4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
+  6: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6',
+}
 
 export function LogoGrid({
   items,
   title,
   statsLabel,
-  accentColor = "lime",
+  accentColor = 'lime',
   columns = 4,
   showModal = false,
   showStats = true,
 }: LogoGridProps) {
-  const [selectedItem, setSelectedItem] = useState<LogoGridItem | null>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-50px" });
+  const [selectedItem, setSelectedItem] = useState<LogoGridItem | null>(null)
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(sectionRef, { once: true, margin: '-50px' })
 
-  const colors = accentColors[accentColor];
+  const colors = accentColors[accentColor]
 
   return (
     <motion.div
@@ -117,7 +119,7 @@ export function LogoGrid({
             <div className="flex gap-8">
               <div className="text-right">
                 <p className="text-3xl font-black text-white">{items.length}</p>
-                <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
+                <p className="text-[10px] tracking-[0.25em] text-white/40 uppercase">
                   {statsLabel}
                 </p>
               </div>
@@ -130,7 +132,7 @@ export function LogoGrid({
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className={cn("grid gap-4", columnClasses[columns])}
+          className={cn('grid gap-4', columnClasses[columns])}
         >
           {items.map((item, index) => (
             <LogoCard
@@ -141,7 +143,7 @@ export function LogoGrid({
               accentColor={accentColor}
               showModal={showModal}
               onSelect={() => {
-                if (showModal) setSelectedItem(item);
+                if (showModal) setSelectedItem(item)
               }}
             />
           ))}
@@ -154,12 +156,12 @@ export function LogoGrid({
           item={selectedItem}
           accentColor={accentColor}
           onClose={() => {
-            setSelectedItem(null);
+            setSelectedItem(null)
           }}
         />
       )}
     </motion.div>
-  );
+  )
 }
 
 /** Individual Logo Card */
@@ -171,22 +173,22 @@ function LogoCard({
   showModal,
   onSelect,
 }: {
-  item: LogoGridItem;
-  index: number;
-  columns: number;
-  accentColor: "lime" | "cyan" | "purple" | "orange";
-  showModal: boolean;
-  onSelect: () => void;
+  item: LogoGridItem
+  index: number
+  columns: number
+  accentColor: 'lime' | 'cyan' | 'purple' | 'orange'
+  showModal: boolean
+  onSelect: () => void
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(cardRef, {
     once: true,
-    margin: "0px 0px -30px 0px",
-  });
+    margin: '0px 0px -30px 0px',
+  })
 
-  const colors = accentColors[accentColor];
-  const columnPosition = index % columns;
-  const staggerDelay = columnPosition * 0.03;
+  const colors = accentColors[accentColor]
+  const columnPosition = index % columns
+  const staggerDelay = columnPosition * 0.03
 
   // Simple card for columns=6 (just logo)
   if (columns === 6) {
@@ -207,11 +209,11 @@ function LogoCard({
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
-              "group block overflow-hidden",
-              "rounded-[16px] border-2 border-white/10 bg-black/20 p-4",
-              "transition-all duration-300",
+              'group block overflow-hidden',
+              'rounded-[16px] border-2 border-white/10 bg-black/20 p-4',
+              'transition-all duration-300',
               colors.borderHover,
-              colors.glow,
+              colors.glow
             )}
           >
             {item.logo && (
@@ -227,11 +229,11 @@ function LogoCard({
         ) : (
           <div
             className={cn(
-              "group overflow-hidden",
-              "rounded-[16px] border-2 border-white/10 bg-black/20 p-4",
-              "transition-all duration-300",
+              'group overflow-hidden',
+              'rounded-[16px] border-2 border-white/10 bg-black/20 p-4',
+              'transition-all duration-300',
               colors.borderHover,
-              colors.glow,
+              colors.glow
             )}
           >
             {item.logo && (
@@ -246,7 +248,7 @@ function LogoCard({
           </div>
         )}
       </motion.div>
-    );
+    )
   }
 
   // Full card with details
@@ -263,12 +265,12 @@ function LogoCard({
     >
       <div
         className={cn(
-          "group relative flex h-full flex-col overflow-hidden",
-          "rounded-[20px] border-2 border-white/10 bg-white/[0.02]",
-          "transition-all duration-300",
-          "hover:-translate-y-1",
+          'group relative flex h-full flex-col overflow-hidden',
+          'rounded-[20px] border-2 border-white/10 bg-white/[0.02]',
+          'transition-all duration-300',
+          'hover:-translate-y-1',
           colors.borderHover,
-          colors.glow,
+          colors.glow
         )}
       >
         {/* Logo */}
@@ -279,22 +281,20 @@ function LogoCard({
               alt={item.name}
               width={200}
               height={80}
-              className="h-auto w-full max-h-20 object-contain transition-transform duration-300 group-hover:scale-110"
+              className="h-auto max-h-20 w-full object-contain transition-transform duration-300 group-hover:scale-110"
             />
           )}
         </div>
 
         {/* Content */}
         <div className="flex flex-1 flex-col p-4">
-          <h4 className="mb-2 text-sm font-bold uppercase text-white group-hover:text-white">
+          <h4 className="mb-2 text-sm font-bold text-white uppercase group-hover:text-white">
             {item.name}
           </h4>
 
           {/* Description Preview */}
           {item.description && (
-            <p className="mb-3 text-xs text-white/50 line-clamp-3">
-              {item.description}
-            </p>
+            <p className="mb-3 line-clamp-3 text-xs text-white/50">{item.description}</p>
           )}
 
           {/* Links (for supports) */}
@@ -307,11 +307,11 @@ function LogoCard({
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(
-                    "group/link flex items-start gap-2 text-xs transition-colors",
-                    colors.text,
+                    'group/link flex items-start gap-2 text-xs transition-colors',
+                    colors.text
                   )}
                 >
-                  <ExternalLink className="mt-0.5 h-3 w-3 flex-shrink-0 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+                  <ExternalLink className="mt-0.5 h-3 w-3 flex-shrink-0 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
                   <span className="line-clamp-1 underline decoration-current/30 group-hover/link:decoration-current">
                     {link.title}
                   </span>
@@ -326,8 +326,8 @@ function LogoCard({
               <button
                 onClick={onSelect}
                 className={cn(
-                  "flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors",
-                  colors.text,
+                  'flex items-center gap-1.5 text-[10px] font-bold tracking-wider uppercase transition-colors',
+                  colors.text
                 )}
               >
                 <Info className="h-3 w-3" />
@@ -341,8 +341,8 @@ function LogoCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-white/40 transition-colors",
-                  `hover:${colors.text}`,
+                  'flex items-center gap-1 text-[10px] font-bold tracking-wider text-white/40 uppercase transition-colors',
+                  `hover:${colors.text}`
                 )}
               >
                 <ExternalLink className="h-3 w-3" />
@@ -352,7 +352,7 @@ function LogoCard({
         </div>
       </div>
     </motion.div>
-  );
+  )
 }
 
 /** Detail Modal */
@@ -361,22 +361,22 @@ function LogoModal({
   accentColor,
   onClose,
 }: {
-  item: LogoGridItem;
-  accentColor: "lime" | "cyan" | "purple" | "orange";
-  onClose: () => void;
+  item: LogoGridItem
+  accentColor: 'lime' | 'cyan' | 'purple' | 'orange'
+  onClose: () => void
 }) {
-  const colors = accentColors[accentColor];
-  const [mounted, setMounted] = useState(false);
+  const colors = accentColors[accentColor]
+  const [mounted, setMounted] = useState(false)
 
   useState(() => {
-    setMounted(true);
-  });
+    setMounted(true)
+  })
 
-  if (!mounted) return null;
+  if (!mounted) return null
 
   // Use createPortal to render at the root of the document body
   // This ensures fixed positioning works relative to viewport, not closest transformed ancestor
-  return typeof document !== "undefined"
+  return typeof document !== 'undefined'
     ? createPortal(
         <div
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
@@ -387,19 +387,19 @@ function LogoModal({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             className={cn(
-              "relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[24px] border-4 bg-[#0a0a0f] p-6 sm:p-8",
-              colors.border,
+              'relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[24px] border-4 bg-[#0a0a0f] p-6 sm:p-8',
+              colors.border
             )}
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation()
             }}
           >
             {/* Close button */}
             <button
               onClick={onClose}
               className={cn(
-                "absolute right-4 top-4 p-2 text-white/70 transition-colors",
-                `hover:${colors.text}`,
+                'absolute top-4 right-4 p-2 text-white/70 transition-colors',
+                `hover:${colors.text}`
               )}
               aria-label="Fermer"
             >
@@ -414,31 +414,23 @@ function LogoModal({
                   alt={item.name}
                   width={200}
                   height={80}
-                  className="h-auto w-full max-h-20 object-contain p-2"
+                  className="h-auto max-h-20 w-full object-contain p-2"
                 />
               </div>
             )}
 
             {/* Title */}
-            <h3
-              className={cn("mb-4 text-2xl font-bold sm:text-3xl", colors.text)}
-            >
-              {item.name}
-            </h3>
+            <h3 className={cn('mb-4 text-2xl font-bold sm:text-3xl', colors.text)}>{item.name}</h3>
 
             {/* Full Description */}
             {item.description && (
-              <p className="mb-6 text-base leading-relaxed text-white/80">
-                {item.description}
-              </p>
+              <p className="mb-6 text-base leading-relaxed text-white/80">{item.description}</p>
             )}
 
             {/* Links */}
             {item.links && item.links.length > 0 && (
               <div className="space-y-3 border-t border-white/10 pt-4">
-                <h4 className="text-sm font-bold uppercase text-white/70">
-                  Liens utiles :
-                </h4>
+                <h4 className="text-sm font-bold text-white/70 uppercase">Liens utiles :</h4>
                 {item.links.map((link, linkIndex) => (
                   <Link
                     key={linkIndex}
@@ -446,11 +438,11 @@ function LogoModal({
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
-                      "group/link flex items-start gap-2 text-sm transition-colors",
-                      colors.text,
+                      'group/link flex items-start gap-2 text-sm transition-colors',
+                      colors.text
                     )}
                   >
-                    <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+                    <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
                     <span className="underline decoration-current/30 group-hover/link:decoration-current">
                       {link.title}
                     </span>
@@ -462,19 +454,17 @@ function LogoModal({
             {/* Website Link */}
             {item.website && (
               <div className="mt-4 border-t border-white/10 pt-4">
-                <h4 className="mb-3 text-sm font-bold uppercase text-white/70">
-                  Site web :
-                </h4>
+                <h4 className="mb-3 text-sm font-bold text-white/70 uppercase">Site web :</h4>
                 <Link
                   href={item.website}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(
-                    "group/link flex items-start gap-2 text-sm transition-colors",
-                    colors.text,
+                    'group/link flex items-start gap-2 text-sm transition-colors',
+                    colors.text
                   )}
                 >
-                  <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+                  <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
                   <span className="underline decoration-current/30 group-hover/link:decoration-current">
                     {item.website}
                   </span>
@@ -483,7 +473,7 @@ function LogoModal({
             )}
           </motion.div>
         </div>,
-        document.body,
+        document.body
       )
-    : null;
+    : null
 }

@@ -1,11 +1,13 @@
-"use client";
+'use client'
 
-import { motion, type HTMLMotionProps, type Transition } from "framer-motion";
-import { forwardRef } from "react";
-import { smoothTransition } from "@/lib/animations";
-import { cn } from "@/lib/utils";
+import { forwardRef } from 'react'
 
-type Direction = "up" | "down" | "left" | "right" | "none";
+import { type HTMLMotionProps, type Transition, motion } from 'framer-motion'
+
+import { smoothTransition } from '@/lib/animations'
+import { cn } from '@/lib/utils'
+
+type Direction = 'up' | 'down' | 'left' | 'right' | 'none'
 
 const directionOffsets: Record<Direction, { x: number; y: number }> = {
   up: { x: 0, y: 40 },
@@ -13,24 +15,24 @@ const directionOffsets: Record<Direction, { x: number; y: number }> = {
   left: { x: 40, y: 0 },
   right: { x: -40, y: 0 },
   none: { x: 0, y: 0 },
-};
+}
 
-export type MotionFadeInProps = HTMLMotionProps<"div"> & {
-  direction?: Direction;
-  distance?: number;
-  delay?: number;
-  duration?: number;
-  once?: boolean;
-  amount?: number | "some" | "all";
-  scale?: number;
-};
+export type MotionFadeInProps = HTMLMotionProps<'div'> & {
+  direction?: Direction
+  distance?: number
+  delay?: number
+  duration?: number
+  once?: boolean
+  amount?: number | 'some' | 'all'
+  scale?: number
+}
 
 export const MotionFadeIn = forwardRef<HTMLDivElement, MotionFadeInProps>(
   (
     {
       children,
       className,
-      direction = "up",
+      direction = 'up',
       distance,
       delay = 0,
       duration,
@@ -39,30 +41,30 @@ export const MotionFadeIn = forwardRef<HTMLDivElement, MotionFadeInProps>(
       scale,
       ...props
     },
-    ref,
+    ref
   ) => {
-    const offset = directionOffsets[direction];
-    const multiplier = distance !== undefined ? distance / 40 : 1;
+    const offset = directionOffsets[direction]
+    const multiplier = distance !== undefined ? distance / 40 : 1
 
     const hidden = {
       opacity: 0,
       x: offset.x * multiplier,
       y: offset.y * multiplier,
       ...(scale !== undefined && { scale }),
-    };
+    }
 
     const visible = {
       opacity: 1,
       x: 0,
       y: 0,
       ...(scale !== undefined && { scale: 1 }),
-    };
+    }
 
     const mergedTransition: Transition = {
       ...smoothTransition,
       ...(duration !== undefined && { duration }),
       ...(delay > 0 && { delay }),
-    };
+    }
 
     return (
       <motion.div
@@ -76,8 +78,8 @@ export const MotionFadeIn = forwardRef<HTMLDivElement, MotionFadeInProps>(
       >
         {children}
       </motion.div>
-    );
-  },
-);
+    )
+  }
+)
 
-MotionFadeIn.displayName = "MotionFadeIn";
+MotionFadeIn.displayName = 'MotionFadeIn'
